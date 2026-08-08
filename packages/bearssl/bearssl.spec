@@ -5,7 +5,7 @@ Release:        1%{?dist}
 Summary:        Small implementation of TLS in C
 License:        MIT
 URL:            https://www.bearssl.org/
-Source0:        bearssl-0.6.tar.gz
+Source0:        bearssl-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
