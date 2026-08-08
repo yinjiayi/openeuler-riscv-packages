@@ -3,11 +3,15 @@ from __future__ import annotations
 
 import json
 import pathlib
+import runpy
 import shutil
+import sys
 import tempfile
 import unittest
 
 from helpers import SCRIPTS, run_tool, write_json
+
+sys.path.insert(0, str(SCRIPTS))
 
 
 class RepairDashboardTests(unittest.TestCase):
@@ -162,6 +166,10 @@ class RepairDashboardTests(unittest.TestCase):
             persisted = json.loads(state.read_text())
             self.assertEqual(persisted["leases"], {})
             self.assertEqual(persisted["history"][-1]["pushed_head_sha"], pushed_sha)
+            schema = json.loads((SCRIPTS.parent / "schemas" / "repair-record.schema.json").read_text())
+            schema_errors = runpy.run_path(str(SCRIPTS / "validate-metadata"))["schema_errors"]
+            self.assertEqual(schema_errors(result, schema, schema), [])
+            self.assertEqual(schema_errors(persisted, schema, schema), [])
 
     def test_static_dashboard_uses_factual_pr_state(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
