@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           golden-riscv-inline-asm
 Version:        1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Deterministic x86-only inline assembly repair fixture
 License:        MIT
 URL:            https://github.com/yinjiayi/openeuler-riscv-packages/tree/main/tests/golden
@@ -33,5 +33,8 @@ install -Dpm0755 golden-inline %{buildroot}%{_bindir}/golden-inline
 %{_bindir}/golden-inline
 
 %changelog
+* Sat Aug 08 2026 Package Automation <noreply@example.invalid> - 1.0-2
+- Start the repair-in-place acceptance run from the unpatched baseline
+
 * Sat Aug 08 2026 Package Automation <noreply@example.invalid> - 1.0-1
 - Add the intentionally failing RISC-V repair golden fixture
