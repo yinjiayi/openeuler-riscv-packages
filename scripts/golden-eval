@@ -243,11 +243,15 @@ def result_documents(root: pathlib.Path, package_ids: Iterable[str]) -> Dict[str
         for item in documents:
             if not isinstance(item, Mapping):
                 continue
+            item = dict(item)
+            item["_result_path"] = relative.as_posix()
             package_id = item.get("package_id")
             if not package_id and isinstance(item.get("packages"), list):
                 for nested in item["packages"]:
                     if isinstance(nested, Mapping) and nested.get("package_id"):
-                        result.setdefault(str(nested["package_id"]), []).append(nested)
+                        nested_item = dict(nested)
+                        nested_item["_result_path"] = relative.as_posix()
+                        result.setdefault(str(nested["package_id"]), []).append(nested_item)
                 continue
             if package_id:
                 result.setdefault(str(package_id), []).append(item)
@@ -311,6 +315,11 @@ def select_expectations(
 
 
 def observed_values(documents: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
+    final_envelopes = [
+        document
+        for document in documents
+        if document.get("job_id") and isinstance(document.get("checks"), Mapping)
+    ]
     states: List[str] = []
     statuses: List[str] = []
     categories: List[str] = []
@@ -320,14 +329,37 @@ def observed_values(documents: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
         for key in ("recommended_state", "state", "outcome"):
             if document.get(key):
                 states.append(str(document[key]))
-        if document.get("status"):
+        # A final build envelope is the only authority for the build status.
+        # Phase results, validation reports, and arbitrary uploaded JSON may all
+        # contain a status key, but none is allowed to turn a failed build into
+        # a successful golden result.
+        if not final_envelopes and document.get("status"):
             statuses.append(str(document["status"]))
         classification = document.get("classification") if isinstance(document.get("classification"), Mapping) else {}
         if classification.get("category"):
             categories.append(str(classification["category"]))
         modified.extend(str(value) for value in document.get("modified_files", []))
         text.append(str(document.get("_result_text")) if document.get("_result_text") is not None else str(document))
-    return {"states": states, "statuses": statuses, "categories": categories, "modified_files": modified, "text": "\n".join(text)}
+    if len(final_envelopes) == 1 and final_envelopes[0].get("status"):
+        statuses = [str(final_envelopes[0]["status"])]
+    return {
+        "states": states,
+        "statuses": statuses,
+        "categories": categories,
+        "modified_files": modified,
+        "text": "\n".join(text),
+        "final_envelopes": final_envelopes,
+    }
+
+
+def verified_source_records(documents: Sequence[Mapping[str, Any]]) -> List[Mapping[str, Any]]:
+    records: List[Mapping[str, Any]] = []
+    for document in documents:
+        values = document.get("source_verification")
+        if not isinstance(values, list):
+            continue
+        records.extend(value for value in values if isinstance(value, Mapping))
+    return records
 
 
 def assertion_values(expected: Mapping[str, Any], *names: str) -> List[str]:
@@ -353,6 +385,12 @@ def evaluate_manifest(
     def check(name: str, passed: bool, expected_value: Any, observed_value: Any) -> None:
         assertions.append({"name": name, "passed": passed, "expected": expected_value, "observed": observed_value})
 
+    check(
+        "single-final-build-envelope",
+        len(observed["final_envelopes"]) == 1,
+        1,
+        [document.get("_result_path") for document in observed["final_envelopes"]],
+    )
     expected_states = assertion_values(expected, "states", "state", "expected_state", "initial_state")
     if expected_states:
         check("state-path", all(value in observed["states"] or value in observed["statuses"] for value in expected_states), expected_states, observed["states"] + observed["statuses"])
@@ -382,13 +420,34 @@ def evaluate_manifest(
     if fixture["kind"] == "fixture" and fixture.get("tree_sha256"):
         actual_tree = tree_digest(fixture["source_dir"])
         check("fixture-tree-sha256", actual_tree == fixture["tree_sha256"], fixture["tree_sha256"], actual_tree)
-    if fixture.get("sha256") and archives_dir:
+    if fixture["kind"] == "fixture" and fixture.get("sha256") and archives_dir:
         archive = archives_dir / fixture["archive_name"]
         actual = sha256_file(archive) if archive.is_file() else None
         check("fixture-archive-sha256", actual == fixture["sha256"], fixture["sha256"], actual)
     elif fixture["kind"] == "official-source":
         metadata_valid = str(fixture.get("url", "")).startswith("https://") and bool(re.fullmatch(r"[0-9a-f]{64}", str(fixture.get("sha256", ""))))
         check("official-source-pinned", metadata_valid, "HTTPS URL plus SHA-256", {"url": fixture.get("url"), "sha256": fixture.get("sha256")})
+        records = verified_source_records(documents)
+        matches = [
+            record
+            for record in records
+            if record.get("url") == fixture.get("url")
+            and record.get("sha256") == fixture.get("sha256")
+            and record.get("verified") is True
+        ]
+        check(
+            "official-source-verified",
+            bool(matches),
+            {"url": fixture.get("url"), "sha256": fixture.get("sha256"), "verified": True},
+            [
+                {
+                    "url": record.get("url"),
+                    "sha256": record.get("sha256"),
+                    "verified": record.get("verified"),
+                }
+                for record in records
+            ],
+        )
     return {
         "package_id": package_id,
         "stage": selected_stage,

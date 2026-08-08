@@ -66,19 +66,6 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         False,
     ),
     (
-        "spec-packaging",
-        [
-            r"bad exit status from /var/tmp/rpm-tmp",
-            r"Installed \(but unpackaged\) file\(s\) found",
-            r"File not found: .+BUILDROOT",
-            r"Unknown tag:|Macro %.+ has empty body|line \d+: (?:Dependency tokens must begin|Unknown tag)",
-            r"Empty %files file|No files were found to process",
-        ],
-        "Fix the SPEC, macros, paths, or file manifest in the current package directory.",
-        True,
-        False,
-    ),
-    (
         "riscv-specific",
         [
             r"(?:unknown|unrecognized|illegal) (?:instruction|opcode).*(?:riscv|rv64|x86|sse|avx)",
@@ -90,6 +77,19 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Find a trusted existing RISC-V fix first; otherwise create the smallest local patch and keep it under packages/<id>/patches/.",
         True,
         True,
+    ),
+    (
+        "spec-packaging",
+        [
+            r"bad exit status from /var/tmp/rpm-tmp",
+            r"Installed \(but unpackaged\) file\(s\) found",
+            r"File not found: .+BUILDROOT",
+            r"Unknown tag:|Macro %.+ has empty body|line \d+: (?:Dependency tokens must begin|Unknown tag)",
+            r"Empty %files file|No files were found to process",
+        ],
+        "Fix the SPEC, macros, paths, or file manifest in the current package directory.",
+        True,
+        False,
     ),
     (
         "upstream-build",
