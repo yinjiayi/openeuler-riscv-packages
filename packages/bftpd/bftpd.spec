@@ -18,7 +18,9 @@ standalone daemon. This build does not enable optional PAM or zlib support.
 %autosetup -p1 -n bftpd
 
 %build
-%configure --disable-pam --disable-libz
+# Upstream's legacy configure macro treats both --enable-* and --disable-*
+# as enabling the option.  Omit both flags to retain the disabled defaults.
+%configure
 %make_build
 
 %install
