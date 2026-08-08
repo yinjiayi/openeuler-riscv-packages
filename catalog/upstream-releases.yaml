@@ -120,7 +120,7 @@
       "package_id": "cabextract",
       "canonical_name": "cabextract",
       "summary": "Extract Microsoft cabinet files",
-      "license": "GPL-2.0-or-later",
+      "license": "GPL-2.0-or-later AND LGPL-2.1-only AND LGPL-2.0-or-later",
       "version": "1.11",
       "upstream": {
         "homepage": "https://www.cabextract.org.uk/",
@@ -138,7 +138,7 @@
         "release_page": "https://www.cabextract.org.uk/old/",
         "verified_at": "2026-08-08T13:12:00Z",
         "method": "downloaded-official-archive-and-calculated-sha256",
-        "license_file": "COPYING and src/cabextract.c",
+        "license_file": "COPYING, src/cabextract.c, mspack/mspack.h, and getopt.c",
         "archive_inspection": {
           "checked": true,
           "root_directory": "cabextract-1.11",
@@ -225,7 +225,7 @@
       "make",
       "ncurses-devel"
     ],
-    "requires": []
+    "requires": ["kbd"]
   },
   {
     "component_id": "github.com-klange-nyancat",
@@ -654,7 +654,7 @@
     "package_id": "bitwise",
     "canonical_name": "bitwise",
     "summary": "Interactive ncurses bitwise calculator",
-    "license": "GPL-3.0-or-later",
+    "license": "GPL-3.0-or-later AND BSD-2-Clause",
     "version": "0.50",
     "upstream": {
       "homepage": "https://github.com/mellowcandle/bitwise",
@@ -672,7 +672,7 @@
       "release_page": "https://github.com/mellowcandle/bitwise/releases/tag/v0.50",
       "verified_at": "2026-08-08T17:10:00Z",
       "method": "downloaded-official-archive-and-calculated-sha256",
-      "license_file": "bitwise-0.50/COPYING",
+      "license_file": "bitwise-0.50/COPYING and bitwise-0.50/LICENSE",
       "archive_inspection": {
         "checked": true,
         "root_directory": "bitwise-0.50",
@@ -771,6 +771,7 @@
     "build_requires": [
       "autoconf",
       "automake",
+      "c-ares-devel",
       "check-devel",
       "gcc",
       "make",

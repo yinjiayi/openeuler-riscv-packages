@@ -3,5 +3,6 @@
 set -euo pipefail
 
 rpm -q -- bftpd
-bftpd -v | grep -F 'Bftpd version 6.7'
+installed_version=$(rpm -q --qf '%{VERSION}' bftpd)
+bftpd -v | grep -F "Bftpd version ${installed_version}"
 test -r /etc/bftpd.conf
