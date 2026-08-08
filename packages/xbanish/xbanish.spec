@@ -12,6 +12,7 @@ BuildRequires:  libX11-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXfixes-devel
 BuildRequires:  libXi-devel
+BuildRequires:  libXt-devel
 BuildRequires:  make
 
 %description
@@ -46,4 +47,3 @@ test -x xbanish
 %changelog
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.8-1
 - Initial openEuler RISC-V package.
-
