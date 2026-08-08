@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Sat, 8 Aug 2026 00:00:00 +0000
+Subject: [PATCH] riscv: use rdcycle for the golden counter
+
+Root cause: the fixture rejects every RISC-V build after providing only an
+x86 `rdtsc` implementation. Use the architectural RISC-V cycle CSR through a
+minimal inline-assembly branch. This patch is downstream-only and is removed
+when fixture version 1.0 is retired.
+
+Patch-Source: repository golden acceptance fixture
+Patch-License: MIT
+Upstream-Status: Not Submitted (test fixture; automated upstream writes forbidden)
+---
+ golden_inline.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/golden_inline.c b/golden_inline.c
+index 6318021..71468e7 100644
+--- a/golden_inline.c
++++ b/golden_inline.c
+@@ -9,7 +9,9 @@ static unsigned long read_counter(void)
+     __asm__ volatile("rdtsc" : "=a"(low), "=d"(high));
+     return ((unsigned long)high << 32) | low;
+ #elif defined(__riscv)
+-#error "golden failure: x86-only counter lacks a RISC-V implementation"
++    unsigned long value;
++    __asm__ volatile("rdcycle %0" : "=r"(value));
++    return value;
+ #else
+     return 0;
+ #endif
+-- 
+2.50.1

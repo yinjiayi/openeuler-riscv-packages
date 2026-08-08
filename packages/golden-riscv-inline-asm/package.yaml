@@ -16,7 +16,7 @@
   },
   "version": {
     "current": "1.0",
-    "release": "1",
+    "release": "2",
     "latest_detected": "1.0"
   },
   "discovery": {
@@ -37,7 +37,7 @@
     "release": "24.03-LTS-SP3",
     "arch": "riscv64",
     "isa": "RVA23",
-    "riscv_status": "unknown"
+    "riscv_status": "patched-for-riscv"
   },
   "build": {
     "profile": "qemu-user",
@@ -48,7 +48,17 @@
   "files": {
     "spec": "golden-riscv-inline-asm.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-riscv-use-rdcycle.patch",
+        "sha256": "3fe3aad10dd2435c2e849af448c82a6fc72bcc67174ffd490c3741e35f9e7f8c",
+        "purpose": "Replace the intentional x86-only RISC-V failure with the architectural rdcycle CSR read.",
+        "source": "Repository golden acceptance fixture",
+        "license": "MIT",
+        "upstream_status": "downstream-only",
+        "remove_when": "The deterministic fixture version 1.0 is retired."
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
