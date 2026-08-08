@@ -217,26 +217,37 @@ jobs:
           DIGEST: ${{ needs.build-publish.outputs.digest }}
           BRANCH: ${{ steps.lock.outputs.branch }}
         run: |
-          existing=$(gh pr list --state open --search "$DIGEST in:body" \
-            --json url,headRefName --limit 1 --jq '.[0] // empty')
-          if [[ -n $existing ]]; then
-            pr_url=$(jq -r .url <<<"$existing")
-            branch=$(jq -r .headRefName <<<"$existing")
-            base_sha=$(git rev-parse origin/main)
-            gh workflow run package-ci.yml --ref "$branch" -f "base_sha=$base_sha"
-            gh pr merge "$pr_url" --auto --squash --delete-branch
-            printf 'Reused digest lock PR: %s\n' "$pr_url"
-            exit 0
-          fi
           git config user.name github-actions\[bot\]
           git config user.email 41898282+github-actions\[bot\]@users.noreply.github.com
-          git switch -c "$BRANCH"
-          git add ci/image.lock
-          git commit -m "Lock RISC-V CI image ${DIGEST:0:19}"
-          git push origin "HEAD:refs/heads/$BRANCH"
-          pr_url=$(gh pr create --base main --head "$BRANCH" \
-            --title "Lock published RISC-V CI image digest" \
-            --body "Locks the public, anonymously pulled GHCR image by immutable digest.\n\nDigest: \`$DIGEST\`\n\nThis is an independent infrastructure change; package CI remains fail-closed until it merges.")
+          if git ls-remote --exit-code --heads origin "refs/heads/$BRANCH" >/dev/null; then
+            git fetch --no-tags origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+            changed=$(git diff --name-only "origin/main...origin/$BRANCH")
+            test "$changed" = ci/image.lock
+            remote_digest=$(git show "origin/$BRANCH:ci/image.lock" \
+              | awk -F '"' '$1 ~ /^digest:/ {print $2}')
+            test "$remote_digest" = "$DIGEST"
+            git restore -- ci/image.lock
+            git switch -c "$BRANCH" --track "origin/$BRANCH"
+            git merge --no-edit origin/main
+            test "$(git diff --name-only origin/main...HEAD)" = ci/image.lock
+            git push origin "HEAD:refs/heads/$BRANCH"
+            ci/validate-repository.py --repo-root . --require-published-image
+          else
+            git switch -c "$BRANCH"
+            git add ci/image.lock
+            git commit -m "Lock RISC-V CI image ${DIGEST:0:19}"
+            git push origin "HEAD:refs/heads/$BRANCH"
+          fi
+          existing=$(gh pr list --state open --head "$BRANCH" \
+            --json url --limit 1 --jq '.[0].url // empty')
+          if [[ -n $existing ]]; then
+            pr_url=$existing
+            printf 'Reused digest lock PR: %s\n' "$pr_url"
+          else
+            pr_url=$(gh pr create --base main --head "$BRANCH" \
+              --title "Lock published RISC-V CI image digest" \
+              --body "Locks the public, anonymously pulled GHCR image by immutable digest.\n\nDigest: \`$DIGEST\`\n\nThis is an independent infrastructure change; package CI remains fail-closed until it merges.")
+          fi
           base_sha=$(git rev-parse origin/main)
           gh workflow run package-ci.yml --ref "$BRANCH" -f "base_sha=$base_sha"
           gh pr merge "$pr_url" --auto --squash --delete-branch

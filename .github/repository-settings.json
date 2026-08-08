@@ -12,6 +12,10 @@
   "pages": {
     "build_type": "workflow"
   },
+  "actions": {
+    "default_workflow_permissions": "read",
+    "can_approve_pull_request_reviews": true
+  },
   "actions_variables": {
     "UPDATE_SHARD_SIZE": "100",
     "UPDATE_MAX_CONCURRENCY": "10",
@@ -25,4 +29,3 @@
     "CODEX_API_KEY"
   ]
 }
-
