@@ -4,3 +4,7 @@
 This directory packages upstream `https://github.com/alobbs/macchanger` version `1.7.0` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
+
+Functional validation must change and restore a live interface through privileged
+networking ioctls, so it remains `needs-native-riscv`; QEMU user mode is only a
+compilation boundary for this package.

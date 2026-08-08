@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://brain-dump.org/projects/dvtm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dvtm",
+        "package_name": "dvtm",
+        "source": "arch-extra",
+        "source_version": "0.15-6"
+      },
+      {
+        "evidence_url": "https://brain-dump.org/projects/dvtm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dvtm",
+        "package_name": "dvtm",
+        "source": "debian",
+        "source_version": "0.15+40.g311a8c0-2"
+      },
+      {
+        "evidence_url": "https://brain-dump.org/projects/dvtm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dvtm",
+        "package_name": "dvtm",
+        "source": "fedora",
+        "source_version": "0.15-24.fc44"
+      },
+      {
+        "evidence_url": "https://brain-dump.org/projects/dvtm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dvtm",
+        "package_name": "dvtm",
+        "source": "ubuntu",
+        "source_version": "0.15+40.g311a8c0-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "dvtm.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "dvtm",
+  "rpm": {
+    "license": "MIT AND ISC",
+    "name": "dvtm",
+    "summary": "Dynamic virtual terminal manager"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "brain-dump.org-projects-dvtm",
+    "homepage": "https://brain-dump.org/projects/dvtm",
+    "release_api": "https://www.brain-dump.org/projects/dvtm/",
+    "release_channel": "stable",
+    "release_regex": "dvtm-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/martanne/dvtm",
+    "source_url_template": "https://github.com/martanne/dvtm/releases/download/v{version}/dvtm-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.15",
+    "latest_detected": "0.15",
+    "release": "1"
+  }
+}

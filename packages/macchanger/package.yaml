@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "Changing and restoring a live network interface MAC address requires privileged networking ioctls on native RISC-V; unprivileged QEMU user mode can prove compilation only.",
     "network_during_build": false,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 60
   },
   "discovery": {
