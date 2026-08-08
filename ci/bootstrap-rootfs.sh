@@ -135,7 +135,9 @@ install -m 0644 /evidence/signing-key-rpm.sha256 "$rootfs/usr/share/openeuler-ri
 rm -rf -- "$rootfs/var/cache/dnf" "$rootfs/var/log/dnf"* "$rootfs/var/log/hawkey.log"
 find "$rootfs/var/log" -type f -exec truncate -s 0 {} +
 
-test "$(rpm --root "$rootfs" -E '%{_arch}')" = riscv64 \
-  || die "RPM macro architecture is not riscv64"
+# Do not evaluate %{_arch} with the bootstrap-stage RPM binary: that process
+# runs on BUILDPLATFORM and reports the host architecture even with --root.
+# The target-platform RUN in Containerfile.riscv64 executes verify-target under
+# QEMU and enforces the riscv64 RPM macro after this manifest audit.
 grep -Eqi '24\.03.*LTS.*SP3|24\.03-LTS-SP3' "$rootfs/etc/openEuler-release" \
   || die "rootfs release is not openEuler 24.03 LTS SP3"
