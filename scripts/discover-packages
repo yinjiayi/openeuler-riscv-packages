@@ -28,6 +28,7 @@ from _lib import (
     run_main,
     slugify,
     stable_json,
+    validate_https_url,
     version_key,
 )
 
@@ -35,6 +36,11 @@ from _lib import (
 PRIMARY = {"arch", "aur"}
 ALLOWED_ARCH_REPOS = {"core", "extra"}
 FORBIDDEN_REPO_PARTS = {"testing", "staging", "multilib", "rawhide", "unstable"}
+SHA256_RE = re.compile(r"^[a-f0-9]{64}$")
+PRE_RELEASE_VERSION_RE = re.compile(
+    r"(?:^|[0-9._+~-])(?:alpha|beta|rc|pre|preview|dev|nightly|snapshot)(?:[0-9._+~-]|$)",
+    re.IGNORECASE,
+)
 
 
 def stable_upstream_version(source: str, value: Any) -> str:
@@ -46,6 +52,24 @@ def stable_upstream_version(source: str, value: Any) -> str:
     text = re.sub(r"^\d+:", "", text)
     match = re.fullmatch(r"(.+)-([0-9]+(?:\.[0-9]+)*)", text)
     return match.group(1) if match else text
+
+
+def is_pre_release_version(value: Any) -> bool:
+    """Identify release labels that cannot satisfy the default stable-only policy."""
+
+    return bool(PRE_RELEASE_VERSION_RE.search(str(value or "")))
+
+
+def has_verified_release_source(record: Mapping[str, Any]) -> bool:
+    """Require immutable byte evidence, not merely a distribution package URL."""
+
+    source_url = str(record.get("source_url") or "").strip()
+    checksum = str(record.get("sha256") or "").strip().lower()
+    try:
+        validate_https_url(source_url)
+    except ToolError:
+        return False
+    return bool(SHA256_RE.fullmatch(checksum))
 
 
 def parser() -> argparse.ArgumentParser:
@@ -165,6 +189,9 @@ def policy_rejection(source: str, record: Mapping[str, Any], now: Any, stale_day
         if repo and "factory" in repo.lower() and "tumbleweed" not in repo.lower():
             return "pre-release-distribution", "openSUSE source must be a stable Tumbleweed snapshot"
 
+    if is_pre_release_version(version):
+        return "pre-release-version", "only an official upstream stable release may be introduced by default"
+
     homepage = canonical_url(record.get("upstream_url"))
     source_url = canonical_url(record.get("source_url"))
     if not homepage and not source_url and not record.get("release_api"):
@@ -225,8 +252,10 @@ def merge_candidate_group(records: List[Dict[str, Any]]) -> Dict[str, Any]:
     def rank(item: Mapping[str, Any]) -> Tuple[Any, ...]:
         source = str(item.get("metadata", {}).get("source", ""))
         source_rank = {"arch": 0, "aur": 1}.get(source, 2)
-        verified_source = bool(item.get("source_url") and item.get("sha256"))
-        return (tuple(version_key(item.get("version"))), 1 if verified_source else 0, -source_rank)
+        verified_source = has_verified_release_source(item)
+        # Distribution metadata can report a newer version without identifying
+        # official release bytes.  Verified bytes therefore outrank version text.
+        return (1 if verified_source else 0, tuple(version_key(item.get("version"))), -source_rank)
 
     selected = max(records, key=rank)
     result = dict(selected)
@@ -248,10 +277,19 @@ def merge_candidate_group(records: List[Dict[str, Any]]) -> Dict[str, Any]:
     result["lineage"] = lineage
     result["priority"] = min(int(record.get("priority", 1)) for record in records)
     result["metadata"] = {**dict(selected.get("metadata", {})), "corroborating_sources": sources}
-    result["reasons"] = [
-        "passes configured stable-source, repository, freshness, and license filters",
-        "deduplicated by canonical official upstream stable release component from: %s" % ", ".join(sources),
-    ]
+    if has_verified_release_source(result):
+        result["decision"] = "eligible"
+        result["reasons"] = [
+            "official stable release source uses HTTPS and is pinned by SHA-256",
+            "passes configured repository, freshness, prerelease, and license filters",
+            "deduplicated by canonical official upstream stable release component from: %s" % ", ".join(sources),
+        ]
+    else:
+        result["decision"] = "unverified-upstream"
+        result["reasons"] = [
+            "no HTTPS official stable release source pinned by a 64-hex SHA-256 was resolved",
+            "distribution metadata is retained as discovery lineage and is not executable source evidence",
+        ]
     result["deduplication"] = {
         "rule": "canonical official upstream stable release component",
         "merged_count": len(records),
@@ -276,6 +314,7 @@ def rejection_decision(reason: str) -> str:
         "invalid-metadata": "unverified-upstream",
         "license-review": "license-blocked",
         "pre-release-distribution": "pre-release",
+        "pre-release-version": "pre-release",
         "excluded-repository": "excluded-repository",
         "limit": "duplicate",
     }.get(reason, "unverified-upstream")
@@ -381,7 +420,9 @@ def main() -> int:
                 normalized["priority"] = 0 if source in PRIMARY else 1
                 candidates.append(schema_item(normalized, "eligible", ["passes configured stable-source, repository, freshness, and license filters"]))
 
-    candidates = deduplicate_candidates(candidates)
+    merged_candidates = deduplicate_candidates(candidates)
+    candidates = [item for item in merged_candidates if item["decision"] == "eligible"]
+    rejections.extend(item for item in merged_candidates if item["decision"] != "eligible")
     candidates.sort(key=lambda item: (item["priority"], item.get("component_key_hint") or "~", item["name"].lower()))
     if args.limit:
         overflow = candidates[args.limit :]
@@ -415,6 +456,7 @@ def main() -> int:
         "policy": {
             "aur_stale_days": stale_days,
             "stable_only": True,
+            "verified_source_required": True,
             "execute_external_packaging": False,
         },
         "resolved_distributions": snapshots,

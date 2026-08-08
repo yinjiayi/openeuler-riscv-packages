@@ -39,6 +39,15 @@ class DiscoveryTests(unittest.TestCase):
                             "upstream_url": "https://example.org/testing-only",
                             "source_url": "https://example.org/testing-only-1.tar.gz",
                         },
+                        {
+                            "name": "future-release",
+                            "version": "2.0rc1-1",
+                            "repository": "extra",
+                            "license": "MIT",
+                            "upstream_url": "https://example.org/future-release",
+                            "source_url": "https://example.org/future-release-2.0rc1.tar.gz",
+                            "sha256": "c" * 64,
+                        },
                     ],
                 },
             )
@@ -47,7 +56,7 @@ class DiscoveryTests(unittest.TestCase):
                 {
                     "snapshot": {"resolved_release": "AUR", "components": ["RPC"], "snapshot_at": "2026-08-08T00:00:00Z"},
                     "results": [
-                        {"Name": "foo", "PackageBase": "foo", "Version": "1.2.3-2", "License": ["MIT"], "URL": "https://github.com/example/foo", "LastModified": 1786000000},
+                        {"Name": "foo", "PackageBase": "foo", "Version": "9.9.9-2", "License": ["MIT"], "URL": "https://github.com/example/foo", "LastModified": 1786000000},
                         {"Name": "foo-bin", "PackageBase": "foo-bin", "Version": "1.2.0", "License": ["MIT"], "URL": "https://github.com/example/foo", "LastModified": 1786000000},
                         {"Name": "foo-git", "PackageBase": "foo-git", "Version": "r10", "License": ["MIT"], "URL": "https://github.com/example/foo", "LastModified": 1786000000},
                         {"Name": "stale", "Version": "1", "License": ["MIT"], "URL": "https://example.org/stale", "LastModified": 1500000000},
@@ -88,7 +97,9 @@ class DiscoveryTests(unittest.TestCase):
             self.assertEqual(reasons["foo-git"], "vcs-only")
             self.assertEqual(reasons["stale"], "stale")
             self.assertEqual(reasons["testing-only"], "excluded-repository")
+            self.assertEqual(reasons["future-release"], "pre-release")
             self.assertFalse(result["policy"]["execute_external_packaging"])
+            self.assertTrue(result["policy"]["verified_source_required"])
 
             resolved = root / "resolved.json"
             run_tool("resolve-upstream", ["--input", str(snapshot), "--output", str(resolved), "--as-of", "2026-08-08T00:00:00Z"], root)
@@ -107,7 +118,41 @@ class DiscoveryTests(unittest.TestCase):
             write_json(config, {"policy": {"aur_stale_days": 730}, "sources": {"arch": {"enabled": True, "metadata_urls": [str(metadata)]}}})
             output = root / "out.json"
             run_tool("discover-packages", ["--config", str(config), "--output", str(output), "--as-of", "2026-08-08T00:00:00Z"], root)
-            self.assertEqual(len(json.loads(output.read_text())["candidates"]), 1)
+            result = json.loads(output.read_text())
+            self.assertEqual(result["candidates"], [])
+            self.assertEqual(len(result["rejections"]), 1)
+            self.assertEqual(result["rejections"][0]["decision"], "unverified-upstream")
+
+    def test_resolver_rejects_source_without_checksum(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            snapshot = root / "snapshot.json"
+            write_json(
+                snapshot,
+                {
+                    "snapshot_id": "discovery-test",
+                    "candidates": [
+                        {
+                            "name": "unchecked",
+                            "package_base": "unchecked",
+                            "version": "1.0",
+                            "component_id": "example.org-unchecked",
+                            "decision": "eligible",
+                            "license": "MIT",
+                            "upstream_url": "https://example.org/unchecked",
+                            "source_url": "https://example.org/unchecked-1.0.tar.gz",
+                            "sha256": None,
+                            "lineage": [{"source": "arch", "original_name": "unchecked"}],
+                        }
+                    ],
+                    "rejections": [],
+                },
+            )
+            output = root / "resolved.json"
+            run_tool("resolve-upstream", ["--input", str(snapshot), "--output", str(output), "--as-of", "2026-08-08T00:00:00Z"], root)
+            result = json.loads(output.read_text())
+            self.assertEqual(result["components"], [])
+            self.assertEqual(result["rejections"][0]["reason"], "no-verifiable-stable-source")
 
 
 if __name__ == "__main__":
