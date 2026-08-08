@@ -20,10 +20,10 @@ It provides a header-only core and an optional static to-chars implementation.
 
 %build
 %cmake
-%cmake_build
+%make_build
 
 %install
-%cmake_install
+DESTDIR=%{buildroot} %{__cmake} --install .
 
 %check
 %{__cxx} %{optflags} -std=c++17 -Iinclude source/dragonbox_to_chars.cpp \
@@ -50,4 +50,3 @@ EOF
 %changelog
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.3-1
 - Initial openEuler RISC-V package.
-
