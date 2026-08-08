@@ -20,7 +20,7 @@ the test.
 %autosetup -p1
 
 %build
-%make_build
+%make_build CFLAGS="%{optflags}"
 
 %install
 install -Dpm0755 golden-inline %{buildroot}%{_bindir}/golden-inline
@@ -36,6 +36,7 @@ install -Dpm0755 golden-inline %{buildroot}%{_bindir}/golden-inline
 %changelog
 * Sat Aug 08 2026 Package Automation <noreply@example.invalid> - 1.0-2
 - Add the minimal RISC-V rdcycle repair after the observed target failure
+- Use distribution optflags so RPM debugsource generation is non-empty
 
 * Sat Aug 08 2026 Package Automation <noreply@example.invalid> - 1.0-1
 - Add the intentionally failing RISC-V repair golden fixture
