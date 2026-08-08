@@ -25,8 +25,6 @@ successful end-to-end RPM and QEMU/RVA23 acceptance fixture.
 
 %install
 %make_install
-# install-info owns this generated directory index; individual RPMs must not.
-rm -f %{buildroot}%{_infodir}/dir
 
 %check
 %make_build check
