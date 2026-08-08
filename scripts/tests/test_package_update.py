@@ -45,7 +45,7 @@ def package(
         },
     )
     write_json(directory / "sources.yaml", {"schema_version": "1.0", "package_id": package_id, "sources": [{"id": "source0", "version": version, "url": "https://example.org/%s-%s.tar.gz" % (package_id, version), "filename": "%s-%s.tar.gz" % (package_id, version), "sha256": "0" * 64}]})
-    (directory / ("%s.spec" % package_id)).write_text("Name: %s\nVersion:        %s\nRelease: 2%%{?dist}\n%%prep\n%%build\n%%install\n%%check\n%%files\n%%changelog\n" % (package_id, version), encoding="utf-8")
+    (directory / ("%s.spec" % package_id)).write_text("Name: %s\nVersion:        %s\nRelease: 2%%{?dist}\nSource0:        %s-%s.tar.gz\n%%prep\n%%build\n%%install\n%%check\n%%files\n%%changelog\n" % (package_id, version, package_id, version), encoding="utf-8")
     (directory / "patches").mkdir()
     (directory / "patches" / "series").write_text("", encoding="utf-8")
     (directory / "tests").mkdir()
@@ -84,6 +84,7 @@ class PackageUpdateTests(unittest.TestCase):
             applied = root / "applied.json"
             run_tool("check-update", ["apply", "--result", str(aggregate), "--package", "demo", "--packages-dir", str(root / "packages"), "--output", str(applied)], root)
             self.assertEqual(json.loads((root / "packages" / "demo" / "package.yaml").read_text())["version"], "2.0")
+            self.assertIn("Source0:        upstream-2.tar.gz", (root / "packages" / "demo" / "demo.spec").read_text())
             self.assertEqual(json.loads(applied.read_text())["idempotency_key"], "update:demo:2.0")
 
     def test_duplicate_version_is_suppressed_and_missing_shard_is_visible(self) -> None:

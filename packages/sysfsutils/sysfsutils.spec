@@ -39,14 +39,13 @@ rm -f %{buildroot}%{_libdir}/libsysfs.la
 %make_build check
 
 %files
-%license COPYING cmd/GPL
+%license COPYING cmd/GPL lib/LGPL
 %doc AUTHORS CREDITS README
 %{_bindir}/systool
 %{_libdir}/libsysfs.so.2*
 %{_mandir}/man1/systool.1*
 
 %files devel
-%license lib/LGPL
 %{_includedir}/sysfs/
 %{_libdir}/libsysfs.so
 %{_libdir}/pkgconfig/libsysfs.pc
@@ -54,4 +53,3 @@ rm -f %{buildroot}%{_libdir}/libsysfs.la
 %changelog
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.1-1
 - Initial openEuler RISC-V package.
-
