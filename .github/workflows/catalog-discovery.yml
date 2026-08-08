@@ -120,9 +120,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
-      actions: read
+      actions: write
       contents: write
       pull-requests: write
+      statuses: write
     steps:
       - name: Check out default branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -153,4 +154,19 @@ jobs:
           pr_url=$(gh pr create --base main --head "$branch" \
             --title "Record catalog snapshot ${SNAPSHOT_ID}" \
             --body "Records the resolved distribution versions, components, fetch time, metadata digests, filters, rejections, and normalized candidates. AUR material was parsed only as untrusted metadata and was never executed.")
+          pr_number=$(gh pr view "$pr_url" --json number --jq .number)
+          head_sha=$(git rev-parse HEAD)
+          base_sha=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$pr_number" --jq .base.sha)
+          ci/dispatch-required-checks.sh --repo "$GITHUB_REPOSITORY" \
+            --pr-number "$pr_number" --ref "$branch" \
+            --head-sha "$head_sha" --base-sha "$base_sha" \
+            --output artifacts/discovery-persist/required-checks.json
           gh pr merge "$pr_url" --auto --squash --delete-branch
+      - name: Upload bot-PR check bridge evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: discovery-persist-${{ needs.discover.outputs.snapshot_id }}
+          path: artifacts/discovery-persist/
+          if-no-files-found: warn
+          retention-days: 7
