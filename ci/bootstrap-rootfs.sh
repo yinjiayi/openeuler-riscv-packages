@@ -110,7 +110,10 @@ cmp -s /evidence/repomd.before.xml /evidence/repomd.after.xml \
 rpm --root "$rootfs" -qa \
   --qf '%{NAME}\t%{EPOCHNUM}:%{VERSION}-%{RELEASE}\t%{ARCH}\t%{SIGPGP:pgpsig}\n' \
   | LC_ALL=C sort > /evidence/rpm-manifest.tsv
-awk -F '\t' '$3 != "riscv64" && $3 != "noarch" {print; bad=1} END {exit bad}' \
+# RPM records imported signing keys as the pseudo-package gpg-pubkey, whose
+# architecture is rendered as "(none)". Allow only that exact pseudo-record;
+# every installed payload package must still be riscv64 or noarch.
+awk -F '\t' '($3 != "riscv64" && $3 != "noarch") && !($1 == "gpg-pubkey" && $3 == "(none)") {print; bad=1} END {exit bad}' \
   /evidence/rpm-manifest.tsv || die "rootfs contains an RPM for an unexpected architecture"
 sha256sum /evidence/rpm-manifest.tsv | awk '{print $1}' > /evidence/rpm-manifest.sha256
 
