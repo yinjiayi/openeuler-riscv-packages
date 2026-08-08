@@ -80,7 +80,7 @@ jobs:
           printf 'shard_count=%s\n' "$shard_count" >>"$GITHUB_OUTPUT"
       - name: Upload immutable run plan
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: daily-update-plan
           path: artifacts/update/
@@ -125,7 +125,7 @@ jobs:
             --retries 3
       - name: Upload independent shard result
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: daily-update-shard-${{ matrix.shard }}
           path: artifacts/update/update-shard-${{ matrix.shard }}.json
@@ -186,7 +186,7 @@ jobs:
           printf 'batches=%s\n' "$batches" >>"$GITHUB_OUTPUT"
       - name: Upload daily summary
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: daily-update-summary
           path: artifacts/update/
@@ -194,7 +194,7 @@ jobs:
           retention-days: 7
       - name: Upload state for the next day's missed-run backfill
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: daily-update-state
           path: artifacts/state/update-state.json
@@ -245,7 +245,7 @@ jobs:
           cp -R "$result_dir/." "artifacts/apply/$BATCH_INDEX/"
       - name: Upload per-package PR application records
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: daily-update-apply-${{ matrix.batch }}
           path: artifacts/apply/${{ matrix.batch }}/
