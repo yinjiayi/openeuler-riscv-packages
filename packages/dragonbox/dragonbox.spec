@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           dragonbox
 Version:        1.1.3
 Release:        1%{?dist}
 Summary:        Header-only float-to-string conversion library
 License:        Apache-2.0 WITH LLVM-exception OR BSL-1.0
 URL:            https://github.com/jk-jeon/dragonbox
-Source0:        dragonbox-1.1.3.tar.gz
+Source0:        dragonbox-%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
