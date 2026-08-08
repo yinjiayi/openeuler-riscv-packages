@@ -61,7 +61,7 @@ jobs:
           fi
       - name: Upload scope evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: package-ci-scope-${{ github.run_id }}
           path: artifacts/scope/
@@ -92,7 +92,7 @@ jobs:
             --output artifacts/metadata/ci-static-validation.json
       - name: Upload metadata evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: package-ci-metadata-${{ github.run_id }}
           path: artifacts/metadata/
@@ -134,7 +134,7 @@ jobs:
           fi
       - name: Upload patch-policy evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: package-ci-patch-policy-${{ github.run_id }}
           path: artifacts/patch-policy/
@@ -182,7 +182,7 @@ jobs:
           fi
       - name: Upload verified sources and evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: package-ci-source-${{ github.run_id }}
           path: |
@@ -231,7 +231,7 @@ jobs:
             > artifacts/merge-policy/result.json
       - name: Upload merge-policy evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: package-ci-merge-policy-${{ github.run_id }}
           path: artifacts/merge-policy/
@@ -389,7 +389,7 @@ jobs:
           printf '%s\n' '{"schema_version":1,"kind":"not-applicable","check":"rpmbuild-riscv64","reason":"infrastructure change"}' > artifacts/build/not-applicable.json
       - name: Upload build products and complete logs
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: package-ci-build-${{ github.run_id }}
           path: |
@@ -536,7 +536,7 @@ jobs:
           ci/compose-build-result.py "${args[@]}"
       - name: Upload installation and test evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: package-ci-smoke-${{ github.run_id }}
           path: artifacts/smoke/
