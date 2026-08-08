@@ -3,4 +3,5 @@
 set -euo pipefail
 
 rpm -q -- cabextract
-cabextract --version | grep -F 'cabextract version 1.11'
+installed_version=$(rpm -q --qf '%{VERSION}' cabextract)
+cabextract --version | grep -F "cabextract version ${installed_version}"

@@ -3,7 +3,7 @@ Name:           cabextract
 Version:        1.11
 Release:        1%{?dist}
 Summary:        Extract Microsoft cabinet files
-License:        GPL-2.0-or-later
+License:        GPL-2.0-or-later AND LGPL-2.1-only AND LGPL-2.0-or-later
 URL:            https://www.cabextract.org.uk/
 Source0:        cabextract-1.11.tar.gz
 
@@ -28,7 +28,7 @@ Microsoft cabinet archives, including cabinets embedded in executables.
 %make_build check
 
 %files
-%license COPYING
+%license COPYING mspack/mspack.h getopt.c
 %doc AUTHORS ChangeLog NEWS README
 %{_bindir}/cabextract
 %{_mandir}/man1/cabextract.1*
