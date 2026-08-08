@@ -102,7 +102,33 @@ class GoldenTests(unittest.TestCase):
             }
             (manifests / "golden-riscv-inline-asm.yaml").write_text(json.dumps(staged), encoding="utf-8")
 
-            def evaluate(documents: list, log_text: str, output_name: str) -> dict:
+            def final_envelope(package_id: str, status: str) -> dict:
+                return {
+                    "package_id": package_id,
+                    "job_id": "123:1:golden:" + package_id,
+                    "checks": {
+                        "metadata-validate": {"status": "passed", "evidence": "test"},
+                        "source-verify": {"status": "passed", "evidence": "test"},
+                        "rpmbuild-riscv64": {"status": status, "evidence": "test"},
+                        "rpm-install-smoke": {"status": status, "evidence": "test"},
+                        "patch-policy": {"status": "passed", "evidence": "test"},
+                    },
+                    "status": status,
+                }
+
+            def source_evidence(package_id: str) -> dict:
+                return {
+                    "package_id": package_id,
+                    "source_verification": [
+                        {
+                            "url": source["url"],
+                            "sha256": source["sha256"],
+                            "verified": True,
+                        }
+                    ],
+                }
+
+            def evaluate(documents: list, log_text: str, output_name: str, expect_success: bool = True) -> dict:
                 for old in results.rglob("*"):
                     if old.is_file():
                         old.unlink()
@@ -111,7 +137,7 @@ class GoldenTests(unittest.TestCase):
                 log_dir.mkdir(exist_ok=True)
                 (log_dir / "rpmbuild.log").write_text(log_text, encoding="utf-8")
                 output = root / output_name
-                run_tool(
+                completed = run_tool(
                     "golden-eval",
                     [
                         "evaluate",
@@ -129,17 +155,21 @@ class GoldenTests(unittest.TestCase):
                         "2026-08-08T00:00:00Z",
                     ],
                     root,
+                    expected=0 if expect_success else 1,
                 )
+                self.assertEqual(completed.returncode == 0, expect_success)
                 return json.loads(output.read_text())
 
             common = [
-                {"package_id": "golden-success-hello", "recommended_state": "passed", "status": "passed"},
+                final_envelope("golden-success-hello", "passed"),
+                source_evidence("golden-success-hello"),
                 {
                     "package_id": "golden-needs-native-kmod",
                     "recommended_state": "needs-native-riscv",
-                    "status": "needs-native-riscv",
                     "classification": {"category": "needs-native-riscv"},
                 },
+                final_envelope("golden-needs-native-kmod", "needs-native-riscv"),
+                source_evidence("golden-needs-native-kmod"),
             ]
             baseline = evaluate(
                 common
@@ -149,7 +179,9 @@ class GoldenTests(unittest.TestCase):
                         "recommended_state": "repair-queued",
                         "status": "failed",
                         "classification": {"category": "riscv-specific"},
-                    }
+                    },
+                    final_envelope("golden-riscv-inline-asm", "failed"),
+                    source_evidence("golden-riscv-inline-asm"),
                 ],
                 "compiler reported an inline asm failure",
                 "baseline.json",
@@ -166,8 +198,9 @@ class GoldenTests(unittest.TestCase):
                     {
                         "package_id": "golden-riscv-inline-asm",
                         "recommended_state": "passed",
-                        "status": "passed",
-                    }
+                    },
+                    final_envelope("golden-riscv-inline-asm", "passed"),
+                    source_evidence("golden-riscv-inline-asm"),
                 ],
                 "latest-head rebuild passed",
                 "repaired.json",
@@ -175,6 +208,36 @@ class GoldenTests(unittest.TestCase):
             inline = next(item for item in repaired["goldens"] if item["package_id"] == "golden-riscv-inline-asm")
             self.assertEqual(inline["stage"], "repaired")
             self.assertTrue(inline["passed"])
+
+            # An unrelated report that says "passed" must not overrule the
+            # single authoritative final build envelope.
+            failed_hello = evaluate(
+                [
+                    {"package_id": "golden-success-hello", "status": "passed"},
+                    final_envelope("golden-success-hello", "failed"),
+                    source_evidence("golden-success-hello"),
+                    {
+                        "package_id": "golden-needs-native-kmod",
+                        "recommended_state": "needs-native-riscv",
+                        "classification": {"category": "needs-native-riscv"},
+                    },
+                    final_envelope("golden-needs-native-kmod", "needs-native-riscv"),
+                    source_evidence("golden-needs-native-kmod"),
+                    {
+                        "package_id": "golden-riscv-inline-asm",
+                        "recommended_state": "passed",
+                    },
+                    final_envelope("golden-riscv-inline-asm", "passed"),
+                    source_evidence("golden-riscv-inline-asm"),
+                ],
+                "latest-head rebuild passed",
+                "failed-hello.json",
+                expect_success=False,
+            )
+            hello = next(item for item in failed_hello["goldens"] if item["package_id"] == "golden-success-hello")
+            build_assertion = next(item for item in hello["assertions"] if item["name"] == "build-status")
+            self.assertFalse(build_assertion["passed"])
+            self.assertEqual(build_assertion["observed"], ["failed"])
 
 
 if __name__ == "__main__":
