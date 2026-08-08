@@ -6,6 +6,7 @@ Summary:        Deterministic x86-only inline assembly repair fixture
 License:        MIT
 URL:            https://github.com/yinjiayi/openeuler-riscv-packages/tree/main/tests/golden
 Source0:        %{name}-%{version}.tar.gz
+Patch0:         0001-riscv-use-rdcycle.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -34,7 +35,7 @@ install -Dpm0755 golden-inline %{buildroot}%{_bindir}/golden-inline
 
 %changelog
 * Sat Aug 08 2026 Package Automation <noreply@example.invalid> - 1.0-2
-- Start the repair-in-place acceptance run from the unpatched baseline
+- Add the minimal RISC-V rdcycle repair after the observed target failure
 
 * Sat Aug 08 2026 Package Automation <noreply@example.invalid> - 1.0-1
 - Add the intentionally failing RISC-V repair golden fixture
