@@ -1,0 +1,21 @@
+{
+  "package_id": "checksec",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3ea46986821070ed06fef5215b2a83a9076115a865da70874e19f214db2c8d83"
+      },
+      "filename": "checksec-3.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/slimm609/checksec.sh/archive/refs/tags/3.2.0.tar.gz",
+      "version": "3.2.0"
+    }
+  ]
+}
