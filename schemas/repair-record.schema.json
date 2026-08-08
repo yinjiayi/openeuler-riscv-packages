@@ -53,11 +53,14 @@
         "upstream_write_allowed": {"const": false},
         "idempotent": {"type": "boolean"},
         "expected_head_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "failed_head_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "pushed_head_sha": {"type": ["string", "null"], "pattern": "^[a-f0-9]{40}$"},
         "observed_head_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "observed_head_ref": {"type": ["string", "null"]},
         "match": {"type": "boolean"},
         "safe_to_push_same_branch": {"type": "boolean"},
         "verification_source": {
-          "enum": ["live-gh-pr-view", "offline-fixture-not-sufficient-for-push"]
+          "enum": ["live-gh-pr-view", "offline-fixture", "offline-fixture-not-sufficient-for-push"]
         },
         "outcome": {
           "enum": ["complete", "requeue", "abandoned", "repair-queued", "needs-human"]
@@ -105,7 +108,12 @@
           ]
         },
         "completed_at": {"type": "string", "format": "date-time"},
-        "reason": {"type": "string"}
+        "reason": {"type": "string"},
+        "failed_head_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "pushed_head_sha": {"type": ["string", "null"], "pattern": "^[a-f0-9]{40}$"},
+        "observed_head_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "observed_head_ref": {"type": ["string", "null"]},
+        "verification_source": {"enum": ["live-gh-pr-view", "offline-fixture"]}
       }
     }
   }
