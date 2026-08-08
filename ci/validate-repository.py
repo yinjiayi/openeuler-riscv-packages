@@ -85,6 +85,8 @@ def main() -> int:
         errors.append("record-ci-state cannot label trusted PRs with its job-scoped token")
     if re.search(r"--result\s+[^\n]*build-result\.json", package_ci):
         errors.append("package-ci.yml writes a phase result directly to build-result.json")
+    if "rpmbuild-internal.log" not in package_ci:
+        errors.append("package-ci.yml does not retain the RPM tool's internal log for repair evidence")
 
     image_workflow = (workflows / "build-ci-image.yml").read_text(encoding="utf-8") if (workflows / "build-ci-image.yml").exists() else ""
     if "--method PATCH" in image_workflow and "/user/packages/container/" in image_workflow:
@@ -126,6 +128,8 @@ def main() -> int:
             errors.append(f"golden-evaluation.yml is missing {package_id}")
     if "--stage auto" not in golden:
         errors.append("golden-evaluation.yml does not use stage-aware golden assertions")
+    if "rpmbuild-internal.log" not in golden:
+        errors.append("golden-evaluation.yml does not retain the RPM tool's internal log")
 
     builddeps_path = root / "ci" / "prepare-build-deps.py"
     builddeps = builddeps_path.read_text(encoding="utf-8") if builddeps_path.exists() else ""

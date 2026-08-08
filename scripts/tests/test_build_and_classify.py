@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import pathlib
+import runpy
 import sys
 import tempfile
 import unittest
@@ -44,6 +45,19 @@ def golden_package(root: pathlib.Path, package_id: str, digest: str, profile: st
 
 
 class BuildAndClassifyTests(unittest.TestCase):
+    def test_first_error_ignores_zero_automake_counter(self) -> None:
+        namespace = runpy.run_path(str(SCRIPTS / "build-rpm"))
+        first_error = namespace["first_error"]
+        log = "\n".join(
+            [
+                "PASS: tests/hello-1",
+                "FAIL: tests/atexit-1",
+                "# FAIL: 1",
+                "# ERROR: 0",
+            ]
+        )
+        self.assertEqual(first_error(log), "FAIL: tests/atexit-1")
+
     def test_fixture_source_is_canonical_and_offline_reusable(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)

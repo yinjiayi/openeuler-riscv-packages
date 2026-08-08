@@ -357,11 +357,20 @@ jobs:
                 --result artifacts/build/rpmbuild-phase-result.json \
                 --offline --skip-install-smoke --expected-arch riscv64
           result=$?
+          if [[ -f "work/$PACKAGE_ID/logs/rpmbuild.log" ]]; then
+            cp -- "work/$PACKAGE_ID/logs/rpmbuild.log" artifacts/build/rpmbuild-internal.log
+          fi
           set -e
           if ((result != 0)); then
-            scripts/classify-failure --input artifacts/build/rpmbuild-phase-result.json \
-              --output artifacts/build/failure.json \
-              --package-dir "packages/$PACKAGE_ID" || true
+            classifier_args=(
+              --input artifacts/build/rpmbuild-phase-result.json
+              --output artifacts/build/failure.json
+              --package-dir "packages/$PACKAGE_ID"
+            )
+            if [[ -f artifacts/build/rpmbuild-internal.log ]]; then
+              classifier_args+=(--log artifacts/build/rpmbuild-internal.log)
+            fi
+            scripts/classify-failure "${classifier_args[@]}" || true
           fi
           exit "$result"
       - name: Record expected native RISC-V routing without QEMU build
