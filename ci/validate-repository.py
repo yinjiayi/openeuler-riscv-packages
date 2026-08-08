@@ -71,9 +71,11 @@ def main() -> int:
                     errors.append(f"{workflow.name}:{index + 1}: artifact retention is not explicitly 7 days")
 
     package_ci = (workflows / "package-ci.yml").read_text(encoding="utf-8") if (workflows / "package-ci.yml").exists() else ""
-    for event in ("opened", "synchronize", "reopened", "merge_group"):
+    for event in ("opened", "synchronize", "reopened", "merge_group", "workflow_dispatch"):
         if event not in package_ci:
             errors.append(f"package-ci.yml does not visibly support {event}")
+    if "inputs.base_sha" not in package_ci or "github.sha" not in package_ci:
+        errors.append("package-ci.yml cannot validate a trusted bot-created PR head via workflow_dispatch")
     for check in ("metadata-validate", "source-verify", "rpmbuild-riscv64", "rpm-install-smoke", "patch-policy", "merge-policy"):
         if not re.search(rf"(?m)^  {re.escape(check)}:\s*$", package_ci):
             errors.append(f"package-ci.yml is missing required check job {check}")
@@ -81,6 +83,12 @@ def main() -> int:
         errors.append("package-ci.yml does not compose a final commit-bound build result")
     if re.search(r"--result\s+[^\n]*build-result\.json", package_ci):
         errors.append("package-ci.yml writes a phase result directly to build-result.json")
+
+    image_workflow = (workflows / "build-ci-image.yml").read_text(encoding="utf-8") if (workflows / "build-ci-image.yml").exists() else ""
+    if "--method PATCH" in image_workflow and "/user/packages/container/" in image_workflow:
+        errors.append("build-ci-image.yml must verify public GHCR state, not attempt a user-level visibility mutation")
+    if "gh workflow run package-ci.yml" not in image_workflow:
+        errors.append("digest-lock PR creation does not dispatch required checks on the bot-created head")
 
     discovery = (workflows / "catalog-discovery.yml").read_text(encoding="utf-8") if (workflows / "catalog-discovery.yml").exists() else ""
     if "scripts/snapshot-catalog" not in discovery or "scripts/discover-packages" not in discovery:
