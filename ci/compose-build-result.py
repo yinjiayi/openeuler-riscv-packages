@@ -4,8 +4,9 @@
 
 The package tools deliberately emit phase results while work is in progress.
 This helper is called only after the required package checks have concluded. It
-does not turn a skipped phase into success and it fails closed if the immutable
-OCI digest or exact commit SHA is unavailable.
+does not turn a skipped phase into success and it fails closed if the exact
+commit SHA is unavailable. An immutable OCI digest is mandatory whenever QEMU
+was used; a native-only routing result truthfully records that no image ran.
 """
 
 from __future__ import annotations
@@ -196,8 +197,15 @@ def validate_final(document: Mapping[str, Any]) -> None:
         raise ValueError("target environment does not match the fixed openEuler RVA23 contract")
     if set(environment) != set(expected_environment) | {"image_digest", "qemu_version"}:
         raise ValueError("environment has missing or unexpected fields")
-    if not DIGEST_RE.fullmatch(str(environment.get("image_digest", ""))) or not str(environment.get("qemu_version", "")):
-        raise ValueError("environment is missing the image digest or QEMU version")
+    image = environment.get("image_digest")
+    qemu = environment.get("qemu_version")
+    if document["status"] == "needs-native-riscv":
+        if document["classification"] != "needs-native-riscv":
+            raise ValueError("native-only status must use the native-only classification")
+        if image is not None or qemu != "not-run-native-policy":
+            raise ValueError("native-only routing must not claim a QEMU image execution")
+    elif not DIGEST_RE.fullmatch(str(image or "")) or not str(qemu or "") or qemu == "not-run-native-policy":
+        raise ValueError("QEMU result is missing the immutable image digest or QEMU version")
     checks = document["checks"]
     if not isinstance(checks, Mapping) or set(checks) != set(CHECK_NAMES):
         raise ValueError("final result must contain exactly the five required package checks")
@@ -307,12 +315,18 @@ def main() -> int:
             "arch": "riscv64",
             "isa": "RVA23",
             "repo_url": "https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/",
-            "image_digest": image_digest(pathlib.Path(args.image_lock)),
+            "image_digest": None if args.needs_native else image_digest(pathlib.Path(args.image_lock)),
             "qemu_version": "not-run-native-policy" if args.needs_native else args.qemu_version,
         },
         "checks": checks,
         "artifacts": unique_strings(args.artifact_reference),
-        "failure_summary": None if status == "passed" else first_failure_message(failure, phase, smoke) or "Required package validation did not pass.",
+        "failure_summary": (
+            None
+            if status == "passed"
+            else "Native RISC-V validation is required; no QEMU build was executed."
+            if status == "needs-native-riscv"
+            else first_failure_message(failure, phase, smoke) or "Required package validation did not pass."
+        ),
         "reproducer": None,
         "started_at": date_time(phase.get("started_at"), now),
         "finished_at": now,

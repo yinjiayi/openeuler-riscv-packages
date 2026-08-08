@@ -186,7 +186,7 @@
         "isa_probe": {"type": "string"}
       }
     },
-    "final_environment": {
+    "qemu_final_environment": {
       "type": "object",
       "additionalProperties": false,
       "required": ["os", "release", "arch", "isa", "repo_url", "image_digest", "qemu_version"],
@@ -197,7 +197,25 @@
         "isa": {"const": "RVA23"},
         "repo_url": {"const": "https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/"},
         "image_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
-        "qemu_version": {"type": "string", "minLength": 1}
+        "qemu_version": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"const": "not-run-native-policy"}
+        }
+      }
+    },
+    "native_final_environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["os", "release", "arch", "isa", "repo_url", "image_digest", "qemu_version"],
+      "properties": {
+        "os": {"const": "openEuler"},
+        "release": {"const": "24.03-LTS-SP3"},
+        "arch": {"const": "riscv64"},
+        "isa": {"const": "RVA23"},
+        "repo_url": {"const": "https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/"},
+        "image_digest": {"type": "null"},
+        "qemu_version": {"const": "not-run-native-policy"}
       }
     },
     "checks": {
@@ -328,13 +346,37 @@
           "enum": ["passed", "failed", "needs-native-riscv", "qemu-limitation", "cancelled"]
         },
         "commit_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
-        "environment": {"$ref": "#/$defs/final_environment"},
+        "environment": {
+          "oneOf": [
+            {"$ref": "#/$defs/qemu_final_environment"},
+            {"$ref": "#/$defs/native_final_environment"}
+          ]
+        },
         "artifacts": {
           "type": "array",
           "items": {"type": "string"},
           "uniqueItems": true
         }
-      }
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "status": {"const": "needs-native-riscv"},
+                "classification": {"const": "needs-native-riscv"},
+                "environment": {"$ref": "#/$defs/native_final_environment"}
+              }
+            },
+            {
+              "properties": {
+                "status": {"enum": ["passed", "failed", "qemu-limitation", "cancelled"]},
+                "environment": {"$ref": "#/$defs/qemu_final_environment"}
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }
