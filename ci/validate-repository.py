@@ -81,6 +81,8 @@ def main() -> int:
             errors.append(f"package-ci.yml is missing required check job {check}")
     if "ci/compose-build-result.py" not in package_ci:
         errors.append("package-ci.yml does not compose a final commit-bound build result")
+    if "issues: write\n      pull-requests: write" not in package_ci:
+        errors.append("record-ci-state cannot label trusted PRs with its job-scoped token")
     if re.search(r"--result\s+[^\n]*build-result\.json", package_ci):
         errors.append("package-ci.yml writes a phase result directly to build-result.json")
 
