@@ -264,13 +264,20 @@ def environment_check(expected_arch: str, expected_os: str, expected_isa: str) -
 
 def first_error(log: str) -> Optional[str]:
     patterns = (
+        r"(?im)^(?:FAIL|ERROR):\s+.+$",
+        r"(?im)^#\s*(?:FAIL|ERROR):\s*[1-9][0-9]*\s*$",
         r"(?im)^.*(?:fatal error|error:|failed:|no such file|undefined reference|bad exit status).*$",
         r"(?im)^.*(?:timeout|killed|segmentation fault).*$",
+        r"(?im)^.*\*\*\*.*$",
     )
     for pattern in patterns:
-        match = re.search(pattern, log)
-        if match:
-            return match.group(0).strip()[:2000]
+        for match in re.finditer(pattern, log):
+            candidate = match.group(0).strip()
+            # Automake always prints zero-valued counters such as
+            # "# ERROR: 0".  They are summaries, not effective errors.
+            if re.fullmatch(r"#\s*(?:FAIL|ERROR):\s*0", candidate, re.IGNORECASE):
+                continue
+            return candidate[:2000]
     return None
 
 

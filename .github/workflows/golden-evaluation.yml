@@ -186,6 +186,10 @@ jobs:
                 --result "$result" --offline --skip-install-smoke \
                 --expected-arch riscv64
           build_exit=$?
+          internal_log="work/$PACKAGE_ID/logs/rpmbuild.log"
+          if [[ -f "$internal_log" ]]; then
+            cp -- "$internal_log" "artifacts/golden/$PACKAGE_ID/rpmbuild-internal.log"
+          fi
           set -e
           if [[ "$expected" = passed ]]; then
             test "$build_exit" -eq 0
@@ -203,9 +207,15 @@ jobs:
           else
             test "$expected" = repair-queued
             test "$build_exit" -ne 0
-            scripts/classify-failure --input "$result" \
-              --output "artifacts/golden/$PACKAGE_ID/failure.json" \
+            classifier_args=(
+              --input "$result"
+              --output "artifacts/golden/$PACKAGE_ID/failure.json"
               --package-dir "packages/$PACKAGE_ID"
+            )
+            if [[ -f "artifacts/golden/$PACKAGE_ID/rpmbuild-internal.log" ]]; then
+              classifier_args+=(--log "artifacts/golden/$PACKAGE_ID/rpmbuild-internal.log")
+            fi
+            scripts/classify-failure "${classifier_args[@]}"
             python3 - "$PACKAGE_ID" <<'PY'
           import json
           import sys
