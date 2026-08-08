@@ -3,4 +3,5 @@
 set -euo pipefail
 
 rpm -q -- abduco
-abduco -v | grep -F 'abduco-0.6'
+installed_version=$(rpm -q --qf '%{VERSION}' abduco)
+abduco -v | grep -F "abduco-${installed_version}"

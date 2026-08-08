@@ -21,7 +21,7 @@ running independently from its controlling terminal.
 %make_build \
   CC=%{__cc} \
   CFLAGS='%{optflags} -std=c99 -pedantic -Wall -I. -DVERSION=\"%{version}\" -DNDEBUG -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700' \
-  LDFLAGS='-lutil'
+  LDFLAGS='%{__global_ldflags} -lutil'
 
 %install
 %make_install PREFIX=%{_prefix} STRIP=:
