@@ -1,0 +1,362 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/update-run.schema.json",
+  "title": "Idempotent sharded update orchestration artifact",
+  "oneOf": [
+    {"$ref": "#/$defs/plan"},
+    {"$ref": "#/$defs/shard_result"},
+    {"$ref": "#/$defs/run_summary"},
+    {"$ref": "#/$defs/health_state"}
+  ],
+  "$defs": {
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "update_run_id",
+        "planned_at",
+        "missed_after_hours",
+        "packages_dir",
+        "eligible_count",
+        "skipped",
+        "shard_size",
+        "shards",
+        "matrix",
+        "expected_shards",
+        "missed_packages"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "update-plan"},
+        "update_run_id": {"type": "string", "minLength": 1},
+        "planned_at": {"type": "string", "format": "date-time"},
+        "missed_after_hours": {"type": "number", "exclusiveMinimum": 0},
+        "packages_dir": {"type": "string", "minLength": 1},
+        "eligible_count": {"type": "integer", "minimum": 0},
+        "skipped": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/skipped"}
+        },
+        "shard_size": {"type": "integer", "minimum": 1},
+        "shards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["index", "packages"],
+            "properties": {
+              "index": {"type": "integer", "minimum": 0},
+              "packages": {
+                "type": "array",
+                "items": {"$ref": "#/$defs/package_plan"}
+              }
+            }
+          }
+        },
+        "matrix": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["include"],
+          "properties": {
+            "include": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["shard_index"],
+                "properties": {
+                  "shard_index": {"type": "integer", "minimum": 0}
+                }
+              }
+            }
+          }
+        },
+        "expected_shards": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "uniqueItems": true
+        },
+        "missed_packages": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        }
+      }
+    },
+    "shard_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "update_run_id",
+        "shard_index",
+        "started_at",
+        "completed_at",
+        "entries",
+        "summary"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "update-shard-result"},
+        "update_run_id": {"type": "string", "minLength": 1},
+        "shard_index": {"type": "integer", "minimum": 0},
+        "started_at": {"type": "string", "format": "date-time"},
+        "completed_at": {"type": "string", "format": "date-time"},
+        "entries": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/update_entry"}
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "run_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "update_run_id",
+        "scheduled_at",
+        "completed_at",
+        "expected_count",
+        "checked_count",
+        "coverage",
+        "failed_shards",
+        "unchecked_packages",
+        "pending_backfill_count",
+        "updates",
+        "failures",
+        "entries",
+        "skipped",
+        "counts",
+        "complete",
+        "rejected_results",
+        "consecutive_missed_days"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "update-run-summary"},
+        "update_run_id": {"type": "string", "minLength": 1},
+        "scheduled_at": {"type": "string", "format": "date-time"},
+        "completed_at": {"type": "string", "format": "date-time"},
+        "expected_count": {"type": "integer", "minimum": 0},
+        "checked_count": {"type": "integer", "minimum": 0},
+        "coverage": {"type": "number", "minimum": 0, "maximum": 1},
+        "failed_shards": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "uniqueItems": true
+        },
+        "unchecked_packages": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "pending_backfill_count": {"type": "integer", "minimum": 0},
+        "updates": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/update_entry"}
+        },
+        "failures": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/update_entry"}
+        },
+        "entries": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/update_entry"}
+        },
+        "skipped": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/skipped"}
+        },
+        "counts": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        },
+        "complete": {"type": "boolean"},
+        "rejected_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "reason"],
+            "properties": {
+              "path": {"type": "string"},
+              "reason": {"type": "string"}
+            }
+          }
+        },
+        "consecutive_missed_days": {"type": "integer", "minimum": 0}
+      }
+    },
+    "health_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "last_run",
+        "last_successful_run",
+        "consecutive_incomplete_runs",
+        "packages",
+        "open_updates"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "last_run": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/last_run"}
+          ]
+        },
+        "last_successful_run": {"type": ["string", "null"], "format": "date-time"},
+        "consecutive_incomplete_runs": {"type": "integer", "minimum": 0},
+        "packages": {
+          "type": "object",
+          "additionalProperties": {"$ref": "#/$defs/package_health"}
+        },
+        "open_updates": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {"type": "string"},
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "package_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package_id",
+        "path",
+        "current_version",
+        "release_channel",
+        "release_api",
+        "source_url_template",
+        "last_successful_check",
+        "missed",
+        "existing_target_versions"
+      ],
+      "properties": {
+        "package_id": {"type": "string"},
+        "path": {"type": "string"},
+        "current_version": {"type": "string"},
+        "release_channel": {"type": "string"},
+        "release_api": {"type": ["string", "null"]},
+        "source_url_template": {"type": ["string", "null"]},
+        "last_successful_check": {"type": ["string", "null"], "format": "date-time"},
+        "missed": {"type": "boolean"},
+        "existing_target_versions": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        }
+      }
+    },
+    "last_run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "update_run_id",
+        "scheduled_at",
+        "completed_at",
+        "expected_count",
+        "checked_count",
+        "coverage",
+        "failed_shards",
+        "pending_backfill_count",
+        "complete"
+      ],
+      "properties": {
+        "update_run_id": {"type": "string"},
+        "scheduled_at": {"type": "string", "format": "date-time"},
+        "completed_at": {"type": "string", "format": "date-time"},
+        "expected_count": {"type": "integer", "minimum": 0},
+        "checked_count": {"type": "integer", "minimum": 0},
+        "coverage": {"type": "number", "minimum": 0, "maximum": 1},
+        "failed_shards": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "uniqueItems": true
+        },
+        "pending_backfill_count": {"type": "integer", "minimum": 0},
+        "complete": {"type": "boolean"}
+      }
+    },
+    "update_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package_id",
+        "current_version",
+        "checked_at",
+        "missed_before_run",
+        "status"
+      ],
+      "properties": {
+        "package_id": {"type": "string"},
+        "current_version": {"type": "string"},
+        "checked_at": {"type": "string", "format": "date-time"},
+        "missed_before_run": {"type": "boolean"},
+        "status": {
+          "enum": [
+            "no-update",
+            "update-available",
+            "update-needs-source-verification",
+            "duplicate-suppressed",
+            "failed"
+          ]
+        },
+        "latest_version": {"type": "string"},
+        "version": {"type": "string"},
+        "tag": {"type": ["string", "null"]},
+        "source_url": {"type": ["string", "null"]},
+        "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "published_at": {"type": ["string", "null"]},
+        "idempotency_key": {"type": "string"},
+        "release_fetch": {"type": "object"},
+        "shard_index": {"type": "integer", "minimum": 0},
+        "failure": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["category", "message"],
+          "properties": {
+            "category": {"type": "string"},
+            "message": {"type": "string"}
+          }
+        }
+      }
+    },
+    "package_health": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "last_check_attempt": {"type": ["string", "null"], "format": "date-time"},
+        "last_result": {"type": ["string", "null"]},
+        "latest_version": {"type": ["string", "null"]},
+        "last_successful_check": {"type": ["string", "null"], "format": "date-time"},
+        "existing_target_versions": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        }
+      }
+    },
+    "skipped": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_id", "reason"],
+      "properties": {
+        "package_id": {"type": "string"},
+        "reason": {"type": "string"}
+      }
+    }
+  }
+}

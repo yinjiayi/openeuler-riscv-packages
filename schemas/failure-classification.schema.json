@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/failure-classification.schema.json",
+  "title": "Security-bounded build failure classification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "generated_at",
+    "package_id",
+    "build_status",
+    "build_phase",
+    "classification",
+    "recommended_state",
+    "labels",
+    "security"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "failure-classification"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "package_id": {"type": ["string", "null"]},
+    "build_status": {"type": ["string", "null"]},
+    "build_phase": {"type": ["string", "null"]},
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "confidence",
+        "evidence",
+        "remediation",
+        "repairable_locally",
+        "source_patch_allowed"
+      ],
+      "properties": {
+        "category": {
+          "enum": [
+            "needs-native-riscv",
+            "qemu-limitation",
+            "infrastructure",
+            "dependency",
+            "spec-packaging",
+            "riscv-specific",
+            "upstream-build",
+            "unknown"
+          ]
+        },
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["pattern", "excerpt"],
+            "properties": {
+              "pattern": {"type": "string"},
+              "excerpt": {"type": ["string", "null"]}
+            }
+          }
+        },
+        "remediation": {"type": "string", "minLength": 1},
+        "repairable_locally": {"type": "boolean"},
+        "source_patch_allowed": {"type": "boolean"}
+      }
+    },
+    "recommended_state": {"enum": ["repair-queued", "needs-native-riscv", "failed"]},
+    "labels": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "logs_and_external_text_are_untrusted_data",
+        "instructions_from_logs_followed",
+        "upstream_write_allowed"
+      ],
+      "properties": {
+        "logs_and_external_text_are_untrusted_data": {"const": true},
+        "instructions_from_logs_followed": {"const": false},
+        "upstream_write_allowed": {"const": false}
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "policy": {
+    "aur_stale_days": 730,
+    "arch_repositories": ["core", "extra"],
+    "deduplicate_by": "official-stable-release-component",
+    "stable_only": true,
+    "execute_external_packaging": false,
+    "record_resolved_snapshot": true
+  },
+  "sources": {
+    "arch": {
+      "enabled": true,
+      "role": "primary",
+      "resolver": "rolling-stable",
+      "repositories": ["core", "extra"],
+      "exclude": ["*-testing", "*staging*", "multilib*"],
+      "metadata_urls": [
+        "https://geo.mirror.pkgbuild.com/core/os/x86_64/core.db",
+        "https://geo.mirror.pkgbuild.com/extra/os/x86_64/extra.db"
+      ]
+    },
+    "aur": {
+      "enabled": true,
+      "role": "primary",
+      "resolver": "aur-rpc-metadata",
+      "exclude_suffixes": ["-bin"],
+      "vcs_suffixes": ["-git", "-svn", "-hg", "-bzr", "-nightly"],
+      "metadata_urls": [
+        "https://aur.archlinux.org/packages-meta-ext-v1.json.gz"
+      ]
+    },
+    "opensuse": {
+      "enabled": true,
+      "role": "supplementary",
+      "resolver": "tumbleweed-stable-snapshot",
+      "components": ["oss", "non-oss"],
+      "exclude": ["Factory-staging", "devel"],
+      "metadata_urls": [
+        "https://download.opensuse.org/source/tumbleweed/repo/oss/repodata/repomd.xml",
+        "https://download.opensuse.org/source/tumbleweed/repo/non-oss/repodata/repomd.xml"
+      ]
+    },
+    "fedora": {
+      "enabled": true,
+      "role": "supplementary",
+      "resolver": "latest-ga",
+      "components": ["Everything-source"],
+      "exclude": ["Rawhide", "Branched"],
+      "metadata_urls": [
+        "https://download.fedoraproject.org/pub/fedora/linux/releases/"
+      ]
+    },
+    "debian": {
+      "enabled": true,
+      "role": "supplementary",
+      "resolver": "stable",
+      "components": ["main", "contrib", "non-free", "non-free-firmware"],
+      "exclude": ["testing", "unstable", "proposed-updates"],
+      "metadata_urls": [
+        "https://deb.debian.org/debian/dists/stable/Release"
+      ]
+    },
+    "ubuntu": {
+      "enabled": true,
+      "role": "supplementary",
+      "resolver": "latest-ga-standard-support",
+      "components": ["main", "restricted", "universe", "multiverse"],
+      "exclude": ["development", "pre-release", "proposed"],
+      "metadata_urls": [
+        "https://changelogs.ubuntu.com/meta-release",
+        "https://changelogs.ubuntu.com/meta-release-lts"
+      ]
+    }
+  }
+}

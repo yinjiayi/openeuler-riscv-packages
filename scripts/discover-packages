@@ -1,0 +1,432 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Build a filtered, versioned package-discovery snapshot from trusted metadata."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import pathlib
+import re
+from typing import Any, Dict, List, Mapping, Optional, Tuple
+
+from _lib import (
+    HostRateLimiter,
+    SCHEMA_VERSION,
+    ToolError,
+    as_list,
+    canonical_url,
+    emit_json,
+    first_value,
+    isoformat,
+    iter_records,
+    load_location,
+    parse_now,
+    parse_source_assignment,
+    parse_time,
+    release_component_key,
+    run_main,
+    slugify,
+    stable_json,
+    version_key,
+)
+
+
+PRIMARY = {"arch", "aur"}
+ALLOWED_ARCH_REPOS = {"core", "extra"}
+FORBIDDEN_REPO_PARTS = {"testing", "staging", "multilib", "rawhide", "unstable"}
+
+
+def stable_upstream_version(source: str, value: Any) -> str:
+    """Remove distribution-only epoch/pkgrel syntax from Arch-family versions."""
+
+    text = str(value or "unknown").strip()
+    if source not in {"arch", "aur"}:
+        return text
+    text = re.sub(r"^\d+:", "", text)
+    match = re.fullmatch(r"(.+)-([0-9]+(?:\.[0-9]+)*)", text)
+    return match.group(1) if match else text
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--config", help="JSON-compatible policy; snapshot raw live catalogs with snapshot-catalog first")
+    result.add_argument("--input", action="append", default=[], metavar="SOURCE=PATH_OR_URL")
+    result.add_argument("--output")
+    result.add_argument("--summary")
+    result.add_argument("--as-of", help="fixed UTC time for reproducible snapshots")
+    result.add_argument("--stale-days", type=int)
+    result.add_argument("--limit", type=int, default=0)
+    result.add_argument("--cache-dir")
+    result.add_argument("--timeout", type=float, default=30.0)
+    result.add_argument("--retries", type=int, default=3)
+    result.add_argument("--requests-per-second", type=float, default=2.0)
+    return result
+
+
+def normalize_source_name(source: str) -> str:
+    aliases = {
+        "archlinux": "arch",
+        "arch-official": "arch",
+        "aur-rpc": "aur",
+        "opensuse-tumbleweed": "opensuse",
+    }
+    return aliases.get(source.lower(), source.lower())
+
+
+def normalized_record(source: str, raw: Mapping[str, Any], fetched_at: str) -> Dict[str, Any]:
+    name = first_value(raw, ["name", "Name", "package", "Package", "source_name", "PackageBase"])
+    if not name:
+        raise ToolError("record has no package name")
+    name_text = str(name).strip()
+    package_base = first_value(raw, ["package_base", "pkgbase", "PackageBase", "source_package"], name_text)
+    distribution_version = first_value(raw, ["version", "Version", "pkgver", "upstream_version"], "unknown")
+    version = stable_upstream_version(source, distribution_version)
+    repo = first_value(raw, ["repository", "repo", "Repository", "component"], "")
+    homepage = first_value(raw, ["upstream_url", "homepage", "URL", "url", "project_url"])
+    source_url = first_value(raw, ["source_url", "SourceURL", "release_source_url", "tarball_url"])
+    sha256 = first_value(raw, ["sha256", "SHA256", "checksum"])
+    release_api = first_value(raw, ["release_api", "releases_url", "release_feed"])
+    license_value = first_value(raw, ["license", "License", "licenses"], "unknown")
+    if isinstance(license_value, list):
+        license_value = " AND ".join(str(item) for item in license_value)
+    last_modified = first_value(raw, ["last_modified", "LastModified", "updated_at", "last_update"])
+    lineage = {
+        "source": source,
+        "original_name": name_text,
+        "package_base": str(package_base),
+        "repository": str(repo),
+        "source_version": str(distribution_version),
+        "fetched_at": fetched_at,
+    }
+    result: Dict[str, Any] = {
+        "discovery_id": "%s:%s" % (source, slugify(name_text, 126)),
+        "name": name_text,
+        "package_base": str(package_base),
+        "version": str(version),
+        "description": str(first_value(raw, ["description", "Description", "summary"], "")),
+        "license": str(license_value),
+        "repository": str(repo),
+        "upstream_url": canonical_url(homepage) or (str(homepage) if homepage else None),
+        "source_url": str(source_url) if source_url else None,
+        "sha256": str(sha256).lower().removeprefix("sha256:") if sha256 else None,
+        "release_api": str(release_api) if release_api else None,
+        "last_modified": str(last_modified) if last_modified else None,
+        "maintainer": first_value(raw, ["maintainer", "Maintainer", "packager"]),
+        "out_of_date": bool(first_value(raw, ["out_of_date", "OutOfDate"], False)),
+        "lineage": [lineage],
+        "metadata": {
+            "source": source,
+            "popularity": first_value(raw, ["popularity", "Popularity"]),
+            "votes": first_value(raw, ["votes", "NumVotes"]),
+            "orphan": first_value(raw, ["orphan"], None),
+            "distribution_version": str(distribution_version),
+        },
+    }
+    component = release_component_key(result)
+    result["component_key_hint"] = component
+    return result
+
+
+def policy_rejection(source: str, record: Mapping[str, Any], now: Any, stale_days: int) -> Optional[Tuple[str, str]]:
+    name = str(record.get("name", "")).lower()
+    repo = str(record.get("repository", "")).lower().replace("_", "-")
+    version = str(record.get("version", "")).lower()
+
+    if source == "arch":
+        if repo not in ALLOWED_ARCH_REPOS:
+            return "excluded-repository", "Arch discovery is restricted to stable core/extra"
+        if any(part in repo for part in FORBIDDEN_REPO_PARTS):
+            return "excluded-repository", "testing/staging/multilib repositories are forbidden"
+
+    if source == "aur":
+        if name.endswith("-bin"):
+            return "binary-only", "AUR pure -bin variants are never onboarding candidates"
+        modified = parse_time(record.get("last_modified"))
+        if modified and (now - modified).total_seconds() > stale_days * 86400:
+            return "stale", "AUR entry exceeds the configured stale threshold"
+        variant = name.endswith(("-git", "-svn", "-hg", "-bzr", "-nightly")) or any(
+            marker in version for marker in ("git", "snapshot", "nightly")
+        )
+        if variant and not record.get("source_url") and not record.get("release_api"):
+            return "vcs-only", "VCS/nightly entries are discovery clues only and require an official stable release"
+
+    if source == "fedora":
+        channel = " ".join((repo, str(record.get("metadata", {}).get("release", "")))).lower()
+        if "rawhide" in channel or "branched" in channel or "pre" in channel:
+            return "pre-release-distribution", "Fedora source must come from the latest GA release"
+    elif source == "debian":
+        if any(part in repo for part in ("testing", "unstable", "experimental", "proposed")):
+            return "pre-release-distribution", "Debian source must resolve through stable"
+    elif source == "ubuntu":
+        if any(part in repo for part in ("development", "devel", "proposed", "pre-release")):
+            return "pre-release-distribution", "Ubuntu source must be a GA standard-support release"
+    elif source == "opensuse":
+        if repo and "factory" in repo.lower() and "tumbleweed" not in repo.lower():
+            return "pre-release-distribution", "openSUSE source must be a stable Tumbleweed snapshot"
+
+    homepage = canonical_url(record.get("upstream_url"))
+    source_url = canonical_url(record.get("source_url"))
+    if not homepage and not source_url and not record.get("release_api"):
+        return "unresolved-upstream", "no independently verifiable official upstream evidence"
+    if str(record.get("license", "")).strip().lower() in {"", "unknown", "none", "proprietary"}:
+        return "license-review", "license is missing, proprietary, or unresolved"
+    return None
+
+
+def resolved_snapshot(source: str, document: Any, fetch_meta: Mapping[str, Any], fetched_at: str) -> Dict[str, Any]:
+    metadata = document.get("snapshot", {}) if isinstance(document, Mapping) else {}
+    if not isinstance(metadata, Mapping):
+        metadata = {}
+    default_scope = {
+        "arch": ["core", "extra"],
+        "aur": ["RPC/metadata"],
+        "opensuse": ["Tumbleweed", "oss", "non-oss"],
+        "fedora": ["latest-GA", "Everything-source"],
+        "debian": ["stable", "main", "contrib", "non-free", "non-free-firmware"],
+        "ubuntu": ["latest-GA-standard-support", "main", "restricted", "universe", "multiverse"],
+    }[source]
+    metadata_url = fetch_meta.get("url")
+    if not metadata_url and fetch_meta.get("path"):
+        metadata_url = pathlib.Path(str(fetch_meta["path"])).resolve().as_uri()
+    return {
+        "source": source,
+        "release": metadata.get("resolved_release") or metadata.get("release") or "metadata-provided",
+        "codename": metadata.get("codename"),
+        "components": metadata.get("components") or default_scope,
+        "snapshot_at": metadata.get("snapshot_at") or fetched_at,
+        "metadata_url": metadata_url,
+        "metadata_sha256": fetch_meta.get("sha256") or hashlib.sha256(stable_json(document, pretty=False).encode()).hexdigest(),
+    }
+
+
+def schema_item(record: Mapping[str, Any], decision: str, reasons: List[str]) -> Dict[str, Any]:
+    component = record.get("component_key_hint") or slugify(record.get("package_base") or record.get("name"), 126)
+    result = dict(record)
+    result.update(
+        {
+            "component_id": component,
+            "upstream_url": record.get("upstream_url"),
+            "stable_version": record.get("version"),
+            "lineage": record.get("lineage", []),
+            "decision": decision,
+            "reasons": reasons,
+        }
+    )
+    return result
+
+
+def merge_candidate_group(records: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Return one component candidate while retaining every distribution lineage."""
+
+    if not records:
+        raise ToolError("cannot merge an empty candidate group")
+
+    def rank(item: Mapping[str, Any]) -> Tuple[Any, ...]:
+        source = str(item.get("metadata", {}).get("source", ""))
+        source_rank = {"arch": 0, "aur": 1}.get(source, 2)
+        verified_source = bool(item.get("source_url") and item.get("sha256"))
+        return (tuple(version_key(item.get("version"))), 1 if verified_source else 0, -source_rank)
+
+    selected = max(records, key=rank)
+    result = dict(selected)
+    component_id = str(selected["component_id"])
+    lineage: List[Dict[str, Any]] = []
+    seen = set()
+    for record in records:
+        for item in record.get("lineage", []):
+            if not isinstance(item, Mapping):
+                continue
+            marker = stable_json(item, pretty=False)
+            if marker in seen:
+                continue
+            seen.add(marker)
+            lineage.append(dict(item))
+    lineage.sort(key=lambda item: (str(item.get("source")), str(item.get("original_name")), str(item.get("source_version"))))
+    sources = sorted({str(item.get("source")) for item in lineage if item.get("source")})
+    result["discovery_id"] = "component:%s" % component_id
+    result["lineage"] = lineage
+    result["priority"] = min(int(record.get("priority", 1)) for record in records)
+    result["metadata"] = {**dict(selected.get("metadata", {})), "corroborating_sources": sources}
+    result["reasons"] = [
+        "passes configured stable-source, repository, freshness, and license filters",
+        "deduplicated by canonical official upstream stable release component from: %s" % ", ".join(sources),
+    ]
+    result["deduplication"] = {
+        "rule": "canonical official upstream stable release component",
+        "merged_count": len(records),
+        "sources": sources,
+    }
+    return result
+
+
+def deduplicate_candidates(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    grouped: Dict[str, List[Dict[str, Any]]] = {}
+    for record in records:
+        grouped.setdefault(str(record["component_id"]), []).append(record)
+    return [merge_candidate_group(grouped[key]) for key in sorted(grouped)]
+
+
+def rejection_decision(reason: str) -> str:
+    return {
+        "binary-only": "binary-only",
+        "stale": "stale",
+        "vcs-only": "vcs-only",
+        "unresolved-upstream": "unverified-upstream",
+        "invalid-metadata": "unverified-upstream",
+        "license-review": "license-blocked",
+        "pre-release-distribution": "pre-release",
+        "excluded-repository": "excluded-repository",
+        "limit": "duplicate",
+    }.get(reason, "unverified-upstream")
+
+
+def expand_inputs(values: List[str]) -> List[str]:
+    expanded: List[str] = []
+    for value in values:
+        if "=" in value:
+            expanded.append(value)
+            continue
+        path = pathlib.Path(value)
+        if path.is_dir():
+            found = 0
+            for source in ("arch", "aur", "opensuse", "fedora", "debian", "ubuntu"):
+                candidate = path / (source + ".json")
+                if candidate.is_file():
+                    expanded.append("%s=%s" % (source, candidate))
+                    found += 1
+            if not found:
+                raise ToolError("discovery input directory contains no source-named JSON snapshots: %s" % path)
+            continue
+        if path.is_file() and path.stem.lower() in {"arch", "aur", "opensuse", "fedora", "debian", "ubuntu"}:
+            expanded.append("%s=%s" % (path.stem.lower(), path))
+            continue
+        raise ToolError("input must use SOURCE=PATH_OR_URL or be a directory of source-named JSON snapshots: %s" % value)
+    return expanded
+
+
+def main() -> int:
+    args = parser().parse_args()
+    assignments = expand_inputs(list(args.input))
+    config: Mapping[str, Any] = {}
+    if args.config:
+        from _lib import load_json
+
+        loaded = load_json(args.config)
+        if not isinstance(loaded, Mapping):
+            raise ToolError("discovery config must be an object")
+        config = loaded
+        configured_sources = loaded.get("sources", {})
+        if not isinstance(configured_sources, Mapping):
+            raise ToolError("discovery config sources must be an object keyed by source id")
+        explicitly_supplied = {parse_source_assignment(value)[0] for value in assignments}
+        for source, settings in configured_sources.items():
+            if source in explicitly_supplied or not isinstance(settings, Mapping) or settings.get("enabled", True) is False:
+                continue
+            for item in as_list(settings.get("metadata_urls")):
+                location = item.get("url") if isinstance(item, Mapping) else item
+                if location:
+                    if str(location).startswith(("https://", "http://")):
+                        raise ToolError(
+                            "config contains raw remote catalog metadata for %s; run scripts/snapshot-catalog "
+                            "and pass its output directory with --input" % source
+                        )
+                    assignments.append("%s=%s" % (source, location))
+    stale_days = args.stale_days
+    if stale_days is None:
+        policy = config.get("policy", {}) if isinstance(config.get("policy"), Mapping) else {}
+        stale_days = int(policy.get("aur_stale_days", 730))
+    if not assignments:
+        raise ToolError("no discovery metadata inputs; pass --input or configure sources.*.metadata_urls")
+    if stale_days < 0 or args.limit < 0:
+        raise ToolError("stale-days and limit must not be negative")
+    now = parse_now(args.as_of)
+    fetched_at = isoformat(now)
+    cache_dir = pathlib.Path(args.cache_dir) if args.cache_dir else None
+    limiter = HostRateLimiter(args.requests_per_second)
+    candidates: List[Dict[str, Any]] = []
+    rejections: List[Dict[str, Any]] = []
+    snapshots: List[Dict[str, Any]] = []
+
+    for assignment in assignments:
+        source, location = parse_source_assignment(assignment)
+        source = normalize_source_name(source)
+        document, fetch_meta = load_location(
+            location,
+            timeout=args.timeout,
+            retries=args.retries,
+            cache_dir=cache_dir,
+            limiter=limiter,
+        )
+        snapshots.append(resolved_snapshot(source, document, fetch_meta, fetched_at))
+        for raw in iter_records(document):
+            try:
+                normalized = normalized_record(source, raw, fetched_at)
+                rejection = policy_rejection(source, normalized, now, stale_days)
+            except ToolError as exc:
+                name = first_value(raw, ["name", "Name"], "invalid-record")
+                fallback = {
+                    "name": str(name),
+                    "package_base": str(first_value(raw, ["package_base", "PackageBase"], name)),
+                    "version": first_value(raw, ["version", "Version"]),
+                    "upstream_url": canonical_url(first_value(raw, ["upstream_url", "URL"])),
+                    "component_key_hint": None,
+                    "lineage": [{"source": source, "original_name": str(name), "package_base": str(first_value(raw, ["package_base", "PackageBase"], name)), "source_version": first_value(raw, ["version", "Version"]), "fetched_at": fetched_at}],
+                }
+                rejections.append(schema_item(fallback, "unverified-upstream", [str(exc)]))
+                continue
+            if rejection:
+                rejections.append(schema_item(normalized, rejection_decision(rejection[0]), [rejection[1]]))
+            else:
+                normalized["priority"] = 0 if source in PRIMARY else 1
+                candidates.append(schema_item(normalized, "eligible", ["passes configured stable-source, repository, freshness, and license filters"]))
+
+    candidates = deduplicate_candidates(candidates)
+    candidates.sort(key=lambda item: (item["priority"], item.get("component_key_hint") or "~", item["name"].lower()))
+    if args.limit:
+        overflow = candidates[args.limit :]
+        candidates = candidates[: args.limit]
+        for record in overflow:
+            rejections.append(schema_item(record, "duplicate", ["excluded by explicit discovery limit; no onboarding was authorized beyond the limit"]))
+
+    fingerprint = hashlib.sha256(stable_json({"as_of": fetched_at, "inputs": assignments}, pretty=False).encode()).hexdigest()[:16]
+    counts: Dict[str, int] = {}
+    for item in rejections:
+        counts[item["decision"]] = counts.get(item["decision"], 0) + 1
+    summary = {
+        "candidate_count": len(candidates),
+        "rejection_count": len(rejections),
+        "rejections_by_reason": counts,
+        "sources": {
+            source: sum(
+                1
+                for item in candidates
+                if source in {str(lineage.get("source")) for lineage in item.get("lineage", []) if isinstance(lineage, Mapping)}
+            )
+            for source in sorted({snapshot["source"] for snapshot in snapshots})
+        },
+    }
+    snapshot_id = "discovery-%s-%s" % (now.strftime("%Y%m%dT%H%M%SZ"), fingerprint)
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "snapshot_id": snapshot_id,
+        "started_at": fetched_at,
+        "finished_at": fetched_at,
+        "policy": {
+            "aur_stale_days": stale_days,
+            "stable_only": True,
+            "execute_external_packaging": False,
+        },
+        "resolved_distributions": snapshots,
+        "metadata_digests": {"%s-%d" % (item["source"], index): item["metadata_sha256"] for index, item in enumerate(snapshots)},
+        "candidates": candidates,
+        "rejections": rejections,
+    }
+    emit_json(result, args.output)
+    if args.summary:
+        emit_json({"schema_version": SCHEMA_VERSION, "snapshot_id": snapshot_id, **summary}, args.summary)
+    return 0
+
+
+if __name__ == "__main__":
+    run_main(main)

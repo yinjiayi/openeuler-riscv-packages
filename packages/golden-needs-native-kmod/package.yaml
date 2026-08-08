@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "package_id": "golden-needs-native-kmod",
+  "rpm": {
+    "name": "golden-needs-native-kmod",
+    "summary": "Native-kernel validation routing fixture",
+    "license": "GPL-2.0-only"
+  },
+  "upstream": {
+    "component": "golden-needs-native-kmod",
+    "homepage": "https://github.com/yinjiayi/openeuler-riscv-packages/tree/main/tests/golden",
+    "source_repository": "https://github.com/yinjiayi/openeuler-riscv-packages.git",
+    "release_channel": "fixture",
+    "release_api": null,
+    "release_regex": null
+  },
+  "version": {
+    "current": "1.0",
+    "release": "1",
+    "latest_detected": "1.0"
+  },
+  "discovery": {
+    "snapshot_id": "golden-2026-08-08",
+    "lineage": [
+      {
+        "source": "golden-fixture",
+        "package_name": "golden-needs-native-kmod",
+        "package_base": "golden-needs-native-kmod",
+        "source_version": "1.0",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/tree/main/tests/golden",
+        "observed_at": "2026-08-08T00:00:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "needs-native-riscv",
+    "network_during_build": false,
+    "timeout_minutes": 30,
+    "native_reason": "The acceptance test must load an out-of-tree module and observe the target kernel; QEMU user mode shares the host kernel."
+  },
+  "files": {
+    "spec": "golden-needs-native-kmod.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "golden",
+    "maintainers": ["yinjiayi"],
+    "notes": "Must remain blocked until a separately approved native RISC-V runner exists."
+  },
+  "updates": {
+    "enabled": false,
+    "last_checked_at": "2026-08-08T00:00:00Z",
+    "last_successful_check_at": "2026-08-08T00:00:00Z",
+    "release_provider": null
+  }
+}

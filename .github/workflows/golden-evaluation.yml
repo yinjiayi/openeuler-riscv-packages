@@ -1,0 +1,299 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Golden Evaluation
+
+on:
+  pull_request:
+    paths:
+      - packages/golden-*/**
+      - tests/golden/**
+      - scripts/build-rpm
+      - scripts/classify-failure
+      - scripts/golden-eval
+      - ci/**
+      - .github/workflows/golden-evaluation.yml
+  push:
+    branches: [main]
+    paths:
+      - packages/golden-*/**
+      - tests/golden/**
+      - scripts/build-rpm
+      - scripts/classify-failure
+      - scripts/golden-eval
+      - ci/**
+      - .github/workflows/golden-evaluation.yml
+  workflow_dispatch:
+
+concurrency:
+  group: golden-evaluation-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Recreate and verify fixed golden archives
+        run: |
+          mkdir -p artifacts/golden-archives artifacts/golden-materialization
+          scripts/golden-eval materialize --repo-root . \
+            --manifests-dir tests/golden \
+            --output-dir artifacts/golden-archives \
+            --output artifacts/golden-materialization/result.json
+      - name: Upload materialization evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: golden-materialization-${{ github.run_id }}
+          path: |
+            artifacts/golden-archives/
+            artifacts/golden-materialization/
+          if-no-files-found: warn
+          retention-days: 7
+
+  exercise:
+    needs: materialize
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - package_id: golden-success-hello
+            expected: passed
+          - package_id: golden-riscv-inline-asm
+            expected: repair-queued
+          - package_id: golden-needs-native-kmod
+            expected: needs-native-riscv
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Verify source bytes before any build
+        id: source
+        env:
+          PACKAGE_ID: ${{ matrix.package_id }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          mkdir -p "artifacts/golden/$PACKAGE_ID" "work/$PACKAGE_ID"
+          scripts/build-rpm --package-dir "packages/$PACKAGE_ID" --repo-root . \
+            --work-dir "work/$PACKAGE_ID" \
+            --result "artifacts/golden/$PACKAGE_ID/source-phase-result.json" \
+            --verify-only --expected-arch riscv64
+      - name: Validate metadata and package-local patch policy
+        id: validation
+        env:
+          PACKAGE_ID: ${{ matrix.package_id }}
+        run: |
+          scripts/validate-metadata --repo-root . --schemas-dir schemas \
+            --output "artifacts/golden/$PACKAGE_ID/metadata-validation.json"
+          ci/check-patch-policy.py --package-dir "packages/$PACKAGE_ID" \
+            --output "artifacts/golden/$PACKAGE_ID/patch-policy.json"
+      - name: Read fixed build route
+        id: policy
+        env:
+          PACKAGE_ID: ${{ matrix.package_id }}
+        run: |
+          ci/package-policy.py --package-dir "packages/$PACKAGE_ID" \
+            --output "artifacts/golden/$PACKAGE_ID/package-policy.json" \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Record expected native-only route without fabricating a build
+        if: steps.policy.outputs.needs_native == 'true'
+        env:
+          PACKAGE_ID: ${{ matrix.package_id }}
+        run: |
+          python3 - "$PACKAGE_ID" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          package_id = sys.argv[1]
+          Path(f"artifacts/golden/{package_id}/native-routing.json").write_text(json.dumps({
+              "schema_version": 1,
+              "package_id": package_id,
+              "status": "needs-native-riscv",
+              "recommended_state": "needs-native-riscv",
+              "classification": {"category": "needs-native-riscv"},
+              "evidence_kind": "routing-policy-only",
+              "build_executed": False,
+              "message": "No native runner is configured; this is not a successful build result.",
+          }, indent=2) + "\n", encoding="utf-8")
+          PY
+      - name: Install RISC-V QEMU/binfmt
+        if: steps.policy.outputs.needs_native != 'true'
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
+        with:
+          platforms: riscv64
+          image: tonistiigi/binfmt:qemu-v9.2.0
+      - name: Resolve and probe locked public image
+        if: steps.policy.outputs.needs_native != 'true'
+        id: image
+        run: |
+          ref=$(ci/image-ref.sh ci/image.lock)
+          printf 'ref=%s\n' "$ref" >>"$GITHUB_OUTPUT"
+          docker logout ghcr.io >/dev/null 2>&1 || true
+          docker pull --platform linux/riscv64 "$ref"
+          docker run --rm --platform linux/riscv64 --memory 1g --cpus 2 --pids-limit 256 \
+            "$ref" /usr/local/bin/verify-target
+      - name: Prepare audited BuildRequires in an ephemeral image
+        if: steps.policy.outputs.needs_native != 'true'
+        id: dependencies
+        env:
+          PACKAGE_ID: ${{ matrix.package_id }}
+          BASE_IMAGE: ${{ steps.image.outputs.ref }}
+        run: |
+          derived="golden-builddeps:${GITHUB_RUN_ID}-${PACKAGE_ID}"
+          ci/run-capped.sh --log "artifacts/golden/$PACKAGE_ID/dependencies.log" \
+            --max-bytes 52428800 --timeout-seconds 1800 -- \
+            ci/prepare-build-deps.py --base-image "$BASE_IMAGE" \
+              --package-dir "packages/$PACKAGE_ID" --work-dir "work/$PACKAGE_ID" \
+              --output "artifacts/golden/$PACKAGE_ID/dependencies.json" \
+              --derived-tag "$derived"
+          printf 'image=%s\n' "$derived" >>"$GITHUB_OUTPUT"
+      - name: Exercise actual offline RISC-V build and expected state
+        if: steps.policy.outputs.needs_native != 'true'
+        env:
+          PACKAGE_ID: ${{ matrix.package_id }}
+          EXPECTED: ${{ matrix.expected }}
+          DERIVED_IMAGE: ${{ steps.dependencies.outputs.image }}
+          BASE_IMAGE: ${{ steps.image.outputs.ref }}
+        run: |
+          result="artifacts/golden/$PACKAGE_ID/rpmbuild-phase-result.json"
+          log="artifacts/golden/$PACKAGE_ID/rpmbuild.log"
+          expected=$EXPECTED
+          if [[ "$PACKAGE_ID" = golden-riscv-inline-asm && \
+                -f packages/golden-riscv-inline-asm/patches/0001-riscv-use-rdcycle.patch ]]; then
+            expected=passed
+          fi
+          set +e
+          ci/run-capped.sh --log "$log" --max-bytes 52428800 --timeout-seconds 6900 -- \
+            docker run --rm --platform linux/riscv64 --network none \
+              --memory 6g --cpus 2 --pids-limit 1024 \
+              --security-opt no-new-privileges -e OE_RVA23_PROBE=passed \
+              -e "GITHUB_SHA=$GITHUB_SHA" \
+              -v "$GITHUB_WORKSPACE:/workspace:ro" \
+              -v "$GITHUB_WORKSPACE/work/$PACKAGE_ID:/workspace/work/$PACKAGE_ID:rw" \
+              -v "$GITHUB_WORKSPACE/artifacts/golden/$PACKAGE_ID:/workspace/artifacts/golden/$PACKAGE_ID:rw" \
+              -w /workspace "$DERIVED_IMAGE" \
+              scripts/build-rpm --package-dir "packages/$PACKAGE_ID" \
+                --repo-root /workspace --work-dir "work/$PACKAGE_ID" \
+                --result "$result" --offline --skip-install-smoke \
+                --expected-arch riscv64
+          build_exit=$?
+          set -e
+          if [[ "$expected" = passed ]]; then
+            test "$build_exit" -eq 0
+            ci/run-capped.sh --log "artifacts/golden/$PACKAGE_ID/smoke.log" \
+              --max-bytes 52428800 --timeout-seconds 1500 -- \
+              docker run --rm --platform linux/riscv64 \
+                --memory 6g --cpus 2 --pids-limit 1024 \
+                --security-opt no-new-privileges \
+                -v "$GITHUB_WORKSPACE:/workspace:ro" \
+                -v "$GITHUB_WORKSPACE/work/$PACKAGE_ID:/workspace/work/$PACKAGE_ID:rw" \
+                -v "$GITHUB_WORKSPACE/artifacts/golden/$PACKAGE_ID:/workspace/artifacts/golden/$PACKAGE_ID:rw" \
+                -w /workspace "$BASE_IMAGE" \
+                ci/install-smoke.sh "packages/$PACKAGE_ID" "work/$PACKAGE_ID" \
+                  "artifacts/golden/$PACKAGE_ID/smoke-phase-result.json"
+          else
+            test "$expected" = repair-queued
+            test "$build_exit" -ne 0
+            scripts/classify-failure --input "$result" \
+              --output "artifacts/golden/$PACKAGE_ID/failure.json" \
+              --package-dir "packages/$PACKAGE_ID"
+            python3 - "$PACKAGE_ID" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          package_id = sys.argv[1]
+          Path(f"artifacts/golden/{package_id}/state.json").write_text(json.dumps({
+              "schema_version": 1,
+              "package_id": package_id,
+              "status": "repair-queued",
+              "recommended_state": "repair-queued",
+              "modified_files": [],
+              "message": "Actual offline RISC-V build failed; no repair was applied in GitHub Actions.",
+          }, indent=2) + "\n", encoding="utf-8")
+          PY
+          fi
+      - name: Compose a schema-valid final golden build result
+        if: always()
+        env:
+          PACKAGE_ID: ${{ matrix.package_id }}
+          NEEDS_NATIVE: ${{ steps.policy.outputs.needs_native }}
+          STEP_RESULT: ${{ job.status }}
+          SOURCE_RESULT: ${{ steps.source.outcome }}
+          VALIDATION_RESULT: ${{ steps.validation.outcome }}
+        run: |
+          args=(
+            --package-id "$PACKAGE_ID"
+            --commit-sha "$GITHUB_SHA"
+            --job-id "${GITHUB_RUN_ID}:${GITHUB_RUN_ATTEMPT}:golden:$PACKAGE_ID"
+            --image-lock ci/image.lock
+            --metadata-result "$VALIDATION_RESULT"
+            --source-result "$SOURCE_RESULT"
+            --patch-result "$VALIDATION_RESULT"
+            --rpmbuild-result "$STEP_RESULT"
+            --smoke-result "$STEP_RESULT"
+            --rpmbuild-phase "artifacts/golden/$PACKAGE_ID/rpmbuild-phase-result.json"
+            --smoke-phase "artifacts/golden/$PACKAGE_ID/smoke-phase-result.json"
+            --failure-classification "artifacts/golden/$PACKAGE_ID/failure.json"
+            --artifact-reference "golden-result-${PACKAGE_ID}-${GITHUB_RUN_ID}"
+            --output "artifacts/golden/$PACKAGE_ID/build-result.json"
+          )
+          if [[ "$NEEDS_NATIVE" = true ]]; then
+            args+=(--needs-native)
+          fi
+          ci/compose-build-result.py "${args[@]}"
+      - name: Upload actual result or explicit native-routing evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: golden-result-${{ matrix.package_id }}-${{ github.run_id }}
+          # Preserve the package-id directory so bounded log ingestion can
+          # attribute every text file to exactly one fixed golden package.
+          path: artifacts/golden/
+          if-no-files-found: error
+          retention-days: 7
+
+  evaluate:
+    needs: [materialize, exercise]
+    if: always() && needs.materialize.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Download all golden results
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: golden-result-*-${{ github.run_id }}
+          path: artifacts/golden-results
+      - name: Download materialized archives
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: golden-materialization-${{ github.run_id }}
+          path: artifacts/materialization
+      - name: Assert all three fixed paths
+        run: |
+          mkdir -p artifacts/golden-evaluation
+          scripts/evaluate-golden --repo-root . --manifests-dir tests/golden \
+            --results-dir artifacts/golden-results \
+            --archives-dir artifacts/materialization/golden-archives \
+            --stage auto \
+            --output artifacts/golden-evaluation/result.json
+      - name: Upload evaluation report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: golden-evaluation-${{ github.run_id }}
+          path: artifacts/golden-evaluation/
+          if-no-files-found: warn
+          retention-days: 7

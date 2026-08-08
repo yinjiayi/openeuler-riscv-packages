@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: Apache-2.0
+schema_version: 1
+image: ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild
+tag: 24.03-lts-sp3-rva23
+# Populated only after build-ci-image publishes the public image and verifies an
+# anonymous pull. Package CI intentionally fails closed while this is empty.
+digest: ""
+status: unpublished
+source_repository: https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/
+repomd_sha256: ""
+rpm_manifest_sha256: ""
+containerfile_sha256: ""
+built_at: ""
+qemu_version: ""
+self_test: pending
+

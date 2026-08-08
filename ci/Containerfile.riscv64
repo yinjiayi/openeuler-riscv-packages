@@ -1,0 +1,44 @@
+# syntax=docker/dockerfile:1.7
+# SPDX-License-Identifier: Apache-2.0
+
+ARG BOOTSTRAP_IMAGE=registry.fedoraproject.org/fedora:42
+FROM --platform=$BUILDPLATFORM ${BOOTSTRAP_IMAGE} AS bootstrap
+
+RUN dnf -y install bzip2 ca-certificates cpio curl dnf-plugins-core rpm shadow-utils \
+    && dnf clean all
+COPY ci/openeuler-rva23.repo /bootstrap/openeuler-rva23.repo
+COPY ci/bootstrap-rootfs.sh /bootstrap/bootstrap-rootfs.sh
+RUN /bootstrap/bootstrap-rootfs.sh /rootfs /bootstrap/openeuler-rva23.repo
+
+FROM scratch
+ARG TARGETARCH
+ARG TARGETOS
+ARG BUILD_DATE
+ARG VCS_REF
+LABEL org.opencontainers.image.title="openEuler RISC-V RPM build environment" \
+      org.opencontainers.image.description="openEuler 24.03 LTS SP3 riscv64/RVA23 rpmbuild rootfs" \
+      org.opencontainers.image.source="https://github.com/yinjiayi/openeuler-riscv-packages" \
+      org.opencontainers.image.licenses="Apache-2.0" \
+      org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.revision="${VCS_REF}" \
+      io.openeuler.release="24.03-LTS-SP3" \
+      io.openeuler.architecture="riscv64" \
+      io.openeuler.isa="RVA23"
+
+COPY --from=bootstrap /rootfs /
+COPY ci/rva23-selftest.c /usr/local/src/rva23-selftest.c
+COPY ci/verify-target.sh /usr/local/bin/verify-target
+
+RUN test "${TARGETOS}" = linux \
+    && test "${TARGETARCH}" = riscv64 \
+    && chmod 0755 /usr/local/bin/verify-target \
+    && gcc -O2 -Wall -Wextra -Werror -march=rv64gc_zba_zbb_zbs \
+       -o /usr/local/bin/rva23-selftest /usr/local/src/rva23-selftest.c \
+    && /usr/local/bin/verify-target
+
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    SOURCE_DATE_EPOCH=0 \
+    OE_RVA23_PROBE=passed
+WORKDIR /workspace
+CMD ["/bin/bash"]

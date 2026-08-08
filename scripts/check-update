@@ -1,0 +1,532 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Plan, scan, aggregate, and apply idempotent per-package stable updates."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import pathlib
+import re
+import urllib.parse
+from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
+
+from _lib import (
+    HostRateLimiter,
+    SCHEMA_VERSION,
+    ToolError,
+    as_list,
+    atomic_write_json,
+    atomic_write_text,
+    emit_json,
+    fetch_url,
+    first_value,
+    isoformat,
+    is_prerelease,
+    iter_records,
+    load_json,
+    load_location,
+    parse_now,
+    package_identifier,
+    parse_time,
+    run_main,
+    sha256_bytes,
+    slugify,
+    stable_json,
+    validate_https_url,
+    version_key,
+)
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__)
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    plan = sub.add_parser("plan", help="freeze the eligible package set and split it into deterministic shards")
+    plan.add_argument("--packages-dir", default="packages")
+    plan.add_argument("--state")
+    plan.add_argument("--output", required=True)
+    plan.add_argument("--run-id")
+    plan.add_argument("--shard-size", type=int, default=100)
+    plan.add_argument("--missed-after-hours", type=float, default=24.0)
+    plan.add_argument("--now")
+
+    scan = sub.add_parser("scan", help="check one frozen shard without mutating package metadata")
+    scan.add_argument("--plan", required=True)
+    scan.add_argument("--shard-index", required=True, type=int)
+    scan.add_argument("--output", required=True)
+    scan.add_argument("--cache-dir")
+    scan.add_argument("--requests-per-second", type=float, default=2.0)
+    scan.add_argument("--retries", type=int, default=3)
+    scan.add_argument("--timeout", type=float, default=30.0)
+    scan.add_argument("--max-source-bytes", type=int, default=2 * 1024 * 1024 * 1024)
+    scan.add_argument("--no-source-digest", action="store_true")
+    scan.add_argument("--now")
+
+    aggregate = sub.add_parser("aggregate", help="merge shard results and expose missed/failed coverage")
+    aggregate.add_argument("--plan", required=True)
+    aggregate.add_argument("--result", action="append", default=[], help="shard result path (repeatable; omit for an empty plan)")
+    aggregate.add_argument("--output", required=True)
+    aggregate.add_argument("--state-output")
+    aggregate.add_argument("--now")
+
+    apply = sub.add_parser("apply", help="apply exactly one proposed update to exactly one package directory")
+    apply.add_argument("--result", required=True)
+    apply.add_argument("--package")
+    apply.add_argument("--packages-dir", default="packages")
+    apply.add_argument("--output")
+    apply.add_argument("--dry-run", action="store_true")
+    return parser
+
+
+def package_active(metadata: Mapping[str, Any]) -> bool:
+    maintenance = metadata.get("maintenance") if isinstance(metadata.get("maintenance"), Mapping) else {}
+    updates = metadata.get("updates") if isinstance(metadata.get("updates"), Mapping) else {}
+    status = str(maintenance.get("status") or metadata.get("status") or "active").lower()
+    disabled = bool(maintenance.get("update_disabled") or metadata.get("update_disabled") or updates.get("enabled") is False)
+    return status not in {"retired", "disabled", "archived"} and not disabled
+
+
+def package_plan(path: pathlib.Path, state: Mapping[str, Any], now: Any, missed_hours: float) -> Dict[str, Any]:
+    metadata = load_json(path / "package.yaml")
+    package_id = package_identifier(metadata.get("package_id") or path.name)
+    if package_id != path.name:
+        raise ToolError("package_id/path mismatch: %s" % path)
+    upstream = metadata.get("upstream") if isinstance(metadata.get("upstream"), Mapping) else {}
+    version_data = metadata.get("version") if isinstance(metadata.get("version"), Mapping) else {}
+    updates_data = metadata.get("updates") if isinstance(metadata.get("updates"), Mapping) else {}
+    package_state = state.get("packages", {}).get(package_id, {}) if isinstance(state.get("packages"), Mapping) else {}
+    last_check = package_state.get("last_successful_check") or updates_data.get("last_successful_check_at") or metadata.get("last_upstream_check")
+    parsed_last = parse_time(last_check) if last_check else None
+    overdue = parsed_last is None or (now - parsed_last).total_seconds() >= missed_hours * 3600
+    existing = package_state.get("existing_target_versions", [])
+    open_updates = state.get("open_updates", {}) if isinstance(state.get("open_updates"), Mapping) else {}
+    if package_id in open_updates:
+        existing = as_list(open_updates[package_id]) + as_list(existing)
+    release_api = upstream.get("release_api") or upstream.get("release_feed") or metadata.get("release_api")
+    return {
+        "package_id": package_id,
+        "path": str(path),
+        "current_version": str(version_data.get("current") or metadata.get("version")),
+        "release_channel": upstream.get("release_channel") or metadata.get("release_channel") or "stable",
+        "release_api": release_api,
+        "source_url_template": upstream.get("source_url_template"),
+        "last_successful_check": last_check,
+        "missed": overdue,
+        "existing_target_versions": sorted({str(value) for value in as_list(existing)}),
+    }
+
+
+def command_plan(args: argparse.Namespace) -> int:
+    if args.shard_size <= 0 or args.missed_after_hours <= 0:
+        raise ToolError("shard-size and missed-after-hours must be positive")
+    packages_dir = pathlib.Path(args.packages_dir)
+    if not packages_dir.is_dir():
+        raise ToolError("packages directory does not exist: %s" % packages_dir)
+    state = load_json(args.state, {}) if args.state else {}
+    now = parse_now(args.now)
+    eligible: List[Dict[str, Any]] = []
+    skipped: List[Dict[str, Any]] = []
+    for directory in sorted(packages_dir.iterdir(), key=lambda path: path.name):
+        if not directory.is_dir() or directory.name.startswith("_") or not (directory / "package.yaml").exists():
+            continue
+        metadata = load_json(directory / "package.yaml")
+        if not package_active(metadata):
+            skipped.append({"package_id": metadata.get("package_id") or directory.name, "reason": "retired-or-update-disabled"})
+            continue
+        eligible.append(package_plan(directory, state, now, args.missed_after_hours))
+    eligible.sort(key=lambda item: (not item["missed"], item["package_id"]))
+    shards = [
+        {"index": index // args.shard_size, "packages": eligible[index : index + args.shard_size]}
+        for index in range(0, len(eligible), args.shard_size)
+    ]
+    package_fingerprint = hashlib.sha256(stable_json([item["package_id"] for item in eligible], pretty=False).encode()).hexdigest()[:12]
+    run_id = args.run_id or "update-%s-%s" % (now.strftime("%Y%m%dT%H%M%SZ"), package_fingerprint)
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "update-plan",
+        "update_run_id": run_id,
+        "planned_at": isoformat(now),
+        "missed_after_hours": args.missed_after_hours,
+        "packages_dir": str(packages_dir),
+        "eligible_count": len(eligible),
+        "skipped": skipped,
+        "shard_size": args.shard_size,
+        "shards": shards,
+        "matrix": {"include": [{"shard_index": shard["index"]} for shard in shards]},
+        "expected_shards": [shard["index"] for shard in shards],
+        "missed_packages": [item["package_id"] for item in eligible if item["missed"]],
+    }
+    emit_json(result, args.output)
+    return 0
+
+
+def releases_from_document(document: Any) -> List[Dict[str, Any]]:
+    if isinstance(document, Mapping):
+        if isinstance(document.get("versions"), list):
+            return [{"version": value} if not isinstance(value, Mapping) else dict(value) for value in document["versions"]]
+        if isinstance(document.get("releases"), Mapping):
+            return [{"version": key, **(dict(value) if isinstance(value, Mapping) else {})} for key, value in document["releases"].items()]
+        if any(key in document for key in ("tag_name", "version", "name")):
+            return [dict(document)]
+    if isinstance(document, list):
+        return [{"version": value} if not isinstance(value, Mapping) else dict(value) for value in document]
+    return [dict(record) for record in iter_records(document)]
+
+
+def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optional[Dict[str, Any]]:
+    version = first_value(raw, ["version", "tag_name", "name"])
+    if version is None:
+        return None
+    version_text = str(version).strip()
+    version_text = re.sub(r"^[vV](?=\d)", "", version_text)
+    if not version_text or is_prerelease({**raw, "version": version_text}):
+        return None
+    source_url = first_value(raw, ["source_url", "tarball_url", "archive_url", "download_url"])
+    if not source_url:
+        assets = raw.get("assets") if isinstance(raw.get("assets"), list) else []
+        source_assets = [item for item in assets if isinstance(item, Mapping) and str(item.get("name", "")).endswith((".tar.gz", ".tar.xz", ".tgz"))]
+        if source_assets:
+            source_url = first_value(source_assets[0], ["browser_download_url", "url"])
+    if not source_url and template:
+        try:
+            source_url = template.format(version=version_text, tag=first_value(raw, ["tag_name"], version_text))
+        except (KeyError, ValueError) as exc:
+            raise ToolError("invalid source_url_template: %s" % exc)
+    digest = first_value(raw, ["sha256", "checksum"])
+    if isinstance(digest, str) and digest.startswith("sha256:"):
+        digest = digest.split(":", 1)[1]
+    return {
+        "version": version_text,
+        "tag": first_value(raw, ["tag_name"], version_text),
+        "source_url": source_url,
+        "sha256": str(digest).lower() if digest else None,
+        "published_at": first_value(raw, ["published_at", "created_at", "date"]),
+    }
+
+
+def source_digest(
+    url: str,
+    cache_dir: Optional[pathlib.Path],
+    limiter: HostRateLimiter,
+    timeout: float,
+    retries: int,
+    max_bytes: int,
+) -> str:
+    validate_https_url(url, allow_file=True)
+    data, _ = fetch_url(url, timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter, max_bytes=max_bytes)
+    return sha256_bytes(data)
+
+
+def scan_package(
+    package: Mapping[str, Any],
+    *,
+    now: Any,
+    cache_dir: Optional[pathlib.Path],
+    limiter: HostRateLimiter,
+    timeout: float,
+    retries: int,
+    max_source_bytes: int,
+    digest_sources: bool,
+) -> Dict[str, Any]:
+    package_id = str(package["package_id"])
+    base: Dict[str, Any] = {
+        "package_id": package_id,
+        "current_version": str(package.get("current_version")),
+        "checked_at": isoformat(now),
+        "missed_before_run": bool(package.get("missed")),
+    }
+    release_api = package.get("release_api")
+    if not release_api:
+        return {**base, "status": "failed", "failure": {"category": "configuration", "message": "release_api is not configured"}}
+    try:
+        document, fetch_meta = load_location(
+            str(release_api), timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter
+        )
+        releases = [
+            item
+            for item in (normalized_release(raw, package.get("source_url_template")) for raw in releases_from_document(document))
+            if item is not None
+        ]
+        if not releases:
+            raise ToolError("release endpoint returned no stable releases", 1)
+        latest = max(releases, key=lambda item: tuple(version_key(item["version"])))
+        base["latest_version"] = latest["version"]
+        base["release_fetch"] = fetch_meta
+        if tuple(version_key(latest["version"])) <= tuple(version_key(package.get("current_version"))):
+            return {**base, "status": "no-update"}
+        if not latest.get("source_url"):
+            return {**base, "status": "failed", "failure": {"category": "source", "message": "latest stable release has no official source URL"}}
+        validate_https_url(str(latest["source_url"]), allow_file=True)
+        digest = latest.get("sha256")
+        if digest and not re.fullmatch(r"[0-9a-f]{64}", str(digest)):
+            raise ToolError("release metadata contains an invalid SHA-256", 1)
+        if not digest and digest_sources:
+            digest = source_digest(str(latest["source_url"]), cache_dir, limiter, timeout, retries, max_source_bytes)
+        latest["sha256"] = digest
+        key = "update:%s:%s" % (package_id, latest["version"])
+        if latest["version"] in package.get("existing_target_versions", []):
+            return {**base, **latest, "status": "duplicate-suppressed", "idempotency_key": key}
+        status = "update-available" if digest else "update-needs-source-verification"
+        return {**base, **latest, "status": status, "idempotency_key": key}
+    except ToolError as exc:
+        return {**base, "status": "failed", "failure": {"category": "upstream-request", "message": str(exc)}}
+    except Exception as exc:  # defensive: one package must never abort its shard
+        return {**base, "status": "failed", "failure": {"category": "unexpected", "message": "%s: %s" % (type(exc).__name__, exc)}}
+
+
+def command_scan(args: argparse.Namespace) -> int:
+    plan = load_json(args.plan)
+    matches = [shard for shard in plan.get("shards", []) if int(shard.get("index", -1)) == args.shard_index]
+    if len(matches) != 1:
+        raise ToolError("plan has no unique shard index %s" % args.shard_index)
+    now = parse_now(args.now)
+    cache_dir = pathlib.Path(args.cache_dir) if args.cache_dir else None
+    limiter = HostRateLimiter(args.requests_per_second)
+    entries = [
+        scan_package(
+            package,
+            now=now,
+            cache_dir=cache_dir,
+            limiter=limiter,
+            timeout=args.timeout,
+            retries=args.retries,
+            max_source_bytes=args.max_source_bytes,
+            digest_sources=not args.no_source_digest,
+        )
+        for package in matches[0].get("packages", [])
+    ]
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "update-shard-result",
+        "update_run_id": plan.get("update_run_id"),
+        "shard_index": args.shard_index,
+        "started_at": isoformat(now),
+        "completed_at": isoformat(parse_now(args.now)),
+        "entries": entries,
+        "summary": {
+            status: sum(1 for entry in entries if entry["status"] == status)
+            for status in sorted({entry["status"] for entry in entries})
+        },
+    }
+    emit_json(result, args.output)
+    # A package-level failure is represented in JSON and does not fail the shard job.
+    return 0
+
+
+def command_aggregate(args: argparse.Namespace) -> int:
+    plan = load_json(args.plan)
+    now = parse_now(args.now)
+    expected = set(int(value) for value in plan.get("expected_shards", []))
+    observed = set()
+    entries: List[Dict[str, Any]] = []
+    rejected_results: List[Dict[str, Any]] = []
+    for path in args.result:
+        result = load_json(path)
+        if result.get("update_run_id") != plan.get("update_run_id"):
+            rejected_results.append({"path": path, "reason": "update_run_id mismatch"})
+            continue
+        index = int(result.get("shard_index", -1))
+        if index not in expected:
+            rejected_results.append({"path": path, "reason": "unexpected shard index %s" % index})
+            continue
+        if index in observed:
+            rejected_results.append({"path": path, "reason": "duplicate shard index %s" % index})
+            continue
+        observed.add(index)
+        entries.extend({**dict(entry), "shard_index": index} for entry in result.get("entries", []) if isinstance(entry, Mapping))
+    missing = sorted(expected - observed)
+    expected_packages = {
+        item["package_id"] for shard in plan.get("shards", []) for item in shard.get("packages", [])
+    }
+    checked_packages = {entry.get("package_id") for entry in entries}
+    unchecked = sorted(expected_packages - checked_packages)
+    updates = [entry for entry in entries if entry.get("status") == "update-available"]
+    failures = [entry for entry in entries if entry.get("status") in {"failed", "update-needs-source-verification"}]
+    failed_shards = sorted(set(missing) | {int(entry["shard_index"]) for entry in failures})
+    coverage = (len(checked_packages) / len(expected_packages)) if expected_packages else 1.0
+    counts = {
+        status: sum(1 for entry in entries if entry.get("status") == status)
+        for status in sorted({str(entry.get("status")) for entry in entries})
+    }
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "update-run-summary",
+        "update_run_id": plan.get("update_run_id"),
+        "scheduled_at": plan.get("planned_at"),
+        "completed_at": isoformat(now),
+        "expected_count": len(expected_packages),
+        "checked_count": len(checked_packages),
+        "coverage": round(coverage, 6),
+        "failed_shards": failed_shards,
+        "unchecked_packages": unchecked,
+        "pending_backfill_count": len(unchecked) + len(failures),
+        "updates": updates,
+        "failures": failures,
+        "entries": sorted(entries, key=lambda item: str(item.get("package_id"))),
+        "skipped": plan.get("skipped", []),
+        "counts": counts,
+        "complete": not missing and not unchecked and not rejected_results and not failures,
+        "rejected_results": rejected_results,
+    }
+    previous = load_json(args.state_output, {}) if args.state_output else {}
+    result["consecutive_missed_days"] = 0 if result["complete"] else int(previous.get("consecutive_incomplete_runs", 0)) + 1
+    emit_json(result, args.output)
+    if args.state_output:
+        packages_state = previous.get("packages", {}) if isinstance(previous.get("packages"), Mapping) else {}
+        for entry in entries:
+            package_id = entry.get("package_id")
+            prior = packages_state.get(package_id, {}) if isinstance(packages_state.get(package_id), Mapping) else {}
+            updated = dict(prior)
+            updated["last_check_attempt"] = entry.get("checked_at")
+            updated["last_result"] = entry.get("status")
+            updated["latest_version"] = entry.get("latest_version")
+            if entry.get("status") not in {"failed", "update-needs-source-verification"}:
+                updated["last_successful_check"] = entry.get("checked_at")
+            packages_state[package_id] = updated
+        consecutive = 0 if result["complete"] else int(previous.get("consecutive_incomplete_runs", 0)) + 1
+        state = {
+            "schema_version": SCHEMA_VERSION,
+            "last_run": {
+                "update_run_id": result["update_run_id"],
+                "scheduled_at": result["scheduled_at"],
+                "completed_at": result["completed_at"],
+                "expected_count": result["expected_count"],
+                "checked_count": result["checked_count"],
+                "coverage": result["coverage"],
+                "failed_shards": result["failed_shards"],
+                "pending_backfill_count": result["pending_backfill_count"],
+                "complete": result["complete"],
+            },
+            "last_successful_run": result["completed_at"] if result["complete"] else previous.get("last_successful_run"),
+            "consecutive_incomplete_runs": consecutive,
+            "packages": packages_state,
+            "open_updates": previous.get("open_updates", {}),
+        }
+        emit_json(state, args.state_output)
+    return 0
+
+
+def _select_update(document: Mapping[str, Any], package_id: Optional[str]) -> Mapping[str, Any]:
+    updates = document.get("updates")
+    if not isinstance(updates, list):
+        updates = [item for item in document.get("entries", []) if item.get("status") == "update-available"]
+    if package_id:
+        matches = [item for item in updates if item.get("package_id") == package_id]
+    else:
+        matches = updates
+    if len(matches) != 1:
+        raise ToolError("apply requires exactly one update; selector matched %d" % len(matches))
+    return matches[0]
+
+
+def update_spec(content: str, old: str, new: str) -> str:
+    changed, count = re.subn(r"(?m)^Version:\s*[^\s]+\s*$", "Version:        %s" % new, content, count=1)
+    if count != 1:
+        raise ToolError("SPEC must contain exactly one Version field")
+    changed = re.sub(r"(?m)^Release:\s*[^\n]+$", "Release:        1%{?dist}", changed, count=1)
+    return changed
+
+
+def command_apply(args: argparse.Namespace) -> int:
+    document = load_json(args.result)
+    update = _select_update(document, args.package)
+    package_id = package_identifier(update.get("package_id"))
+    destination = pathlib.Path(args.packages_dir) / package_id
+    metadata_path = destination / "package.yaml"
+    sources_path = destination / "sources.yaml"
+    metadata = load_json(metadata_path)
+    sources = load_json(sources_path)
+    version_data = metadata.get("version") if isinstance(metadata.get("version"), Mapping) else None
+    current = str(version_data.get("current") if version_data else metadata.get("version"))
+    if current != str(update.get("current_version")):
+        raise ToolError("package version changed after plan: expected %s, found %s" % (update.get("current_version"), current))
+    target = str(update.get("version") or update.get("latest_version"))
+    digest = str(update.get("sha256") or "")
+    if not re.fullmatch(r"[0-9a-f]{64}", digest):
+        raise ToolError("update cannot be applied until the source SHA-256 is verified")
+    source_url = str(update.get("source_url") or "")
+    validate_https_url(source_url, allow_file=True)
+    if version_data is not None:
+        version_data["current"] = target
+        version_data["latest_detected"] = target
+    else:
+        metadata["version"] = target
+    updates_data = metadata.get("updates") if isinstance(metadata.get("updates"), Mapping) else {}
+    updates_data["last_checked_at"] = update.get("checked_at")
+    metadata["updates"] = updates_data
+    packaging = metadata.get("files", {}) if isinstance(metadata.get("files"), Mapping) else metadata.get("packaging", {}) if isinstance(metadata.get("packaging"), Mapping) else {}
+    if packaging.get("patches"):
+        # Do not silently keep or drop patches across an upstream update. The PR remains
+        # blocked until a maintainer records applicability in the update result.
+        patch_applicability = {"status": "needs-review", "target_version": target}
+    else:
+        patch_applicability = {"status": "not-applicable"}
+    source_entries = sources.get("sources", [])
+    if not source_entries:
+        raise ToolError("sources.yaml has no source entries")
+    source_entries[0]["version"] = target
+    source_entries[0]["url"] = source_url
+    source_entries[0].setdefault("digests", {})["sha256"] = digest
+    source_entries[0].pop("sha256", None)
+    source_entries[0]["signature"] = dict(update["signature"]) if isinstance(update.get("signature"), Mapping) else None
+    filename = pathlib.PurePosixPath(urllib.parse.urlsplit(source_url).path).name
+    if filename:
+        source_entries[0]["filename"] = filename
+    spec_name = packaging.get("spec") or "%s.spec" % metadata.get("rpm_name")
+    spec_path = destination / str(spec_name)
+    spec_content = update_spec(spec_path.read_text(encoding="utf-8"), current, target)
+    modified = [str(metadata_path), str(sources_path), str(spec_path)]
+    if not args.dry_run:
+        atomic_write_json(metadata_path, metadata)
+        atomic_write_json(sources_path, sources)
+        atomic_write_text(spec_path, spec_content)
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "operation": "update",
+        "package_id": package_id,
+        "branch": "update/%s-%s" % (package_id, slugify(target, 48)),
+        "job_id": str(update.get("idempotency_key") or "update:%s:%s" % (package_id, target)),
+        "inputs": [
+            {
+                "update_run_id": document.get("update_run_id"),
+                "checked_at": update.get("checked_at"),
+                "source_url": source_url,
+                "source_sha256": digest,
+                "idempotency_key": update.get("idempotency_key"),
+            }
+        ],
+        "changed_files": modified,
+        "pull_request": None,
+        "ci": None,
+        "riscv_status": (metadata.get("target") or {}).get("riscv_status") if isinstance(metadata.get("target"), Mapping) else None,
+        "patch": {"generated": False, "reason": None, "verification": "patch applicability must be reviewed for the target version" if packaging.get("patches") else "package has no patches"},
+        "auto_merge": False,
+        "blockers": ["existing patch applicability requires review"] if packaging.get("patches") else [],
+        "next_action": "create or update exactly one idempotent package PR, run required checks, then enable auto-merge",
+        "from_version": current,
+        "target_version": target,
+        "idempotency_key": update.get("idempotency_key"),
+        "suggested_pr": {"title": "Update %s to %s" % (package_id, target), "labels": ["package:%s" % package_id, "operation:update", "ci-queued"]},
+        "dry_run": args.dry_run,
+        "patch_applicability": patch_applicability,
+    }
+    emit_json(result, args.output)
+    return 0
+
+
+def main() -> int:
+    args = build_parser().parse_args()
+    if args.command == "plan":
+        return command_plan(args)
+    if args.command == "scan":
+        return command_scan(args)
+    if args.command == "aggregate":
+        return command_aggregate(args)
+    if args.command == "apply":
+        return command_apply(args)
+    raise ToolError("unknown command")
+
+
+if __name__ == "__main__":
+    run_main(main)

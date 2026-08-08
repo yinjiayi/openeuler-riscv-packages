@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/discovery-snapshot.schema.json",
+  "title": "Immutable discovery snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "snapshot_id", "started_at", "finished_at", "policy", "resolved_distributions", "metadata_digests", "candidates", "rejections"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "snapshot_id": {"type": "string", "pattern": "^[A-Za-z0-9_.:-]+$"},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": "string", "format": "date-time"},
+    "policy": {
+      "type": "object",
+      "required": ["aur_stale_days", "stable_only", "execute_external_packaging"],
+      "properties": {
+        "aur_stale_days": {"type": "integer", "minimum": 1},
+        "stable_only": {"const": true},
+        "execute_external_packaging": {"const": false}
+      }
+    },
+    "resolved_distributions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source", "release", "components", "snapshot_at", "metadata_url", "metadata_sha256"],
+        "properties": {
+          "source": {"enum": ["arch", "aur", "opensuse", "fedora", "debian", "ubuntu"]},
+          "release": {"type": "string"},
+          "codename": {"type": ["string", "null"]},
+          "components": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "snapshot_at": {"type": "string", "format": "date-time"},
+          "metadata_url": {"type": "string", "format": "uri"},
+          "metadata_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        }
+      }
+    },
+    "metadata_digests": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "candidates": {"type": "array", "items": {"$ref": "#/$defs/item"}},
+    "rejections": {"type": "array", "items": {"$ref": "#/$defs/item"}}
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "required": ["component_id", "upstream_url", "stable_version", "lineage", "decision", "reasons"],
+      "properties": {
+        "component_id": {"type": "string"},
+        "upstream_url": {"type": ["string", "null"]},
+        "stable_version": {"type": ["string", "null"]},
+        "lineage": {"type": "array", "items": {"type": "object"}},
+        "decision": {"enum": ["eligible", "binary-only", "stale", "vcs-only", "unverified-upstream", "license-blocked", "duplicate", "pre-release", "excluded-repository"]},
+        "reasons": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

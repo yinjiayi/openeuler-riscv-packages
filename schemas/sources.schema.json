@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/sources.schema.json",
+  "title": "Verified source set",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "package_id", "sources"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "package_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "url", "filename", "version", "digests", "redistribution"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+$"},
+          "kind": {"enum": ["upstream-release", "golden-fixture"]},
+          "url": {"type": "string", "pattern": "^(https://|fixture://)"},
+          "filename": {"type": "string", "pattern": "^[^/]+$"},
+          "version": {"type": "string", "minLength": 1},
+          "digests": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["sha256"],
+            "properties": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+          },
+          "signature": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "required": ["url", "key_fingerprint", "policy"],
+            "properties": {
+              "url": {"type": "string", "format": "uri"},
+              "key_fingerprint": {"type": "string", "pattern": "^[A-F0-9 ]{16,64}$"},
+              "policy": {"enum": ["required", "checksum-required-signature-advisory"]}
+            }
+          },
+          "redistribution": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["allowed", "reason"],
+            "properties": {
+              "allowed": {"type": "boolean"},
+              "reason": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Auto Merge Policy
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, labeled, unlabeled]
+
+concurrency:
+  group: auto-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  configure:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (github.event.pull_request.author_association == 'OWNER' ||
+       github.event.pull_request.author_association == 'MEMBER' ||
+       github.event.pull_request.author_association == 'COLLABORATOR' ||
+       github.event.pull_request.user.login == 'yinjiayi' ||
+       github.event.pull_request.user.login == 'github-actions[bot]' ||
+       github.event.pull_request.user.login == 'dependabot[bot]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Enable or disable GitHub Auto-merge from current policy facts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          current=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
+          test "$(jq -r .head.sha <<<"$current")" = "$EVENT_HEAD_SHA"
+          test "$(jq -r .head.repo.full_name <<<"$current")" = "$GITHUB_REPOSITORY"
+          if [[ $(jq -r .draft <<<"$current") = true ]]; then
+            gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --disable-auto || true
+            exit 0
+          fi
+          blockers='["needs-native-riscv","qemu-limitation","needs-human","source-blocked","license-blocked","checksum-blocked","security-blocked","tests-disabled"]'
+          labels=$(jq '[.labels[].name]' <<<"$current")
+          blocked=$(jq -n --argjson labels "$labels" --argjson blockers "$blockers" '$labels - $blockers != $labels')
+          if [[ $blocked = true ]]; then
+            gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --disable-auto || true
+            printf 'Auto-merge disabled because a blocking label is present.\n'
+          else
+            # Branch rules require the latest-head checks; this only arms native
+            # GitHub Auto-merge and never pushes or merges main directly.
+            gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" \
+              --auto --squash --delete-branch
+          fi
+

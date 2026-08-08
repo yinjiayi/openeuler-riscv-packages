@@ -1,0 +1,246 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Validate repository package metadata and enforce the local patch policy."""
+
+from __future__ import annotations
+
+import argparse
+import pathlib
+import re
+import urllib.parse
+from typing import Any, Dict, List, Mapping, Optional, Sequence
+
+from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, parse_now, parse_time, run_main
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--repo-root", default=".")
+    result.add_argument("--schemas-dir", default="schemas")
+    result.add_argument("--package", action="append", help="limit validation to package id (repeatable)")
+    result.add_argument("--output")
+    result.add_argument("--now")
+    return result
+
+
+def pointer(root: Any, reference: str) -> Any:
+    if not reference.startswith("#/"):
+        raise ToolError("external schema references are forbidden: %s" % reference)
+    current = root
+    for token in reference[2:].split("/"):
+        token = token.replace("~1", "/").replace("~0", "~")
+        if not isinstance(current, Mapping) or token not in current:
+            raise ToolError("unresolved schema reference: %s" % reference)
+        current = current[token]
+    return current
+
+
+def schema_errors(instance: Any, schema: Mapping[str, Any], root: Mapping[str, Any], path: str = "$") -> List[str]:
+    errors: List[str] = []
+    if "$ref" in schema:
+        return schema_errors(instance, pointer(root, str(schema["$ref"])), root, path)
+    if "not" in schema and not schema_errors(instance, schema["not"], root, path):
+        errors.append("%s satisfies a forbidden not-schema" % path)
+    for option_key in ("allOf",):
+        for option in schema.get(option_key, []):
+            errors.extend(schema_errors(instance, option, root, path))
+    if "anyOf" in schema:
+        variants = [schema_errors(instance, option, root, path) for option in schema["anyOf"]]
+        if all(variant for variant in variants):
+            errors.append("%s does not satisfy anyOf" % path)
+    if "oneOf" in schema:
+        passing = [option for option in schema["oneOf"] if not schema_errors(instance, option, root, path)]
+        if len(passing) != 1:
+            errors.append("%s must satisfy exactly one oneOf branch" % path)
+    expected = schema.get("type")
+    types = expected if isinstance(expected, list) else [expected] if expected else []
+    matches = {
+        "object": isinstance(instance, Mapping),
+        "array": isinstance(instance, list),
+        "string": isinstance(instance, str),
+        "integer": isinstance(instance, int) and not isinstance(instance, bool),
+        "number": isinstance(instance, (int, float)) and not isinstance(instance, bool),
+        "boolean": isinstance(instance, bool),
+        "null": instance is None,
+    }
+    if types and not any(matches.get(kind, False) for kind in types):
+        return ["%s expected type %s" % (path, expected)]
+    if "const" in schema and instance != schema["const"]:
+        errors.append("%s must equal %r" % (path, schema["const"]))
+    if "enum" in schema and instance not in schema["enum"]:
+        errors.append("%s is not in enum" % path)
+    if isinstance(instance, str):
+        if "minLength" in schema and len(instance) < int(schema["minLength"]):
+            errors.append("%s is shorter than minLength" % path)
+        if "maxLength" in schema and len(instance) > int(schema["maxLength"]):
+            errors.append("%s is longer than maxLength" % path)
+        if "pattern" in schema and not re.search(str(schema["pattern"]), instance):
+            errors.append("%s does not match pattern" % path)
+        if schema.get("format") == "uri":
+            parsed = urllib.parse.urlsplit(instance)
+            if not parsed.scheme or (parsed.scheme in {"http", "https"} and not parsed.hostname):
+                errors.append("%s is not an absolute URI" % path)
+        elif schema.get("format") == "date-time":
+            try:
+                parse_time(instance)
+            except ToolError:
+                errors.append("%s is not an RFC3339-like date-time" % path)
+    if isinstance(instance, (int, float)) and not isinstance(instance, bool):
+        if "minimum" in schema and instance < schema["minimum"]:
+            errors.append("%s is below minimum" % path)
+        if "maximum" in schema and instance > schema["maximum"]:
+            errors.append("%s is above maximum" % path)
+        if "exclusiveMinimum" in schema and instance <= schema["exclusiveMinimum"]:
+            errors.append("%s is not above exclusiveMinimum" % path)
+        if "exclusiveMaximum" in schema and instance >= schema["exclusiveMaximum"]:
+            errors.append("%s is not below exclusiveMaximum" % path)
+    if isinstance(instance, Mapping):
+        for required in schema.get("required", []):
+            if required not in instance:
+                errors.append("%s.%s is required" % (path, required))
+        properties = schema.get("properties", {})
+        for key, value in instance.items():
+            if key in properties:
+                errors.extend(schema_errors(value, properties[key], root, "%s.%s" % (path, key)))
+            elif schema.get("additionalProperties") is False:
+                errors.append("%s.%s is not allowed" % (path, key))
+            elif isinstance(schema.get("additionalProperties"), Mapping):
+                errors.extend(schema_errors(value, schema["additionalProperties"], root, "%s.%s" % (path, key)))
+        for key, subschema in schema.get("patternProperties", {}).items():
+            for actual, value in instance.items():
+                if re.search(key, actual):
+                    errors.extend(schema_errors(value, subschema, root, "%s.%s" % (path, actual)))
+    if isinstance(instance, list):
+        if "minItems" in schema and len(instance) < int(schema["minItems"]):
+            errors.append("%s has too few items" % path)
+        if "maxItems" in schema and len(instance) > int(schema["maxItems"]):
+            errors.append("%s has too many items" % path)
+        if schema.get("uniqueItems") and len({repr(value) for value in instance}) != len(instance):
+            errors.append("%s has duplicate items" % path)
+        items = schema.get("items")
+        if isinstance(items, Mapping):
+            for index, value in enumerate(instance):
+                errors.extend(schema_errors(value, items, root, "%s[%d]" % (path, index)))
+    return errors
+
+
+def patch_policy(package_dir: pathlib.Path, package: Mapping[str, Any]) -> List[str]:
+    errors: List[str] = []
+    packaging = package.get("files") if isinstance(package.get("files"), Mapping) else package.get("packaging") if isinstance(package.get("packaging"), Mapping) else {}
+    rpm = package.get("rpm") if isinstance(package.get("rpm"), Mapping) else {}
+    spec_path = package_dir / str(packaging.get("spec") or "%s.spec" % (rpm.get("name") or package.get("rpm_name")))
+    series_path = package_dir / "patches/series"
+    smoke_path = package_dir / str(packaging.get("smoke_test") or "tests/smoke.sh")
+    if not spec_path.is_file():
+        errors.append("declared SPEC is missing: %s" % spec_path.name)
+        spec_text = ""
+    else:
+        spec_text = spec_path.read_text(encoding="utf-8", errors="replace")
+    if not smoke_path.is_file():
+        errors.append("declared smoke test is missing")
+    if not series_path.is_file():
+        errors.append("patches/series is missing")
+        series: List[str] = []
+    else:
+        series = [line.strip() for line in series_path.read_text(encoding="utf-8").splitlines() if line.strip() and not line.lstrip().startswith("#")]
+    if len(series) != len(set(series)):
+        errors.append("patches/series contains duplicate entries")
+    patch_dir = package_dir / "patches"
+    patch_files = sorted(path.name for path in patch_dir.glob("*.patch")) if patch_dir.is_dir() else []
+    for name in series:
+        if pathlib.PurePosixPath(name).name != name or not name.endswith(".patch"):
+            errors.append("unsafe patch series entry: %s" % name)
+            continue
+        if name not in patch_files:
+            errors.append("series references missing patch: %s" % name)
+        if not re.search(r"(?m)^Patch\d*:\s*(?:[^\s/]*/)?%s\s*$" % re.escape(name), spec_text):
+            errors.append("SPEC does not declare series patch: %s" % name)
+    for orphan in sorted(set(patch_files) - set(series)):
+        errors.append("unlisted patch file: %s" % orphan)
+    declared = packaging.get("patches", [])
+    declared_names = {
+        pathlib.PurePosixPath(str(item.get("file") if isinstance(item, Mapping) else item)).name
+        for item in declared
+    }
+    if declared and declared_names != set(series):
+        errors.append("package.yaml patch list does not match patches/series")
+    required_sections = ("%prep", "%build", "%install", "%check", "%files", "%changelog")
+    for section in required_sections:
+        if section not in spec_text:
+            errors.append("SPEC is missing %s" % section)
+    if spec_path.is_file() and not spec_text.startswith("# SPDX-License-Identifier:"):
+        errors.append("generated SPEC lacks an SPDX identifier")
+    return errors
+
+
+def main() -> int:
+    args = parser().parse_args()
+    root = pathlib.Path(args.repo_root).resolve()
+    packages_dir = root / "packages"
+    schemas_dir = pathlib.Path(args.schemas_dir)
+    if not schemas_dir.is_absolute():
+        schemas_dir = root / schemas_dir
+    package_schema = load_json(schemas_dir / "package.schema.json")
+    sources_schema = load_json(schemas_dir / "sources.schema.json")
+    selected = set(args.package or [])
+    reports: List[Dict[str, Any]] = []
+    for package_dir in sorted(packages_dir.iterdir(), key=lambda path: path.name):
+        if not package_dir.is_dir() or (package_dir.name.startswith("_") and package_dir.name not in selected) or (selected and package_dir.name not in selected):
+            continue
+        metadata_path = package_dir / "package.yaml"
+        sources_path = package_dir / "sources.yaml"
+        errors: List[str] = []
+        try:
+            package = load_json(metadata_path)
+            sources = load_json(sources_path)
+            errors.extend(schema_errors(package, package_schema, package_schema, "package"))
+            errors.extend(schema_errors(sources, sources_schema, sources_schema, "sources"))
+            if package.get("package_id") != package_dir.name:
+                errors.append("package_id must match directory name")
+            if sources.get("package_id") != package_dir.name:
+                errors.append("sources package_id must match directory name")
+            target = package.get("target") if isinstance(package.get("target"), Mapping) else {}
+            canonical_target = target.get("os") == "openEuler" and target.get("release") == "24.03-LTS-SP3"
+            legacy_target = "24.03" in str(target.get("os")) and "SP3" in str(target.get("os"))
+            if target.get("arch") != "riscv64" or target.get("isa") != "RVA23" or not (canonical_target or legacy_target):
+                errors.append("target must be openEuler 24.03 LTS SP3 riscv64/RVA23")
+            errors.extend(patch_policy(package_dir, package))
+        except ToolError as exc:
+            errors.append(str(exc))
+        reports.append({"package_id": package_dir.name, "valid": not errors, "errors": errors})
+    missing = sorted(selected - {report["package_id"] for report in reports})
+    for package_id in missing:
+        reports.append({"package_id": package_id, "valid": False, "errors": ["selected package directory does not exist"]})
+    golden_reports: List[Dict[str, Any]] = []
+    golden_schema_path = schemas_dir / "golden-manifest.schema.json"
+    golden_dir = root / "tests" / "golden"
+    if golden_schema_path.exists() and golden_dir.is_dir():
+        golden_schema = load_json(golden_schema_path)
+        for manifest_path in sorted(list(golden_dir.glob("*.yaml")) + list(golden_dir.glob("*.json"))):
+            try:
+                manifest = load_json(manifest_path)
+                manifest_errors = schema_errors(manifest, golden_schema, golden_schema, "golden")
+                package_id = manifest.get("package_id") if isinstance(manifest, Mapping) else None
+                if package_id and not (packages_dir / str(package_id) / "package.yaml").is_file():
+                    manifest_errors.append("golden package directory does not exist")
+            except ToolError as exc:
+                package_id = manifest_path.stem
+                manifest_errors = [str(exc)]
+            golden_reports.append({"manifest": str(manifest_path.relative_to(root)), "package_id": package_id, "valid": not manifest_errors, "errors": manifest_errors})
+    overall_valid = all(report["valid"] for report in reports) and all(report["valid"] for report in golden_reports)
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "metadata-validation",
+        "generated_at": isoformat(parse_now(args.now)),
+        "valid": overall_valid,
+        "packages": reports,
+        "golden_manifests": golden_reports,
+        "summary": {"checked": len(reports), "valid": sum(1 for report in reports if report["valid"]), "invalid": sum(1 for report in reports if not report["valid"]), "golden_checked": len(golden_reports), "golden_invalid": sum(1 for report in golden_reports if not report["valid"])},
+        "patch_policy": {"local_series_required": True, "spec_reference_required": True, "orphan_patches_allowed": False},
+    }
+    emit_json(result, args.output)
+    return 0 if result["valid"] else 1
+
+
+if __name__ == "__main__":
+    run_main(main)

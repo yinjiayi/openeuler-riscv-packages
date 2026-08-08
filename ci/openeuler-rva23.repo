@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: Apache-2.0
+[openeuler-rva23]
+name=openEuler 24.03 LTS SP3 everything riscv64 RVA23
+baseurl=https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=0
+# bootstrap-rootfs.sh extracts and authenticates this key from the signed-key
+# RPM described by repomd/primary.sqlite before the first gpgchecked install.
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-openEuler
+metadata_expire=never
+skip_if_unavailable=0

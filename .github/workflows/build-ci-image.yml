@@ -1,0 +1,233 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Build CI Image
+
+on:
+  pull_request:
+    paths:
+      - ci/Containerfile.riscv64
+      - ci/bootstrap-rootfs.sh
+      - ci/openeuler-rva23.repo
+      - ci/rva23-selftest.c
+      - ci/verify-target.sh
+      - ci/build-config.yaml
+      - .github/workflows/build-ci-image.yml
+  push:
+    branches: [main]
+    paths:
+      - ci/Containerfile.riscv64
+      - ci/bootstrap-rootfs.sh
+      - ci/openeuler-rva23.repo
+      - ci/rva23-selftest.c
+      - ci/verify-target.sh
+      - ci/build-config.yaml
+      - .github/workflows/build-ci-image.yml
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish GHCR and propose a digest-lock PR
+        required: true
+        type: boolean
+        default: true
+
+concurrency:
+  group: build-ci-image-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  IMAGE_TAG: ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild:24.03-lts-sp3-rva23
+  BOOTSTRAP_IMAGE: registry.fedoraproject.org/fedora:42
+
+jobs:
+  build-publish:
+    name: build-and-verify-rva23-image
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      digest: ${{ steps.publish.outputs.digest }}
+      published: ${{ steps.publish.outputs.published }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Isolate stale outputs and record environment
+        run: |
+          mkdir -p work/image artifacts/image
+          find work/image artifacts/image -mindepth 1 -delete
+          ci/record-environment.sh artifacts/image/environment.json
+          sha256sum ci/Containerfile.riscv64 > artifacts/image/Containerfile.sha256
+          sha256sum ci/bootstrap-rootfs.sh > artifacts/image/bootstrap-rootfs.sha256
+      - name: Install RISC-V QEMU/binfmt
+        id: qemu
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
+        with:
+          platforms: riscv64
+          image: tonistiigi/binfmt:qemu-v9.2.0
+      - name: Record QEMU registration
+        run: |
+          test -r /proc/sys/fs/binfmt_misc/qemu-riscv64
+          cp /proc/sys/fs/binfmt_misc/qemu-riscv64 artifacts/image/binfmt-riscv64.txt
+          docker image inspect tonistiigi/binfmt:qemu-v9.2.0 \
+            --format '{{json .RepoDigests}}' > artifacts/image/binfmt-image-digests.json
+      - name: Resolve the native bootstrap image digest
+        id: bootstrap
+        run: |
+          docker pull --platform linux/amd64 "$BOOTSTRAP_IMAGE"
+          ref=$(docker image inspect "$BOOTSTRAP_IMAGE" --format '{{index .RepoDigests 0}}')
+          test -n "$ref"
+          printf 'ref=%s\n' "$ref" >>"$GITHUB_OUTPUT"
+          printf '%s\n' "$ref" > artifacts/image/bootstrap-image.txt
+      - name: Build the riscv64 OCI image from the approved repository
+        env:
+          BOOTSTRAP_REF: ${{ steps.bootstrap.outputs.ref }}
+        run: |
+          docker buildx create --name openeuler-riscv-builder --driver docker-container \
+            --driver-opt memory=6g --driver-opt cpu-quota=200000 \
+            --driver-opt cpu-period=100000 --use
+          docker buildx inspect --bootstrap
+          build_date=$(git show -s --format=%cI HEAD)
+          docker buildx build --load --platform linux/riscv64 --provenance=false \
+            --file ci/Containerfile.riscv64 \
+            --build-arg "BOOTSTRAP_IMAGE=$BOOTSTRAP_REF" \
+            --build-arg "BUILD_DATE=$build_date" \
+            --build-arg "VCS_REF=$GITHUB_SHA" \
+            --tag openeuler-riscv64-rpmbuild:m0 \
+            --metadata-file artifacts/image/buildx-metadata.json .
+      - name: Run M0 target and RVA23 probes
+        run: |
+          docker run --rm --platform linux/riscv64 --memory 1g --cpus 2 --pids-limit 256 \
+            openeuler-riscv64-rpmbuild:m0 /usr/local/bin/verify-target \
+            | tee artifacts/image/target-self-test.log
+          container=$(docker create --platform linux/riscv64 openeuler-riscv64-rpmbuild:m0)
+          docker cp "$container:/usr/share/openeuler-riscv-ci/." artifacts/image/
+          docker rm "$container"
+          test "$(cat artifacts/image/repomd.sha256)" = \
+            "$(sha256sum artifacts/image/repomd.xml | awk '{print $1}')"
+          test "$(cat artifacts/image/rpm-manifest.sha256)" = \
+            "$(sha256sum artifacts/image/rpm-manifest.tsv | awk '{print $1}')"
+      - name: Publish, set public visibility, and verify anonymous digest pull
+        id: publish
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker tag openeuler-riscv64-rpmbuild:m0 "$IMAGE_TAG"
+          docker push "$IMAGE_TAG" | tee artifacts/image/push.log
+          docker pull "$IMAGE_TAG"
+          published_ref=$(docker image inspect "$IMAGE_TAG" --format '{{index .RepoDigests 0}}')
+          digest=${published_ref##*@}
+          [[ $digest =~ ^sha256:[0-9a-f]{64}$ ]]
+
+          gh api --method PATCH \
+            /user/packages/container/openeuler-riscv64-rpmbuild \
+            -f visibility=public >/dev/null
+
+          anonymous_config=$(mktemp -d)
+          DOCKER_CONFIG="$anonymous_config" docker manifest inspect \
+            "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild@$digest" \
+            > artifacts/image/anonymous-manifest.json
+          printf '%s\n' "$digest" > artifacts/image/image-digest.txt
+          printf 'digest=%s\n' "$digest" >>"$GITHUB_OUTPUT"
+          printf 'published=true\n' >>"$GITHUB_OUTPUT"
+      - name: Record non-publishing verification
+        if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && !inputs.publish)
+        run: |
+          printf '%s\n' 'Image was built and verified locally; GHCR was not modified.' \
+            > artifacts/image/publication-status.txt
+      - name: Upload rootfs, image, QEMU, and publication evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ci-image-evidence-${{ github.run_id }}
+          path: artifacts/image/
+          if-no-files-found: error
+          retention-days: 7
+
+  propose-digest-lock:
+    name: propose-image-digest-lock
+    needs: build-publish
+    if: needs.build-publish.outputs.published == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Download image evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: ci-image-evidence-${{ github.run_id }}
+          path: artifacts/image
+      - name: Update only the reviewed image lock
+        id: lock
+        env:
+          DIGEST: ${{ needs.build-publish.outputs.digest }}
+        run: |
+          [[ $DIGEST =~ ^sha256:[0-9a-f]{64}$ ]]
+          repomd=$(cat artifacts/image/repomd.sha256)
+          manifest=$(cat artifacts/image/rpm-manifest.sha256)
+          containerfile=$(awk '{print $1}' artifacts/image/Containerfile.sha256)
+          qemu=tonistiigi/binfmt:qemu-v9.2.0
+          built_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          python3 - "$DIGEST" "$repomd" "$manifest" "$containerfile" "$built_at" "$qemu" <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          values = {
+              "digest": sys.argv[1],
+              "status": "published-public-anonymous-verified",
+              "repomd_sha256": sys.argv[2],
+              "rpm_manifest_sha256": sys.argv[3],
+              "containerfile_sha256": sys.argv[4],
+              "built_at": sys.argv[5],
+              "qemu_version": sys.argv[6],
+              "self_test": "passed",
+          }
+          path = Path("ci/image.lock")
+          text = path.read_text(encoding="utf-8")
+          for key, value in values.items():
+              replacement = f'{key}: "{value}"' if key not in {"status", "self_test"} else f"{key}: {value}"
+              text, count = re.subn(rf"(?m)^{key}:.*$", replacement, text)
+              if count != 1:
+                  raise SystemExit(f"image.lock key {key!r} was not unique")
+          path.write_text(text, encoding="utf-8")
+          PY
+          branch="infra/ci-image-${DIGEST#sha256:}"
+          branch=${branch:0:27}
+          printf 'branch=%s\n' "$branch" >>"$GITHUB_OUTPUT"
+      - name: Create an independent infrastructure PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DIGEST: ${{ needs.build-publish.outputs.digest }}
+          BRANCH: ${{ steps.lock.outputs.branch }}
+        run: |
+          existing=$(gh pr list --state open --search "$DIGEST in:body" --json url --limit 1 --jq '.[0].url // empty')
+          if [[ -n $existing ]]; then
+            printf 'Digest lock PR already exists: %s\n' "$existing"
+            exit 0
+          fi
+          git config user.name github-actions\[bot\]
+          git config user.email 41898282+github-actions\[bot\]@users.noreply.github.com
+          git switch -c "$BRANCH"
+          git add ci/image.lock
+          git commit -m "Lock RISC-V CI image ${DIGEST:0:19}"
+          git push origin "HEAD:refs/heads/$BRANCH"
+          pr_url=$(gh pr create --base main --head "$BRANCH" \
+            --title "Lock published RISC-V CI image digest" \
+            --body "Locks the public, anonymously pulled GHCR image by immutable digest.\n\nDigest: \`$DIGEST\`\n\nThis is an independent infrastructure change; package CI remains fail-closed until it merges.")
+          gh pr merge "$pr_url" --auto --squash --delete-branch

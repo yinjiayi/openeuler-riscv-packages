@@ -1,0 +1,60 @@
+# SPDX-License-Identifier: Apache-2.0
+schema_version: 1
+
+target:
+  distribution: openEuler
+  release: "24.03-LTS-SP3"
+  architecture: riscv64
+  isa_profile: RVA23
+
+rootfs:
+  repository: https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/
+  repository_id: openeuler-rva23
+  gpg_check: true
+  install_weak_dependencies: false
+  bootstrap_image: registry.fedoraproject.org/fedora:42
+
+oci:
+  registry: ghcr.io
+  repository: yinjiayi/openeuler-riscv64-rpmbuild
+  tag: 24.03-lts-sp3-rva23
+  lock_file: ci/image.lock
+  require_digest: true
+  public: true
+
+qemu:
+  platform: linux/riscv64
+  binfmt_image: tonistiigi/binfmt:qemu-v9.2.0
+  required_extensions:
+    - zba
+    - zbb
+    - zbs
+
+package_ci:
+  artifact_retention_days: 7
+  source_timeout_minutes: 20
+  build_timeout_minutes: 120
+  smoke_timeout_minutes: 30
+  maximum_log_bytes: 52428800
+  network_during_build: false
+  native_runner:
+    enabled: false
+    labels:
+      - self-hosted
+      - linux
+      - riscv64
+      - openeuler-24.03-lts-sp3
+      - rva23
+
+updates:
+  schedule_utc: "17 18 * * *"
+  schedule_timezone: Asia/Shanghai
+  schedule_local_time: "02:17"
+  shard_size: 100
+  max_concurrency: 10
+  host_concurrency: 4
+  requests_per_second: 2
+  retry_count: 3
+  missed_after_hours: 24
+  apply_batch_size: 20
+

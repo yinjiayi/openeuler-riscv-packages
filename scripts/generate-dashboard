@@ -1,0 +1,303 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Aggregate factual package/PR/check/update data into a static GitHub Pages site."""
+
+from __future__ import annotations
+
+import argparse
+import pathlib
+import re
+import shutil
+from typing import Any, Dict, Iterable, List, Mapping, Optional
+
+from _lib import SCHEMA_VERSION, ToolError, atomic_write_json, emit_json, isoformat, load_json, parse_now, run_main
+
+
+VALID_STATES = {
+    "discovered",
+    "pr-open",
+    "ci-queued",
+    "building",
+    "repair-queued",
+    "codex-repairing",
+    "failed",
+    "needs-native-riscv",
+    "needs-human",
+    "passed",
+    "merged",
+}
+VALID_RISCV = {"unknown", "qemu-buildable", "native-verified", "patched-for-riscv", "qemu-limitation", "unsupported"}
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--repo-root", default=".")
+    result.add_argument("--output-dir", required=True)
+    result.add_argument("--github-state")
+    result.add_argument("--build-results")
+    result.add_argument("--update-summary")
+    result.add_argument("--catalog-snapshot")
+    result.add_argument("--now")
+    result.add_argument("--output", help="optional generator summary JSON")
+    return result
+
+
+def labels(record: Mapping[str, Any]) -> List[str]:
+    values: List[str] = []
+    for item in record.get("labels", []):
+        if isinstance(item, Mapping):
+            item = item.get("name")
+        if item:
+            values.append(str(item))
+    return values
+
+
+def package_from_pr(pr: Mapping[str, Any]) -> Optional[str]:
+    if pr.get("package_id"):
+        return str(pr["package_id"])
+    for label in labels(pr):
+        if label.startswith("package:"):
+            return label.split(":", 1)[1]
+    head = str(pr.get("headRefName") or pr.get("head_ref") or "")
+    match = re.match(r"(?:onboard|update|repair|golden)/([a-z0-9._+-]+?)(?:-[vV]?\d|$)", head)
+    return match.group(1) if match else None
+
+
+def github_prs(path: Optional[str]) -> List[Mapping[str, Any]]:
+    if not path:
+        return []
+    document = load_json(path)
+    if isinstance(document, list):
+        return [item for item in document if isinstance(item, Mapping)]
+    if not isinstance(document, Mapping):
+        raise ToolError("github-state must be an object or array")
+    for key in ("pull_requests", "prs", "items"):
+        if isinstance(document.get(key), list):
+            return [item for item in document[key] if isinstance(item, Mapping)]
+    return []
+
+
+def build_results(path: Optional[str]) -> Dict[str, Mapping[str, Any]]:
+    if not path:
+        return {}
+    root = pathlib.Path(path)
+    files = sorted(root.rglob("*.json")) if root.is_dir() else [root]
+    result: Dict[str, Mapping[str, Any]] = {}
+    for file in files:
+        try:
+            document = load_json(file)
+        except ToolError:
+            continue
+        if not isinstance(document, Mapping) or document.get("kind") not in {"build-result", "failure-classification"}:
+            continue
+        package_id = document.get("package_id")
+        if not package_id:
+            continue
+        prior = result.get(str(package_id))
+        timestamp = str(document.get("completed_at") or document.get("generated_at") or "")
+        prior_timestamp = str(prior.get("completed_at") or prior.get("generated_at") or "") if prior else ""
+        if not prior or timestamp >= prior_timestamp:
+            result[str(package_id)] = document
+    return result
+
+
+def pr_state(pr: Mapping[str, Any]) -> str:
+    pr_labels = set(labels(pr))
+    if pr.get("mergedAt") or str(pr.get("state", "")).lower() == "merged" or pr.get("merged") is True:
+        return "merged"
+    for state in ("needs-human", "needs-native-riscv", "codex-repairing", "repair-queued"):
+        if state in pr_labels:
+            return state
+    checks = pr.get("statusCheckRollup") or pr.get("checks") or []
+    conclusions: List[str] = []
+    statuses: List[str] = []
+    for check in checks:
+        if not isinstance(check, Mapping):
+            continue
+        conclusion = check.get("conclusion")
+        status = check.get("status") or check.get("state")
+        if conclusion:
+            conclusions.append(str(conclusion).lower())
+        if status:
+            statuses.append(str(status).lower())
+    if any(value in {"failure", "failed", "cancelled", "timed_out", "action_required"} for value in conclusions):
+        return "failed"
+    if checks and conclusions and all(value in {"success", "neutral", "skipped"} for value in conclusions):
+        return "passed"
+    if any(value in {"in_progress", "running"} for value in statuses):
+        return "building"
+    if any(value in {"queued", "pending", "requested", "waiting"} for value in statuses):
+        return "ci-queued"
+    return "pr-open"
+
+
+def latest_prs(prs: Iterable[Mapping[str, Any]]) -> Dict[str, Mapping[str, Any]]:
+    result: Dict[str, Mapping[str, Any]] = {}
+    for pr in prs:
+        package_id = package_from_pr(pr)
+        if not package_id:
+            continue
+        prior = result.get(package_id)
+        timestamp = str(pr.get("updatedAt") or pr.get("updated_at") or pr.get("createdAt") or "")
+        prior_time = str(prior.get("updatedAt") or prior.get("updated_at") or prior.get("createdAt") or "") if prior else ""
+        if not prior or timestamp >= prior_time:
+            result[package_id] = pr
+    return result
+
+
+def update_entries(summary: Mapping[str, Any]) -> Dict[str, Mapping[str, Any]]:
+    entries = summary.get("entries", []) if isinstance(summary, Mapping) else []
+    return {str(item["package_id"]): item for item in entries if isinstance(item, Mapping) and item.get("package_id")}
+
+
+def patch_count(package_dir: pathlib.Path) -> int:
+    series = package_dir / "patches" / "series"
+    if not series.exists():
+        return len(list((package_dir / "patches").glob("*.patch"))) if (package_dir / "patches").is_dir() else 0
+    return sum(1 for line in series.read_text(encoding="utf-8").splitlines() if line.strip() and not line.lstrip().startswith("#"))
+
+
+def package_row(
+    root: pathlib.Path,
+    package_dir: pathlib.Path,
+    metadata: Mapping[str, Any],
+    pr: Optional[Mapping[str, Any]],
+    build: Optional[Mapping[str, Any]],
+    update: Optional[Mapping[str, Any]],
+) -> Dict[str, Any]:
+    if build:
+        pr_head = str(pr.get("headRefOid") or pr.get("head_sha") or "") if pr else ""
+        build_head = str(build.get("commit_sha") or "")
+        if build.get("latest_head_verified") is not True and (not pr_head or pr_head != build_head):
+            build = None
+    package_id = str(metadata.get("package_id") or package_dir.name)
+    rpm = metadata.get("rpm") if isinstance(metadata.get("rpm"), Mapping) else {}
+    version_data = metadata.get("version") if isinstance(metadata.get("version"), Mapping) else {}
+    current_version = str(version_data.get("current") or metadata.get("version") or "unknown")
+    latest_value = update.get("latest_version") if update else version_data.get("latest_detected")
+    latest_version = str(latest_value) if latest_value not in (None, "") else None
+    state = pr_state(pr) if pr else "discovered"
+    if build and not pr:
+        status = str(build.get("status"))
+        if build.get("recommended_state") in VALID_STATES:
+            state = str(build["recommended_state"])
+        elif status == "passed":
+            state = "passed"
+        elif status == "failed":
+            state = "failed"
+    if state not in VALID_STATES:
+        state = "failed"
+    riscv_meta = metadata.get("riscv") if isinstance(metadata.get("riscv"), Mapping) else {}
+    target = metadata.get("target") if isinstance(metadata.get("target"), Mapping) else {}
+    riscv = str(target.get("riscv_status") or riscv_meta.get("status") or "unknown")
+    patches = patch_count(package_dir)
+    if state == "needs-native-riscv":
+        riscv = "qemu-limitation"
+    elif state in {"passed", "merged"} and riscv == "unknown":
+        riscv = "patched-for-riscv" if patches else "qemu-buildable"
+    if riscv not in VALID_RISCV:
+        riscv = "unknown"
+    lineage = metadata.get("discovery", {}).get("lineage", []) if isinstance(metadata.get("discovery"), Mapping) else []
+    sources = sorted({str(item.get("source")) for item in lineage if isinstance(item, Mapping) and item.get("source")})
+    failure_category = None
+    last_error = None
+    if build:
+        classification = build.get("classification") if isinstance(build.get("classification"), Mapping) else {}
+        failure_category = classification.get("category")
+        failure = build.get("failure") if isinstance(build.get("failure"), Mapping) else {}
+        last_error = failure.get("first_effective_error") or failure.get("message")
+    pr_url = pr.get("url") if pr else None
+    updates_meta = metadata.get("updates") if isinstance(metadata.get("updates"), Mapping) else {}
+    return {
+        "package_id": package_id,
+        "name": rpm.get("name") or metadata.get("rpm_name") or package_id,
+        "current_version": current_version,
+        "latest_upstream_version": latest_version,
+        "last_successful_upstream_check_at": update.get("checked_at") if update and update.get("status") not in {"failed", "update-needs-source-verification"} else updates_meta.get("last_successful_check_at") or metadata.get("last_upstream_check"),
+        "sources": sources,
+        "status": state,
+        "last_build_at": (build.get("completed_at") or build.get("generated_at")) if build else None,
+        "riscv_status": riscv,
+        "patch_count": patches,
+        "failure_category": failure_category,
+        "last_error": str(last_error)[:1000] if last_error else None,
+        "updated_at": max(
+            [str(value) for value in (updates_meta.get("last_checked_at"), metadata.get("last_upstream_check"), update.get("checked_at") if update else None, pr.get("updatedAt") if pr else None, build.get("completed_at") if build else None) if value]
+            or ["1970-01-01T00:00:00Z"]
+        ),
+        "links": {
+            "package": "https://github.com/yinjiayi/openeuler-riscv-packages/tree/main/packages/%s" % package_id,
+            "pr": pr_url,
+            "ci": pr.get("checks_url") if pr else None,
+            "logs": build.get("log_url") if build else None,
+        },
+    }
+
+
+def default_catalog(root: pathlib.Path) -> Mapping[str, Any]:
+    snapshots = sorted((root / "catalog" / "snapshots").glob("*.json")) if (root / "catalog" / "snapshots").is_dir() else []
+    return load_json(snapshots[-1]) if snapshots else {}
+
+
+def copy_assets(root: pathlib.Path, output: pathlib.Path) -> None:
+    source = root / "dashboard"
+    for name in ("index.html", "app.js", "styles.css"):
+        asset = source / name
+        if not asset.is_file():
+            raise ToolError("dashboard source asset is missing: %s" % asset)
+        destination = output / name
+        if asset.resolve() != destination.resolve():
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(asset, destination)
+
+
+def main() -> int:
+    args = parser().parse_args()
+    root = pathlib.Path(args.repo_root).resolve()
+    output = pathlib.Path(args.output_dir).resolve()
+    packages_dir = root / "packages"
+    if not packages_dir.is_dir():
+        raise ToolError("packages directory does not exist")
+    prs = latest_prs(github_prs(args.github_state))
+    builds = build_results(args.build_results)
+    update_summary = load_json(args.update_summary) if args.update_summary else {}
+    updates = update_entries(update_summary)
+    rows: List[Dict[str, Any]] = []
+    for package_dir in sorted(packages_dir.iterdir(), key=lambda path: path.name):
+        if not package_dir.is_dir() or package_dir.name.startswith("_") or not (package_dir / "package.yaml").exists():
+            continue
+        metadata = load_json(package_dir / "package.yaml")
+        package_id = str(metadata.get("package_id") or package_dir.name)
+        rows.append(package_row(root, package_dir, metadata, prs.get(package_id), builds.get(package_id), updates.get(package_id)))
+    counts = {state: sum(1 for row in rows if row["status"] == state) for state in sorted(VALID_STATES)}
+    catalog = load_json(args.catalog_snapshot) if args.catalog_snapshot else default_catalog(root)
+    catalog_summary = catalog.get("summary", {}) if isinstance(catalog, Mapping) else {}
+    update_health = {
+        "last_scheduled_at": update_summary.get("scheduled_at"),
+        "last_started_at": update_summary.get("started_at") or update_summary.get("scheduled_at"),
+        "last_completed_at": update_summary.get("completed_at"),
+        "expected": int(update_summary.get("expected_count", 0)),
+        "checked": int(update_summary.get("checked_count", 0)),
+        "coverage_percent": round(float(update_summary.get("coverage", 0)) * 100, 3),
+        "failed_shards": len(update_summary.get("failed_shards", [])),
+        "due_rechecks": int(update_summary.get("pending_backfill_count", 0)),
+        "consecutive_missed_days": update_summary.get("consecutive_missed_days", 0),
+    }
+    data = {
+        "schema_version": SCHEMA_VERSION,
+        "generated_at": isoformat(parse_now(args.now)),
+        "repository": "yinjiayi/openeuler-riscv-packages",
+        "coverage_claim": "observed-managed-packages-only",
+        "update_health": update_health,
+        "packages": rows,
+    }
+    output.mkdir(parents=True, exist_ok=True)
+    copy_assets(root, output)
+    atomic_write_json(output / "data.json", data)
+    summary = {"generated_at": data["generated_at"], "output_dir": str(output), "package_count": len(rows), "data": str(output / "data.json"), "assets": [str(output / name) for name in ("index.html", "app.js", "styles.css")]}
+    emit_json(summary, args.output)
+    return 0
+
+
+if __name__ == "__main__":
+    run_main(main)

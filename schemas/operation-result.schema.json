@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/operation-result.schema.json",
+  "title": "Common Skill write-operation result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "operation", "package_id", "branch", "job_id", "inputs", "changed_files", "pull_request", "ci", "riscv_status", "patch", "auto_merge", "blockers", "next_action"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "operation": {"enum": ["discovery", "bootstrap", "onboard", "update", "repair", "dashboard"]},
+    "package_id": {"type": ["string", "null"]},
+    "branch": {"type": ["string", "null"]},
+    "job_id": {"type": "string"},
+    "inputs": {"type": "array", "items": {"type": "object"}},
+    "changed_files": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "pull_request": {"type": ["object", "null"]},
+    "ci": {"type": ["object", "null"]},
+    "riscv_status": {"type": ["string", "null"]},
+    "patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generated", "reason", "verification"],
+      "properties": {
+        "generated": {"type": "boolean"},
+        "reason": {"type": ["string", "null"]},
+        "verification": {"type": ["string", "null"]}
+      }
+    },
+    "auto_merge": {"type": "boolean"},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "next_action": {"type": ["string", "null"]},
+    "from_version": {"type": "string"},
+    "target_version": {"type": "string"},
+    "idempotency_key": {"type": ["string", "null"]},
+    "suggested_pr": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "labels"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "labels": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      }
+    },
+    "dry_run": {"type": "boolean"},
+    "patch_applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["not-applicable", "needs-review"]},
+        "target_version": {"type": "string"}
+      }
+    }
+  }
+}

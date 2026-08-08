@@ -1,0 +1,281 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Daily Update Check
+
+on:
+  # GitHub schedules are UTC. 18:17 UTC is 02:17 the following day in
+  # Asia/Shanghai. Change this checked-in expression to change the schedule.
+  schedule:
+    - cron: "17 18 * * *"
+  workflow_dispatch:
+    inputs:
+      recovery:
+        description: Mark this run as a schedule-recovery/backfill run
+        required: true
+        type: boolean
+        default: false
+
+concurrency:
+  group: daily-stable-release-update
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  UPDATE_RUN_ID: update-${{ github.run_id }}-${{ github.run_attempt }}
+  UPDATE_SHARD_SIZE: ${{ vars.UPDATE_SHARD_SIZE || '100' }}
+
+jobs:
+  plan:
+    name: plan-complete-managed-set
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      actions: read
+      contents: read
+    outputs:
+      shards: ${{ steps.matrix.outputs.shards }}
+      shard_count: ${{ steps.matrix.outputs.shard_count }}
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Restore the latest successful update state when available
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts/update dashboard previous-state
+          previous_run=$(gh run list --workflow daily-update-check.yml --status success \
+            --limit 1 --json databaseId --jq '.[0].databaseId // empty')
+          if [[ -n $previous_run ]]; then
+            gh run download "$previous_run" --name daily-update-state \
+              --dir previous-state || true
+          fi
+          if [[ -s previous-state/update-state.json ]]; then
+            cp previous-state/update-state.json dashboard/update-state.json
+          elif [[ ! -s dashboard/update-state.json ]]; then
+            printf '%s\n' '{"schema_version":1,"last_run":null,"last_successful_run":null,"consecutive_incomplete_runs":0,"packages":{},"open_updates":{}}' \
+              > dashboard/update-state.json
+          fi
+          cp dashboard/update-state.json artifacts/update/previous-state.json
+      - name: Snapshot all managed, non-retired packages and create shards
+        run: |
+          scripts/check-update plan --packages-dir packages \
+            --state dashboard/update-state.json \
+            --output artifacts/update/update-plan.json \
+            --run-id "$UPDATE_RUN_ID" \
+            --shard-size "$UPDATE_SHARD_SIZE" \
+            --missed-after-hours 24
+      - name: Emit bounded shard matrix
+        id: matrix
+        run: |
+          shard_count=$(jq '.shards | length' artifacts/update/update-plan.json)
+          if ((shard_count > 256)); then
+            printf 'Shard count %s exceeds GitHub matrix limit; increase UPDATE_SHARD_SIZE by reviewed configuration change.\n' "$shard_count" >&2
+            exit 1
+          fi
+          shards=$(jq -c '[.shards[].index]' artifacts/update/update-plan.json)
+          printf 'shards=%s\n' "$shards" >>"$GITHUB_OUTPUT"
+          printf 'shard_count=%s\n' "$shard_count" >>"$GITHUB_OUTPUT"
+      - name: Upload immutable run plan
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: daily-update-plan
+          path: artifacts/update/
+          if-no-files-found: error
+          retention-days: 7
+
+  scan:
+    name: scan-shard-${{ matrix.shard }}
+    needs: plan
+    if: needs.plan.outputs.shard_count != '0'
+    strategy:
+      fail-fast: false
+      # A shard may contact any upstream host, so this is also the conservative
+      # cross-runner per-host concurrency ceiling. Each process additionally
+      # enforces the configured request rate.
+      max-parallel: ${{ fromJSON(vars.UPDATE_HOST_CONCURRENCY || '4') }}
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Check out the same default-branch revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Download run plan
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: daily-update-plan
+          path: artifacts/update
+      - name: Scan official stable releases with retry, backoff, and host limits
+        env:
+          SHARD_INDEX: ${{ matrix.shard }}
+        run: |
+          mkdir -p "work/update-cache/$SHARD_INDEX" artifacts/update
+          scripts/check-update scan \
+            --plan artifacts/update/update-plan.json \
+            --shard-index "$SHARD_INDEX" \
+            --output "artifacts/update/update-shard-$SHARD_INDEX.json" \
+            --cache-dir "work/update-cache/$SHARD_INDEX" \
+            --requests-per-second 2 \
+            --retries 3
+      - name: Upload independent shard result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: daily-update-shard-${{ matrix.shard }}
+          path: artifacts/update/update-shard-${{ matrix.shard }}.json
+          if-no-files-found: warn
+          retention-days: 7
+
+  aggregate:
+    name: aggregate-coverage-and-updates
+    needs: [plan, scan]
+    if: always() && needs.plan.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    outputs:
+      batches: ${{ steps.batches.outputs.batches }}
+      update_count: ${{ steps.batches.outputs.update_count }}
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Download plan
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: daily-update-plan
+          path: artifacts/update
+      - name: Download every available shard result
+        if: needs.plan.outputs.shard_count != '0'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: daily-update-shard-*
+          path: artifacts/shards
+          merge-multiple: true
+      - name: Aggregate without hiding failed or missing shards
+        run: |
+          mkdir -p artifacts/update artifacts/state artifacts/shards
+          cp artifacts/update/previous-state.json artifacts/state/update-state.json
+          result_args=()
+          while IFS= read -r result; do
+            result_args+=(--result "$result")
+          done < <(find artifacts/shards -type f -name 'update-shard-*.json' -print | sort)
+          set +e
+          scripts/check-update aggregate \
+            --plan artifacts/update/update-plan.json \
+            "${result_args[@]}" \
+            --output artifacts/update/update-summary.json \
+            --state-output artifacts/state/update-state.json
+          aggregate_status=$?
+          set -e
+          test -s artifacts/update/update-summary.json
+          printf '%s\n' "$aggregate_status" > artifacts/update/aggregate-exit-code.txt
+      - name: Emit update-application batches
+        id: batches
+        run: |
+          update_count=$(jq '.updates | length' artifacts/update/update-summary.json)
+          batch_count=$(( (update_count + 19) / 20 ))
+          batches=$(jq -cn --argjson count "$batch_count" '[range(0; $count)]')
+          printf 'update_count=%s\n' "$update_count" >>"$GITHUB_OUTPUT"
+          printf 'batches=%s\n' "$batches" >>"$GITHUB_OUTPUT"
+      - name: Upload daily summary
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: daily-update-summary
+          path: artifacts/update/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload state for the next day's missed-run backfill
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: daily-update-state
+          path: artifacts/state/update-state.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Fail after preserving incomplete-coverage evidence
+        if: always()
+        run: |
+          test -s artifacts/update/aggregate-exit-code.txt
+          test "$(cat artifacts/update/aggregate-exit-code.txt)" -eq 0
+
+  apply:
+    name: create-per-package-prs-batch-${{ matrix.batch }}
+    needs: aggregate
+    if: needs.aggregate.outputs.update_count != '0'
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(vars.UPDATE_MAX_CONCURRENCY || '10') }}
+      matrix:
+        batch: ${{ fromJSON(needs.aggregate.outputs.batches) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Check out default branch with push credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+      - name: Download aggregate result
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: daily-update-summary
+          path: artifacts/update
+      - name: Apply each update in an isolated branch and PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BATCH_INDEX: ${{ matrix.batch }}
+        run: |
+          result_dir="$RUNNER_TEMP/update-apply-$BATCH_INDEX"
+          ci/apply-update-batch.sh \
+            --aggregate artifacts/update/update-summary.json \
+            --batch-index "$BATCH_INDEX" --batch-size 20 \
+            --packages-dir packages --artifact-dir "$result_dir"
+          mkdir -p "artifacts/apply/$BATCH_INDEX"
+          cp -R "$result_dir/." "artifacts/apply/$BATCH_INDEX/"
+      - name: Upload per-package PR application records
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: daily-update-apply-${{ matrix.batch }}
+          path: artifacts/apply/${{ matrix.batch }}/
+          if-no-files-found: warn
+          retention-days: 7
+
+  coverage-gate:
+    name: daily-update-coverage
+    needs: [aggregate, apply]
+    if: always() && needs.aggregate.result != 'cancelled'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Download daily summary
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: daily-update-summary
+          path: artifacts/update
+      - name: Fail visibly on incomplete coverage or PR-application failure
+        env:
+          AGGREGATE_RESULT: ${{ needs.aggregate.result }}
+          APPLY_RESULT: ${{ needs.apply.result }}
+        run: |
+          failed=$(jq '(.failures | length) + (.failed_shards | length)' artifacts/update/update-summary.json)
+          pending=$(jq '.pending_backfill_count // 0' artifacts/update/update-summary.json)
+          aggregate_exit=$(cat artifacts/update/aggregate-exit-code.txt)
+          printf 'failed_or_missing=%s pending_backfill=%s aggregate=%s/%s apply=%s\n' \
+            "$failed" "$pending" "$AGGREGATE_RESULT" "$aggregate_exit" "$APPLY_RESULT"
+          test "$AGGREGATE_RESULT" = success
+          test "$aggregate_exit" -eq 0
+          test "$failed" -eq 0
+          test "$pending" -eq 0
+          [[ "$APPLY_RESULT" = success || "$APPLY_RESULT" = skipped ]]

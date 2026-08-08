@@ -1,0 +1,316 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Create one reviewable package directory from one resolved candidate."""
+
+from __future__ import annotations
+
+import argparse
+import os
+import pathlib
+import re
+import shlex
+import tempfile
+from typing import Any, Dict, List, Mapping
+
+from _lib import (
+    SCHEMA_VERSION,
+    ToolError,
+    as_list,
+    atomic_write_json,
+    atomic_write_text,
+    emit_json,
+    first_value,
+    iter_records,
+    load_json,
+    package_identifier,
+    run_main,
+    safe_one_line,
+    slugify,
+    validate_https_url,
+)
+
+
+RPM_VERSION = re.compile(r"^[0-9A-Za-z][0-9A-Za-z._+~]*$")
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--candidate", required=True)
+    result.add_argument("--packages-dir", default="packages")
+    result.add_argument("--package-id")
+    result.add_argument("--output")
+    result.add_argument("--dry-run", action="store_true")
+    result.add_argument("--force", action="store_true", help="replace generated files in the same package only")
+    result.add_argument("--allow-unverified", action="store_true", help="create a blocked template when a checksum is not yet known")
+    return result
+
+
+def select_candidate(document: Any, wanted: str | None) -> Mapping[str, Any]:
+    records = iter_records(document)
+    if isinstance(document, Mapping) and "component_id" in document:
+        records = [document]
+    if wanted:
+        matches = [item for item in records if wanted in {item.get("package_id"), item.get("component_id"), item.get("name"), item.get("canonical_name")}]
+        if len(matches) != 1:
+            raise ToolError("candidate selector %r matched %d records" % (wanted, len(matches)))
+        return matches[0]
+    if len(records) != 1:
+        raise ToolError("candidate input contains %d records; select exactly one with --package-id" % len(records))
+    return records[0]
+
+
+def source_fields(candidate: Mapping[str, Any]) -> Dict[str, Any]:
+    source = candidate.get("source") if isinstance(candidate.get("source"), Mapping) else {}
+    url = first_value(source, ["url", "source_url"]) or candidate.get("source_url")
+    checksum = first_value(source, ["sha256", "checksum"]) or candidate.get("sha256")
+    signature = source.get("signature") if isinstance(source.get("signature"), Mapping) else {}
+    return {"url": url, "sha256": checksum, "signature": dict(signature)}
+
+
+def generate_spec(metadata: Mapping[str, Any], source_filename: str, build_requires_values: Any, requires_values: Any) -> str:
+    name = safe_one_line(metadata["rpm"]["name"], "rpm name", 126)
+    version = safe_one_line(metadata["version"]["current"], "version", 126)
+    summary = safe_one_line(metadata["rpm"]["summary"], "summary")
+    license_value = safe_one_line(metadata["rpm"]["license"], "license", 256)
+    homepage = safe_one_line(metadata["upstream"]["homepage"], "upstream homepage", 1024)
+    if not RPM_VERSION.match(version):
+        raise ToolError("version is not safe for an RPM Version field: %s" % version)
+    build_requires = [safe_one_line(value, "BuildRequires", 126) for value in as_list(build_requires_values)]
+    requires = [safe_one_line(value, "Requires", 126) for value in as_list(requires_values)]
+    build_requires_text = "\n".join("BuildRequires:  %s" % item for item in build_requires)
+    requires_text = "\n".join("Requires:       %s" % item for item in requires)
+    description = summary
+    return """# SPDX-License-Identifier: Apache-2.0
+Name:           {name}
+Version:        {version}
+Release:        1%{{?dist}}
+Summary:        {summary}
+License:        {license}
+URL:            {homepage}
+Source0:        {source_filename}
+{build_requires}
+{requires}
+
+%description
+{description}
+
+%prep
+%autosetup -p1
+
+%build
+%configure
+%make_build
+
+%install
+%make_install
+
+%check
+# Add upstream tests that do not require network or a native kernel.
+
+%files
+%license LICENSE*
+%doc README* NEWS* AUTHORS*
+%{{_bindir}}/*
+
+%changelog
+* Thu Jan 01 1970 openEuler RISC-V Maintainers <noreply@example.invalid> - {version}-1
+- Initial reproducible package template.
+""".format(
+        name=name,
+        version=version,
+        summary=summary,
+        license=license_value,
+        homepage=homepage,
+        source_filename=source_filename,
+        build_requires=build_requires_text,
+        requires=requires_text,
+        description=safe_one_line(description, "description", 2048),
+    )
+
+
+def build_files(candidate: Mapping[str, Any], package_id: str, allow_unverified: bool) -> Dict[str, tuple[str, int]]:
+    upstream = candidate.get("upstream") if isinstance(candidate.get("upstream"), Mapping) else {}
+    source = source_fields(candidate)
+    if not source["url"]:
+        raise ToolError("candidate has no official stable source URL")
+    validate_https_url(str(source["url"]), allow_file=False, allow_fixture=package_id.startswith("golden-"))
+    checksum = str(source["sha256"] or "").lower()
+    if not re.fullmatch(r"[0-9a-f]{64}", checksum):
+        if not allow_unverified:
+            raise ToolError("candidate source must have a SHA-256 checksum")
+        checksum = "UNVERIFIED"
+    name = slugify(candidate.get("canonical_name") or candidate.get("name") or package_id)
+    version = safe_one_line(candidate.get("latest_observed_version") or candidate.get("version"), "version", 126)
+    homepage = upstream.get("homepage") or upstream.get("repository_url") or candidate.get("upstream_url")
+    if not homepage:
+        raise ToolError("candidate has no official upstream homepage")
+    homepage = validate_https_url(str(homepage))
+    summary = str(candidate.get("summary") or candidate.get("description") or name)
+    license_value = str(candidate.get("license") or "LicenseRef-Needs-Review")
+    filename = pathlib.PurePosixPath(str(source["url"]).split("?", 1)[0]).name or "%s-%s.tar.gz" % (name, version)
+    if not re.fullmatch(r"[A-Za-z0-9._+~-]+", filename):
+        filename = "%s-%s.tar.gz" % (name, version)
+
+    raw_lineage = candidate.get("lineage", [])
+    lineage: List[Dict[str, Any]] = []
+    source_aliases = {"arch": "arch-extra", "opensuse": "opensuse-tumbleweed"}
+    for item in raw_lineage if isinstance(raw_lineage, list) else []:
+        if not isinstance(item, Mapping):
+            continue
+        source_name = str(item.get("source") or "")
+        if source_name == "arch":
+            repository = str(item.get("repository") or "extra").lower()
+            source_name = "arch-core" if repository == "core" else "arch-extra"
+        source_name = source_aliases.get(source_name, source_name)
+        evidence_url = item.get("evidence_url") or homepage
+        lineage.append({
+            "source": source_name,
+            "package_name": item.get("original_name") or item.get("package_name") or name,
+            "package_base": item.get("package_base"),
+            "source_version": item.get("source_version"),
+            "evidence_url": evidence_url,
+            "observed_at": item.get("fetched_at") or item.get("observed_at"),
+        })
+    if not lineage:
+        lineage = [{"source": "golden-fixture" if package_id.startswith("golden-") else "arch-extra", "package_name": name, "package_base": name, "source_version": version, "evidence_url": homepage, "observed_at": None}]
+    package_data: Dict[str, Any] = {
+        "schema_version": SCHEMA_VERSION,
+        "package_id": package_id,
+        "rpm": {"name": name, "summary": summary, "license": license_value},
+        "upstream": {
+            "component": candidate.get("component_id") or package_id,
+            "homepage": homepage,
+            "source_repository": upstream.get("repository_url") or homepage,
+            "release_channel": "fixture" if package_id.startswith("golden-") else "stable",
+            "release_api": upstream.get("release_api") or candidate.get("release_api"),
+            "release_regex": upstream.get("release_regex"),
+        },
+        "version": {"current": version, "release": "1", "latest_detected": version},
+        "discovery": {"snapshot_id": candidate.get("resolution_id") or candidate.get("source_run_id") or "local-resolution", "lineage": lineage},
+        "target": {
+            "os": "openEuler",
+            "release": "24.03-LTS-SP3",
+            "arch": "riscv64",
+            "isa": "RVA23",
+            "riscv_status": "unknown",
+        },
+        "build": {"profile": "qemu-user", "network_during_build": False, "timeout_minutes": 60, "native_reason": None},
+        "files": {
+            "spec": "%s.spec" % name,
+            "sources": "sources.yaml",
+            "patches": [],
+            "smoke_test": "tests/smoke.sh",
+        },
+        "maintenance": {"status": "active", "maintainers": [], "notes": None},
+        "updates": {"enabled": True, "last_checked_at": None, "last_successful_check_at": None, "release_provider": None},
+    }
+    sources_data: Dict[str, Any] = {
+        "schema_version": SCHEMA_VERSION,
+        "package_id": package_id,
+        "sources": [
+            {
+                "id": "source0",
+                "version": version,
+                "url": source["url"],
+                "filename": filename,
+                "digests": {"sha256": checksum},
+                "kind": "golden-fixture" if package_id.startswith("golden-") else "upstream-release",
+                "signature": source["signature"] or {"policy": "not-provided"},
+                "redistribution": {"allowed": True, "reason": "Governed by the declared upstream license; source is fetched in CI."},
+            }
+        ],
+    }
+    if sources_data["sources"][0]["signature"] == {"policy": "not-provided"}:
+        sources_data["sources"][0]["signature"] = None
+    spec = generate_spec(package_data, filename, candidate.get("build_requires", []), candidate.get("requires", []))
+    smoke = """#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0
+set -euo pipefail
+rpm -q -- %s
+""" % shlex.quote(name)
+    readme = """<!-- SPDX-License-Identifier: Apache-2.0 -->
+# {name}
+
+This directory packages upstream `{upstream}` version `{version}` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
+
+External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
+""".format(name=name, upstream=homepage, version=version)
+    return {
+        "package.yaml": (stable_json_compat(package_data), 0o644),
+        "sources.yaml": (stable_json_compat(sources_data), 0o644),
+        "%s.spec" % name: (spec, 0o644),
+        "patches/series": ("", 0o644),
+        "tests/smoke.sh": (smoke, 0o755),
+        "README.md": (readme, 0o644),
+    }
+
+
+def stable_json_compat(data: Any) -> str:
+    from _lib import stable_json
+
+    return stable_json(data)
+
+
+def write_package(destination: pathlib.Path, files: Mapping[str, tuple[str, int]], force: bool) -> List[str]:
+    if destination.exists() and not force:
+        raise ToolError("package directory already exists: %s" % destination)
+    modified: List[str] = []
+    if destination.exists():
+        existing = load_json(destination / "package.yaml")
+        if existing.get("package_id") != destination.name:
+            raise ToolError("refusing to replace a package directory with a different package_id")
+        for relative, (content, mode) in files.items():
+            path = destination / relative
+            atomic_write_text(path, content, mode)
+            modified.append(str(path))
+        return modified
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    staging = pathlib.Path(tempfile.mkdtemp(prefix=".%s." % destination.name, dir=str(destination.parent)))
+    try:
+        for relative, (content, mode) in files.items():
+            path = staging / relative
+            atomic_write_text(path, content, mode)
+        os.replace(staging, destination)
+    finally:
+        if staging.exists():
+            import shutil
+
+            shutil.rmtree(staging)
+    return [str(destination / relative) for relative in files]
+
+
+def main() -> int:
+    args = parser().parse_args()
+    document = load_json(args.candidate)
+    candidate = select_candidate(document, args.package_id)
+    package_id = package_identifier(args.package_id or candidate.get("package_id") or candidate.get("canonical_name") or candidate.get("name"))
+    packages_dir = pathlib.Path(args.packages_dir)
+    destination = packages_dir / package_id
+    files = build_files(candidate, package_id, args.allow_unverified)
+    modified = [str(destination / relative) for relative in files]
+    if not args.dry_run:
+        modified = write_package(destination, files, args.force)
+    version = str(candidate.get("latest_observed_version") or candidate.get("version"))
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "operation": "onboard",
+        "package_id": package_id,
+        "branch": "onboard/%s-%s" % (package_id, slugify(version, 48)),
+        "job_id": "onboard:%s:%s" % (package_id, version),
+        "inputs": candidate.get("resolution_evidence", []),
+        "changed_files": modified,
+        "pull_request": None,
+        "ci": None,
+        "riscv_status": "unknown",
+        "patch": {"generated": False, "reason": None, "verification": None},
+        "auto_merge": False,
+        "blockers": ["source checksum requires verification"] if args.allow_unverified and source_fields(candidate).get("sha256") is None else [],
+        "next_action": "validate metadata and run package CI; create one branch/PR only after local review" + (" (dry-run only)" if args.dry_run else ""),
+    }
+    emit_json(result, args.output)
+    return 0
+
+
+if __name__ == "__main__":
+    run_main(main)

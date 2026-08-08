@@ -1,0 +1,28 @@
+{
+  "repository": "yinjiayi/openeuler-riscv-packages",
+  "visibility": "public",
+  "default_branch": "main",
+  "merge": {
+    "allow_auto_merge": true,
+    "allow_squash_merge": true,
+    "allow_merge_commit": false,
+    "allow_rebase_merge": false,
+    "delete_branch_on_merge": true
+  },
+  "pages": {
+    "build_type": "workflow"
+  },
+  "actions_variables": {
+    "UPDATE_SHARD_SIZE": "100",
+    "UPDATE_MAX_CONCURRENCY": "10",
+    "UPDATE_HOST_CONCURRENCY": "4",
+    "AUR_STALE_DAYS": "730",
+    "ARTIFACT_RETENTION_DAYS": "7",
+    "REPAIR_MAX_ATTEMPTS": "3"
+  },
+  "forbidden_actions_secrets": [
+    "OPENAI_API_KEY",
+    "CODEX_API_KEY"
+  ]
+}
+

@@ -1,0 +1,59 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Update Schedule Monitor
+
+on:
+  # Runs after the expected 18:17 UTC daily start. This is a separate health
+  # signal and can dispatch a recovery run if the primary schedule was missed.
+  schedule:
+    - cron: "47 19 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: update-schedule-monitor
+  cancel-in-progress: false
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  detect-and-recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out health policy
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Detect a missed or stale daily run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts/schedule-health
+          now=$(date -u +%s)
+          latest=$(gh run list --workflow daily-update-check.yml --limit 20 \
+            --json databaseId,createdAt,status,conclusion,event,url \
+            --jq '[.[] | select(.event == "schedule" or .event == "workflow_dispatch")][0]')
+          latest_epoch=$(jq -r '.createdAt // empty' <<<"$latest" | xargs -r date -u -d 2>/dev/null +%s || true)
+          age_hours=9999
+          if [[ -n $latest_epoch ]]; then
+            age_hours=$(( (now - latest_epoch) / 3600 ))
+          fi
+          jq -n --argjson latest "${latest:-null}" --argjson age "$age_hours" \
+            --arg checked_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{schema_version:1,checked_at:$checked_at,latest:$latest,age_hours:$age,recovery_dispatched:($age >= 26)}' \
+            > artifacts/schedule-health/health.json
+          if ((age_hours >= 26)); then
+            gh workflow run daily-update-check.yml -f recovery=true
+            printf 'Primary daily workflow is %s hours stale; dispatched a recovery run.\n' "$age_hours" \
+              | tee artifacts/schedule-health/recovery.txt
+          fi
+      - name: Upload schedule-health evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: update-schedule-health-${{ github.run_id }}
+          path: artifacts/schedule-health/
+          if-no-files-found: warn
+          retention-days: 7
+

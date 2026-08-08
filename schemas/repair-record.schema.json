@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/repair-record.schema.json",
+  "title": "Local repair lease state or command result",
+  "oneOf": [
+    {"$ref": "#/$defs/state"},
+    {"$ref": "#/$defs/command_result"}
+  ],
+  "$defs": {
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "leases", "attempts"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "leases": {
+          "type": "object",
+          "additionalProperties": {"$ref": "#/$defs/lease"}
+        },
+        "attempts": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 1, "maximum": 3}
+        },
+        "history": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/lease"}
+        }
+      }
+    },
+    "command_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "action",
+        "repo",
+        "pr",
+        "owner",
+        "lease",
+        "head_guard_required_before_push",
+        "upstream_write_allowed"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "repair-lease-result"},
+        "action": {"enum": ["claim", "renew", "verify-head", "release", "fail"]},
+        "repo": {"type": "string", "pattern": "^[^/\\s]+/[^/\\s]+$"},
+        "pr": {"type": "integer", "minimum": 1},
+        "owner": {"type": "string", "minLength": 1},
+        "lease": {"$ref": "#/$defs/lease"},
+        "head_guard_required_before_push": {"const": true},
+        "upstream_write_allowed": {"const": false},
+        "idempotent": {"type": "boolean"},
+        "expected_head_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "observed_head_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "match": {"type": "boolean"},
+        "safe_to_push_same_branch": {"type": "boolean"},
+        "verification_source": {
+          "enum": ["live-gh-pr-view", "offline-fixture-not-sufficient-for-push"]
+        },
+        "outcome": {
+          "enum": ["complete", "requeue", "abandoned", "repair-queued", "needs-human"]
+        },
+        "budget_exhausted": {"type": "boolean"}
+      }
+    },
+    "lease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lease_id",
+        "repo",
+        "pr",
+        "owner",
+        "head_sha",
+        "head_ref",
+        "attempt",
+        "max_attempts",
+        "acquired_at",
+        "renewed_at",
+        "expires_at",
+        "status"
+      ],
+      "properties": {
+        "lease_id": {"type": "string", "minLength": 1},
+        "repo": {"type": "string", "pattern": "^[^/\\s]+/[^/\\s]+$"},
+        "pr": {"type": "integer", "minimum": 1},
+        "owner": {"type": "string", "minLength": 1},
+        "head_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "head_ref": {"type": ["string", "null"]},
+        "attempt": {"type": "integer", "minimum": 1, "maximum": 3},
+        "max_attempts": {"type": "integer", "minimum": 1, "maximum": 3},
+        "acquired_at": {"type": "string", "format": "date-time"},
+        "renewed_at": {"type": "string", "format": "date-time"},
+        "expires_at": {"type": "string", "format": "date-time"},
+        "status": {
+          "enum": [
+            "codex-repairing",
+            "complete",
+            "requeue",
+            "abandoned",
+            "repair-queued",
+            "needs-human"
+          ]
+        },
+        "completed_at": {"type": "string", "format": "date-time"},
+        "reason": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "openEuler RISC-V Repair"
+  short_description: "Claim and repair failed RISC-V package pull requests"
+  default_prompt: "Use $openeuler-riscv-repair to claim and repair a queued package PR locally."

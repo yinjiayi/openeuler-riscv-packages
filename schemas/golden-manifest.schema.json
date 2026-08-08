@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/golden-manifest.schema.json",
+  "title": "Fixed golden package acceptance manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "package_id", "phases"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "package_id": {
+      "enum": [
+        "golden-success-hello",
+        "golden-riscv-inline-asm",
+        "golden-needs-native-kmod"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "url", "sha256"],
+      "properties": {
+        "kind": {"const": "official-stable-release"},
+        "url": {"type": "string", "pattern": "^https://"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_dir", "archive_name", "archive_root", "sha256", "tree_sha256"],
+      "properties": {
+        "source_dir": {"type": "string", "pattern": "^tests/golden/fixtures/"},
+        "archive_name": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*\\.tar\\.gz$"},
+        "archive_root": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*$"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "tree_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "expected_status": {"enum": ["passed", "failed", "needs-native-riscv"]},
+          "expected_state": {"enum": ["repair-queued", "passed", "merged", "needs-native-riscv"]},
+          "expected_classification": {"enum": ["riscv-specific", "needs-native-riscv"]},
+          "required_checks": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1},
+            "uniqueItems": true
+          },
+          "requires_latest_head_checks": {"type": "boolean"},
+          "requires_human_review": {"type": "boolean"},
+          "expected_patch_fixture": {"type": "string", "pattern": "^tests/golden/expected/"},
+          "target_patch": {"type": "string", "pattern": "^packages/[^/]+/patches/"},
+          "same_pr_required": {"type": "boolean"},
+          "remote_head_guard_required": {"type": "boolean"},
+          "must_not_run_qemu_build": {"type": "boolean"},
+          "must_not_auto_merge": {"type": "boolean"}
+        }
+      }
+    },
+    "expected": {"$ref": "#/$defs/expected"},
+    "expected_baseline": {"$ref": "#/$defs/expected"},
+    "expected_repaired": {"$ref": "#/$defs/expected"}
+  },
+  "$defs": {
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["states", "build_statuses", "allowed_modifications", "log_patterns"],
+      "properties": {
+        "states": {
+          "type": "array",
+          "items": {"enum": ["repair-queued", "passed", "merged", "needs-native-riscv"]},
+          "uniqueItems": true
+        },
+        "build_statuses": {
+          "type": "array",
+          "items": {"enum": ["passed", "failed", "needs-native-riscv"]},
+          "uniqueItems": true
+        },
+        "classifications": {
+          "type": "array",
+          "items": {"enum": ["riscv-specific", "needs-native-riscv"]},
+          "uniqueItems": true
+        },
+        "patch_paths": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^patches/[^/]+\\.patch$"},
+          "uniqueItems": true
+        },
+        "no_patch": {"type": "boolean"},
+        "allowed_modifications": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^packages/"},
+          "uniqueItems": true
+        },
+        "log_patterns": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      },
+      "allOf": [
+        {
+          "not": {
+            "required": ["patch_paths", "no_patch"],
+            "properties": {"no_patch": {"const": true}}
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {"required": ["source"], "not": {"required": ["fixture"]}},
+        {"required": ["fixture"], "not": {"required": ["source"]}}
+      ]
+    },
+    {
+      "oneOf": [
+        {
+          "required": ["expected"],
+          "not": {
+            "anyOf": [
+              {"required": ["expected_baseline"]},
+              {"required": ["expected_repaired"]}
+            ]
+          }
+        },
+        {
+          "required": ["expected_baseline", "expected_repaired"],
+          "not": {"required": ["expected"]}
+        }
+      ]
+    }
+  ]
+}

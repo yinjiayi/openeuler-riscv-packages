@@ -1,0 +1,156 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Catalog Discovery
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_set:
+        description: Scan primary sources only or all configured stable sources
+        required: true
+        type: choice
+        options: [primary, all]
+        default: primary
+      limit:
+        description: Maximum normalized candidates retained in this reviewed run
+        required: true
+        type: number
+        default: 5000
+      persist_snapshot_pr:
+        description: Propose the versioned snapshot on an infrastructure PR
+        required: true
+        type: boolean
+        default: true
+
+concurrency:
+  group: catalog-discovery
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    outputs:
+      snapshot: ${{ steps.paths.outputs.snapshot }}
+      snapshot_id: ${{ steps.paths.outputs.snapshot_id }}
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Define immutable snapshot path
+        id: paths
+        run: |
+          snapshot_id="discovery-$(date -u +%Y%m%dT%H%M%SZ)-${GITHUB_RUN_ID}"
+          printf 'snapshot_id=%s\n' "$snapshot_id" >>"$GITHUB_OUTPUT"
+          printf 'snapshot=catalog/snapshots/%s.json\n' "$snapshot_id" >>"$GITHUB_OUTPUT"
+      - name: Select the reviewed source policy
+        env:
+          SOURCE_SET: ${{ inputs.source_set }}
+        run: |
+          mkdir -p work
+          if [[ "$SOURCE_SET" = primary ]]; then
+            jq '.sources.opensuse.enabled=false | .sources.fedora.enabled=false | .sources.debian.enabled=false | .sources.ubuntu.enabled=false' \
+              catalog/sources.yaml > work/discovery-sources.json
+          else
+            cp catalog/sources.yaml work/discovery-sources.json
+          fi
+      - name: Resolve and normalize immutable distribution snapshots
+        env:
+          LIMIT: ${{ inputs.limit }}
+          SOURCE_SET: ${{ inputs.source_set }}
+        run: |
+          rm -rf "$RUNNER_TEMP/catalog-snapshot" "$RUNNER_TEMP/catalog-cache"
+          mkdir -p "$RUNNER_TEMP/catalog-snapshot" "$RUNNER_TEMP/catalog-cache" artifacts/discovery
+          snapshot_args=(
+            --config work/discovery-sources.json \
+            --output-dir "$RUNNER_TEMP/catalog-snapshot" \
+            --summary artifacts/discovery/catalog-snapshot-summary.json \
+            --cache-dir "$RUNNER_TEMP/catalog-cache" \
+            --requests-per-second 2 --retries 3 --limit "$LIMIT"
+          )
+          if [[ "$SOURCE_SET" = primary ]]; then
+            snapshot_args+=(--source arch --source aur)
+          fi
+          scripts/snapshot-catalog "${snapshot_args[@]}"
+          cp -R "$RUNNER_TEMP/catalog-snapshot" artifacts/discovery/resolved-inputs
+      - name: Discover candidates from normalized data only
+        env:
+          SNAPSHOT: ${{ steps.paths.outputs.snapshot }}
+          LIMIT: ${{ inputs.limit }}
+          AUR_STALE_DAYS: ${{ vars.AUR_STALE_DAYS || '730' }}
+        run: |
+          mkdir -p catalog/snapshots artifacts/discovery work/discovery-cache
+          args=(
+            --config work/discovery-sources.json
+            --output "$SNAPSHOT"
+            --summary artifacts/discovery/discovery-summary.json
+            --as-of "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            --stale-days "$AUR_STALE_DAYS"
+            --limit "$LIMIT"
+            --cache-dir work/discovery-cache
+            --timeout 30
+            --retries 3
+            --requests-per-second 2
+          )
+          for source in arch aur opensuse fedora debian ubuntu; do
+            normalized="$RUNNER_TEMP/catalog-snapshot/$source.json"
+            if [[ -f "$normalized" ]]; then
+              args+=(--input "$source=$normalized")
+            fi
+          done
+          scripts/discover-packages "${args[@]}"
+      - name: Upload immutable discovery inputs, decisions, and summary
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: discovery-snapshot-${{ steps.paths.outputs.snapshot_id }}
+          path: |
+            ${{ steps.paths.outputs.snapshot }}
+            artifacts/discovery/
+          if-no-files-found: warn
+          retention-days: 7
+
+  persist:
+    needs: discover
+    if: inputs.persist_snapshot_pr
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Download reviewed discovery snapshot
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: discovery-snapshot-${{ needs.discover.outputs.snapshot_id }}
+          path: downloaded-snapshot
+      - name: Create an infrastructure snapshot PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SNAPSHOT: ${{ needs.discover.outputs.snapshot }}
+          SNAPSHOT_ID: ${{ needs.discover.outputs.snapshot_id }}
+        run: |
+          source_file=$(find downloaded-snapshot -type f -name "${SNAPSHOT_ID}.json" -print -quit)
+          test -s "$source_file"
+          install -D -m 0644 "$source_file" "$SNAPSHOT"
+          branch="catalog/${SNAPSHOT_ID}"
+          git config user.name github-actions\[bot\]
+          git config user.email 41898282+github-actions\[bot\]@users.noreply.github.com
+          git switch -c "$branch"
+          git add -- "$SNAPSHOT"
+          git commit -m "Record catalog snapshot ${SNAPSHOT_ID}"
+          git push origin "HEAD:refs/heads/$branch"
+          pr_url=$(gh pr create --base main --head "$branch" \
+            --title "Record catalog snapshot ${SNAPSHOT_ID}" \
+            --body "Records the resolved distribution versions, components, fetch time, metadata digests, filters, rejections, and normalized candidates. AUR material was parsed only as untrusted metadata and was never executed.")
+          gh pr merge "$pr_url" --auto --squash --delete-branch

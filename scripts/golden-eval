@@ -1,0 +1,441 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Materialize deterministic golden sources and evaluate fixed golden state paths."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import pathlib
+import re
+from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
+
+from _lib import (
+    SCHEMA_VERSION,
+    ToolError,
+    canonical_tar_gz,
+    emit_json,
+    isoformat,
+    load_json,
+    parse_now,
+    run_main,
+    sha256_file,
+    tree_digest,
+)
+
+
+GOLDEN_IDS = {"golden-success-hello", "golden-riscv-inline-asm", "golden-needs-native-kmod"}
+MAX_RESULT_JSON_BYTES = 8 * 1024 * 1024
+MAX_RESULT_TEXT_BYTES = 2 * 1024 * 1024
+MAX_RESULT_TOTAL_BYTES = 64 * 1024 * 1024
+MAX_RESULT_FILES = 5000
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    sub = result.add_subparsers(dest="command", required=True)
+    materialize = sub.add_parser("materialize")
+    materialize.add_argument("--repo-root", default=".")
+    materialize.add_argument("--manifests-dir", default="tests/golden")
+    materialize.add_argument("--output-dir", required=True)
+    materialize.add_argument("--output")
+    materialize.add_argument("--now")
+    evaluate = sub.add_parser("evaluate")
+    evaluate.add_argument("--repo-root", default=".")
+    evaluate.add_argument("--manifests-dir", default="tests/golden")
+    evaluate.add_argument("--results-dir", required=True)
+    evaluate.add_argument("--archives-dir")
+    evaluate.add_argument(
+        "--stage",
+        choices=("auto", "baseline", "repaired"),
+        default="auto",
+        help="select staged assertions; auto uses the manifest's target patch presence",
+    )
+    evaluate.add_argument("--output", required=True)
+    evaluate.add_argument("--now")
+    return result
+
+
+def manifests(root: pathlib.Path) -> List[Mapping[str, Any]]:
+    files = sorted(list(root.glob("*.yaml")) + list(root.glob("*.json")))
+    result: List[Mapping[str, Any]] = []
+    for path in files:
+        document = load_json(path)
+        if not isinstance(document, Mapping):
+            raise ToolError("golden manifest must be an object: %s" % path)
+        item = dict(document)
+        item["_manifest_path"] = str(path)
+        result.append(item)
+    ids = {str(item.get("package_id") or item.get("id") or item.get("name")) for item in result}
+    missing = GOLDEN_IDS - ids
+    if missing:
+        raise ToolError("missing fixed golden manifests: %s" % ", ".join(sorted(missing)))
+    return result
+
+
+def safe_repo_path(repo_root: pathlib.Path, value: str) -> pathlib.Path:
+    result = (repo_root / value).resolve()
+    try:
+        result.relative_to(repo_root.resolve())
+    except ValueError as exc:
+        raise ToolError("golden path escapes repository root: %s" % value) from exc
+    return result
+
+
+def fixture_config(manifest: Mapping[str, Any], repo_root: pathlib.Path) -> Dict[str, Any]:
+    fixture = manifest.get("fixture") if isinstance(manifest.get("fixture"), Mapping) else {}
+    package_id = str(manifest.get("package_id") or manifest.get("id") or manifest.get("name"))
+    source_dir = fixture.get("source_dir") or fixture.get("path") or manifest.get("fixture_path")
+    official_source = manifest.get("source") if isinstance(manifest.get("source"), Mapping) else None
+    if not source_dir:
+        package_sources_path = repo_root / "packages" / package_id / "sources.yaml"
+        if package_sources_path.exists():
+            sources = load_json(package_sources_path).get("sources", [])
+            if sources and str(sources[0].get("url", "")).startswith("fixture://"):
+                url = str(sources[0]["url"])[len("fixture://") :].lstrip("/")
+                source_dir = url
+                digests = sources[0].get("digests") if isinstance(sources[0].get("digests"), Mapping) else {}
+                fixture = {**fixture, "archive_name": sources[0].get("filename"), "sha256": digests.get("sha256") or sources[0].get("sha256"), "archive_root": sources[0].get("archive_root")}
+            elif sources:
+                official_source = sources[0]
+    if not source_dir:
+        if official_source is None:
+            raise ToolError("manifest %s has neither fixture nor declared source metadata" % package_id)
+        digests = official_source.get("digests") if isinstance(official_source.get("digests"), Mapping) else {}
+        return {
+            "kind": "official-source",
+            "package_id": package_id,
+            "url": official_source.get("url"),
+            "archive_name": official_source.get("filename"),
+            "sha256": digests.get("sha256") or official_source.get("sha256"),
+        }
+    return {
+        "kind": "fixture",
+        "package_id": package_id,
+        "source_dir": safe_repo_path(repo_root, str(source_dir)),
+        "archive_name": str(fixture.get("archive_name") or "%s.tar.gz" % package_id),
+        "archive_root": str(fixture.get("archive_root") or fixture.get("prefix") or package_id),
+        "sha256": fixture.get("sha256") or fixture.get("archive_sha256"),
+        "tree_sha256": fixture.get("tree_sha256"),
+    }
+
+
+def command_materialize(args: argparse.Namespace) -> int:
+    repo_root = pathlib.Path(args.repo_root).resolve()
+    output_dir = pathlib.Path(args.output_dir).resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+    reports: List[Dict[str, Any]] = []
+    valid = True
+    for manifest in manifests(pathlib.Path(args.manifests_dir)):
+        fixture = fixture_config(manifest, repo_root)
+        if fixture["kind"] == "official-source":
+            errors: List[str] = []
+            if not str(fixture.get("url", "")).startswith("https://"):
+                errors.append("official golden source must use HTTPS")
+            if not re.fullmatch(r"[0-9a-f]{64}", str(fixture.get("sha256", ""))):
+                errors.append("official golden source must pin SHA-256")
+            reports.append({"package_id": fixture["package_id"], "kind": "official-source", "materialized": False, "url": fixture.get("url"), "sha256": fixture.get("sha256"), "valid": not errors, "errors": errors})
+            valid = valid and not errors
+            continue
+        if pathlib.PurePosixPath(fixture["archive_name"]).name != fixture["archive_name"]:
+            raise ToolError("golden archive_name must be a plain filename")
+        destination = output_dir / fixture["archive_name"]
+        materialized = canonical_tar_gz(fixture["source_dir"], destination, fixture["archive_root"])
+        actual_tree = tree_digest(fixture["source_dir"])
+        errors: List[str] = []
+        if fixture["sha256"] and materialized["sha256"] != fixture["sha256"]:
+            errors.append("archive SHA-256 mismatch: expected %s, got %s" % (fixture["sha256"], materialized["sha256"]))
+        if fixture["tree_sha256"] and actual_tree != fixture["tree_sha256"]:
+            errors.append("tree SHA-256 mismatch: expected %s, got %s" % (fixture["tree_sha256"], actual_tree))
+        reports.append({"package_id": fixture["package_id"], "archive": materialized, "tree_sha256": actual_tree, "valid": not errors, "errors": errors})
+        valid = valid and not errors
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "golden-materialization",
+        "generated_at": isoformat(parse_now(args.now)),
+        "valid": valid,
+        "fixtures": reports,
+    }
+    emit_json(result, args.output)
+    return 0 if valid else 1
+
+
+def bounded_result_bytes(path: pathlib.Path, limit: int) -> bytes:
+    if path.is_symlink():
+        raise ToolError("result artifacts must not be symbolic links: %s" % path)
+    try:
+        size = path.stat().st_size
+    except OSError as exc:
+        raise ToolError("cannot stat result artifact %s: %s" % (path, exc)) from exc
+    if size > limit:
+        raise ToolError("result artifact exceeds %d-byte limit: %s" % (limit, path))
+    try:
+        with path.open("rb") as handle:
+            data = handle.read(limit + 1)
+    except OSError as exc:
+        raise ToolError("cannot read result artifact %s: %s" % (path, exc)) from exc
+    if len(data) > limit:
+        raise ToolError("result artifact grew beyond %d-byte limit: %s" % (limit, path))
+    return data
+
+
+def verify_result_path(root: pathlib.Path, path: pathlib.Path) -> None:
+    try:
+        path.resolve(strict=True).relative_to(root)
+    except (OSError, ValueError) as exc:
+        raise ToolError("result artifact escapes its results directory: %s" % path) from exc
+    current = path
+    while current != root:
+        if current.is_symlink():
+            raise ToolError("result artifact paths must not contain symbolic links: %s" % path)
+        current = current.parent
+
+
+def result_text_owner(relative: pathlib.Path, package_ids: Iterable[str]) -> Optional[str]:
+    matches: List[str] = []
+    directory_parts = [part.lower() for part in relative.parent.parts]
+    for package_id in package_ids:
+        pattern = re.compile(r"(?:^|[^a-z0-9])%s(?:$|[^a-z0-9])" % re.escape(package_id.lower()))
+        if any(pattern.search(part) for part in directory_parts):
+            matches.append(package_id)
+    if len(matches) > 1:
+        raise ToolError("result text path is ambiguous between golden packages: %s" % relative)
+    return matches[0] if matches else None
+
+
+def result_documents(root: pathlib.Path, package_ids: Iterable[str]) -> Dict[str, List[Mapping[str, Any]]]:
+    root = root.resolve()
+    if not root.is_dir():
+        raise ToolError("golden results directory does not exist: %s" % root)
+    known_ids = set(package_ids)
+    result: Dict[str, List[Mapping[str, Any]]] = {}
+    files = sorted(path for path in root.rglob("*") if path.is_file() or path.is_symlink())
+    if len(files) > MAX_RESULT_FILES:
+        raise ToolError("golden results contain more than %d files" % MAX_RESULT_FILES)
+    total_bytes = 0
+    for path in files:
+        suffix = path.suffix.lower()
+        if suffix not in {".json", ".log", ".txt"}:
+            continue
+        verify_result_path(root, path)
+        limit = MAX_RESULT_JSON_BYTES if suffix == ".json" else MAX_RESULT_TEXT_BYTES
+        data = bounded_result_bytes(path, limit)
+        total_bytes += len(data)
+        if total_bytes > MAX_RESULT_TOTAL_BYTES:
+            raise ToolError("golden result artifacts exceed the %d-byte total limit" % MAX_RESULT_TOTAL_BYTES)
+        relative = path.relative_to(root)
+        if suffix in {".log", ".txt"}:
+            owner = result_text_owner(relative, known_ids)
+            if owner:
+                result.setdefault(owner, []).append(
+                    {
+                        "package_id": owner,
+                        "_result_path": relative.as_posix(),
+                        "_result_text": data.decode("utf-8", "replace"),
+                    }
+                )
+            continue
+        try:
+            document = json.loads(data.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise ToolError("invalid JSON result artifact %s: %s" % (relative, exc)) from exc
+        documents = document if isinstance(document, list) else [document]
+        for item in documents:
+            if not isinstance(item, Mapping):
+                continue
+            package_id = item.get("package_id")
+            if not package_id and isinstance(item.get("packages"), list):
+                for nested in item["packages"]:
+                    if isinstance(nested, Mapping) and nested.get("package_id"):
+                        result.setdefault(str(nested["package_id"]), []).append(nested)
+                continue
+            if package_id:
+                result.setdefault(str(package_id), []).append(item)
+    return result
+
+
+def expected_fields(manifest: Mapping[str, Any]) -> Mapping[str, Any]:
+    value = manifest.get("expected")
+    return value if isinstance(value, Mapping) else manifest
+
+
+def staged_expectations(manifest: Mapping[str, Any]) -> Dict[str, Mapping[str, Any]]:
+    result: Dict[str, Mapping[str, Any]] = {}
+    for stage in ("baseline", "repaired"):
+        value = manifest.get("expected_%s" % stage)
+        if isinstance(value, Mapping):
+            result[stage] = value
+    stage_map = manifest.get("expected_stages")
+    if isinstance(stage_map, Mapping):
+        for stage in ("baseline", "repaired"):
+            value = stage_map.get(stage)
+            if isinstance(value, Mapping):
+                if stage in result and dict(result[stage]) != dict(value):
+                    raise ToolError("golden manifest defines conflicting %s expectations" % stage)
+                result[stage] = value
+    if result and set(result) != {"baseline", "repaired"}:
+        raise ToolError("staged golden manifest must define both baseline and repaired expectations")
+    return result
+
+
+def expected_patch_paths(manifest: Mapping[str, Any], repaired: Mapping[str, Any]) -> List[str]:
+    package_id = str(manifest.get("package_id") or manifest.get("id") or manifest.get("name"))
+    paths: List[str] = []
+    for phase in manifest.get("phases", []):
+        if isinstance(phase, Mapping) and phase.get("target_patch"):
+            paths.append(str(phase["target_patch"]))
+    for patch in assertion_values(repaired, "patch_paths", "expected_patch", "patch"):
+        paths.append(patch if patch.startswith("packages/") else "packages/%s/%s" % (package_id, patch))
+    return sorted(set(paths))
+
+
+def select_expectations(
+    repo_root: pathlib.Path,
+    manifest: Mapping[str, Any],
+    requested_stage: str,
+) -> tuple[Mapping[str, Any], str, List[Dict[str, Any]]]:
+    staged = staged_expectations(manifest)
+    if not staged:
+        return expected_fields(manifest), "default", []
+    selected = requested_stage
+    evidence: List[Dict[str, Any]] = []
+    if requested_stage == "auto":
+        targets = expected_patch_paths(manifest, staged["repaired"])
+        if not targets:
+            raise ToolError("auto stage requires a target_patch or repaired patch_paths entry")
+        for target in targets:
+            path = safe_repo_path(repo_root, target)
+            evidence.append({"path": target, "exists": path.is_file()})
+        selected = "repaired" if all(item["exists"] for item in evidence) else "baseline"
+    return staged[selected], selected, evidence
+
+
+def observed_values(documents: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
+    states: List[str] = []
+    statuses: List[str] = []
+    categories: List[str] = []
+    modified: List[str] = []
+    text: List[str] = []
+    for document in documents:
+        for key in ("recommended_state", "state", "outcome"):
+            if document.get(key):
+                states.append(str(document[key]))
+        if document.get("status"):
+            statuses.append(str(document["status"]))
+        classification = document.get("classification") if isinstance(document.get("classification"), Mapping) else {}
+        if classification.get("category"):
+            categories.append(str(classification["category"]))
+        modified.extend(str(value) for value in document.get("modified_files", []))
+        text.append(str(document.get("_result_text")) if document.get("_result_text") is not None else str(document))
+    return {"states": states, "statuses": statuses, "categories": categories, "modified_files": modified, "text": "\n".join(text)}
+
+
+def assertion_values(expected: Mapping[str, Any], *names: str) -> List[str]:
+    for name in names:
+        value = expected.get(name)
+        if value is not None:
+            return [str(item) for item in value] if isinstance(value, list) else [str(value)]
+    return []
+
+
+def evaluate_manifest(
+    repo_root: pathlib.Path,
+    manifest: Mapping[str, Any],
+    documents: Sequence[Mapping[str, Any]],
+    archives_dir: Optional[pathlib.Path],
+    requested_stage: str,
+) -> Dict[str, Any]:
+    package_id = str(manifest.get("package_id") or manifest.get("id") or manifest.get("name"))
+    expected, selected_stage, stage_evidence = select_expectations(repo_root, manifest, requested_stage)
+    observed = observed_values(documents)
+    assertions: List[Dict[str, Any]] = []
+
+    def check(name: str, passed: bool, expected_value: Any, observed_value: Any) -> None:
+        assertions.append({"name": name, "passed": passed, "expected": expected_value, "observed": observed_value})
+
+    expected_states = assertion_values(expected, "states", "state", "expected_state", "initial_state")
+    if expected_states:
+        check("state-path", all(value in observed["states"] or value in observed["statuses"] for value in expected_states), expected_states, observed["states"] + observed["statuses"])
+    expected_statuses = assertion_values(expected, "build_statuses", "build_status", "expected_build_status")
+    if expected_statuses:
+        check("build-status", all(value in observed["statuses"] for value in expected_statuses), expected_statuses, observed["statuses"])
+    expected_categories = assertion_values(expected, "classifications", "classification", "failure_category", "expected_classification")
+    if expected_categories:
+        check("failure-classification", all(value in observed["categories"] for value in expected_categories), expected_categories, observed["categories"])
+    package_dir = repo_root / "packages" / package_id
+    expected_patches = assertion_values(expected, "patch_paths", "expected_patch", "patch")
+    for patch in expected_patches:
+        patch_path = safe_repo_path(repo_root, patch if patch.startswith("packages/") else "packages/%s/%s" % (package_id, patch))
+        check("patch-exists:%s" % patch, patch_path.is_file(), True, patch_path.is_file())
+    no_patch = bool(expected.get("no_patch") or expected.get("patches_forbidden"))
+    if no_patch:
+        patches = list((package_dir / "patches").glob("*.patch")) if (package_dir / "patches").is_dir() else []
+        check("no-patch", not patches, [], [str(path.relative_to(repo_root)) for path in patches])
+    allowed = assertion_values(expected, "allowed_modifications", "allowed_paths")
+    if allowed and observed["modified_files"]:
+        invalid = [path for path in observed["modified_files"] if not any(pathlib.PurePosixPath(path).match(pattern) for pattern in allowed)]
+        check("allowed-modifications", not invalid, allowed, invalid)
+    log_patterns = assertion_values(expected, "log_patterns", "expected_log_patterns")
+    for pattern in log_patterns:
+        check("log-pattern:%s" % pattern, bool(re.search(pattern, observed["text"], re.I | re.M)), pattern, "matched" if re.search(pattern, observed["text"], re.I | re.M) else "not matched")
+    fixture = fixture_config(manifest, repo_root)
+    if fixture["kind"] == "fixture" and fixture.get("tree_sha256"):
+        actual_tree = tree_digest(fixture["source_dir"])
+        check("fixture-tree-sha256", actual_tree == fixture["tree_sha256"], fixture["tree_sha256"], actual_tree)
+    if fixture.get("sha256") and archives_dir:
+        archive = archives_dir / fixture["archive_name"]
+        actual = sha256_file(archive) if archive.is_file() else None
+        check("fixture-archive-sha256", actual == fixture["sha256"], fixture["sha256"], actual)
+    elif fixture["kind"] == "official-source":
+        metadata_valid = str(fixture.get("url", "")).startswith("https://") and bool(re.fullmatch(r"[0-9a-f]{64}", str(fixture.get("sha256", ""))))
+        check("official-source-pinned", metadata_valid, "HTTPS URL plus SHA-256", {"url": fixture.get("url"), "sha256": fixture.get("sha256")})
+    return {
+        "package_id": package_id,
+        "stage": selected_stage,
+        "stage_evidence": stage_evidence,
+        "passed": bool(assertions) and all(item["passed"] for item in assertions),
+        "assertions": assertions,
+        "result_documents": len(documents),
+    }
+
+
+def command_evaluate(args: argparse.Namespace) -> int:
+    repo_root = pathlib.Path(args.repo_root).resolve()
+    loaded_manifests = manifests(pathlib.Path(args.manifests_dir))
+    package_ids = [str(manifest.get("package_id") or manifest.get("id") or manifest.get("name")) for manifest in loaded_manifests]
+    docs = result_documents(pathlib.Path(args.results_dir), package_ids)
+    archives_dir = pathlib.Path(args.archives_dir).resolve() if args.archives_dir else None
+    reports = [
+        evaluate_manifest(
+            repo_root,
+            manifest,
+            docs.get(str(manifest.get("package_id") or manifest.get("id") or manifest.get("name")), []),
+            archives_dir,
+            args.stage,
+        )
+        for manifest in loaded_manifests
+    ]
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "golden-evaluation",
+        "generated_at": isoformat(parse_now(args.now)),
+        "requested_stage": args.stage,
+        "passed": all(report["passed"] for report in reports),
+        "goldens": reports,
+        "summary": {"total": len(reports), "passed": sum(1 for report in reports if report["passed"]), "failed": sum(1 for report in reports if not report["passed"])},
+    }
+    emit_json(result, args.output)
+    return 0 if result["passed"] else 1
+
+
+def main() -> int:
+    args = parser().parse_args()
+    if args.command == "materialize":
+        return command_materialize(args)
+    if args.command == "evaluate":
+        return command_evaluate(args)
+    raise ToolError("unknown command")
+
+
+if __name__ == "__main__":
+    run_main(main)

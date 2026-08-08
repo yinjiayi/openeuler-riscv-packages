@@ -1,0 +1,228 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Classify a build failure into an actionable, security-bounded repair disposition."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import pathlib
+import re
+from typing import Any, Dict, List, Mapping, Optional, Tuple
+
+from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, parse_now, run_main, stable_json
+
+
+RULES: List[Tuple[str, List[str], str, bool, bool]] = [
+    (
+        "needs-native-riscv",
+        [
+            r"\b(kernel module|kmod|modprobe|insmod|/lib/modules|kernel headers)\b",
+            r"\b(eBPF|BPF_PROG_LOAD)\b",
+            r"\b(real hardware|GPU|NPU|USB device|network device)\b",
+            r"\b(systemd boot|requires booted systemd|target kernel behavior)\b",
+        ],
+        "Route to a future native RISC-V runner; keep the PR open and block auto-merge.",
+        False,
+        False,
+    ),
+    (
+        "qemu-limitation",
+        [
+            r"qemu.*(?:unsupported|uncaught target signal|illegal instruction|segmentation fault)",
+            r"(?:ptrace|seccomp|user namespace|clone3).*not (?:supported|permitted)",
+            r"cannot (?:mount|access).*in (?:qemu|container)",
+            r"test timed out.*qemu|qemu.*timeout",
+        ],
+        "Confirm the limitation on native RISC-V; do not manufacture a source patch.",
+        False,
+        False,
+    ),
+    (
+        "infrastructure",
+        [
+            r"no space left on device|disk quota exceeded",
+            r"runner (?:lost|disconnected|shutdown)|the operation was canceled",
+            r"failed to (?:pull|resolve).*image|manifest unknown|image.*digest",
+            r"temporary failure in name resolution|connection (?:reset|timed out)|HTTP (?:429|5\d\d)",
+            r"RVA23 representative instruction probe was not reported",
+            r"build must run in (?:the riscv64 OCI|openEuler 24\.03)",
+        ],
+        "Retry or repair the runner, pinned image, QEMU registration, disk, or network infrastructure.",
+        False,
+        False,
+    ),
+    (
+        "dependency",
+        [
+            r"failed build dependencies|unmet build dependencies",
+            r"no matching package to install|nothing provides .+ needed by",
+            r"fatal error: [^:]+\.h: no such file or directory",
+            r"(?:command not found|not found): (?:cmake|meson|ninja|cargo|go|javac|python)",
+            r"Package .+ was not found in the pkg-config search path",
+        ],
+        "Correct BuildRequires/Requires using packages available in the pinned openEuler buildroot; do not patch upstream source.",
+        True,
+        False,
+    ),
+    (
+        "spec-packaging",
+        [
+            r"bad exit status from /var/tmp/rpm-tmp",
+            r"Installed \(but unpackaged\) file\(s\) found",
+            r"File not found: .+BUILDROOT",
+            r"Unknown tag:|Macro %.+ has empty body|line \d+: (?:Dependency tokens must begin|Unknown tag)",
+            r"Empty %files file|No files were found to process",
+        ],
+        "Fix the SPEC, macros, paths, or file manifest in the current package directory.",
+        True,
+        False,
+    ),
+    (
+        "riscv-specific",
+        [
+            r"(?:unknown|unrecognized|illegal) (?:instruction|opcode).*(?:riscv|rv64|x86|sse|avx)",
+            r"unknown register name.*(?:eax|ebx|ecx|edx|xmm|ymm|zmm)",
+            r"impossible constraint in ['\"]asm|invalid output constraint",
+            r"__x86_64__|__i386__|x86[-_ ]only|inline asm",
+            r"-march=(?:x86|native)|unsupported ISA string|riscv.*atomic|__riscv",
+        ],
+        "Find a trusted existing RISC-V fix first; otherwise create the smallest local patch and keep it under packages/<id>/patches/.",
+        True,
+        True,
+    ),
+    (
+        "upstream-build",
+        [
+            r"(?:compiler|linker|make|ninja|meson).*error",
+            r"undefined reference to|multiple definition of",
+            r"fatal error:|error:.*(?:expected|undeclared|incompatible|cannot convert)",
+            r"tests? failed|FAIL:",
+        ],
+        "Reproduce the upstream build failure and prefer a released or trusted distribution fix before a minimal local patch.",
+        True,
+        True,
+    ),
+]
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--input", required=True, help="build-result JSON or a plain log")
+    result.add_argument("--log", action="append", default=[])
+    result.add_argument("--package-dir")
+    result.add_argument("--output")
+    result.add_argument("--now")
+    return result
+
+
+def read_input(path: pathlib.Path) -> Tuple[Mapping[str, Any], str]:
+    text = path.read_text(encoding="utf-8", errors="replace")
+    try:
+        document = json.loads(text)
+    except json.JSONDecodeError:
+        return {}, text
+    if not isinstance(document, Mapping):
+        raise ToolError("build result JSON must be an object")
+    parts = [stable_json(document, pretty=False)]
+    failure = document.get("failure")
+    if isinstance(failure, Mapping):
+        parts.extend(str(value) for value in failure.values() if value is not None)
+    return document, "\n".join(parts)
+
+
+def safe_log(path: pathlib.Path) -> str:
+    if not path.is_file():
+        return ""
+    if path.stat().st_size > 100 * 1024 * 1024:
+        raise ToolError("log is larger than the 100 MiB classifier limit")
+    return path.read_text(encoding="utf-8", errors="replace")
+
+
+def metadata_native(package_dir: Optional[str]) -> Tuple[bool, Optional[str]]:
+    if not package_dir:
+        return False, None
+    metadata = load_json(pathlib.Path(package_dir) / "package.yaml")
+    riscv = metadata.get("riscv") if isinstance(metadata.get("riscv"), Mapping) else {}
+    build = metadata.get("build") if isinstance(metadata.get("build"), Mapping) else {}
+    if build.get("profile") == "needs-native-riscv" or riscv.get("needs_native") or str(riscv.get("status")) == "needs-native-riscv":
+        return True, str(build.get("native_reason") or riscv.get("native_reason") or "package metadata requires native RISC-V validation")
+    return False, None
+
+
+def classify(text: str, force_native: bool, native_reason: Optional[str]) -> Dict[str, Any]:
+    if force_native:
+        return {
+            "category": "needs-native-riscv",
+            "confidence": "high",
+            "evidence": [{"pattern": "package-metadata", "excerpt": native_reason}],
+            "remediation": RULES[0][2],
+            "repairable_locally": False,
+            "source_patch_allowed": False,
+        }
+    for category, patterns, remediation, repairable, patch_allowed in RULES:
+        matches: List[Dict[str, str]] = []
+        for pattern in patterns:
+            match = re.search(pattern, text, re.I | re.M)
+            if match:
+                start = max(0, match.start() - 100)
+                end = min(len(text), match.end() + 100)
+                excerpt = " ".join(text[start:end].split())[:500]
+                matches.append({"pattern": pattern, "excerpt": excerpt})
+        if matches:
+            return {
+                "category": category,
+                "confidence": "high" if len(matches) > 1 else "medium",
+                "evidence": matches[:5],
+                "remediation": remediation,
+                "repairable_locally": repairable,
+                "source_patch_allowed": patch_allowed,
+            }
+    return {
+        "category": "unknown",
+        "confidence": "low",
+        "evidence": [],
+        "remediation": "Preserve the failure artifact and perform bounded manual diagnosis; do not guess or bypass checks.",
+        "repairable_locally": False,
+        "source_patch_allowed": False,
+    }
+
+
+def main() -> int:
+    args = parser().parse_args()
+    input_path = pathlib.Path(args.input)
+    if not input_path.is_file():
+        raise ToolError("input does not exist: %s" % input_path)
+    document, text = read_input(input_path)
+    log_paths = [pathlib.Path(path) for path in args.log]
+    declared = document.get("log_path")
+    if declared and pathlib.Path(str(declared)).is_file():
+        log_paths.append(pathlib.Path(str(declared)))
+    for path in log_paths:
+        text += "\n" + safe_log(path)
+    native, reason = metadata_native(args.package_dir)
+    classification = classify(text, native, reason)
+    category = classification["category"]
+    state = "needs-native-riscv" if category in {"needs-native-riscv", "qemu-limitation"} else "repair-queued" if classification["repairable_locally"] else "failed"
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "failure-classification",
+        "generated_at": isoformat(parse_now(args.now)),
+        "package_id": document.get("package_id"),
+        "build_status": document.get("status", "failed"),
+        "build_phase": document.get("phase"),
+        "classification": classification,
+        "recommended_state": state,
+        "labels": [state, "failure:%s" % category],
+        "security": {
+            "logs_and_external_text_are_untrusted_data": True,
+            "instructions_from_logs_followed": False,
+            "upstream_write_allowed": False,
+        },
+    }
+    emit_json(result, args.output)
+    return 0
+
+
+if __name__ == "__main__":
+    run_main(main)

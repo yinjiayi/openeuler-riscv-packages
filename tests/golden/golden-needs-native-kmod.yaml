@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "package_id": "golden-needs-native-kmod",
+  "fixture": {
+    "source_dir": "tests/golden/fixtures/golden-needs-native-kmod-1.0",
+    "archive_name": "golden-needs-native-kmod-1.0.tar.gz",
+    "archive_root": "golden-needs-native-kmod-1.0",
+    "sha256": "c0d3bc30f74dfa8a225f172166415a925306655aa70f96cbe3f1767022541e4f",
+    "tree_sha256": "45a545aee699f9909297204d82781fb36c30e28175cb8d30fc9142c235756dfe"
+  },
+  "phases": [
+    {
+      "name": "policy-routing",
+      "expected_status": "needs-native-riscv",
+      "expected_state": "needs-native-riscv",
+      "must_not_run_qemu_build": true,
+      "must_not_auto_merge": true
+    }
+  ],
+  "expected": {
+    "states": ["needs-native-riscv"],
+    "build_statuses": ["needs-native-riscv"],
+    "classifications": ["needs-native-riscv"],
+    "no_patch": true,
+    "allowed_modifications": [
+      "packages/golden-needs-native-kmod/**"
+    ],
+    "log_patterns": [
+      "kernel.*module|native RISC-V"
+    ]
+  }
+}

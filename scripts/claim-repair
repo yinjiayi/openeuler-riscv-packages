@@ -1,0 +1,336 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Manage expiring local repair leases and enforce the remote PR head-SHA guard."""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import pathlib
+import shutil
+import subprocess
+from typing import Any, Dict, Mapping, Optional, Sequence, Tuple
+
+from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, locked_state, parse_now, parse_time, run_main
+
+
+def common(sub: argparse.ArgumentParser, *, lease: bool = True, head: bool = True) -> None:
+    sub.add_argument("--repo", required=True, help="OWNER/REPO")
+    sub.add_argument("--pr", required=True, type=int)
+    sub.add_argument("--owner", required=True, help="stable local repair worker id")
+    sub.add_argument("--state-file", required=True)
+    if head:
+        sub.add_argument("--expected-head-sha", required=True)
+    if lease:
+        sub.add_argument("--lease-seconds", type=int, default=1800)
+    sub.add_argument("--queue", help="offline/read-only watch-failed-prs output")
+    sub.add_argument("--fixture-pr", help="offline gh-pr-view-compatible object")
+    sub.add_argument("--output")
+    sub.add_argument("--now")
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    commands = result.add_subparsers(dest="command", required=True)
+    claim = commands.add_parser("claim")
+    common(claim)
+    claim.add_argument("--max-attempts", type=int, default=3)
+    renew = commands.add_parser("renew")
+    common(renew)
+    verify = commands.add_parser("verify-head")
+    common(verify, lease=False)
+    release = commands.add_parser("release")
+    common(release, lease=False)
+    release.add_argument("--outcome", choices=["complete", "requeue", "abandoned"], default="complete")
+    fail = commands.add_parser("fail")
+    common(fail, lease=False)
+    fail.add_argument("--reason", required=True)
+    return result
+
+
+def validate_sha(value: str) -> str:
+    lowered = value.lower()
+    if len(lowered) != 40 or any(character not in "0123456789abcdef" for character in lowered):
+        raise ToolError("expected-head-sha must be a full 40-character Git commit SHA")
+    return lowered
+
+
+def key(args: argparse.Namespace) -> str:
+    if "/" not in args.repo or args.pr <= 0:
+        raise ToolError("repo must use OWNER/REPO and pr must be positive")
+    return "%s#%d" % (args.repo.lower(), args.pr)
+
+
+def pr_from_queue(path: str, number: int) -> Mapping[str, Any]:
+    queue = load_json(path)
+    matches = [item for item in queue.get("pull_requests", []) if int(item.get("number", -1)) == number]
+    if len(matches) != 1:
+        raise ToolError("queue does not contain a unique trusted PR #%d" % number, 1)
+    item = matches[0]
+    return {
+        "headRefOid": item.get("head_sha"),
+        "headRefName": item.get("head_ref"),
+        "isCrossRepository": False,
+        "trusted": True,
+    }
+
+
+def gh(args: Sequence[str]) -> str:
+    executable = shutil.which("gh")
+    if not executable:
+        raise ToolError("gh is required; authenticate locally without storing a token in the repository", 1)
+    completed = subprocess.run([executable] + list(args), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
+    if completed.returncode != 0:
+        raise ToolError("gh command failed: %s" % completed.stderr.strip(), 1)
+    return completed.stdout
+
+
+def current_pr(args: argparse.Namespace) -> Mapping[str, Any]:
+    queued = pr_from_queue(args.queue, args.pr) if args.queue else None
+    if args.fixture_pr:
+        fixture = load_json(args.fixture_pr)
+        if not isinstance(fixture, Mapping):
+            raise ToolError("fixture-pr must be an object")
+        if queued and fixture.get("headRefOid") != queued.get("headRefOid"):
+            raise ToolError("fixture head differs from trusted queue snapshot", 1)
+        return fixture
+    output = gh(
+        [
+            "pr",
+            "view",
+            str(args.pr),
+            "--repo",
+            args.repo,
+            "--json",
+            "headRefOid,headRefName,isCrossRepository,headRepository,labels,author,url",
+        ]
+    )
+    try:
+        result = json.loads(output)
+    except json.JSONDecodeError as exc:
+        raise ToolError("gh pr view returned invalid JSON", 1) from exc
+    if result.get("isCrossRepository"):
+        raise ToolError("external fork PRs cannot be claimed", 1)
+    if queued and (result.get("headRefOid") != queued.get("headRefOid") or result.get("headRefName") != queued.get("headRefName")):
+        raise ToolError("live PR head differs from trusted queue snapshot", 1)
+    return result
+
+
+def check_head(args: argparse.Namespace) -> Tuple[Mapping[str, Any], str]:
+    expected = validate_sha(args.expected_head_sha)
+    pr = current_pr(args)
+    observed = str(pr.get("headRefOid") or pr.get("head_sha") or "").lower()
+    if observed != expected:
+        raise ToolError("head SHA changed: expected %s, observed %s" % (expected, observed or "missing"), 1)
+    return pr, observed
+
+
+def remote_labels(args: argparse.Namespace, add: Sequence[str], remove: Sequence[str], comment: Optional[str] = None) -> None:
+    if args.fixture_pr:
+        return
+    command = ["pr", "edit", str(args.pr), "--repo", args.repo]
+    for label in add:
+        command.extend(["--add-label", label])
+    for label in remove:
+        command.extend(["--remove-label", label])
+    gh(command)
+    if comment:
+        gh(["pr", "comment", str(args.pr), "--repo", args.repo, "--body", comment])
+
+
+def lease_result(action: str, args: argparse.Namespace, lease: Mapping[str, Any], **extra: Any) -> Dict[str, Any]:
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "repair-lease-result",
+        "action": action,
+        "repo": args.repo,
+        "pr": args.pr,
+        "owner": args.owner,
+        "lease": dict(lease),
+        "head_guard_required_before_push": True,
+        "upstream_write_allowed": False,
+        **extra,
+    }
+
+
+def command_claim(args: argparse.Namespace) -> int:
+    if args.lease_seconds < 60 or not 1 <= args.max_attempts <= 3:
+        raise ToolError("lease-seconds must be at least 60 and max-attempts must be between 1 and 3")
+    if not args.queue:
+        raise ToolError("claim requires a trusted queue produced by watch-failed-prs", 1)
+    pr, head = check_head(args)
+    now = parse_now(args.now)
+    state_path = pathlib.Path(args.state_file)
+    lease_key = key(args)
+    with locked_state(state_path) as state:
+        leases = state.setdefault("leases", {})
+        prior = leases.get(lease_key)
+        if isinstance(prior, Mapping):
+            expiry = parse_time(prior.get("expires_at"))
+            if expiry and expiry > now and prior.get("owner") != args.owner:
+                raise ToolError("repair is actively leased by %s until %s" % (prior.get("owner"), prior.get("expires_at")), 1)
+            if prior.get("head_sha") == head and prior.get("owner") == args.owner and expiry and expiry > now:
+                result = lease_result("claim", args, prior, idempotent=True)
+                emit_json(result, args.output)
+                return 0
+        attempts = state.setdefault("attempts", {})
+        attempt_key = "%s@%s" % (lease_key, head)
+        attempt = int(attempts.get(attempt_key, 0)) + 1
+        if attempt > args.max_attempts:
+            raise ToolError("repair attempt budget exhausted for current head SHA", 1)
+        acquired = isoformat(now)
+        expires = isoformat(now + dt.timedelta(seconds=args.lease_seconds))
+        lease = {
+            "lease_id": "%s:%s:%d" % (lease_key, head[:12], attempt),
+            "repo": args.repo,
+            "pr": args.pr,
+            "owner": args.owner,
+            "head_sha": head,
+            "head_ref": pr.get("headRefName") or pr.get("head_ref"),
+            "attempt": attempt,
+            "max_attempts": args.max_attempts,
+            "acquired_at": acquired,
+            "renewed_at": acquired,
+            "expires_at": expires,
+            "status": "codex-repairing",
+        }
+        leases[lease_key] = lease
+        attempts[attempt_key] = attempt
+        state["schema_version"] = SCHEMA_VERSION
+    try:
+        remote_labels(
+            args,
+            ["codex-repairing"],
+            ["repair-queued"],
+            "Repair lease `%s` claimed by `%s` for head `%s`; attempt %d/%d; expires %s."
+            % (lease["lease_id"], args.owner, head, attempt, args.max_attempts, expires),
+        )
+    except ToolError:
+        with locked_state(state_path) as state:
+            if state.get("leases", {}).get(lease_key, {}).get("lease_id") == lease["lease_id"]:
+                del state["leases"][lease_key]
+            attempts = state.get("attempts", {})
+            if isinstance(attempts, dict) and attempts.get(attempt_key) == attempt:
+                if attempt <= 1:
+                    del attempts[attempt_key]
+                else:
+                    attempts[attempt_key] = attempt - 1
+        raise
+    emit_json(lease_result("claim", args, lease, idempotent=False), args.output)
+    return 0
+
+
+def owned_lease(args: argparse.Namespace, state: Mapping[str, Any], now: Any, require_live: bool = True) -> Mapping[str, Any]:
+    lease = state.get("leases", {}).get(key(args)) if isinstance(state.get("leases"), Mapping) else None
+    if not isinstance(lease, Mapping):
+        raise ToolError("no active repair lease", 1)
+    if lease.get("owner") != args.owner:
+        raise ToolError("repair lease is owned by %s" % lease.get("owner"), 1)
+    if lease.get("head_sha") != validate_sha(args.expected_head_sha):
+        raise ToolError("lease belongs to a different head SHA", 1)
+    expiry = parse_time(lease.get("expires_at"))
+    if require_live and (not expiry or expiry <= now):
+        raise ToolError("repair lease expired at %s" % lease.get("expires_at"), 1)
+    return lease
+
+
+def command_renew(args: argparse.Namespace) -> int:
+    if args.lease_seconds < 60:
+        raise ToolError("lease-seconds must be at least 60")
+    check_head(args)
+    now = parse_now(args.now)
+    with locked_state(pathlib.Path(args.state_file)) as state:
+        prior = owned_lease(args, state, now)
+        lease = dict(prior)
+        lease["renewed_at"] = isoformat(now)
+        lease["expires_at"] = isoformat(now + dt.timedelta(seconds=args.lease_seconds))
+        state["leases"][key(args)] = lease
+    emit_json(lease_result("renew", args, lease), args.output)
+    return 0
+
+
+def command_verify(args: argparse.Namespace) -> int:
+    _, head = check_head(args)
+    now = parse_now(args.now)
+    with locked_state(pathlib.Path(args.state_file)) as state:
+        lease = owned_lease(args, state, now)
+    remote_verified = not args.fixture_pr
+    emit_json(
+        lease_result(
+            "verify-head",
+            args,
+            lease,
+            expected_head_sha=head,
+            observed_head_sha=head,
+            match=True,
+            safe_to_push_same_branch=remote_verified,
+            verification_source="live-gh-pr-view" if remote_verified else "offline-fixture-not-sufficient-for-push",
+        ),
+        args.output,
+    )
+    return 0
+
+
+def archive_lease(state: Dict[str, Any], lease_key: str, lease: Mapping[str, Any], outcome: str, now: Any, reason: Optional[str] = None) -> Dict[str, Any]:
+    record = dict(lease)
+    record.update({"status": outcome, "completed_at": isoformat(now)})
+    if reason:
+        record["reason"] = reason
+    state.setdefault("history", []).append(record)
+    del state["leases"][lease_key]
+    return record
+
+
+def command_release(args: argparse.Namespace) -> int:
+    check_head(args)
+    now = parse_now(args.now)
+    state_path = pathlib.Path(args.state_file)
+    with locked_state(state_path) as state:
+        lease = owned_lease(args, state, now, require_live=False)
+        record = archive_lease(state, key(args), lease, args.outcome, now)
+    add = ["repair-queued"] if args.outcome == "requeue" else []
+    remote_labels(args, add, ["codex-repairing"], "Repair lease `%s` released with outcome `%s`." % (record["lease_id"], args.outcome))
+    emit_json(lease_result("release", args, record, outcome=args.outcome), args.output)
+    return 0
+
+
+def command_fail(args: argparse.Namespace) -> int:
+    check_head(args)
+    now = parse_now(args.now)
+    state_path = pathlib.Path(args.state_file)
+    with locked_state(state_path) as state:
+        lease = owned_lease(args, state, now, require_live=False)
+        exhausted = int(lease.get("attempt", 1)) >= int(lease.get("max_attempts", 3))
+        outcome = "needs-human" if exhausted else "repair-queued"
+        record = archive_lease(state, key(args), lease, outcome, now, args.reason)
+    add = [outcome]
+    remove = ["codex-repairing"] + (["repair-queued"] if exhausted else [])
+    remote_labels(
+        args,
+        add,
+        remove,
+        "Repair lease `%s` failed: %s. Attempt %s/%s; next state `%s`."
+        % (record["lease_id"], args.reason, record.get("attempt"), record.get("max_attempts"), outcome),
+    )
+    emit_json(lease_result("fail", args, record, outcome=outcome, budget_exhausted=exhausted), args.output)
+    return 0
+
+
+def main() -> int:
+    args = parser().parse_args()
+    if args.command == "claim":
+        return command_claim(args)
+    if args.command == "renew":
+        return command_renew(args)
+    if args.command == "verify-head":
+        return command_verify(args)
+    if args.command == "release":
+        return command_release(args)
+    if args.command == "fail":
+        return command_fail(args)
+    raise ToolError("unknown command")
+
+
+if __name__ == "__main__":
+    run_main(main)

@@ -1,0 +1,340 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/build-result.schema.json",
+  "title": "Phase-aware RPM build result",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "build-result"},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "status": {
+      "enum": [
+        "planned",
+        "source-verified",
+        "passed",
+        "failed",
+        "needs-native-riscv",
+        "qemu-limitation",
+        "cancelled"
+      ]
+    },
+    "phase": {
+      "enum": [
+        "initialize",
+        "source-verify",
+        "plan",
+        "native-routing",
+        "environment-check",
+        "rpmbuild",
+        "complete"
+      ]
+    },
+    "exit_code": {"type": "integer", "minimum": 0, "maximum": 255},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["os", "arch", "isa"],
+      "properties": {
+        "os": {"const": "openEuler 24.03 LTS SP3"},
+        "arch": {"const": "riscv64"},
+        "isa": {"const": "RVA23"}
+      }
+    },
+    "commit_sha": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "package_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "package_version": {"type": ["string", "number", "null"]},
+    "work_dir": {"type": "string", "minLength": 1},
+    "source_verification": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/source_verification"}
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": {"type": "string"}
+      }
+    },
+    "artifacts": {"type": "array"},
+    "failure": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["phase", "message", "first_effective_error"],
+      "properties": {
+        "phase": {"type": "string", "minLength": 1},
+        "message": {"type": "string", "minLength": 1},
+        "first_effective_error": {"type": "string"},
+        "untrusted_content_treated_as_instructions": {"const": false}
+      }
+    },
+    "patches": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "dependency_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "build_requires",
+        "install_argv",
+        "network_stage_required",
+        "derived_image_publish_allowed"
+      ],
+      "properties": {
+        "method": {"enum": ["rpmspec--buildrequires", "spec-text-fallback"]},
+        "build_requires": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "install_argv": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "network_stage_required": {"type": "boolean"},
+        "derived_image_publish_allowed": {"const": false}
+      }
+    },
+    "environment": {"type": "object"},
+    "timed_out": {"type": "boolean"},
+    "duration_seconds": {"type": "number", "minimum": 0},
+    "log_path": {"type": "string", "minLength": 1},
+    "smoke": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exit_code", "timed_out", "duration_seconds", "log_path"],
+      "properties": {
+        "exit_code": {"type": "integer", "minimum": 0, "maximum": 255},
+        "timed_out": {"type": "boolean"},
+        "duration_seconds": {"type": "number", "minimum": 0},
+        "log_path": {"type": "string", "minLength": 1}
+      }
+    },
+    "job_id": {"type": "string", "minLength": 1},
+    "pr_number": {"type": "integer", "minimum": 1},
+    "trusted_internal_pr": {"type": "boolean"},
+    "classification": {
+      "enum": [
+        "none",
+        "source-verification",
+        "metadata",
+        "packaging",
+        "riscv-source",
+        "dependency",
+        "infrastructure",
+        "qemu-limitation",
+        "needs-native-riscv",
+        "test",
+        "unknown"
+      ]
+    },
+    "checks": {"$ref": "#/$defs/checks"},
+    "failure_summary": {"type": ["string", "null"], "maxLength": 4000},
+    "reproducer": {
+      "type": ["array", "null"],
+      "items": {"type": "string"}
+    },
+    "finished_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size", "kind"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "size": {"type": "integer", "minimum": 0},
+        "kind": {"enum": ["rpm", "srpm"]}
+      }
+    },
+    "raw_environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observed_arch",
+        "expected_arch",
+        "arch_ok",
+        "os_release",
+        "expected_os",
+        "os_ok",
+        "expected_isa",
+        "isa_probe"
+      ],
+      "properties": {
+        "observed_arch": {"type": "string"},
+        "expected_arch": {"const": "riscv64"},
+        "arch_ok": {"type": "boolean"},
+        "os_release": {
+          "type": "object",
+          "additionalProperties": {"type": "string"}
+        },
+        "expected_os": {"const": "openEuler 24.03 LTS SP3"},
+        "os_ok": {"type": "boolean"},
+        "expected_isa": {"const": "RVA23"},
+        "isa_probe": {"type": "string"}
+      }
+    },
+    "final_environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["os", "release", "arch", "isa", "repo_url", "image_digest", "qemu_version"],
+      "properties": {
+        "os": {"const": "openEuler"},
+        "release": {"const": "24.03-LTS-SP3"},
+        "arch": {"const": "riscv64"},
+        "isa": {"const": "RVA23"},
+        "repo_url": {"const": "https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/"},
+        "image_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "qemu_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metadata-validate",
+        "source-verify",
+        "rpmbuild-riscv64",
+        "rpm-install-smoke",
+        "patch-policy"
+      ],
+      "properties": {
+        "metadata-validate": {"$ref": "#/$defs/check"},
+        "source-verify": {"$ref": "#/$defs/check"},
+        "rpmbuild-riscv64": {"$ref": "#/$defs/check"},
+        "rpm-install-smoke": {"$ref": "#/$defs/check"},
+        "patch-policy": {"$ref": "#/$defs/check"}
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence"],
+      "properties": {
+        "status": {"enum": ["passed", "failed", "skipped", "not-applicable"]},
+        "evidence": {"type": "string"}
+      }
+    },
+    "source_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "filename",
+        "url",
+        "sha256",
+        "size",
+        "signature",
+        "materialization",
+        "verified"
+      ],
+      "properties": {
+        "id": {"type": ["string", "null"]},
+        "filename": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "size": {"type": "integer", "minimum": 0},
+        "signature": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["policy", "status"],
+          "properties": {
+            "policy": {
+              "enum": [
+                "required",
+                "checksum-required-signature-advisory",
+                "not-provided",
+                "optional",
+                "none"
+              ]
+            },
+            "status": {
+              "enum": [
+                "verified",
+                "advisory-not-cryptographically-verified",
+                "not-required"
+              ]
+            },
+            "url": {"type": ["string", "null"], "format": "uri"},
+            "key_fingerprint": {"type": ["string", "null"]},
+            "checksum_verified": {"type": "boolean"},
+            "fingerprint": {"type": "string"}
+          }
+        },
+        "materialization": {"type": "object"},
+        "verified": {"const": true}
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "schema_version",
+        "kind",
+        "started_at",
+        "completed_at",
+        "status",
+        "phase",
+        "exit_code",
+        "target",
+        "commit_sha",
+        "source_verification",
+        "commands",
+        "artifacts",
+        "failure"
+      ],
+      "not": {"required": ["job_id"]},
+      "properties": {
+        "kind": {"const": "build-result"},
+        "status": {
+          "enum": ["planned", "source-verified", "passed", "failed", "needs-native-riscv"]
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifact"}
+        },
+        "environment": {"$ref": "#/$defs/raw_environment"}
+      }
+    },
+    {
+      "required": [
+        "schema_version",
+        "job_id",
+        "package_id",
+        "commit_sha",
+        "status",
+        "classification",
+        "environment",
+        "checks",
+        "artifacts",
+        "started_at",
+        "finished_at"
+      ],
+      "not": {"required": ["kind"]},
+      "properties": {
+        "status": {
+          "enum": ["passed", "failed", "needs-native-riscv", "qemu-limitation", "cancelled"]
+        },
+        "commit_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "environment": {"$ref": "#/$defs/final_environment"},
+        "artifacts": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        }
+      }
+    }
+  ]
+}

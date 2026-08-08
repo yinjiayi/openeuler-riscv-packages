@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "package_id": "golden-riscv-inline-asm",
+  "rpm": {
+    "name": "golden-riscv-inline-asm",
+    "summary": "Deterministic x86-only inline assembly repair fixture",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "golden-riscv-inline-asm",
+    "homepage": "https://github.com/yinjiayi/openeuler-riscv-packages/tree/main/tests/golden",
+    "source_repository": "https://github.com/yinjiayi/openeuler-riscv-packages.git",
+    "release_channel": "fixture",
+    "release_api": null,
+    "release_regex": null
+  },
+  "version": {
+    "current": "1.0",
+    "release": "1",
+    "latest_detected": "1.0"
+  },
+  "discovery": {
+    "snapshot_id": "golden-2026-08-08",
+    "lineage": [
+      {
+        "source": "golden-fixture",
+        "package_name": "golden-riscv-inline-asm",
+        "package_base": "golden-riscv-inline-asm",
+        "source_version": "1.0",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/tree/main/tests/golden",
+        "observed_at": "2026-08-08T00:00:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 30,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "golden-riscv-inline-asm.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "golden",
+    "maintainers": ["yinjiayi"],
+    "notes": "Baseline intentionally fails on __riscv; only the pinned minimal repair is accepted."
+  },
+  "updates": {
+    "enabled": false,
+    "last_checked_at": "2026-08-08T00:00:00Z",
+    "last_successful_check_at": "2026-08-08T00:00:00Z",
+    "release_provider": null
+  }
+}

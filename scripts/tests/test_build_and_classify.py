@@ -1,0 +1,88 @@
+# SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
+import json
+import pathlib
+import sys
+import tempfile
+import unittest
+
+from helpers import SCRIPTS, run_tool, write_json
+
+sys.path.insert(0, str(SCRIPTS))
+from _lib import canonical_tar_gz  # noqa: E402
+
+
+def golden_package(root: pathlib.Path, package_id: str, digest: str, profile: str = "qemu-user") -> pathlib.Path:
+    directory = root / "packages" / package_id
+    (directory / "patches").mkdir(parents=True)
+    (directory / "tests").mkdir()
+    write_json(
+        directory / "package.yaml",
+        {
+            "schema_version": 1,
+            "package_id": package_id,
+            "rpm": {"name": package_id, "summary": "fixture", "license": "MIT"},
+            "upstream": {"component": package_id, "homepage": "https://example.org", "source_repository": "https://example.org/repo.git", "release_channel": "fixture", "release_api": None, "release_regex": None},
+            "version": {"current": "1.0", "release": "1", "latest_detected": "1.0"},
+            "discovery": {"snapshot_id": "golden", "lineage": [{"source": "golden-fixture", "package_name": package_id, "package_base": package_id, "source_version": "1.0", "evidence_url": "https://example.org", "observed_at": None}]},
+            "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+            "build": {"profile": profile, "network_during_build": False, "timeout_minutes": 30, "native_reason": "kernel module load required" if profile != "qemu-user" else None},
+            "files": {"spec": "%s.spec" % package_id, "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+            "maintenance": {"status": "golden", "maintainers": [], "notes": None},
+            "updates": {"enabled": False, "last_checked_at": None, "last_successful_check_at": None, "release_provider": None},
+        },
+    )
+    write_json(
+        directory / "sources.yaml",
+        {"schema_version": 1, "package_id": package_id, "sources": [{"id": "source0", "kind": "golden-fixture", "url": "fixture://tests/golden/fixtures/%s-1.0" % package_id, "filename": "%s-1.0.tar.gz" % package_id, "version": "1.0", "digests": {"sha256": digest}, "signature": None, "redistribution": {"allowed": True, "reason": "test fixture"}}]},
+    )
+    (directory / ("%s.spec" % package_id)).write_text("# SPDX-License-Identifier: Apache-2.0\nName: %s\nVersion: 1.0\nRelease: 1\nBuildRequires: gcc\n%%prep\n%%build\n%%install\n%%check\n%%files\n%%changelog\n" % package_id, encoding="utf-8")
+    (directory / "patches" / "series").write_text("", encoding="utf-8")
+    (directory / "tests" / "smoke.sh").write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    return directory
+
+
+class BuildAndClassifyTests(unittest.TestCase):
+    def test_fixture_source_is_canonical_and_offline_reusable(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            fixture = root / "tests" / "golden" / "fixtures" / "golden-demo-1.0"
+            fixture.mkdir(parents=True)
+            (fixture / "hello.c").write_text("int main(void){return 0;}\n", encoding="utf-8")
+            archive = root / "expected.tar.gz"
+            digest = canonical_tar_gz(fixture, archive, "golden-demo-1.0")["sha256"]
+            package_dir = golden_package(root, "golden-demo", digest)
+            result = root / "result.json"
+            run_tool("build-rpm", ["--package-dir", str(package_dir), "--repo-root", str(root), "--work-dir", str(root / "work"), "--result", str(result), "--verify-only", "--now", "2026-08-08T00:00:00Z"], root)
+            document = json.loads(result.read_text())
+            self.assertEqual(document["status"], "source-verified")
+            self.assertEqual(document["source_verification"][0]["sha256"], digest)
+            self.assertEqual(document["dependency_plan"]["build_requires"], ["gcc"])
+            offline = root / "offline.json"
+            run_tool("build-rpm", ["--package-dir", str(package_dir), "--repo-root", str(root), "--work-dir", str(root / "work"), "--result", str(offline), "--verify-only", "--offline", "--now", "2026-08-08T00:01:00Z"], root)
+            self.assertEqual(json.loads(offline.read_text())["status"], "source-verified")
+
+    def test_failure_classification_and_native_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            inline = root / "inline.log"
+            inline.write_text("error: unknown register name 'eax' in inline asm\n", encoding="utf-8")
+            output = root / "inline.json"
+            run_tool("classify-failure", ["--input", str(inline), "--output", str(output), "--now", "2026-08-08T00:00:00Z"], root)
+            document = json.loads(output.read_text())
+            self.assertEqual(document["classification"]["category"], "riscv-specific")
+            self.assertEqual(document["recommended_state"], "repair-queued")
+
+            fixture = root / "tests" / "golden" / "fixtures" / "golden-kmod-1.0"
+            fixture.mkdir(parents=True)
+            (fixture / "x").write_text("x")
+            digest = canonical_tar_gz(fixture, root / "k.tar.gz", "golden-kmod-1.0")["sha256"]
+            package_dir = golden_package(root, "golden-kmod", digest, "needs-native-riscv")
+            native = root / "native.json"
+            run_tool("classify-failure", ["--input", str(inline), "--package-dir", str(package_dir), "--output", str(native), "--now", "2026-08-08T00:00:00Z"], root)
+            self.assertEqual(json.loads(native.read_text())["recommended_state"], "needs-native-riscv")
+
+
+if __name__ == "__main__":
+    unittest.main()

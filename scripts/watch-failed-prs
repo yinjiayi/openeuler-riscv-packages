@@ -1,0 +1,190 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Read-only local watcher for trusted internal PRs labelled repair-queued."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import pathlib
+import shutil
+import subprocess
+import time
+from typing import Any, Dict, List, Mapping, Sequence
+
+from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, parse_now, run_main
+
+
+GH_FIELDS = [
+    "number",
+    "title",
+    "url",
+    "author",
+    "headRefName",
+    "headRefOid",
+    "headRepository",
+    "headRepositoryOwner",
+    "isCrossRepository",
+    "labels",
+    "statusCheckRollup",
+    "updatedAt",
+]
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--repo", required=True, help="OWNER/REPO")
+    result.add_argument("--output", required=True)
+    result.add_argument("--trusted-login", action="append", default=[])
+    result.add_argument("--trusted-head-prefix", action="append", default=[])
+    result.add_argument("--fixture", help="offline gh-pr-list-compatible JSON")
+    result.add_argument("--once", action="store_true")
+    result.add_argument("--poll-seconds", type=int, default=60)
+    result.add_argument("--max-cycles", type=int, default=0, help="0 means unlimited in watch mode")
+    result.add_argument("--now")
+    return result
+
+
+def labels(pr: Mapping[str, Any]) -> List[str]:
+    result: List[str] = []
+    for value in pr.get("labels", []):
+        if isinstance(value, Mapping):
+            value = value.get("name")
+        if value:
+            result.append(str(value))
+    return result
+
+
+def actor(pr: Mapping[str, Any]) -> str:
+    author = pr.get("author")
+    if isinstance(author, Mapping):
+        return str(author.get("login") or "")
+    return str(author or "")
+
+
+def repository_name(pr: Mapping[str, Any]) -> str:
+    repository = pr.get("headRepository")
+    if isinstance(repository, Mapping):
+        name = repository.get("nameWithOwner")
+        if name:
+            return str(name)
+        owner = pr.get("headRepositoryOwner")
+        if isinstance(owner, Mapping):
+            owner = owner.get("login")
+        if owner and repository.get("name"):
+            return "%s/%s" % (owner, repository["name"])
+    return str(repository or "")
+
+
+def load_prs(args: argparse.Namespace) -> List[Mapping[str, Any]]:
+    if args.fixture:
+        document = load_json(args.fixture)
+        if isinstance(document, Mapping):
+            document = document.get("pull_requests", document.get("items", []))
+        if not isinstance(document, list):
+            raise ToolError("fixture must be a PR array or contain pull_requests")
+        return [item for item in document if isinstance(item, Mapping)]
+    gh = shutil.which("gh")
+    if not gh:
+        raise ToolError("gh is required; authenticate locally with `gh auth login` or process-level GH_TOKEN", 1)
+    command = [
+        gh,
+        "pr",
+        "list",
+        "--repo",
+        args.repo,
+        "--state",
+        "open",
+        "--label",
+        "repair-queued",
+        "--limit",
+        "1000",
+        "--json",
+        ",".join(GH_FIELDS),
+    ]
+    completed = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
+    if completed.returncode != 0:
+        raise ToolError("gh pr list failed: %s" % completed.stderr.strip(), 1)
+    try:
+        document = json.loads(completed.stdout)
+    except json.JSONDecodeError as exc:
+        raise ToolError("gh returned invalid JSON", 1) from exc
+    return [item for item in document if isinstance(item, Mapping)]
+
+
+def trusted_queue(args: argparse.Namespace, prs: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
+    owner = args.repo.split("/", 1)[0]
+    trusted_logins = set(args.trusted_login or [owner])
+    prefixes = tuple(args.trusted_head_prefix or ["onboard/", "update/", "repair/", "golden/"])
+    queued: List[Dict[str, Any]] = []
+    ignored: List[Dict[str, Any]] = []
+    for pr in prs:
+        number = pr.get("number")
+        reasons: List[str] = []
+        pr_labels = labels(pr)
+        pr_actor = actor(pr)
+        head_repo = repository_name(pr)
+        head_ref = str(pr.get("headRefName") or "")
+        head_sha = str(pr.get("headRefOid") or "")
+        if "repair-queued" not in pr_labels:
+            reasons.append("missing repair-queued label")
+        if bool(pr.get("isCrossRepository")) or (head_repo and head_repo.lower() != args.repo.lower()):
+            reasons.append("external fork")
+        if pr_actor not in trusted_logins:
+            reasons.append("untrusted author")
+        if not head_ref.startswith(prefixes):
+            reasons.append("untrusted head branch prefix")
+        if len(head_sha) != 40 or any(character not in "0123456789abcdefABCDEF" for character in head_sha):
+            reasons.append("invalid head SHA")
+        if reasons:
+            ignored.append({"number": number, "reasons": reasons})
+            continue
+        queued.append(
+            {
+                "number": int(number),
+                "url": pr.get("url"),
+                "title_untrusted": pr.get("title"),
+                "author": pr_actor,
+                "head_repository": args.repo,
+                "head_ref": head_ref,
+                "head_sha": head_sha.lower(),
+                "labels": pr_labels,
+                "checks": pr.get("statusCheckRollup", []),
+                "updated_at": pr.get("updatedAt"),
+                "lease_key": "%s#%s@%s" % (args.repo, number, head_sha.lower()),
+            }
+        )
+    queued.sort(key=lambda item: item["number"])
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "repair-queue",
+        "repo": args.repo,
+        "generated_at": isoformat(parse_now(args.now)),
+        "trusted_logins": sorted(trusted_logins),
+        "trusted_head_prefixes": list(prefixes),
+        "pull_requests": queued,
+        "ignored": ignored,
+        "summary": {"queried": len(prs), "queued": len(queued), "ignored": len(ignored)},
+        "security": {"pr_text_is_untrusted_data": True, "external_forks_allowed": False},
+    }
+
+
+def main() -> int:
+    args = parser().parse_args()
+    if "/" not in args.repo or args.repo.startswith("/") or args.repo.endswith("/"):
+        raise ToolError("repo must use OWNER/REPO")
+    if args.poll_seconds < 1:
+        raise ToolError("poll-seconds must be positive")
+    cycle = 0
+    while True:
+        result = trusted_queue(args, load_prs(args))
+        result["cycle"] = cycle
+        emit_json(result, args.output)
+        cycle += 1
+        if args.once or (args.max_cycles and cycle >= args.max_cycles):
+            return 0
+        time.sleep(args.poll_seconds)
+
+
+if __name__ == "__main__":
+    run_main(main)

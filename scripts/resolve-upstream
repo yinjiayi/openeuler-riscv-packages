@@ -1,0 +1,249 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Resolve candidates to official stable release components and explain deduplication."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import re
+from typing import Any, Dict, List, Mapping, Optional, Tuple
+
+from _lib import (
+    SCHEMA_VERSION,
+    ToolError,
+    as_list,
+    canonical_url,
+    emit_json,
+    first_value,
+    isoformat,
+    iter_records,
+    load_json,
+    parse_now,
+    package_identifier,
+    release_component_key,
+    run_main,
+    slugify,
+    stable_json,
+    version_key,
+)
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--input", required=True)
+    result.add_argument("--output")
+    result.add_argument("--evidence-output")
+    result.add_argument("--as-of")
+    result.add_argument("--minimum-evidence", type=int, default=2)
+    return result
+
+
+def suffix_base(name: str) -> Tuple[str, Optional[str]]:
+    lowered = name.lower()
+    for suffix, kind in (
+        ("-bin", "binary"),
+        ("-nightly", "nightly"),
+        ("-git", "vcs"),
+        ("-svn", "vcs"),
+        ("-hg", "vcs"),
+        ("-bzr", "vcs"),
+    ):
+        if lowered.endswith(suffix):
+            return name[: -len(suffix)], kind
+    return name, None
+
+
+def evidence(record: Mapping[str, Any]) -> Tuple[int, List[Dict[str, Any]]]:
+    items: List[Dict[str, Any]] = []
+    upstream = canonical_url(record.get("upstream_url"))
+    source = canonical_url(record.get("source_url"))
+    release_api = canonical_url(record.get("release_api"))
+    if upstream:
+        items.append({"type": "official-upstream-url", "value": upstream, "weight": 1})
+    if source:
+        items.append({"type": "official-release-source", "value": source, "weight": 2})
+    if release_api:
+        items.append({"type": "release-api", "value": release_api, "weight": 1})
+    license_value = str(record.get("license", "unknown")).lower()
+    if license_value not in {"", "unknown", "none", "proprietary"}:
+        items.append({"type": "declared-license", "value": record.get("license"), "weight": 1})
+    lineage = record.get("lineage", [])
+    sources = sorted({str(item.get("source")) for item in lineage if isinstance(item, Mapping) and item.get("source")})
+    if len(sources) > 1:
+        items.append({"type": "cross-distribution-corroboration", "value": sources, "weight": 2})
+    return sum(int(item["weight"]) for item in items), items
+
+
+def component_id(record: Mapping[str, Any]) -> Optional[str]:
+    explicit = record.get("component_id") or record.get("component_key_hint")
+    if explicit:
+        return slugify(explicit, 126)
+    key = release_component_key(record)
+    if key:
+        return key
+    name, _ = suffix_base(str(record.get("package_base") or record.get("name") or ""))
+    # Name-only matches cannot pass evidence policy, but give rejection grouping a stable key.
+    return slugify(name, 126) if name else None
+
+
+def prefer_name(records: List[Mapping[str, Any]]) -> str:
+    ranked: List[Tuple[int, int, str]] = []
+    for record in records:
+        original = str(record.get("name") or record.get("package_base"))
+        base, variant = suffix_base(original)
+        priority = int(record.get("priority", 1))
+        ranked.append((priority, 1 if variant else 0, base.lower()))
+    return min(ranked)[2]
+
+
+def merge_component(key: str, records: List[Mapping[str, Any]]) -> Dict[str, Any]:
+    canonical_name = prefer_name(records)
+    eligible_records = [record for record in records if record.get("_discovery_decision", record.get("decision", "eligible")) == "eligible"]
+    trusted_records = eligible_records or records
+    best = max(trusted_records, key=lambda item: (evidence(item)[0], tuple(version_key(item.get("version")))))
+    source_records = [record for record in eligible_records if canonical_url(record.get("source_url"))]
+    release_record = max(source_records or trusted_records, key=lambda item: tuple(version_key(item.get("version"))))
+    lineage: List[Dict[str, Any]] = []
+    seen_lineage = set()
+    for record in records:
+        for item in as_list(record.get("lineage")):
+            if not isinstance(item, Mapping):
+                continue
+            marker = stable_json(item, pretty=False)
+            if marker not in seen_lineage:
+                lineage.append(dict(item))
+                seen_lineage.add(marker)
+    score, evidence_items = evidence({**best, "lineage": lineage})
+    excluded_variants = [
+        {"name": record.get("name"), "decision": record.get("_discovery_decision") or record.get("decision"), "lineage": record.get("lineage", [])}
+        for record in records
+        if (record.get("_discovery_decision") or record.get("decision")) in {"binary-only", "vcs-only"}
+    ]
+    if excluded_variants:
+        evidence_items.append({"type": "excluded-variant-lineage", "value": excluded_variants, "weight": 0})
+    variant_names = sorted({str(record.get("name")) for record in records})
+    upstream = canonical_url(best.get("upstream_url")) or canonical_url(release_record.get("source_url"))
+    component = {
+        "component_id": key,
+        "package_id": package_identifier(canonical_name),
+        "canonical_name": canonical_name,
+        "summary": best.get("description", ""),
+        "license": best.get("license", "unknown"),
+        "latest_observed_version": str(release_record.get("version", "unknown")),
+        "upstream": {
+            "homepage": upstream,
+            "repository_url": canonical_url(best.get("upstream_url")),
+            "release_api": canonical_url(best.get("release_api")) or best.get("release_api"),
+            "release_channel": "stable",
+        },
+        "source": {
+            "url": release_record.get("source_url"),
+            "sha256": release_record.get("sha256"),
+        },
+        "lineage": sorted(lineage, key=lambda item: (str(item.get("source")), str(item.get("original_name")))),
+        "variant_names": variant_names,
+        "deduplication": {
+            "key": key,
+            "merged_count": len(records),
+            "rule": "canonical official upstream stable release component",
+        },
+        "resolution_evidence": evidence_items,
+        "excluded_variant_lineage": excluded_variants,
+        "evidence_score": score,
+        "eligible": bool(release_record.get("source_url") and upstream),
+    }
+    if not component["source"]["url"]:
+        component["eligible"] = False
+        component["ineligible_reason"] = "official stable release source URL unresolved"
+    return component
+
+
+def main() -> int:
+    args = parser().parse_args()
+    if args.minimum_evidence < 1:
+        raise ToolError("minimum-evidence must be positive")
+    now = parse_now(args.as_of)
+    document = load_json(args.input)
+    records = iter_records(document)
+    clue_records: List[Mapping[str, Any]] = []
+    if isinstance(document, Mapping):
+        for rejected in document.get("rejections", []):
+            if isinstance(rejected, Mapping) and rejected.get("decision") in {"binary-only", "vcs-only"}:
+                clue_records.append({**rejected, "_discovery_decision": rejected.get("decision")})
+    records = [{**record, "_discovery_decision": record.get("decision", "eligible")} for record in records] + clue_records
+    grouped: Dict[str, List[Mapping[str, Any]]] = {}
+    rejections: List[Dict[str, Any]] = []
+    for record in records:
+        name = str(record.get("name") or record.get("package_base") or "")
+        _, variant = suffix_base(name)
+        if variant == "binary" and record.get("_discovery_decision") != "binary-only":
+            rejections.append({"name": name, "reason": "binary-only", "detail": "-bin variants cannot establish a source component"})
+            continue
+        key = component_id(record)
+        score, evidence_items = evidence(record)
+        if not key or score < args.minimum_evidence:
+            rejections.append({
+                "name": name,
+                "reason": "insufficient-upstream-evidence",
+                "evidence_score": score,
+                "evidence": evidence_items,
+                "detail": "name similarity alone is not accepted",
+            })
+            continue
+        grouped.setdefault(key, []).append(record)
+
+    components: List[Dict[str, Any]] = []
+    for key, grouped_records in sorted(grouped.items()):
+        component = merge_component(key, grouped_records)
+        if component["evidence_score"] < args.minimum_evidence or not component["eligible"]:
+            rejections.append({
+                "name": component["canonical_name"],
+                "component_id": key,
+                "reason": "no-verifiable-stable-source",
+                "detail": component.get("ineligible_reason", "resolution policy not satisfied"),
+                "lineage": component["lineage"],
+            })
+        else:
+            components.append(component)
+
+    fingerprint = hashlib.sha256(stable_json(components, pretty=False).encode()).hexdigest()[:16]
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "upstream-resolution",
+        "generated_at": isoformat(now),
+        "resolution_id": "resolve-%s-%s" % (now.strftime("%Y%m%dT%H%M%SZ"), fingerprint),
+        "source_run_id": (document.get("snapshot_id") or document.get("run_id")) if isinstance(document, Mapping) else None,
+        "policy": {
+            "identity": "official upstream stable release component",
+            "minimum_evidence": args.minimum_evidence,
+            "name_only_matching": False,
+            "aur_content_executed": False,
+        },
+        "components": components,
+        "rejections": rejections,
+        "summary": {
+            "input_candidates": len(records) - len(clue_records),
+            "resolved_components": len(components),
+            "rejected": len(rejections),
+            "deduplicated_entries": max(0, len(records) - len(components) - len(rejections)),
+        },
+    }
+    emit_json(result, args.output)
+    if args.evidence_output:
+        emit_json(
+            {
+                "resolution_id": result["resolution_id"],
+                "components": [
+                    {"component_id": item["component_id"], "lineage": item["lineage"], "evidence": item["resolution_evidence"], "deduplication": item["deduplication"]}
+                    for item in components
+                ],
+                "rejections": rejections,
+            },
+            args.evidence_output,
+        )
+    return 0
+
+
+if __name__ == "__main__":
+    run_main(main)

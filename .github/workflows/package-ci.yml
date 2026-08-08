@@ -1,0 +1,579 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Package CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  merge_group:
+    types: [checks_requested]
+
+concurrency:
+  group: package-ci-${{ github.event.pull_request.number || github.event.merge_group.head_sha || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  ARTIFACT_RETENTION_DAYS: "7"
+  TARGET_PLATFORM: linux/riscv64
+
+jobs:
+  prepare:
+    name: change-scope
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      mode: ${{ steps.scope.outputs.mode }}
+      package_id: ${{ steps.scope.outputs.package_id }}
+      needs_native: ${{ steps.policy.outputs.needs_native }}
+      timeout_minutes: ${{ steps.policy.outputs.timeout_minutes }}
+    steps:
+      - name: Check out the exact head
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Classify the diff
+        id: scope
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+        run: |
+          mkdir -p artifacts/scope
+          ci/detect-change-scope.py \
+            --base "$BASE_SHA" --head "$HEAD_SHA" \
+            --output artifacts/scope/change-scope.json \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Read canonical package build profile
+        id: policy
+        env:
+          MODE: ${{ steps.scope.outputs.mode }}
+          PACKAGE_ID: ${{ steps.scope.outputs.package_id }}
+        run: |
+          if [[ "$MODE" = package ]]; then
+            ci/package-policy.py --package-dir "packages/$PACKAGE_ID" \
+              --output artifacts/scope/package-policy.json \
+              --github-output "$GITHUB_OUTPUT"
+          else
+            printf 'needs_native=false\ntimeout_minutes=120\n' >>"$GITHUB_OUTPUT"
+          fi
+      - name: Upload scope evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: package-ci-scope-${{ github.run_id }}
+          path: artifacts/scope/
+          if-no-files-found: error
+          retention-days: 7
+
+  metadata-validate:
+    name: metadata-validate
+    needs: prepare
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out the exact head
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          persist-credentials: false
+      - name: Validate metadata and schemas
+        env:
+          PREPARE_RESULT: ${{ needs.prepare.result }}
+        run: |
+          test "$PREPARE_RESULT" = success
+          mkdir -p artifacts/metadata
+          scripts/validate-metadata --repo-root . --schemas-dir schemas \
+            --output artifacts/metadata/metadata-validation.json
+          ci/validate-repository.py --repo-root . \
+            --output artifacts/metadata/ci-static-validation.json
+      - name: Upload metadata evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: package-ci-metadata-${{ github.run_id }}
+          path: artifacts/metadata/
+          if-no-files-found: warn
+          retention-days: 7
+
+  patch-policy:
+    name: patch-policy
+    needs: prepare
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the exact head
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          persist-credentials: false
+      - name: Enforce patch ownership and application
+        env:
+          MODE: ${{ needs.prepare.outputs.mode }}
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          PREPARE_RESULT: ${{ needs.prepare.result }}
+        run: |
+          test "$PREPARE_RESULT" = success
+          mkdir -p artifacts/patch-policy
+          if [[ "$MODE" = package ]]; then
+            ci/check-patch-policy.py --package-dir "packages/$PACKAGE_ID" \
+              --output artifacts/patch-policy/patch-policy.json
+          else
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path("artifacts/patch-policy/patch-policy.json").write_text(
+              json.dumps({"schema_version": 1, "status": "not-applicable", "reason": "infrastructure change"}, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+          fi
+      - name: Upload patch-policy evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: package-ci-patch-policy-${{ github.run_id }}
+          path: artifacts/patch-policy/
+          if-no-files-found: warn
+          retention-days: 7
+
+  source-verify:
+    name: source-verify
+    needs: prepare
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the exact head
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          persist-credentials: false
+      - name: Record source-stage environment
+        run: ci/record-environment.sh artifacts/source/environment.json
+      - name: Download and verify official release source
+        env:
+          MODE: ${{ needs.prepare.outputs.mode }}
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          PREPARE_RESULT: ${{ needs.prepare.result }}
+          GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+        run: |
+          test "$PREPARE_RESULT" = success
+          mkdir -p artifacts/source
+          if [[ "$MODE" = package ]]; then
+            scripts/build-rpm --package-dir "packages/$PACKAGE_ID" \
+              --repo-root . \
+              --work-dir "work/$PACKAGE_ID" \
+              --result artifacts/source/source-phase-result.json \
+              --verify-only --expected-arch riscv64
+          else
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+          Path("artifacts/source/not-applicable.json").write_text(
+              json.dumps({"schema_version": 1, "kind": "not-applicable", "check": "source-verify", "reason": "infrastructure change"}, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+          fi
+      - name: Upload verified sources and evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: package-ci-source-${{ github.run_id }}
+          path: |
+            artifacts/source/
+            work/${{ needs.prepare.outputs.package_id }}/SOURCES/
+            work/${{ needs.prepare.outputs.package_id }}/source-verification.json
+          if-no-files-found: warn
+          retention-days: 7
+
+  merge-policy:
+    name: merge-policy
+    needs: prepare
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Record native-routing or mergeable policy
+        env:
+          PREPARE_RESULT: ${{ needs.prepare.result }}
+          MODE: ${{ needs.prepare.outputs.mode }}
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          NEEDS_NATIVE: ${{ needs.prepare.outputs.needs_native }}
+        run: |
+          test "$PREPARE_RESULT" = success
+          mkdir -p artifacts/merge-policy
+          if [[ "$MODE" = package && "$NEEDS_NATIVE" = true ]]; then
+            python3 - "$PACKAGE_ID" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          Path("artifacts/merge-policy/result.json").write_text(
+              json.dumps({
+                  "schema_version": 1,
+                  "package_id": sys.argv[1],
+                  "phase": "merge-policy",
+                  "status": "needs-native-riscv",
+                  "classification": "needs-native-riscv",
+                  "message": "Native RISC-V validation is required and no self-hosted runner is enabled.",
+              }, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+            exit 1
+          fi
+          printf '%s\n' '{"schema_version":1,"phase":"merge-policy","status":"passed"}' \
+            > artifacts/merge-policy/result.json
+      - name: Upload merge-policy evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: package-ci-merge-policy-${{ github.run_id }}
+          path: artifacts/merge-policy/
+          if-no-files-found: warn
+          retention-days: 7
+
+  rpmbuild-riscv64:
+    name: rpmbuild-riscv64
+    needs: [prepare, metadata-validate, patch-policy, source-verify]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Check out the exact head
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          persist-credentials: false
+      - name: Download verified sources
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: package-ci-source-${{ github.run_id }}
+          path: .
+      - name: Record build environment
+        run: ci/record-environment.sh artifacts/build/environment.json
+      - name: Check prerequisite results
+        env:
+          PREPARE_RESULT: ${{ needs.prepare.result }}
+          METADATA_RESULT: ${{ needs.metadata-validate.result }}
+          PATCH_RESULT: ${{ needs.patch-policy.result }}
+          SOURCE_RESULT: ${{ needs.source-verify.result }}
+        run: |
+          test "$PREPARE_RESULT" = success
+          test "$METADATA_RESULT" = success
+          test "$PATCH_RESULT" = success
+          test "$SOURCE_RESULT" = success
+      - name: Install RISC-V QEMU/binfmt
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
+        with:
+          platforms: riscv64
+          image: tonistiigi/binfmt:qemu-v9.2.0
+      - name: Resolve and anonymously pull the immutable image
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        id: image
+        run: |
+          ref=$(ci/image-ref.sh ci/image.lock)
+          printf 'ref=%s\n' "$ref" >>"$GITHUB_OUTPUT"
+          docker logout ghcr.io >/dev/null 2>&1 || true
+          docker pull --platform linux/riscv64 "$ref"
+          docker run --rm --platform linux/riscv64 --memory 1g --cpus 2 --pids-limit 256 \
+            "$ref" /usr/local/bin/verify-target
+      - name: Resolve and install audited BuildRequires in an ephemeral image
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        id: dependencies
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          BASE_IMAGE: ${{ steps.image.outputs.ref }}
+        run: |
+          mkdir -p artifacts/build/dependencies
+          derived="openeuler-builddeps:${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          set +e
+          ci/run-capped.sh --log artifacts/build/dependencies/install.log \
+            --max-bytes 52428800 --timeout-seconds 1800 -- \
+            ci/prepare-build-deps.py --base-image "$BASE_IMAGE" \
+              --package-dir "packages/$PACKAGE_ID" \
+              --work-dir "work/$PACKAGE_ID" \
+              --output artifacts/build/dependencies/result.json \
+              --derived-tag "$derived"
+          dependency_status=$?
+          set -e
+          if ((dependency_status != 0)); then
+            python3 - "$PACKAGE_ID" "$dependency_status" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          Path("artifacts/build/dependencies/failure.json").write_text(json.dumps({
+              "schema_version": 1,
+              "package_id": sys.argv[1],
+              "phase": "dependency-prepare",
+              "status": "failed",
+              "exit_code": int(sys.argv[2]),
+              "message": "Audited BuildRequires preparation failed; see install.log.",
+          }, indent=2) + "\n", encoding="utf-8")
+          PY
+            scripts/classify-failure \
+              --input artifacts/build/dependencies/failure.json \
+              --log artifacts/build/dependencies/install.log \
+              --output artifacts/build/failure.json \
+              --package-dir "packages/$PACKAGE_ID" || true
+            exit "$dependency_status"
+          fi
+          printf 'image=%s\n' "$derived" >>"$GITHUB_OUTPUT"
+      - name: Build SRPM and RPM without network
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          IMAGE_REF: ${{ steps.dependencies.outputs.image }}
+          GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+        run: |
+          mkdir -p artifacts/build
+          set +e
+          ci/run-capped.sh --log artifacts/build/rpmbuild.log \
+            --max-bytes 52428800 --timeout-seconds 6900 -- \
+            docker run --rm --platform linux/riscv64 --network none \
+              --memory 6g --cpus 2 --pids-limit 1024 \
+              --security-opt no-new-privileges \
+              -e OE_RVA23_PROBE=passed \
+              -e "GITHUB_SHA=$GITHUB_SHA" \
+              -v "$GITHUB_WORKSPACE:/workspace:ro" \
+              -v "$GITHUB_WORKSPACE/work/$PACKAGE_ID:/workspace/work/$PACKAGE_ID:rw" \
+              -v "$GITHUB_WORKSPACE/artifacts/build:/workspace/artifacts/build:rw" \
+              -w /workspace "$IMAGE_REF" \
+              scripts/build-rpm --package-dir "packages/$PACKAGE_ID" \
+                --repo-root /workspace \
+                --work-dir "work/$PACKAGE_ID" \
+                --result artifacts/build/rpmbuild-phase-result.json \
+                --offline --skip-install-smoke --expected-arch riscv64
+          result=$?
+          set -e
+          if ((result != 0)); then
+            scripts/classify-failure --input artifacts/build/rpmbuild-phase-result.json \
+              --output artifacts/build/failure.json \
+              --package-dir "packages/$PACKAGE_ID" || true
+          fi
+          exit "$result"
+      - name: Record expected native RISC-V routing without QEMU build
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native == 'true'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+        run: |
+          mkdir -p artifacts/build
+          python3 - "$PACKAGE_ID" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          Path("artifacts/build/native-routing.json").write_text(
+              json.dumps({
+                  "schema_version": 1,
+                  "kind": "native-routing",
+                  "package_id": sys.argv[1],
+                  "phase": "native-routing",
+                  "status": "needs-native-riscv",
+                  "classification": "needs-native-riscv",
+                  "exit_code": 0,
+                  "message": "QEMU build intentionally skipped; native runner is not configured.",
+              }, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+      - name: Record infrastructure-only result
+        if: needs.prepare.outputs.mode == 'infrastructure'
+        run: |
+          mkdir -p artifacts/build
+          printf '%s\n' '{"schema_version":1,"kind":"not-applicable","check":"rpmbuild-riscv64","reason":"infrastructure change"}' > artifacts/build/not-applicable.json
+      - name: Upload build products and complete logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: package-ci-build-${{ github.run_id }}
+          path: |
+            artifacts/build/
+            work/${{ needs.prepare.outputs.package_id }}/RPMS/
+            work/${{ needs.prepare.outputs.package_id }}/SRPMS/
+            work/${{ needs.prepare.outputs.package_id }}/BUILD/
+            work/${{ needs.prepare.outputs.package_id }}/BUILDROOT/
+            work/${{ needs.prepare.outputs.package_id }}/SOURCES/
+            work/${{ needs.prepare.outputs.package_id }}/SPECS/
+          if-no-files-found: warn
+          retention-days: 7
+
+  rpm-install-smoke:
+    name: rpm-install-smoke
+    needs: [prepare, metadata-validate, patch-policy, source-verify, rpmbuild-riscv64]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out the exact head
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          persist-credentials: false
+      - name: Download RISC-V build products
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: package-ci-build-${{ github.run_id }}
+          path: .
+      - name: Check build result
+        env:
+          BUILD_RESULT: ${{ needs.rpmbuild-riscv64.result }}
+          PREPARE_RESULT: ${{ needs.prepare.result }}
+        run: |
+          test "$PREPARE_RESULT" = success
+          test "$BUILD_RESULT" = success
+      - name: Install RISC-V QEMU/binfmt
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
+        with:
+          platforms: riscv64
+          image: tonistiigi/binfmt:qemu-v9.2.0
+      - name: Resolve immutable image
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        id: image
+        run: |
+          ref=$(ci/image-ref.sh ci/image.lock)
+          printf 'ref=%s\n' "$ref" >>"$GITHUB_OUTPUT"
+          docker logout ghcr.io >/dev/null 2>&1 || true
+          docker pull --platform linux/riscv64 "$ref"
+          docker run --rm --platform linux/riscv64 --memory 1g --cpus 2 --pids-limit 256 \
+            "$ref" /usr/local/bin/verify-target
+      - name: Install RPM and run smoke test
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          IMAGE_REF: ${{ steps.image.outputs.ref }}
+        run: |
+          mkdir -p artifacts/smoke
+          ci/run-capped.sh --log artifacts/smoke/smoke.log \
+            --max-bytes 52428800 --timeout-seconds 1500 -- \
+            docker run --rm --platform linux/riscv64 \
+              --memory 6g --cpus 2 --pids-limit 1024 \
+              --security-opt no-new-privileges \
+              -v "$GITHUB_WORKSPACE:/workspace:ro" \
+              -v "$GITHUB_WORKSPACE/work/$PACKAGE_ID:/workspace/work/$PACKAGE_ID:rw" \
+              -v "$GITHUB_WORKSPACE/artifacts/smoke:/workspace/artifacts/smoke:rw" \
+              -w /workspace "$IMAGE_REF" \
+              ci/install-smoke.sh "packages/$PACKAGE_ID" "work/$PACKAGE_ID" \
+                artifacts/smoke/smoke-phase-result.json
+      - name: Record expected native RISC-V smoke routing
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native == 'true'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+        run: |
+          mkdir -p artifacts/smoke
+          python3 - "$PACKAGE_ID" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          Path("artifacts/smoke/native-routing.json").write_text(
+              json.dumps({
+                  "schema_version": 1,
+                  "kind": "native-routing",
+                  "package_id": sys.argv[1],
+                  "phase": "rpm-install-smoke",
+                  "status": "needs-native-riscv",
+                  "classification": "needs-native-riscv",
+                  "message": "Install/kernel smoke requires a future native RISC-V runner.",
+              }, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+      - name: Record infrastructure-only result
+        if: needs.prepare.outputs.mode == 'infrastructure'
+        run: |
+          mkdir -p artifacts/smoke
+          printf '%s\n' '{"schema_version":1,"kind":"not-applicable","check":"rpm-install-smoke","reason":"infrastructure change"}' > artifacts/smoke/not-applicable.json
+      - name: Compose the final commit-bound build result
+        if: always()
+        env:
+          MODE: ${{ needs.prepare.outputs.mode }}
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          NEEDS_NATIVE: ${{ needs.prepare.outputs.needs_native }}
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          METADATA_RESULT: ${{ needs.metadata-validate.result }}
+          SOURCE_RESULT: ${{ needs.source-verify.result }}
+          PATCH_RESULT: ${{ needs.patch-policy.result }}
+          RPMBUILD_RESULT: ${{ needs.rpmbuild-riscv64.result }}
+          SMOKE_RESULT: ${{ job.status }}
+        run: |
+          mkdir -p artifacts/smoke
+          if [[ "$MODE" != package ]]; then
+            printf '%s\n' '{"schema_version":1,"kind":"not-applicable","check":"final-build-result","reason":"no single package build is in scope"}' \
+              > artifacts/smoke/final-not-applicable.json
+            exit 0
+          fi
+          args=(
+            --package-id "$PACKAGE_ID"
+            --commit-sha "$COMMIT_SHA"
+            --job-id "${GITHUB_RUN_ID}:${GITHUB_RUN_ATTEMPT}:package-ci"
+            --image-lock ci/image.lock
+            --metadata-result "$METADATA_RESULT"
+            --source-result "$SOURCE_RESULT"
+            --patch-result "$PATCH_RESULT"
+            --rpmbuild-result "$RPMBUILD_RESULT"
+            --smoke-result "$SMOKE_RESULT"
+            --rpmbuild-phase artifacts/build/rpmbuild-phase-result.json
+            --smoke-phase artifacts/smoke/smoke-phase-result.json
+            --failure-classification artifacts/build/failure.json
+            --artifact-reference "package-ci-source-${GITHUB_RUN_ID}"
+            --artifact-reference "package-ci-build-${GITHUB_RUN_ID}"
+            --artifact-reference "package-ci-smoke-${GITHUB_RUN_ID}"
+            --output artifacts/smoke/build-result.json
+          )
+          if [[ "$NEEDS_NATIVE" = true ]]; then
+            args+=(--needs-native)
+          fi
+          if [[ -n "$PR_NUMBER" ]]; then
+            args+=(--pr-number "$PR_NUMBER")
+          fi
+          ci/compose-build-result.py "${args[@]}"
+      - name: Upload installation and test evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: package-ci-smoke-${{ github.run_id }}
+          path: artifacts/smoke/
+          if-no-files-found: warn
+          retention-days: 7
+
+  ci-state:
+    name: record-ci-state
+    needs: [prepare, metadata-validate, source-verify, patch-policy, merge-policy, rpmbuild-riscv64, rpm-install-smoke]
+    if: always() && github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      pull-requests: read
+    steps:
+      - name: Check out trusted state-transition code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+      - name: Download all structured results
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: package-ci-*-${{ github.run_id }}
+          path: artifacts/all-results
+          merge-multiple: true
+      - name: Label only a current trusted internal PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          AUTHOR_ASSOCIATION: ${{ github.event.pull_request.author_association }}
+          HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          ARTIFACT_DIR: artifacts/all-results
+          OVERALL_RESULT: ${{ needs.prepare.result == 'success' && needs.metadata-validate.result == 'success' && needs.source-verify.result == 'success' && needs.patch-policy.result == 'success' && needs.merge-policy.result == 'success' && needs.rpmbuild-riscv64.result == 'success' && needs.rpm-install-smoke.result == 'success' && 'success' || 'failure' }}
+        run: ci/label-ci-result.sh

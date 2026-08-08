@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "package_id": "replace-me",
+  "rpm": {
+    "name": "replace-me",
+    "summary": "Replace with a concise package summary",
+    "license": "SPDX-expression"
+  },
+  "upstream": {
+    "component": "replace-me",
+    "homepage": "https://example.invalid/replace-me",
+    "source_repository": "https://example.invalid/replace-me.git",
+    "release_channel": "stable",
+    "release_api": null,
+    "release_regex": null
+  },
+  "version": {
+    "current": "0.0.0",
+    "release": "1",
+    "latest_detected": null
+  },
+  "discovery": {
+    "snapshot_id": "replace-me",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "replace-me",
+        "package_base": "replace-me",
+        "source_version": null,
+        "evidence_url": "https://example.invalid/replace-me",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "replace-me.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [],
+    "notes": null
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": null
+  }
+}

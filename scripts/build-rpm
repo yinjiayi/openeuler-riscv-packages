@@ -1,0 +1,505 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Verify declared sources and orchestrate a deterministic RPM build without shell evaluation."""
+
+from __future__ import annotations
+
+import argparse
+import os
+import pathlib
+import platform
+import re
+import shutil
+import subprocess
+import time
+import urllib.parse
+from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
+
+from _lib import (
+    SCHEMA_VERSION,
+    ToolError,
+    atomic_write_json,
+    atomic_write_text,
+    canonical_tar_gz,
+    emit_json,
+    fetch_url,
+    isoformat,
+    load_json,
+    parse_now,
+    package_identifier,
+    run_main,
+    sha256_bytes,
+    sha256_file,
+    slugify,
+    validate_https_url,
+)
+
+
+class NativeRouting(Exception):
+    """Internal control flow for an expected needs-native result."""
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--package-dir", required=True)
+    result.add_argument("--repo-root", default=".")
+    result.add_argument("--work-dir", required=True)
+    result.add_argument("--result", required=True)
+    mode = result.add_mutually_exclusive_group()
+    mode.add_argument("--verify-only", action="store_true")
+    mode.add_argument("--plan", action="store_true")
+    result.add_argument("--offline", action="store_true", help="require the verified source cache; perform no downloads")
+    result.add_argument("--expected-arch", default="riscv64")
+    result.add_argument("--expected-os", default="openEuler 24.03 LTS SP3")
+    result.add_argument("--expected-isa", default="RVA23")
+    result.add_argument("--timeout", type=int, default=7200)
+    result.add_argument("--download-timeout", type=float, default=60.0)
+    result.add_argument("--retries", type=int, default=3)
+    result.add_argument("--cache-dir")
+    result.add_argument("--skip-install-smoke", action="store_true")
+    result.add_argument("--now")
+    return result
+
+
+def prepare_dirs(work: pathlib.Path) -> Dict[str, pathlib.Path]:
+    result = {name: work / name for name in ("BUILD", "BUILDROOT", "RPMS", "SOURCES", "SPECS", "SRPMS", "logs", "home")}
+    for path in result.values():
+        path.mkdir(parents=True, exist_ok=True)
+    return result
+
+
+def fixture_path(url: str, repo_root: pathlib.Path) -> pathlib.Path:
+    parsed = urllib.parse.urlsplit(url)
+    relative = (parsed.netloc + parsed.path).lstrip("/")
+    if not relative:
+        raise ToolError("empty fixture URL")
+    candidate = (repo_root / urllib.parse.unquote(relative)).resolve()
+    try:
+        candidate.relative_to(repo_root.resolve())
+    except ValueError as exc:
+        raise ToolError("fixture URL escapes repository root") from exc
+    return candidate
+
+
+def verify_signature(entry: Mapping[str, Any], source: pathlib.Path, repo_root: pathlib.Path, offline: bool) -> Dict[str, Any]:
+    signature = entry.get("signature") if isinstance(entry.get("signature"), Mapping) else {}
+    policy = str(signature.get("policy") or "not-provided")
+    if policy in {"not-provided", "optional", "none"}:
+        return {"policy": policy, "status": "not-required"}
+    if policy == "checksum-required-signature-advisory":
+        return {
+            "policy": policy,
+            "status": "advisory-not-cryptographically-verified",
+            "url": signature.get("url"),
+            "key_fingerprint": signature.get("key_fingerprint"),
+            "checksum_verified": True,
+        }
+    if policy != "required":
+        raise ToolError("unknown signature policy: %s" % policy)
+    signature_path = signature.get("path")
+    keyring_path = signature.get("keyring")
+    fingerprint = str(signature.get("fingerprint") or signature.get("key_fingerprint") or "").replace(" ", "").upper()
+    if not signature_path or not keyring_path or not re.fullmatch(r"[0-9A-F]{40,64}", fingerprint):
+        raise ToolError("required signature policy needs path, keyring, and a 40-64 hex fingerprint")
+    sig = (repo_root / str(signature_path)).resolve()
+    keyring = (repo_root / str(keyring_path)).resolve()
+    for candidate in (sig, keyring):
+        try:
+            candidate.relative_to(repo_root.resolve())
+        except ValueError as exc:
+            raise ToolError("signature material escapes repository root") from exc
+        if not candidate.is_file():
+            raise ToolError("signature material is missing: %s" % candidate)
+    gpgv = shutil.which("gpgv")
+    if not gpgv:
+        raise ToolError("gpgv is required by source signature policy", 1)
+    completed = subprocess.run(
+        [gpgv, "--keyring", str(keyring), "--status-fd", "1", str(sig), str(source)],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        timeout=120,
+        check=False,
+    )
+    if completed.returncode != 0 or ("VALIDSIG " + fingerprint) not in completed.stdout:
+        raise ToolError("source signature verification failed", 1)
+    return {"policy": policy, "status": "verified", "fingerprint": fingerprint}
+
+
+def materialize_source(
+    entry: Mapping[str, Any],
+    *,
+    package_id: str,
+    repo_root: pathlib.Path,
+    sources_dir: pathlib.Path,
+    cache_dir: Optional[pathlib.Path],
+    timeout: float,
+    retries: int,
+    offline: bool,
+) -> Dict[str, Any]:
+    url = str(entry.get("url") or "")
+    filename = pathlib.PurePosixPath(str(entry.get("filename") or "")).name
+    if not filename or not re.fullmatch(r"[A-Za-z0-9._+~-]+", filename):
+        raise ToolError("source filename is missing or unsafe")
+    digests = entry.get("digests") if isinstance(entry.get("digests"), Mapping) else {}
+    expected = str(digests.get("sha256") or entry.get("sha256") or "").lower()
+    if not re.fullmatch(r"[0-9a-f]{64}", expected):
+        raise ToolError("source %s has no valid SHA-256" % filename)
+    destination = sources_dir / filename
+    materialization: Dict[str, Any] = {}
+    if offline:
+        if not destination.is_file():
+            raise ToolError("verified source cache is incomplete in offline mode: %s" % destination, 1)
+    elif url.startswith("fixture://"):
+        if not package_id.startswith("golden-"):
+            raise ToolError("fixture:// sources are restricted to golden packages")
+        source = fixture_path(url, repo_root)
+        if source.is_dir():
+            prefix = str(entry.get("archive_root") or "%s-%s" % (package_id, entry.get("version", "fixture")))
+            materialization = canonical_tar_gz(source, destination, prefix)
+        elif source.is_file():
+            shutil.copyfile(source, destination)
+            materialization = {"path": str(destination), "size": destination.stat().st_size}
+        else:
+            raise ToolError("fixture source does not exist: %s" % source)
+    else:
+        validate_https_url(url, allow_file=package_id.startswith("golden-"))
+        parsed = urllib.parse.urlsplit(url)
+        if parsed.hostname and parsed.hostname.lower() == "aur.archlinux.org":
+            raise ToolError("AUR package archives are metadata evidence, not official build sources")
+        data, fetch_meta = fetch_url(
+            url,
+            timeout=timeout,
+            retries=retries,
+            cache_dir=cache_dir,
+            max_bytes=2 * 1024 * 1024 * 1024,
+        )
+        if urllib.parse.urlsplit(str(fetch_meta.get("url") or url)).scheme != "https" and not package_id.startswith("golden-"):
+            raise ToolError("official source redirect downgraded from HTTPS", 1)
+        from _lib import atomic_write
+
+        atomic_write(destination, data)
+        materialization = {"fetch": fetch_meta, "size": len(data)}
+    actual = sha256_file(destination)
+    if actual != expected:
+        destination.unlink(missing_ok=True)
+        raise ToolError("source checksum mismatch for %s: expected %s, got %s" % (filename, expected, actual), 1)
+    signature = verify_signature(entry, destination, repo_root, offline)
+    return {
+        "id": entry.get("id"),
+        "filename": filename,
+        "url": url,
+        "sha256": actual,
+        "size": destination.stat().st_size,
+        "signature": signature,
+        "materialization": materialization,
+        "verified": True,
+    }
+
+
+def stage_package(package_dir: pathlib.Path, topdir: Mapping[str, pathlib.Path], metadata: Mapping[str, Any]) -> Tuple[pathlib.Path, List[str]]:
+    packaging = metadata.get("files") if isinstance(metadata.get("files"), Mapping) else metadata.get("packaging") if isinstance(metadata.get("packaging"), Mapping) else {}
+    rpm = metadata.get("rpm") if isinstance(metadata.get("rpm"), Mapping) else {}
+    spec_relative = str(packaging.get("spec") or "%s.spec" % (rpm.get("name") or metadata.get("rpm_name")))
+    spec_source = package_dir / spec_relative
+    if not spec_source.is_file():
+        raise ToolError("SPEC does not exist: %s" % spec_source)
+    spec_dest = topdir["SPECS"] / spec_source.name
+    shutil.copyfile(spec_source, spec_dest)
+    patch_names: List[str] = []
+    series_path = package_dir / "patches" / "series"
+    if series_path.exists():
+        for raw in series_path.read_text(encoding="utf-8").splitlines():
+            name = raw.strip()
+            if not name or name.startswith("#"):
+                continue
+            if pathlib.PurePosixPath(name).name != name:
+                raise ToolError("patch series entries must be plain filenames: %s" % name)
+            patch = package_dir / "patches" / name
+            if not patch.is_file():
+                raise ToolError("patch series references a missing file: %s" % name)
+            shutil.copyfile(patch, topdir["SOURCES"] / name)
+            patch_names.append(name)
+    return spec_dest, patch_names
+
+
+def os_release() -> Dict[str, str]:
+    result: Dict[str, str] = {}
+    path = pathlib.Path("/etc/os-release")
+    if not path.exists():
+        return result
+    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+        if "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        result[key] = value.strip().strip('"')
+    return result
+
+
+def environment_check(expected_arch: str, expected_os: str, expected_isa: str) -> Dict[str, Any]:
+    machine = platform.machine().lower()
+    aliases = {"riscv64": {"riscv64", "riscv64gc"}}
+    arch_ok = machine in aliases.get(expected_arch.lower(), {expected_arch.lower()})
+    release = os_release()
+    pretty = release.get("PRETTY_NAME", "")
+    os_ok = "openeuler" in pretty.lower() and "24.03" in pretty and "sp3" in pretty.lower()
+    result = {
+        "observed_arch": machine,
+        "expected_arch": expected_arch,
+        "arch_ok": arch_ok,
+        "os_release": release,
+        "expected_os": expected_os,
+        "os_ok": os_ok,
+        "expected_isa": expected_isa,
+        "isa_probe": os.environ.get("OE_RVA23_PROBE", "not-reported"),
+    }
+    if not arch_ok:
+        raise ToolError("build must run in the riscv64 OCI; observed architecture is %s" % machine, 1)
+    if not os_ok:
+        raise ToolError("build must run in openEuler 24.03 LTS SP3; observed %s" % (pretty or "unknown OS"), 1)
+    if os.environ.get("OE_RVA23_PROBE") != "passed":
+        raise ToolError("RVA23 representative instruction probe was not reported as passed", 1)
+    return result
+
+
+def first_error(log: str) -> Optional[str]:
+    patterns = (
+        r"(?im)^.*(?:fatal error|error:|failed:|no such file|undefined reference|bad exit status).*$",
+        r"(?im)^.*(?:timeout|killed|segmentation fault).*$",
+    )
+    for pattern in patterns:
+        match = re.search(pattern, log)
+        if match:
+            return match.group(0).strip()[:2000]
+    return None
+
+
+def run_logged(command: Sequence[str], log_path: pathlib.Path, timeout: int, env: Mapping[str, str]) -> Tuple[int, bool, float]:
+    start = time.monotonic()
+    timed_out = False
+    with log_path.open("wb") as log:
+        try:
+            completed = subprocess.run(list(command), stdout=log, stderr=subprocess.STDOUT, env=dict(env), timeout=timeout, check=False)
+            code = completed.returncode
+        except subprocess.TimeoutExpired:
+            timed_out = True
+            code = 124
+            log.write(b"\nERROR: build command timed out\n")
+    return code, timed_out, round(time.monotonic() - start, 3)
+
+
+def rpm_outputs(topdir: Mapping[str, pathlib.Path]) -> List[pathlib.Path]:
+    return sorted(list(topdir["RPMS"].rglob("*.rpm")) + list(topdir["SRPMS"].rglob("*.rpm")))
+
+
+def build_requires(spec_path: pathlib.Path) -> Dict[str, Any]:
+    dependencies: List[str] = []
+    method = "spec-text-fallback"
+    rpmspec = shutil.which("rpmspec")
+    if rpmspec:
+        completed = subprocess.run(
+            [rpmspec, "-q", "--buildrequires", str(spec_path)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+        if completed.returncode == 0:
+            dependencies = [line.strip() for line in completed.stdout.splitlines() if line.strip()]
+            method = "rpmspec--buildrequires"
+    if not dependencies:
+        text = spec_path.read_text(encoding="utf-8", errors="replace")
+        for value in re.findall(r"(?im)^BuildRequires:\s*(.+)$", text):
+            dependencies.extend(item.strip() for item in value.split(",") if item.strip())
+    normalized: List[str] = []
+    for value in dependencies:
+        if "\x00" in value or "\n" in value or value.startswith("-") or len(value) > 512:
+            raise ToolError("unsafe BuildRequires token in SPEC")
+        if value not in normalized:
+            normalized.append(value)
+    return {
+        "method": method,
+        "build_requires": normalized,
+        "install_argv": ["dnf", "-y", "--setopt=install_weak_deps=False", "install", "--"] + normalized,
+        "network_stage_required": bool(normalized),
+        "derived_image_publish_allowed": False,
+    }
+
+
+def main() -> int:
+    args = parser().parse_args()
+    started = parse_now(args.now)
+    package_dir = pathlib.Path(args.package_dir).resolve()
+    repo_root = pathlib.Path(args.repo_root).resolve()
+    work = pathlib.Path(args.work_dir).resolve()
+    result_path = pathlib.Path(args.result)
+    build_result: Dict[str, Any] = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "build-result",
+        "started_at": isoformat(started),
+        "completed_at": None,
+        "status": "failed",
+        "phase": "initialize",
+        "exit_code": 1,
+        "target": {"os": args.expected_os, "arch": args.expected_arch, "isa": args.expected_isa},
+        "commit_sha": os.environ.get("GITHUB_SHA") or os.environ.get("BUILD_COMMIT_SHA"),
+        "source_verification": [],
+        "commands": [],
+        "artifacts": [],
+        "failure": None,
+    }
+    try:
+        if args.timeout <= 0:
+            raise ToolError("timeout must be positive")
+        if not package_dir.is_dir():
+            raise ToolError("package directory does not exist: %s" % package_dir)
+        try:
+            package_dir.relative_to(repo_root)
+        except ValueError as exc:
+            raise ToolError("package directory must be under repo-root") from exc
+        metadata = load_json(package_dir / "package.yaml")
+        sources = load_json(package_dir / "sources.yaml")
+        package_id = package_identifier(metadata.get("package_id") or package_dir.name)
+        build_result["package_id"] = package_id
+        version_data = metadata.get("version") if isinstance(metadata.get("version"), Mapping) else {}
+        build_result["package_version"] = version_data.get("current") or metadata.get("version")
+        topdir = prepare_dirs(work)
+        build_result["work_dir"] = str(work)
+        cache_dir = pathlib.Path(args.cache_dir) if args.cache_dir else work / "download-cache"
+        entries = sources.get("sources", [])
+        if not isinstance(entries, list) or not entries:
+            raise ToolError("sources.yaml must contain at least one source")
+        build_result["phase"] = "source-verify"
+        verifications = [
+            materialize_source(
+                entry,
+                package_id=package_id,
+                repo_root=repo_root,
+                sources_dir=topdir["SOURCES"],
+                cache_dir=cache_dir,
+                timeout=args.download_timeout,
+                retries=args.retries,
+                offline=args.offline,
+            )
+            for entry in entries
+        ]
+        build_result["source_verification"] = verifications
+        source_record = {
+            "schema_version": SCHEMA_VERSION,
+            "package_id": package_id,
+            "verified_at": isoformat(started),
+            "offline": args.offline,
+            "sources": verifications,
+        }
+        atomic_write_json(work / "source-verification.json", source_record)
+        spec_path, patches = stage_package(package_dir, topdir, metadata)
+        build_result["patches"] = patches
+        build_result["dependency_plan"] = build_requires(spec_path)
+        command = [
+            "rpmbuild",
+            "-ba",
+            str(spec_path),
+            "--define",
+            "_topdir %s" % work,
+            "--define",
+            "_smp_mflags -j2",
+            "--define",
+            "_source_payload w9.gzdio",
+            "--define",
+            "_binary_payload w9.xzdio",
+        ]
+        build_result["commands"].append(command)
+        if args.plan:
+            build_result.update({"status": "planned", "phase": "plan", "exit_code": 0})
+        elif args.verify_only:
+            build_result.update({"status": "source-verified", "phase": "source-verify", "exit_code": 0})
+        else:
+            build_profile = metadata.get("build") if isinstance(metadata.get("build"), Mapping) else {}
+            if build_profile.get("profile") == "needs-native-riscv":
+                build_result.update(
+                    {
+                        "status": "needs-native-riscv",
+                        "phase": "native-routing",
+                        "exit_code": 1,
+                        "failure": {
+                            "phase": "native-routing",
+                            "message": str(build_profile.get("native_reason") or "package requires native RISC-V validation"),
+                            "first_effective_error": "native RISC-V validation is required; QEMU user mode is not accepted",
+                        },
+                    }
+                )
+                raise NativeRouting()
+            build_result["phase"] = "environment-check"
+            build_result["environment"] = environment_check(args.expected_arch, args.expected_os, args.expected_isa)
+            if not args.offline:
+                raise ToolError("build phase requires --offline after a separate source verification step", 1)
+            rpmbuild = shutil.which("rpmbuild")
+            if not rpmbuild:
+                raise ToolError("rpmbuild is not installed in the build environment", 1)
+            command[0] = rpmbuild
+            env = dict(os.environ)
+            env.update({"HOME": str(topdir["home"]), "SOURCE_DATE_EPOCH": "0", "TZ": "UTC", "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8"})
+            log_path = topdir["logs"] / "rpmbuild.log"
+            build_result["phase"] = "rpmbuild"
+            code, timed_out, duration = run_logged(command, log_path, args.timeout, env)
+            build_result["timed_out"] = timed_out
+            build_result["duration_seconds"] = duration
+            build_result["log_path"] = str(log_path)
+            log_text = log_path.read_text(encoding="utf-8", errors="replace")
+            if code != 0:
+                raise ToolError("rpmbuild failed with exit code %d: %s" % (code, first_error(log_text) or "see full log"), 1)
+            outputs = rpm_outputs(topdir)
+            if not outputs:
+                raise ToolError("rpmbuild succeeded but produced no RPM/SRPM artifacts", 1)
+            build_result["artifacts"] = [
+                {"path": str(path), "sha256": sha256_file(path), "size": path.stat().st_size, "kind": "srpm" if path.parent == topdir["SRPMS"] else "rpm"}
+                for path in outputs
+            ]
+            if not args.skip_install_smoke:
+                binary_rpms = [path for path in outputs if path.parent != topdir["SRPMS"] and "debuginfo" not in path.name and "debugsource" not in path.name]
+                if not binary_rpms:
+                    raise ToolError("no installable binary RPM was produced", 1)
+                rpm = shutil.which("rpm")
+                if not rpm:
+                    raise ToolError("rpm command is unavailable for install smoke", 1)
+                install_command = [rpm, "-Uvh", "--replacepkgs"] + [str(path) for path in binary_rpms]
+                build_result["commands"].append(install_command)
+                install_log = topdir["logs"] / "rpm-install.log"
+                install_code, _, install_duration = run_logged(install_command, install_log, min(args.timeout, 900), env)
+                if install_code != 0:
+                    raise ToolError("RPM install smoke failed; see %s" % install_log, 1)
+                file_data = metadata.get("files") if isinstance(metadata.get("files"), Mapping) else metadata.get("packaging") or {}
+                smoke_relative = str(file_data.get("smoke_test") or "tests/smoke.sh")
+                smoke_path = package_dir / smoke_relative
+                if not smoke_path.is_file():
+                    raise ToolError("declared smoke test does not exist: %s" % smoke_path)
+                smoke_command = ["/usr/bin/env", "bash", str(smoke_path)]
+                build_result["commands"].append(smoke_command)
+                smoke_log = topdir["logs"] / "smoke.log"
+                smoke_code, smoke_timeout, smoke_duration = run_logged(smoke_command, smoke_log, min(args.timeout, 900), env)
+                build_result["smoke"] = {"exit_code": smoke_code, "timed_out": smoke_timeout, "duration_seconds": smoke_duration, "log_path": str(smoke_log)}
+                if smoke_code != 0:
+                    raise ToolError("package smoke test failed; see %s" % smoke_log, 1)
+            build_result.update({"status": "passed", "phase": "complete", "exit_code": 0})
+    except NativeRouting:
+        pass
+    except ToolError as exc:
+        build_result["status"] = "failed"
+        build_result["exit_code"] = exc.exit_code if exc.exit_code in (1, 2) else 1
+        build_result["failure"] = {
+            "phase": build_result.get("phase"),
+            "message": str(exc),
+            "first_effective_error": str(exc)[:2000],
+            "untrusted_content_treated_as_instructions": False,
+        }
+    except Exception as exc:
+        build_result["status"] = "failed"
+        build_result["exit_code"] = 1
+        build_result["failure"] = {"phase": build_result.get("phase"), "message": "%s: %s" % (type(exc).__name__, exc), "first_effective_error": str(exc)[:2000]}
+    build_result["completed_at"] = isoformat(parse_now(args.now))
+    emit_json(build_result, str(result_path))
+    return int(build_result["exit_code"])
+
+
+if __name__ == "__main__":
+    run_main(main)

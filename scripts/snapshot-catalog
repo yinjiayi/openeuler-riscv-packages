@@ -1,0 +1,1534 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Resolve official stable distribution catalogs into normalized JSON snapshots.
+
+The input file is JSON-compatible YAML (JSON syntax with a ``.yaml`` suffix).
+Remote metadata is data only: this tool never evaluates packaging recipes, including
+AUR PKGBUILDs.  Live downloads require HTTPS.  Tests can opt into ``fixture://`` URLs
+whose paths are confined below an explicit ``--fixture-root``.
+"""
+
+from __future__ import annotations
+
+import argparse
+import bz2
+import datetime as dt
+import email.utils
+import gzip
+import hashlib
+import html.parser
+import io
+import json
+import lzma
+import os
+import pathlib
+import posixpath
+import re
+import shutil
+import subprocess
+import sys
+import tarfile
+import tempfile
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+import xml.etree.ElementTree as ET
+from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Tuple
+
+
+SCHEMA_VERSION = 1
+SOURCES = ("arch", "aur", "opensuse", "fedora", "debian", "ubuntu")
+ARCH_REPOSITORIES = ("core", "extra")
+DEBIAN_COMPONENTS = ("main", "contrib", "non-free", "non-free-firmware")
+UBUNTU_COMPONENTS = ("main", "restricted", "universe", "multiverse")
+USER_AGENT = "openeuler-riscv-packages/snapshot-catalog-1.0"
+MAX_DOWNLOAD_BYTES = 768 * 1024 * 1024
+MAX_EXPANDED_BYTES = 1024 * 1024 * 1024
+MAX_TAR_MEMBER_BYTES = 16 * 1024 * 1024
+FORBIDDEN_XML = re.compile(br"<!\s*(?:DOCTYPE|ENTITY)\b", re.IGNORECASE)
+
+
+class CatalogError(Exception):
+    """An expected policy, input, or fetch failure."""
+
+    def __init__(self, message: str, exit_code: int = 2) -> None:
+        super().__init__(message)
+        self.exit_code = exit_code
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    default_config = pathlib.Path(__file__).resolve().parents[1] / "catalog" / "sources.yaml"
+    result.add_argument("--config", default=str(default_config), help="JSON-compatible sources policy")
+    result.add_argument("--source", action="append", choices=SOURCES, default=[], help="repeat to select sources")
+    result.add_argument("--output-dir", required=True, help="directory receiving SOURCE.json snapshots")
+    result.add_argument("--summary", help="summary JSON path, '-' for stdout (default: OUTPUT-DIR/summary.json)")
+    result.add_argument("--cache-dir", help="conditional HTTP response cache")
+    result.add_argument("--timeout", type=float, default=30.0, help="per-request timeout in seconds")
+    result.add_argument("--retries", type=int, default=3, help="retries after the first request")
+    result.add_argument("--requests-per-second", type=float, default=2.0, help="per-host request rate")
+    result.add_argument("--limit", type=int, default=0, help="maximum normalized packages per source; 0 is unlimited")
+    result.add_argument("--as-of", help="fixed UTC snapshot time for reproducible fixture runs")
+    result.add_argument(
+        "--fixture-root",
+        help="allow fixture:// and file:// metadata confined below this directory",
+    )
+    return result
+
+
+def stable_json(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+
+
+def atomic_write(path: pathlib.Path, data: bytes, mode: int = 0o644) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary = tempfile.mkstemp(prefix=".%s." % path.name, dir=str(path.parent))
+    try:
+        with os.fdopen(descriptor, "wb") as handle:
+            handle.write(data)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.chmod(temporary, mode)
+        os.replace(temporary, path)
+    finally:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+
+
+def atomic_json(path: pathlib.Path, value: Any) -> None:
+    atomic_write(path, stable_json(value).encode("utf-8"))
+
+
+def sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def parse_as_of(value: Optional[str]) -> dt.datetime:
+    if not value:
+        return dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
+    text = value.strip()
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    try:
+        parsed = dt.datetime.fromisoformat(text)
+    except ValueError as exc:
+        raise CatalogError("invalid --as-of timestamp: %s" % value) from exc
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=dt.timezone.utc)
+    return parsed.astimezone(dt.timezone.utc).replace(microsecond=0)
+
+
+def isoformat(value: dt.datetime) -> str:
+    return value.astimezone(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def load_config(path: pathlib.Path) -> Mapping[str, Any]:
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError as exc:
+        raise CatalogError("cannot read config %s: %s" % (path, exc), 1) from exc
+    if text.lstrip().startswith(("---", "%YAML", "!!", "!<")):
+        raise CatalogError("config must be JSON-compatible YAML; YAML tags and directives are forbidden")
+    try:
+        value = json.loads(text)
+    except json.JSONDecodeError as exc:
+        raise CatalogError("config must be JSON-compatible YAML: %s" % exc) from exc
+    if not isinstance(value, Mapping) or not isinstance(value.get("sources"), Mapping):
+        raise CatalogError("config must contain an object named sources")
+    return value
+
+
+def list_value(value: Any) -> List[Any]:
+    if value is None:
+        return []
+    return value if isinstance(value, list) else [value]
+
+
+def metadata_entries(settings: Mapping[str, Any]) -> List[Tuple[str, Optional[str]]]:
+    entries: List[Tuple[str, Optional[str]]] = []
+    for item in list_value(settings.get("metadata_urls")):
+        if isinstance(item, str):
+            entries.append((item, None))
+        elif isinstance(item, Mapping) and isinstance(item.get("url"), str):
+            component = item.get("component")
+            entries.append((str(item["url"]), str(component) if component else None))
+        else:
+            raise CatalogError("metadata_urls entries must be URL strings or {url, component} objects")
+    if not entries:
+        raise CatalogError("enabled source has no metadata_urls")
+    return entries
+
+
+class HostRateLimiter:
+    def __init__(self, requests_per_second: float) -> None:
+        if requests_per_second <= 0:
+            raise CatalogError("--requests-per-second must be positive")
+        self.interval = 1.0 / requests_per_second
+        self.last: Dict[str, float] = {}
+
+    def wait(self, host: str) -> None:
+        now = time.monotonic()
+        delay = self.interval - (now - self.last.get(host, 0.0))
+        if delay > 0:
+            time.sleep(delay)
+        self.last[host] = time.monotonic()
+
+
+class SafeRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def redirect_request(
+        self,
+        request: urllib.request.Request,
+        fp: Any,
+        code: int,
+        message: str,
+        headers: Any,
+        newurl: str,
+    ) -> Optional[urllib.request.Request]:
+        parsed = urllib.parse.urlsplit(newurl)
+        if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
+            raise CatalogError("unsafe redirect target: %s" % newurl, 1)
+        return super().redirect_request(request, fp, code, message, headers, newurl)
+
+
+class Resource:
+    def __init__(
+        self,
+        requested_url: str,
+        resolved_url: str,
+        data: bytes,
+        fetched_at: str,
+        cached: bool = False,
+        headers: Optional[Mapping[str, Any]] = None,
+    ) -> None:
+        self.requested_url = requested_url
+        self.resolved_url = resolved_url
+        self.data = data
+        self.fetched_at = fetched_at
+        self.cached = cached
+        self.headers = dict(headers or {})
+        self.sha256 = sha256(data)
+
+    def evidence(self, role: str, expected_sha256: Optional[str] = None) -> Dict[str, Any]:
+        result: Dict[str, Any] = {
+            "role": role,
+            "url": self.requested_url,
+            "resolved_url": self.resolved_url,
+            "sha256": self.sha256,
+            "size": len(self.data),
+            "cached": self.cached,
+        }
+        if expected_sha256:
+            result["expected_sha256"] = expected_sha256.lower()
+        return result
+
+
+class Fetcher:
+    def __init__(
+        self,
+        *,
+        timeout: float,
+        retries: int,
+        cache_dir: Optional[pathlib.Path],
+        requests_per_second: float,
+        fixture_root: Optional[pathlib.Path],
+        fetched_at: str,
+    ) -> None:
+        if timeout <= 0:
+            raise CatalogError("--timeout must be positive")
+        if retries < 0:
+            raise CatalogError("--retries must not be negative")
+        self.timeout = timeout
+        self.retries = retries
+        self.cache_dir = cache_dir.resolve() if cache_dir else None
+        self.fixture_root = fixture_root.resolve() if fixture_root else None
+        self.limiter = HostRateLimiter(requests_per_second)
+        self.fetched_at = fetched_at
+        self.opener = urllib.request.build_opener(SafeRedirectHandler())
+
+    def _fixture_path(self, url: str) -> pathlib.Path:
+        if self.fixture_root is None:
+            raise CatalogError("fixture:// and file:// URLs require --fixture-root")
+        parsed = urllib.parse.urlsplit(url)
+        if parsed.scheme == "fixture":
+            combined = "/".join(part for part in (parsed.netloc, parsed.path.lstrip("/")) if part)
+            relative = pathlib.PurePosixPath(urllib.parse.unquote(combined))
+            if not combined or relative.is_absolute() or ".." in relative.parts:
+                raise CatalogError("unsafe fixture URL path: %s" % url)
+            candidate = self.fixture_root.joinpath(*relative.parts).resolve()
+        else:
+            candidate = pathlib.Path(urllib.request.url2pathname(parsed.path)).resolve()
+        try:
+            candidate.relative_to(self.fixture_root)
+        except ValueError as exc:
+            raise CatalogError("fixture URL escapes --fixture-root: %s" % url) from exc
+        if candidate.is_dir():
+            candidate = candidate / "index.html"
+        if not candidate.is_file():
+            raise CatalogError("fixture metadata does not exist: %s" % url, 1)
+        return candidate
+
+    @staticmethod
+    def _validate_live_url(url: str) -> urllib.parse.SplitResult:
+        parsed = urllib.parse.urlsplit(url)
+        if parsed.scheme != "https" or not parsed.hostname:
+            raise CatalogError("live metadata URL must use HTTPS: %s" % url)
+        if parsed.username or parsed.password:
+            raise CatalogError("credentials in metadata URLs are forbidden")
+        return parsed
+
+    def fetch(self, url: str) -> Resource:
+        parsed = urllib.parse.urlsplit(url)
+        if parsed.scheme in ("fixture", "file"):
+            path = self._fixture_path(url)
+            try:
+                data = path.read_bytes()
+            except OSError as exc:
+                raise CatalogError("cannot read fixture %s: %s" % (url, exc), 1) from exc
+            if len(data) > MAX_DOWNLOAD_BYTES:
+                raise CatalogError("fixture exceeds download limit: %s" % url, 1)
+            return Resource(url, url, data, self.fetched_at)
+
+        parsed = self._validate_live_url(url)
+        cache_key = hashlib.sha256(url.encode("utf-8")).hexdigest()
+        body_path = self.cache_dir / (cache_key + ".body") if self.cache_dir else None
+        meta_path = self.cache_dir / (cache_key + ".json") if self.cache_dir else None
+        cached_meta: MutableMapping[str, Any] = {}
+        if self.cache_dir:
+            self.cache_dir.mkdir(parents=True, exist_ok=True)
+            if meta_path and meta_path.is_file():
+                try:
+                    loaded = json.loads(meta_path.read_text(encoding="utf-8"))
+                    if isinstance(loaded, MutableMapping):
+                        cached_meta = loaded
+                except (OSError, json.JSONDecodeError):
+                    cached_meta = {}
+        headers = {
+            "User-Agent": USER_AGENT,
+            "Accept": "application/json, application/xml, text/plain, application/octet-stream;q=0.8",
+        }
+        if cached_meta.get("etag"):
+            headers["If-None-Match"] = str(cached_meta["etag"])
+        if cached_meta.get("last_modified"):
+            headers["If-Modified-Since"] = str(cached_meta["last_modified"])
+
+        last_error: Optional[BaseException] = None
+        for attempt in range(self.retries + 1):
+            try:
+                self.limiter.wait(parsed.hostname or "")
+                request = urllib.request.Request(url, headers=headers, method="GET")
+                with self.opener.open(request, timeout=self.timeout) as response:
+                    content_length = response.headers.get("Content-Length")
+                    if content_length and int(content_length) > MAX_DOWNLOAD_BYTES:
+                        raise CatalogError("download exceeds byte limit: %s" % url, 1)
+                    data = response.read(MAX_DOWNLOAD_BYTES + 1)
+                    if len(data) > MAX_DOWNLOAD_BYTES:
+                        raise CatalogError("download exceeds byte limit: %s" % url, 1)
+                    response_meta: Dict[str, Any] = {
+                        "etag": response.headers.get("ETag"),
+                        "last_modified": response.headers.get("Last-Modified"),
+                        "resolved_url": response.geturl(),
+                        "fetched_at": self.fetched_at,
+                    }
+                    if body_path and meta_path:
+                        atomic_write(body_path, data)
+                        atomic_json(meta_path, response_meta)
+                    return Resource(url, response.geturl(), data, self.fetched_at, False, response_meta)
+            except urllib.error.HTTPError as exc:
+                if exc.code == 304 and body_path and body_path.is_file():
+                    data = body_path.read_bytes()
+                    if len(data) > MAX_DOWNLOAD_BYTES:
+                        raise CatalogError("cached response exceeds byte limit: %s" % url, 1)
+                    return Resource(
+                        url,
+                        str(cached_meta.get("resolved_url") or url),
+                        data,
+                        self.fetched_at,
+                        True,
+                        cached_meta,
+                    )
+                if exc.code not in (408, 425, 429, 500, 502, 503, 504):
+                    raise CatalogError("HTTP %s for %s" % (exc.code, url), 1) from exc
+                last_error = exc
+                retry_after = exc.headers.get("Retry-After")
+                delay = float(retry_after) if retry_after and retry_after.isdigit() else min(2 ** attempt, 16)
+            except CatalogError:
+                raise
+            except (urllib.error.URLError, TimeoutError, OSError) as exc:
+                last_error = exc
+                delay = min(2 ** attempt, 16)
+            if attempt < self.retries:
+                time.sleep(delay)
+        raise CatalogError(
+            "failed to fetch %s after %d attempts: %s" % (url, self.retries + 1, last_error),
+            1,
+        )
+
+
+def replace_url_path(url: str, path: str) -> str:
+    parsed = urllib.parse.urlsplit(url)
+    return urllib.parse.urlunsplit((parsed.scheme, parsed.netloc, path, "", ""))
+
+
+def join_url(base: str, relative: str) -> str:
+    target = urllib.parse.urlsplit(relative)
+    if target.scheme:
+        return relative
+    parsed = urllib.parse.urlsplit(base)
+    if parsed.scheme == "fixture":
+        if relative.startswith("/"):
+            path = posixpath.normpath(relative)
+        else:
+            path = posixpath.normpath(posixpath.join(posixpath.dirname(parsed.path), relative))
+        if not path.startswith("/") or ".." in pathlib.PurePosixPath(path).parts:
+            raise CatalogError("unsafe relative fixture URL: %s" % relative)
+        return urllib.parse.urlunsplit(("fixture", parsed.netloc, path, "", ""))
+    return urllib.parse.urljoin(base, relative)
+
+
+def join_directory(base: str, relative: str) -> str:
+    parsed = urllib.parse.urlsplit(base)
+    path = parsed.path if parsed.path.endswith("/") else parsed.path + "/"
+    return join_url(replace_url_path(base, path), relative)
+
+
+def repo_join(repomd_url: str, href: str) -> str:
+    parsed = urllib.parse.urlsplit(repomd_url)
+    marker = "/repodata/repomd.xml"
+    if not parsed.path.endswith(marker):
+        raise CatalogError("repomd URL does not end in /repodata/repomd.xml: %s" % repomd_url)
+    root = parsed.path[: -len(marker)] + "/"
+    return join_directory(replace_url_path(repomd_url, root), href)
+
+
+def repository_root(release_url: str) -> str:
+    parsed = urllib.parse.urlsplit(release_url)
+    marker = "/dists/"
+    if marker not in parsed.path:
+        raise CatalogError("Release URL is not below a dists directory: %s" % release_url)
+    root = parsed.path.split(marker, 1)[0] + "/"
+    return replace_url_path(release_url, root)
+
+
+def _stream_decompress(handle: Any, label: str) -> bytes:
+    output = io.BytesIO()
+    total = 0
+    while True:
+        chunk = handle.read(1024 * 1024)
+        if not chunk:
+            break
+        total += len(chunk)
+        if total > MAX_EXPANDED_BYTES:
+            raise CatalogError("expanded metadata exceeds byte limit: %s" % label, 1)
+        output.write(chunk)
+    return output.getvalue()
+
+
+def external_zstd(data: bytes, label: str) -> bytes:
+    executable = shutil.which("zstd")
+    if not executable:
+        raise CatalogError("required decompressor 'zstd' is unavailable for %s" % label, 1)
+    with tempfile.NamedTemporaryFile(prefix="snapshot-catalog-zstd-", suffix=".zst") as source:
+        source.write(data)
+        source.flush()
+        process = subprocess.Popen(
+            [executable, "-q", "-d", "-c", "--", source.name],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        assert process.stdout is not None
+        output = io.BytesIO()
+        total = 0
+        while True:
+            chunk = process.stdout.read(1024 * 1024)
+            if not chunk:
+                break
+            total += len(chunk)
+            if total > MAX_EXPANDED_BYTES:
+                process.kill()
+                process.wait()
+                raise CatalogError("expanded metadata exceeds byte limit: %s" % label, 1)
+            output.write(chunk)
+        stderr = process.stderr.read() if process.stderr else b""
+        code = process.wait()
+        if code != 0:
+            raise CatalogError(
+                "zstd failed for %s: %s" % (label, stderr.decode("utf-8", "replace").strip()),
+                1,
+            )
+        return output.getvalue()
+
+
+def decompress(data: bytes, url: str) -> bytes:
+    path = urllib.parse.urlsplit(url).path.lower()
+    if path.endswith((".zck", ".drpm")):
+        raise CatalogError("unsupported metadata compression/format for %s" % url, 1)
+    try:
+        if data.startswith(b"\x1f\x8b") or path.endswith(".gz"):
+            return _stream_decompress(gzip.GzipFile(fileobj=io.BytesIO(data)), url)
+        if data.startswith(b"BZh") or path.endswith(".bz2"):
+            return _stream_decompress(bz2.BZ2File(io.BytesIO(data)), url)
+        if data.startswith(b"\xfd7zXZ\x00") or path.endswith(".xz"):
+            return _stream_decompress(lzma.LZMAFile(io.BytesIO(data)), url)
+        if data.startswith(b"\x28\xb5\x2f\xfd") or path.endswith((".zst", ".zstd")):
+            return external_zstd(data, url)
+    except (OSError, EOFError, lzma.LZMAError) as exc:
+        raise CatalogError("cannot decompress %s: %s" % (url, exc), 1) from exc
+    if len(data) > MAX_EXPANDED_BYTES:
+        raise CatalogError("metadata exceeds expanded byte limit: %s" % url, 1)
+    return data
+
+
+def safe_xml(data: bytes, origin: str) -> ET.Element:
+    if FORBIDDEN_XML.search(data):
+        raise CatalogError("DTD/entity declarations are forbidden in XML metadata: %s" % origin)
+    try:
+        return ET.fromstring(data)
+    except ET.ParseError as exc:
+        raise CatalogError("invalid XML metadata %s: %s" % (origin, exc)) from exc
+
+
+def local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def child_text(element: ET.Element, name: str) -> Optional[str]:
+    for child in element.iter():
+        if child is not element and local_name(child.tag) == name and child.text:
+            return child.text.strip()
+    return None
+
+
+def sectioned_text(data: bytes, origin: str) -> Dict[str, List[str]]:
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise CatalogError("pacman database entry is not UTF-8: %s" % origin) from exc
+    result: Dict[str, List[str]] = {}
+    key: Optional[str] = None
+    for line in text.splitlines():
+        if line.startswith("%") and line.endswith("%") and len(line) > 2:
+            key = line.strip("%")
+            result.setdefault(key, [])
+        elif line and key:
+            result[key].append(line)
+    return result
+
+
+def first(values: Mapping[str, List[str]], key: str, default: Optional[str] = None) -> Optional[str]:
+    items = values.get(key, [])
+    return items[0] if items else default
+
+
+def normalized_package(
+    *,
+    name: str,
+    version: str,
+    repository: str,
+    package_base: Optional[str] = None,
+    description: Optional[str] = None,
+    license_value: Any = "unknown",
+    upstream_url: Optional[str] = None,
+    maintainer: Optional[str] = None,
+    last_modified: Any = None,
+    out_of_date: bool = False,
+    metadata: Optional[Mapping[str, Any]] = None,
+) -> Dict[str, Any]:
+    if not name.strip() or not version.strip():
+        raise CatalogError("catalog package is missing name or version")
+    return {
+        "name": name.strip(),
+        "package_base": (package_base or name).strip(),
+        "version": version.strip(),
+        "description": (description or "").strip(),
+        "license": license_value if license_value else "unknown",
+        "repository": repository,
+        "upstream_url": upstream_url.strip() if upstream_url else None,
+        "source_url": None,
+        "sha256": None,
+        "maintainer": maintainer.strip() if maintainer else None,
+        "last_modified": last_modified,
+        "out_of_date": bool(out_of_date),
+        "metadata": dict(metadata or {}),
+    }
+
+
+def apply_limit(packages: List[Dict[str, Any]], limit: int) -> Tuple[List[Dict[str, Any]], int]:
+    packages.sort(key=lambda item: (str(item.get("repository", "")), str(item["name"]).lower(), str(item["version"])))
+    original = len(packages)
+    return (packages[:limit] if limit else packages), original
+
+
+def aggregate_digest(resources: Sequence[Mapping[str, Any]]) -> str:
+    material = [
+        {"role": item["role"], "url": item["url"], "sha256": item["sha256"]}
+        for item in resources
+    ]
+    return sha256(json.dumps(material, sort_keys=True, separators=(",", ":")).encode("utf-8"))
+
+
+def snapshot_document(
+    *,
+    source: str,
+    release: str,
+    codename: Optional[str],
+    components: Sequence[str],
+    snapshot_at: str,
+    resources: Sequence[Mapping[str, Any]],
+    packages: List[Dict[str, Any]],
+    original_count: int,
+    details: Optional[Mapping[str, Any]] = None,
+) -> Dict[str, Any]:
+    if not packages:
+        raise CatalogError("%s metadata produced zero packages; refusing an empty success snapshot" % source)
+    resource_list = [dict(item) for item in resources]
+    metadata_sha256 = aggregate_digest(resource_list)
+    snapshot: Dict[str, Any] = {
+        "source": source,
+        "resolved_release": release,
+        "codename": codename,
+        "components": list(components),
+        "snapshot_at": snapshot_at,
+        "source_urls": [str(item["url"]) for item in resource_list],
+        "metadata_sha256": metadata_sha256,
+        "metadata": resource_list,
+    }
+    snapshot.update(dict(details or {}))
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "snapshot": snapshot,
+        "summary": {
+            "package_count": len(packages),
+            "package_count_before_limit": original_count,
+            "truncated": len(packages) < original_count,
+        },
+        "packages": packages,
+    }
+
+
+def identify_arch_repository(url: str, configured: Optional[str], repositories: Sequence[str]) -> str:
+    if configured:
+        candidate = configured.lower()
+    else:
+        path = urllib.parse.urlsplit(url).path.lower()
+        basename = posixpath.basename(path)
+        candidate = basename.split(".db", 1)[0]
+        if candidate not in ARCH_REPOSITORIES:
+            matches = [item for item in repositories if "/%s/" % item.lower() in path]
+            candidate = matches[0].lower() if len(matches) == 1 else candidate
+    if candidate not in ARCH_REPOSITORIES:
+        raise CatalogError("Arch catalog is restricted to stable core/extra, got %s from %s" % (candidate, url))
+    return candidate
+
+
+def parse_pacman_database(resource: Resource, repository: str) -> List[Dict[str, Any]]:
+    content = decompress(resource.data, resource.resolved_url)
+    try:
+        archive = tarfile.open(fileobj=io.BytesIO(content), mode="r:")
+    except tarfile.TarError as exc:
+        raise CatalogError(
+            "Arch metadata is not a supported pacman DB tar archive: %s"
+            % resource.requested_url
+        ) from exc
+    packages: List[Dict[str, Any]] = []
+    seen: set = set()
+    with archive:
+        for member in archive:
+            pure = pathlib.PurePosixPath(member.name)
+            if pure.is_absolute() or ".." in pure.parts or pure.name != "desc":
+                continue
+            if not member.isfile() or member.size > MAX_TAR_MEMBER_BYTES:
+                if member.size > MAX_TAR_MEMBER_BYTES:
+                    raise CatalogError("oversized pacman DB member: %s" % member.name)
+                continue
+            extracted = archive.extractfile(member)
+            if extracted is None:
+                raise CatalogError("cannot read pacman DB member: %s" % member.name)
+            fields = sectioned_text(extracted.read(MAX_TAR_MEMBER_BYTES + 1), member.name)
+            name = first(fields, "NAME")
+            version = first(fields, "VERSION")
+            if not name or not version:
+                raise CatalogError("pacman DB desc entry lacks NAME or VERSION: %s" % member.name)
+            identity = (repository, name)
+            if identity in seen:
+                raise CatalogError("duplicate Arch package in %s: %s" % identity)
+            seen.add(identity)
+            package_sha = first(fields, "SHA256SUM")
+            packages.append(
+                normalized_package(
+                    name=name,
+                    package_base=first(fields, "BASE", name),
+                    version=version,
+                    repository=repository,
+                    description=first(fields, "DESC"),
+                    license_value=fields.get("LICENSE") or "unknown",
+                    upstream_url=first(fields, "URL"),
+                    maintainer=first(fields, "PACKAGER"),
+                    last_modified=first(fields, "BUILDDATE"),
+                    metadata={
+                        "architecture": first(fields, "ARCH"),
+                        "package_filename": first(fields, "FILENAME"),
+                        "package_sha256": package_sha.lower() if package_sha else None,
+                        "metadata_url": resource.requested_url,
+                    },
+                )
+            )
+    if not packages:
+        raise CatalogError("pacman DB contains no package desc records: %s" % resource.requested_url)
+    return packages
+
+
+def adapt_arch(settings: Mapping[str, Any], fetcher: Fetcher, snapshot_at: str, limit: int) -> Dict[str, Any]:
+    repositories = [str(item).lower() for item in list_value(settings.get("repositories") or ARCH_REPOSITORIES)]
+    if set(repositories) != set(ARCH_REPOSITORIES):
+        raise CatalogError("Arch source must configure exactly stable core and extra")
+    packages: List[Dict[str, Any]] = []
+    resources: List[Dict[str, Any]] = []
+    resolved_components: List[str] = []
+    for url, configured_component in metadata_entries(settings):
+        repository = identify_arch_repository(url, configured_component, repositories)
+        if repository in resolved_components:
+            raise CatalogError("duplicate Arch repository metadata: %s" % repository)
+        resource = fetcher.fetch(url)
+        packages.extend(parse_pacman_database(resource, repository))
+        resources.append(resource.evidence("pacman-db:%s" % repository))
+        resolved_components.append(repository)
+    if set(resolved_components) != set(ARCH_REPOSITORIES):
+        raise CatalogError("Arch metadata must resolve both core and extra")
+    packages, original = apply_limit(packages, limit)
+    return snapshot_document(
+        source="arch",
+        release="rolling-stable",
+        codename=None,
+        components=ARCH_REPOSITORIES,
+        snapshot_at=snapshot_at,
+        resources=resources,
+        packages=packages,
+        original_count=original,
+    )
+
+
+def parse_aur(resource: Resource) -> List[Dict[str, Any]]:
+    path = urllib.parse.urlsplit(resource.requested_url).path
+    lowered = path.lower()
+    if pathlib.PurePosixPath(path).name.upper() == "PKGBUILD" or "pkgbuild" in lowered:
+        raise CatalogError("AUR PKGBUILD input is forbidden; use official JSON metadata/RPC")
+    if not (lowered.endswith((".json", ".json.gz")) or "/rpc/" in lowered or "/rpc?" in resource.requested_url.lower()):
+        raise CatalogError("unsupported AUR metadata endpoint; expected official .json.gz or RPC JSON")
+    content = decompress(resource.data, resource.resolved_url)
+    try:
+        document = json.loads(content.decode("utf-8-sig"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise CatalogError("invalid AUR JSON metadata: %s" % exc) from exc
+    if isinstance(document, list):
+        records = document
+    elif isinstance(document, Mapping) and isinstance(document.get("results"), list):
+        records = document["results"]
+    else:
+        raise CatalogError("AUR JSON root must be an array or RPC object with results")
+    packages: List[Dict[str, Any]] = []
+    for raw in records:
+        if not isinstance(raw, Mapping):
+            raise CatalogError("AUR metadata contains a non-object record")
+        name = raw.get("Name") or raw.get("name")
+        version = raw.get("Version") or raw.get("version")
+        if not name or not version:
+            raise CatalogError("AUR metadata record lacks Name or Version")
+        licenses = raw.get("License") or raw.get("license") or "unknown"
+        packages.append(
+            normalized_package(
+                name=str(name),
+                package_base=str(raw.get("PackageBase") or raw.get("package_base") or name),
+                version=str(version),
+                repository="aur",
+                description=str(raw.get("Description") or raw.get("description") or ""),
+                license_value=licenses,
+                upstream_url=str(raw.get("URL") or raw.get("upstream_url") or "") or None,
+                maintainer=str(raw.get("Maintainer") or raw.get("maintainer") or "") or None,
+                last_modified=raw.get("LastModified") or raw.get("last_modified"),
+                out_of_date=bool(raw.get("OutOfDate") or raw.get("out_of_date")),
+                metadata={
+                    "metadata_url": resource.requested_url,
+                    "aur_url_path": raw.get("URLPath"),
+                    "popularity": raw.get("Popularity"),
+                    "votes": raw.get("NumVotes"),
+                    "first_submitted": raw.get("FirstSubmitted"),
+                },
+            )
+        )
+    if not packages:
+        raise CatalogError("AUR metadata produced zero packages")
+    return packages
+
+
+def adapt_aur(settings: Mapping[str, Any], fetcher: Fetcher, snapshot_at: str, limit: int) -> Dict[str, Any]:
+    entries = metadata_entries(settings)
+    if len(entries) != 1:
+        raise CatalogError("AUR source must resolve through exactly one official JSON archive/RPC response")
+    resource = fetcher.fetch(entries[0][0])
+    packages, original = apply_limit(parse_aur(resource), limit)
+    return snapshot_document(
+        source="aur",
+        release="AUR",
+        codename=None,
+        components=("official-metadata-json",),
+        snapshot_at=snapshot_at,
+        resources=(resource.evidence("aur-json-metadata"),),
+        packages=packages,
+        original_count=original,
+        details={"external_packaging_executed": False},
+    )
+
+
+def parse_repomd(resource: Resource) -> Dict[str, Any]:
+    root = safe_xml(resource.data, resource.requested_url)
+    if local_name(root.tag) != "repomd":
+        raise CatalogError("RPM repository metadata root is not repomd: %s" % resource.requested_url)
+    revision = child_text(root, "revision")
+    primary: Optional[Dict[str, Any]] = None
+    timestamps: List[int] = []
+    for element in root.iter():
+        if local_name(element.tag) != "data":
+            continue
+        timestamp = child_text(element, "timestamp")
+        if timestamp and timestamp.isdigit():
+            timestamps.append(int(timestamp))
+        if element.attrib.get("type") != "primary":
+            continue
+        checksum_element = next((item for item in element if local_name(item.tag) == "checksum"), None)
+        location_element = next((item for item in element if local_name(item.tag) == "location"), None)
+        if checksum_element is None or checksum_element.attrib.get("type", "").lower() != "sha256":
+            raise CatalogError("repomd primary metadata must carry a SHA256 checksum")
+        if not checksum_element.text or location_element is None or not location_element.attrib.get("href"):
+            raise CatalogError("repomd primary metadata lacks checksum or location")
+        primary = {
+            "href": location_element.attrib["href"],
+            "sha256": checksum_element.text.strip().lower(),
+        }
+    if not primary:
+        raise CatalogError("repomd has no primary XML metadata entry")
+    if ".sqlite" in str(primary["href"]).lower():
+        raise CatalogError("SQLite-only primary metadata is unsupported; primary XML is required")
+    return {"revision": revision, "timestamp": max(timestamps) if timestamps else None, "primary": primary}
+
+
+def verify_expected(resource: Resource, expected: str, label: str) -> None:
+    if not re.fullmatch(r"[0-9a-fA-F]{64}", expected or ""):
+        raise CatalogError("%s does not provide a valid SHA256 checksum" % label)
+    if resource.sha256 != expected.lower():
+        raise CatalogError(
+            "%s SHA256 mismatch: expected %s, got %s" % (label, expected.lower(), resource.sha256),
+            1,
+        )
+
+
+def parse_rpm_primary(
+    resource: Resource,
+    repository: str,
+    repository_base: str,
+) -> Tuple[List[Dict[str, Any]], int]:
+    data = decompress(resource.data, resource.resolved_url)
+    if FORBIDDEN_XML.search(data):
+        raise CatalogError("DTD/entity declarations are forbidden in primary XML: %s" % resource.requested_url)
+    packages: List[Dict[str, Any]] = []
+    ignored_binary = 0
+    try:
+        iterator = ET.iterparse(io.BytesIO(data), events=("end",))
+        for _, element in iterator:
+            if local_name(element.tag) != "package":
+                continue
+            name = child_text(element, "name")
+            architecture = child_text(element, "arch")
+            version_element = next((item for item in element if local_name(item.tag) == "version"), None)
+            if not name or version_element is None or not version_element.attrib.get("ver"):
+                raise CatalogError("RPM primary metadata package lacks name/version")
+            if architecture not in ("src", "nosrc"):
+                ignored_binary += 1
+                element.clear()
+                continue
+            version = version_element.attrib["ver"]
+            release = version_element.attrib.get("rel")
+            epoch = version_element.attrib.get("epoch")
+            rendered_version = ((epoch + ":") if epoch and epoch != "0" else "") + version
+            if release:
+                rendered_version += "-" + release
+            checksum_element = next((item for item in element if local_name(item.tag) == "checksum"), None)
+            location_element = next((item for item in element if local_name(item.tag) == "location"), None)
+            distro_sha = None
+            if (
+                checksum_element is not None
+                and checksum_element.attrib.get("type", "").lower() == "sha256"
+                and checksum_element.text
+            ):
+                distro_sha = checksum_element.text.strip().lower()
+            location = location_element.attrib.get("href") if location_element is not None else None
+            license_value = child_text(element, "license") or "unknown"
+            build_time = None
+            time_element = next((item for item in element if local_name(item.tag) == "time"), None)
+            if time_element is not None:
+                build_time = time_element.attrib.get("build") or time_element.attrib.get("file")
+            packages.append(
+                normalized_package(
+                    name=name,
+                    package_base=name,
+                    version=rendered_version,
+                    repository=repository,
+                    description=child_text(element, "summary") or child_text(element, "description"),
+                    license_value=license_value,
+                    upstream_url=child_text(element, "url"),
+                    maintainer=child_text(element, "packager"),
+                    last_modified=build_time,
+                    metadata={
+                        "architecture": architecture,
+                        "distribution_source_url": join_directory(repository_base, location) if location else None,
+                        "distribution_source_sha256": distro_sha,
+                        "metadata_url": resource.requested_url,
+                    },
+                )
+            )
+            element.clear()
+    except ET.ParseError as exc:
+        raise CatalogError("invalid RPM primary XML %s: %s" % (resource.requested_url, exc)) from exc
+    if not packages:
+        if ignored_binary:
+            raise CatalogError("RPM primary metadata is not a source repository: %s" % resource.requested_url)
+        raise CatalogError("RPM primary metadata contains no source packages: %s" % resource.requested_url)
+    return packages, ignored_binary
+
+
+def rpm_repository(
+    repomd_url: str,
+    repository: str,
+    fetcher: Fetcher,
+) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], Dict[str, Any]]:
+    repomd = fetcher.fetch(repomd_url)
+    parsed = parse_repomd(repomd)
+    primary_url = repo_join(repomd.resolved_url, str(parsed["primary"]["href"]))
+    primary = fetcher.fetch(primary_url)
+    expected = str(parsed["primary"]["sha256"])
+    verify_expected(primary, expected, "%s primary metadata" % repository)
+    repo_path = urllib.parse.urlsplit(repomd.resolved_url).path[: -len("/repodata/repomd.xml")] + "/"
+    repo_base = replace_url_path(repomd.resolved_url, repo_path)
+    packages, ignored_binary = parse_rpm_primary(primary, repository, repo_base)
+    resources = [
+        repomd.evidence("repomd:%s" % repository),
+        primary.evidence("primary:%s" % repository, expected),
+    ]
+    return packages, resources, {
+        "revision": parsed.get("revision"),
+        "repository_timestamp": parsed.get("timestamp"),
+        "ignored_non_source_packages": ignored_binary,
+    }
+
+
+def identify_opensuse_component(url: str, configured: Optional[str], components: Sequence[str]) -> str:
+    if configured:
+        component = configured
+    else:
+        path = urllib.parse.urlsplit(url).path.lower()
+        component = next((item for item in components if "/repo/%s/" % item.lower() in path), "")
+    if component not in components:
+        raise CatalogError("cannot map openSUSE repomd URL to configured source component: %s" % url)
+    return component
+
+
+def adapt_opensuse(settings: Mapping[str, Any], fetcher: Fetcher, snapshot_at: str, limit: int) -> Dict[str, Any]:
+    components = tuple(str(item) for item in list_value(settings.get("components") or ("oss", "non-oss")))
+    if set(components) != {"oss", "non-oss"}:
+        raise CatalogError("openSUSE source must configure Tumbleweed oss and non-oss")
+    packages: List[Dict[str, Any]] = []
+    resources: List[Dict[str, Any]] = []
+    details: Dict[str, Any] = {"repository_revisions": {}, "repository_timestamps": {}}
+    seen: List[str] = []
+    for url, configured_component in metadata_entries(settings):
+        lowered = url.lower()
+        if "factory-staging" in lowered or "/devel/" in lowered or "/factory/" in lowered:
+            raise CatalogError("openSUSE discovery accepts only Tumbleweed stable source metadata")
+        component = identify_opensuse_component(url, configured_component, components)
+        if component in seen:
+            raise CatalogError("duplicate openSUSE component metadata: %s" % component)
+        parsed_packages, parsed_resources, repository_details = rpm_repository(url, component, fetcher)
+        packages.extend(parsed_packages)
+        resources.extend(parsed_resources)
+        details["repository_revisions"][component] = repository_details["revision"]
+        details["repository_timestamps"][component] = repository_details["repository_timestamp"]
+        seen.append(component)
+    if set(seen) != set(components):
+        raise CatalogError("openSUSE metadata must resolve both Tumbleweed oss and non-oss")
+    packages, original = apply_limit(packages, limit)
+    return snapshot_document(
+        source="opensuse",
+        release="Tumbleweed",
+        codename="tumbleweed",
+        components=components,
+        snapshot_at=snapshot_at,
+        resources=resources,
+        packages=packages,
+        original_count=original,
+        details=details,
+    )
+
+
+class LinkParser(html.parser.HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.links: List[str] = []
+
+    def handle_starttag(self, tag: str, attrs: List[Tuple[str, Optional[str]]]) -> None:
+        if tag.lower() != "a":
+            return
+        for key, value in attrs:
+            if key.lower() == "href" and value:
+                self.links.append(value)
+
+
+def fedora_release_candidates(resource: Resource) -> List[int]:
+    try:
+        text = resource.data.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise CatalogError("Fedora releases index is not UTF-8") from exc
+    candidates: List[int] = []
+    stripped = text.lstrip()
+    if stripped.startswith(("[", "{")):
+        try:
+            document = json.loads(text)
+        except json.JSONDecodeError as exc:
+            raise CatalogError("invalid Fedora releases JSON: %s" % exc) from exc
+        if isinstance(document, list):
+            records = document
+        elif isinstance(document, Mapping):
+            records = document.get("releases", [])
+        else:
+            records = []
+        for record in records:
+            if not isinstance(record, Mapping):
+                continue
+            status = str(record.get("status") or record.get("state") or "stable").lower()
+            version = str(record.get("version") or record.get("release") or "")
+            if status not in ("stable", "current", "ga", "active") or not version.isdigit():
+                continue
+            candidates.append(int(version))
+    else:
+        links = LinkParser()
+        links.feed(text)
+        for href in links.links:
+            path = urllib.parse.urlsplit(href).path.rstrip("/")
+            name = posixpath.basename(path)
+            if name.isdigit():
+                candidates.append(int(name))
+    return sorted(set(candidates), reverse=True)
+
+
+def adapt_fedora(settings: Mapping[str, Any], fetcher: Fetcher, snapshot_at: str, limit: int) -> Dict[str, Any]:
+    entries = metadata_entries(settings)
+    if len(entries) != 1:
+        raise CatalogError("Fedora source must configure one releases index URL")
+    index_url = entries[0][0]
+    index = fetcher.fetch(index_url)
+    if index.resolved_url.lower().endswith("/repodata/repomd.xml"):
+        match = re.search(r"/releases/(\d+)/", urllib.parse.urlsplit(index.resolved_url).path)
+        if not match:
+            raise CatalogError("cannot resolve Fedora GA release from direct repomd URL")
+        release = int(match.group(1))
+        repomd_url = index.resolved_url
+        packages, repository_resources, repository_details = rpm_repository(repomd_url, "Everything-source", fetcher)
+        resources = repository_resources
+    else:
+        candidates = fedora_release_candidates(index)
+        if not candidates:
+            raise CatalogError("Fedora releases index contains no numeric GA releases")
+        release = candidates[0]
+        repomd_url = join_directory(
+            index.resolved_url,
+            "%d/Everything/source/tree/repodata/repomd.xml" % release,
+        )
+        packages, repository_resources, repository_details = rpm_repository(repomd_url, "Everything-source", fetcher)
+        resources = [index.evidence("fedora-ga-release-index")] + repository_resources
+    packages, original = apply_limit(packages, limit)
+    return snapshot_document(
+        source="fedora",
+        release=str(release),
+        codename=None,
+        components=("Everything-source",),
+        snapshot_at=snapshot_at,
+        resources=resources,
+        packages=packages,
+        original_count=original,
+        details={
+            "channel": "GA",
+            "rawhide_or_branched_selected": False,
+            "repository_revision": repository_details.get("revision"),
+            "repository_timestamp": repository_details.get("repository_timestamp"),
+        },
+    )
+
+
+def parse_deb822(data: bytes, origin: str) -> List[Dict[str, str]]:
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise CatalogError("Deb822 metadata is not UTF-8: %s" % origin) from exc
+    paragraphs: List[Dict[str, str]] = []
+    current: Dict[str, str] = {}
+    key: Optional[str] = None
+    for number, line in enumerate(text.splitlines() + [""], 1):
+        if not line:
+            if current:
+                paragraphs.append(current)
+                current = {}
+                key = None
+            continue
+        if line.startswith((" ", "\t")):
+            if key is None:
+                raise CatalogError("orphan Deb822 continuation at %s:%d" % (origin, number))
+            current[key] += "\n" + line.strip()
+            continue
+        if ":" not in line:
+            raise CatalogError("invalid Deb822 field at %s:%d" % (origin, number))
+        key, value = line.split(":", 1)
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9-]*", key):
+            raise CatalogError("invalid Deb822 field name at %s:%d" % (origin, number))
+        current[key] = value.strip()
+    return paragraphs
+
+
+def checksum_map(value: str, origin: str) -> Dict[str, Tuple[str, int]]:
+    result: Dict[str, Tuple[str, int]] = {}
+    for line in value.splitlines():
+        fields = line.split()
+        if not fields:
+            continue
+        if len(fields) != 3 or not re.fullmatch(r"[0-9a-fA-F]{64}", fields[0]) or not fields[1].isdigit():
+            raise CatalogError("invalid SHA256 list entry in %s: %s" % (origin, line))
+        path = fields[2]
+        pure = pathlib.PurePosixPath(path)
+        if pure.is_absolute() or ".." in pure.parts:
+            raise CatalogError("unsafe path in SHA256 list: %s" % path)
+        result[path] = (fields[0].lower(), int(fields[1]))
+    return result
+
+
+def select_sources_index(release: Mapping[str, str], component: str, origin: str) -> Tuple[str, str, int]:
+    available = checksum_map(release.get("SHA256", ""), origin)
+    for suffix in (".xz", ".gz", ".bz2", ""):
+        path = "%s/source/Sources%s" % (component, suffix)
+        if path in available:
+            digest, size = available[path]
+            return path, digest, size
+    raise CatalogError("Release metadata has no supported Sources index for component %s" % component)
+
+
+def parse_source_checksums(value: str, origin: str) -> List[Tuple[str, int, str]]:
+    result: List[Tuple[str, int, str]] = []
+    for line in value.splitlines():
+        fields = line.split()
+        if not fields:
+            continue
+        if len(fields) != 3 or not re.fullmatch(r"[0-9a-fA-F]{64}", fields[0]) or not fields[1].isdigit():
+            raise CatalogError("invalid source checksum entry in %s: %s" % (origin, line))
+        filename = fields[2]
+        pure = pathlib.PurePosixPath(filename)
+        if pure.is_absolute() or ".." in pure.parts:
+            raise CatalogError("unsafe source filename in %s: %s" % (origin, filename))
+        result.append((fields[0].lower(), int(fields[1]), filename))
+    return result
+
+
+def choose_distribution_source(entries: Sequence[Tuple[str, int, str]]) -> Optional[Tuple[str, int, str]]:
+    def priority(item: Tuple[str, int, str]) -> Tuple[int, str]:
+        filename = item[2].lower()
+        if ".orig.tar" in filename:
+            return (0, filename)
+        if ".tar" in filename:
+            return (1, filename)
+        if filename.endswith(".dsc"):
+            return (2, filename)
+        return (3, filename)
+
+    return sorted(entries, key=priority)[0] if entries else None
+
+
+def parse_sources_packages(
+    resource: Resource,
+    *,
+    suite: str,
+    component: str,
+    repo_root: str,
+) -> List[Dict[str, Any]]:
+    content = decompress(resource.data, resource.resolved_url)
+    paragraphs = parse_deb822(content, resource.requested_url)
+    packages: List[Dict[str, Any]] = []
+    for raw in paragraphs:
+        name = raw.get("Package")
+        version = raw.get("Version")
+        directory = raw.get("Directory")
+        if not name or not version or not directory:
+            raise CatalogError("Sources record lacks Package, Version, or Directory")
+        directory_path = pathlib.PurePosixPath(directory)
+        if directory_path.is_absolute() or ".." in directory_path.parts:
+            raise CatalogError("unsafe Directory in Sources record: %s" % directory)
+        source_entries = parse_source_checksums(
+            raw.get("Checksums-Sha256", ""),
+            "%s:%s" % (resource.requested_url, name),
+        )
+        selected = choose_distribution_source(source_entries)
+        distro_url = None
+        distro_sha = None
+        if selected:
+            distro_sha, _, filename = selected
+            distro_url = join_directory(repo_root, "%s/%s" % (directory.rstrip("/"), filename))
+        packages.append(
+            normalized_package(
+                name=name,
+                package_base=name,
+                version=version,
+                repository="%s/%s" % (suite, component),
+                description=raw.get("Description"),
+                license_value="unknown",
+                upstream_url=raw.get("Homepage"),
+                maintainer=raw.get("Maintainer"),
+                metadata={
+                    "binary_packages": [item.strip() for item in raw.get("Binary", "").split(",") if item.strip()],
+                    "directory": directory,
+                    "distribution_source_url": distro_url,
+                    "distribution_source_sha256": distro_sha,
+                    "format": raw.get("Format"),
+                    "metadata_url": resource.requested_url,
+                },
+            )
+        )
+    if not packages:
+        raise CatalogError("Sources index contains no package records: %s" % resource.requested_url)
+    return packages
+
+
+def release_and_sources(
+    release_resource: Resource,
+    *,
+    components: Sequence[str],
+    suite_label: str,
+    fetcher: Fetcher,
+) -> Tuple[Mapping[str, str], List[Dict[str, Any]], List[Dict[str, Any]]]:
+    paragraphs = parse_deb822(release_resource.data, release_resource.requested_url)
+    if len(paragraphs) != 1:
+        raise CatalogError("Release metadata must contain exactly one Deb822 paragraph")
+    release = paragraphs[0]
+    advertised = release.get("Components", "").split()
+    missing = [component for component in components if component not in advertised]
+    if missing:
+        raise CatalogError("Release metadata is missing configured components: %s" % ", ".join(missing))
+    resources: List[Dict[str, Any]] = [release_resource.evidence("release")]
+    packages: List[Dict[str, Any]] = []
+    root = repository_root(release_resource.resolved_url)
+    for component in components:
+        relative, expected, expected_size = select_sources_index(release, component, release_resource.requested_url)
+        url = join_url(release_resource.resolved_url, relative)
+        source_index = fetcher.fetch(url)
+        verify_expected(source_index, expected, "%s Sources index" % component)
+        if len(source_index.data) != expected_size:
+            raise CatalogError(
+                "%s Sources size mismatch: expected %d, got %d" % (component, expected_size, len(source_index.data)),
+                1,
+            )
+        packages.extend(
+            parse_sources_packages(
+                source_index,
+                suite=suite_label,
+                component=component,
+                repo_root=root,
+            )
+        )
+        resources.append(source_index.evidence("sources:%s" % component, expected))
+    return release, packages, resources
+
+
+def forbidden_distribution_text(values: Iterable[Any]) -> bool:
+    text = " ".join(str(value or "") for value in values).lower()
+    forbidden = (
+        "testing",
+        "unstable",
+        "experimental",
+        "proposed",
+        "development",
+        "pre-release",
+        "rawhide",
+        "branched",
+    )
+    return any(token in text for token in forbidden)
+
+
+def adapt_debian(settings: Mapping[str, Any], fetcher: Fetcher, snapshot_at: str, limit: int) -> Dict[str, Any]:
+    components = tuple(str(item) for item in list_value(settings.get("components") or DEBIAN_COMPONENTS))
+    if set(components) != set(DEBIAN_COMPONENTS):
+        raise CatalogError("Debian source must configure main/contrib/non-free/non-free-firmware")
+    entries = metadata_entries(settings)
+    if len(entries) != 1:
+        raise CatalogError("Debian source must configure one stable Release URL")
+    if "/dists/stable/release" not in urllib.parse.urlsplit(entries[0][0]).path.lower():
+        raise CatalogError("Debian metadata URL must resolve through dists/stable/Release")
+    release_resource = fetcher.fetch(entries[0][0])
+    release, packages, resources = release_and_sources(
+        release_resource,
+        components=components,
+        suite_label="stable",
+        fetcher=fetcher,
+    )
+    if str(release.get("Suite", "")).lower() != "stable":
+        raise CatalogError("Debian Release Suite is not stable")
+    if forbidden_distribution_text((release.get("Suite"), release.get("Codename"))):
+        raise CatalogError("Debian stable resolver selected a forbidden development suite")
+    codename = release.get("Codename")
+    if not codename:
+        raise CatalogError("Debian stable Release has no Codename")
+    packages, original = apply_limit(packages, limit)
+    return snapshot_document(
+        source="debian",
+        release=release.get("Version") or release.get("Suite") or "stable",
+        codename=codename,
+        components=components,
+        snapshot_at=snapshot_at,
+        resources=resources,
+        packages=packages,
+        original_count=original,
+        details={"suite": "stable", "release_date": release.get("Date")},
+    )
+
+
+def parse_mail_date(value: str) -> Optional[dt.datetime]:
+    if not value:
+        return None
+    try:
+        parsed = email.utils.parsedate_to_datetime(value)
+    except (TypeError, ValueError):
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=dt.timezone.utc)
+    return parsed.astimezone(dt.timezone.utc)
+
+
+def ubuntu_version_key(value: str) -> Tuple[int, ...]:
+    match = re.search(r"(\d{2,4})\.(\d{2})(?:\.(\d+))?", value)
+    if not match:
+        return ()
+    return tuple(int(item) for item in match.groups(default="0"))
+
+
+def upgrade_ubuntu_release_url(url: str) -> str:
+    parsed = urllib.parse.urlsplit(url)
+    if parsed.scheme != "http":
+        return url
+    official_hosts = {
+        "archive.ubuntu.com",
+        "security.ubuntu.com",
+        "ports.ubuntu.com",
+        "old-releases.ubuntu.com",
+    }
+    if parsed.hostname not in official_hosts:
+        raise CatalogError("Ubuntu meta-release points to a non-HTTPS non-official Release URL")
+    return urllib.parse.urlunsplit(("https", parsed.netloc, parsed.path, parsed.query, ""))
+
+
+def adapt_ubuntu(
+    settings: Mapping[str, Any],
+    fetcher: Fetcher,
+    snapshot_at: str,
+    limit: int,
+    as_of: dt.datetime,
+) -> Dict[str, Any]:
+    components = tuple(str(item) for item in list_value(settings.get("components") or UBUNTU_COMPONENTS))
+    if set(components) != set(UBUNTU_COMPONENTS):
+        raise CatalogError("Ubuntu source must configure main/restricted/universe/multiverse")
+    meta_resources: List[Resource] = []
+    releases: Dict[str, Mapping[str, str]] = {}
+    release_origins: Dict[str, str] = {}
+    for url, _ in metadata_entries(settings):
+        resource = fetcher.fetch(url)
+        meta_resources.append(resource)
+        for record in parse_deb822(resource.data, resource.requested_url):
+            dist = str(record.get("Dist") or "").strip()
+            version = str(record.get("Version") or "").strip()
+            supported = str(record.get("Supported") or "").strip().lower()
+            release_file = str(record.get("Release-File") or "").strip()
+            release_date = parse_mail_date(str(record.get("Date") or ""))
+            if not dist or not version or not release_file or supported not in ("1", "yes", "true"):
+                continue
+            if release_date and release_date > as_of:
+                continue
+            if not ubuntu_version_key(version):
+                continue
+            release_identity = (
+                dist,
+                version,
+                record.get("Name"),
+                record.get("Description"),
+                release_file,
+            )
+            if forbidden_distribution_text(release_identity):
+                continue
+            previous = releases.get(dist)
+            previous_version = str(previous.get("Version") or "") if previous else ""
+            if previous is None or ubuntu_version_key(version) > ubuntu_version_key(previous_version):
+                releases[dist] = record
+                release_origins[dist] = resource.resolved_url
+    if not releases:
+        raise CatalogError("Ubuntu meta-release contains no GA release in standard support")
+    selected = max(releases.values(), key=lambda item: ubuntu_version_key(str(item.get("Version") or "")))
+    codename = str(selected["Dist"])
+    release_url = str(selected["Release-File"])
+    if not urllib.parse.urlsplit(release_url).scheme:
+        release_url = join_url(release_origins[codename], release_url)
+    release_url = upgrade_ubuntu_release_url(release_url)
+    if forbidden_distribution_text((release_url, codename)):
+        raise CatalogError("Ubuntu resolver selected a development/pre-release archive")
+    release_resource = fetcher.fetch(release_url)
+    release, packages, release_resources = release_and_sources(
+        release_resource,
+        components=components,
+        suite_label=codename,
+        fetcher=fetcher,
+    )
+    release_codename = str(release.get("Codename") or "").split("-", 1)[0]
+    if release_codename and release_codename != codename:
+        raise CatalogError(
+            "Ubuntu meta-release/Release codename mismatch: %s != %s" % (codename, release_codename)
+        )
+    if forbidden_distribution_text((release.get("Suite"), release.get("Codename"))):
+        raise CatalogError("Ubuntu Release is development/proposed metadata")
+    resources = [item.evidence("ubuntu-meta-release") for item in meta_resources] + release_resources
+    packages, original = apply_limit(packages, limit)
+    return snapshot_document(
+        source="ubuntu",
+        release=str(selected["Version"]),
+        codename=codename,
+        components=components,
+        snapshot_at=snapshot_at,
+        resources=resources,
+        packages=packages,
+        original_count=original,
+        details={
+            "standard_support": True,
+            "ga_release_date": selected.get("Date"),
+            "suite": release.get("Suite"),
+        },
+    )
+
+
+def adapt_source(
+    source: str,
+    settings: Mapping[str, Any],
+    fetcher: Fetcher,
+    snapshot_at: str,
+    limit: int,
+    as_of: dt.datetime,
+) -> Dict[str, Any]:
+    if source == "arch":
+        return adapt_arch(settings, fetcher, snapshot_at, limit)
+    if source == "aur":
+        return adapt_aur(settings, fetcher, snapshot_at, limit)
+    if source == "opensuse":
+        return adapt_opensuse(settings, fetcher, snapshot_at, limit)
+    if source == "fedora":
+        return adapt_fedora(settings, fetcher, snapshot_at, limit)
+    if source == "debian":
+        return adapt_debian(settings, fetcher, snapshot_at, limit)
+    if source == "ubuntu":
+        return adapt_ubuntu(settings, fetcher, snapshot_at, limit, as_of)
+    raise CatalogError("unsupported source: %s" % source)
+
+
+def main() -> int:
+    args = parser().parse_args()
+    if args.limit < 0:
+        raise CatalogError("--limit must not be negative")
+    config = load_config(pathlib.Path(args.config))
+    configured = config["sources"]
+    assert isinstance(configured, Mapping)
+    selected = (
+        list(dict.fromkeys(args.source))
+        if args.source
+        else [source for source in SOURCES if source in configured]
+    )
+    if not selected:
+        raise CatalogError("no catalog sources selected")
+    for source in selected:
+        settings = configured.get(source)
+        if not isinstance(settings, Mapping):
+            raise CatalogError("selected source is not configured: %s" % source)
+        if settings.get("enabled", True) is False:
+            raise CatalogError("selected source is disabled: %s" % source)
+
+    as_of = parse_as_of(args.as_of)
+    snapshot_at = isoformat(as_of)
+    output_dir = pathlib.Path(args.output_dir)
+    cache_dir = pathlib.Path(args.cache_dir) if args.cache_dir else None
+    fixture_root = pathlib.Path(args.fixture_root) if args.fixture_root else None
+    fetcher = Fetcher(
+        timeout=args.timeout,
+        retries=args.retries,
+        cache_dir=cache_dir,
+        requests_per_second=args.requests_per_second,
+        fixture_root=fixture_root,
+        fetched_at=snapshot_at,
+    )
+
+    documents: Dict[str, Dict[str, Any]] = {}
+    for source in selected:
+        settings = configured[source]
+        assert isinstance(settings, Mapping)
+        documents[source] = adapt_source(source, settings, fetcher, snapshot_at, args.limit, as_of)
+
+    summary: Dict[str, Any] = {
+        "schema_version": SCHEMA_VERSION,
+        "status": "complete",
+        "snapshot_at": snapshot_at,
+        "limit_per_source": args.limit,
+        "total_packages": sum(int(item["summary"]["package_count"]) for item in documents.values()),
+        "sources": {},
+    }
+    for source, document in documents.items():
+        snapshot = document["snapshot"]
+        summary["sources"][source] = {
+            "output": "%s.json" % source,
+            "resolved_release": snapshot["resolved_release"],
+            "codename": snapshot["codename"],
+            "components": snapshot["components"],
+            "snapshot_at": snapshot["snapshot_at"],
+            "metadata_sha256": snapshot["metadata_sha256"],
+            "source_urls": snapshot["source_urls"],
+            **document["summary"],
+        }
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    stage = pathlib.Path(tempfile.mkdtemp(prefix=".snapshot-catalog-", dir=str(output_dir.parent)))
+    try:
+        for source, document in documents.items():
+            atomic_json(stage / (source + ".json"), document)
+        for source in documents:
+            os.replace(stage / (source + ".json"), output_dir / (source + ".json"))
+    finally:
+        shutil.rmtree(stage, ignore_errors=True)
+
+    summary_target = args.summary or str(output_dir / "summary.json")
+    if summary_target == "-":
+        print(stable_json(summary), end="")
+    else:
+        atomic_json(pathlib.Path(summary_target), summary)
+    return 0
+
+
+def run() -> None:
+    try:
+        code = main()
+    except CatalogError as exc:
+        print("error: %s" % exc, file=sys.stderr)
+        raise SystemExit(exc.exit_code)
+    except KeyboardInterrupt:
+        print("error: interrupted", file=sys.stderr)
+        raise SystemExit(130)
+    raise SystemExit(code)
+
+
+if __name__ == "__main__":
+    run()

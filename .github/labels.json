@@ -1,0 +1,15 @@
+[
+  {"name": "ci-queued", "color": "5319e7", "description": "Waiting for required package checks"},
+  {"name": "ci-passed", "color": "0e8a16", "description": "Required checks passed for the current head"},
+  {"name": "repair-queued", "color": "d93f0b", "description": "Trusted CI failure queued for local Codex repair"},
+  {"name": "codex-repairing", "color": "fbca04", "description": "A local Codex repair lease is active"},
+  {"name": "needs-native-riscv", "color": "b60205", "description": "Native riscv64 validation is required"},
+  {"name": "qemu-limitation", "color": "e99695", "description": "QEMU user-mode cannot provide required validation"},
+  {"name": "needs-human", "color": "b60205", "description": "Automated repair budget exhausted or policy decision required"},
+  {"name": "operation:onboard", "color": "1d76db", "description": "One-package onboarding operation"},
+  {"name": "operation:update", "color": "1d76db", "description": "One-package stable release update"},
+  {"name": "source:arch", "color": "c5def5", "description": "Discovered from stable Arch core/extra"},
+  {"name": "source:aur", "color": "c5def5", "description": "Discovered from untrusted AUR metadata"},
+  {"name": "source:supplementary", "color": "c5def5", "description": "Discovered from a stable supplementary distribution"}
+]
+

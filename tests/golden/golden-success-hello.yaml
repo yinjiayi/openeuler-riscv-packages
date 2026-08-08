@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "package_id": "golden-success-hello",
+  "source": {
+    "kind": "official-stable-release",
+    "url": "https://ftp.gnu.org/gnu/hello/hello-2.12.3.tar.gz",
+    "sha256": "0d5f60154382fee10b114a1c34e785d8b1f492073ae2d3a6f7b147687b366aa0"
+  },
+  "phases": [
+    {
+      "name": "qemu-rva23-build",
+      "expected_status": "passed",
+      "required_checks": [
+        "metadata-validate",
+        "source-verify",
+        "rpmbuild-riscv64",
+        "rpm-install-smoke",
+        "patch-policy"
+      ]
+    },
+    {
+      "name": "merge",
+      "expected_state": "merged",
+      "requires_latest_head_checks": true,
+      "requires_human_review": false
+    }
+  ],
+  "expected": {
+    "states": ["passed"],
+    "build_statuses": ["passed"],
+    "no_patch": true,
+    "allowed_modifications": [
+      "packages/golden-success-hello/**"
+    ],
+    "log_patterns": [
+      "hello \\(GNU Hello\\) 2\\.12\\.3",
+      "(?m)^riscv64$"
+    ]
+  }
+}

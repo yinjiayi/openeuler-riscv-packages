@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "golden-riscv-inline-asm",
+  "expected_patch_source": "tests/golden/expected/golden-riscv-inline-asm/0001-riscv-use-rdcycle.patch",
+  "destination": "packages/golden-riscv-inline-asm/patches/0001-riscv-use-rdcycle.patch",
+  "series_entry": "0001-riscv-use-rdcycle.patch",
+  "spec_changes": [
+    "Add Patch0: 0001-riscv-use-rdcycle.patch after Source0",
+    "Keep %autosetup -p1 so Patch0 is applied"
+  ],
+  "package_metadata_changes": [
+    "Add patch record with exact SHA-256",
+    "Set target.riscv_status to patched-for-riscv"
+  ],
+  "forbidden_changes": [
+    "Remove or bypass %check",
+    "Ignore compiler errors",
+    "Modify shared CI",
+    "Write to an upstream project"
+  ]
+}

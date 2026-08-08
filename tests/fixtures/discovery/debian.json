@@ -1,0 +1,24 @@
+{
+  "snapshot": {
+    "resolved_release": "stable",
+    "codename": "fixture-stable",
+    "components": ["main", "contrib", "non-free", "non-free-firmware"],
+    "snapshot_at": "2026-08-08T00:00:00Z"
+  },
+  "packages": [
+    {
+      "name": "supplemental-only",
+      "package_base": "supplemental-only",
+      "version": "4.5.6-1",
+      "repository": "main",
+      "description": "Project present only in a supplementary fixture source",
+      "license": "Apache-2.0",
+      "upstream_url": "https://upstream.example.org/supplemental-only/",
+      "source_url": "https://upstream.example.org/supplemental-only/releases/supplemental-only-4.5.6.tar.gz",
+      "release_api": "https://upstream.example.org/supplemental-only/releases/",
+      "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "last_modified": "2026-07-15T00:00:00Z",
+      "maintainer": "debian-maintainer"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "golden-riscv-inline-asm",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "golden-fixture",
+      "url": "fixture://tests/golden/fixtures/golden-riscv-inline-asm-1.0",
+      "filename": "golden-riscv-inline-asm-1.0.tar.gz",
+      "version": "1.0",
+      "digests": {
+        "sha256": "62a03b6e951b606b32fc84eb9464b0169e38503f7bcdc59bad525f72e58e4af9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original deterministic MIT-licensed fixture in this repository."
+      }
+    }
+  ]
+}

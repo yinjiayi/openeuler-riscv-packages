@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: Apache-2.0
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+dist/
+build/
+rpmbuild/
+artifacts/
+work/
+dashboard/site/data.local.json
+catalog/cache/
+catalog/snapshots/*.tmp
+repair-state/*.lock
+.DS_Store

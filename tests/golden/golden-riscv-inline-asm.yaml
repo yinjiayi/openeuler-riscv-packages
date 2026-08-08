@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "package_id": "golden-riscv-inline-asm",
+  "fixture": {
+    "source_dir": "tests/golden/fixtures/golden-riscv-inline-asm-1.0",
+    "archive_name": "golden-riscv-inline-asm-1.0.tar.gz",
+    "archive_root": "golden-riscv-inline-asm-1.0",
+    "sha256": "62a03b6e951b606b32fc84eb9464b0169e38503f7bcdc59bad525f72e58e4af9",
+    "tree_sha256": "b8cb5475e64cdeabcf6245bfcd51c260966b3a2946a4062e92a8c50ec929e397"
+  },
+  "phases": [
+    {
+      "name": "initial-qemu-rva23-build",
+      "expected_status": "failed",
+      "expected_state": "repair-queued",
+      "expected_classification": "riscv-specific"
+    },
+    {
+      "name": "local-codex-repair",
+      "expected_patch_fixture": "tests/golden/expected/golden-riscv-inline-asm/0001-riscv-use-rdcycle.patch",
+      "target_patch": "packages/golden-riscv-inline-asm/patches/0001-riscv-use-rdcycle.patch",
+      "same_pr_required": true,
+      "remote_head_guard_required": true
+    },
+    {
+      "name": "rebuild-latest-head",
+      "expected_status": "passed"
+    }
+  ],
+  "expected_baseline": {
+    "states": ["repair-queued"],
+    "build_statuses": ["failed"],
+    "classifications": ["riscv-specific"],
+    "no_patch": true,
+    "allowed_modifications": [
+      "packages/golden-riscv-inline-asm/**"
+    ],
+    "log_patterns": [
+      "golden failure.*x86-only counter"
+    ]
+  },
+  "expected_repaired": {
+    "states": ["passed"],
+    "build_statuses": ["passed"],
+    "patch_paths": [
+      "patches/0001-riscv-use-rdcycle.patch"
+    ],
+    "allowed_modifications": [
+      "packages/golden-riscv-inline-asm/**"
+    ],
+    "log_patterns": [
+      "rdcycle"
+    ]
+  }
+}
