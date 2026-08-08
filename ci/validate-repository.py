@@ -89,8 +89,8 @@ def main() -> int:
     image_workflow = (workflows / "build-ci-image.yml").read_text(encoding="utf-8") if (workflows / "build-ci-image.yml").exists() else ""
     if "--method PATCH" in image_workflow and "/user/packages/container/" in image_workflow:
         errors.append("build-ci-image.yml must verify public GHCR state, not attempt a user-level visibility mutation")
-    if "gh workflow run package-ci.yml" not in image_workflow:
-        errors.append("digest-lock PR creation does not dispatch required checks on the bot-created head")
+    if "ci/dispatch-required-checks.sh" not in image_workflow or "statuses: write" not in image_workflow:
+        errors.append("digest-lock PR creation does not bridge actual required jobs onto the bot-created PR head")
     if "git ls-remote --exit-code --heads" not in image_workflow or "test \"$changed\" = ci/image.lock" not in image_workflow:
         errors.append("digest-lock retry does not safely verify and reuse an existing lock branch")
     if "git merge --no-edit origin/main" not in image_workflow:
@@ -109,6 +109,12 @@ def main() -> int:
         errors.append("catalog-discovery.yml must normalize live metadata before candidate discovery")
     if re.search(r"discover-packages[\s\S]{0,1500}--input\s+[^\n]*(?:\.db|repomd\.xml|Release|json\.gz)", discovery):
         errors.append("discover-packages must not consume raw distribution databases or indexes directly")
+    if "ci/dispatch-required-checks.sh" not in discovery or "statuses: write" not in discovery:
+        errors.append("catalog snapshot PRs cannot satisfy protected checks after GITHUB_TOKEN event suppression")
+
+    check_bridge = root / "ci" / "dispatch-required-checks.sh"
+    if not check_bridge.is_file() or not check_bridge.stat().st_mode & 0o111:
+        errors.append("bot-created PR check bridge is missing or not executable")
 
     daily = (workflows / "daily-update-check.yml").read_text(encoding="utf-8") if (workflows / "daily-update-check.yml").exists() else ""
     if "--state-output artifacts/state/update-state.json" not in daily:

@@ -162,6 +162,7 @@ jobs:
       actions: write
       contents: write
       pull-requests: write
+      statuses: write
     steps:
       - name: Check out default branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -248,6 +249,19 @@ jobs:
               --title "Lock published RISC-V CI image digest" \
               --body "Locks the public, anonymously pulled GHCR image by immutable digest.\n\nDigest: \`$DIGEST\`\n\nThis is an independent infrastructure change; package CI remains fail-closed until it merges.")
           fi
-          base_sha=$(git rev-parse origin/main)
-          gh workflow run package-ci.yml --ref "$BRANCH" -f "base_sha=$base_sha"
+          pr_number=$(gh pr view "$pr_url" --json number --jq .number)
+          head_sha=$(git rev-parse HEAD)
+          base_sha=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$pr_number" --jq .base.sha)
+          ci/dispatch-required-checks.sh --repo "$GITHUB_REPOSITORY" \
+            --pr-number "$pr_number" --ref "$BRANCH" \
+            --head-sha "$head_sha" --base-sha "$base_sha" \
+            --output artifacts/lock/required-checks.json
           gh pr merge "$pr_url" --auto --squash --delete-branch
+      - name: Upload digest-lock orchestration evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: digest-lock-evidence-${{ github.run_id }}
+          path: artifacts/lock/
+          if-no-files-found: warn
+          retention-days: 7
