@@ -1,0 +1,21 @@
+{
+  "package_id": "libdeflate",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fed5cd22f00f30cc4c2e5329f94e2b8a901df9fa45ee255cb70e2b0b42344477"
+      },
+      "filename": "libdeflate-1.25.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ebiggers/libdeflate/releases/download/v1.25/libdeflate-1.25.tar.gz",
+      "version": "1.25"
+    }
+  ]
+}
