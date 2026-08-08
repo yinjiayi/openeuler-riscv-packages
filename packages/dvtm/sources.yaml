@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "dvtm",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/martanne/dvtm/releases/download/v0.15/dvtm-0.15.tar.gz",
+      "filename": "dvtm-0.15.tar.gz",
+      "version": "0.15",
+      "digests": {
+        "sha256": "8f2015c05e2ad82f12ae4cf12b363d34f527a4bbc8c369667f239e4542e1e510"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "MIT/ISC-licensed source is fetched from the official GitHub release in CI."
+      }
+    }
+  ]
+}
