@@ -136,6 +136,47 @@ class BuildAndClassifyTests(unittest.TestCase):
             self.assertEqual(document["classification"]["category"], "riscv-specific")
             self.assertTrue(document["classification"]["source_patch_allowed"])
 
+    def test_envelope_image_digest_is_not_failure_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            result = root / "final-build-result.json"
+            write_json(
+                result,
+                {
+                    "package_id": "golden-riscv-inline-asm",
+                    "status": "failed",
+                    "failure_summary": "rpmbuild failed with exit code 1: error: Bad exit status from /var/tmp/rpm-tmp.abc (%build)",
+                    "environment": {
+                        "image_digest": "sha256:" + "d" * 64,
+                        "arch": "riscv64",
+                        "isa": "RVA23",
+                    },
+                },
+            )
+            internal_log = root / "rpmbuild-internal.log"
+            internal_log.write_text(
+                'golden_inline.c:12:2: error: #error "golden failure: x86-only counter lacks a RISC-V implementation"\n',
+                encoding="utf-8",
+            )
+            output = root / "classification.json"
+            run_tool(
+                "classify-failure",
+                [
+                    "--input",
+                    str(result),
+                    "--log",
+                    str(internal_log),
+                    "--output",
+                    str(output),
+                    "--now",
+                    "2026-08-08T00:00:00Z",
+                ],
+                root,
+            )
+            document = json.loads(output.read_text())
+            self.assertEqual(document["classification"]["category"], "riscv-specific")
+            self.assertNotIn("failure:infrastructure", document["labels"])
+
 
 if __name__ == "__main__":
     unittest.main()
