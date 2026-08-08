@@ -21,6 +21,7 @@ from _lib import (
     isoformat,
     iter_records,
     load_location,
+    package_identifier,
     parse_now,
     parse_source_assignment,
     parse_time,
@@ -34,6 +35,7 @@ from _lib import (
 
 
 PRIMARY = {"arch", "aur"}
+NORMALIZATION_VERSION = 5
 ALLOWED_ARCH_REPOS = {"core", "extra"}
 FORBIDDEN_REPO_PARTS = {"testing", "staging", "multilib", "rawhide", "unstable"}
 SHA256_RE = re.compile(r"^[a-f0-9]{64}$")
@@ -47,11 +49,20 @@ def stable_upstream_version(source: str, value: Any) -> str:
     """Remove distribution-only epoch/pkgrel syntax from Arch-family versions."""
 
     text = str(value or "unknown").strip()
-    if source not in {"arch", "aur"}:
-        return text
     text = re.sub(r"^\d+:", "", text)
-    match = re.fullmatch(r"(.+)-([0-9]+(?:\.[0-9]+)*)", text)
-    return match.group(1) if match else text
+    if source in {"arch", "aur"}:
+        match = re.fullmatch(r"(.+)-([0-9]+(?:\.[0-9]+)*)", text)
+        return match.group(1) if match else text
+    if source in {"fedora", "opensuse", "debian", "ubuntu"} and "-" in text:
+        text = text.rsplit("-", 1)[0]
+    if source in {"fedora", "opensuse", "debian", "ubuntu"}:
+        text = re.sub(
+            r"\+(?:dfsg|ds|really|git|bzr|svn|hg|[0-9]+[.]g|g[0-9a-f]{7,}).*$",
+            "",
+            text,
+            flags=re.IGNORECASE,
+        )
+    return text
 
 
 def is_pre_release_version(value: Any) -> bool:
@@ -70,6 +81,10 @@ def has_verified_release_source(record: Mapping[str, Any]) -> bool:
     except ToolError:
         return False
     return bool(SHA256_RE.fullmatch(checksum))
+
+
+def has_resolved_license(record: Mapping[str, Any]) -> bool:
+    return str(record.get("license", "")).strip().lower() not in {"", "unknown", "none", "proprietary"}
 
 
 def parser() -> argparse.ArgumentParser:
@@ -105,7 +120,9 @@ def normalized_record(source: str, raw: Mapping[str, Any], fetched_at: str) -> D
     name_text = str(name).strip()
     package_base = first_value(raw, ["package_base", "pkgbase", "PackageBase", "source_package"], name_text)
     distribution_version = first_value(raw, ["version", "Version", "pkgver", "upstream_version"], "unknown")
-    version = stable_upstream_version(source, distribution_version)
+    raw_metadata = raw.get("metadata") if isinstance(raw.get("metadata"), Mapping) else {}
+    upstream_version = raw_metadata.get("upstream_version") or distribution_version
+    version = stable_upstream_version(source, upstream_version)
     repo = first_value(raw, ["repository", "repo", "Repository", "component"], "")
     homepage = first_value(raw, ["upstream_url", "homepage", "URL", "url", "project_url"])
     source_url = first_value(raw, ["source_url", "SourceURL", "release_source_url", "tarball_url"])
@@ -196,8 +213,6 @@ def policy_rejection(source: str, record: Mapping[str, Any], now: Any, stale_day
     source_url = canonical_url(record.get("source_url"))
     if not homepage and not source_url and not record.get("release_api"):
         return "unresolved-upstream", "no independently verifiable official upstream evidence"
-    if str(record.get("license", "")).strip().lower() in {"", "unknown", "none", "proprietary"}:
-        return "license-review", "license is missing, proprietary, or unresolved"
     return None
 
 
@@ -213,9 +228,11 @@ def resolved_snapshot(source: str, document: Any, fetch_meta: Mapping[str, Any],
         "debian": ["stable", "main", "contrib", "non-free", "non-free-firmware"],
         "ubuntu": ["latest-GA-standard-support", "main", "restricted", "universe", "multiverse"],
     }[source]
-    metadata_url = fetch_meta.get("url")
+    source_urls = [str(value) for value in as_list(metadata.get("source_urls")) if value]
+    metadata_url = source_urls[0] if source_urls else fetch_meta.get("url")
     if not metadata_url and fetch_meta.get("path"):
         metadata_url = pathlib.Path(str(fetch_meta["path"])).resolve().as_uri()
+    aggregate_digest = metadata.get("metadata_sha256") or fetch_meta.get("sha256")
     return {
         "source": source,
         "release": metadata.get("resolved_release") or metadata.get("release") or "metadata-provided",
@@ -223,7 +240,10 @@ def resolved_snapshot(source: str, document: Any, fetch_meta: Mapping[str, Any],
         "components": metadata.get("components") or default_scope,
         "snapshot_at": metadata.get("snapshot_at") or fetched_at,
         "metadata_url": metadata_url,
-        "metadata_sha256": fetch_meta.get("sha256") or hashlib.sha256(stable_json(document, pretty=False).encode()).hexdigest(),
+        "metadata_sha256": aggregate_digest or hashlib.sha256(stable_json(document, pretty=False).encode()).hexdigest(),
+        "normalized_input_sha256": fetch_meta.get("sha256") or hashlib.sha256(stable_json(document, pretty=False).encode()).hexdigest(),
+        "source_urls": source_urls,
+        "metadata": [dict(item) for item in as_list(metadata.get("metadata")) if isinstance(item, Mapping)],
     }
 
 
@@ -273,11 +293,34 @@ def merge_candidate_group(records: List[Dict[str, Any]]) -> Dict[str, Any]:
             lineage.append(dict(item))
     lineage.sort(key=lambda item: (str(item.get("source")), str(item.get("original_name")), str(item.get("source_version"))))
     sources = sorted({str(item.get("source")) for item in lineage if item.get("source")})
+    license_records = [record for record in records if has_resolved_license(record)]
+    licenses_by_source = {
+        str(record.get("metadata", {}).get("source", "unknown")): str(record.get("license"))
+        for record in license_records
+    }
+    if license_records and not has_resolved_license(result):
+        result["license"] = sorted(
+            license_records,
+            key=lambda record: (
+                {"arch": 0, "aur": 1}.get(str(record.get("metadata", {}).get("source", "")), 2),
+                str(record.get("license")),
+            ),
+        )[0]["license"]
     result["discovery_id"] = "component:%s" % component_id
     result["lineage"] = lineage
     result["priority"] = min(int(record.get("priority", 1)) for record in records)
-    result["metadata"] = {**dict(selected.get("metadata", {})), "corroborating_sources": sources}
-    if has_verified_release_source(result):
+    result["metadata"] = {
+        **dict(selected.get("metadata", {})),
+        "corroborating_sources": sources,
+        "licenses_by_source": licenses_by_source,
+    }
+    if not has_resolved_license(result):
+        result["decision"] = "license-blocked"
+        result["reasons"] = [
+            "license is missing, proprietary, or unresolved across all corroborating distributions",
+            "distribution lineage is retained for later official upstream license review",
+        ]
+    elif has_verified_release_source(result):
         result["decision"] = "eligible"
         result["reasons"] = [
             "official stable release source uses HTTPS and is pinned by SHA-256",
@@ -302,7 +345,115 @@ def deduplicate_candidates(records: List[Dict[str, Any]]) -> List[Dict[str, Any]
     grouped: Dict[str, List[Dict[str, Any]]] = {}
     for record in records:
         grouped.setdefault(str(record["component_id"]), []).append(record)
-    return [merge_candidate_group(grouped[key]) for key in sorted(grouped)]
+
+    parent = {key: key for key in grouped}
+
+    def find(key: str) -> str:
+        while parent[key] != key:
+            parent[key] = parent[parent[key]]
+            key = parent[key]
+        return key
+
+    def union(left: str, right: str) -> None:
+        left_root, right_root = find(left), find(right)
+        if left_root != right_root:
+            parent[max(left_root, right_root)] = min(left_root, right_root)
+
+    def words(value: Any) -> set[str]:
+        return {
+            token
+            for token in re.findall(r"[a-z0-9]+", str(value or "").lower())
+            if len(token) > 2 and token not in {"the", "and", "for", "with", "from", "based", "tool", "library"}
+        }
+
+    def license_families(value: Any) -> set[str]:
+        text = str(value or "").lower()
+        if text.strip() in {"", "unknown", "none", "proprietary"}:
+            return set()
+        return {
+            family
+            for family in ("agpl", "lgpl", "gpl", "apache", "mit", "bsd", "isc", "ncsa", "mpl", "artistic", "zlib")
+            if family in text
+        }
+
+    def alias_compatible(left: List[Dict[str, Any]], right: List[Dict[str, Any]]) -> bool:
+        left_sources = {str(item.get("metadata", {}).get("source", "")) for item in left}
+        right_sources = {str(item.get("metadata", {}).get("source", "")) for item in right}
+        if not left_sources or not right_sources or left_sources == right_sources:
+            return False
+        left_versions = {str(item.get("version")) for item in left}
+        right_versions = {str(item.get("version")) for item in right}
+        if not left_versions.intersection(right_versions):
+            return False
+        left_licenses = set().union(*(license_families(item.get("license")) for item in left))
+        right_licenses = set().union(*(license_families(item.get("license")) for item in right))
+        if left_licenses and right_licenses and not left_licenses.intersection(right_licenses):
+            return False
+        descriptions = [
+            (words(left_item.get("description")), words(right_item.get("description")))
+            for left_item in left
+            for right_item in right
+        ]
+        if not descriptions:
+            return False
+        similarity = max(
+            (len(a & b) / len(a | b)) if a and b else (1.0 if not a or not b else 0.0)
+            for a, b in descriptions
+        )
+        return similarity >= 0.1
+
+    by_name: Dict[str, List[str]] = {}
+    for key, items in grouped.items():
+        names = {
+            package_identifier(item.get("package_base") or item.get("name"))
+            for item in items
+            if item.get("package_base") or item.get("name")
+        }
+        for name in names:
+            by_name.setdefault(name, []).append(key)
+    for keys in by_name.values():
+        unique = sorted(set(keys))
+        for index, left_key in enumerate(unique):
+            for right_key in unique[index + 1 :]:
+                if alias_compatible(grouped[left_key], grouped[right_key]):
+                    union(left_key, right_key)
+
+    clusters: Dict[str, List[str]] = {}
+    for key in grouped:
+        clusters.setdefault(find(key), []).append(key)
+
+    def component_preference(key: str) -> Tuple[int, int, str]:
+        forge = 1 if key.startswith(("github.com-", "gitlab.com-", "codeberg.org-", "gitlab.")) else 0
+        source_count = len(
+            {
+                str(item.get("metadata", {}).get("source", ""))
+                for item in grouped[key]
+                if item.get("metadata", {}).get("source")
+            }
+        )
+        return forge, source_count, key
+
+    merged: List[Dict[str, Any]] = []
+    for keys in clusters.values():
+        canonical = max(keys, key=component_preference)
+        cluster_records: List[Dict[str, Any]] = []
+        for key in keys:
+            for record in grouped[key]:
+                updated = dict(record)
+                updated["_component_alias"] = key
+                updated["component_id"] = canonical
+                updated["component_key_hint"] = canonical
+                cluster_records.append(updated)
+        result = merge_candidate_group(cluster_records)
+        result["deduplication"]["component_aliases"] = sorted(keys)
+        result["deduplication"]["alias_evidence"] = (
+            ["package-base", "normalized-stable-version", "license-family", "description-similarity", "cross-source"]
+            if len(keys) > 1
+            else []
+        )
+        result.pop("_component_alias", None)
+        merged.append(result)
+    return sorted(merged, key=lambda item: str(item["component_id"]))
 
 
 def rejection_decision(reason: str) -> str:
@@ -418,7 +569,13 @@ def main() -> int:
                 rejections.append(schema_item(normalized, rejection_decision(rejection[0]), [rejection[1]]))
             else:
                 normalized["priority"] = 0 if source in PRIMARY else 1
-                candidates.append(schema_item(normalized, "eligible", ["passes configured stable-source, repository, freshness, and license filters"]))
+                candidates.append(
+                    schema_item(
+                        normalized,
+                        "eligible",
+                        ["passes repository, freshness, and prerelease filters; evidence gaps are resolved after cross-source deduplication"],
+                    )
+                )
 
     merged_candidates = deduplicate_candidates(candidates)
     candidates = [item for item in merged_candidates if item["decision"] == "eligible"]
@@ -430,7 +587,25 @@ def main() -> int:
         for record in overflow:
             rejections.append(schema_item(record, "duplicate", ["excluded by explicit discovery limit; no onboarding was authorized beyond the limit"]))
 
-    fingerprint = hashlib.sha256(stable_json({"as_of": fetched_at, "inputs": assignments}, pretty=False).encode()).hexdigest()[:16]
+    fingerprint_material = {
+        "as_of": fetched_at,
+        "normalization_version": NORMALIZATION_VERSION,
+        "metadata": [
+            {
+                "source": item["source"],
+                "release": item["release"],
+                "metadata_sha256": item["metadata_sha256"],
+            }
+            for item in snapshots
+        ],
+        "policy": {
+            "aur_stale_days": stale_days,
+            "stable_only": True,
+            "verified_source_required": True,
+            "execute_external_packaging": False,
+        },
+    }
+    fingerprint = hashlib.sha256(stable_json(fingerprint_material, pretty=False).encode()).hexdigest()[:16]
     counts: Dict[str, int] = {}
     for item in rejections:
         counts[item["decision"]] = counts.get(item["decision"], 0) + 1
@@ -458,6 +633,7 @@ def main() -> int:
             "stable_only": True,
             "verified_source_required": True,
             "execute_external_packaging": False,
+            "normalization_version": NORMALIZATION_VERSION,
         },
         "resolved_distributions": snapshots,
         "metadata_digests": {"%s-%d" % (item["source"], index): item["metadata_sha256"] for index, item in enumerate(snapshots)},

@@ -110,6 +110,7 @@ def package_plan(path: pathlib.Path, state: Mapping[str, Any], now: Any, missed_
         "current_version": str(version_data.get("current") or metadata.get("version")),
         "release_channel": upstream.get("release_channel") or metadata.get("release_channel") or "stable",
         "release_api": release_api,
+        "release_regex": upstream.get("release_regex"),
         "source_url_template": upstream.get("source_url_template"),
         "last_successful_check": last_check,
         "missed": overdue,
@@ -182,7 +183,10 @@ def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optio
     version_text = re.sub(r"^[vV](?=\d)", "", version_text)
     if not version_text or is_prerelease({**raw, "version": version_text}):
         return None
-    source_url = first_value(raw, ["source_url", "tarball_url", "archive_url", "download_url"])
+    # Prefer an explicit upstream asset or reviewed template over generic
+    # forge-generated tag archives.  This keeps update PRs on the same release
+    # artifact channel that was reviewed during onboarding.
+    source_url = first_value(raw, ["source_url", "archive_url", "download_url"])
     if not source_url:
         assets = raw.get("assets") if isinstance(raw.get("assets"), list) else []
         source_assets = [item for item in assets if isinstance(item, Mapping) and str(item.get("name", "")).endswith((".tar.gz", ".tar.xz", ".tgz"))]
@@ -193,6 +197,8 @@ def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optio
             source_url = template.format(version=version_text, tag=first_value(raw, ["tag_name"], version_text))
         except (KeyError, ValueError) as exc:
             raise ToolError("invalid source_url_template: %s" % exc)
+    if not source_url:
+        source_url = raw.get("tarball_url")
     digest = first_value(raw, ["sha256", "checksum"])
     if isinstance(digest, str) and digest.startswith("sha256:"):
         digest = digest.split(":", 1)[1]
@@ -203,6 +209,67 @@ def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optio
         "sha256": str(digest).lower() if digest else None,
         "published_at": first_value(raw, ["published_at", "created_at", "date"]),
     }
+
+
+def releases_from_index(content: bytes, release_regex: str, source_url_template: Optional[str]) -> List[Dict[str, Any]]:
+    """Extract stable versions from a reviewed official HTML/XML index."""
+
+    if len(release_regex) > 1024:
+        raise ToolError("release_regex exceeds the 1024-character safety limit", 1)
+    try:
+        pattern = re.compile(release_regex, re.IGNORECASE)
+    except re.error as exc:
+        raise ToolError("invalid release_regex: %s" % exc, 1) from exc
+    if pattern.groups < 1 and "version" not in pattern.groupindex:
+        raise ToolError("release_regex must capture a version", 1)
+    text = content.decode("utf-8", errors="replace")
+    releases: List[Dict[str, Any]] = []
+    seen = set()
+    for match in pattern.finditer(text):
+        version = match.groupdict().get("version") or match.group(1)
+        version = str(version).strip().lstrip("vV")
+        if not version or version in seen or is_prerelease({"version": version}):
+            continue
+        source_url = match.groupdict().get("source_url") or match.groupdict().get("url")
+        if not source_url and source_url_template:
+            try:
+                source_url = source_url_template.format(version=version, tag=version)
+            except (KeyError, ValueError) as exc:
+                raise ToolError("invalid source_url_template: %s" % exc, 1) from exc
+        releases.append({"version": version, "source_url": source_url})
+        seen.add(version)
+    return releases
+
+
+def load_release_feed(
+    release_api: str,
+    release_regex: Optional[str],
+    source_url_template: Optional[str],
+    *,
+    timeout: float,
+    retries: int,
+    cache_dir: Optional[pathlib.Path],
+    limiter: HostRateLimiter,
+) -> tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    if release_regex:
+        if release_api.startswith(("https://", "file://")):
+            content, metadata = fetch_url(
+                release_api,
+                timeout=timeout,
+                retries=retries,
+                cache_dir=cache_dir,
+                limiter=limiter,
+                max_bytes=64 * 1024 * 1024,
+            )
+        else:
+            path = pathlib.Path(release_api)
+            content = path.read_bytes()
+            metadata = {"path": str(path), "sha256": sha256_bytes(content), "cached": False}
+        return releases_from_index(content, release_regex, source_url_template), metadata
+    document, metadata = load_location(
+        release_api, timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter
+    )
+    return releases_from_document(document), metadata
 
 
 def source_digest(
@@ -240,12 +307,18 @@ def scan_package(
     if not release_api:
         return {**base, "status": "failed", "failure": {"category": "configuration", "message": "release_api is not configured"}}
     try:
-        document, fetch_meta = load_location(
-            str(release_api), timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter
+        raw_releases, fetch_meta = load_release_feed(
+            str(release_api),
+            str(package.get("release_regex")) if package.get("release_regex") else None,
+            str(package.get("source_url_template")) if package.get("source_url_template") else None,
+            timeout=timeout,
+            retries=retries,
+            cache_dir=cache_dir,
+            limiter=limiter,
         )
         releases = [
             item
-            for item in (normalized_release(raw, package.get("source_url_template")) for raw in releases_from_document(document))
+            for item in (normalized_release(raw, package.get("source_url_template")) for raw in raw_releases)
             if item is not None
         ]
         if not releases:

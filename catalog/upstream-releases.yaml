@@ -1,0 +1,825 @@
+{
+  "schema_version": 1,
+  "kind": "reviewed-upstream-releases",
+  "source_snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+  "reviewed_at": "2026-08-08T17:25:00Z",
+  "policy": {
+    "stable_only": true,
+    "official_https_required": true,
+    "source_sha256_required": true,
+    "external_packaging_executed": false
+  },
+  "releases": [
+    {
+      "component_id": "brain-dump.org-projects-abduco",
+      "package_id": "abduco",
+      "canonical_name": "abduco",
+      "summary": "Session attach and detach support for terminal programs",
+      "license": "ISC",
+      "version": "0.6",
+      "upstream": {
+        "homepage": "https://www.brain-dump.org/projects/abduco/",
+        "repository_url": "https://github.com/martanne/abduco",
+        "release_api": "https://www.brain-dump.org/projects/abduco/",
+        "release_regex": "abduco-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://github.com/martanne/abduco/releases/download/v{version}/abduco-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/martanne/abduco/releases/download/v0.6/abduco-0.6.tar.gz",
+        "filename": "abduco-0.6.tar.gz",
+        "sha256": "c90909e13fa95770b5afc3b59f311b3d3d2fdfae23f9569fa4f96a3e192a35f4"
+      },
+      "evidence": {
+        "release_page": "https://www.brain-dump.org/projects/abduco/",
+        "verified_at": "2026-08-08T13:12:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "abduco-0.6",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": ["gcc", "make"],
+      "requires": []
+    },
+    {
+      "component_id": "brain-dump.org-projects-dvtm",
+      "package_id": "dvtm",
+      "canonical_name": "dvtm",
+      "summary": "Dynamic virtual terminal manager",
+      "license": "MIT AND ISC",
+      "version": "0.15",
+      "upstream": {
+        "homepage": "https://www.brain-dump.org/projects/dvtm/",
+        "repository_url": "https://github.com/martanne/dvtm",
+        "release_api": "https://www.brain-dump.org/projects/dvtm/",
+        "release_regex": "dvtm-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://github.com/martanne/dvtm/releases/download/v{version}/dvtm-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/martanne/dvtm/releases/download/v0.15/dvtm-0.15.tar.gz",
+        "filename": "dvtm-0.15.tar.gz",
+        "sha256": "8f2015c05e2ad82f12ae4cf12b363d34f527a4bbc8c369667f239e4542e1e510"
+      },
+      "evidence": {
+        "release_page": "https://www.brain-dump.org/projects/dvtm/",
+        "verified_at": "2026-08-08T13:12:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE and README.md",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "dvtm-0.15",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": ["gcc", "make", "ncurses-devel"],
+      "requires": []
+    },
+    {
+      "component_id": "bearssl.org",
+      "package_id": "bearssl",
+      "canonical_name": "bearssl",
+      "summary": "Small implementation of TLS in C",
+      "license": "MIT",
+      "version": "0.6",
+      "upstream": {
+        "homepage": "https://www.bearssl.org/",
+        "repository_url": "https://www.bearssl.org/gitweb/",
+        "release_api": "https://www.bearssl.org/",
+        "release_regex": "bearssl-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://www.bearssl.org/bearssl-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://www.bearssl.org/bearssl-0.6.tar.gz",
+        "filename": "bearssl-0.6.tar.gz",
+        "sha256": "6705bba1714961b41a728dfc5debbe348d2966c117649392f8c8139efc83ff14"
+      },
+      "evidence": {
+        "release_page": "https://www.bearssl.org/",
+        "verified_at": "2026-08-08T13:12:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE.txt",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "bearssl-0.6",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": ["gcc", "make"],
+      "requires": []
+    },
+    {
+      "component_id": "cabextract.org.uk",
+      "package_id": "cabextract",
+      "canonical_name": "cabextract",
+      "summary": "Extract Microsoft cabinet files",
+      "license": "GPL-2.0-or-later",
+      "version": "1.11",
+      "upstream": {
+        "homepage": "https://www.cabextract.org.uk/",
+        "repository_url": "https://github.com/kyz/libmspack",
+        "release_api": "https://www.cabextract.org.uk/old/",
+        "release_regex": "cabextract-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://www.cabextract.org.uk/cabextract-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://www.cabextract.org.uk/cabextract-1.11.tar.gz",
+        "filename": "cabextract-1.11.tar.gz",
+        "sha256": "b5546db1155e4c718ff3d4b278573604f30dd64c3c5bfd4657cd089b823a3ac6"
+      },
+      "evidence": {
+        "release_page": "https://www.cabextract.org.uk/old/",
+        "verified_at": "2026-08-08T13:12:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING and src/cabextract.c",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "cabextract-1.11",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": ["gcc", "make"],
+      "requires": []
+    },
+    {
+      "component_id": "bftpd.sourceforge.net",
+      "package_id": "bftpd",
+      "canonical_name": "bftpd",
+      "summary": "Small configurable FTP server",
+      "license": "GPL-2.0-only",
+      "version": "6.7",
+      "upstream": {
+        "homepage": "https://bftpd.sourceforge.net/",
+        "repository_url": "https://sourceforge.net/p/bftpd/code/ci/master/tree/",
+        "release_api": "https://sourceforge.net/projects/bftpd/rss?path=/bftpd",
+        "release_regex": "bftpd-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://downloads.sourceforge.net/project/bftpd/bftpd/bftpd-{version}/bftpd-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://downloads.sourceforge.net/project/bftpd/bftpd/bftpd-6.7/bftpd-6.7.tar.gz",
+        "filename": "bftpd-6.7.tar.gz",
+        "sha256": "40317957c3667fded7541ff4b0f44328573827ef0315519a44ca1b627f5eafb2"
+      },
+      "evidence": {
+        "release_page": "https://sourceforge.net/projects/bftpd/files/bftpd/",
+        "verified_at": "2026-08-08T13:14:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING and main.c",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "bftpd",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": ["gcc", "make"],
+      "requires": []
+    },
+  {
+    "component_id": "github.com-abishekvashok-cmatrix",
+    "package_id": "cmatrix",
+    "canonical_name": "cmatrix",
+    "summary": "Terminal Matrix-style display using ncurses",
+    "license": "GPL-3.0-only",
+    "version": "2.0",
+    "upstream": {
+      "homepage": "https://github.com/abishekvashok/cmatrix",
+      "repository_url": "https://github.com/abishekvashok/cmatrix",
+      "release_api": "https://api.github.com/repos/abishekvashok/cmatrix/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/abishekvashok/cmatrix/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/abishekvashok/cmatrix/archive/refs/tags/v2.0.tar.gz",
+      "filename": "cmatrix-2.0.tar.gz",
+      "sha256": "ad93ba39acd383696ab6a9ebbed1259ecf2d3cf9f49d6b97038c66f80749e99a"
+    },
+    "evidence": {
+      "release_page": "https://github.com/abishekvashok/cmatrix/releases/tag/v2.0",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "cmatrix-2.0/COPYING",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "cmatrix-2.0",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "cmake",
+      "gcc",
+      "make",
+      "ncurses-devel"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-klange-nyancat",
+    "package_id": "nyancat",
+    "canonical_name": "nyancat",
+    "summary": "Nyan Cat animation rendered in a terminal",
+    "license": "NCSA",
+    "version": "1.5.2",
+    "upstream": {
+      "homepage": "https://github.com/klange/nyancat",
+      "repository_url": "https://github.com/klange/nyancat",
+      "release_api": "https://api.github.com/repos/klange/nyancat/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/klange/nyancat/archive/refs/tags/{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/klange/nyancat/archive/refs/tags/1.5.2.tar.gz",
+      "filename": "nyancat-1.5.2.tar.gz",
+      "sha256": "88cdcaa9c7134503dd0364a97fa860da3381a09cb555c3aae9918360827c2032"
+    },
+    "evidence": {
+      "release_page": "https://github.com/klange/nyancat/releases/tag/1.5.2",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "nyancat-1.5.2/src/nyancat.c",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "nyancat-1.5.2",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "gcc",
+      "make"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-kazuho-picojson",
+    "package_id": "picojson",
+    "canonical_name": "picojson",
+    "summary": "Header-only JSON parser and serializer for C++",
+    "license": "BSD-2-Clause",
+    "version": "1.3.0",
+    "upstream": {
+      "homepage": "https://github.com/kazuho/picojson",
+      "repository_url": "https://github.com/kazuho/picojson",
+      "release_api": "https://api.github.com/repos/kazuho/picojson/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/kazuho/picojson/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/kazuho/picojson/archive/refs/tags/v1.3.0.tar.gz",
+      "filename": "picojson-1.3.0.tar.gz",
+      "sha256": "056805ca2691798f5545935a14bb477f2e1d827c9fb862e6e449dbea22801c7d"
+    },
+    "evidence": {
+      "release_page": "https://github.com/kazuho/picojson/releases/tag/v1.3.0",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "picojson-1.3.0/LICENSE",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "picojson-1.3.0",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "gcc-c++",
+      "make"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-daandemeyer-reproc",
+    "package_id": "reproc",
+    "canonical_name": "reproc",
+    "summary": "Cross-platform C and C++ process execution library",
+    "license": "MIT",
+    "version": "14.2.7",
+    "upstream": {
+      "homepage": "https://github.com/DaanDeMeyer/reproc",
+      "repository_url": "https://github.com/DaanDeMeyer/reproc",
+      "release_api": "https://api.github.com/repos/DaanDeMeyer/reproc/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/DaanDeMeyer/reproc/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/DaanDeMeyer/reproc/archive/refs/tags/v14.2.7.tar.gz",
+      "filename": "reproc-14.2.7.tar.gz",
+      "sha256": "77914ba566356d86986db240ecdb1762dfdd55bb1e8e127d016d9c5c4c9300e8"
+    },
+    "evidence": {
+      "release_page": "https://github.com/DaanDeMeyer/reproc/releases/tag/v14.2.7",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "reproc-14.2.7/LICENSE",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "reproc-14.2.7",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "cmake",
+      "gcc",
+      "gcc-c++",
+      "make"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-tsyrogit-zxcvbn-c",
+    "package_id": "zxcvbn-c",
+    "canonical_name": "zxcvbn-c",
+    "summary": "C and C++ password strength estimator",
+    "license": "MIT",
+    "version": "2.6",
+    "upstream": {
+      "homepage": "https://github.com/tsyrogit/zxcvbn-c",
+      "repository_url": "https://github.com/tsyrogit/zxcvbn-c",
+      "release_api": "https://api.github.com/repos/tsyrogit/zxcvbn-c/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/tsyrogit/zxcvbn-c/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/tsyrogit/zxcvbn-c/archive/refs/tags/v2.6.tar.gz",
+      "filename": "zxcvbn-c-2.6.tar.gz",
+      "sha256": "11e39f6776f9c82c68b2acb94336e32697d4ab6cdb4ac16f9583ccbdd735113a"
+    },
+    "evidence": {
+      "release_page": "https://github.com/tsyrogit/zxcvbn-c/releases/tag/v2.6",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "zxcvbn-c-2.6/LICENSE.txt",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "zxcvbn-c-2.6",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "gcc",
+      "gcc-c++",
+      "make"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-alobbs-macchanger",
+    "package_id": "macchanger",
+    "canonical_name": "macchanger",
+    "summary": "Utility for changing network interface MAC addresses",
+    "license": "GPL-3.0-or-later",
+    "version": "1.7.0",
+    "upstream": {
+      "homepage": "https://github.com/alobbs/macchanger",
+      "repository_url": "https://github.com/alobbs/macchanger",
+      "release_api": "https://api.github.com/repos/alobbs/macchanger/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/alobbs/macchanger/archive/refs/tags/{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/alobbs/macchanger/archive/refs/tags/1.7.0.tar.gz",
+      "filename": "macchanger-1.7.0.tar.gz",
+      "sha256": "1d75c07a626321e07b48a5fe2dbefbdb98c3038bb8230923ba8d32bda5726e4f"
+    },
+    "evidence": {
+      "release_page": "https://github.com/alobbs/macchanger/releases/tag/1.7.0",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "macchanger-1.7.0/COPYING",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "macchanger-1.7.0",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "autoconf",
+      "automake",
+      "gcc",
+      "make",
+      "texinfo"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-linux-ras-sysfsutils",
+    "package_id": "sysfsutils",
+    "canonical_name": "sysfsutils",
+    "summary": "Utilities and library for Linux sysfs",
+    "license": "GPL-2.0-only AND LGPL-2.1-or-later",
+    "version": "2.1.1",
+    "upstream": {
+      "homepage": "https://github.com/linux-ras/sysfsutils",
+      "repository_url": "https://github.com/linux-ras/sysfsutils",
+      "release_api": "https://api.github.com/repos/linux-ras/sysfsutils/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/linux-ras/sysfsutils/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/linux-ras/sysfsutils/archive/refs/tags/v2.1.1.tar.gz",
+      "filename": "sysfsutils-2.1.1.tar.gz",
+      "sha256": "f7f669d27c997d3eb3f3e014b4c0aa1aa4d07ce4d6f9e41fa835240f2bf38810"
+    },
+    "evidence": {
+      "release_page": "https://github.com/linux-ras/sysfsutils/releases/tag/v2.1.1",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "sysfsutils-2.1.1/COPYING",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "sysfsutils-2.1.1",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "autoconf",
+      "automake",
+      "gcc",
+      "libtool",
+      "make"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-rsyslog-libfastjson",
+    "package_id": "libfastjson",
+    "canonical_name": "libfastjson",
+    "summary": "Performance-focused JSON library for C",
+    "license": "MIT",
+    "version": "1.2304.0",
+    "upstream": {
+      "homepage": "https://github.com/rsyslog/libfastjson",
+      "repository_url": "https://github.com/rsyslog/libfastjson",
+      "release_api": "https://api.github.com/repos/rsyslog/libfastjson/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/rsyslog/libfastjson/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/rsyslog/libfastjson/archive/refs/tags/v1.2304.0.tar.gz",
+      "filename": "libfastjson-1.2304.0.tar.gz",
+      "sha256": "6c18848c75b179108429fc2818273551c68ffe6ddd5e414c20c071c844befbc1"
+    },
+    "evidence": {
+      "release_page": "https://github.com/rsyslog/libfastjson/releases/tag/v1.2304.0",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "libfastjson-1.2304.0/COPYING",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "libfastjson-1.2304.0",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "autoconf",
+      "automake",
+      "gcc",
+      "libtool",
+      "make"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-jubalh-nudoku",
+    "package_id": "nudoku",
+    "canonical_name": "nudoku",
+    "summary": "Ncurses Sudoku game for the terminal",
+    "license": "GPL-3.0-only",
+    "version": "8.0.1",
+    "upstream": {
+      "homepage": "https://github.com/jubalh/nudoku",
+      "repository_url": "https://github.com/jubalh/nudoku",
+      "release_api": "https://api.github.com/repos/jubalh/nudoku/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/jubalh/nudoku/archive/refs/tags/{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/jubalh/nudoku/archive/refs/tags/8.0.1.tar.gz",
+      "filename": "nudoku-8.0.1.tar.gz",
+      "sha256": "4e8a35950b7b7ce1e49f9457a8aceffbd21fb2b34aa8386847a7a158a2cab551"
+    },
+    "evidence": {
+      "release_page": "https://github.com/jubalh/nudoku/releases/tag/8.0.1",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "nudoku-8.0.1/LICENSE",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "nudoku-8.0.1",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "autoconf",
+      "automake",
+      "gcc",
+      "gettext-devel",
+      "make",
+      "ncurses-devel",
+      "pkgconfig"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-jcs-xbanish",
+    "package_id": "xbanish",
+    "canonical_name": "xbanish",
+    "summary": "Hide the X11 mouse cursor while typing",
+    "license": "ISC",
+    "version": "1.8",
+    "upstream": {
+      "homepage": "https://github.com/jcs/xbanish",
+      "repository_url": "https://github.com/jcs/xbanish",
+      "release_api": "https://api.github.com/repos/jcs/xbanish/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/jcs/xbanish/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/jcs/xbanish/archive/refs/tags/v1.8.tar.gz",
+      "filename": "xbanish-1.8.tar.gz",
+      "sha256": "e753d6a92d17105ad0d374f0349579b7e7bb070d4bebf5ec28ea105cb0c5b507"
+    },
+    "evidence": {
+      "release_page": "https://github.com/jcs/xbanish/releases/tag/v1.8",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "xbanish-1.8/LICENSE",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "xbanish-1.8",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "gcc",
+      "libX11-devel",
+      "libXext-devel",
+      "libXfixes-devel",
+      "libXi-devel",
+      "make"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-jk-jeon-dragonbox",
+    "package_id": "dragonbox",
+    "canonical_name": "dragonbox",
+    "summary": "Header-only float-to-string conversion library",
+    "license": "Apache-2.0 WITH LLVM-exception OR BSL-1.0",
+    "version": "1.1.3",
+    "upstream": {
+      "homepage": "https://github.com/jk-jeon/dragonbox",
+      "repository_url": "https://github.com/jk-jeon/dragonbox",
+      "release_api": "https://api.github.com/repos/jk-jeon/dragonbox/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/jk-jeon/dragonbox/archive/refs/tags/{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/jk-jeon/dragonbox/archive/refs/tags/1.1.3.tar.gz",
+      "filename": "dragonbox-1.1.3.tar.gz",
+      "sha256": "09d63b05e9c594ec423778ab59b7a5aa1d76fdd71d25c7048b0258c4ec9c3384"
+    },
+    "evidence": {
+      "release_page": "https://github.com/jk-jeon/dragonbox/releases/tag/1.1.3",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "dragonbox-1.1.3/LICENSE-Apache2-LLVM",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "dragonbox-1.1.3",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "cmake",
+      "gcc-c++",
+      "make"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-mellowcandle-bitwise",
+    "package_id": "bitwise",
+    "canonical_name": "bitwise",
+    "summary": "Interactive ncurses bitwise calculator",
+    "license": "GPL-3.0-or-later",
+    "version": "0.50",
+    "upstream": {
+      "homepage": "https://github.com/mellowcandle/bitwise",
+      "repository_url": "https://github.com/mellowcandle/bitwise",
+      "release_api": "https://api.github.com/repos/mellowcandle/bitwise/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/mellowcandle/bitwise/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/mellowcandle/bitwise/archive/refs/tags/v0.50.tar.gz",
+      "filename": "bitwise-0.50.tar.gz",
+      "sha256": "624e2aeb6be0f577c2849e1909553e9221abf8f1a6d1ab160a88f70883f1a1f1"
+    },
+    "evidence": {
+      "release_page": "https://github.com/mellowcandle/bitwise/releases/tag/v0.50",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "bitwise-0.50/COPYING",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "bitwise-0.50",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": true,
+        "unsafe_links": false,
+        "link_count": 1
+      }
+    },
+    "build_requires": [
+      "CUnit-devel",
+      "autoconf",
+      "automake",
+      "gcc",
+      "make",
+      "ncurses-devel",
+      "pkgconfig",
+      "readline-devel"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-slimm609-checksec.sh",
+    "package_id": "checksec",
+    "canonical_name": "checksec",
+    "summary": "Inspect ELF binaries for hardening features",
+    "license": "BSD-3-Clause",
+    "version": "3.2.0",
+    "upstream": {
+      "homepage": "https://github.com/slimm609/checksec.sh",
+      "repository_url": "https://github.com/slimm609/checksec.sh",
+      "release_api": "https://api.github.com/repos/slimm609/checksec.sh/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/slimm609/checksec.sh/archive/refs/tags/{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/slimm609/checksec.sh/archive/refs/tags/3.2.0.tar.gz",
+      "filename": "checksec-3.2.0.tar.gz",
+      "sha256": "3ea46986821070ed06fef5215b2a83a9076115a865da70874e19f214db2c8d83"
+    },
+    "evidence": {
+      "release_page": "https://github.com/slimm609/checksec.sh/releases/tag/3.2.0",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "checksec-3.2.0/LICENSE",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "checksec-3.2.0",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "golang"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-nils-ohlmeier-sipsak",
+    "package_id": "sipsak",
+    "canonical_name": "sipsak",
+    "summary": "Command-line SIP testing utility",
+    "license": "GPL-2.0-only",
+    "version": "0.9.8.1",
+    "upstream": {
+      "homepage": "https://github.com/nils-ohlmeier/sipsak",
+      "repository_url": "https://github.com/nils-ohlmeier/sipsak",
+      "release_api": "https://api.github.com/repos/nils-ohlmeier/sipsak/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/nils-ohlmeier/sipsak/archive/refs/tags/{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/nils-ohlmeier/sipsak/archive/refs/tags/0.9.8.1.tar.gz",
+      "filename": "sipsak-0.9.8.1.tar.gz",
+      "sha256": "ffcb116c4bcce58c165f1b4644debf9cb973f9239a5fc1c3cf37328549f13c91"
+    },
+    "evidence": {
+      "release_page": "https://github.com/nils-ohlmeier/sipsak/releases/tag/0.9.8.1",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "sipsak-0.9.8.1/COPYING",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "sipsak-0.9.8.1",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "autoconf",
+      "automake",
+      "check-devel",
+      "gcc",
+      "make",
+      "openssl-devel",
+      "pkgconfig"
+    ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-stressapptest-stressapptest",
+    "package_id": "stressapptest",
+    "canonical_name": "stressapptest",
+    "summary": "Memory and I/O stress testing utility",
+    "license": "Apache-2.0",
+    "version": "1.0.11",
+    "upstream": {
+      "homepage": "https://github.com/stressapptest/stressapptest",
+      "repository_url": "https://github.com/stressapptest/stressapptest",
+      "release_api": "https://api.github.com/repos/stressapptest/stressapptest/tags",
+      "release_regex": null,
+      "source_url_template": "https://github.com/stressapptest/stressapptest/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/stressapptest/stressapptest/archive/refs/tags/v1.0.11.tar.gz",
+      "filename": "stressapptest-1.0.11.tar.gz",
+      "sha256": "91b6eefe49718a8c7c4de6e2bd81144db7b5612aeadb24e00e142d54fe9281cf"
+    },
+    "evidence": {
+      "release_page": "https://github.com/stressapptest/stressapptest/releases/tag/v1.0.11",
+      "verified_at": "2026-08-08T17:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "stressapptest-1.0.11/COPYING",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "stressapptest-1.0.11",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": [
+      "gcc",
+      "gcc-c++",
+      "libaio-devel",
+      "make"
+    ],
+    "requires": []
+  }
+  ]
+}

@@ -17,6 +17,7 @@ Create an auditable discovery snapshot, then normalize records to official upstr
 Require:
 
 - repository root containing `catalog/sources.yaml`, `schemas/discovery-snapshot.schema.json`, `scripts/snapshot-catalog`, `scripts/discover-packages`, and `scripts/resolve-upstream`;
+- optional `catalog/upstream-releases.yaml` reviewed against `schemas/upstream-release-evidence.schema.json` when the frozen catalogs identify a component but omit official release bytes;
 - for a live scan, the official endpoints configured in `catalog/sources.yaml`; for a replay, one frozen `SOURCE=PATH` input per allowed catalog;
 - an ISO-8601 `as_of` timestamp and output directory under `catalog/snapshots/`;
 - optional candidate limit, defaulting to `0` for no cap, and AUR staleness threshold, defaulting to 730 days.
@@ -75,6 +76,8 @@ Never invent a successful fetch for an unavailable source or replace it with an 
   --evidence-output "$snapshot_dir/upstream-evidence.json"
 ```
 
+When a reviewed registry explicitly binds to this input snapshot, rerun the same normalization with `--reviewed-evidence catalog/upstream-releases.yaml`. The registry may promote only a component already visible in that snapshot and must record an official HTTPS release page/archive, calculated full SHA-256, license file, and a safe archive-member inspection. It may advance a stale catalog version to a newer official stable version, but it may not regress a version or admit a prerelease. Never edit an immutable discovery snapshot to inject these fields.
+
 7. Require an HTTPS official stable release/tag source URL and a full 64-hex SHA-256 before marking a candidate importable. A distribution package checksum is not an upstream source checksum. Correlate homepage, source archive, release page, description, license, and cross-distribution evidence; do not deduplicate by name alone. When one component has both verified and unverified records, select the verified release bytes before comparing version text and retain every record in lineage.
 8. Map `foo`, `foo-git`, `foo-nightly`, versioned variants, and split packages to one stable upstream release component. Exclude pure AUR `-bin`; retain VCS-only entries as non-importable evidence. Mark and exclude AUR entries older than the configured threshold.
 9. Review every rejection category and resolved-source record. Keep binary-only, unverifiable-source, unlicensed, stale, pre-release, and ambiguous mappings visible rather than dropping them silently.
@@ -102,4 +105,5 @@ Return an operation report containing: operation type `discovery`; no package ta
 - Omit a project from AUR but include it in a permitted supplemental catalog; assert it remains a candidate with that lineage.
 - Supply testing/Rawhide/pre-release records and an AUR record older than 730 days; assert none becomes importable.
 - Supply an otherwise valid stable-looking record without an upstream source SHA-256 and a checksum-pinned `rc` release; assert both remain visible but neither becomes importable.
+- Supply reviewed evidence for one visible unverified component; assert the official archive becomes importable while the source snapshot stays byte-identical. Then mark the archive inspection unsafe and assert the resolver fails closed.
 - Repeat the same fixed-input scan; assert stable normalized results apart from run metadata.

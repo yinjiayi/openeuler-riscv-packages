@@ -9,12 +9,12 @@ on:
         required: true
         type: choice
         options: [primary, all]
-        default: primary
+        default: all
       limit:
-        description: Maximum normalized candidates retained in this reviewed run
+        description: Maximum records per source; 0 preserves the complete catalog
         required: true
         type: number
-        default: 5000
+        default: 0
       persist_snapshot_pr:
         description: Propose the versioned snapshot on an infrastructure PR
         required: true
@@ -46,7 +46,7 @@ jobs:
         run: |
           snapshot_id="discovery-$(date -u +%Y%m%dT%H%M%SZ)-${GITHUB_RUN_ID}"
           printf 'snapshot_id=%s\n' "$snapshot_id" >>"$GITHUB_OUTPUT"
-          printf 'snapshot=catalog/snapshots/%s.json\n' "$snapshot_id" >>"$GITHUB_OUTPUT"
+          printf 'snapshot=catalog/snapshots/%s.json.gz\n' "$snapshot_id" >>"$GITHUB_OUTPUT"
       - name: Select the reviewed source policy
         env:
           SOURCE_SET: ${{ inputs.source_set }}
@@ -141,7 +141,7 @@ jobs:
           SNAPSHOT: ${{ needs.discover.outputs.snapshot }}
           SNAPSHOT_ID: ${{ needs.discover.outputs.snapshot_id }}
         run: |
-          source_file=$(find downloaded-snapshot -type f -name "${SNAPSHOT_ID}.json" -print -quit)
+          source_file=$(find downloaded-snapshot -type f -name "${SNAPSHOT_ID}.json.gz" -print -quit)
           test -s "$source_file"
           install -D -m 0644 "$source_file" "$SNAPSHOT"
           branch="catalog/${SNAPSHOT_ID}"

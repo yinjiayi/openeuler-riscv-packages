@@ -118,8 +118,11 @@ def load_json(path: os.PathLike[str] | str, default: Any = None) -> Any:
             return default
         raise ToolError("file does not exist: %s" % source)
     try:
+        if source.name.endswith(".json.gz"):
+            with gzip.open(source, "rt", encoding="utf-8") as handle:
+                return loads_document(handle.read(), str(source))
         return loads_document(source.read_text(encoding="utf-8"), str(source))
-    except OSError as exc:
+    except (OSError, EOFError, gzip.BadGzipFile) as exc:
         raise ToolError("cannot read %s: %s" % (source, exc), 1) from exc
 
 
@@ -146,7 +149,15 @@ def atomic_write_text(path: os.PathLike[str] | str, content: str, mode: int = 0o
 
 
 def atomic_write_json(path: os.PathLike[str] | str, data: Any, mode: int = 0o644) -> None:
-    atomic_write_text(path, stable_json(data), mode)
+    destination = pathlib.Path(path)
+    serialized = stable_json(data).encode("utf-8")
+    if destination.name.endswith(".json.gz"):
+        compressed = io.BytesIO()
+        with gzip.GzipFile(filename="", mode="wb", fileobj=compressed, mtime=0, compresslevel=9) as output:
+            output.write(serialized)
+        atomic_write(destination, compressed.getvalue(), mode)
+        return
+    atomic_write(destination, serialized, mode)
 
 
 def emit_json(data: Any, output: Optional[str] = None) -> None:

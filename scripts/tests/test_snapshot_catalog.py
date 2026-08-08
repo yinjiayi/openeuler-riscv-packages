@@ -74,19 +74,27 @@ def rpm_primary(package_name: str, version: str = "1.0", release: str = "1") -> 
     return gzip.compress(text.encode("utf-8"), mtime=0)
 
 
-def write_rpm_repository(root: pathlib.Path, relative: str, package_name: str) -> str:
+def write_rpm_repository(
+    root: pathlib.Path,
+    relative: str,
+    package_name: str,
+    checksum_type: str = "sha256",
+) -> str:
     primary = rpm_primary(package_name)
     write_bytes(root, relative + "/repodata/primary.xml.gz", primary)
     repomd = """<?xml version="1.0" encoding="UTF-8"?>
 <repomd xmlns="http://linux.duke.edu/metadata/repo">
   <revision>20260808</revision>
   <data type="primary">
-    <checksum type="sha256">{digest}</checksum>
+    <checksum type="{checksum_type}">{digest}</checksum>
     <location href="repodata/primary.xml.gz"/>
     <timestamp>1786147200</timestamp>
   </data>
 </repomd>
-""".format(digest=hashlib.sha256(primary).hexdigest()).encode("utf-8")
+""".format(
+        checksum_type=checksum_type,
+        digest=hashlib.new(checksum_type, primary).hexdigest(),
+    ).encode("utf-8")
     write_bytes(root, relative + "/repodata/repomd.xml", repomd)
     return fixture_url(relative + "/repodata/repomd.xml")
 
@@ -256,8 +264,12 @@ class SnapshotCatalogTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
             fixtures = root / "fixtures"
-            opensuse_oss = write_rpm_repository(fixtures, "opensuse/repo/oss", "suse-oss")
-            opensuse_nonoss = write_rpm_repository(fixtures, "opensuse/repo/non-oss", "suse-nonoss")
+            opensuse_oss = write_rpm_repository(
+                fixtures, "opensuse/repo/oss", "suse-oss", checksum_type="sha512"
+            )
+            opensuse_nonoss = write_rpm_repository(
+                fixtures, "opensuse/repo/non-oss", "suse-nonoss", checksum_type="sha512"
+            )
 
             write_bytes(
                 fixtures,
@@ -286,6 +298,15 @@ class SnapshotCatalogTests(unittest.TestCase):
                 components=("main", "restricted", "universe", "multiverse"),
                 prefix="ubuntu",
             )
+            ubuntu_updates_release = write_deb_release(
+                fixtures,
+                "ubuntu/dists/resolute-updates",
+                suite="resolute-updates",
+                codename="resolute-updates",
+                version="26.04.1",
+                components=("main", "restricted", "universe", "multiverse"),
+                prefix="ubuntu-update",
+            )
             meta_release = """Dist: obsolete
 Name: Obsolete
 Version: 24.10
@@ -310,7 +331,7 @@ Release-File: {release}
 """.format(
                 obsolete=fixture_url("ubuntu/dists/obsolete/Release"),
                 future=fixture_url("ubuntu/dists/future/Release"),
-                release=ubuntu_release,
+                release=ubuntu_updates_release,
             ).encode("utf-8")
             write_bytes(fixtures, "ubuntu/meta-release", meta_release)
             write_bytes(fixtures, "ubuntu/meta-release-lts", meta_release)
@@ -376,6 +397,11 @@ Release-File: {release}
             self.assertEqual(ubuntu["snapshot"]["resolved_release"], "26.04.1 LTS")
             self.assertTrue(ubuntu["snapshot"]["standard_support"])
             self.assertEqual(len(ubuntu["packages"]), 4)
+            normalized_ubuntu_release = ubuntu_release.replace("fixture:///", "fixture:/")
+            self.assertEqual(ubuntu["snapshot"]["base_release_file"], normalized_ubuntu_release)
+            self.assertEqual(ubuntu["snapshot"]["meta_release_file"], ubuntu_updates_release)
+            self.assertIn(normalized_ubuntu_release, ubuntu["snapshot"]["source_urls"])
+            self.assertNotIn(ubuntu_updates_release, ubuntu["snapshot"]["source_urls"])
             for document in (opensuse, fedora, debian, ubuntu):
                 self.assertEqual(document["snapshot"]["snapshot_at"], AS_OF)
                 self.assertTrue(document["snapshot"]["source_urls"])

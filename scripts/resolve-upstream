@@ -16,6 +16,7 @@ from _lib import (
     canonical_url,
     emit_json,
     first_value,
+    is_prerelease,
     isoformat,
     iter_records,
     load_json,
@@ -50,9 +51,157 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--input", required=True)
     result.add_argument("--output")
     result.add_argument("--evidence-output")
+    result.add_argument(
+        "--reviewed-evidence",
+        help="layer human-reviewed official release evidence over an immutable discovery snapshot",
+    )
     result.add_argument("--as-of")
     result.add_argument("--minimum-evidence", type=int, default=2)
     return result
+
+
+def reviewed_records(document: Mapping[str, Any], evidence_path: str) -> Tuple[List[Dict[str, Any]], str]:
+    """Validate reviewed evidence and turn it into resolver records.
+
+    The discovery snapshot is never modified.  Evidence can only promote a
+    component already present in that snapshot, and it must retain the frozen
+    distribution lineage that led to the review.
+    """
+
+    reviewed = load_json(evidence_path)
+    if not isinstance(reviewed, Mapping):
+        raise ToolError("reviewed evidence root must be an object")
+    if reviewed.get("schema_version") != SCHEMA_VERSION or reviewed.get("kind") != "reviewed-upstream-releases":
+        raise ToolError("reviewed evidence has an unsupported schema_version or kind")
+    if reviewed.get("source_snapshot_id") != document.get("snapshot_id"):
+        raise ToolError("reviewed evidence source_snapshot_id does not match the discovery snapshot")
+    policy = reviewed.get("policy") if isinstance(reviewed.get("policy"), Mapping) else {}
+    if policy.get("stable_only") is not True or policy.get("official_https_required") is not True:
+        raise ToolError("reviewed evidence must enforce stable-only official HTTPS releases")
+    if policy.get("source_sha256_required") is not True or policy.get("external_packaging_executed") is not False:
+        raise ToolError("reviewed evidence must require SHA-256 and forbid external packaging execution")
+
+    snapshot_records = [
+        item
+        for collection in (document.get("candidates", []), document.get("rejections", []))
+        for item in collection
+        if isinstance(item, Mapping)
+    ]
+    by_component: Dict[str, List[Mapping[str, Any]]] = {}
+    for item in snapshot_records:
+        if item.get("component_id"):
+            by_component.setdefault(str(item["component_id"]), []).append(item)
+
+    releases = reviewed.get("releases")
+    if not isinstance(releases, list) or not releases:
+        raise ToolError("reviewed evidence must contain at least one release")
+    result: List[Dict[str, Any]] = []
+    seen = set()
+    for index, release in enumerate(releases):
+        if not isinstance(release, Mapping):
+            raise ToolError("reviewed evidence release %d must be an object" % index)
+        component = str(release.get("component_id") or "")
+        if not component or component in seen:
+            raise ToolError("reviewed evidence contains a missing or duplicate component_id: %s" % component)
+        seen.add(component)
+        matches = by_component.get(component, [])
+        if not matches:
+            raise ToolError("reviewed component is absent from the discovery snapshot: %s" % component)
+        decision_rank = {"eligible": 3, "unverified-upstream": 2}.get
+        base = max(
+            matches,
+            key=lambda item: (
+                decision_rank(str(item.get("decision")), 0),
+                tuple(version_key(item.get("stable_version") or item.get("version"))),
+            ),
+        )
+
+        name = str(release.get("canonical_name") or "").strip()
+        package_id = package_identifier(release.get("package_id") or name)
+        if not name or package_id != package_identifier(name):
+            raise ToolError("reviewed package_id must be derived from canonical_name for %s" % component)
+        lineage_names = {
+            package_identifier(item.get("package_base") or item.get("original_name"))
+            for item in base.get("lineage", [])
+            if isinstance(item, Mapping) and (item.get("package_base") or item.get("original_name"))
+        }
+        if lineage_names and package_id not in lineage_names:
+            raise ToolError("reviewed canonical name does not match frozen lineage for %s" % component)
+
+        version = str(release.get("version") or "").strip()
+        if not version or is_prerelease({"version": version}):
+            raise ToolError("reviewed release must be a stable version for %s" % component)
+        observed = str(base.get("stable_version") or base.get("version") or "")
+        if observed and tuple(version_key(version)) < tuple(version_key(observed)):
+            raise ToolError("reviewed release regresses the discovered version for %s" % component)
+
+        upstream = release.get("upstream") if isinstance(release.get("upstream"), Mapping) else {}
+        source = release.get("source") if isinstance(release.get("source"), Mapping) else {}
+        review = release.get("evidence") if isinstance(release.get("evidence"), Mapping) else {}
+        inspection = review.get("archive_inspection") if isinstance(review.get("archive_inspection"), Mapping) else {}
+        for label, value in (
+            ("homepage", upstream.get("homepage")),
+            ("repository_url", upstream.get("repository_url")),
+            ("release_api", upstream.get("release_api")),
+            ("source.url", source.get("url")),
+            ("evidence.release_page", review.get("release_page")),
+        ):
+            try:
+                validate_https_url(str(value or ""))
+            except ToolError as exc:
+                raise ToolError("%s is invalid for %s: %s" % (label, component, exc)) from exc
+        checksum = str(source.get("sha256") or "").lower()
+        if not SHA256_RE.fullmatch(checksum):
+            raise ToolError("reviewed source requires a full lowercase SHA-256 for %s" % component)
+        if review.get("method") != "downloaded-official-archive-and-calculated-sha256":
+            raise ToolError("review method is not accepted for %s" % component)
+        unsafe_links = inspection.get("unsafe_links")
+        links_safe = inspection.get("symlinks") is False or (
+            inspection.get("symlinks") is True
+            and unsafe_links is False
+            and int(inspection.get("link_count", 0)) > 0
+        )
+        if inspection.get("checked") is not True or any(
+            inspection.get(key) is not False for key in ("absolute_paths", "parent_traversal")
+        ) or not links_safe:
+            raise ToolError("reviewed archive safety inspection is incomplete for %s" % component)
+        if not str(release.get("summary") or "").strip() or not str(release.get("license") or "").strip():
+            raise ToolError("reviewed summary and license are required for %s" % component)
+
+        result.append(
+            {
+                **dict(base),
+                "name": name,
+                "package_base": name,
+                "version": version,
+                "stable_version": version,
+                "description": release["summary"],
+                "license": release["license"],
+                "component_id": component,
+                "component_key_hint": component,
+                "upstream_url": upstream["homepage"],
+                "repository_url": upstream["repository_url"],
+                "release_api": upstream["release_api"],
+                "release_regex": upstream.get("release_regex"),
+                "source_url_template": upstream.get("source_url_template"),
+                "source_url": source["url"],
+                "source_filename": source["filename"],
+                "sha256": checksum,
+                "signature": source.get("signature"),
+                "build_requires": list(release.get("build_requires", [])),
+                "requires": list(release.get("requires", [])),
+                "decision": "eligible",
+                "reasons": [
+                    "official stable release was reviewed independently of distribution packaging",
+                    "official HTTPS archive was downloaded and pinned by calculated SHA-256",
+                    "archive member paths and links passed the recorded safety inspection",
+                ],
+                "reviewed_upstream_evidence": dict(review),
+                "_discovery_decision": "eligible",
+            }
+        )
+    digest = hashlib.sha256(stable_json(reviewed, pretty=False).encode()).hexdigest()
+    return result, digest
 
 
 def suffix_base(name: str) -> Tuple[str, Optional[str]]:
@@ -131,6 +280,10 @@ def merge_component(key: str, records: List[Mapping[str, Any]]) -> Dict[str, Any
                 lineage.append(dict(item))
                 seen_lineage.add(marker)
     score, evidence_items = evidence({**best, "lineage": lineage})
+    reviewed = [dict(record["reviewed_upstream_evidence"]) for record in records if isinstance(record.get("reviewed_upstream_evidence"), Mapping)]
+    if reviewed:
+        evidence_items.append({"type": "reviewed-official-release", "value": reviewed, "weight": 3})
+        score += 3
     excluded_variants = [
         {"name": record.get("name"), "decision": record.get("_discovery_decision") or record.get("decision"), "lineage": record.get("lineage", [])}
         for record in records
@@ -149,14 +302,22 @@ def merge_component(key: str, records: List[Mapping[str, Any]]) -> Dict[str, Any
         "latest_observed_version": str(release_record.get("version", "unknown")),
         "upstream": {
             "homepage": upstream,
-            "repository_url": canonical_url(best.get("upstream_url")),
-            "release_api": canonical_url(best.get("release_api")) or best.get("release_api"),
+            "repository_url": best.get("repository_url") or canonical_url(best.get("upstream_url")),
+            # Release endpoints may carry meaningful query parameters (for
+            # example a SourceForge RSS path); preserve the reviewed URL.
+            "release_api": best.get("release_api"),
+            "release_regex": best.get("release_regex"),
+            "source_url_template": best.get("source_url_template"),
             "release_channel": "stable",
         },
         "source": {
             "url": release_record.get("source_url"),
+            "filename": release_record.get("source_filename"),
             "sha256": release_record.get("sha256"),
+            "signature": release_record.get("signature"),
         },
+        "build_requires": list(best.get("build_requires", [])),
+        "requires": list(best.get("requires", [])),
         "lineage": sorted(lineage, key=lambda item: (str(item.get("source")), str(item.get("original_name")))),
         "variant_names": variant_names,
         "deduplication": {
@@ -185,6 +346,12 @@ def main() -> int:
     now = parse_now(args.as_of)
     document = load_json(args.input)
     records = iter_records(document)
+    reviewed_digest: Optional[str] = None
+    if args.reviewed_evidence:
+        if not isinstance(document, Mapping):
+            raise ToolError("reviewed evidence requires an object discovery snapshot")
+        additions, reviewed_digest = reviewed_records(document, args.reviewed_evidence)
+        records = records + additions
     clue_records: List[Mapping[str, Any]] = []
     if isinstance(document, Mapping):
         for rejected in document.get("rejections", []):
@@ -239,7 +406,10 @@ def main() -> int:
             "name_only_matching": False,
             "verified_source_required": True,
             "aur_content_executed": False,
+            "reviewed_evidence_applied": bool(args.reviewed_evidence),
+            "external_packaging_executed": False,
         },
+        "reviewed_evidence_sha256": reviewed_digest,
         "components": components,
         "rejections": rejections,
         "summary": {
