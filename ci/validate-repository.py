@@ -89,6 +89,18 @@ def main() -> int:
         errors.append("build-ci-image.yml must verify public GHCR state, not attempt a user-level visibility mutation")
     if "gh workflow run package-ci.yml" not in image_workflow:
         errors.append("digest-lock PR creation does not dispatch required checks on the bot-created head")
+    if "git ls-remote --exit-code --heads" not in image_workflow or "test \"$changed\" = ci/image.lock" not in image_workflow:
+        errors.append("digest-lock retry does not safely verify and reuse an existing lock branch")
+    if "git merge --no-edit origin/main" not in image_workflow:
+        errors.append("digest-lock retry does not update the reused branch to the latest protected main")
+
+    settings_path = root / ".github" / "repository-settings.json"
+    settings = json.loads(settings_path.read_text(encoding="utf-8")) if settings_path.exists() else {}
+    actions_settings = settings.get("actions", {})
+    if actions_settings.get("default_workflow_permissions") != "read":
+        errors.append("default GITHUB_TOKEN permissions must remain read-only")
+    if actions_settings.get("can_approve_pull_request_reviews") is not True:
+        errors.append("Actions cannot create the reviewed digest-lock PR")
 
     discovery = (workflows / "catalog-discovery.yml").read_text(encoding="utf-8") if (workflows / "catalog-discovery.yml").exists() else ""
     if "scripts/snapshot-catalog" not in discovery or "scripts/discover-packages" not in discovery:

@@ -53,6 +53,20 @@ gh api --method PATCH "repos/$repo" \
   -F allow_rebase_merge=false \
   -F delete_branch_on_merge=true >/dev/null
 
+default_workflow_permissions=$(jq -r .actions.default_workflow_permissions "$settings")
+can_approve_pull_request_reviews=$(jq -r .actions.can_approve_pull_request_reviews "$settings")
+[[ $default_workflow_permissions == read ]] || {
+  printf 'default Actions token permissions must remain read-only\n' >&2
+  exit 1
+}
+[[ $can_approve_pull_request_reviews == true ]] || {
+  printf 'Actions must be permitted to create the reviewed digest-lock PR\n' >&2
+  exit 1
+}
+gh api --method PUT "repos/$repo/actions/permissions/workflow" \
+  -f "default_workflow_permissions=$default_workflow_permissions" \
+  -F "can_approve_pull_request_reviews=$can_approve_pull_request_reviews" >/dev/null
+
 while IFS= read -r label; do
   name=$(jq -r .name <<<"$label")
   color=$(jq -r .color <<<"$label")
@@ -93,4 +107,3 @@ applied=$(gh api "repos/$repo/rulesets" --paginate \
   --jq ".[] | select(.name == \"$ruleset_name\") | {id,name,enforcement}")
 jq -n --arg repo "$repo" --argjson ruleset "$applied" \
   '{mode:"apply",repository:$repo,ruleset:$ruleset,writes_performed:true,actions_secrets_created:false}'
-
