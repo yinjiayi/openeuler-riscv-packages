@@ -10,7 +10,7 @@ import pathlib
 import re
 from typing import Any, Dict, List, Mapping, Optional, Tuple
 
-from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, parse_now, run_main, stable_json
+from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, parse_now, run_main
 
 
 RULES: List[Tuple[str, List[str], str, bool, bool]] = [
@@ -124,10 +124,20 @@ def read_input(path: pathlib.Path) -> Tuple[Mapping[str, Any], str]:
         return {}, text
     if not isinstance(document, Mapping):
         raise ToolError("build result JSON must be an object")
-    parts = [stable_json(document, pretty=False)]
+    # Only failure-bearing fields are classifier evidence. Environment,
+    # provenance, artifact names, image digests, and other envelope metadata
+    # are context, not failures; scanning them creates false positives such as
+    # treating the harmless key ``image_digest`` as a failed image pull.
+    parts: List[str] = []
+    for field in ("failure_summary", "error", "message", "stderr"):
+        value = document.get(field)
+        if value is not None:
+            parts.append("%s: %s" % (field, value))
     failure = document.get("failure")
     if isinstance(failure, Mapping):
         parts.extend(str(value) for value in failure.values() if value is not None)
+    elif failure is not None:
+        parts.append(str(failure))
     return document, "\n".join(parts)
 
 
