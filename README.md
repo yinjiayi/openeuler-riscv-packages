@@ -32,7 +32,7 @@ Snapshot `discovery-20260808T165000Z-9a89920c269462cd` records 251,506 raw recor
 
 Strict discovery emits zero directly importable candidates because distribution indexes do not prove the bytes of an official upstream release archive. It retains 181,134 deduplicated rejection/hold decisions: 89,975 unverified upstreams, 46,870 stale entries, 17,752 license blocks, 12,949 VCS-only variants, 12,765 binary-only variants, and 823 prereleases. These are an auditable backlog, not silently discarded packages.
 
-The reviewed overlay currently promotes 20 verified components. Ten have Arch lineage, four have AUR plus four supplementary-distribution lineages, and six are corroborated by Debian/Fedora/openSUSE/Ubuntu. Nineteen have cross-distribution corroboration; `bftpd` is explicitly retained with Arch-only distribution evidence plus separately verified official upstream bytes. All 20 declared source URLs re-pass the repository's independent downloader/checksum verifier. No AUR recipe was trusted or executed.
+The reviewed overlay currently promotes 30 verified components. Twenty have Arch stable lineage, fourteen have AUR metadata lineage, and the ten newest components are each corroborated by all six configured sources: Arch stable, AUR, Debian, Fedora, openSUSE, and Ubuntu. Twenty-nine components have cross-distribution corroboration; `bftpd` is explicitly retained with Arch-only distribution evidence plus separately verified official upstream bytes. All 30 declared source URLs pass the repository's independent downloader/checksum verifier. No AUR recipe was trusted or executed.
 
 ## Repository map
 
