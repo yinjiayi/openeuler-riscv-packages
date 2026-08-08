@@ -493,11 +493,19 @@ def _select_update(document: Mapping[str, Any], package_id: Optional[str]) -> Ma
     return matches[0]
 
 
-def update_spec(content: str, old: str, new: str) -> str:
+def update_spec(content: str, old: str, new: str, source_filename: str) -> str:
     changed, count = re.subn(r"(?m)^Version:\s*[^\s]+\s*$", "Version:        %s" % new, content, count=1)
     if count != 1:
         raise ToolError("SPEC must contain exactly one Version field")
     changed = re.sub(r"(?m)^Release:\s*[^\n]+$", "Release:        1%{?dist}", changed, count=1)
+    changed, source_count = re.subn(
+        r"(?m)^Source0:\s*[^\n]+$",
+        "Source0:        %s" % source_filename,
+        changed,
+        count=1,
+    )
+    if source_count != 1:
+        raise ToolError("SPEC must contain exactly one Source0 field")
     return changed
 
 
@@ -546,9 +554,12 @@ def command_apply(args: argparse.Namespace) -> int:
     filename = pathlib.PurePosixPath(urllib.parse.urlsplit(source_url).path).name
     if filename:
         source_entries[0]["filename"] = filename
+    source_filename = str(source_entries[0].get("filename") or "")
+    if not source_filename or pathlib.PurePosixPath(source_filename).name != source_filename:
+        raise ToolError("updated source filename must be a non-empty basename")
     spec_name = packaging.get("spec") or "%s.spec" % metadata.get("rpm_name")
     spec_path = destination / str(spec_name)
-    spec_content = update_spec(spec_path.read_text(encoding="utf-8"), current, target)
+    spec_content = update_spec(spec_path.read_text(encoding="utf-8"), current, target, source_filename)
     modified = [str(metadata_path), str(sources_path), str(spec_path)]
     if not args.dry_run:
         atomic_write_json(metadata_path, metadata)
