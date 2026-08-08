@@ -66,7 +66,9 @@ def main() -> int:
     plan_path = output.parent / "dependency-plan.json"
 
     # Planning runs with no network. Only the package, trusted shared scripts,
-    # and dedicated output/work directories are mounted.
+    # and dedicated output/work directories are mounted.  The evidence mount
+    # deliberately lives outside /workspace: that tree is a read-only bind,
+    # so Docker cannot create a previously absent nested mountpoint below it.
     run(
         [
             "docker", "run", "--rm", "--platform", "linux/riscv64", "--network", "none",
@@ -74,13 +76,13 @@ def main() -> int:
             "--security-opt", "no-new-privileges",
             "-v", f"{root}:/workspace:ro",
             "-v", f"{work_dir}:/workspace/work/{package_id}:rw",
-            "-v", f"{output.parent}:/workspace/artifacts/dependencies:rw",
+            "-v", f"{output.parent}:/evidence:rw",
             "-w", "/workspace",
             args.base_image,
             "scripts/build-rpm", "--package-dir", f"packages/{package_id}",
             "--repo-root", "/workspace",
             "--work-dir", f"work/{package_id}",
-            "--result", f"artifacts/dependencies/{plan_path.name}",
+            "--result", f"/evidence/{plan_path.name}",
             "--plan", "--offline", "--expected-arch", "riscv64",
         ]
     )
