@@ -6,11 +6,19 @@ import json
 import pathlib
 import tempfile
 import unittest
+from typing import Optional
 
 from helpers import run_tool, write_json
 
 
-def package(root: pathlib.Path, package_id: str, release_api: str, version: str = "1.0") -> None:
+def package(
+    root: pathlib.Path,
+    package_id: str,
+    release_api: str,
+    version: str = "1.0",
+    release_regex: Optional[str] = None,
+    source_url_template: Optional[str] = None,
+) -> None:
     directory = root / "packages" / package_id
     directory.mkdir(parents=True)
     write_json(
@@ -24,7 +32,12 @@ def package(root: pathlib.Path, package_id: str, release_api: str, version: str 
             "license": "MIT",
             "version": version,
             "release_channel": "stable",
-            "upstream": {"homepage": "https://example.org/%s" % package_id, "release_api": release_api},
+            "upstream": {
+                "homepage": "https://example.org/%s" % package_id,
+                "release_api": release_api,
+                "release_regex": release_regex,
+                "source_url_template": source_url_template,
+            },
             "target": {"os": "openEuler 24.03 LTS SP3", "arch": "riscv64", "isa": "RVA23"},
             "riscv": {"status": "unknown", "needs_native": False},
             "packaging": {"spec": "%s.spec" % package_id, "patch_series": "patches/series", "smoke_test": "tests/smoke.sh", "patches": []},
@@ -138,6 +151,43 @@ class PackageUpdateTests(unittest.TestCase):
             self.assertEqual(result["coverage"], 1.0)
             self.assertEqual(result["failed_shards"], [])
             self.assertEqual(json.loads(state.read_text())["consecutive_incomplete_runs"], 0)
+
+    def test_html_release_index_uses_reviewed_regex_and_source_template(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            archive = root / "demo-2.0.tar.gz"
+            archive.write_bytes(b"official stable archive")
+            index = root / "releases.html"
+            index.write_text(
+                '<a href="demo-1.0.tar.gz">demo-1.0.tar.gz</a>'
+                '<a href="demo-2.0.tar.gz">demo-2.0.tar.gz</a>'
+                '<a href="demo-3.0-rc1.tar.gz">demo-3.0-rc1.tar.gz</a>',
+                encoding="utf-8",
+            )
+            package(
+                root,
+                "demo",
+                index.as_uri(),
+                release_regex=r"demo-([0-9]+(?:\.[0-9]+)+(?:-rc[0-9]+)?)\.tar\.gz",
+                source_url_template=root.as_uri() + "/demo-{version}.tar.gz",
+            )
+            plan = root / "plan.json"
+            run_tool(
+                "check-update",
+                ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan), "--now", "2026-08-08T00:00:00Z"],
+                root,
+            )
+            shard = root / "shard.json"
+            run_tool(
+                "check-update",
+                ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard), "--now", "2026-08-08T00:01:00Z"],
+                root,
+            )
+            entry = json.loads(shard.read_text())["entries"][0]
+            self.assertEqual(entry["status"], "update-available")
+            self.assertEqual(entry["version"], "2.0")
+            self.assertEqual(entry["source_url"], archive.as_uri())
+            self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
 
 
 if __name__ == "__main__":

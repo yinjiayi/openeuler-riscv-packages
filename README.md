@@ -9,6 +9,7 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - A **managed package** is a non-template directory below `packages/` whose `package.yaml` is schema-valid and is not `retired` or `update-disabled`.
 - An **upstream release component** is a project unit with its own official stable release and version boundary. Discovery deduplicates this unit, not distribution package names.
 - A **verified release source** is an HTTPS official stable release/tag archive whose exact bytes are pinned by a full SHA-256. Distribution package checksums and catalog metadata digests do not satisfy this definition.
+- **Reviewed upstream evidence** is a schema-valid mapping from one component in an immutable discovery snapshot to its official stable release page, source repository, release feed/index, exact archive SHA-256, license evidence, and archive-safety inspection. It supplements missing catalog fields; it does not execute or trust distribution recipes.
 - A **build result** is the schema-valid `build-result.json` tied to an exact Git commit SHA. It is evidence, not a self-reported success claim.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
 - A **golden package** is a fixed end-to-end fixture with a pinned source/content digest, expected state, allowed changes, and assertions.
@@ -23,6 +24,16 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - Repair runs only on a maintainer's local Codex through local `gh` authentication or process-scoped `GH_TOKEN`. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`.
 - Automation never writes to upstream projects. RISC-V patches remain in `packages/<id>/patches/` and are referenced by the SPEC.
 
+## Current catalog evidence
+
+A **raw catalog record** is one package entry parsed from a distribution index; it is discovery input, not an importable source or a PR promise. A **reviewed cohort** is the smaller set whose official stable upstream archive, exact SHA-256, license evidence, archive safety, and distribution lineage have all been checked.
+
+Snapshot `discovery-20260808T165000Z-9a89920c269462cd` records 251,506 raw records: Arch stable `core`/`extra` 15,163, AUR 117,191, openSUSE Tumbleweed 17,113, Fedora 44 GA 23,660, Debian 13.6 `stable` 38,068, and Ubuntu 26.04 LTS GA 40,311. It stores every official metadata URL and object digest plus the normalized-input digest. Two identical fixed-time runs produced gzip SHA-256 `bd79d0cd34f3d674c10736aa83d8f9f78f35531ae99cef53663b62bc74458fe0`.
+
+Strict discovery emits zero directly importable candidates because distribution indexes do not prove the bytes of an official upstream release archive. It retains 181,134 deduplicated rejection/hold decisions: 89,975 unverified upstreams, 46,870 stale entries, 17,752 license blocks, 12,949 VCS-only variants, 12,765 binary-only variants, and 823 prereleases. These are an auditable backlog, not silently discarded packages.
+
+The reviewed overlay currently promotes 20 verified components. Ten have Arch lineage, four have AUR plus four supplementary-distribution lineages, and six are corroborated by Debian/Fedora/openSUSE/Ubuntu. Nineteen have cross-distribution corroboration; `bftpd` is explicitly retained with Arch-only distribution evidence plus separately verified official upstream bytes. All 20 declared source URLs re-pass the repository's independent downloader/checksum verifier. No AUR recipe was trusted or executed.
+
 ## Repository map
 
 | Path | Purpose |
@@ -33,7 +44,7 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 | `ci/` | Exact openEuler repository config, rootfs-to-OCI build, QEMU/RVA23 checks, and image digest lock |
 | `packages/` | One directory per managed package plus `_template` |
 | `tests/golden/` | Fixed success, repair, and native-only acceptance fixtures |
-| `catalog/` | Discovery source policy and immutable run snapshots |
+| `catalog/` | Discovery source policy, immutable run snapshots, and reviewed official-release evidence |
 | `dashboard/` | Static Pages application and generated evidence |
 
 ## Local verification
@@ -72,10 +83,24 @@ scripts/discover-packages \
   --input debian=tests/fixtures/discovery/debian.json \
   --input ubuntu=tests/fixtures/discovery/ubuntu.json \
   --as-of 2026-08-08T00:00:00Z \
-  --output catalog/snapshots/local.json
+  --output catalog/snapshots/local.json.gz
 ```
 
 For a live run, call `scripts/snapshot-catalog` first. It resolves each configured stable distribution, verifies and records the metadata URLs/digests, and writes frozen per-source JSON consumed by `scripts/discover-packages`. The `Catalog Discovery` workflow performs both stages.
+
+Complete discovery snapshots use deterministic `*.json.gz` storage (gzip mtime `0`) so the full six-distribution decision set remains below GitHub's single-file limit. Repository tools accept both uncompressed `*.json` and compressed `*.json.gz` snapshots.
+
+When safe distribution metadata identifies a component but cannot prove its official release bytes, layer the reviewed registry over the immutable snapshot without modifying that snapshot:
+
+```sh
+scripts/resolve-upstream \
+  --input catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz \
+  --reviewed-evidence catalog/upstream-releases.yaml \
+  --output work/upstream-resolution.json \
+  --evidence-output work/upstream-resolution-evidence.json
+```
+
+`catalog/upstream-releases.yaml` is validated against `schemas/upstream-release-evidence.schema.json`. The resolver rejects unknown components, version regressions, prereleases, non-HTTPS endpoints, incomplete SHA-256 values, and archives whose recorded member/link inspection is unsafe.
 
 Onboard and update commands are deliberately one-package/one-PR operations. Use `--dry-run` before remote writes.
 

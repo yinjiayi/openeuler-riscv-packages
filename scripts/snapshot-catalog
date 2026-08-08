@@ -211,7 +211,17 @@ class Resource:
         self.headers = dict(headers or {})
         self.sha256 = sha256(data)
 
-    def evidence(self, role: str, expected_sha256: Optional[str] = None) -> Dict[str, Any]:
+    def digest(self, algorithm: str) -> str:
+        if algorithm not in {"sha256", "sha512"}:
+            raise CatalogError("unsupported metadata checksum algorithm: %s" % algorithm)
+        return hashlib.new(algorithm, self.data).hexdigest()
+
+    def evidence(
+        self,
+        role: str,
+        expected_checksum: Optional[str] = None,
+        checksum_algorithm: str = "sha256",
+    ) -> Dict[str, Any]:
         result: Dict[str, Any] = {
             "role": role,
             "url": self.requested_url,
@@ -220,8 +230,8 @@ class Resource:
             "size": len(self.data),
             "cached": self.cached,
         }
-        if expected_sha256:
-            result["expected_sha256"] = expected_sha256.lower()
+        if expected_checksum:
+            result["expected_%s" % checksum_algorithm] = expected_checksum.lower()
         return result
 
 
@@ -799,13 +809,19 @@ def parse_repomd(resource: Resource) -> Dict[str, Any]:
             continue
         checksum_element = next((item for item in element if local_name(item.tag) == "checksum"), None)
         location_element = next((item for item in element if local_name(item.tag) == "location"), None)
-        if checksum_element is None or checksum_element.attrib.get("type", "").lower() != "sha256":
-            raise CatalogError("repomd primary metadata must carry a SHA256 checksum")
+        checksum_type = checksum_element.attrib.get("type", "").lower() if checksum_element is not None else ""
+        if checksum_type not in {"sha256", "sha512"}:
+            raise CatalogError("repomd primary metadata must carry a SHA256 or SHA512 checksum")
         if not checksum_element.text or location_element is None or not location_element.attrib.get("href"):
             raise CatalogError("repomd primary metadata lacks checksum or location")
+        expected_length = hashlib.new(checksum_type).digest_size * 2
+        checksum = checksum_element.text.strip().lower()
+        if not re.fullmatch(r"[0-9a-f]{%d}" % expected_length, checksum):
+            raise CatalogError("repomd primary metadata carries an invalid %s checksum" % checksum_type.upper())
         primary = {
             "href": location_element.attrib["href"],
-            "sha256": checksum_element.text.strip().lower(),
+            "checksum": checksum,
+            "checksum_type": checksum_type,
         }
     if not primary:
         raise CatalogError("repomd has no primary XML metadata entry")
@@ -814,12 +830,17 @@ def parse_repomd(resource: Resource) -> Dict[str, Any]:
     return {"revision": revision, "timestamp": max(timestamps) if timestamps else None, "primary": primary}
 
 
-def verify_expected(resource: Resource, expected: str, label: str) -> None:
-    if not re.fullmatch(r"[0-9a-fA-F]{64}", expected or ""):
-        raise CatalogError("%s does not provide a valid SHA256 checksum" % label)
-    if resource.sha256 != expected.lower():
+def verify_expected(resource: Resource, expected: str, label: str, algorithm: str = "sha256") -> None:
+    if algorithm not in {"sha256", "sha512"}:
+        raise CatalogError("%s uses an unsupported checksum algorithm: %s" % (label, algorithm))
+    expected_length = hashlib.new(algorithm).digest_size * 2
+    if not re.fullmatch(r"[0-9a-fA-F]{%d}" % expected_length, expected or ""):
+        raise CatalogError("%s does not provide a valid %s checksum" % (label, algorithm.upper()))
+    actual = resource.digest(algorithm)
+    if actual != expected.lower():
         raise CatalogError(
-            "%s SHA256 mismatch: expected %s, got %s" % (label, expected.lower(), resource.sha256),
+            "%s %s mismatch: expected %s, got %s"
+            % (label, algorithm.upper(), expected.lower(), actual),
             1,
         )
 
@@ -882,6 +903,7 @@ def parse_rpm_primary(
                     last_modified=build_time,
                     metadata={
                         "architecture": architecture,
+                        "upstream_version": version,
                         "distribution_source_url": join_directory(repository_base, location) if location else None,
                         "distribution_source_sha256": distro_sha,
                         "metadata_url": resource.requested_url,
@@ -907,14 +929,15 @@ def rpm_repository(
     parsed = parse_repomd(repomd)
     primary_url = repo_join(repomd.resolved_url, str(parsed["primary"]["href"]))
     primary = fetcher.fetch(primary_url)
-    expected = str(parsed["primary"]["sha256"])
-    verify_expected(primary, expected, "%s primary metadata" % repository)
+    checksum_type = str(parsed["primary"]["checksum_type"])
+    expected = str(parsed["primary"]["checksum"])
+    verify_expected(primary, expected, "%s primary metadata" % repository, checksum_type)
     repo_path = urllib.parse.urlsplit(repomd.resolved_url).path[: -len("/repodata/repomd.xml")] + "/"
     repo_base = replace_url_path(repomd.resolved_url, repo_path)
     packages, ignored_binary = parse_rpm_primary(primary, repository, repo_base)
     resources = [
         repomd.evidence("repomd:%s" % repository),
-        primary.evidence("primary:%s" % repository, expected),
+        primary.evidence("primary:%s" % repository, expected, checksum_type),
     ]
     return packages, resources, {
         "revision": parsed.get("revision"),
@@ -1136,6 +1159,25 @@ def parse_source_checksums(value: str, origin: str) -> List[Tuple[str, int, str]
     return result
 
 
+def debian_upstream_version(value: str) -> str:
+    """Remove epoch, Debian revision, and common repack suffixes.
+
+    The untouched distribution version remains in lineage.  This normalized
+    value is only for comparing official upstream stable releases.
+    """
+
+    text = re.sub(r"^\d+:", "", value.strip())
+    if "-" in text:
+        text = text.rsplit("-", 1)[0]
+    text = re.sub(
+        r"\+(?:dfsg|ds|really|git|bzr|svn|hg|[0-9]+[.]g|g[0-9a-f]{7,}).*$",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
+    return text
+
+
 def choose_distribution_source(entries: Sequence[Tuple[str, int, str]]) -> Optional[Tuple[str, int, str]]:
     def priority(item: Tuple[str, int, str]) -> Tuple[int, str]:
         filename = item[2].lower()
@@ -1192,6 +1234,7 @@ def parse_sources_packages(
                 metadata={
                     "binary_packages": [item.strip() for item in raw.get("Binary", "").split(",") if item.strip()],
                     "directory": directory,
+                    "upstream_version": debian_upstream_version(version),
                     "distribution_source_url": distro_url,
                     "distribution_source_sha256": distro_sha,
                     "format": raw.get("Format"),
@@ -1330,6 +1373,23 @@ def upgrade_ubuntu_release_url(url: str) -> str:
     return urllib.parse.urlunsplit(("https", parsed.netloc, parsed.path, parsed.query, ""))
 
 
+def ubuntu_base_release_url(url: str, codename: str) -> str:
+    """Resolve meta-release's update pocket back to the complete GA suite.
+
+    Ubuntu's meta-release feed uses ``<codename>-updates/Release`` for the
+    upgrader channel.  That pocket contains only packages updated after GA and
+    therefore cannot represent the requested complete distribution snapshot.
+    """
+
+    parsed = urllib.parse.urlsplit(url)
+    escaped = re.escape(codename)
+    pattern = re.compile(r"(/dists/%s)(?:-updates)?/Release$" % escaped)
+    if not pattern.search(parsed.path):
+        raise CatalogError("Ubuntu meta-release file is not the selected GA/update suite: %s" % url)
+    path = pattern.sub(r"\1/Release", parsed.path)
+    return urllib.parse.urlunsplit((parsed.scheme, parsed.netloc, path, parsed.query, ""))
+
+
 def adapt_ubuntu(
     settings: Mapping[str, Any],
     fetcher: Fetcher,
@@ -1376,10 +1436,11 @@ def adapt_ubuntu(
         raise CatalogError("Ubuntu meta-release contains no GA release in standard support")
     selected = max(releases.values(), key=lambda item: ubuntu_version_key(str(item.get("Version") or "")))
     codename = str(selected["Dist"])
-    release_url = str(selected["Release-File"])
-    if not urllib.parse.urlsplit(release_url).scheme:
-        release_url = join_url(release_origins[codename], release_url)
-    release_url = upgrade_ubuntu_release_url(release_url)
+    meta_release_url = str(selected["Release-File"])
+    if not urllib.parse.urlsplit(meta_release_url).scheme:
+        meta_release_url = join_url(release_origins[codename], meta_release_url)
+    meta_release_url = upgrade_ubuntu_release_url(meta_release_url)
+    release_url = ubuntu_base_release_url(meta_release_url, codename)
     if forbidden_distribution_text((release_url, codename)):
         raise CatalogError("Ubuntu resolver selected a development/pre-release archive")
     release_resource = fetcher.fetch(release_url)
@@ -1410,6 +1471,8 @@ def adapt_ubuntu(
         details={
             "standard_support": True,
             "ga_release_date": selected.get("Date"),
+            "meta_release_file": meta_release_url,
+            "base_release_file": release_url,
             "suite": release.get("Suite"),
         },
     )

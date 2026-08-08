@@ -227,7 +227,32 @@ def main() -> int:
                 package_id = manifest_path.stem
                 manifest_errors = [str(exc)]
             golden_reports.append({"manifest": str(manifest_path.relative_to(root)), "package_id": package_id, "valid": not manifest_errors, "errors": manifest_errors})
-    overall_valid = all(report["valid"] for report in reports) and all(report["valid"] for report in golden_reports)
+    evidence_reports: List[Dict[str, Any]] = []
+    evidence_path = root / "catalog" / "upstream-releases.yaml"
+    evidence_schema_path = schemas_dir / "upstream-release-evidence.schema.json"
+    if evidence_path.exists() or evidence_schema_path.exists():
+        evidence_errors: List[str] = []
+        source_snapshot_id = None
+        try:
+            if not evidence_path.is_file() or not evidence_schema_path.is_file():
+                raise ToolError("upstream evidence document and schema must both exist")
+            evidence_document = load_json(evidence_path)
+            evidence_schema = load_json(evidence_schema_path)
+            evidence_errors.extend(schema_errors(evidence_document, evidence_schema, evidence_schema, "upstream_evidence"))
+            source_snapshot_id = evidence_document.get("source_snapshot_id") if isinstance(evidence_document, Mapping) else None
+            snapshot_ids = set()
+            snapshot_paths = list((root / "catalog" / "snapshots").glob("*.json"))
+            snapshot_paths.extend((root / "catalog" / "snapshots").glob("*.json.gz"))
+            for snapshot_path in sorted(snapshot_paths):
+                snapshot = load_json(snapshot_path)
+                if isinstance(snapshot, Mapping) and snapshot.get("snapshot_id"):
+                    snapshot_ids.add(str(snapshot["snapshot_id"]))
+            if source_snapshot_id not in snapshot_ids:
+                evidence_errors.append("source_snapshot_id does not identify a committed immutable snapshot")
+        except ToolError as exc:
+            evidence_errors.append(str(exc))
+        evidence_reports.append({"document": str(evidence_path.relative_to(root)), "source_snapshot_id": source_snapshot_id, "valid": not evidence_errors, "errors": evidence_errors})
+    overall_valid = all(report["valid"] for report in reports) and all(report["valid"] for report in golden_reports) and all(report["valid"] for report in evidence_reports)
     result = {
         "schema_version": SCHEMA_VERSION,
         "kind": "metadata-validation",
@@ -235,7 +260,8 @@ def main() -> int:
         "valid": overall_valid,
         "packages": reports,
         "golden_manifests": golden_reports,
-        "summary": {"checked": len(reports), "valid": sum(1 for report in reports if report["valid"]), "invalid": sum(1 for report in reports if not report["valid"]), "golden_checked": len(golden_reports), "golden_invalid": sum(1 for report in golden_reports if not report["valid"])},
+        "upstream_evidence": evidence_reports,
+        "summary": {"checked": len(reports), "valid": sum(1 for report in reports if report["valid"]), "invalid": sum(1 for report in reports if not report["valid"]), "golden_checked": len(golden_reports), "golden_invalid": sum(1 for report in golden_reports if not report["valid"]), "upstream_evidence_checked": len(evidence_reports), "upstream_evidence_invalid": sum(1 for report in evidence_reports if not report["valid"])},
         "patch_policy": {"local_series_required": True, "spec_reference_required": True, "orphan_patches_allowed": False},
     }
     emit_json(result, args.output)

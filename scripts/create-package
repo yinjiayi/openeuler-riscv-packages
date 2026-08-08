@@ -53,10 +53,16 @@ def select_candidate(document: Any, wanted: str | None) -> Mapping[str, Any]:
         matches = [item for item in records if wanted in {item.get("package_id"), item.get("component_id"), item.get("name"), item.get("canonical_name")}]
         if len(matches) != 1:
             raise ToolError("candidate selector %r matched %d records" % (wanted, len(matches)))
-        return matches[0]
+        selected = matches[0]
+        if isinstance(document, Mapping) and document.get("source_run_id") and not selected.get("source_run_id"):
+            return {**selected, "source_run_id": document["source_run_id"]}
+        return selected
     if len(records) != 1:
         raise ToolError("candidate input contains %d records; select exactly one with --package-id" % len(records))
-    return records[0]
+    selected = records[0]
+    if isinstance(document, Mapping) and document.get("source_run_id") and not selected.get("source_run_id"):
+        return {**selected, "source_run_id": document["source_run_id"]}
+    return selected
 
 
 def source_fields(candidate: Mapping[str, Any]) -> Dict[str, Any]:
@@ -64,7 +70,12 @@ def source_fields(candidate: Mapping[str, Any]) -> Dict[str, Any]:
     url = first_value(source, ["url", "source_url"]) or candidate.get("source_url")
     checksum = first_value(source, ["sha256", "checksum"]) or candidate.get("sha256")
     signature = source.get("signature") if isinstance(source.get("signature"), Mapping) else {}
-    return {"url": url, "sha256": checksum, "signature": dict(signature)}
+    return {
+        "url": url,
+        "filename": source.get("filename"),
+        "sha256": checksum,
+        "signature": dict(signature),
+    }
 
 
 def generate_spec(metadata: Mapping[str, Any], source_filename: str, build_requires_values: Any, requires_values: Any) -> str:
@@ -147,7 +158,7 @@ def build_files(candidate: Mapping[str, Any], package_id: str, allow_unverified:
     homepage = validate_https_url(str(homepage))
     summary = str(candidate.get("summary") or candidate.get("description") or name)
     license_value = str(candidate.get("license") or "LicenseRef-Needs-Review")
-    filename = pathlib.PurePosixPath(str(source["url"]).split("?", 1)[0]).name or "%s-%s.tar.gz" % (name, version)
+    filename = str(source.get("filename") or pathlib.PurePosixPath(str(source["url"]).split("?", 1)[0]).name or "%s-%s.tar.gz" % (name, version))
     if not re.fullmatch(r"[A-Za-z0-9._+~-]+", filename):
         filename = "%s-%s.tar.gz" % (name, version)
 
@@ -184,6 +195,7 @@ def build_files(candidate: Mapping[str, Any], package_id: str, allow_unverified:
             "release_channel": "fixture" if package_id.startswith("golden-") else "stable",
             "release_api": upstream.get("release_api") or candidate.get("release_api"),
             "release_regex": upstream.get("release_regex"),
+            "source_url_template": upstream.get("source_url_template"),
         },
         "version": {"current": version, "release": "1", "latest_detected": version},
         "discovery": {"snapshot_id": candidate.get("resolution_id") or candidate.get("source_run_id") or "local-resolution", "lineage": lineage},
@@ -201,8 +213,17 @@ def build_files(candidate: Mapping[str, Any], package_id: str, allow_unverified:
             "patches": [],
             "smoke_test": "tests/smoke.sh",
         },
-        "maintenance": {"status": "active", "maintainers": [], "notes": None},
-        "updates": {"enabled": True, "last_checked_at": None, "last_successful_check_at": None, "release_provider": None},
+        "maintenance": {
+            "status": "active",
+            "maintainers": ["yinjiayi"],
+            "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+        },
+        "updates": {
+            "enabled": True,
+            "last_checked_at": None,
+            "last_successful_check_at": None,
+            "release_provider": "official-github-tags" if "api.github.com/repos/" in str(upstream.get("release_api") or "") else "official-html-index",
+        },
     }
     sources_data: Dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,

@@ -33,7 +33,31 @@
           "components": {"type": "array", "items": {"type": "string"}, "minItems": 1},
           "snapshot_at": {"type": "string", "format": "date-time"},
           "metadata_url": {"type": "string", "format": "uri"},
-          "metadata_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+          "metadata_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "normalized_input_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "source_urls": {
+            "type": "array",
+            "items": {"type": "string", "format": "uri"},
+            "uniqueItems": true
+          },
+          "metadata": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["role", "url", "resolved_url", "sha256", "size", "cached"],
+              "properties": {
+                "role": {"type": "string", "minLength": 1},
+                "url": {"type": "string", "format": "uri"},
+                "resolved_url": {"type": "string", "format": "uri"},
+                "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                "expected_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                "expected_sha512": {"type": "string", "pattern": "^[a-f0-9]{128}$"},
+                "size": {"type": "integer", "minimum": 0},
+                "cached": {"type": "boolean"}
+              }
+            }
+          }
         }
       }
     },

@@ -41,7 +41,8 @@
         "source_repository": {"type": "string", "format": "uri"},
         "release_channel": {"enum": ["stable", "fixture"]},
         "release_api": {"type": ["string", "null"]},
-        "release_regex": {"type": ["string", "null"]}
+        "release_regex": {"type": ["string", "null"], "maxLength": 1024},
+        "source_url_template": {"type": ["string", "null"], "pattern": "^https://.*\\{version\\}.*$"}
       }
     },
     "version": {
