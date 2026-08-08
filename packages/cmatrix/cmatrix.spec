@@ -20,10 +20,10 @@ CMatrix displays a scrolling, Matrix-style text animation in a terminal.
 
 %build
 %cmake
-%cmake_build
+%make_build
 
 %install
-%cmake_install
+DESTDIR=%{buildroot} %{__cmake} --install .
 install -Dpm0644 cmatrix.1 %{buildroot}%{_mandir}/man1/cmatrix.1
 rm -f %{buildroot}%{_datadir}/consolefonts/matrix.fnt
 rm -f %{buildroot}%{_datadir}/consolefonts/matrix.psf.gz
@@ -42,4 +42,3 @@ rm -f %{buildroot}%{_libdir}/kbd/consolefonts/matrix.psf.gz
 %changelog
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0-1
 - Initial openEuler RISC-V package.
-
