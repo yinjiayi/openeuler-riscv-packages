@@ -34,13 +34,13 @@ developing software with reproc and reproc++.
   -DREPROC_TEST=ON \
   -DREPROC_EXAMPLES=OFF \
   -DREPROC_INSTALL=ON
-%cmake_build
+%make_build
 
 %install
-%cmake_install
+DESTDIR=%{buildroot} %{__cmake} --install .
 
 %check
-%ctest
+%{__ctest} --output-on-failure
 
 %files
 %license LICENSE
@@ -62,4 +62,3 @@ developing software with reproc and reproc++.
 %changelog
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 14.2.7-1
 - Initial openEuler RISC-V package.
-
