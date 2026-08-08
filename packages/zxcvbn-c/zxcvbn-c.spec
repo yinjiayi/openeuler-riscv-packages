@@ -37,7 +37,7 @@ Header and libraries for developing applications with zxcvbn-c.
   PREFIX=%{_prefix} \
   LIBDIR=%{_libdir} \
   BINDIR=%{_bindir} \
-  INCLUDEDIR=%{_includedir}/zxcvbn \
+  INCLUDEDIR=%{_includedir} \
   DATADIR=%{_datadir}
 
 %check
@@ -52,11 +52,10 @@ Header and libraries for developing applications with zxcvbn-c.
 
 %files devel
 %license LICENSE.txt
-%{_includedir}/zxcvbn/
+%{_includedir}/zxcvbn.h
 %{_libdir}/libzxcvbn.so
 %{_libdir}/libzxcvbn.a
 
 %changelog
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.6-1
 - Initial openEuler RISC-V package.
-
