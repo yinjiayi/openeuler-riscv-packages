@@ -127,6 +127,15 @@ def main() -> int:
     if "--stage auto" not in golden:
         errors.append("golden-evaluation.yml does not use stage-aware golden assertions")
 
+    builddeps_path = root / "ci" / "prepare-build-deps.py"
+    builddeps = builddeps_path.read_text(encoding="utf-8") if builddeps_path.exists() else ""
+    if ":/workspace:ro" not in builddeps:
+        errors.append("BuildRequires planning must mount the reviewed repository read-only")
+    if ":/workspace/artifacts/" in builddeps:
+        errors.append("BuildRequires evidence cannot be nested beneath the read-only /workspace mount")
+    if ":/evidence:rw" not in builddeps or '"/evidence/' not in builddeps:
+        errors.append("BuildRequires planning is missing its dedicated writable /evidence mount")
+
     all_workflow_text = "\n".join(path.read_text(encoding="utf-8") for path in workflows.glob("*.yml"))
     exact_repo = "https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/"
     if exact_repo not in (root / "ci" / "openeuler-rva23.repo").read_text(encoding="utf-8"):
