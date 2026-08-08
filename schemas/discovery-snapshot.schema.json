@@ -16,6 +16,7 @@
       "properties": {
         "aur_stale_days": {"type": "integer", "minimum": 1},
         "stable_only": {"const": true},
+        "verified_source_required": {"const": true},
         "execute_external_packaging": {"const": false}
       }
     },

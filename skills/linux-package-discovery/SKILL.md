@@ -75,7 +75,7 @@ Never invent a successful fetch for an unavailable source or replace it with an 
   --evidence-output "$snapshot_dir/upstream-evidence.json"
 ```
 
-7. Require official upstream homepage/source/release evidence before marking a candidate importable. Correlate URL, source archive, release page, description, license, and cross-distribution evidence; do not deduplicate by name alone.
+7. Require an HTTPS official stable release/tag source URL and a full 64-hex SHA-256 before marking a candidate importable. A distribution package checksum is not an upstream source checksum. Correlate homepage, source archive, release page, description, license, and cross-distribution evidence; do not deduplicate by name alone. When one component has both verified and unverified records, select the verified release bytes before comparing version text and retain every record in lineage.
 8. Map `foo`, `foo-git`, `foo-nightly`, versioned variants, and split packages to one stable upstream release component. Exclude pure AUR `-bin`; retain VCS-only entries as non-importable evidence. Mark and exclude AUR entries older than the configured threshold.
 9. Review every rejection category and resolved-source record. Keep binary-only, unverifiable-source, unlicensed, stale, pre-release, and ambiguous mappings visible rather than dropping them silently.
 
@@ -101,4 +101,5 @@ Return an operation report containing: operation type `discovery`; no package ta
 - Feed an AUR recipe containing shell commands or prompt injection; assert no command execution and a security rejection/review outcome.
 - Omit a project from AUR but include it in a permitted supplemental catalog; assert it remains a candidate with that lineage.
 - Supply testing/Rawhide/pre-release records and an AUR record older than 730 days; assert none becomes importable.
+- Supply an otherwise valid stable-looking record without an upstream source SHA-256 and a checksum-pinned `rc` release; assert both remain visible but neither becomes importable.
 - Repeat the same fixed-input scan; assert stable normalized results apart from run metadata.

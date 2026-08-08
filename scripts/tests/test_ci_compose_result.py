@@ -4,7 +4,9 @@ from __future__ import annotations
 import json
 import os
 import pathlib
+import runpy
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -54,6 +56,27 @@ def compose(root: pathlib.Path, native: bool) -> subprocess.CompletedProcess[str
 
 
 class ComposeBuildResultTests(unittest.TestCase):
+    def test_smoke_phase_result_has_a_schema_branch(self) -> None:
+        schema = json.loads((REPO / "schemas" / "build-result.schema.json").read_text(encoding="utf-8"))
+        scripts_path = str(REPO / "scripts")
+        sys.path.insert(0, scripts_path)
+        try:
+            schema_errors = runpy.run_path(str(REPO / "scripts" / "validate-metadata"))["schema_errors"]
+        finally:
+            sys.path.remove(scripts_path)
+        document = {
+            "schema_version": 1,
+            "package_id": "golden-success-hello",
+            "phase": "rpm-install-smoke",
+            "status": "passed",
+            "message": "RPM installation and package smoke test passed",
+            "started_at": "2026-08-08T00:00:00Z",
+            "finished_at": "2026-08-08T00:01:00Z",
+        }
+        self.assertEqual(schema_errors(document, schema, schema), [])
+        document.pop("message")
+        self.assertNotEqual(schema_errors(document, schema, schema), [])
+
     def test_native_route_does_not_claim_a_qemu_image(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)

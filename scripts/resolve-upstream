@@ -25,8 +25,24 @@ from _lib import (
     run_main,
     slugify,
     stable_json,
+    validate_https_url,
     version_key,
 )
+
+
+SHA256_RE = re.compile(r"^[a-f0-9]{64}$")
+
+
+def has_verified_release_source(record: Mapping[str, Any]) -> bool:
+    """Return true only for HTTPS source bytes pinned by a full SHA-256."""
+
+    source_url = str(record.get("source_url") or "").strip()
+    checksum = str(record.get("sha256") or "").strip().lower()
+    try:
+        validate_https_url(source_url)
+    except ToolError:
+        return False
+    return bool(SHA256_RE.fullmatch(checksum))
 
 
 def parser() -> argparse.ArgumentParser:
@@ -102,7 +118,7 @@ def merge_component(key: str, records: List[Mapping[str, Any]]) -> Dict[str, Any
     eligible_records = [record for record in records if record.get("_discovery_decision", record.get("decision", "eligible")) == "eligible"]
     trusted_records = eligible_records or records
     best = max(trusted_records, key=lambda item: (evidence(item)[0], tuple(version_key(item.get("version")))))
-    source_records = [record for record in eligible_records if canonical_url(record.get("source_url"))]
+    source_records = [record for record in eligible_records if has_verified_release_source(record)]
     release_record = max(source_records or trusted_records, key=lambda item: tuple(version_key(item.get("version"))))
     lineage: List[Dict[str, Any]] = []
     seen_lineage = set()
@@ -151,11 +167,14 @@ def merge_component(key: str, records: List[Mapping[str, Any]]) -> Dict[str, Any
         "resolution_evidence": evidence_items,
         "excluded_variant_lineage": excluded_variants,
         "evidence_score": score,
-        "eligible": bool(release_record.get("source_url") and upstream),
+        "eligible": bool(has_verified_release_source(release_record) and upstream),
     }
     if not component["source"]["url"]:
         component["eligible"] = False
         component["ineligible_reason"] = "official stable release source URL unresolved"
+    elif not has_verified_release_source(release_record):
+        component["eligible"] = False
+        component["ineligible_reason"] = "official stable release source must use HTTPS and be pinned by a 64-hex SHA-256"
     return component
 
 
@@ -218,6 +237,7 @@ def main() -> int:
             "identity": "official upstream stable release component",
             "minimum_evidence": args.minimum_evidence,
             "name_only_matching": False,
+            "verified_source_required": True,
             "aur_content_executed": False,
         },
         "components": components,

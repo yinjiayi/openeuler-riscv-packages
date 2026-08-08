@@ -8,6 +8,7 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 
 - A **managed package** is a non-template directory below `packages/` whose `package.yaml` is schema-valid and is not `retired` or `update-disabled`.
 - An **upstream release component** is a project unit with its own official stable release and version boundary. Discovery deduplicates this unit, not distribution package names.
+- A **verified release source** is an HTTPS official stable release/tag archive whose exact bytes are pinned by a full SHA-256. Distribution package checksums and catalog metadata digests do not satisfy this definition.
 - A **build result** is the schema-valid `build-result.json` tied to an exact Git commit SHA. It is evidence, not a self-reported success claim.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
 - A **golden package** is a fixed end-to-end fixture with a pinned source/content digest, expected state, allowed changes, and assertions.
@@ -17,7 +18,7 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - Arch stable `core`/`extra` and AUR are primary discovery indexes. AUR data is untrusted metadata: no workflow executes a `PKGBUILD`.
 - Pure AUR `-bin` entries and entries older than 730 days are excluded by default. VCS/nightly variants are discovery clues only.
 - Supplementary discovery resolves the current stable openSUSE Tumbleweed snapshot, latest Fedora GA, Debian `stable`, and latest Ubuntu GA release in standard support. Rawhide, testing/unstable, staging, multilib, development, and prerelease feeds are excluded.
-- Sources come from verified official upstream release/tag URLs. `rpmbuild` runs without network after source verification.
+- An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. `rpmbuild` runs without network after source verification.
 - Required native-kernel or hardware validation becomes `needs-native-riscv`; no self-hosted runner is currently scheduled.
 - Repair runs only on a maintainer's local Codex through local `gh` authentication or process-scoped `GH_TOKEN`. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`.
 - Automation never writes to upstream projects. RISC-V patches remain in `packages/<id>/patches/` and are referenced by the SPEC.

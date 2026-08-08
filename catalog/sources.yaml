@@ -5,6 +5,7 @@
     "arch_repositories": ["core", "extra"],
     "deduplicate_by": "official-stable-release-component",
     "stable_only": true,
+    "verified_source_required": true,
     "execute_external_packaging": false,
     "record_resolved_snapshot": true
   },

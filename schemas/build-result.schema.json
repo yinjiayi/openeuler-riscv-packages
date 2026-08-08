@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/build-result.schema.json",
-  "title": "Phase-aware RPM build result",
+  "title": "Phase-aware RPM build and installation result",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -28,9 +28,11 @@
         "native-routing",
         "environment-check",
         "rpmbuild",
+        "rpm-install-smoke",
         "complete"
       ]
     },
+    "message": {"type": "string", "minLength": 1, "maxLength": 4000},
     "exit_code": {"type": "integer", "minimum": 0, "maximum": 255},
     "target": {
       "type": "object",
@@ -377,6 +379,27 @@
           ]
         }
       ]
+    },
+    {
+      "required": [
+        "schema_version",
+        "package_id",
+        "phase",
+        "status",
+        "message",
+        "started_at",
+        "finished_at"
+      ],
+      "not": {
+        "anyOf": [
+          {"required": ["kind"]},
+          {"required": ["job_id"]}
+        ]
+      },
+      "properties": {
+        "phase": {"const": "rpm-install-smoke"},
+        "status": {"enum": ["passed", "failed", "needs-native-riscv"]}
+      }
     }
   ]
 }
