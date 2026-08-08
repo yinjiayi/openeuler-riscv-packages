@@ -3,7 +3,7 @@ Name:           bitwise
 Version:        0.50
 Release:        1%{?dist}
 Summary:        Interactive ncurses bitwise calculator
-License:        GPL-3.0-or-later
+License:        GPL-3.0-or-later AND BSD-2-Clause
 URL:            https://github.com/mellowcandle/bitwise
 Source0:        bitwise-0.50.tar.gz
 
@@ -44,4 +44,3 @@ autoreconf -fi
 %changelog
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.50-1
 - Initial openEuler RISC-V package.
-

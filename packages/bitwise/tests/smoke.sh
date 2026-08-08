@@ -2,5 +2,5 @@
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
 rpm -q -- bitwise
-bitwise --version | grep -F '0.50'
-
+installed_version=$(rpm -q --qf '%{VERSION}' bitwise)
+bitwise --version | grep -F "${installed_version}"
