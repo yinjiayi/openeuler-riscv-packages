@@ -2,5 +2,5 @@
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
 rpm -q -- checksec
-checksec --version | grep -F '3.2.0'
-
+installed_version=$(rpm -q --qf '%{VERSION}' checksec)
+checksec --version | grep -F "${installed_version}"
