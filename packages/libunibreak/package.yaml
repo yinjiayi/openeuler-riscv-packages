@@ -1,0 +1,140 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/adah1972/libunibreak",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libunibreak",
+        "package_name": "libunibreak",
+        "source": "arch-extra",
+        "source_version": "7.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/adah1972/libunibreak",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-libunibreak",
+        "package_name": "android-aarch64-libunibreak",
+        "source": "aur",
+        "source_version": "6.1-2"
+      },
+      {
+        "evidence_url": "https://github.com/adah1972/libunibreak",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-libunibreak",
+        "package_name": "android-armv7a-eabi-libunibreak",
+        "source": "aur",
+        "source_version": "6.1-2"
+      },
+      {
+        "evidence_url": "https://github.com/adah1972/libunibreak",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libunibreak",
+        "package_name": "android-riscv64-libunibreak",
+        "source": "aur",
+        "source_version": "6.1-2"
+      },
+      {
+        "evidence_url": "https://github.com/adah1972/libunibreak",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-libunibreak",
+        "package_name": "android-x86-64-libunibreak",
+        "source": "aur",
+        "source_version": "6.1-2"
+      },
+      {
+        "evidence_url": "https://github.com/adah1972/libunibreak",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-libunibreak",
+        "package_name": "android-x86-libunibreak",
+        "source": "aur",
+        "source_version": "6.1-2"
+      },
+      {
+        "evidence_url": "https://github.com/adah1972/libunibreak",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libunibreak",
+        "package_name": "libunibreak",
+        "source": "debian",
+        "source_version": "6.1-3"
+      },
+      {
+        "evidence_url": "https://github.com/adah1972/libunibreak",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libunibreak",
+        "package_name": "libunibreak",
+        "source": "fedora",
+        "source_version": "6.1-5.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/adah1972/libunibreak",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libunibreak",
+        "package_name": "libunibreak",
+        "source": "opensuse-tumbleweed",
+        "source_version": "6.1-1.5"
+      },
+      {
+        "evidence_url": "https://github.com/adah1972/libunibreak",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libunibreak",
+        "package_name": "libunibreak",
+        "source": "ubuntu",
+        "source_version": "6.1-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libunibreak.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libunibreak",
+  "rpm": {
+    "license": "Zlib",
+    "name": "libunibreak",
+    "summary": "Unicode line and word breaking library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-adah1972-libunibreak",
+    "homepage": "https://github.com/adah1972/libunibreak",
+    "release_api": "https://api.github.com/repos/adah1972/libunibreak/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "\\\"name\\\"\\s*:\\s*\\\"libunibreak\\s+(?P<version>[0-9]+(?:\\.[0-9]+)+)\\\"[\\s\\S]*?\\\"browser_download_url\\\"\\s*:\\s*\\\"(?P<source_url>https://github\\.com/adah1972/libunibreak/releases/download/[^\\\"]+/libunibreak-[^\\\"]+\\.tar\\.gz)\\\"",
+    "source_repository": "https://github.com/adah1972/libunibreak",
+    "source_url_template": "https://github.com/adah1972/libunibreak/releases/download/{tag}/libunibreak-{version}.tar.gz"
+  },
+  "version": {
+    "current": "7.0",
+    "latest_detected": "7.0",
+    "release": "1"
+  }
+}
