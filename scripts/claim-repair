@@ -42,6 +42,10 @@ def parser() -> argparse.ArgumentParser:
     common(verify, lease=False)
     release = commands.add_parser("release")
     common(release, lease=False)
+    release.add_argument(
+        "--pushed-head-sha",
+        help="new full head SHA after a successful same-branch push; the lease remains bound to --expected-head-sha",
+    )
     release.add_argument("--outcome", choices=["complete", "requeue", "abandoned"], default="complete")
     fail = commands.add_parser("fail")
     common(fail, lease=False)
@@ -49,10 +53,10 @@ def parser() -> argparse.ArgumentParser:
     return result
 
 
-def validate_sha(value: str) -> str:
+def validate_sha(value: str, field: str = "expected-head-sha") -> str:
     lowered = value.lower()
     if len(lowered) != 40 or any(character not in "0123456789abcdef" for character in lowered):
-        raise ToolError("expected-head-sha must be a full 40-character Git commit SHA")
+        raise ToolError("%s must be a full 40-character Git commit SHA" % field)
     return lowered
 
 
@@ -272,26 +276,71 @@ def command_verify(args: argparse.Namespace) -> int:
     return 0
 
 
-def archive_lease(state: Dict[str, Any], lease_key: str, lease: Mapping[str, Any], outcome: str, now: Any, reason: Optional[str] = None) -> Dict[str, Any]:
+def archive_lease(
+    state: Dict[str, Any],
+    lease_key: str,
+    lease: Mapping[str, Any],
+    outcome: str,
+    now: Any,
+    reason: Optional[str] = None,
+    details: Optional[Mapping[str, Any]] = None,
+) -> Dict[str, Any]:
     record = dict(lease)
     record.update({"status": outcome, "completed_at": isoformat(now)})
     if reason:
         record["reason"] = reason
+    if details:
+        record.update(details)
     state.setdefault("history", []).append(record)
     del state["leases"][lease_key]
     return record
 
 
 def command_release(args: argparse.Namespace) -> int:
-    check_head(args)
     now = parse_now(args.now)
     state_path = pathlib.Path(args.state_file)
     with locked_state(state_path) as state:
         lease = owned_lease(args, state, now, require_live=False)
-        record = archive_lease(state, key(args), lease, args.outcome, now)
+
+    failed_head = validate_sha(args.expected_head_sha)
+    pushed_head = validate_sha(args.pushed_head_sha, "pushed-head-sha") if args.pushed_head_sha else None
+    if pushed_head and pushed_head == failed_head:
+        raise ToolError("pushed-head-sha must differ from the failed leased head SHA", 1)
+
+    pr = current_pr(args)
+    observed_head = str(pr.get("headRefOid") or pr.get("head_sha") or "").lower()
+    required_head = pushed_head or failed_head
+    if observed_head != required_head:
+        raise ToolError(
+            "head SHA changed: expected %s, observed %s" % (required_head, observed_head or "missing"),
+            1,
+        )
+    observed_ref = str(pr.get("headRefName") or pr.get("head_ref") or "")
+    leased_ref = str(lease.get("head_ref") or "")
+    if leased_ref and observed_ref != leased_ref:
+        raise ToolError("head ref changed: expected %s, observed %s" % (leased_ref, observed_ref or "missing"), 1)
+
     add = ["repair-queued"] if args.outcome == "requeue" else []
-    remote_labels(args, add, ["codex-repairing"], "Repair lease `%s` released with outcome `%s`." % (record["lease_id"], args.outcome))
-    emit_json(lease_result("release", args, record, outcome=args.outcome), args.output)
+    remote_labels(
+        args,
+        add,
+        ["codex-repairing"],
+        "Repair lease `%s` released with outcome `%s`; failed head `%s`; observed head `%s`."
+        % (lease["lease_id"], args.outcome, failed_head, observed_head),
+    )
+    details = {
+        "failed_head_sha": failed_head,
+        "pushed_head_sha": pushed_head,
+        "observed_head_sha": observed_head,
+        "observed_head_ref": observed_ref,
+        "verification_source": "live-gh-pr-view" if not args.fixture_pr else "offline-fixture",
+    }
+    with locked_state(state_path) as state:
+        current = owned_lease(args, state, now, require_live=False)
+        if current.get("lease_id") != lease.get("lease_id"):
+            raise ToolError("repair lease changed before release", 1)
+        record = archive_lease(state, key(args), current, args.outcome, now, details=details)
+    emit_json(lease_result("release", args, record, outcome=args.outcome, **details), args.output)
     return 0
 
 

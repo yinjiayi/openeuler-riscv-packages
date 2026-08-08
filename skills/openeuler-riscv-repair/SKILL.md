@@ -93,8 +93,22 @@ Run the dependency preparation and offline/no-network container build exactly as
   --output "$repair_dir/head-check.json"
 ```
 
-On mismatch, stop, preserve work, release/requeue, and resynchronize. Never overwrite a new remote commit. On a match, commit the repair and push normally to the same PR head ref; never force-push or open a replacement PR.
-12. Release the lease after a successful push or terminal handoff. Update machine-readable repair history and PR comment/labels with owner, lease, head, classification, diff, patch provenance, validation, attempt number, and next step. Let the new head's full required checks decide Auto-merge; do not reuse old results or self-report a mergeable state.
+On mismatch, stop, preserve work, release/requeue, and resynchronize. Never overwrite a new remote commit. On a match, commit the repair and push normally to the same PR head ref; never force-push or open a replacement PR. Record the resulting full commit SHA as `pushed_head_sha`.
+12. After a successful push, release the lease only after a fresh live read proves that the same PR branch now points to `pushed_head_sha`; the lease remains bound to `failed_head_sha` so the complete transition is auditable:
+
+```bash
+./scripts/claim-repair release \
+  --state-file "$lease_state" \
+  --owner "$repair_owner" \
+  --pr "$pr_number" \
+  --expected-head-sha "$failed_head_sha" \
+  --pushed-head-sha "$pushed_head_sha" \
+  --repo "$github_repo" \
+  --outcome complete \
+  --output "$repair_dir/release.json"
+```
+
+For a terminal handoff without a push, omit `--pushed-head-sha` and require the remote head to remain `failed_head_sha`. Update machine-readable repair history and PR comment/labels with owner, lease, failed and pushed head, classification, diff, patch provenance, validation, attempt number, and next step. Let the new head's full required checks decide Auto-merge; do not reuse old results or self-report a mergeable state.
 
 ## Outputs
 

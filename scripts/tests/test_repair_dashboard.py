@@ -63,6 +63,106 @@ class RepairDashboardTests(unittest.TestCase):
             run_tool("claim-repair", ["fail"] + common + ["--reason", "known failure remains", "--output", str(failed), "--now", "2026-08-08T00:02:00Z"], root)
             self.assertEqual(json.loads(failed.read_text())["outcome"], "needs-human")
 
+    def test_release_accepts_only_the_verified_same_branch_pushed_head(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            failed_sha = "a" * 40
+            pushed_sha = "c" * 40
+            fixture = root / "prs.json"
+            write_json(
+                fixture,
+                [
+                    {
+                        "number": 7,
+                        "title": "repair me",
+                        "url": "https://github.com/yinjiayi/openeuler-riscv-packages/pull/7",
+                        "author": {"login": "yinjiayi"},
+                        "headRefName": "repair/demo-1.0",
+                        "headRefOid": failed_sha,
+                        "headRepository": {"nameWithOwner": "yinjiayi/openeuler-riscv-packages"},
+                        "isCrossRepository": False,
+                        "labels": [{"name": "repair-queued"}],
+                        "statusCheckRollup": [],
+                    }
+                ],
+            )
+            queue = root / "queue.json"
+            run_tool(
+                "watch-failed-prs",
+                [
+                    "--repo",
+                    "yinjiayi/openeuler-riscv-packages",
+                    "--fixture",
+                    str(fixture),
+                    "--output",
+                    str(queue),
+                    "--once",
+                    "--now",
+                    "2026-08-08T00:00:00Z",
+                ],
+                root,
+            )
+            state = root / "leases.json"
+            failed_view = root / "failed-pr-view.json"
+            write_json(failed_view, {"headRefOid": failed_sha, "headRefName": "repair/demo-1.0", "isCrossRepository": False})
+            common = [
+                "--repo",
+                "yinjiayi/openeuler-riscv-packages",
+                "--pr",
+                "7",
+                "--owner",
+                "local-a",
+                "--state-file",
+                str(state),
+                "--expected-head-sha",
+                failed_sha,
+            ]
+            run_tool(
+                "claim-repair",
+                ["claim"] + common + ["--queue", str(queue), "--fixture-pr", str(failed_view), "--lease-seconds", "600"],
+                root,
+            )
+
+            wrong_ref_view = root / "wrong-ref-view.json"
+            write_json(wrong_ref_view, {"headRefOid": pushed_sha, "headRefName": "repair/other", "isCrossRepository": False})
+            blocked = run_tool(
+                "claim-repair",
+                ["release"]
+                + common
+                + ["--pushed-head-sha", pushed_sha, "--fixture-pr", str(wrong_ref_view), "--now", "2026-08-08T00:01:00Z"],
+                root,
+                expected=1,
+            )
+            self.assertIn("head ref changed", blocked.stderr)
+            self.assertIn("yinjiayi/openeuler-riscv-packages#7", json.loads(state.read_text())["leases"])
+
+            pushed_view = root / "pushed-pr-view.json"
+            write_json(pushed_view, {"headRefOid": pushed_sha, "headRefName": "repair/demo-1.0", "isCrossRepository": False})
+            released = root / "released.json"
+            run_tool(
+                "claim-repair",
+                ["release"]
+                + common
+                + [
+                    "--pushed-head-sha",
+                    pushed_sha,
+                    "--fixture-pr",
+                    str(pushed_view),
+                    "--output",
+                    str(released),
+                    "--now",
+                    "2026-08-08T00:02:00Z",
+                ],
+                root,
+            )
+            result = json.loads(released.read_text())
+            self.assertEqual(result["failed_head_sha"], failed_sha)
+            self.assertEqual(result["pushed_head_sha"], pushed_sha)
+            self.assertEqual(result["observed_head_sha"], pushed_sha)
+            persisted = json.loads(state.read_text())
+            self.assertEqual(persisted["leases"], {})
+            self.assertEqual(persisted["history"][-1]["pushed_head_sha"], pushed_sha)
+
     def test_static_dashboard_uses_factual_pr_state(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
