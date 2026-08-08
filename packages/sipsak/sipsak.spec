@@ -9,6 +9,7 @@ Source0:        sipsak-0.9.8.1.tar.gz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
+BuildRequires:  c-ares-devel
 BuildRequires:  check-devel
 BuildRequires:  gcc
 BuildRequires:  make
@@ -32,6 +33,7 @@ autoreconf -fi
 %check
 %make_build check
 ./sipsak --version | grep -F '%{version}'
+./sipsak --version | grep -F 'SRV_SUPPORT(ARES)'
 
 %files
 %license COPYING
@@ -42,4 +44,3 @@ autoreconf -fi
 %changelog
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.9.8.1-1
 - Initial openEuler RISC-V package.
-
