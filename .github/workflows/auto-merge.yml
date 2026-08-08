@@ -21,8 +21,7 @@ jobs:
        github.event.pull_request.author_association == 'MEMBER' ||
        github.event.pull_request.author_association == 'COLLABORATOR' ||
        github.event.pull_request.user.login == 'yinjiayi' ||
-       github.event.pull_request.user.login == 'github-actions[bot]' ||
-       github.event.pull_request.user.login == 'dependabot[bot]')
+       github.event.pull_request.user.login == 'github-actions[bot]')
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:

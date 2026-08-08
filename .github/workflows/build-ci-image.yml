@@ -112,7 +112,7 @@ jobs:
             "$(sha256sum artifacts/image/repomd.xml | awk '{print $1}')"
           test "$(cat artifacts/image/rpm-manifest.sha256)" = \
             "$(sha256sum artifacts/image/rpm-manifest.tsv | awk '{print $1}')"
-      - name: Publish, set public visibility, and verify anonymous digest pull
+      - name: Publish and verify public anonymous digest pull
         id: publish
         if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish)
         env:
@@ -126,9 +126,10 @@ jobs:
           digest=${published_ref##*@}
           [[ $digest =~ ^sha256:[0-9a-f]{64}$ ]]
 
-          gh api --method PATCH \
-            /user/packages/container/openeuler-riscv64-rpmbuild \
-            -f visibility=public >/dev/null
+          visibility=$(gh api \
+            /users/yinjiayi/packages/container/openeuler-riscv64-rpmbuild \
+            --jq .visibility)
+          test "$visibility" = public
 
           anonymous_config=$(mktemp -d)
           DOCKER_CONFIG="$anonymous_config" docker manifest inspect \
@@ -158,7 +159,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
-      actions: read
+      actions: write
       contents: write
       pull-requests: write
     steps:
@@ -216,9 +217,15 @@ jobs:
           DIGEST: ${{ needs.build-publish.outputs.digest }}
           BRANCH: ${{ steps.lock.outputs.branch }}
         run: |
-          existing=$(gh pr list --state open --search "$DIGEST in:body" --json url --limit 1 --jq '.[0].url // empty')
+          existing=$(gh pr list --state open --search "$DIGEST in:body" \
+            --json url,headRefName --limit 1 --jq '.[0] // empty')
           if [[ -n $existing ]]; then
-            printf 'Digest lock PR already exists: %s\n' "$existing"
+            pr_url=$(jq -r .url <<<"$existing")
+            branch=$(jq -r .headRefName <<<"$existing")
+            base_sha=$(git rev-parse origin/main)
+            gh workflow run package-ci.yml --ref "$branch" -f "base_sha=$base_sha"
+            gh pr merge "$pr_url" --auto --squash --delete-branch
+            printf 'Reused digest lock PR: %s\n' "$pr_url"
             exit 0
           fi
           git config user.name github-actions\[bot\]
@@ -230,4 +237,6 @@ jobs:
           pr_url=$(gh pr create --base main --head "$BRANCH" \
             --title "Lock published RISC-V CI image digest" \
             --body "Locks the public, anonymously pulled GHCR image by immutable digest.\n\nDigest: \`$DIGEST\`\n\nThis is an independent infrastructure change; package CI remains fail-closed until it merges.")
+          base_sha=$(git rev-parse origin/main)
+          gh workflow run package-ci.yml --ref "$BRANCH" -f "base_sha=$base_sha"
           gh pr merge "$pr_url" --auto --squash --delete-branch

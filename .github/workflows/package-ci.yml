@@ -6,6 +6,12 @@ on:
     types: [opened, synchronize, reopened]
   merge_group:
     types: [checks_requested]
+  workflow_dispatch:
+    inputs:
+      base_sha:
+        description: Immutable default-branch base SHA for a trusted bot-created PR
+        required: true
+        type: string
 
 concurrency:
   group: package-ci-${{ github.event.pull_request.number || github.event.merge_group.head_sha || github.ref }}
@@ -32,14 +38,14 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           fetch-depth: 0
           persist-credentials: false
       - name: Classify the diff
         id: scope
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || inputs.base_sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
         run: |
           mkdir -p artifacts/scope
           ci/detect-change-scope.py \
@@ -78,7 +84,7 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
       - name: Validate metadata and schemas
         env:
@@ -109,7 +115,7 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
       - name: Enforce patch ownership and application
         env:
@@ -151,7 +157,7 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
       - name: Record source-stage environment
         run: ci/record-environment.sh artifacts/source/environment.json
@@ -160,7 +166,7 @@ jobs:
           MODE: ${{ needs.prepare.outputs.mode }}
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           PREPARE_RESULT: ${{ needs.prepare.result }}
-          GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
         run: |
           test "$PREPARE_RESULT" = success
           mkdir -p artifacts/source
@@ -248,7 +254,7 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
       - name: Download verified sources
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -330,7 +336,7 @@ jobs:
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           IMAGE_REF: ${{ steps.dependencies.outputs.image }}
-          GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
         run: |
           mkdir -p artifacts/build
           set +e
@@ -413,7 +419,7 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
       - name: Download RISC-V build products
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -495,7 +501,7 @@ jobs:
           MODE: ${{ needs.prepare.outputs.mode }}
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           NEEDS_NATIVE: ${{ needs.prepare.outputs.needs_native }}
-          COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           METADATA_RESULT: ${{ needs.metadata-validate.result }}
           SOURCE_RESULT: ${{ needs.source-verify.result }}
