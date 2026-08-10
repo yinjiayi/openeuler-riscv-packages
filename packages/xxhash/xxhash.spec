@@ -46,7 +46,6 @@ Headers, static library, and pkg-config metadata for xxHash.
 %files devel
 %license LICENSE
 %{_includedir}/xxh3.h
-%{_includedir}/xxh_x86dispatch.h
 %{_includedir}/xxhash.h
 %{_libdir}/libxxhash.a
 %{_libdir}/libxxhash.so
