@@ -14,5 +14,5 @@ TEST(InstalledGoogleMock, Runs) {
   EXPECT_THAT((std::vector<int>{6, 7}), ::testing::ElementsAre(6, 7));
 }
 CPP
-g++ -std=c++14 "$task_dir/smoke.cpp" -lgmock -lgtest_main -lgtest -pthread -o "$task_dir/smoke"
+g++ -std=c++17 "$task_dir/smoke.cpp" -lgmock -lgtest_main -lgtest -pthread -o "$task_dir/smoke"
 "$task_dir/smoke"
