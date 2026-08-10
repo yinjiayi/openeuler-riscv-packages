@@ -12,6 +12,7 @@ BuildRequires:  gperf
 BuildRequires:  make
 BuildRequires:  python3-Cython
 BuildRequires:  python3-devel
+BuildRequires:  python3-unversioned-command
 
 %description
 libseccomp provides a platform-independent API for configuring Linux seccomp
