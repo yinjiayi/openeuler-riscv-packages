@@ -27,6 +27,7 @@ of decimal strings into binary floating-point values.
   -DFASTFLOAT_INSTALL=ON \
   -DFASTFLOAT_TEST=ON \
   -DFASTFLOAT_SUPPLEMENTAL_TESTS=OFF \
+  -DDOCTEST_NO_INSTALL=ON \
   -DSYSTEM_DOCTEST=OFF \
   -DFETCHCONTENT_SOURCE_DIR_DOCTEST=%{_builddir}/fast_float-%{version}/doctest-2.5.2
 %cmake_build
