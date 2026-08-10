@@ -39,7 +39,10 @@ unversioned library link for developing applications with c-ares.
   -DCARES_SHARED=ON \
   -DCARES_STATIC=OFF \
   -DCARES_THREADS=ON
-%cmake_build
+# Parallel RISC-V linker processes are unstable under QEMU user emulation and
+# have been observed to terminate with SIGSEGV while linking the test tools.
+# Keep the complete build, but run one link process at a time.
+cmake --build %{_vpath_builddir} --verbose --parallel 1
 
 %install
 %cmake_install
@@ -47,7 +50,9 @@ unversioned library link for developing applications with c-ares.
 %check
 # Network is disabled during package builds. Keep every deterministic upstream
 # unit/fuzz-corpus test while excluding only tests explicitly named Live*.
-GTEST_FILTER='-*Live*' %ctest
+# Keep the test suite serial for the same QEMU process-stability constraint.
+GTEST_FILTER='-*Live*' ctest --test-dir %{_vpath_builddir} \
+  --output-on-failure --force-new-ctest-process -j1
 
 %files
 %license LICENSE.md
@@ -69,3 +74,4 @@ GTEST_FILTER='-*Live*' %ctest
 %changelog
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.34.8-1
 - Initial openEuler RISC-V package with offline upstream tests.
+- Serialize the QEMU-emulated build and test processes to avoid linker crashes.
