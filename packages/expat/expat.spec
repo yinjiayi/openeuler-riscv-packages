@@ -50,6 +50,7 @@ developing applications with Expat.
 %{_bindir}/xmlwf
 %{_libdir}/libexpat.so.1*
 %{_mandir}/man1/xmlwf.1*
+%{_docdir}/%{name}/changelog
 
 %files devel
 %license COPYING
@@ -61,3 +62,4 @@ developing applications with Expat.
 %changelog
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.8.2-1
 - Initial openEuler RISC-V package with upstream CTest coverage.
+- Own the changelog installed by the upstream CMake project.
