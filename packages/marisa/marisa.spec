@@ -28,6 +28,7 @@ developing applications with MARISA.
 
 %build
 %cmake_conf \
+  -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_TESTING=ON \
   -DENABLE_NATIVE_CODE=OFF \
