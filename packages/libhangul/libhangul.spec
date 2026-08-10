@@ -36,12 +36,12 @@ Headers and CMake metadata for developing applications with libhangul.
 
 %install
 %cmake_install
-%find_lang libhangul
+%find_lang ko
 
 %check
 %ctest
 
-%files -f libhangul.lang
+%files -f ko.lang
 %license COPYING
 %doc README
 %{_libdir}/libhangul.so.1*
