@@ -7,7 +7,7 @@ command -v fstrm_capture fstrm_dump fstrm_replay >/dev/null
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
 cat >"$smoke_dir/smoke.c" <<'EOF'
-#include <fstrm/control.h>
+#include <fstrm.h>
 int main(void) {
     struct fstrm_control *control = fstrm_control_init();
     if (control == 0) return 1;
