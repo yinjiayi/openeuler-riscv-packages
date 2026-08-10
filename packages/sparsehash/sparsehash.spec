@@ -26,7 +26,10 @@ toolchain, so this package is architecture-specific despite being header-only.
 
 %install
 %make_install
-rm -rf %{buildroot}%{_docdir}/%{name}-%{version}
+# The 2.0.4 release's generated Autotools metadata still installs its bundled
+# documentation under sparsehash-2.0.2.  The reviewed copies are installed by
+# the %doc declarations below, so remove only that stale generated directory.
+rm -rf %{buildroot}%{_docdir}/%{name}-2.0.2
 
 %check
 %make_build check
