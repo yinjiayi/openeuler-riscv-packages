@@ -20,7 +20,7 @@ Require:
 - repository root with `schemas/package.schema.json`, `schemas/sources.schema.json`, `schemas/build-result.schema.json`, and `schemas/operation-result.schema.json`; optional explicit `package_id`; and target branch name;
 - locked openEuler 24.03 LTS SP3 `riscv64`/RVA23 OCI digest for build validation;
 - build/runtime dependencies and an auditable dependency strategy;
-- optional authorization and local `gh` authentication/process-level `GH_TOKEN` for push and PR creation.
+- optional authorization and local `gh` authentication or explicitly authorized process-level `GH_TOKEN` for push and PR creation. Local commands may use the token, but no repository or public output may contain its value.
 
 ## Workflow
 
@@ -74,7 +74,7 @@ Review the normalized ID, collision checks, exact write set, and source identity
 
 Run the dependency preparation plus offline/no-network container build exactly as `package-ci.yml` does; never run the target build directly on the host or give the build phase network access. Require source verification, `rpmbuild -ba`, RPM installation, and the committed smoke test. Interpret `needs-native-riscv` and `qemu-limitation` as target-validation states, not successful QEMU builds.
 9. Require both metadata validation and build checks to pass. Confirm the diff changes only this package directory plus an explicitly permitted generated index. If a shared fix is needed, stop and propose a separate infrastructure PR.
-10. For an authorized remote phase, create one branch and one PR for this package. Include upstream/version, discovery evidence, source verification, dependencies, RISC-V assessment, files, tests, and artifact expectations. Apply operation/source/package/status labels. Enable squash Auto-merge only when policy permits; never merge directly.
+10. For an authorized remote phase, run `scripts/github-credential-guard --repo-root . --require-auth --local-only` before mutation and again immediately before commit/push. A user-authorized process-level `GH_TOKEN` may authenticate local `gh`/GitHub operations; never put its value in arguments, files, commits, PR text, logs, artifacts, Actions configuration, Pages, or other public output. Create one branch and one PR for this package. Include upstream/version, discovery evidence, source verification, dependencies, RISC-V assessment, files, tests, and artifact expectations. Apply operation/source/package/status labels. Enable squash Auto-merge only when policy permits; never merge directly.
 11. If authentication is absent, finish and validate the local package, then report branch/push/PR/label/Auto-merge as remote blockers without fabricating them.
 
 ## Outputs
