@@ -1,0 +1,21 @@
+{
+  "package_id": "aml",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b2b8f743213af39f40e8bc611147d69e2ea9e010b9b19cb65246582338f28d96"
+      },
+      "filename": "aml-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/any1/aml/archive/refs/tags/v1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
