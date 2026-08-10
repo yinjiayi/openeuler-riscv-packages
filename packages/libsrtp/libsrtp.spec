@@ -11,6 +11,7 @@ BuildRequires:  gcc
 BuildRequires:  libpcap-devel
 BuildRequires:  make
 BuildRequires:  openssl-devel
+BuildRequires:  procps-ng
 BuildRequires:  zlib-devel
 
 %description
