@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: Apache-2.0
+Name:           doctest
+Version:        2.5.2
+Release:        1%{?dist}
+Summary:        Lightweight feature-rich C++ testing framework
+License:        MIT
+URL:            https://github.com/doctest/doctest
+Source0:        doctest-2.5.2.tar.gz
+BuildRequires:  cmake
+BuildRequires:  gcc-c++
+BuildRequires:  make
+
+
+%description
+doctest is a lightweight, feature-rich C++ testing framework.
+
+%prep
+%autosetup -p1
+
+%build
+%cmake_conf \
+  -DDOCTEST_WITH_TESTS=ON \
+  -DDOCTEST_WITH_MAIN_IN_STATIC_LIB=ON
+%cmake_build
+
+%install
+%cmake_install
+
+%check
+%ctest
+
+%files
+%license LICENSE.txt
+%doc README.md
+%{_includedir}/doctest/
+%{_libdir}/libdoctest_with_main.a
+%{_libdir}/cmake/doctest/
+%{_libdir}/pkgconfig/doctest.pc
+
+%changelog
+* Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.2-1
+- Initial openEuler RISC-V package.
