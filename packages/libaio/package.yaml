@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "The maintained partcheck suite exercises Linux AIO syscalls; QEMU user mode returns ENOSYS for io_setup, so acceptance requires the target RISC-V kernel.",
     "network_during_build": false,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 60
   },
   "discovery": {
@@ -67,7 +67,7 @@
     "isa": "RVA23",
     "os": "openEuler",
     "release": "24.03-LTS-SP3",
-    "riscv_status": "unknown"
+    "riscv_status": "qemu-limitation"
   },
   "updates": {
     "enabled": true,
