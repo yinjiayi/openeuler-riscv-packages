@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://brain-dump.org/projects/abduco",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "abduco",
+        "package_name": "abduco",
+        "source": "arch-extra",
+        "source_version": "0.6-8"
+      },
+      {
+        "evidence_url": "https://brain-dump.org/projects/abduco",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "abduco",
+        "package_name": "abduco",
+        "source": "fedora",
+        "source_version": "0.6-24.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "abduco.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "abduco",
+  "rpm": {
+    "license": "ISC",
+    "name": "abduco",
+    "summary": "Session attach and detach support for terminal programs"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "brain-dump.org-projects-abduco",
+    "homepage": "https://brain-dump.org/projects/abduco",
+    "release_api": "https://www.brain-dump.org/projects/abduco/",
+    "release_channel": "stable",
+    "release_regex": "abduco-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/martanne/abduco",
+    "source_url_template": "https://github.com/martanne/abduco/releases/download/v{version}/abduco-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.6",
+    "latest_detected": "0.6",
+    "release": "1"
+  }
+}
