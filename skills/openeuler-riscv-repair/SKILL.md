@@ -17,14 +17,24 @@ Repair one trusted PR at a time without weakening validation. Define a **repair 
 Require:
 
 - local checkout, repository `OWNER/REPO`, PR number or queue scan mode, trusted author allowlist, and local repair-owner ID;
-- working local `gh` login or process-level `GH_TOKEN`; never store or print the token;
+- working local `gh` login or an explicitly user-authorized process-level `GH_TOKEN`. Using the token for local `gh`/GitHub operations during this process is allowed; do not reject the workflow merely because a token is present. Never persist, print, commit, upload, or publish its value;
 - structured build-result artifact, exact failed PR head SHA/ref, and committed `build-result`, `repair-record`, and `operation-result` schemas;
 - lease state path/TTL, maximum attempts default 3, time/model budget, and isolated work/result directories;
 - locked openEuler 24.03 LTS SP3 riscv64/RVA23 OCI digest.
 
 ## Workflow
 
-1. Abort when `GITHUB_ACTIONS=true` or another CI context is detected. This Skill runs only on the user's local Codex. Record host resources/tool versions, repository commit/branch/dirty state, `gh` identity, and target image/QEMU versions without exposing credentials.
+1. Abort when `GITHUB_ACTIONS=true` or another CI context is detected. This Skill runs only on the user's local Codex. Accept authentication from an existing local `gh` session or the current process's `GH_TOKEN`. A user-authorized token may be consumed through an inherited environment or secret-safe stdin injection; never add a `--token` argument or interpolate it into a logged command. Run the credential preflight before the first remote call:
+
+```bash
+./scripts/github-credential-guard \
+  --repo-root . \
+  --require-auth \
+  --local-only \
+  --output "$repair_dir/credential-preflight.json"
+```
+
+Record host resources/tool versions, repository commit/branch/dirty state, the safe login/mode from this result, and target image/QEMU versions. The preflight output records no credential value.
 2. For one scan, run:
 
 ```bash
@@ -81,7 +91,7 @@ Run the dependency preparation and offline/no-network container build exactly as
 8. Modify only `packages/$package_id/`. For a RISC-V defect, prefer a trustworthy existing fix; otherwise create the smallest explainable patch under that package's `patches/`, apply it explicitly in the SPEC, and document root cause, evidence, applicable versions, upstream status, and removal condition. Do not create any upstream issue, PR, comment, or other write.
 9. Never delete/disable `%check`, make tests return success unconditionally, ignore failures, disable core functionality, or broaden unrelated architecture conditions. If a shared script/CI/toolchain/dependency package must change, stop and propose a separate internal issue/infrastructure PR.
 10. Run `scripts/validate-metadata --repo-root . --package "$package_id" --output "$repair_dir/metadata-validation.json"`, rebuild, and run all applicable package checks locally. Record an attempt even when it fails. After the third failed attempt or any configured time/model limit, run the `fail` lease action, set `needs-human`, preserve every attempt, and stop.
-11. Immediately before commit/push, verify package-only diff and compare the current remote head:
+11. Immediately before commit/push, rerun `github-credential-guard`, verify package-only diff, and compare the current remote head. Stop if the active token appears in any repository, staged, or publication path:
 
 ```bash
 ./scripts/claim-repair verify-head \
@@ -93,7 +103,7 @@ Run the dependency preparation and offline/no-network container build exactly as
   --output "$repair_dir/head-check.json"
 ```
 
-On mismatch, stop, preserve work, release/requeue, and resynchronize. Never overwrite a new remote commit. On a match, commit the repair and push normally to the same PR head ref; never force-push or open a replacement PR. Record the resulting full commit SHA as `pushed_head_sha`.
+On mismatch, stop, preserve work, release/requeue, and resynchronize. Never overwrite a new remote commit. On a match, commit the repair and push normally to the same PR head ref; never force-push or open a replacement PR. The token may authenticate those commands, but its value must not enter the commit message/diff, PR text/comments, logs, artifacts, Actions secrets/variables, Pages, or any other public output. Record the resulting full commit SHA as `pushed_head_sha` and unset a process token when the local session ends.
 12. After a successful push, release the lease only after a fresh live read proves that the same PR branch now points to `pushed_head_sha`; the lease remains bound to `failed_head_sha` so the complete transition is auditable:
 
 ```bash
@@ -136,3 +146,4 @@ Return an operation report containing: operation type `repair`; package/PR; bran
 - Feed `golden-needs-native-kmod`; assert `needs-native-riscv`, no fake patch, no Auto-merge.
 - Change the remote head after claim; assert the SHA guard blocks push.
 - Fail three attempts; assert `needs-human`, released/recoverable lease, and complete history.
+- Supply an authorized process-level token; assert local GitHub calls are allowed, the guard output omits its value, and repository/staged/Pages content containing that value blocks commit/push.
