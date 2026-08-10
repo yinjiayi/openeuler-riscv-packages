@@ -35,6 +35,7 @@ autoreconf -fi
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
+rm -rf -- %{buildroot}%{_docdir}/libexif
 %find_lang libexif-12
 
 %check
@@ -42,7 +43,7 @@ find %{buildroot} -name '*.la' -delete
 
 %files -f libexif-12.lang
 %license COPYING
-%doc README NEWS
+%doc AUTHORS ChangeLog NEWS README SECURITY.md
 %{_libdir}/libexif.so.12*
 
 %files devel
