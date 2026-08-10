@@ -25,6 +25,8 @@ doctest is a lightweight, feature-rich C++ testing framework.
 
 %install
 %cmake_install
+install -Dpm 0644 %{_vpath_builddir}/libdoctest_with_main.a \
+  %{buildroot}%{_libdir}/libdoctest_with_main.a
 
 %check
 %ctest -- -j1
