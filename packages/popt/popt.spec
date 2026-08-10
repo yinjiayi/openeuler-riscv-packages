@@ -37,11 +37,12 @@ autoreconf -fi
 %install
 %make_install
 rm -f %{buildroot}%{_libdir}/libpopt.la
+%find_lang %{name}
 
 %check
 %make_build check
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %doc CREDITS README
 %{_libdir}/libpopt.so.0*
