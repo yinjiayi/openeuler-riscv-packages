@@ -29,15 +29,17 @@ Header and link metadata for developing applications with libb2.
 autoreconf -fi
 
 %build
-%configure --disable-static
-%make_build
+%configure --disable-static --disable-native
+# Upstream configure replaces the distribution CFLAGS with -O3.  Restore the
+# target flags so hardening and DWARF source mappings are retained.
+%make_build CFLAGS="%{optflags} -fopenmp"
 
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
 
 %check
-%make_build check CFLAGS="%{optflags} -fPIC -fopenmp"
+%make_build check CFLAGS="%{optflags} -fopenmp"
 
 %files
 %license COPYING
