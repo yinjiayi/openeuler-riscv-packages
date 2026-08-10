@@ -48,6 +48,7 @@ find %{buildroot} -name '*.la' -delete
 %{_includedir}/dmtx.h
 %{_libdir}/libdmtx.so
 %{_libdir}/pkgconfig/libdmtx.pc
+%{_mandir}/man3/libdmtx.3*
 
 %changelog
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.7.8-1
