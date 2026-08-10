@@ -1,0 +1,39 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 10 Aug 2026 21:38:00 +0800
+Subject: [PATCH] cmake: drop redundant GTest system include
+
+The openEuler GTest CMake targets export /usr/include.  In the RVA23 QEMU
+buildroot CMake does not discover the compiler's implicit C++ include list,
+so it emits -isystem /usr/include.  That makes libstdc++'s include_next lookup
+for stdlib.h skip the only system copy.  Remove only this compiler-default
+path while retaining any non-default include paths exported by GTest.
+
+---
+ test/CMakeLists.txt | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
+--- a/test/CMakeLists.txt
++++ b/test/CMakeLists.txt
+@@ -14,6 +14,21 @@
+ IF (CMAKE_VERSION VERSION_LESS "3.23.0")
+   Message("GoogleTest found, cmake version too old to verify GMock, look for errors...")
+ ELSE ()
++  foreach(gtest_target GTest::gtest GTest::gmock)
++    if(TARGET ${gtest_target})
++      foreach(include_property
++              INTERFACE_INCLUDE_DIRECTORIES
++              INTERFACE_SYSTEM_INCLUDE_DIRECTORIES)
++        get_target_property(gtest_includes ${gtest_target} ${include_property})
++        if(gtest_includes)
++          list(REMOVE_ITEM gtest_includes "/usr/include")
++          set_target_properties(${gtest_target} PROPERTIES
++            ${include_property} "${gtest_includes}")
++        endif()
++      endforeach()
++    endif()
++  endforeach()
++
+   IF (NOT TARGET GTest::gmock)
+     Message(FATAL_ERROR "GoogleTest found but the GMock component was not found")
+   ENDIF()

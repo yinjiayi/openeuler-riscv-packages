@@ -6,6 +6,7 @@ Summary:        Asynchronous DNS request library
 License:        MIT
 URL:            https://c-ares.org/
 Source0:        c-ares-%{version}.tar.gz
+Patch0:         0001-cmake-drop-redundant-gtest-system-include.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc
