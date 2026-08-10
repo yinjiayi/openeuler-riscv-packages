@@ -3,5 +3,5 @@
 set -euo pipefail
 
 rpm -q -- libpaper libpaper-devel
-paper --help >/dev/null
-paper --all | grep -E '^a4[[:space:]]'
+paper --help >/dev/null 2>&1
+paper --all | grep -E '^A4:[[:space:]]+210x297[[:space:]]+mm$'
