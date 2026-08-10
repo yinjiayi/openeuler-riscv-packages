@@ -7,12 +7,47 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
 ACTION_REF = re.compile(r"(?m)^\s*uses:\s*([^#\s]+)")
 PINNED_ACTION = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@[0-9a-f]{40}$")
 DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
+GITHUB_TOKEN_LITERALS = (
+    re.compile(rb"gh[pousr]_[A-Za-z0-9]{20,}"),
+    re.compile(rb"github_pat_[A-Za-z0-9_]{20,}"),
+)
+
+
+def contains_github_token_literal(content: bytes) -> bool:
+    return any(pattern.search(content) for pattern in GITHUB_TOKEN_LITERALS)
+
+
+def tracked_paths(root: Path) -> list[Path]:
+    completed = subprocess.run(
+        ["git", "-C", str(root), "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+    if completed.returncode == 0:
+        return [root / value.decode("utf-8", "surrogateescape") for value in completed.stdout.split(b"\0") if value]
+    return [path for path in root.rglob("*") if path.is_file() and ".git" not in path.parts]
+
+
+def committed_token_paths(root: Path) -> list[str]:
+    result: list[str] = []
+    for path in tracked_paths(root):
+        if not path.is_file():
+            continue
+        try:
+            content = path.read_bytes()
+        except OSError:
+            continue
+        if contains_github_token_literal(content):
+            result.append(str(path.relative_to(root)))
+    return sorted(result)
 
 
 def lock_value(text: str, key: str) -> str:
@@ -29,6 +64,9 @@ def main() -> int:
     root = Path(args.repo_root).resolve()
     errors: list[str] = []
     warnings: list[str] = []
+
+    for path in committed_token_paths(root):
+        errors.append(f"{path}: GitHub token-like credential is forbidden in repository content")
 
     expected = {
         "package-ci.yml",
@@ -117,6 +155,20 @@ def main() -> int:
     check_bridge = root / "ci" / "dispatch-required-checks.sh"
     if not check_bridge.is_file() or not check_bridge.stat().st_mode & 0o111:
         errors.append("bot-created PR check bridge is missing or not executable")
+
+    credential_guard = root / "scripts" / "github-credential-guard"
+    if not credential_guard.is_file() or not credential_guard.stat().st_mode & 0o111:
+        errors.append("local GitHub credential guard is missing or not executable")
+    for skill_name in (
+        "openeuler-riscv-repair",
+        "openeuler-riscv-repo-bootstrap",
+        "openeuler-rpm-onboard",
+        "openeuler-rpm-update",
+        "openeuler-package-dashboard",
+    ):
+        skill_path = root / "skills" / skill_name / "SKILL.md"
+        if not skill_path.is_file() or "github-credential-guard" not in skill_path.read_text(encoding="utf-8"):
+            errors.append(f"{skill_name}: Skill does not require the local GitHub credential guard")
 
     daily = (workflows / "daily-update-check.yml").read_text(encoding="utf-8") if (workflows / "daily-update-check.yml").exists() else ""
     if "--state-output artifacts/state/update-state.json" not in daily:
