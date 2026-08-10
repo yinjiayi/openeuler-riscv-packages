@@ -16,6 +16,21 @@
       "signature": null,
       "url": "https://github.com/CLIUtils/CLI11/archive/refs/tags/v2.7.2.tar.gz",
       "version": "2.7.2"
+    },
+    {
+      "digests": {
+        "sha256": "3725c0f0a75f376a5005dde31ead0feb8f7da7507644c201b814443de8355170"
+      },
+      "filename": "catch-2.13.10.hpp",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official Catch2 test dependency fetched and verified before the offline build."
+      },
+      "signature": null,
+      "url": "https://github.com/philsquared/Catch/releases/download/v2.13.10/catch.hpp",
+      "version": "2.13.10"
     }
   ]
 }
