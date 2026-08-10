@@ -1,0 +1,21 @@
+{
+  "package_id": "zstd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3"
+      },
+      "filename": "zstd-1.5.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.gz",
+      "version": "1.5.7"
+    }
+  ]
+}
