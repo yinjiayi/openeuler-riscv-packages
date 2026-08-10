@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "abduco",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/martanne/abduco/releases/download/v0.6/abduco-0.6.tar.gz",
+      "filename": "abduco-0.6.tar.gz",
+      "version": "0.6",
+      "digests": {
+        "sha256": "c90909e13fa95770b5afc3b59f311b3d3d2fdfae23f9569fa4f96a3e192a35f4"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "ISC-licensed source is fetched from the official GitHub release in CI."
+      }
+    }
+  ]
+}
