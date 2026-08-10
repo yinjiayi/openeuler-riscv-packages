@@ -50,9 +50,9 @@ CFLAGS="%{optflags}" \
 %make_build partcheck
 test_status=$?
 set -e
-# The suite deliberately creates mode-0400 fixtures.  Restore artifact
-# readability even when a test fails, while preserving the original status.
-chmod -R a+rX harness/testdir
+# The suite deliberately creates mode-0400 fixtures throughout harness/.  Make
+# all of its evidence readable even when a test fails, preserving its status.
+chmod -R a+rX harness
 exit "$test_status"
 
 %files
