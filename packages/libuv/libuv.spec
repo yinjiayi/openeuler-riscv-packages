@@ -39,7 +39,9 @@ Headers, static library, pkg-config files, and CMake metadata for libuv.
 %cmake_install
 
 %check
-%ctest
+# rpmbuild runs as root.  This is the upstream-supported opt-in that keeps the
+# complete test suite enabled in that environment.
+UV_RUN_AS_ROOT=1 %ctest
 
 %files
 %license LICENSE LICENSE-extra
