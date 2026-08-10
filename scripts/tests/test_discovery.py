@@ -308,6 +308,28 @@ class DiscoveryTests(unittest.TestCase):
             self.assertFalse(result["policy"]["external_packaging_executed"])
             self.assertEqual(json.loads(snapshot.read_text()), original)
 
+            reviewed = json.loads(evidence.read_text())
+            for method in (
+                "downloaded-official-release-archive-and-calculated-sha256",
+                "downloaded-official-release-asset-and-calculated-sha256",
+                "downloaded-official-tag-archive-and-calculated-sha256",
+                "downloaded-official-archive-and-matched-publisher-sha256sum",
+            ):
+                reviewed["releases"][0]["evidence"]["method"] = method
+                write_json(evidence, reviewed)
+                run_tool(
+                    "resolve-upstream",
+                    [
+                        "--input",
+                        str(snapshot),
+                        "--reviewed-evidence",
+                        str(evidence),
+                        "--output",
+                        str(root / ("resolved-" + method + ".json")),
+                    ],
+                    root,
+                )
+
             unsafe = json.loads(evidence.read_text())
             unsafe["releases"][0]["evidence"]["archive_inspection"]["symlinks"] = True
             write_json(evidence, unsafe)
