@@ -35,7 +35,7 @@ Headers and build-system metadata for developing applications with fmt.
 %cmake_install
 
 %check
-%ctest
+%ctest -- -j1
 
 %files
 %license LICENSE
