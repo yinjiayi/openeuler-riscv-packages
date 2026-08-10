@@ -22,9 +22,9 @@ CLI11 is a header-only command-line parser for C++11 and newer.
 %autosetup -p1 -n CLI11-%{version}
 
 %build
-mkdir -p riscv64-openEuler-linux-gnu/tests/catch2
+mkdir -p %{_vpath_builddir}/tests/catch2
 install -pm 0644 %{SOURCE1} \
-  riscv64-openEuler-linux-gnu/tests/catch2/catch.hpp
+  %{_vpath_builddir}/tests/catch2/catch.hpp
 %cmake_conf \
   -DCLI11_BUILD_TESTS=ON \
   -DCLI11_BUILD_EXAMPLES=OFF
@@ -49,4 +49,5 @@ ctest --test-dir %{_vpath_builddir} \
 %changelog
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.2-1
 - Initial openEuler RISC-V package.
-- Mark the header-only RPM noarch, disable empty debuginfo output, and serialize tests.
+- Mark the header-only RPM noarch, disable empty debuginfo output, serialize
+  tests, and stage the pinned offline fixture in the canonical build directory.
