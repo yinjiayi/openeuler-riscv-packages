@@ -20,7 +20,7 @@ range-v3 provides composable algorithms and range views for C++11 and newer.
 %build
 %cmake_conf \
   -DRANGE_V3_DOCS=OFF \
-  -DRANGE_V3_EXAMPLES=ON \
+  -DRANGE_V3_EXAMPLES=OFF \
   -DRANGE_V3_TESTS=ON \
   -DRANGES_ENABLE_WERROR=OFF \
   -DRANGES_NATIVE=OFF
