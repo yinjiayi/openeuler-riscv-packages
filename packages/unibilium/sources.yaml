@@ -1,0 +1,21 @@
+{
+  "package_id": "unibilium",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "370ecb07fbbc20d91d1b350c55f1c806b06bf86797e164081ccc977fc9b3af7a"
+      },
+      "filename": "unibilium-2.1.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/neovim/unibilium/archive/refs/tags/v2.1.2.tar.gz",
+      "version": "2.1.2"
+    }
+  ]
+}
