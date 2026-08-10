@@ -1,0 +1,148 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdeflate",
+        "package_name": "libdeflate",
+        "source": "arch-extra",
+        "source_version": "1.25-1"
+      },
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-libdeflate",
+        "package_name": "android-aarch64-libdeflate",
+        "source": "aur",
+        "source_version": "1.25-1"
+      },
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-libdeflate",
+        "package_name": "android-armv7a-eabi-libdeflate",
+        "source": "aur",
+        "source_version": "1.25-1"
+      },
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libdeflate",
+        "package_name": "android-riscv64-libdeflate",
+        "source": "aur",
+        "source_version": "1.25-1"
+      },
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-libdeflate",
+        "package_name": "android-x86-64-libdeflate",
+        "source": "aur",
+        "source_version": "1.25-1"
+      },
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-libdeflate",
+        "package_name": "android-x86-libdeflate",
+        "source": "aur",
+        "source_version": "1.25-1"
+      },
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-libdeflate",
+        "package_name": "lib32-libdeflate",
+        "source": "aur",
+        "source_version": "1.23-1"
+      },
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdeflate",
+        "package_name": "libdeflate",
+        "source": "debian",
+        "source_version": "1.23-2"
+      },
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdeflate",
+        "package_name": "libdeflate",
+        "source": "fedora",
+        "source_version": "1.25-3.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdeflate",
+        "package_name": "libdeflate",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.25-1.5"
+      },
+      {
+        "evidence_url": "https://github.com/ebiggers/libdeflate",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdeflate",
+        "package_name": "libdeflate",
+        "source": "ubuntu",
+        "source_version": "1.23-2ubuntu1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdeflate.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libdeflate",
+  "rpm": {
+    "license": "MIT",
+    "name": "libdeflate",
+    "summary": "Optimized DEFLATE compression and decompression library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-ebiggers-libdeflate",
+    "homepage": "https://github.com/ebiggers/libdeflate",
+    "release_api": "https://api.github.com/repos/ebiggers/libdeflate/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/ebiggers/libdeflate",
+    "source_url_template": "https://github.com/ebiggers/libdeflate/releases/download/v{version}/libdeflate-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.25",
+    "latest_detected": "1.25",
+    "release": "1"
+  }
+}
