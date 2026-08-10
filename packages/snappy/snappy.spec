@@ -54,7 +54,7 @@ applications with Snappy.
 %license COPYING
 %{_includedir}/snappy*.h
 %{_libdir}/libsnappy.so
-%{_libdir}/cmake/snappy/
+%{_libdir}/cmake/Snappy/
 
 %changelog
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.2-1
