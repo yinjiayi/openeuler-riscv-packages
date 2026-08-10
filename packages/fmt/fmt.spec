@@ -35,7 +35,10 @@ Headers and build-system metadata for developing applications with fmt.
 %cmake_install
 
 %check
-%ctest -- -j1
+# `%ctest -- -j1` still leaves the RPM macro's own `-j2` in effect. Invoke
+# CTest directly so target processes are genuinely serialized under QEMU.
+ctest --test-dir %{_vpath_builddir} \
+  --output-on-failure --force-new-ctest-process -j1
 
 %files
 %license LICENSE
@@ -45,6 +48,7 @@ Headers and build-system metadata for developing applications with fmt.
 %files devel
 %license LICENSE
 %{_includedir}/fmt/
+%{_libdir}/libfmt-c.a
 %{_libdir}/libfmt.so
 %{_libdir}/cmake/fmt/
 %{_libdir}/pkgconfig/fmt.pc
@@ -52,3 +56,4 @@ Headers and build-system metadata for developing applications with fmt.
 %changelog
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 12.2.0-1
 - Initial openEuler RISC-V package.
+- Package the upstream fmt-c static archive and truly serialize QEMU tests.
