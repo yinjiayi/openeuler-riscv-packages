@@ -25,7 +25,11 @@ Headers, static library, and pkg-config metadata for xxHash.
 %autosetup -p1 -n xxHash-%{version}
 
 %build
-%make_build
+# The upstream Makefile defaults to -O3 and otherwise drops the distribution
+# hardening and debug flags.
+%make_build \
+  CFLAGS="%{optflags}" \
+  LDFLAGS="%{__global_ldflags}"
 
 %install
 %make_install \
@@ -34,7 +38,9 @@ Headers, static library, and pkg-config metadata for xxHash.
   MANDIR=%{_mandir}/man1
 
 %check
-%make_build check
+%make_build check \
+  CFLAGS="%{optflags}" \
+  LDFLAGS="%{__global_ldflags}"
 
 %files
 %license LICENSE cli/COPYING
