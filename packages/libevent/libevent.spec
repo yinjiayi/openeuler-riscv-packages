@@ -20,6 +20,7 @@ I/O, DNS, HTTP, OpenSSL, and thread-aware event loops.
 Summary:        Development files for libevent
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       openssl-devel%{?_isa}
+Requires:       python3
 
 %description devel
 Headers, pkg-config metadata, and unversioned library links for developing
@@ -38,6 +39,8 @@ applications with libevent.
 %install
 %make_install
 rm -f %{buildroot}%{_libdir}/*.la
+%{__sed} -i '1s|^#!/usr/bin/env python$|#!/usr/bin/python3|' \
+  %{buildroot}%{_bindir}/event_rpcgen.py
 
 %check
 # QEMU linux-user can pause this process for more than one second between two
@@ -55,7 +58,8 @@ REGRESS_ARGS=:util/monotonic_prc_fallback %{__make} -j1 check
 
 %files devel
 %license LICENSE
-%{_includedir}/event*.h
+%{_bindir}/event_rpcgen.py
+%{_includedir}/ev*.h
 %{_includedir}/event2/
 %{_libdir}/libevent*.so
 %{_libdir}/pkgconfig/libevent*.pc
@@ -64,3 +68,4 @@ REGRESS_ARGS=:util/monotonic_prc_fallback %{__make} -j1 check
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.13-1
 - Initial openEuler RISC-V package with the upstream regression suite.
 - Exclude the QEMU-sensitive fallback-clock precision assertion.
+- Package the RPC generator and compatibility headers in the development RPM.
