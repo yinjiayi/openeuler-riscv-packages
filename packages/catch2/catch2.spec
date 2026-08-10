@@ -39,7 +39,7 @@ Headers, CMake integration, pkg-config metadata, and link libraries for Catch2.
 %cmake_install
 
 %check
-%ctest -j1
+%ctest -- -j1
 
 %files
 %license LICENSE.txt
