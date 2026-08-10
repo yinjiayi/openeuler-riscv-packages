@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
+%undefine _debugsource_packages
+
 Name:           catch2
 Version:        3.15.3
 Release:        1%{?dist}
