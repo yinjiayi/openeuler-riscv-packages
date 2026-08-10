@@ -39,7 +39,12 @@ developing applications with json-c.
 %cmake_install
 
 %check
-%ctest
+set +e
+%ctest -j1
+test_status=$?
+set -e
+chmod -R a+rX .
+exit "$test_status"
 
 %files
 %license COPYING
