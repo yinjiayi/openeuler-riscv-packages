@@ -26,10 +26,12 @@ Headers, static library, and pkg-config metadata for xxHash.
 
 %build
 # The upstream Makefile defaults to -O3 and otherwise drops the distribution
-# hardening and debug flags.
-%make_build \
-  CFLAGS="%{optflags}" \
-  LDFLAGS="%{__global_ldflags}"
+# hardening and debug flags.  Keep these in the environment rather than on the
+# make command line so the shared-library target can append its required
+# -shared linker flag.
+export CFLAGS="%{optflags}"
+export LDFLAGS="%{__global_ldflags}"
+%make_build
 
 %install
 %make_install \
@@ -38,9 +40,9 @@ Headers, static library, and pkg-config metadata for xxHash.
   MANDIR=%{_mandir}/man1
 
 %check
-%make_build check \
-  CFLAGS="%{optflags}" \
-  LDFLAGS="%{__global_ldflags}"
+export CFLAGS="%{optflags}"
+export LDFLAGS="%{__global_ldflags}"
+%make_build check
 
 %files
 %license LICENSE cli/COPYING
