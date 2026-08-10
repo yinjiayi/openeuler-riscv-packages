@@ -27,14 +27,21 @@ Headers, libraries, pkg-config files, and CMake metadata for GoogleTest.
 %build
 %cmake_conf \
   -DBUILD_SHARED_LIBS=ON \
-  -Dgtest_build_tests=ON
+  -Dgtest_build_samples=ON \
+  -Dgtest_build_tests=OFF
 %cmake_build
 
 %install
 %cmake_install
 
 %check
-%ctest
+for sample in \
+  sample1_unittest sample2_unittest sample3_unittest sample4_unittest \
+  sample5_unittest sample6_unittest sample7_unittest sample8_unittest \
+  sample9_unittest sample10_unittest
+do
+  "%{_vpath_builddir}/googletest/${sample}"
+done
 
 %files
 %license LICENSE
