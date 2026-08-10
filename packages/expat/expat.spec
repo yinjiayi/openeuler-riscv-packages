@@ -8,6 +8,7 @@ URL:            https://libexpat.github.io/
 Source0:        expat-%{version}.tar.xz
 
 BuildRequires:  cmake
+BuildRequires:  docbook-utils
 BuildRequires:  gcc
 BuildRequires:  make
 
