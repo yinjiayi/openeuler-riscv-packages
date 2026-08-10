@@ -11,6 +11,7 @@ BuildRequires:  gcc
 BuildRequires:  libpcap-devel
 BuildRequires:  make
 BuildRequires:  openssl-devel
+BuildRequires:  zlib-devel
 
 %description
 libsrtp implements the Secure Real-time Transport Protocol and its supporting
