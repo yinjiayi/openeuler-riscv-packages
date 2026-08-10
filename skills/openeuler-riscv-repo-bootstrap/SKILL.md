@@ -32,7 +32,7 @@ Require:
 
 ```bash
 for tool in snapshot-catalog discover-packages resolve-upstream create-package validate-metadata \
-  check-update build-rpm classify-failure watch-failed-prs claim-repair generate-dashboard \
+  check-update build-rpm classify-failure watch-failed-prs claim-repair github-credential-guard generate-dashboard \
   golden-eval evaluate-golden; do
   "./scripts/$tool" --help
 done
@@ -53,7 +53,7 @@ done
 ```
 
 Require `golden-success-hello` to build/install/smoke without a patch, `golden-riscv-inline-asm` to fail first and pass only after the expected minimal local repair, and `golden-needs-native-kmod` to remain blocked for native validation without a fake patch.
-10. Treat remote setup as a separate, externally visible phase. Proceed only when authorized and authenticated; inject `GH_TOKEN` into the local process only. Never write or echo it. Create/configure the public repo, branch ruleset with zero required approvals, squash Auto-merge, Pages, and public GHCR package, then verify each through independent reads. Do not report success from command intent alone.
+10. Treat remote setup as a separate, externally visible phase. Proceed only when authorized and authenticated. An explicitly authorized `GH_TOKEN` may be used by local `gh`/GitHub commands through the current process; token use itself is permitted. Before mutation and again before commit/push, run `scripts/github-credential-guard --repo-root . --require-auth --local-only`. Never place the value in arguments, files, commits, PR text, logs, artifacts, Actions secrets/variables, Pages, or any other public output. Create/configure the public repo, branch ruleset with zero required approvals, squash Auto-merge, Pages, and public GHCR package, then verify each through independent reads. Do not report success from command intent alone.
 11. Stop at the M0 gate until the exact OCI digest and target checks are observed. Begin M1 only after the golden cases, scheduled-update contracts, repair lease/head guard, and no-Codex-in-Actions checks pass.
 
 ## Outputs
