@@ -1,0 +1,204 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fftw",
+        "package_name": "fftw",
+        "source": "arch-extra",
+        "source_version": "3.3.11-1"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fftw",
+        "package_name": "fftw-openmpi",
+        "source": "arch-extra",
+        "source_version": "3.3.11-1"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-fftw",
+        "package_name": "android-aarch64-fftw",
+        "source": "aur",
+        "source_version": "3.3.11-1"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-fftw",
+        "package_name": "android-armv7a-eabi-fftw",
+        "source": "aur",
+        "source_version": "3.3.11-1"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-fftw",
+        "package_name": "android-riscv64-fftw",
+        "source": "aur",
+        "source_version": "3.3.11-1"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-fftw",
+        "package_name": "android-x86-64-fftw",
+        "source": "aur",
+        "source_version": "3.3.11-1"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-fftw",
+        "package_name": "android-x86-fftw",
+        "source": "aur",
+        "source_version": "3.3.11-1"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fftw2-float",
+        "package_name": "fftw2-float",
+        "source": "aur",
+        "source_version": "2.1.5-2"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-fftw",
+        "package_name": "lib32-fftw",
+        "source": "aur",
+        "source_version": "3.3.10-3"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-fftw",
+        "package_name": "mingw-w64-fftw",
+        "source": "aur",
+        "source_version": "3.3.11-1"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fftw",
+        "package_name": "fftw",
+        "source": "debian",
+        "source_version": "2.1.5-7"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fftw3",
+        "package_name": "fftw3",
+        "source": "debian",
+        "source_version": "3.3.10-2"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fftw",
+        "package_name": "fftw",
+        "source": "fedora",
+        "source_version": "3.3.10-17.fc44"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fftw2",
+        "package_name": "fftw2",
+        "source": "fedora",
+        "source_version": "2.1.5-54.fc44"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-fftw",
+        "package_name": "mingw-fftw",
+        "source": "fedora",
+        "source_version": "3.3.8-20.fc44"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fftw3",
+        "package_name": "fftw3",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.3.10-6.5"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fftw",
+        "package_name": "fftw",
+        "source": "ubuntu",
+        "source_version": "2.1.5-7build2"
+      },
+      {
+        "evidence_url": "https://fftw.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fftw3",
+        "package_name": "fftw3",
+        "source": "ubuntu",
+        "source_version": "3.3.10-2fakesync1build3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "fftw.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "fftw",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "fftw",
+    "summary": "Discrete Fourier transform library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "fftw.org",
+    "homepage": "https://fftw.org/",
+    "release_api": "https://fftw.org/download.html",
+    "release_channel": "stable",
+    "release_regex": "fftw-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/FFTW/fftw3",
+    "source_url_template": "https://fftw.org/fftw-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.3.11",
+    "latest_detected": "3.3.11",
+    "release": "1"
+  }
+}
