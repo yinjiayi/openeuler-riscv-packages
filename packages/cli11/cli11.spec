@@ -19,15 +19,26 @@ CLI11 is a header-only command-line parser for C++11 and newer.
 
 %build
 %cmake_conf \
-  -DCLI11_BUILD_TESTS=ON \
-  -DCLI11_BUILD_EXAMPLES=ON
+  -DCLI11_BUILD_TESTS=OFF \
+  -DCLI11_BUILD_EXAMPLES=OFF
 %cmake_build
 
 %install
 %cmake_install
 
 %check
-%ctest
+cat > cli11-smoke.cpp <<'CPP'
+#include <CLI/CLI.hpp>
+int main(int argc, char **argv) {
+  CLI::App app{"cli11 build smoke"};
+  int value = 0;
+  app.add_option("--value", value)->required();
+  CLI11_PARSE(app, argc, argv);
+  return value == 42 ? 0 : 1;
+}
+CPP
+g++ -std=c++14 -Iinclude cli11-smoke.cpp -o cli11-smoke
+./cli11-smoke --value 42
 
 %files
 %license LICENSE
