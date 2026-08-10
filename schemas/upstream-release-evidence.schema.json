@@ -68,7 +68,15 @@
           "properties": {
             "release_page": {"type": "string", "pattern": "^https://"},
             "verified_at": {"type": "string", "format": "date-time"},
-            "method": {"const": "downloaded-official-archive-and-calculated-sha256"},
+            "method": {
+              "enum": [
+                "downloaded-official-archive-and-calculated-sha256",
+                "downloaded-official-release-archive-and-calculated-sha256",
+                "downloaded-official-release-asset-and-calculated-sha256",
+                "downloaded-official-tag-archive-and-calculated-sha256",
+                "downloaded-official-archive-and-matched-publisher-sha256sum"
+              ]
+            },
             "license_file": {"type": "string", "minLength": 1},
             "archive_inspection": {
               "type": "object",
