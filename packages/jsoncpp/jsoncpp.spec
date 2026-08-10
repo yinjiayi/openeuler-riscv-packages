@@ -44,7 +44,7 @@ developing applications with JsonCpp.
 %files
 %license LICENSE
 %doc AUTHORS README.md
-%{_libdir}/libjsoncpp.so.27*
+%{_libdir}/libjsoncpp.so.*
 
 %files devel
 %license LICENSE
