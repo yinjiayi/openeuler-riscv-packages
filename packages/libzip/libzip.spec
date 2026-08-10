@@ -79,7 +79,8 @@ PATH="$PWD/test-bin:$PATH" PYTHONPATH=%{_builddir}/nihtest-1.9.1 %ctest
 %{_libdir}/libzip.so
 %{_libdir}/pkgconfig/libzip.pc
 %{_libdir}/cmake/libzip/
-%{_mandir}/man3/zip*.3*
+%{_mandir}/man3/*.3*
+%{_mandir}/man5/*.5*
 
 %changelog
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.11.4-1
