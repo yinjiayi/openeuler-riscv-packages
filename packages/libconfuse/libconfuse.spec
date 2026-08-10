@@ -5,7 +5,7 @@ Release:        1%{?dist}
 Summary:        Configuration file parser library
 License:        ISC
 URL:            https://github.com/libconfuse/libconfuse
-Source0:        libconfuse-%{version}.tar.gz
+Source0:        libconfuse-%{version}.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  gettext-devel
