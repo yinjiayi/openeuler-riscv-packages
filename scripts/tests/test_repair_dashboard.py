@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import runpy
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -15,6 +17,71 @@ sys.path.insert(0, str(SCRIPTS))
 
 
 class RepairDashboardTests(unittest.TestCase):
+    def test_process_token_is_allowed_but_never_recorded_or_exposed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            (root / "safe.txt").write_text("safe\n", encoding="utf-8")
+            subprocess.run(["git", "-C", str(root), "add", "safe.txt"], check=True)
+
+            fake_bin = root / "bin"
+            fake_bin.mkdir()
+            fake_gh = fake_bin / "gh"
+            fake_gh.write_text(
+                "#!/bin/sh\n"
+                "case $1 in\n"
+                "  auth) exit 0 ;;\n"
+                "  api) printf '%s\\n' yinjiayi; exit 0 ;;\n"
+                "  *) exit 1 ;;\n"
+                "esac\n",
+                encoding="utf-8",
+            )
+            fake_gh.chmod(0o755)
+            token = "gh" + "p_" + ("A" * 36)
+            env = dict(os.environ)
+            env.update({"GH_TOKEN": token, "PATH": str(fake_bin) + os.pathsep + env.get("PATH", "")})
+            output = root / "credential.json"
+            command = [
+                str(SCRIPTS / "github-credential-guard"),
+                "--repo-root",
+                str(root),
+                "--require-auth",
+                "--local-only",
+                "--output",
+                str(output),
+            ]
+            completed = subprocess.run(command, cwd=str(root), env=env, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            result = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(result["authentication_mode"], "process-gh-token")
+            self.assertEqual(result["login"], "yinjiayi")
+            self.assertFalse(result["token_value_recorded"])
+            self.assertNotIn(token, output.read_text(encoding="utf-8"))
+            self.assertNotIn(token, completed.stdout + completed.stderr)
+
+            public = root / "public"
+            public.mkdir()
+            (public / "data.json").write_text('{"credential":"%s"}\n' % token, encoding="utf-8")
+            blocked = subprocess.run(command, cwd=str(root), env=env, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            self.assertEqual(blocked.returncode, 1)
+            self.assertIn("public/data.json", blocked.stderr)
+            self.assertNotIn(token, blocked.stdout + blocked.stderr)
+
+            (public / "data.json").unlink()
+            (root / "staged.txt").write_text(token + "\n", encoding="utf-8")
+            subprocess.run(["git", "-C", str(root), "add", "staged.txt"], check=True)
+            staged = subprocess.run(command, cwd=str(root), env=env, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            self.assertEqual(staged.returncode, 1)
+            self.assertIn("staged.txt", staged.stderr)
+            self.assertIn("<staged-diff>", staged.stderr)
+            self.assertNotIn(token, staged.stdout + staged.stderr)
+
+    def test_static_validator_recognizes_token_literals_without_echoing_one(self) -> None:
+        validator = runpy.run_path(str(SCRIPTS.parent / "ci" / "validate-repository.py"))
+        token = ("gh" + "p_" + ("B" * 36)).encode("ascii")
+        self.assertTrue(validator["contains_github_token_literal"](token))
+        self.assertFalse(validator["contains_github_token_literal"](b"GH_TOKEN is process scoped"))
+
     def test_watcher_filters_and_lease_enforces_head(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)

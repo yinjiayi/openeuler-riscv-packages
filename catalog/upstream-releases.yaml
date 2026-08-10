@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "reviewed-upstream-releases",
   "source_snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
-  "reviewed_at": "2026-08-08T17:25:00Z",
+  "reviewed_at": "2026-08-08T19:13:00Z",
   "policy": {
     "stable_only": true,
     "official_https_required": true,
@@ -120,7 +120,7 @@
       "package_id": "cabextract",
       "canonical_name": "cabextract",
       "summary": "Extract Microsoft cabinet files",
-      "license": "GPL-2.0-or-later",
+      "license": "GPL-2.0-or-later AND LGPL-2.1-only AND LGPL-2.0-or-later",
       "version": "1.11",
       "upstream": {
         "homepage": "https://www.cabextract.org.uk/",
@@ -138,7 +138,7 @@
         "release_page": "https://www.cabextract.org.uk/old/",
         "verified_at": "2026-08-08T13:12:00Z",
         "method": "downloaded-official-archive-and-calculated-sha256",
-        "license_file": "COPYING and src/cabextract.c",
+        "license_file": "COPYING, src/cabextract.c, mspack/mspack.h, and getopt.c",
         "archive_inspection": {
           "checked": true,
           "root_directory": "cabextract-1.11",
@@ -225,7 +225,7 @@
       "make",
       "ncurses-devel"
     ],
-    "requires": []
+    "requires": ["kbd"]
   },
   {
     "component_id": "github.com-klange-nyancat",
@@ -654,7 +654,7 @@
     "package_id": "bitwise",
     "canonical_name": "bitwise",
     "summary": "Interactive ncurses bitwise calculator",
-    "license": "GPL-3.0-or-later",
+    "license": "GPL-3.0-or-later AND BSD-2-Clause",
     "version": "0.50",
     "upstream": {
       "homepage": "https://github.com/mellowcandle/bitwise",
@@ -672,7 +672,7 @@
       "release_page": "https://github.com/mellowcandle/bitwise/releases/tag/v0.50",
       "verified_at": "2026-08-08T17:10:00Z",
       "method": "downloaded-official-archive-and-calculated-sha256",
-      "license_file": "bitwise-0.50/COPYING",
+      "license_file": "bitwise-0.50/COPYING and bitwise-0.50/LICENSE",
       "archive_inspection": {
         "checked": true,
         "root_directory": "bitwise-0.50",
@@ -771,6 +771,7 @@
     "build_requires": [
       "autoconf",
       "automake",
+      "c-ares-devel",
       "check-devel",
       "gcc",
       "make",
@@ -819,6 +820,376 @@
       "libaio-devel",
       "make"
     ],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-any1-aml",
+    "package_id": "aml",
+    "canonical_name": "aml",
+    "summary": "Another Main Loop event library",
+    "license": "ISC",
+    "version": "1.0.0",
+    "upstream": {
+      "homepage": "https://github.com/any1/aml",
+      "repository_url": "https://github.com/any1/aml",
+      "release_api": "https://api.github.com/repos/any1/aml/releases",
+      "release_regex": null,
+      "source_url_template": "https://github.com/any1/aml/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/any1/aml/archive/refs/tags/v1.0.0.tar.gz",
+      "filename": "aml-1.0.0.tar.gz",
+      "sha256": "b2b8f743213af39f40e8bc611147d69e2ea9e010b9b19cb65246582338f28d96"
+    },
+    "evidence": {
+      "release_page": "https://github.com/any1/aml/releases/tag/v1.0.0",
+      "verified_at": "2026-08-08T19:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "aml-1.0.0/COPYING",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "aml-1.0.0",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": ["gcc", "meson", "ninja-build"],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-p-ranav-argparse",
+    "package_id": "argparse",
+    "canonical_name": "argparse",
+    "summary": "Header-only argument parser for modern C++",
+    "license": "MIT",
+    "version": "3.2",
+    "upstream": {
+      "homepage": "https://github.com/p-ranav/argparse",
+      "repository_url": "https://github.com/p-ranav/argparse",
+      "release_api": "https://api.github.com/repos/p-ranav/argparse/releases",
+      "release_regex": null,
+      "source_url_template": "https://github.com/p-ranav/argparse/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/p-ranav/argparse/archive/refs/tags/v3.2.tar.gz",
+      "filename": "argparse-3.2.tar.gz",
+      "sha256": "9dcb3d8ce0a41b2a48ac8baa54b51a9f1b6a2c52dd374e28cc713bab0568ec98"
+    },
+    "evidence": {
+      "release_page": "https://github.com/p-ranav/argparse/releases/tag/v3.2",
+      "verified_at": "2026-08-08T19:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "argparse-3.2/LICENSE",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "argparse-3.2",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": ["cmake", "gcc-c++", "make"],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-google-benchmark",
+    "package_id": "benchmark",
+    "canonical_name": "benchmark",
+    "summary": "Microbenchmark support library",
+    "license": "Apache-2.0",
+    "version": "1.9.5",
+    "upstream": {
+      "homepage": "https://github.com/google/benchmark",
+      "repository_url": "https://github.com/google/benchmark",
+      "release_api": "https://api.github.com/repos/google/benchmark/releases",
+      "release_regex": null,
+      "source_url_template": "https://github.com/google/benchmark/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/google/benchmark/archive/refs/tags/v1.9.5.tar.gz",
+      "filename": "benchmark-1.9.5.tar.gz",
+      "sha256": "9631341c82bac4a288bef951f8b26b41f69021794184ece969f8473977eaa340"
+    },
+    "evidence": {
+      "release_page": "https://github.com/google/benchmark/releases/tag/v1.9.5",
+      "verified_at": "2026-08-08T19:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "benchmark-1.9.5/LICENSE",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "benchmark-1.9.5",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": ["cmake", "gcc-c++", "gtest-devel", "make"],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-google-brotli",
+    "package_id": "brotli",
+    "canonical_name": "brotli",
+    "summary": "Generic-purpose lossless compression library",
+    "license": "MIT",
+    "version": "1.2.0",
+    "upstream": {
+      "homepage": "https://github.com/google/brotli",
+      "repository_url": "https://github.com/google/brotli",
+      "release_api": "https://api.github.com/repos/google/brotli/releases",
+      "release_regex": null,
+      "source_url_template": "https://github.com/google/brotli/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/google/brotli/archive/refs/tags/v1.2.0.tar.gz",
+      "filename": "brotli-1.2.0.tar.gz",
+      "sha256": "816c96e8e8f193b40151dad7e8ff37b1221d019dbcb9c35cd3fadbfe6477dfec"
+    },
+    "evidence": {
+      "release_page": "https://github.com/google/brotli/releases/tag/v1.2.0",
+      "verified_at": "2026-08-08T19:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "brotli-1.2.0/LICENSE",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "brotli-1.2.0",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": ["cmake", "gcc", "make"],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-yhirose-cpp-httplib",
+    "package_id": "cpp-httplib",
+    "canonical_name": "cpp-httplib",
+    "summary": "Header-only C++ HTTP and HTTPS library",
+    "license": "MIT",
+    "version": "0.52.0",
+    "upstream": {
+      "homepage": "https://github.com/yhirose/cpp-httplib",
+      "repository_url": "https://github.com/yhirose/cpp-httplib",
+      "release_api": "https://api.github.com/repos/yhirose/cpp-httplib/releases",
+      "release_regex": null,
+      "source_url_template": "https://github.com/yhirose/cpp-httplib/archive/refs/tags/v{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/yhirose/cpp-httplib/archive/refs/tags/v0.52.0.tar.gz",
+      "filename": "cpp-httplib-0.52.0.tar.gz",
+      "sha256": "7e0d6d716ca9308a144de249f16eb7907e93b85fb243da71bd2c2eab72ef72bb"
+    },
+    "evidence": {
+      "release_page": "https://github.com/yhirose/cpp-httplib/releases/tag/v0.52.0",
+      "verified_at": "2026-08-08T19:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "cpp-httplib-0.52.0/LICENSE",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "cpp-httplib-0.52.0",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": ["cmake", "gcc-c++", "make"],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-benhoyt-inih",
+    "package_id": "inih",
+    "canonical_name": "inih",
+    "summary": "Simple INI file parser for C and C++",
+    "license": "BSD-3-Clause",
+    "version": "62",
+    "upstream": {
+      "homepage": "https://github.com/benhoyt/inih",
+      "repository_url": "https://github.com/benhoyt/inih",
+      "release_api": "https://api.github.com/repos/benhoyt/inih/releases/latest",
+      "release_regex": "\\\"tag_name\\\"\\s*:\\s*\\\"r(?P<version>[0-9]+)\\\"",
+      "source_url_template": "https://github.com/benhoyt/inih/archive/refs/tags/r{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/benhoyt/inih/archive/refs/tags/r62.tar.gz",
+      "filename": "inih-r62.tar.gz",
+      "sha256": "9c15fa751bb8093d042dae1b9f125eb45198c32c6704cd5481ccde460d4f8151"
+    },
+    "evidence": {
+      "release_page": "https://github.com/benhoyt/inih/releases/tag/r62",
+      "verified_at": "2026-08-08T19:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "inih-r62/LICENSE.txt",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "inih-r62",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": ["gcc", "gcc-c++", "meson", "ninja-build"],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-ebiggers-libdeflate",
+    "package_id": "libdeflate",
+    "canonical_name": "libdeflate",
+    "summary": "Optimized DEFLATE compression and decompression library",
+    "license": "MIT",
+    "version": "1.25",
+    "upstream": {
+      "homepage": "https://github.com/ebiggers/libdeflate",
+      "repository_url": "https://github.com/ebiggers/libdeflate",
+      "release_api": "https://api.github.com/repos/ebiggers/libdeflate/releases",
+      "release_regex": null,
+      "source_url_template": "https://github.com/ebiggers/libdeflate/releases/download/v{version}/libdeflate-{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/ebiggers/libdeflate/releases/download/v1.25/libdeflate-1.25.tar.gz",
+      "filename": "libdeflate-1.25.tar.gz",
+      "sha256": "fed5cd22f00f30cc4c2e5329f94e2b8a901df9fa45ee255cb70e2b0b42344477"
+    },
+    "evidence": {
+      "release_page": "https://github.com/ebiggers/libdeflate/releases/tag/v1.25",
+      "verified_at": "2026-08-08T19:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "libdeflate-1.25/COPYING",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "libdeflate-1.25",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": ["cmake", "gcc", "make", "zlib-devel"],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-adah1972-libunibreak",
+    "package_id": "libunibreak",
+    "canonical_name": "libunibreak",
+    "summary": "Unicode line and word breaking library",
+    "license": "Zlib",
+    "version": "7.0",
+    "upstream": {
+      "homepage": "https://github.com/adah1972/libunibreak",
+      "repository_url": "https://github.com/adah1972/libunibreak",
+      "release_api": "https://api.github.com/repos/adah1972/libunibreak/releases/latest",
+      "release_regex": "\\\"name\\\"\\s*:\\s*\\\"libunibreak\\s+(?P<version>[0-9]+(?:\\.[0-9]+)+)\\\"[\\s\\S]*?\\\"browser_download_url\\\"\\s*:\\s*\\\"(?P<source_url>https://github\\.com/adah1972/libunibreak/releases/download/[^\\\"]+/libunibreak-[^\\\"]+\\.tar\\.gz)\\\"",
+      "source_url_template": "https://github.com/adah1972/libunibreak/releases/download/{tag}/libunibreak-{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/adah1972/libunibreak/releases/download/libunibreak_7_0/libunibreak-7.0.tar.gz",
+      "filename": "libunibreak-7.0.tar.gz",
+      "sha256": "8c9a6e121736cd0d5c890ae3ae96f3f4010a19aa040f1dbded833a62a87717d3"
+    },
+    "evidence": {
+      "release_page": "https://github.com/adah1972/libunibreak/releases/tag/libunibreak_7_0",
+      "verified_at": "2026-08-08T19:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "libunibreak-7.0/LICENCE",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "libunibreak-7.0",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": ["gcc", "libtool", "make"],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-sparsehash-sparsehash",
+    "package_id": "sparsehash",
+    "canonical_name": "sparsehash",
+    "summary": "Memory-efficient C++ hash table headers",
+    "license": "BSD-3-Clause",
+    "version": "2.0.4",
+    "upstream": {
+      "homepage": "https://github.com/sparsehash/sparsehash",
+      "repository_url": "https://github.com/sparsehash/sparsehash",
+      "release_api": "https://api.github.com/repos/sparsehash/sparsehash/releases/latest",
+      "release_regex": "\\\"tag_name\\\"\\s*:\\s*\\\"sparsehash-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\\"",
+      "source_url_template": "https://github.com/sparsehash/sparsehash/archive/refs/tags/sparsehash-{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/sparsehash/sparsehash/archive/refs/tags/sparsehash-2.0.4.tar.gz",
+      "filename": "sparsehash-2.0.4.tar.gz",
+      "sha256": "8cd1a95827dfd8270927894eb77f62b4087735cbede953884647f16c521c7e58"
+    },
+    "evidence": {
+      "release_page": "https://github.com/sparsehash/sparsehash/releases/tag/sparsehash-2.0.4",
+      "verified_at": "2026-08-08T19:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "sparsehash-sparsehash-2.0.4/COPYING",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "sparsehash-sparsehash-2.0.4",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": ["gcc-c++", "make"],
+    "requires": []
+  },
+  {
+    "component_id": "github.com-leethomason-tinyxml2",
+    "package_id": "tinyxml2",
+    "canonical_name": "tinyxml2",
+    "summary": "Small C++ XML parser library",
+    "license": "Zlib",
+    "version": "11.0.0",
+    "upstream": {
+      "homepage": "https://github.com/leethomason/tinyxml2",
+      "repository_url": "https://github.com/leethomason/tinyxml2",
+      "release_api": "https://api.github.com/repos/leethomason/tinyxml2/releases",
+      "release_regex": null,
+      "source_url_template": "https://github.com/leethomason/tinyxml2/archive/refs/tags/{version}.tar.gz"
+    },
+    "source": {
+      "url": "https://github.com/leethomason/tinyxml2/archive/refs/tags/11.0.0.tar.gz",
+      "filename": "tinyxml2-11.0.0.tar.gz",
+      "sha256": "5556deb5081fb246ee92afae73efd943c889cef0cafea92b0b82422d6a18f289"
+    },
+    "evidence": {
+      "release_page": "https://github.com/leethomason/tinyxml2/releases/tag/11.0.0",
+      "verified_at": "2026-08-08T19:10:00Z",
+      "method": "downloaded-official-archive-and-calculated-sha256",
+      "license_file": "tinyxml2-11.0.0/LICENSE.txt",
+      "archive_inspection": {
+        "checked": true,
+        "root_directory": "tinyxml2-11.0.0",
+        "absolute_paths": false,
+        "parent_traversal": false,
+        "symlinks": false,
+        "unsafe_links": false,
+        "link_count": 0
+      }
+    },
+    "build_requires": ["cmake", "gcc-c++", "make"],
     "requires": []
   }
   ]
