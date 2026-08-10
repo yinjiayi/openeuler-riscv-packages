@@ -26,9 +26,9 @@ applications that use Linux native asynchronous I/O.
 %autosetup -p1
 
 %build
-%make_build \
-  CFLAGS="%{optflags}" \
+CFLAGS="%{optflags}" \
   LDFLAGS="%{__global_ldflags}" \
+%make_build \
   libdir=%{_libdir}
 
 %install
@@ -44,9 +44,9 @@ install -pm0644 man/*.3 %{buildroot}%{_mandir}/man3/
 %check
 # The full target additionally mounts ext2 loop images and requires root.
 # partcheck is upstream's maintained non-privileged syscall test subset.
-%make_build partcheck \
-  CFLAGS="%{optflags}" \
-  LDFLAGS="%{__global_ldflags}"
+CFLAGS="%{optflags}" \
+  LDFLAGS="%{__global_ldflags}" \
+%make_build partcheck
 
 %files
 %license COPYING
