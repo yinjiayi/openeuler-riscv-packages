@@ -24,7 +24,7 @@ install -pm 0644 %{SOURCE1} \
   riscv64-openEuler-linux-gnu/tests/catch2/catch.hpp
 %cmake_conf \
   -DCLI11_BUILD_TESTS=ON \
-  -DCLI11_BUILD_EXAMPLES=ON
+  -DCLI11_BUILD_EXAMPLES=OFF
 %cmake_build
 
 %install
