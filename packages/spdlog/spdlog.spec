@@ -6,6 +6,7 @@ Summary:        Fast C++ logging library
 License:        MIT
 URL:            https://github.com/gabime/spdlog
 Source0:        spdlog-1.17.0.tar.gz
+Source1:        catch2-3.5.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  make
@@ -22,32 +23,22 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Headers, pkg-config metadata, and CMake integration for spdlog.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -a 1
 
 %build
 %cmake_conf \
   -DSPDLOG_BUILD_EXAMPLE=OFF \
   -DSPDLOG_BUILD_SHARED=ON \
-  -DSPDLOG_BUILD_TESTS=OFF \
-  -DSPDLOG_FMT_EXTERNAL=OFF
+  -DSPDLOG_BUILD_TESTS=ON \
+  -DSPDLOG_FMT_EXTERNAL=OFF \
+  -DFETCHCONTENT_SOURCE_DIR_CATCH2="$PWD/Catch2-3.5.0"
 %cmake_build
 
 %install
 %cmake_install
 
 %check
-cat > spdlog-smoke.cpp <<'CPP'
-#include <spdlog/spdlog.h>
-int main() {
-  spdlog::info("spdlog build smoke");
-  return 0;
-}
-CPP
-g++ -std=c++17 -Iinclude spdlog-smoke.cpp \
-  -Lriscv64-openEuler-linux-gnu \
-  -Wl,-rpath,"$PWD/riscv64-openEuler-linux-gnu" \
-  -lspdlog -pthread -o spdlog-smoke
-./spdlog-smoke
+%ctest
 
 %files
 %license LICENSE
