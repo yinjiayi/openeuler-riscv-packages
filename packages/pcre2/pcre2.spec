@@ -50,6 +50,7 @@ rm -f %{buildroot}%{_libdir}/libpcre2-*.la
 %files
 %license LICENCE.md deps/sljit/LICENSE
 %doc AUTHORS.md ChangeLog NEWS README
+%doc %{_docdir}/pcre2/
 %{_bindir}/pcre2grep
 %{_bindir}/pcre2test
 %{_libdir}/libpcre2-8.so.0*
