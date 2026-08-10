@@ -37,7 +37,7 @@ autoreconf -fi
 find %{buildroot} -name '*.la' -delete
 
 %check
-%make_build check
+%make_build check CFLAGS="%{optflags} -fPIC -fopenmp"
 
 %files
 %license COPYING
