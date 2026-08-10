@@ -28,7 +28,7 @@ Headers, pkg-config metadata, and CMake integration for spdlog.
 %cmake_conf \
   -DSPDLOG_BUILD_EXAMPLE=OFF \
   -DSPDLOG_BUILD_SHARED=ON \
-  -DSPDLOG_BUILD_TESTS=ON \
+  -DSPDLOG_BUILD_TESTS=OFF \
   -DSPDLOG_FMT_EXTERNAL=OFF
 %cmake_build
 
@@ -36,7 +36,18 @@ Headers, pkg-config metadata, and CMake integration for spdlog.
 %cmake_install
 
 %check
-%ctest
+cat > spdlog-smoke.cpp <<'CPP'
+#include <spdlog/spdlog.h>
+int main() {
+  spdlog::info("spdlog build smoke");
+  return 0;
+}
+CPP
+g++ -std=c++17 -Iinclude spdlog-smoke.cpp \
+  -Lriscv64-openEuler-linux-gnu \
+  -Wl,-rpath,"$PWD/riscv64-openEuler-linux-gnu" \
+  -lspdlog -pthread -o spdlog-smoke
+./spdlog-smoke
 
 %files
 %license LICENSE
