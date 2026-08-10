@@ -1,0 +1,110 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/google/double-conversion",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "double-conversion",
+        "package_name": "double-conversion",
+        "source": "arch-extra",
+        "source_version": "3.4.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/double-conversion",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-double-conversion",
+        "package_name": "mingw-w64-double-conversion",
+        "source": "aur",
+        "source_version": "3.4.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/double-conversion",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "double-conversion",
+        "package_name": "double-conversion",
+        "source": "debian",
+        "source_version": "3.3.1-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/double-conversion",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "double-conversion",
+        "package_name": "double-conversion",
+        "source": "fedora",
+        "source_version": "3.4.0-3.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/google/double-conversion",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "double-conversion",
+        "package_name": "double-conversion",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.4.0-1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-support-openeuler-3.27.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Lower only the CMake policy floor to the 3.27 release shipped by openEuler 24.03 LTS SP3.",
+        "remove_when": "openEuler provides CMake 3.29 or newer, or upstream restores compatibility with CMake 3.27.",
+        "sha256": "c58e0d53af6c557bc10078248b9c522eb408851afd20d475253c9764ee28550f",
+        "source": "Downstream openEuler build-system compatibility review of upstream 3.4.0 sources.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "double-conversion.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "double-conversion",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "double-conversion",
+    "summary": "Binary-decimal and decimal-binary conversion routines"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-google-double-conversion",
+    "homepage": "https://github.com/google/double-conversion",
+    "release_api": "https://api.github.com/repos/google/double-conversion/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/google/double-conversion",
+    "source_url_template": "https://github.com/google/double-conversion/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.4.0",
+    "latest_detected": "3.4.0",
+    "release": "1"
+  }
+}
