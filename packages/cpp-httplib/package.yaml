@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/yhirose/cpp-httplib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cpp-httplib",
+        "package_name": "cpp-httplib",
+        "source": "arch-extra",
+        "source_version": "0.51.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/yhirose/cpp-httplib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cpp-httplib-compiled",
+        "package_name": "cpp-httplib-compiled",
+        "source": "aur",
+        "source_version": "0.51.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/yhirose/cpp-httplib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cpp-httplib",
+        "package_name": "cpp-httplib",
+        "source": "debian",
+        "source_version": "0.18.7-1+deb13u1"
+      },
+      {
+        "evidence_url": "https://github.com/yhirose/cpp-httplib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cpp-httplib",
+        "package_name": "cpp-httplib",
+        "source": "fedora",
+        "source_version": "0.38.0-1.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/yhirose/cpp-httplib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cpp-httplib",
+        "package_name": "cpp-httplib",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.49.0-1.2"
+      },
+      {
+        "evidence_url": "https://github.com/yhirose/cpp-httplib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cpp-httplib",
+        "package_name": "cpp-httplib",
+        "source": "ubuntu",
+        "source_version": "0.26.0+ds-2ubuntu3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "cpp-httplib.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "cpp-httplib",
+  "rpm": {
+    "license": "MIT",
+    "name": "cpp-httplib",
+    "summary": "Header-only C++ HTTP and HTTPS library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-yhirose-cpp-httplib",
+    "homepage": "https://github.com/yhirose/cpp-httplib",
+    "release_api": "https://api.github.com/repos/yhirose/cpp-httplib/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/yhirose/cpp-httplib",
+    "source_url_template": "https://github.com/yhirose/cpp-httplib/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.52.0",
+    "latest_detected": "0.52.0",
+    "release": "1"
+  }
+}
