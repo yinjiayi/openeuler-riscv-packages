@@ -29,7 +29,7 @@ install -Dpm 0644 %{_vpath_builddir}/libdoctest_with_main.a \
   %{buildroot}%{_libdir}/libdoctest_with_main.a
 
 %check
-%ctest -- -j1
+ctest --output-on-failure --force-new-ctest-process -j1
 
 %files
 %license LICENSE.txt
@@ -42,3 +42,4 @@ install -Dpm 0644 %{_vpath_builddir}/libdoctest_with_main.a \
 %changelog
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.2-1
 - Initial openEuler RISC-V package.
+- Run the complete CTest suite serially under QEMU.
