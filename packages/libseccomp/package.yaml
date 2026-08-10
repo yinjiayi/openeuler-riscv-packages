@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "The upstream acceptance suite must load seccomp filters into the target kernel; QEMU user mode returned ECANCELED from seccomp_load and cannot validate native RISC-V filtering semantics.",
     "network_during_build": false,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 60
   },
   "discovery": {
@@ -99,7 +99,7 @@
     "isa": "RVA23",
     "os": "openEuler",
     "release": "24.03-LTS-SP3",
-    "riscv_status": "unknown"
+    "riscv_status": "qemu-limitation"
   },
   "updates": {
     "enabled": true,
