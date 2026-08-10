@@ -40,7 +40,7 @@ applications with libevent.
 rm -f %{buildroot}%{_libdir}/*.la
 
 %check
-%make_build check
+%{__make} -j1 check
 
 %files
 %license LICENSE
