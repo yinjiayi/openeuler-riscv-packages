@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/benhoyt/inih",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libinih",
+        "package_name": "libinih",
+        "source": "arch-core",
+        "source_version": "62-2"
+      },
+      {
+        "evidence_url": "https://github.com/benhoyt/inih",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-libinih",
+        "package_name": "lib32-libinih",
+        "source": "aur",
+        "source_version": "58-1"
+      },
+      {
+        "evidence_url": "https://github.com/benhoyt/inih",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libinih",
+        "package_name": "libinih",
+        "source": "debian",
+        "source_version": "59-1"
+      },
+      {
+        "evidence_url": "https://github.com/benhoyt/inih",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "inih",
+        "package_name": "inih",
+        "source": "fedora",
+        "source_version": "62-2.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/benhoyt/inih",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "inih",
+        "package_name": "inih",
+        "source": "opensuse-tumbleweed",
+        "source_version": "62-1.5"
+      },
+      {
+        "evidence_url": "https://github.com/benhoyt/inih",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libinih",
+        "package_name": "libinih",
+        "source": "ubuntu",
+        "source_version": "61-1ubuntu1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "inih.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "inih",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "inih",
+    "summary": "Simple INI file parser for C and C++"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-benhoyt-inih",
+    "homepage": "https://github.com/benhoyt/inih",
+    "release_api": "https://api.github.com/repos/benhoyt/inih/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "\\\"tag_name\\\"\\s*:\\s*\\\"r(?P<version>[0-9]+)\\\"",
+    "source_repository": "https://github.com/benhoyt/inih",
+    "source_url_template": "https://github.com/benhoyt/inih/archive/refs/tags/r{version}.tar.gz"
+  },
+  "version": {
+    "current": "62",
+    "latest_detected": "62",
+    "release": "1"
+  }
+}
