@@ -1,0 +1,164 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gtest",
+        "package_name": "gtest",
+        "source": "arch-extra",
+        "source_version": "1.17.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-gtest",
+        "package_name": "android-aarch64-gtest",
+        "source": "aur",
+        "source_version": "1.17.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-gtest",
+        "package_name": "android-armv7a-eabi-gtest",
+        "source": "aur",
+        "source_version": "1.17.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-gtest",
+        "package_name": "android-riscv64-gtest",
+        "source": "aur",
+        "source_version": "1.17.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-gtest",
+        "package_name": "android-x86-64-gtest",
+        "source": "aur",
+        "source_version": "1.17.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-gtest",
+        "package_name": "android-x86-gtest",
+        "source": "aur",
+        "source_version": "1.17.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gtest-src",
+        "package_name": "gtest-src",
+        "source": "aur",
+        "source_version": "1.17.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-gtest",
+        "package_name": "lib32-gtest",
+        "source": "aur",
+        "source_version": "1.15.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-gtest",
+        "package_name": "mingw-w64-gtest",
+        "source": "aur",
+        "source_version": "1.17.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "googletest",
+        "package_name": "googletest",
+        "source": "debian",
+        "source_version": "1.16.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gtest",
+        "package_name": "gtest",
+        "source": "fedora",
+        "source_version": "1.17.0-2.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "googletest",
+        "package_name": "googletest",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.17.0-1.5"
+      },
+      {
+        "evidence_url": "https://github.com/google/googletest",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "googletest",
+        "package_name": "googletest",
+        "source": "ubuntu",
+        "source_version": "1.17.0-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gtest.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "gtest",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "gtest",
+    "summary": "Google C++ testing and mocking framework"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-google-googletest",
+    "homepage": "https://github.com/google/googletest",
+    "release_api": "https://api.github.com/repos/google/googletest/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/google/googletest",
+    "source_url_template": "https://github.com/google/googletest/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.17.0",
+    "latest_detected": "1.17.0",
+    "release": "1"
+  }
+}
