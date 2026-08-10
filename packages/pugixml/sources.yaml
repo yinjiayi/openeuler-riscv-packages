@@ -1,0 +1,21 @@
+{
+  "package_id": "pugixml",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "357bcab8877dc9943f355d3a72daba1b053238ba955f50fa81586afb65090219"
+      },
+      "filename": "pugixml-1.16.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/zeux/pugixml/archive/refs/tags/v1.16.tar.gz",
+      "version": "1.16"
+    }
+  ]
+}
