@@ -26,9 +26,9 @@ applications with Zstandard.
 %autosetup -p1
 
 %build
+LDFLAGS="%{__global_ldflags}" \
 %make_build lib-release zstd-release \
-  CFLAGS="%{optflags}" \
-  LDFLAGS="%{__global_ldflags}"
+  CFLAGS="%{optflags}"
 
 %install
 %{__make} install \
@@ -40,9 +40,9 @@ applications with Zstandard.
 rm -f %{buildroot}%{_libdir}/libzstd.a
 
 %check
+LDFLAGS="%{__global_ldflags}" \
 %make_build check \
-  CFLAGS="%{optflags}" \
-  LDFLAGS="%{__global_ldflags}"
+  CFLAGS="%{optflags}"
 
 %files
 %license LICENSE COPYING
