@@ -27,7 +27,7 @@ doctest is a lightweight, feature-rich C++ testing framework.
 %cmake_install
 
 %check
-%ctest -j1
+%ctest -- -j1
 
 %files
 %license LICENSE.txt
