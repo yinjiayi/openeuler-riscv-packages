@@ -1,0 +1,148 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libevent",
+        "package_name": "libevent",
+        "source": "arch-core",
+        "source_version": "2.1.13-2"
+      },
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libevent",
+        "package_name": "libevent-docs",
+        "source": "arch-core",
+        "source_version": "2.1.13-2"
+      },
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-libevent",
+        "package_name": "android-aarch64-libevent",
+        "source": "aur",
+        "source_version": "2.1.12-4"
+      },
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-libevent",
+        "package_name": "android-armv7a-eabi-libevent",
+        "source": "aur",
+        "source_version": "2.1.12-4"
+      },
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libevent",
+        "package_name": "android-riscv64-libevent",
+        "source": "aur",
+        "source_version": "2.1.12-4"
+      },
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-libevent",
+        "package_name": "android-x86-64-libevent",
+        "source": "aur",
+        "source_version": "2.1.12-4"
+      },
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-libevent",
+        "package_name": "android-x86-libevent",
+        "source": "aur",
+        "source_version": "2.1.12-4"
+      },
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libevent",
+        "package_name": "libevent",
+        "source": "debian",
+        "source_version": "2.1.12-stable-10"
+      },
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libevent",
+        "package_name": "libevent",
+        "source": "fedora",
+        "source_version": "2.1.12-17.fc44"
+      },
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libevent",
+        "package_name": "libevent",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.1.12-5.6"
+      },
+      {
+        "evidence_url": "https://libevent.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libevent",
+        "package_name": "libevent",
+        "source": "ubuntu",
+        "source_version": "2.1.12-stable-10build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libevent.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libevent",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "libevent",
+    "summary": "Event notification library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "libevent.org",
+    "homepage": "https://libevent.org/",
+    "release_api": "https://api.github.com/repos/libevent/libevent/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/libevent/libevent",
+    "source_url_template": "https://github.com/libevent/libevent/releases/download/release-{version}-stable/libevent-{version}-stable.tar.gz"
+  },
+  "version": {
+    "current": "2.1.13",
+    "latest_detected": "2.1.13",
+    "release": "1"
+  }
+}
