@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ivykis
-Version:        0.43.2
+Version:        0.43.2-trunk
 Release:        1%{?dist}
 Summary:        Portable asynchronous I/O readiness notification library
 License:        LGPL-2.1-only
 URL:            https://github.com/buytenh/ivykis
-Source0:        ivykis-%{version}.tar.gz
+Source0:        v0.43.2-trunk.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
