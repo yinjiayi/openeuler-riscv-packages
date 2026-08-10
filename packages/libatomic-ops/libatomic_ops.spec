@@ -32,6 +32,7 @@ applications with libatomic_ops and its GPL allocator and stack helpers.
 %install
 %make_install
 rm -f %{buildroot}%{_libdir}/*.la
+rm -rf %{buildroot}%{_docdir}/libatomic_ops
 
 %check
 %make_build check
