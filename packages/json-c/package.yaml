@@ -1,0 +1,140 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/json-c/json-c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "json-c",
+        "package_name": "json-c",
+        "source": "arch-core",
+        "source_version": "0.19-1"
+      },
+      {
+        "evidence_url": "https://github.com/json-c/json-c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-json-c",
+        "package_name": "android-aarch64-json-c",
+        "source": "aur",
+        "source_version": "0.18-1"
+      },
+      {
+        "evidence_url": "https://github.com/json-c/json-c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-json-c",
+        "package_name": "android-armv7a-eabi-json-c",
+        "source": "aur",
+        "source_version": "0.18-1"
+      },
+      {
+        "evidence_url": "https://github.com/json-c/json-c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-json-c",
+        "package_name": "android-riscv64-json-c",
+        "source": "aur",
+        "source_version": "0.18-1"
+      },
+      {
+        "evidence_url": "https://github.com/json-c/json-c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-json-c",
+        "package_name": "android-x86-64-json-c",
+        "source": "aur",
+        "source_version": "0.18-1"
+      },
+      {
+        "evidence_url": "https://github.com/json-c/json-c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-json-c",
+        "package_name": "android-x86-json-c",
+        "source": "aur",
+        "source_version": "0.18-1"
+      },
+      {
+        "evidence_url": "https://github.com/json-c/json-c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-json-c",
+        "package_name": "mingw-w64-json-c",
+        "source": "aur",
+        "source_version": "0.18-1"
+      },
+      {
+        "evidence_url": "https://github.com/json-c/json-c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "json-c",
+        "package_name": "json-c",
+        "source": "debian",
+        "source_version": "0.18+ds-1"
+      },
+      {
+        "evidence_url": "https://github.com/json-c/json-c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "json-c",
+        "package_name": "json-c",
+        "source": "fedora",
+        "source_version": "0.18-8.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/json-c/json-c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "json-c",
+        "package_name": "json-c",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.19-1.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "json-c.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "json-c",
+  "rpm": {
+    "license": "MIT",
+    "name": "json-c",
+    "summary": "JSON implementation in C"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-json-c-json-c",
+    "homepage": "https://github.com/json-c/json-c",
+    "release_api": "https://api.github.com/repos/json-c/json-c/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "\\\"tag_name\\\"\\s*:\\s*\\\"json-c-(?P<version>[0-9]+(?:\\.[0-9]+)+)-[0-9]+\\\"",
+    "source_repository": "https://github.com/json-c/json-c",
+    "source_url_template": "https://github.com/json-c/json-c/releases/download/json-c-{version}-20260627/json-c-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.19",
+    "latest_detected": "0.19",
+    "release": "1"
+  }
+}
