@@ -21,7 +21,7 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - Supplementary discovery resolves the current stable openSUSE Tumbleweed snapshot, latest Fedora GA, Debian `stable`, and latest Ubuntu GA release in standard support. Rawhide, testing/unstable, staging, multilib, development, and prerelease feeds are excluded.
 - An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. `rpmbuild` runs without network after source verification.
 - Required native-kernel or hardware validation becomes `needs-native-riscv`; no self-hosted runner is currently scheduled.
-- Repair runs only on a maintainer's local Codex through local `gh` authentication or process-scoped `GH_TOKEN`. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`.
+- Repair runs only on a maintainer's local Codex through local `gh` authentication or an explicitly authorized process-scoped `GH_TOKEN`. Using that token for local `gh`/Git operations is permitted; persisting or publishing its value in repository content, commits, PR text, logs, artifacts, Actions configuration, or Pages is forbidden. `scripts/github-credential-guard` checks the active token against repository, staged, and publication content without printing it. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`.
 - Automation never writes to upstream projects. RISC-V patches remain in `packages/<id>/patches/` and are referenced by the SPEC.
 
 ## Current catalog evidence

@@ -20,7 +20,7 @@ Require:
 - prior update state file, output/run directory, and unique `update_run_id`;
 - shard size, default 100; per-host rate/concurrency limits; retry budget; and missed threshold, default 24 hours;
 - stable upstream release policies and cached ETag/Last-Modified data when available;
-- optional remote PR authorization available to the workflow/local process without Codex/OpenAI secrets.
+- optional remote PR authorization. Scheduled Actions may use only their job-scoped `github.token`; an explicitly authorized local process may use `GH_TOKEN` for `gh`/GitHub operations without persisting or publishing its value. Neither path may receive a Codex/OpenAI secret.
 
 ## Workflow
 
@@ -75,7 +75,7 @@ Generate the actual argument list from the plan; do not assume two shards. Asser
 ```
 
 Review version/source URL/digest/changelog changes and patch applicability. Remove a local patch only when the new stable release demonstrably absorbs it; otherwise rebase and revalidate it.
-9. Validate the changed package with `scripts/validate-metadata --repo-root . --package "$package_id" --output "$run_dir/metadata-$package_id.json"`, then build it with `scripts/build-rpm` and the locked riscv64/RVA23 image. For an authorized remote path, create one branch and PR per package/version, attach the idempotency key and labels, and enable policy-controlled Auto-merge. Never combine update changes.
+9. Validate the changed package with `scripts/validate-metadata --repo-root . --package "$package_id" --output "$run_dir/metadata-$package_id.json"`, then build it with `scripts/build-rpm` and the locked riscv64/RVA23 image. For an authorized local remote path, run `scripts/github-credential-guard --repo-root . --require-auth --local-only` before mutation and before commit/push; a process-level `GH_TOKEN` may authenticate the commands, but its value must not enter arguments, files, commits, PR text, logs, artifacts, Actions configuration, Pages, or another public surface. Create one branch and PR per package/version, attach the idempotency key and labels, and enable policy-controlled Auto-merge. Never combine update changes.
 10. Upload the plan, shard results, summary, apply results, failures, and logs with seven-day retention. CI failures may emit structured artifacts and mark trusted internal PRs `repair-queued`; Actions must not start Codex or receive Codex/OpenAI secrets.
 11. Mark the daily run incomplete when any planned shard/result is missing. Surface delayed schedules, consecutive missed days, coverage, backfill queue, and the possibility that GitHub disabled an inactive public repository's schedule after 60 days; keep a reviewed re-enable/runbook path. Do not report 100% coverage from partial results.
 
