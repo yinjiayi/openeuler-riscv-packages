@@ -25,7 +25,7 @@ Authoritative sources are: GitHub PR API for PR state; Checks/Actions for CI sta
 ## Workflow
 
 1. Inspect repository instructions, committed schema, generator interface, output location, and prior dashboard artifacts. Generate into a fresh directory so stale files cannot masquerade as current output.
-2. Collect GitHub data with read-only credentials or consume a versioned fixture/snapshot. Record fetch time, repository, API errors, pagination completeness, and the queried head SHA. Do not place tokens in files, logs, cache, or generated Pages.
+2. Collect GitHub data with read-only credentials or consume a versioned fixture/snapshot. An explicitly authorized process-level `GH_TOKEN` may be used for local read-only API calls; run `scripts/github-credential-guard --repo-root . --require-auth --local-only` first. Record fetch time, repository, API errors, pagination completeness, and the queried head SHA. Do not place the token value in arguments, files, logs, cache, artifacts, commits, or generated Pages.
 3. Validate all input shapes and correlate facts by package ID, PR number, and head SHA. Ignore old successful checks when a newer head exists. Mark missing or conflicting evidence as stale/unknown rather than choosing a favorable result.
 4. Generate the static site:
 
