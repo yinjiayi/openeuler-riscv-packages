@@ -40,7 +40,7 @@ developing applications with json-c.
 
 %check
 set +e
-%ctest -j1
+%ctest -- -j1
 test_status=$?
 set -e
 chmod -R a+rX .
