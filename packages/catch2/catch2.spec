@@ -41,7 +41,7 @@ Headers, CMake integration, pkg-config metadata, and link libraries for Catch2.
 %cmake_install
 
 %check
-%ctest -- -j1
+ctest --output-on-failure --force-new-ctest-process -j1
 
 %files
 %license LICENSE.txt
@@ -61,3 +61,4 @@ Headers, CMake integration, pkg-config metadata, and link libraries for Catch2.
 %changelog
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.15.3-1
 - Initial openEuler RISC-V package.
+- Run the complete CTest suite serially under QEMU.
