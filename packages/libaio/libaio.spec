@@ -44,9 +44,16 @@ install -pm0644 man/*.3 %{buildroot}%{_mandir}/man3/
 %check
 # The full target additionally mounts ext2 loop images and requires root.
 # partcheck is upstream's maintained non-privileged syscall test subset.
+set +e
 CFLAGS="%{optflags}" \
   LDFLAGS="%{__global_ldflags}" \
 %make_build partcheck
+test_status=$?
+set -e
+# The suite deliberately creates mode-0400 fixtures.  Restore artifact
+# readability even when a test fails, while preserving the original status.
+chmod -R a+rX harness/testdir
+exit "$test_status"
 
 %files
 %license COPYING
