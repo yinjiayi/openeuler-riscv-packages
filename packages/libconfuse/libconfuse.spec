@@ -33,7 +33,7 @@ applications with libConfuse.
 %install
 %make_install
 rm -f %{buildroot}%{_libdir}/libconfuse.la
-rm -rf %{buildroot}%{_datadir}/doc/libConfuse
+rm -rf %{buildroot}%{_docdir}/confuse
 %find_lang confuse
 
 %check
