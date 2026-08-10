@@ -31,6 +31,7 @@ unversioned library link for developing applications with c-ares.
 
 %build
 %cmake_conf \
+  -DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON \
   -DCARES_BUILD_TESTS=ON \
   -DCARES_BUILD_TOOLS=ON \
   -DCARES_INSTALL=ON \
