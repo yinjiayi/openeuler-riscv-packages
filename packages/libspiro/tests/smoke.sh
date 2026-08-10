@@ -6,6 +6,7 @@ rpm -q -- libspiro libspiro-devel
 task_dir=$(mktemp -d)
 trap 'rm -rf -- "$task_dir"' EXIT
 cat >"$task_dir/smoke.c" <<'C'
+#include <bezctx.h>
 #include <spiro.h>
 int main(void) {
   return run_spiro != 0 ? 0 : 1;
