@@ -7,6 +7,7 @@ smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
 
 cat >"$smoke_dir/smoke.c" <<'EOF'
+#include <stddef.h>
 #include <opus/opus.h>
 
 int main(void) {
