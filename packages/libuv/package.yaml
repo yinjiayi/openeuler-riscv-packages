@@ -68,7 +68,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed. CI run 31469703376 exposed package-local CTest resource collisions rather than a QEMU limitation; target status remains unknown until the serialized full-suite rebuild completes.",
     "status": "active"
   },
   "package_id": "libuv",

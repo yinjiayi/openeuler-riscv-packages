@@ -49,7 +49,10 @@ rmdir %{buildroot}%{_docdir}/%{name}
 # required because the RPM CTest helper changes directory before launching it.
 export UV_RUN_AS_ROOT=1
 export UV_TEST_TIMEOUT_MULTIPLIER=10
-%ctest
+# openEuler's RPM macro supplies the build-wide -j value before explicit
+# arguments.  Keep the shared and static test executables serialized so they
+# cannot contend for the same ports and temporary paths.
+%ctest --parallel 1
 
 %files
 %license LICENSE LICENSE-docs LICENSE-extra
