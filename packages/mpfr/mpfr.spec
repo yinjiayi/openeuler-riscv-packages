@@ -37,13 +37,16 @@ library link for developing applications with MPFR.
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
+rm -f %{buildroot}%{_pkgdocdir}/COPYING
+rm -f %{buildroot}%{_pkgdocdir}/COPYING.LESSER
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 %make_build check
 
 %files
 %license COPYING COPYING.LESSER
-%doc AUTHORS ChangeLog NEWS README
+%doc AUTHORS BUGS ChangeLog FAQ.html NEWS README TODO examples
 %{_libdir}/libmpfr.so.6*
 
 %files devel
