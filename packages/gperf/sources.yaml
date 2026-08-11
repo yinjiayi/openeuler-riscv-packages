@@ -1,0 +1,19 @@
+{
+  "package_id": "gperf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "fd87e0aba7e43ae054837afd6cd4db03a3f2693deb3619085e6ed9d8d9604ad8"},
+      "filename": "gperf-3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL-3.0-or-later source is fetched from the official GNU release archive in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/gperf/gperf-3.3.tar.gz",
+      "version": "3.3"
+    }
+  ]
+}
