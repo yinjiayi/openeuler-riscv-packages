@@ -3,7 +3,7 @@ Name:           libuv
 Version:        1.52.1
 Release:        1%{?dist}
 Summary:        Asynchronous I/O support library
-License:        MIT
+License:        MIT AND CC-BY-4.0 AND ISC AND BSD-2-Clause
 URL:            https://github.com/libuv/libuv
 Source0:        libuv-1.52.1.tar.gz
 BuildRequires:  cmake
@@ -37,19 +37,27 @@ Headers, static library, pkg-config files, and CMake metadata for libuv.
 
 %install
 %cmake_install
+# CMake installs duplicate license copies into the buildroot.  RPM's %license
+# directive below copies the reviewed source files into the canonical location.
+rm -f %{buildroot}%{_docdir}/%{name}/LICENSE
+rm -f %{buildroot}%{_docdir}/%{name}/LICENSE-extra
+rmdir %{buildroot}%{_docdir}/%{name}
 
 %check
 # rpmbuild runs as root.  This is the upstream-supported opt-in that keeps the
-# complete test suite enabled in that environment.
-UV_RUN_AS_ROOT=1 %ctest
+# complete shared/static test suite enabled in that environment.  Exporting is
+# required because %ctest changes directory before launching ctest.
+export UV_RUN_AS_ROOT=1
+export UV_TEST_TIMEOUT_MULTIPLIER=10
+%ctest
 
 %files
-%license LICENSE LICENSE-extra
-%doc README.md
+%license LICENSE LICENSE-docs LICENSE-extra
+%doc AUTHORS CONTRIBUTING.md ChangeLog MAINTAINERS.md README.md SUPPORTED_PLATFORMS.md
 %{_libdir}/libuv.so.1*
 
 %files devel
-%license LICENSE LICENSE-extra
+%license LICENSE LICENSE-docs LICENSE-extra
 %{_includedir}/uv.h
 %{_includedir}/uv/
 %{_libdir}/libuv.so
