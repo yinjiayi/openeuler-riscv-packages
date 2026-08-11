@@ -6,57 +6,57 @@
     "timeout_minutes": 60
   },
   "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
     "lineage": [
       {
-        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libpng/",
-        "observed_at": "2026-08-11T09:18:13Z",
-        "package_base": "libpng",
-        "package_name": "libpng",
         "source": "arch-extra",
-        "source_version": "1.6.58-2"
-      },
-      {
-        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libpng",
-        "observed_at": "2026-08-11T09:18:13Z",
-        "package_base": "android-riscv64-libpng",
-        "package_name": "android-riscv64-libpng",
-        "source": "aur",
-        "source_version": "1.6.54-1"
-      },
-      {
-        "evidence_url": "https://packages.debian.org/source/stable/libpng1.6",
-        "observed_at": "2026-08-11T09:18:13Z",
-        "package_base": "libpng1.6",
-        "package_name": "libpng1.6",
-        "source": "debian",
-        "source_version": "1.6.48-1+deb13u5"
-      },
-      {
-        "evidence_url": "https://src.fedoraproject.org/rpms/libpng/tree/f44",
-        "observed_at": "2026-08-11T09:18:13Z",
-        "package_base": "libpng",
         "package_name": "libpng",
-        "source": "fedora",
-        "source_version": "2:1.6.58-1.fc44"
+        "package_base": "libpng",
+        "source_version": "1.6.58-2",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libpng/",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libpng16",
-        "observed_at": "2026-08-11T09:18:13Z",
-        "package_base": "libpng16",
-        "package_name": "libpng16",
-        "source": "opensuse-tumbleweed",
-        "source_version": "1.6.58"
+        "source": "aur",
+        "package_name": "android-riscv64-libpng",
+        "package_base": "android-riscv64-libpng",
+        "source_version": "1.6.54-1",
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libpng",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://packages.ubuntu.com/source/resolute/libpng1.6",
-        "observed_at": "2026-08-11T09:18:13Z",
-        "package_base": "libpng1.6",
+        "source": "debian",
         "package_name": "libpng1.6",
+        "package_base": "libpng1.6",
+        "source_version": "1.6.48-1+deb13u5",
+        "evidence_url": "https://packages.debian.org/source/stable/libpng1.6",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libpng",
+        "package_base": "libpng",
+        "source_version": "2:1.6.55-1.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/libpng/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libpng16",
+        "package_base": "libpng16",
+        "source_version": "1.6.58-1.2",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libpng16",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
         "source": "ubuntu",
-        "source_version": "1.6.57-1"
+        "package_name": "libpng1.6",
+        "package_base": "libpng1.6",
+        "source_version": "1.6.57-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libpng1.6",
+        "observed_at": "2026-08-08T16:50:00Z"
       }
-    ],
-    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+    ]
   },
   "files": {
     "patches": [],
