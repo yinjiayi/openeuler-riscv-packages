@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           checksec
-Version:        2.7.1
+Version:        3.2.0
 Release:        1%{?dist}
 Summary:        Inspect ELF binaries for hardening features
 License:        BSD-3-Clause
 URL:            https://github.com/slimm609/checksec.sh
-Source0:        checksec-2.7.1.tar.gz
+Source0:        3.2.0.tar.gz
 
 BuildArch:      noarch
 
