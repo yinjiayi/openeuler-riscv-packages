@@ -6,57 +6,57 @@
     "timeout_minutes": 240
   },
   "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
     "lineage": [
       {
-        "evidence_url": "https://archlinux.org/packages/extra/x86_64/flac/",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "flac",
-        "package_name": "flac",
         "source": "arch-extra",
-        "source_version": "1.5.0-1"
+        "package_name": "flac",
+        "package_base": "flac",
+        "source_version": "1.5.0-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/flac/",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-flac",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "android-riscv64-flac",
-        "package_name": "android-riscv64-flac",
         "source": "aur",
-        "source_version": "1.5.0-1"
+        "package_name": "android-riscv64-flac",
+        "package_base": "android-riscv64-flac",
+        "source_version": "1.5.0-1",
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-flac",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://packages.debian.org/source/stable/flac",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "flac",
-        "package_name": "flac",
         "source": "debian",
-        "source_version": "1.5.0+ds-2"
+        "package_name": "flac",
+        "package_base": "flac",
+        "source_version": "1.5.0+ds-2",
+        "evidence_url": "https://packages.debian.org/source/stable/flac",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://src.fedoraproject.org/rpms/flac/tree/f44",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "flac",
-        "package_name": "flac",
         "source": "fedora",
-        "source_version": "1.5.0-8.fc44"
+        "package_name": "flac",
+        "package_base": "flac",
+        "source_version": "1.5.0-8.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/flac/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/flac",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "flac",
-        "package_name": "flac",
         "source": "opensuse-tumbleweed",
-        "source_version": "1.5.0"
+        "package_name": "flac",
+        "package_base": "flac",
+        "source_version": "1.5.0-1.6",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/flac",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://packages.ubuntu.com/source/resolute/flac",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "flac",
-        "package_name": "flac",
         "source": "ubuntu",
-        "source_version": "1.5.0+ds-5"
+        "package_name": "flac",
+        "package_base": "flac",
+        "source_version": "1.5.0+ds-5",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/flac",
+        "observed_at": "2026-08-08T16:50:00Z"
       }
-    ],
-    "snapshot_id": "discovery-20260811T101624Z-f0e51f294df02a76"
+    ]
   },
   "files": {
     "patches": [],
