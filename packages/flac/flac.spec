@@ -60,7 +60,7 @@ install -pm 0644 src/libFLAC/libFLAC.m4 %{buildroot}%{_datadir}/aclocal/
 install -pm 0644 src/libFLAC++/libFLAC++.m4 %{buildroot}%{_datadir}/aclocal/
 
 %check
-%ctest -j1
+%ctest --parallel 1
 
 %files
 %license COPYING.Xiph COPYING.GPL COPYING.LGPL
@@ -90,4 +90,5 @@ install -pm 0644 src/libFLAC++/libFLAC++.m4 %{buildroot}%{_datadir}/aclocal/
 
 %changelog
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.0-1
+- Pass the serial CTest setting through the openEuler RPM macro.
 - Initial openEuler RISC-V package from reviewed Fedora 44 and upstream evidence.
