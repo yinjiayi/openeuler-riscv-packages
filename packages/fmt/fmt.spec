@@ -35,7 +35,7 @@ Headers and build-system metadata for developing applications with fmt.
 %cmake_install
 
 %check
-# `%ctest -- -j1` still leaves the RPM macro's own `-j2` in effect. Invoke
+# The ctest RPM macro still leaves the build macro's own -j2 in effect. Invoke
 # CTest directly so target processes are genuinely serialized under QEMU.
 ctest --test-dir %{_vpath_builddir} \
   --output-on-failure --force-new-ctest-process -j1
