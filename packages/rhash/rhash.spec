@@ -3,7 +3,7 @@ Name:           rhash
 Version:        1.4.6
 Release:        1%{?dist}
 Summary:        Utility and library for computing hash sums
-License:        MIT
+License:        0BSD
 URL:            https://github.com/rhash/RHash
 Source0:        rhash-%{version}.tar.gz
 
@@ -54,7 +54,7 @@ make test-libs
 %files devel
 %license COPYING
 %{_includedir}/rhash.h
-%{_includedir}/rhash_timing.h
+%{_includedir}/rhash_torrent.h
 %{_libdir}/librhash.so
 %{_libdir}/pkgconfig/librhash.pc
 
