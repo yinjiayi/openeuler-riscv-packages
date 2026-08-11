@@ -54,12 +54,30 @@
     "patches": [
       {
         "file": "patches/0001-doc-drop-missing-gpl-texi-input.patch",
-        "sha256": "f3695c6c347365acc5dfbbbb11ccebedc2f13e38c47b7a60d7742362fcbe5d07",
+        "sha256": "c014545d63e856c30c2d2e02063c0072de8ffb97cd2fb54cb8b0b8910646003d",
         "purpose": "Remove an Automake reference to doc/gpl.texi, which is absent from the official 1.7.0 archive and unused by the manual.",
         "source": "Downstream reconstruction from the official 1.7.0 archive",
         "license": "GPL-3.0-or-later",
         "upstream_status": "not-submitted",
         "remove_when": "A stable upstream release stops declaring the nonexistent doc/gpl.texi input."
+      },
+      {
+        "file": "patches/0002-prefer-urandom-seed-source.patch",
+        "sha256": "bf1fe0b8b2385e89bb7ce71a1ae0725844f03001ffef8f80575d61f1c190502b",
+        "purpose": "Prefer the nonblocking kernel random source before /dev/random and avoid direct /dev/hwrng seeding.",
+        "source": "Fedora 44 macchanger-1.7.0-30.fc44 source RPM, macchanger-1.7.0-seed-source.diff",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "A stable upstream release uses a suitable nonblocking kernel random source first."
+      },
+      {
+        "file": "patches/0003-check-random-seed-and-fix-size-format.patch",
+        "sha256": "69d36064c99a045ec63a8212dcb96d2d5b22be1617553d29e967af178c9c0684",
+        "purpose": "Require a complete seed read and print strlen()'s size_t value with the portable %zu format.",
+        "source": "Fedora 44 macchanger-1.7.0-30.fc44 source RPM, macchanger-1.7.0-werror.diff",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "A stable upstream release validates the seed read and uses a size_t-compatible diagnostic format."
       }
     ],
     "smoke_test": "tests/smoke.sh",

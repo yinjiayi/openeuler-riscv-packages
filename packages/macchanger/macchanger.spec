@@ -7,6 +7,8 @@ License:        GPL-3.0-or-later
 URL:            https://github.com/alobbs/macchanger
 Source0:        macchanger-1.7.0.tar.gz
 Patch0:         0001-doc-drop-missing-gpl-texi-input.patch
+Patch1:         0002-prefer-urandom-seed-source.patch
+Patch2:         0003-check-random-seed-and-fix-size-format.patch
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -43,4 +45,3 @@ rm -f %{buildroot}%{_infodir}/dir
 %changelog
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.7.0-1
 - Initial openEuler RISC-V package.
-
