@@ -50,6 +50,7 @@ rm -f %{buildroot}%{_infodir}/dir
 %{_libdir}/libksba.so.8*
 
 %files devel
+%{_bindir}/ksba-config
 %{_includedir}/ksba.h
 %{_libdir}/libksba.so
 %{_libdir}/pkgconfig/ksba.pc
