@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/xz/",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "xz",
+        "package_name": "xz",
+        "source": "arch-core",
+        "source_version": "5.8.3-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/mingw-w64-xz",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "mingw-w64-xz",
+        "package_name": "mingw-w64-xz",
+        "source": "aur",
+        "source_version": "5.8.3-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/xz-utils",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "xz-utils",
+        "package_name": "xz-utils",
+        "source": "debian",
+        "source_version": "5.8.1-1+deb13u1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/xz/tree/f44",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "xz",
+        "package_name": "xz",
+        "source": "fedora",
+        "source_version": "1:5.8.2-2.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/xz",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "xz",
+        "package_name": "xz",
+        "source": "opensuse-tumbleweed",
+        "source_version": "5.8.3"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/xz-utils",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "xz-utils",
+        "package_name": "xz-utils",
+        "source": "ubuntu",
+        "source_version": "5.8.3-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260811T101624Z-76a02726f25cad5a"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "xz.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official stable XZ Utils 5.8.3 release bytes are SHA-256 pinned. This is a stable forward release relative to Fedora 44 and Debian stable. Fedora's downstream Epoch is lineage metadata only and is not copied over the epoch-less openEuler package. AUR was queried through RPC only, and no AUR packaging content was read or executed. Distribution specs were treated only as untrusted, read-only lineage references and were never executed.",
+    "status": "active"
+  },
+  "package_id": "xz",
+  "rpm": {
+    "license": "0BSD AND GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.1-or-later",
+    "name": "xz",
+    "summary": "LZMA compression utilities and library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-tukaani-project-xz",
+    "homepage": "https://tukaani.org/xz/",
+    "release_api": "https://api.github.com/repos/tukaani-project/xz/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/tukaani-project/xz",
+    "source_url_template": "https://github.com/tukaani-project/xz/releases/download/v{version}/xz-{version}.tar.xz"
+  },
+  "version": {"current": "5.8.3", "latest_detected": "5.8.3", "release": "1"}
+}
