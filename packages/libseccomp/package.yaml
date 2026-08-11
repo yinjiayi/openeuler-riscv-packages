@@ -84,7 +84,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "notes": "Official 2.6.1 release archive is pinned; Fedora 44 dist-git was reviewed but not executed. Native target-kernel validation remains required after the observed QEMU seccomp_load limitation.",
     "status": "active"
   },
   "package_id": "libseccomp",

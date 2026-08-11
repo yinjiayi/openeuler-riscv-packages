@@ -5,7 +5,7 @@ Release:        1%{?dist}
 Summary:        System call filtering library
 License:        LGPL-2.1-only
 URL:            https://github.com/seccomp/libseccomp
-Source0:        libseccomp-%{version}.tar.gz
+Source0:        libseccomp-2.6.1.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  gperf
@@ -70,5 +70,5 @@ rm -f %{buildroot}%{python3_sitearch}/install_files.txt
 %{python3_sitearch}/seccomp-*.egg-info/
 
 %changelog
-* Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.6.1-1
-- Initial openEuler RISC-V package.
+* Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.6.1-1
+- Initial openEuler RISC-V package with complete upstream checks.
