@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/jansson/",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "jansson",
+        "package_name": "jansson",
+        "source": "arch-core",
+        "source_version": "2.15.0-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/jansson-git",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "jansson-git",
+        "package_name": "jansson-git",
+        "source": "aur",
+        "source_version": "2.14.r17.gbde2846-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/jansson",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "jansson",
+        "package_name": "jansson",
+        "source": "debian",
+        "source_version": "2.14-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/jansson/tree/f44",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "jansson",
+        "package_name": "jansson",
+        "source": "fedora",
+        "source_version": "2.14-4.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libjansson",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "libjansson",
+        "package_name": "libjansson",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.15.1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/jansson",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "jansson",
+        "package_name": "jansson",
+        "source": "ubuntu",
+        "source_version": "2.14-2build4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "jansson.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official stable 2.15.1 release asset independently reviewed and SHA-256 pinned. It is a forward stable release relative to Fedora 44, Arch stable, Debian stable, and Ubuntu GA. AUR was queried through RPC only; the stale VCS entry was excluded and no external packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "jansson",
+  "rpm": {
+    "license": "MIT AND LicenseRef-Public-Domain",
+    "name": "jansson",
+    "summary": "C library for encoding, decoding, and manipulating JSON"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-akheron-jansson",
+    "homepage": "https://jansson.readthedocs.io/",
+    "release_api": "https://api.github.com/repos/akheron/jansson/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/akheron/jansson",
+    "source_url_template": "https://github.com/akheron/jansson/releases/download/v{version}/jansson-{version}.tar.gz"
+  },
+  "version": {"current": "2.15.1", "latest_detected": "2.15.1", "release": "1"}
+}
