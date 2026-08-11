@@ -24,6 +24,7 @@ a set of keywords.
 %install
 %make_install
 rm -rf %{buildroot}%{_docdir}/gperf
+rm -f %{buildroot}%{_docdir}/gperf.html
 rm -f %{buildroot}%{_infodir}/dir
 
 %check
