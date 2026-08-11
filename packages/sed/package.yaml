@@ -6,57 +6,57 @@
     "timeout_minutes": 120
   },
   "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
     "lineage": [
       {
-        "evidence_url": "https://archlinux.org/packages/core/x86_64/sed/",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "sed",
-        "package_name": "sed",
         "source": "arch-core",
-        "source_version": "4.10-2"
+        "package_name": "sed",
+        "package_base": "sed",
+        "source_version": "4.10-1",
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/sed/",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://aur.archlinux.org/packages/sed-git",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "sed-git",
-        "package_name": "sed-git",
         "source": "aur",
-        "source_version": "4.9.r32.g5420e97-1"
+        "package_name": "sed-git",
+        "package_base": "sed-git",
+        "source_version": "4.9.r32.g5420e97-1",
+        "evidence_url": "https://aur.archlinux.org/packages/sed-git",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://packages.debian.org/source/stable/sed",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "sed",
-        "package_name": "sed",
         "source": "debian",
-        "source_version": "4.9-2+deb13u1"
+        "package_name": "sed",
+        "package_base": "sed",
+        "source_version": "4.9-2+deb13u1",
+        "evidence_url": "https://packages.debian.org/source/stable/sed",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://src.fedoraproject.org/rpms/sed/tree/f44",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "sed",
-        "package_name": "sed",
         "source": "fedora",
-        "source_version": "4.9-7.fc44"
+        "package_name": "sed",
+        "package_base": "sed",
+        "source_version": "4.9-7.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/sed/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/sed",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "sed",
-        "package_name": "sed",
         "source": "opensuse-tumbleweed",
-        "source_version": "4.10"
+        "package_name": "sed",
+        "package_base": "sed",
+        "source_version": "4.10-1.4",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/sed",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://packages.ubuntu.com/source/resolute/sed",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "sed",
-        "package_name": "sed",
         "source": "ubuntu",
-        "source_version": "4.9-2ubuntu1"
+        "package_name": "sed",
+        "package_base": "sed",
+        "source_version": "4.9-2build3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/sed",
+        "observed_at": "2026-08-08T16:50:00Z"
       }
-    ],
-    "snapshot_id": "discovery-20260811T101624Z-eb6e21de0ca16948"
+    ]
   },
   "files": {
     "patches": [],
