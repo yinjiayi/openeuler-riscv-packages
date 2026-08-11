@@ -28,6 +28,7 @@ library links for developing applications with libcap-ng.
 
 %prep
 %autosetup -p1
+touch NEWS
 autoreconf -fi
 
 %build
