@@ -1,0 +1,21 @@
+{
+  "package_id": "libexif",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "32e591455339504b7d02f3e9b0a48f16f5455462a9059a7f47639980e82e4bc1"
+      },
+      "filename": "libexif-0.6.26.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libexif/libexif/archive/refs/tags/v0.6.26.tar.gz",
+      "version": "0.6.26"
+    }
+  ]
+}

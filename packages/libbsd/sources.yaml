@@ -1,0 +1,21 @@
+{
+  "package_id": "libbsd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b88cc9163d0c652aaf39a99991d974ddba1c3a9711db8f1b5838af2a14731014"
+      },
+      "filename": "libbsd-0.12.2.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://libbsd.freedesktop.org/releases/libbsd-0.12.2.tar.xz",
+      "version": "0.12.2"
+    }
+  ]
+}

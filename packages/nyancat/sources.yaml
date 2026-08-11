@@ -1,0 +1,21 @@
+{
+  "package_id": "nyancat",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "88cdcaa9c7134503dd0364a97fa860da3381a09cb555c3aae9918360827c2032"
+      },
+      "filename": "nyancat-1.5.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/klange/nyancat/archive/refs/tags/1.5.2.tar.gz",
+      "version": "1.5.2"
+    }
+  ]
+}

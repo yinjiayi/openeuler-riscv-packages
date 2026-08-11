@@ -1,0 +1,20 @@
+From 0f8e4c8d5643f93156c19c87b398d1d27b87fa6a Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 10 Aug 2026 09:45:00 +0800
+Subject: [PATCH] cmake: support openEuler 3.27
+
+The openEuler 24.03 LTS SP3 buildroot provides CMake 3.27.  The 3.4.0
+sources use no CMake command newer than that version, and upstream's own
+comment states that older versions are expected to work.  Lower only the
+declared policy floor so the otherwise unmodified project can configure.
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3e759a2..a72db2b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -4 +4 @@
+-cmake_minimum_required(VERSION 3.29...4.0.1)
++cmake_minimum_required(VERSION 3.27...4.0.1)

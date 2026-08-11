@@ -32,6 +32,13 @@ from _lib import (
 
 
 SHA256_RE = re.compile(r"^[a-f0-9]{64}$")
+ACCEPTED_REVIEW_METHODS = {
+    "downloaded-official-archive-and-calculated-sha256",
+    "downloaded-official-release-archive-and-calculated-sha256",
+    "downloaded-official-release-asset-and-calculated-sha256",
+    "downloaded-official-tag-archive-and-calculated-sha256",
+    "downloaded-official-archive-and-matched-publisher-sha256sum",
+}
 
 
 def has_verified_release_source(record: Mapping[str, Any]) -> bool:
@@ -153,7 +160,7 @@ def reviewed_records(document: Mapping[str, Any], evidence_path: str) -> Tuple[L
         checksum = str(source.get("sha256") or "").lower()
         if not SHA256_RE.fullmatch(checksum):
             raise ToolError("reviewed source requires a full lowercase SHA-256 for %s" % component)
-        if review.get("method") != "downloaded-official-archive-and-calculated-sha256":
+        if review.get("method") not in ACCEPTED_REVIEW_METHODS:
             raise ToolError("review method is not accepted for %s" % component)
         unsafe_links = inspection.get("unsafe_links")
         links_safe = inspection.get("symlinks") is False or (

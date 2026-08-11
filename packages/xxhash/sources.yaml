@@ -1,0 +1,21 @@
+{
+  "package_id": "xxhash",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "aae608dfe8213dfd05d909a57718ef82f30722c392344583d3f39050c7f29a80"
+      },
+      "filename": "xxhash-0.8.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Cyan4973/xxHash/archive/refs/tags/v0.8.3.tar.gz",
+      "version": "0.8.3"
+    }
+  ]
+}

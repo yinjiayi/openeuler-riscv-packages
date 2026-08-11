@@ -1,0 +1,21 @@
+{
+  "package_id": "zxcvbn-c",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "11e39f6776f9c82c68b2acb94336e32697d4ab6cdb4ac16f9583ccbdd735113a"
+      },
+      "filename": "zxcvbn-c-2.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/tsyrogit/zxcvbn-c/archive/refs/tags/v2.6.tar.gz",
+      "version": "2.6"
+    }
+  ]
+}

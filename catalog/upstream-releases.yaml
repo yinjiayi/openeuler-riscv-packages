@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "reviewed-upstream-releases",
   "source_snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
-  "reviewed_at": "2026-08-10T08:30:00Z",
+  "reviewed_at": "2026-08-11T02:19:30Z",
   "policy": {
     "stable_only": true,
     "official_https_required": true,
@@ -1746,6 +1746,1812 @@
     },
     "build_requires": ["gcc", "make"],
     "requires": []
-  }
+  },
+    {
+      "component_id": "github.com-hunspell-hyphen",
+      "package_id": "hyphen",
+      "canonical_name": "hyphen",
+      "summary": "Hyphenation library and English hyphenation data",
+      "license": "GPL-2.0-or-later OR LGPL-2.1-or-later OR MPL-1.1",
+      "version": "2.8.9",
+      "upstream": {
+        "homepage": "https://github.com/hunspell/hyphen",
+        "repository_url": "https://github.com/hunspell/hyphen",
+        "release_api": "https://api.github.com/repos/hunspell/hyphen/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/hunspell/hyphen/releases/download/v{version}/hyphen-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/hunspell/hyphen/releases/download/v2.8.9/hyphen-2.8.9.tar.gz",
+        "filename": "hyphen-2.8.9.tar.gz",
+        "sha256": "783743daf477de8c4d16e3c74b4d2827377017718d8e17e2d9440210246f6abe"
+      },
+      "evidence": {
+        "release_page": "https://github.com/hunspell/hyphen/releases/tag/v2.8.9",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING, COPYING.LGPL, and COPYING.MPL",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "hyphen-2.8.9",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-rrthomas-libpaper",
+      "package_id": "libpaper",
+      "canonical_name": "libpaper",
+      "summary": "Library and utilities for handling paper sizes",
+      "license": "LGPL-2.1-or-later AND GPL-2.0-only AND GPL-3.0-or-later AND MIT AND LicenseRef-Public-Domain",
+      "version": "2.2.8",
+      "upstream": {
+        "homepage": "https://github.com/rrthomas/libpaper",
+        "repository_url": "https://github.com/rrthomas/libpaper",
+        "release_api": "https://api.github.com/repos/rrthomas/libpaper/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/rrthomas/libpaper/releases/download/v{version}/libpaper-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/rrthomas/libpaper/releases/download/v2.2.8/libpaper-2.2.8.tar.gz",
+        "filename": "libpaper-2.2.8.tar.gz",
+        "sha256": "1e330571690191874eca415ec76889dd11bab9887a2302d6a3665cd081c4d77b"
+      },
+      "evidence": {
+        "release_page": "https://github.com/rrthomas/libpaper/releases/tag/v2.2.8",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "README.md, COPYING, COPYING-MIT, COPYING-GPL-3, src/paper.c, and src/paperconf.c",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libpaper-2.2.8",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "help2man",
+        "make",
+        "perl"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-seccomp-libseccomp",
+      "package_id": "libseccomp",
+      "canonical_name": "libseccomp",
+      "summary": "System call filtering library",
+      "license": "LGPL-2.1-only",
+      "version": "2.6.1",
+      "upstream": {
+        "homepage": "https://github.com/seccomp/libseccomp",
+        "repository_url": "https://github.com/seccomp/libseccomp",
+        "release_api": "https://api.github.com/repos/seccomp/libseccomp/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/seccomp/libseccomp/releases/download/v{version}/libseccomp-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/seccomp/libseccomp/releases/download/v2.6.1/libseccomp-2.6.1.tar.gz",
+        "filename": "libseccomp-2.6.1.tar.gz",
+        "sha256": "501f66c667225d53791b97e1d7cf85ab764c297d04881f60f38f451c4b0ee1be"
+      },
+      "evidence": {
+        "release_page": "https://github.com/seccomp/libseccomp/releases/tag/v2.6.1",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-archive-and-matched-publisher-sha256sum",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libseccomp-2.6.1",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "gperf",
+        "make",
+        "python3"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-cisco-libsrtp",
+      "package_id": "libsrtp",
+      "canonical_name": "libsrtp",
+      "summary": "Secure Real-time Transport Protocol library",
+      "license": "BSD-3-Clause",
+      "version": "2.8.0",
+      "upstream": {
+        "homepage": "https://github.com/cisco/libsrtp",
+        "repository_url": "https://github.com/cisco/libsrtp",
+        "release_api": "https://api.github.com/repos/cisco/libsrtp/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/cisco/libsrtp/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/cisco/libsrtp/archive/refs/tags/v2.8.0.tar.gz",
+        "filename": "libsrtp-2.8.0.tar.gz",
+        "sha256": "d123dcff5c56d4f1a9006f2b311ea99a85016cbf3bb24b1007885d422237db85"
+      },
+      "evidence": {
+        "release_page": "https://github.com/cisco/libsrtp/releases/tag/v2.8.0",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libsrtp-2.8.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make",
+        "openssl-devel"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-s-yata-marisa-trie",
+      "package_id": "marisa",
+      "canonical_name": "marisa",
+      "summary": "Matching Algorithm with Recursively Implemented StorAge trie",
+      "license": "BSD-2-Clause OR LGPL-2.1-or-later",
+      "version": "0.3.1",
+      "upstream": {
+        "homepage": "https://github.com/s-yata/marisa-trie",
+        "repository_url": "https://github.com/s-yata/marisa-trie",
+        "release_api": "https://api.github.com/repos/s-yata/marisa-trie/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/s-yata/marisa-trie/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.3.1.tar.gz",
+        "filename": "marisa-0.3.1.tar.gz",
+        "sha256": "986ed5e2967435e3a3932a8c95980993ae5a196111e377721f0849cad4e807f3"
+      },
+      "evidence": {
+        "release_page": "https://github.com/s-yata/marisa-trie/releases/tag/v0.3.1",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING.md",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "marisa-trie-0.3.1",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc-c++",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-pcre2project-pcre2",
+      "package_id": "pcre2",
+      "canonical_name": "pcre2",
+      "summary": "Perl-compatible regular expression library",
+      "license": "BSD-3-Clause WITH PCRE2-exception AND BSD-2-Clause",
+      "version": "10.47",
+      "upstream": {
+        "homepage": "https://github.com/PCRE2Project/pcre2",
+        "repository_url": "https://github.com/PCRE2Project/pcre2",
+        "release_api": "https://api.github.com/repos/PCRE2Project/pcre2/releases/latest",
+        "release_regex": "\\\"tag_name\\\"\\s*:\\s*\\\"pcre2-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\\"",
+        "source_url_template": "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-{version}/pcre2-{version}.tar.bz2"
+      },
+      "source": {
+        "url": "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.47/pcre2-10.47.tar.bz2",
+        "filename": "pcre2-10.47.tar.bz2",
+        "sha256": "47fe8c99461250d42f89e6e8fdaeba9da057855d06eb7fc08d9ca03fd08d7bc7"
+      },
+      "evidence": {
+        "release_page": "https://github.com/PCRE2Project/pcre2/releases/tag/pcre2-10.47",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "LICENCE.md and deps/sljit/LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "pcre2-10.47",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "bzip2-devel",
+        "gcc",
+        "make",
+        "readline-devel",
+        "zlib-devel"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-rpm-software-management-popt",
+      "package_id": "popt",
+      "canonical_name": "popt",
+      "summary": "C library for parsing command-line parameters",
+      "license": "MIT",
+      "version": "1.19",
+      "upstream": {
+        "homepage": "https://github.com/rpm-software-management/popt",
+        "repository_url": "https://github.com/rpm-software-management/popt",
+        "release_api": "https://api.github.com/repos/rpm-software-management/popt/tags",
+        "release_regex": "\\\"name\\\"\\s*:\\s*\\\"popt-(?P<version>[0-9]+(?:\\.[0-9]+)+)-release\\\"",
+        "source_url_template": "https://github.com/rpm-software-management/popt/archive/refs/tags/popt-{version}-release.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/rpm-software-management/popt/archive/refs/tags/popt-1.19-release.tar.gz",
+        "filename": "popt-1.19.tar.gz",
+        "sha256": "6eb40d650526cb9fe63eb4415bcecdf9cf306f7556e77eff689abc5a44670060"
+      },
+      "evidence": {
+        "release_page": "https://github.com/rpm-software-management/popt/releases/tag/popt-1.19-release",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "popt-popt-1.19-release",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "autoconf",
+        "automake",
+        "gcc",
+        "gettext-devel",
+        "libtool",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-libconfuse-libconfuse",
+      "package_id": "libconfuse",
+      "canonical_name": "libconfuse",
+      "summary": "Configuration file parser library for C",
+      "license": "ISC",
+      "version": "3.3",
+      "upstream": {
+        "homepage": "https://github.com/libconfuse/libconfuse",
+        "repository_url": "https://github.com/libconfuse/libconfuse",
+        "release_api": "https://api.github.com/repos/libconfuse/libconfuse/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/libconfuse/libconfuse/releases/download/v{version}/confuse-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://github.com/libconfuse/libconfuse/releases/download/v3.3/confuse-3.3.tar.xz",
+        "filename": "libconfuse-3.3.tar.xz",
+        "sha256": "1dd50a0320e135a55025b23fcdbb3f0a81913b6d0b0a9df8cc2fdf3b3dc67010"
+      },
+      "evidence": {
+        "release_page": "https://github.com/libconfuse/libconfuse/releases/tag/v3.3",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "confuse-3.3",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "autoconf",
+        "automake",
+        "gcc",
+        "libtool",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-google-double-conversion",
+      "package_id": "double-conversion",
+      "canonical_name": "double-conversion",
+      "summary": "Binary-decimal and decimal-binary conversion routines",
+      "license": "BSD-3-Clause",
+      "version": "3.4.0",
+      "upstream": {
+        "homepage": "https://github.com/google/double-conversion",
+        "repository_url": "https://github.com/google/double-conversion",
+        "release_api": "https://api.github.com/repos/google/double-conversion/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/google/double-conversion/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/google/double-conversion/archive/refs/tags/v3.4.0.tar.gz",
+        "filename": "double-conversion-3.4.0.tar.gz",
+        "sha256": "42fd4d980ea86426e457b24bdfa835a6f5ad9517ddb01cdb42b99ab9c8dd5dc9"
+      },
+      "evidence": {
+        "release_page": "https://github.com/google/double-conversion/releases/tag/v3.4.0",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "double-conversion-3.4.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc-c++",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-fastfloat-fast_float",
+      "package_id": "fast-float",
+      "canonical_name": "fast-float",
+      "summary": "Fast and exact string-to-floating-point conversion",
+      "license": "Apache-2.0 OR BSL-1.0 OR MIT",
+      "version": "8.2.10",
+      "upstream": {
+        "homepage": "https://github.com/fastfloat/fast_float",
+        "repository_url": "https://github.com/fastfloat/fast_float",
+        "release_api": "https://api.github.com/repos/fastfloat/fast_float/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/fastfloat/fast_float/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/fastfloat/fast_float/archive/refs/tags/v8.2.10.tar.gz",
+        "filename": "fast-float-8.2.10.tar.gz",
+        "sha256": "76f958dd97b1cf4d8862d1f0986a47d4bdfa8845252bae15ef0f40de3b95961f"
+      },
+      "evidence": {
+        "release_page": "https://github.com/fastfloat/fast_float/releases/tag/v8.2.10",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE-APACHE, LICENSE-BOOST, and LICENSE-MIT",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "fast_float-8.2.10",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc-c++",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-farsightsec-fstrm",
+      "package_id": "fstrm",
+      "canonical_name": "fstrm",
+      "summary": "Frame Streams implementation in C",
+      "license": "MIT",
+      "version": "0.6.1",
+      "upstream": {
+        "homepage": "https://github.com/farsightsec/fstrm",
+        "repository_url": "https://github.com/farsightsec/fstrm",
+        "release_api": "https://api.github.com/repos/farsightsec/fstrm/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/farsightsec/fstrm/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/farsightsec/fstrm/archive/refs/tags/v0.6.1.tar.gz",
+        "filename": "fstrm-0.6.1.tar.gz",
+        "sha256": "4f0f7ad2b760119c441aba58271e84de683b3cc138530d02710896641866e2d2"
+      },
+      "evidence": {
+        "release_page": "https://github.com/farsightsec/fstrm/releases/tag/v0.6.1",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE and COPYRIGHT",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "fstrm-0.6.1",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": true,
+          "unsafe_links": false,
+          "link_count": 5
+        }
+      },
+      "build_requires": [
+        "autoconf",
+        "automake",
+        "gcc",
+        "libevent-devel",
+        "libtool",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-redis-hiredis",
+      "package_id": "hiredis",
+      "canonical_name": "hiredis",
+      "summary": "Minimalistic C client library for Redis",
+      "license": "BSD-3-Clause",
+      "version": "1.4.1",
+      "upstream": {
+        "homepage": "https://github.com/redis/hiredis",
+        "repository_url": "https://github.com/redis/hiredis",
+        "release_api": "https://api.github.com/repos/redis/hiredis/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/redis/hiredis/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/redis/hiredis/archive/refs/tags/v1.4.1.tar.gz",
+        "filename": "hiredis-1.4.1.tar.gz",
+        "sha256": "ca3180359a8b1275838a45415851f8cd5c411e27bdbf18f4823012e45507d2e4"
+      },
+      "evidence": {
+        "release_page": "https://github.com/redis/hiredis/releases/tag/v1.4.1",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "hiredis-1.4.1",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "libevent-devel",
+        "make",
+        "openssl-devel",
+        "redis"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-json-c-json-c",
+      "package_id": "json-c",
+      "canonical_name": "json-c",
+      "summary": "JSON implementation in C",
+      "license": "MIT",
+      "version": "0.19",
+      "upstream": {
+        "homepage": "https://github.com/json-c/json-c",
+        "repository_url": "https://github.com/json-c/json-c",
+        "release_api": "https://api.github.com/repos/json-c/json-c/releases/latest",
+        "release_regex": "\\\"tag_name\\\"\\s*:\\s*\\\"json-c-(?P<version>[0-9]+(?:\\.[0-9]+)+)-[0-9]+\\\"",
+        "source_url_template": "https://github.com/json-c/json-c/releases/download/json-c-{version}-20260627/json-c-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/json-c/json-c/releases/download/json-c-0.19-20260627/json-c-0.19.tar.gz",
+        "filename": "json-c-0.19.tar.gz",
+        "sha256": "37ad0249902e301bd9052bf712e511fcc6acff4ecaad4b5900aad9ce564e26de"
+      },
+      "evidence": {
+        "release_page": "https://github.com/json-c/json-c/releases/tag/json-c-0.19-20260627",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "json-c-0.19",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": true,
+          "unsafe_links": false,
+          "link_count": 24
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-open-source-parsers-jsoncpp",
+      "package_id": "jsoncpp",
+      "canonical_name": "jsoncpp",
+      "summary": "C++ library for interacting with JSON",
+      "license": "MIT",
+      "version": "1.9.8",
+      "upstream": {
+        "homepage": "https://github.com/open-source-parsers/jsoncpp",
+        "repository_url": "https://github.com/open-source-parsers/jsoncpp",
+        "release_api": "https://api.github.com/repos/open-source-parsers/jsoncpp/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/open-source-parsers/jsoncpp/archive/refs/tags/{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/open-source-parsers/jsoncpp/archive/refs/tags/1.9.8.tar.gz",
+        "filename": "jsoncpp-1.9.8.tar.gz",
+        "sha256": "51828cf3574281d2b79ec2a1c56a9e4c20cc1103711321ea96384cffb8d2d904"
+      },
+      "evidence": {
+        "release_page": "https://github.com/open-source-parsers/jsoncpp/releases/tag/1.9.8",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "jsoncpp-1.9.8",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc-c++",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-buytenh-ivykis",
+      "package_id": "ivykis",
+      "canonical_name": "ivykis",
+      "summary": "Asynchronous I/O readiness notification library",
+      "license": "LGPL-2.1-only",
+      "version": "0.43.2",
+      "upstream": {
+        "homepage": "https://github.com/buytenh/ivykis",
+        "repository_url": "https://github.com/buytenh/ivykis",
+        "release_api": "https://api.github.com/repos/buytenh/ivykis/tags",
+        "release_regex": null,
+        "source_url_template": "https://github.com/buytenh/ivykis/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/buytenh/ivykis/archive/refs/tags/v0.43.2.tar.gz",
+        "filename": "ivykis-0.43.2.tar.gz",
+        "sha256": "5a81cb5ff94e2b9c289682204aecc675bd726d6db822c592ed9f0e3e493d488e"
+      },
+      "evidence": {
+        "release_page": "https://github.com/buytenh/ivykis/releases/tag/v0.43.2",
+        "verified_at": "2026-08-10T09:20:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "ivykis-0.43.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "unsafe_links": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "c-ares.org",
+      "package_id": "c-ares",
+      "canonical_name": "c-ares",
+      "summary": "Asynchronous DNS request library",
+      "license": "MIT",
+      "version": "1.34.8",
+      "upstream": {
+        "homepage": "https://c-ares.org/",
+        "repository_url": "https://github.com/c-ares/c-ares",
+        "release_api": "https://api.github.com/repos/c-ares/c-ares/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/c-ares/c-ares/releases/download/v{version}/c-ares-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/c-ares/c-ares/releases/download/v1.34.8/c-ares-1.34.8.tar.gz",
+        "filename": "c-ares-1.34.8.tar.gz",
+        "sha256": "c222b6d681096f9444d2c4863d2c1174019e27cacca0a4a5c114d36dd7d7bf78"
+      },
+      "evidence": {
+        "release_page": "https://github.com/c-ares/c-ares/releases/tag/v1.34.8",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE.md",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "c-ares-1.34.8",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "gcc-c++",
+        "gmock-devel",
+        "gtest-devel",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "libexpat.github.io",
+      "package_id": "expat",
+      "canonical_name": "expat",
+      "summary": "Stream-oriented XML parser library",
+      "license": "MIT",
+      "version": "2.8.2",
+      "upstream": {
+        "homepage": "https://libexpat.github.io/",
+        "repository_url": "https://github.com/libexpat/libexpat",
+        "release_api": "https://api.github.com/repos/libexpat/libexpat/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/libexpat/libexpat/releases/download/{tag}/expat-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://github.com/libexpat/libexpat/releases/download/R_2_8_2/expat-2.8.2.tar.xz",
+        "filename": "expat-2.8.2.tar.xz",
+        "sha256": "3ad89b8588e6644bd4e49981480d48b21289eebbcd4f0a1a4afb1c29f99b6ab4"
+      },
+      "evidence": {
+        "release_page": "https://github.com/libexpat/libexpat/releases/tag/R_2_8_2",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "expat-2.8.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "fftw.org",
+      "package_id": "fftw",
+      "canonical_name": "fftw",
+      "summary": "Discrete Fourier transform library",
+      "license": "GPL-2.0-or-later",
+      "version": "3.3.11",
+      "upstream": {
+        "homepage": "https://fftw.org/",
+        "repository_url": "https://github.com/FFTW/fftw3",
+        "release_api": "https://fftw.org/download.html",
+        "release_regex": "fftw-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://fftw.org/fftw-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://fftw.org/fftw-3.3.11.tar.gz",
+        "filename": "fftw-3.3.11.tar.gz",
+        "sha256": "5630c24cdeb33b131612f7eb4b1a9934234754f9f388ff8617458d0be6f239a1"
+      },
+      "evidence": {
+        "release_page": "https://fftw.org/download.html",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "fftw-3.3.11",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "pagure.io-libaio",
+      "package_id": "libaio",
+      "canonical_name": "libaio",
+      "summary": "Linux native asynchronous I/O library",
+      "license": "LGPL-2.1-or-later",
+      "version": "0.3.113",
+      "upstream": {
+        "homepage": "https://pagure.io/libaio",
+        "repository_url": "https://pagure.io/libaio",
+        "release_api": "https://releases.pagure.org/libaio/",
+        "release_regex": "libaio-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://releases.pagure.org/libaio/libaio-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://releases.pagure.org/libaio/libaio-0.3.113.tar.gz",
+        "filename": "libaio-0.3.113.tar.gz",
+        "sha256": "2c44d1c5fd0d43752287c9ae1eb9c023f04ef848ea8d4aafa46e9aedb678200b"
+      },
+      "evidence": {
+        "release_page": "https://releases.pagure.org/libaio/",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libaio-0.3.113",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-ivmai-libatomic_ops",
+      "package_id": "libatomic-ops",
+      "canonical_name": "libatomic_ops",
+      "summary": "Portable atomic memory operations library",
+      "license": "GPL-2.0-or-later AND MIT",
+      "version": "7.10.0",
+      "upstream": {
+        "homepage": "https://github.com/ivmai/libatomic_ops",
+        "repository_url": "https://github.com/ivmai/libatomic_ops",
+        "release_api": "https://api.github.com/repos/ivmai/libatomic_ops/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/bdwgc/libatomic_ops/releases/download/v{version}/libatomic_ops-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/bdwgc/libatomic_ops/releases/download/v7.10.0/libatomic_ops-7.10.0.tar.gz",
+        "filename": "libatomic_ops-7.10.0.tar.gz",
+        "sha256": "0db3ebff755db170f65e74a64ec4511812e9ee3185c232eeffeacd274190dfb0"
+      },
+      "evidence": {
+        "release_page": "https://github.com/ivmai/libatomic_ops/releases/tag/v7.10.0",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE and COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libatomic_ops-7.10.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "libevent.org",
+      "package_id": "libevent",
+      "canonical_name": "libevent",
+      "summary": "Event notification library",
+      "license": "BSD-3-Clause",
+      "version": "2.1.13",
+      "upstream": {
+        "homepage": "https://libevent.org/",
+        "repository_url": "https://github.com/libevent/libevent",
+        "release_api": "https://api.github.com/repos/libevent/libevent/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/libevent/libevent/releases/download/release-{version}-stable/libevent-{version}-stable.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/libevent/libevent/releases/download/release-2.1.13-stable/libevent-2.1.13-stable.tar.gz",
+        "filename": "libevent-2.1.13-stable.tar.gz",
+        "sha256": "f7e9383b8c0baa81b687e5b5eecc01beefaf1b19b64151d95ed61647fe7a315c"
+      },
+      "evidence": {
+        "release_page": "https://github.com/libevent/libevent/releases/tag/release-2.1.13-stable",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libevent-2.1.13-stable",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make",
+        "openssl-devel",
+        "zlib-devel"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "sourceware.org-libffi",
+      "package_id": "libffi",
+      "canonical_name": "libffi",
+      "summary": "Portable foreign function interface library",
+      "license": "MIT",
+      "version": "3.8.0",
+      "upstream": {
+        "homepage": "https://sourceware.org/libffi/",
+        "repository_url": "https://github.com/libffi/libffi",
+        "release_api": "https://api.github.com/repos/libffi/libffi/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/libffi/libffi/releases/download/v{version}/libffi-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/libffi/libffi/releases/download/v3.8.0/libffi-3.8.0.tar.gz",
+        "filename": "libffi-3.8.0.tar.gz",
+        "sha256": "7da3e2d9a171eb0a038f592ecad3ff2bb2550f3496d87b3b29ad0cf4430c0db4"
+      },
+      "evidence": {
+        "release_page": "https://github.com/libffi/libffi/releases/tag/v3.8.0",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libffi-3.8.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "gnu.org-software-libtasn1",
+      "package_id": "libtasn1",
+      "canonical_name": "libtasn1",
+      "summary": "ASN.1 library used by GnuTLS",
+      "license": "GPL-3.0-or-later AND LGPL-2.1-or-later AND GFDL-1.3-or-later",
+      "version": "4.21.0",
+      "upstream": {
+        "homepage": "https://www.gnu.org/software/libtasn1/",
+        "repository_url": "https://gitlab.com/gnutls/libtasn1",
+        "release_api": "https://ftp.gnu.org/gnu/libtasn1/",
+        "release_regex": "libtasn1-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://ftp.gnu.org/gnu/libtasn1/libtasn1-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.21.0.tar.gz",
+        "filename": "libtasn1-4.21.0.tar.gz",
+        "sha256": "1d8a444a223cc5464240777346e125de51d8e6abf0b8bac742ac84609167dc87"
+      },
+      "evidence": {
+        "release_page": "https://ftp.gnu.org/gnu/libtasn1/",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING and COPYING.LESSERv2",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libtasn1-4.21.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "libzip.org",
+      "package_id": "libzip",
+      "canonical_name": "libzip",
+      "summary": "Library for reading, creating, and modifying ZIP archives",
+      "license": "BSD-3-Clause",
+      "version": "1.11.4",
+      "upstream": {
+        "homepage": "https://libzip.org/",
+        "repository_url": "https://github.com/nih-at/libzip",
+        "release_api": "https://libzip.org/download/",
+        "release_regex": "libzip-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://libzip.org/download/libzip-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://libzip.org/download/libzip-1.11.4.tar.xz",
+        "filename": "libzip-1.11.4.tar.xz",
+        "sha256": "8a247f57d1e3e6f6d11413b12a6f28a9d388de110adc0ec608d893180ed7097b"
+      },
+      "evidence": {
+        "release_page": "https://libzip.org/download/",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libzip-1.11.4",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "bzip2-devel",
+        "cmake",
+        "gcc",
+        "make",
+        "openssl-devel",
+        "xz-devel",
+        "zlib-devel",
+        "zstd-devel"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-lz4-lz4",
+      "package_id": "lz4",
+      "canonical_name": "lz4",
+      "summary": "Fast lossless compression algorithm and tools",
+      "license": "BSD-2-Clause AND GPL-2.0-or-later",
+      "version": "1.10.0",
+      "upstream": {
+        "homepage": "https://lz4.org/",
+        "repository_url": "https://github.com/lz4/lz4",
+        "release_api": "https://api.github.com/repos/lz4/lz4/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/lz4/lz4/releases/download/v{version}/lz4-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/lz4/lz4/releases/download/v1.10.0/lz4-1.10.0.tar.gz",
+        "filename": "lz4-1.10.0.tar.gz",
+        "sha256": "537512904744b35e232912055ccf8ec66d768639ff3abe5788d90d792ec5f48b"
+      },
+      "evidence": {
+        "release_page": "https://github.com/lz4/lz4/releases/tag/v1.10.0",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE, lib/LICENSE, and programs/COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "lz4-1.10.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-kkos-oniguruma",
+      "package_id": "oniguruma",
+      "canonical_name": "oniguruma",
+      "summary": "Regular expression library supporting multiple encodings",
+      "license": "BSD-2-Clause",
+      "version": "6.9.10",
+      "upstream": {
+        "homepage": "https://github.com/kkos/oniguruma",
+        "repository_url": "https://github.com/kkos/oniguruma",
+        "release_api": "https://api.github.com/repos/kkos/oniguruma/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/kkos/oniguruma/releases/download/v{version}/onig-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/kkos/oniguruma/releases/download/v6.9.10/onig-6.9.10.tar.gz",
+        "filename": "onig-6.9.10.tar.gz",
+        "sha256": "2a5cfc5ae259e4e97f86b68dfffc152cdaffe94e2060b770cb827238d769fc05"
+      },
+      "evidence": {
+        "release_page": "https://github.com/kkos/oniguruma/releases/tag/v6.9.10",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "onig-6.9.10",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-google-snappy",
+      "package_id": "snappy",
+      "canonical_name": "snappy",
+      "summary": "Fast compression and decompression library",
+      "license": "BSD-3-Clause",
+      "version": "1.2.2",
+      "upstream": {
+        "homepage": "https://github.com/google/snappy",
+        "repository_url": "https://github.com/google/snappy",
+        "release_api": "https://api.github.com/repos/google/snappy/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/google/snappy/archive/refs/tags/{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/google/snappy/archive/refs/tags/1.2.2.tar.gz",
+        "filename": "snappy-1.2.2.tar.gz",
+        "sha256": "90f74bc1fbf78a6c56b3c4a082a05103b3a56bb17bca1a27e052ea11723292dc"
+      },
+      "evidence": {
+        "release_page": "https://github.com/google/snappy/releases/tag/1.2.2",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "snappy-1.2.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc-c++",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-neovim-unibilium",
+      "package_id": "unibilium",
+      "canonical_name": "unibilium",
+      "summary": "Terminfo parsing library",
+      "license": "LGPL-3.0-or-later",
+      "version": "2.1.2",
+      "upstream": {
+        "homepage": "https://github.com/neovim/unibilium",
+        "repository_url": "https://github.com/neovim/unibilium",
+        "release_api": "https://api.github.com/repos/neovim/unibilium/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/neovim/unibilium/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/neovim/unibilium/archive/refs/tags/v2.1.2.tar.gz",
+        "filename": "unibilium-2.1.2.tar.gz",
+        "sha256": "370ecb07fbbc20d91d1b350c55f1c806b06bf86797e164081ccc977fc9b3af7a"
+      },
+      "evidence": {
+        "release_page": "https://github.com/neovim/unibilium/releases/tag/v2.1.2",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE, LGPLv3, and GPLv3",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "unibilium-2.1.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "autoconf",
+        "gcc",
+        "libtool",
+        "make",
+        "perl",
+        "perl-Test-Harness"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-yaml-libyaml",
+      "package_id": "libyaml",
+      "canonical_name": "libyaml",
+      "summary": "YAML 1.1 parser and emitter library",
+      "license": "MIT",
+      "version": "0.2.5",
+      "upstream": {
+        "homepage": "https://github.com/yaml/libyaml",
+        "repository_url": "https://github.com/yaml/libyaml",
+        "release_api": "https://api.github.com/repos/yaml/libyaml/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/yaml/libyaml/releases/download/{version}/yaml-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz",
+        "filename": "yaml-0.2.5.tar.gz",
+        "sha256": "c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4"
+      },
+      "evidence": {
+        "release_page": "https://github.com/yaml/libyaml/releases/tag/0.2.5",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "License",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "yaml-0.2.5",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-facebook-zstd",
+      "package_id": "zstd",
+      "canonical_name": "zstd",
+      "summary": "Fast real-time compression algorithm and tools",
+      "license": "BSD-3-Clause AND GPL-2.0-only",
+      "version": "1.5.7",
+      "upstream": {
+        "homepage": "https://facebook.github.io/zstd/",
+        "repository_url": "https://github.com/facebook/zstd",
+        "release_api": "https://api.github.com/repos/facebook/zstd/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/facebook/zstd/releases/download/v{version}/zstd-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.gz",
+        "filename": "zstd-1.5.7.tar.gz",
+        "sha256": "eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3"
+      },
+      "evidence": {
+        "release_page": "https://github.com/facebook/zstd/releases/tag/v1.5.7",
+        "verified_at": "2026-08-10T10:30:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "LICENSE and COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "zstd-1.5.7",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": true,
+          "unsafe_links": false,
+          "link_count": 2
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "sourceware.org-bzip2",
+      "package_id": "bzip2",
+      "canonical_name": "bzip2",
+      "summary": "High-quality data compression utilities and library",
+      "license": "bzip2-1.0.6",
+      "version": "1.0.8",
+      "upstream": {
+        "homepage": "https://sourceware.org/bzip2/",
+        "repository_url": "https://sourceware.org/git/bzip2.git",
+        "release_api": "https://sourceware.org/pub/bzip2/",
+        "release_regex": "bzip2-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://sourceware.org/pub/bzip2/bzip2-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz",
+        "filename": "bzip2-1.0.8.tar.gz",
+        "sha256": "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
+      },
+      "evidence": {
+        "release_page": "https://sourceware.org/pub/bzip2/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "bzip2-1.0.8",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "libcheck.github.io-check",
+      "package_id": "check",
+      "canonical_name": "check",
+      "summary": "Unit testing framework for C",
+      "license": "LGPL-2.1-or-later",
+      "version": "0.15.2",
+      "upstream": {
+        "homepage": "https://libcheck.github.io/check/",
+        "repository_url": "https://github.com/libcheck/check",
+        "release_api": "https://api.github.com/repos/libcheck/check/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/libcheck/check/releases/download/{version}/check-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz",
+        "filename": "check-0.15.2.tar.gz",
+        "sha256": "a8de4e0bacfb4d76dd1c618ded263523b53b85d92a146d8835eb1a52932fa20a"
+      },
+      "evidence": {
+        "release_page": "https://github.com/libcheck/check/releases/tag/0.15.2",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "COPYING.LESSER",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "check-0.15.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gawk",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-davegamble-cjson",
+      "package_id": "cjson",
+      "canonical_name": "cjson",
+      "summary": "Ultralightweight JSON parser in ANSI C",
+      "license": "MIT",
+      "version": "1.7.19",
+      "upstream": {
+        "homepage": "https://github.com/DaveGamble/cJSON",
+        "repository_url": "https://github.com/DaveGamble/cJSON",
+        "release_api": "https://api.github.com/repos/DaveGamble/cJSON/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/DaveGamble/cJSON/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/DaveGamble/cJSON/archive/refs/tags/v1.7.19.tar.gz",
+        "filename": "cjson-1.7.19.tar.gz",
+        "sha256": "7fa616e3046edfa7a28a32d5f9eacfd23f92900fe1f8ccd988c1662f30454562"
+      },
+      "evidence": {
+        "release_page": "https://github.com/DaveGamble/cJSON/releases/tag/v1.7.19",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "cJSON-1.7.19",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "libbsd.freedesktop.org",
+      "package_id": "libbsd",
+      "canonical_name": "libbsd",
+      "summary": "Utility functions from BSD systems",
+      "license": "BSD-3-Clause AND BSD-2-Clause AND BSD-4-Clause-UC AND ISC AND LicenseRef-Beerware AND LicenseRef-Public-Domain",
+      "version": "0.12.2",
+      "upstream": {
+        "homepage": "https://libbsd.freedesktop.org/",
+        "repository_url": "https://gitlab.freedesktop.org/libbsd/libbsd",
+        "release_api": "https://libbsd.freedesktop.org/releases/",
+        "release_regex": "libbsd-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://libbsd.freedesktop.org/releases/libbsd-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://libbsd.freedesktop.org/releases/libbsd-0.12.2.tar.xz",
+        "filename": "libbsd-0.12.2.tar.xz",
+        "sha256": "b88cc9163d0c652aaf39a99991d974ddba1c3a9711db8f1b5838af2a14731014"
+      },
+      "evidence": {
+        "release_page": "https://libbsd.freedesktop.org/releases/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libbsd-0.12.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "libmd-devel",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-stevegrubb-libcap-ng",
+      "package_id": "libcap-ng",
+      "canonical_name": "libcap-ng",
+      "summary": "Alternate POSIX capabilities library",
+      "license": "GPL-2.0-or-later AND LGPL-2.1-or-later",
+      "version": "0.9.2",
+      "upstream": {
+        "homepage": "https://github.com/stevegrubb/libcap-ng",
+        "repository_url": "https://github.com/stevegrubb/libcap-ng",
+        "release_api": "https://api.github.com/repos/stevegrubb/libcap-ng/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/stevegrubb/libcap-ng/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/stevegrubb/libcap-ng/archive/refs/tags/v0.9.2.tar.gz",
+        "filename": "libcap-ng-0.9.2.tar.gz",
+        "sha256": "df6910d996818848de92db9c05f96492e008c4e35f96a8673f9b7cc44f5cf813"
+      },
+      "evidence": {
+        "release_page": "https://github.com/stevegrubb/libcap-ng/releases/tag/v0.9.2",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING and COPYING.LIB",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libcap-ng-0.9.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "autoconf",
+        "automake",
+        "gcc",
+        "libtool",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "maxmind.github.io-libmaxminddb",
+      "package_id": "libmaxminddb",
+      "canonical_name": "libmaxminddb",
+      "summary": "Library for reading MaxMind DB files",
+      "license": "Apache-2.0",
+      "version": "1.13.3",
+      "upstream": {
+        "homepage": "https://maxmind.github.io/libmaxminddb/",
+        "repository_url": "https://github.com/maxmind/libmaxminddb",
+        "release_api": "https://api.github.com/repos/maxmind/libmaxminddb/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/maxmind/libmaxminddb/releases/download/{version}/libmaxminddb-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/maxmind/libmaxminddb/releases/download/1.13.3/libmaxminddb-1.13.3.tar.gz",
+        "filename": "libmaxminddb-1.13.3.tar.gz",
+        "sha256": "a66502ea76eadbe17f2cd6fd708946777253972d2ae8157dee1b23a2fb528171"
+      },
+      "evidence": {
+        "release_page": "https://github.com/maxmind/libmaxminddb/releases/tag/1.13.3",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "LICENSE and NOTICE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libmaxminddb-1.13.3",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "gcc-c++",
+        "make",
+        "perl"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "hadrons.org-software-libmd",
+      "package_id": "libmd",
+      "canonical_name": "libmd",
+      "summary": "Message-digest functions from BSD systems",
+      "license": "BSD-3-Clause AND BSD-2-Clause AND ISC AND LicenseRef-Beerware AND LicenseRef-Public-Domain",
+      "version": "1.2.0",
+      "upstream": {
+        "homepage": "https://www.hadrons.org/software/libmd/",
+        "repository_url": "https://git.hadrons.org/cgit/libmd.git",
+        "release_api": "https://libbsd.freedesktop.org/releases/",
+        "release_regex": "libmd-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://libbsd.freedesktop.org/releases/libmd-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://libbsd.freedesktop.org/releases/libmd-1.2.0.tar.xz",
+        "filename": "libmd-1.2.0.tar.xz",
+        "sha256": "ac15ffb8430502fbaccdec66c5a82ee0eab0b0f36220df56710feadfeb13d0a0"
+      },
+      "evidence": {
+        "release_page": "https://libbsd.freedesktop.org/releases/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libmd-1.2.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "netfilter.org-projects-libmnl",
+      "package_id": "libmnl",
+      "canonical_name": "libmnl",
+      "summary": "Minimalistic Netlink userspace library",
+      "license": "LGPL-2.1-only",
+      "version": "1.0.5",
+      "upstream": {
+        "homepage": "https://netfilter.org/projects/libmnl/",
+        "repository_url": "https://git.netfilter.org/libmnl/",
+        "release_api": "https://netfilter.org/projects/libmnl/files/",
+        "release_regex": "libmnl-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+        "source_url_template": "https://netfilter.org/projects/libmnl/files/libmnl-{version}.tar.bz2"
+      },
+      "source": {
+        "url": "https://netfilter.org/projects/libmnl/files/libmnl-1.0.5.tar.bz2",
+        "filename": "libmnl-1.0.5.tar.bz2",
+        "sha256": "274b9b919ef3152bfb3da3a13c950dd60d6e2bcd54230ffeca298d03b40d0525"
+      },
+      "evidence": {
+        "release_page": "https://netfilter.org/projects/libmnl/files/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libmnl-1.0.5",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "mpfr.org",
+      "package_id": "mpfr",
+      "canonical_name": "mpfr",
+      "summary": "Multiple-precision floating-point library with correct rounding",
+      "license": "LGPL-3.0-or-later AND GFDL-1.3-or-later",
+      "version": "4.2.2",
+      "upstream": {
+        "homepage": "https://www.mpfr.org/",
+        "repository_url": "https://gitlab.inria.fr/mpfr/mpfr",
+        "release_api": "https://www.mpfr.org/mpfr-current/",
+        "release_regex": "mpfr-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://www.mpfr.org/mpfr-{version}/mpfr-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://www.mpfr.org/mpfr-4.2.2/mpfr-4.2.2.tar.xz",
+        "filename": "mpfr-4.2.2.tar.xz",
+        "sha256": "b67ba0383ef7e8a8563734e2e889ef5ec3c3b898a01d00fa0a6869ad81c6ce01"
+      },
+      "evidence": {
+        "release_page": "https://www.mpfr.org/mpfr-4.2.2/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING.LESSER and COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "mpfr-4.2.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "gmp-devel",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "oberhumer.com-opensource-lzo",
+      "package_id": "lzo",
+      "canonical_name": "lzo",
+      "summary": "Data compression library optimized for decompression speed",
+      "license": "GPL-2.0-or-later",
+      "version": "2.10",
+      "upstream": {
+        "homepage": "https://www.oberhumer.com/opensource/lzo/",
+        "repository_url": "https://www.oberhumer.com/opensource/lzo/",
+        "release_api": "https://www.oberhumer.com/opensource/lzo/download/",
+        "release_regex": "lzo-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://www.oberhumer.com/opensource/lzo/download/lzo-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz",
+        "filename": "lzo-2.10.tar.gz",
+        "sha256": "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072"
+      },
+      "evidence": {
+        "release_page": "https://www.oberhumer.com/opensource/lzo/download/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "lzo-2.10",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "gnu.org-software-m4",
+      "package_id": "m4",
+      "canonical_name": "m4",
+      "summary": "GNU macro processor",
+      "license": "GPL-3.0-or-later",
+      "version": "1.4.21",
+      "upstream": {
+        "homepage": "https://www.gnu.org/software/m4/",
+        "repository_url": "https://git.savannah.gnu.org/cgit/m4.git",
+        "release_api": "https://ftp.gnu.org/gnu/m4/",
+        "release_regex": "m4-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://ftpmirror.gnu.org/m4/m4-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://ftpmirror.gnu.org/m4/m4-1.4.21.tar.xz",
+        "filename": "m4-1.4.21.tar.xz",
+        "sha256": "f25c6ab51548a73a75558742fb031e0625d6485fe5f9155949d6486a2408ab66"
+      },
+      "evidence": {
+        "release_page": "https://ftp.gnu.org/gnu/m4/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "m4-1.4.21",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "ninja-build.org",
+      "package_id": "ninja-build",
+      "canonical_name": "ninja-build",
+      "summary": "Small build system focused on speed",
+      "license": "Apache-2.0",
+      "version": "1.13.2",
+      "upstream": {
+        "homepage": "https://ninja-build.org/",
+        "repository_url": "https://github.com/ninja-build/ninja",
+        "release_api": "https://api.github.com/repos/ninja-build/ninja/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/ninja-build/ninja/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/ninja-build/ninja/archive/refs/tags/v1.13.2.tar.gz",
+        "filename": "ninja-build-1.13.2.tar.gz",
+        "sha256": "974d6b2f4eeefa25625d34da3cb36bdcebe7fbce40f4c16ac0835fd1c0cbae17"
+      },
+      "evidence": {
+        "release_page": "https://github.com/ninja-build/ninja/releases/tag/v1.13.2",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "ninja-1.13.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc-c++",
+        "gtest-devel",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-juliastrings-utf8proc",
+      "package_id": "utf8proc",
+      "canonical_name": "utf8proc",
+      "summary": "Unicode normalization and case-folding library",
+      "license": "MIT",
+      "version": "2.11.3",
+      "upstream": {
+        "homepage": "https://github.com/JuliaStrings/utf8proc",
+        "repository_url": "https://github.com/JuliaStrings/utf8proc",
+        "release_api": "https://api.github.com/repos/JuliaStrings/utf8proc/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/JuliaStrings/utf8proc/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/JuliaStrings/utf8proc/archive/refs/tags/v2.11.3.tar.gz",
+        "filename": "utf8proc-2.11.3.tar.gz",
+        "sha256": "abfed50b6d4da51345713661370290f4f4747263ee73dc90356299dfc7990c78"
+      },
+      "evidence": {
+        "release_page": "https://github.com/JuliaStrings/utf8proc/releases/tag/v2.11.3",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE.md",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "utf8proc-2.11.3",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-troydhanson-uthash",
+      "package_id": "uthash",
+      "canonical_name": "uthash",
+      "summary": "Hash table and utility headers for C",
+      "license": "BSD-1-Clause",
+      "version": "2.3.0",
+      "upstream": {
+        "homepage": "https://troydhanson.github.io/uthash/",
+        "repository_url": "https://github.com/troydhanson/uthash",
+        "release_api": "https://api.github.com/repos/troydhanson/uthash/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/troydhanson/uthash/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/troydhanson/uthash/archive/refs/tags/v2.3.0.tar.gz",
+        "filename": "uthash-2.3.0.tar.gz",
+        "sha256": "e10382ab75518bad8319eb922ad04f907cb20cccb451a3aa980c9d005e661acc"
+      },
+      "evidence": {
+        "release_page": "https://github.com/troydhanson/uthash/releases/tag/v2.3.0",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "uthash-2.3.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": true,
+          "unsafe_links": false,
+          "link_count": 1
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make",
+        "perl"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-lloyd-yajl",
+      "package_id": "yajl",
+      "canonical_name": "yajl",
+      "summary": "Yet Another JSON Library",
+      "license": "ISC",
+      "version": "2.1.0",
+      "upstream": {
+        "homepage": "https://github.com/lloyd/yajl",
+        "repository_url": "https://github.com/lloyd/yajl",
+        "release_api": "https://api.github.com/repos/lloyd/yajl/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/lloyd/yajl/archive/refs/tags/{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/lloyd/yajl/archive/refs/tags/2.1.0.tar.gz",
+        "filename": "yajl-2.1.0.tar.gz",
+        "sha256": "3fb73364a5a30efe615046d07e6db9d09fd2b41c763c5f7d3bfb121cd5c5ac5a"
+      },
+      "evidence": {
+        "release_page": "https://github.com/lloyd/yajl/releases/tag/2.1.0",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "yajl-2.1.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    }
   ]
 }

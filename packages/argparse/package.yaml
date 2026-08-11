@@ -1,0 +1,140 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/p-ranav/argparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "argparse",
+        "package_name": "argparse",
+        "source": "arch-extra",
+        "source_version": "3.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/p-ranav/argparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-argparse",
+        "package_name": "android-aarch64-argparse",
+        "source": "aur",
+        "source_version": "3.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/p-ranav/argparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-argparse",
+        "package_name": "android-armv7a-eabi-argparse",
+        "source": "aur",
+        "source_version": "3.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/p-ranav/argparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-argparse",
+        "package_name": "android-riscv64-argparse",
+        "source": "aur",
+        "source_version": "3.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/p-ranav/argparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-argparse",
+        "package_name": "android-x86-64-argparse",
+        "source": "aur",
+        "source_version": "3.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/p-ranav/argparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-argparse",
+        "package_name": "android-x86-argparse",
+        "source": "aur",
+        "source_version": "3.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/p-ranav/argparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libargparse",
+        "package_name": "libargparse",
+        "source": "debian",
+        "source_version": "3.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/p-ranav/argparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "argparse",
+        "package_name": "argparse",
+        "source": "fedora",
+        "source_version": "3.2-4.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/p-ranav/argparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "argparse",
+        "package_name": "argparse",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.2-1.4"
+      },
+      {
+        "evidence_url": "https://github.com/p-ranav/argparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libargparse",
+        "package_name": "libargparse",
+        "source": "ubuntu",
+        "source_version": "3.2-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "argparse.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "argparse",
+  "rpm": {
+    "license": "MIT",
+    "name": "argparse",
+    "summary": "Header-only argument parser for modern C++"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-p-ranav-argparse",
+    "homepage": "https://github.com/p-ranav/argparse",
+    "release_api": "https://api.github.com/repos/p-ranav/argparse/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/p-ranav/argparse",
+    "source_url_template": "https://github.com/p-ranav/argparse/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.2",
+    "latest_detected": "3.2",
+    "release": "1"
+  }
+}

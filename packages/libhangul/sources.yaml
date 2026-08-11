@@ -1,0 +1,21 @@
+{
+  "package_id": "libhangul",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "db9a256ff1e2c639ea8168f5e8741dae95ad7ea563f257b1dbd098afd8e48487"
+      },
+      "filename": "libhangul-0.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libhangul/libhangul/archive/refs/tags/libhangul-0.2.0.tar.gz",
+      "version": "0.2.0"
+    }
+  ]
+}
