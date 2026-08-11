@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/libksba/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libksba",
+        "package_name": "libksba",
+        "source": "arch-core",
+        "source_version": "1.8.0-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libksba",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libksba",
+        "package_name": "android-riscv64-libksba",
+        "source": "aur",
+        "source_version": "1.6.7-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libksba",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libksba",
+        "package_name": "libksba",
+        "source": "debian",
+        "source_version": "1.6.7-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libksba/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libksba",
+        "package_name": "libksba",
+        "source": "fedora",
+        "source_version": "1.6.7-5.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libksba",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libksba",
+        "package_name": "libksba",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.8.0-1.3"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libksba",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libksba",
+        "package_name": "libksba",
+        "source": "ubuntu",
+        "source_version": "1.6.7-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libksba.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 1.8.0 archive independently downloaded, inspected, and pinned. Fedora dist-git and AUR data were reviewed as untrusted text metadata only and were not executed.",
+    "status": "active"
+  },
+  "package_id": "libksba",
+  "rpm": {
+    "license": "GPL-3.0-or-later AND LGPL-2.1-or-later AND (LGPL-3.0-or-later OR GPL-2.0-or-later)",
+    "name": "libksba",
+    "summary": "CMS and X.509 certificate access library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnupg.org-related-software-libksba",
+    "homepage": "https://gnupg.org/related_software/libksba/",
+    "release_api": "https://gnupg.org/ftp/gcrypt/libksba/",
+    "release_channel": "stable",
+    "release_regex": "libksba-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+    "source_repository": "https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git",
+    "source_url_template": "https://gnupg.org/ftp/gcrypt/libksba/libksba-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "1.8.0",
+    "latest_detected": "1.8.0",
+    "release": "1"
+  }
+}
