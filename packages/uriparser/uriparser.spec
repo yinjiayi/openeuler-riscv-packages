@@ -29,7 +29,7 @@ metadata for developing applications with uriparser.
 %autosetup
 
 %build
-%cmake \
+%cmake_conf \
   -DURIPARSER_BUILD_DOCS=OFF \
   -DURIPARSER_BUILD_TESTS=ON \
   -DURIPARSER_BUILD_TOOLS=ON \
