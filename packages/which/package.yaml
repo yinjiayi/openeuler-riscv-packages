@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/which/",
+        "observed_at": "2026-08-11T10:27:00Z",
+        "package_base": "which",
+        "package_name": "which",
+        "source": "arch-core",
+        "source_version": "2.25-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/which-git",
+        "observed_at": "2026-08-11T10:27:00Z",
+        "package_base": "which-git",
+        "package_name": "which-git",
+        "source": "aur",
+        "source_version": "r251.g3e2c8f8-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/debianutils",
+        "observed_at": "2026-08-11T10:27:00Z",
+        "package_base": "debianutils",
+        "package_name": "debianutils",
+        "source": "debian",
+        "source_version": "5.23.2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/which/tree/f44",
+        "observed_at": "2026-08-11T10:27:00Z",
+        "package_base": "which",
+        "package_name": "which",
+        "source": "fedora",
+        "source_version": "2.25-1.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/which",
+        "observed_at": "2026-08-11T10:27:00Z",
+        "package_base": "which",
+        "package_name": "which",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.25"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/debianutils",
+        "observed_at": "2026-08-11T10:27:00Z",
+        "package_base": "debianutils",
+        "package_name": "debianutils",
+        "source": "ubuntu",
+        "source_version": "5.23.2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260811T102700Z-41bc4c677ad41d77"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "which.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official GNU Which 2.25 stable release bytes are SHA-256 pinned. Fedora 44, Arch stable, and openSUSE Tumbleweed independently confirm this release. Debian stable and Ubuntu GA provide their which command from the different debianutils component; those rows are functional-provider evidence only and were not used for upstream identity or version selection. AUR was queried through RPC only, and no AUR packaging content was read or executed. Distribution specs were treated only as untrusted, read-only lineage references and were never executed.",
+    "status": "active"
+  },
+  "package_id": "which",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "which",
+    "summary": "Display the full path of commands"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "gnu-ftp-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-which",
+    "homepage": "https://savannah.gnu.org/projects/which/",
+    "release_api": "https://ftp.gnu.org/gnu/which/",
+    "release_channel": "stable",
+    "release_regex": "which-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://git.savannah.gnu.org/git/which.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/which/which-{version}.tar.gz"
+  },
+  "version": {"current": "2.25", "latest_detected": "2.25", "release": "1"}
+}
