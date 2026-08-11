@@ -19,8 +19,16 @@ The fixed target repodata contains every declared BuildRequires. `%check`
 runs the complete upstream test target without deleting or conditionally
 skipping its xattr tests. The installed smoke test writes, reads, removes, and
 confirms removal of a real `user.*` extended attribute. No downstream or
-RISC-V patch is currently required. RISC-V build status remains `unknown`
-until the locked QEMU CI image runs the RPM build.
+RISC-V patch is currently required. Exact-head locked QEMU CI reached the full
+test suite: `test/attr.run` passed, while the root-only `getfattr` and `restore`
+tests received `EPERM` when writing `trusted.*` extended attributes to symbolic
+links. Those operations require `CAP_SYS_ADMIN` and compatible filesystem
+namespace semantics that the unprivileged container does not provide; this is
+not a RISC-V instruction or QEMU CPU failure. The unchanged full suite is
+therefore conservatively routed as `needs-native-riscv` and requires a
+controlled privileged native RISC-V validation environment. Native hardware
+alone does not guarantee the required privileges or filesystem behavior, and
+RISC-V build status remains `unknown` until that validation is available.
 
 External source licenses remain those of upstream. Apache-2.0 covers only the
 original packaging metadata, test, and documentation in this directory.

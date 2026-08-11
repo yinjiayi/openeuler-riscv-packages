@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "The complete upstream root tests write trusted.* extended attributes to symbolic links, which requires CAP_SYS_ADMIN and compatible filesystem namespace semantics. The current unprivileged QEMU container returns EPERM, so validation requires a controlled privileged native RISC-V environment; native hardware alone does not guarantee the required privileges or filesystem behavior.",
     "network_during_build": false,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 60
   },
   "discovery": {
