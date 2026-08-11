@@ -8,6 +8,7 @@ URL:            https://github.com/google/benchmark
 Source0:        benchmark-%{version}.tar.gz
 
 BuildRequires:  cmake
+BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  gtest-devel
 BuildRequires:  make
@@ -29,10 +30,12 @@ developing benchmarks.
 
 %build
 %cmake_conf \
+  -DGIT_VERSION=%{version} \
   -DBENCHMARK_ENABLE_TESTING=ON \
   -DBENCHMARK_ENABLE_GTEST_TESTS=ON \
   -DBENCHMARK_USE_BUNDLED_GTEST=OFF \
   -DBENCHMARK_DOWNLOAD_DEPENDENCIES=OFF \
+  -DBENCHMARK_ENABLE_DOXYGEN=OFF \
   -DBENCHMARK_ENABLE_WERROR=OFF \
   -DBENCHMARK_ENABLE_ASSEMBLY_TESTS=OFF \
   -DBENCHMARK_ENABLE_INSTALL=ON \
@@ -47,7 +50,7 @@ developing benchmarks.
 %ctest
 
 %files
-%license LICENSE
+%license AUTHORS CONTRIBUTORS LICENSE
 %doc README.md
 %{_libdir}/libbenchmark.so.1*
 %{_libdir}/libbenchmark_main.so.1*
