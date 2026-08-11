@@ -67,12 +67,14 @@ find %{buildroot} -name '*.la' -delete -print
 %license AUTHORS COPYING.LIB LICENSING
 %doc NEWS README THANKS TODO
 %{_libdir}/libcrypt.so.1*
+%{_libdir}/libowcrypt.so.1*
 %{_mandir}/man5/crypt.5*
 
 %files devel
 %{_includedir}/crypt.h
 %{_includedir}/xcrypt.h
 %{_libdir}/libcrypt.so
+%{_libdir}/libowcrypt.so
 %{_libdir}/libxcrypt.so
 %{_libdir}/pkgconfig/libcrypt.pc
 %{_libdir}/pkgconfig/libxcrypt.pc
