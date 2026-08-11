@@ -24,6 +24,7 @@ Requires:       file
 Requires:       findutils
 Requires:       gawk
 Requires:       grep
+Requires:       jq
 Requires:       openssl
 Requires:       procps-ng
 Requires:       sed
