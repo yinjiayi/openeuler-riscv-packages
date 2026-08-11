@@ -1,0 +1,19 @@
+{
+  "package_id": "patch",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "f87cee69eec2b4fcbf60a396b030ad6aa3415f192aa5f7ee84cad5e11f7f5ae3"},
+      "filename": "patch-2.8.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL-3.0-or-later source is fetched from the official GNU release archive in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/patch/patch-2.8.tar.xz",
+      "version": "2.8"
+    }
+  ]
+}

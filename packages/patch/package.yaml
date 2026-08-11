@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/patch/",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "patch",
+        "package_name": "patch",
+        "source": "arch-core",
+        "source_version": "2.8-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/patch-git",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "patch-git",
+        "package_name": "patch-git",
+        "source": "aur",
+        "source_version": "2.7.6.r29.gc835ecc-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/patch",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "patch",
+        "package_name": "patch",
+        "source": "debian",
+        "source_version": "2.8-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/patch/tree/f44",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "patch",
+        "package_name": "patch",
+        "source": "fedora",
+        "source_version": "2.8-4.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/patch",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "patch",
+        "package_name": "patch",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.8"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/patch",
+        "observed_at": "2026-08-11T09:18:13Z",
+        "package_base": "patch",
+        "package_name": "patch",
+        "source": "ubuntu",
+        "source_version": "2.8-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "patch.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official GNU stable archive independently reviewed and SHA-256 pinned. AUR was queried through RPC only; the stale VCS entry was excluded and no external distribution packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "patch",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "patch",
+    "summary": "Utility for applying diff files"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "gnu-ftp-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-patch",
+    "homepage": "https://savannah.gnu.org/projects/patch/",
+    "release_api": "https://ftp.gnu.org/gnu/patch/",
+    "release_channel": "stable",
+    "release_regex": "patch-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://git.savannah.gnu.org/git/patch.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/patch/patch-{version}.tar.xz"
+  },
+  "version": {"current": "2.8", "latest_detected": "2.8", "release": "1"}
+}
