@@ -6,57 +6,57 @@
     "timeout_minutes": 120
   },
   "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
     "lineage": [
       {
-        "evidence_url": "https://archlinux.org/packages/extra/x86_64/opus/",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "opus",
-        "package_name": "opus",
         "source": "arch-extra",
-        "source_version": "1.6.1-1"
+        "package_name": "opus",
+        "package_base": "opus",
+        "source_version": "1.6.1-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/opus/",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-opus",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "android-riscv64-opus",
-        "package_name": "android-riscv64-opus",
         "source": "aur",
-        "source_version": "1.6.1-1"
+        "package_name": "android-riscv64-opus",
+        "package_base": "android-riscv64-opus",
+        "source_version": "1.6.1-1",
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-opus",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://packages.debian.org/source/stable/opus",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "opus",
-        "package_name": "opus",
         "source": "debian",
-        "source_version": "1.5.2-2"
+        "package_name": "opus",
+        "package_base": "opus",
+        "source_version": "1.5.2-2",
+        "evidence_url": "https://packages.debian.org/source/stable/opus",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://src.fedoraproject.org/rpms/opus/tree/f44",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "opus",
-        "package_name": "opus",
         "source": "fedora",
-        "source_version": "1.6-2.fc44"
+        "package_name": "opus",
+        "package_base": "opus",
+        "source_version": "1.6-2.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/opus/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/opus",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "opus",
-        "package_name": "opus",
         "source": "opensuse-tumbleweed",
-        "source_version": "1.6.1"
+        "package_name": "opus",
+        "package_base": "opus",
+        "source_version": "1.6.1-1.5",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/opus",
+        "observed_at": "2026-08-08T16:50:00Z"
       },
       {
-        "evidence_url": "https://packages.ubuntu.com/source/resolute/opus",
-        "observed_at": "2026-08-11T10:16:24Z",
-        "package_base": "opus",
-        "package_name": "opus",
         "source": "ubuntu",
-        "source_version": "1.6.1-1"
+        "package_name": "opus",
+        "package_base": "opus",
+        "source_version": "1.6.1-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/opus",
+        "observed_at": "2026-08-08T16:50:00Z"
       }
-    ],
-    "snapshot_id": "discovery-20260811T101624Z-507c329595223793"
+    ]
   },
   "files": {
     "patches": [],
