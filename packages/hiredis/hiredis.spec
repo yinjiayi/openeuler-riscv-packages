@@ -11,6 +11,7 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  libevent-devel
 BuildRequires:  make
+BuildRequires:  openssl
 BuildRequires:  openssl-devel
 BuildRequires:  redis
 
