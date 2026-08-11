@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           range-v3
 Version:        0.12.0
 Release:        1%{?dist}
@@ -10,7 +12,6 @@ BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  make
 
-
 %description
 range-v3 provides composable algorithms and range views for C++11 and newer.
 
@@ -21,8 +22,10 @@ range-v3 provides composable algorithms and range views for C++11 and newer.
 %cmake_conf \
   -DRANGE_V3_DOCS=OFF \
   -DRANGE_V3_EXAMPLES=OFF \
+  -DRANGE_V3_PERF=OFF \
   -DRANGE_V3_TESTS=ON \
   -DRANGES_ENABLE_WERROR=OFF \
+  -DRANGES_MODULES=OFF \
   -DRANGES_NATIVE=OFF
 %cmake_build
 
@@ -34,10 +37,12 @@ range-v3 provides composable algorithms and range views for C++11 and newer.
 
 %files
 %license LICENSE.txt
-%doc README.md
+%doc CREDITS.md README.md TODO.md
+%exclude %{_includedir}/module.modulemap
 %{_includedir}/concepts/
 %{_includedir}/meta/
 %{_includedir}/range/
+%{_includedir}/std/
 %{_libdir}/cmake/range-v3/
 
 %changelog
