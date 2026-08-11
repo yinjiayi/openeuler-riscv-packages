@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable release archive reviewed and pinned; upstream 3.2.0 does not vendor its Go module graph, so offline CI remains repair-queued until every module source is independently pinned.",
+    "notes": "Fedora 44 GA package baseline 2.7.1. Its official upstream tag archive was independently pinned; the current upstream 3.2.0 requires Go 1.25 and an unvendored module graph that is not reproducible with the fixed openEuler toolchain and offline build policy.",
     "status": "active"
   },
   "package_id": "checksec",
@@ -93,7 +93,7 @@
     "source_url_template": "https://github.com/slimm609/checksec.sh/archive/refs/tags/{version}.tar.gz"
   },
   "version": {
-    "current": "3.2.0",
+    "current": "2.7.1",
     "latest_detected": "3.2.0",
     "release": "1"
   }
