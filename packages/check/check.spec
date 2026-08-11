@@ -36,6 +36,7 @@ C test suites with Check.
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
+rm -rf %{buildroot}%{_docdir}/%{name}
 
 %check
 %make_build check
