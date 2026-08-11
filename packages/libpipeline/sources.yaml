@@ -1,0 +1,21 @@
+{
+  "package_id": "libpipeline",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1b1203ca152ccd63983c3f2112f7fe6fa5afd453218ede5153d1b31e11bb8405"
+      },
+      "filename": "libpipeline-1.5.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.8.tar.gz",
+      "version": "1.5.8"
+    }
+  ]
+}
