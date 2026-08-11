@@ -6,6 +6,7 @@ Summary:        Minimal C client library for Redis
 License:        BSD-3-Clause
 URL:            https://github.com/redis/hiredis
 Source0:        hiredis-1.4.1.tar.gz
+Patch0:         0001-tests-use-riscv-qemu-safe-timeout.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -66,4 +67,5 @@ export TEST_SSL=1
 
 %changelog
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.1-1
+- Keep the SSL reconnect timeout test enabled with a RISC-V QEMU-safe margin.
 - Initial openEuler RISC-V package with offline Redis, SSL, and async tests.

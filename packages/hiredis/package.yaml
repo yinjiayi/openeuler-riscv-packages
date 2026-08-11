@@ -51,7 +51,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-tests-use-riscv-qemu-safe-timeout.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Keep the complete SSL reconnect timeout test reliable under RISC-V linux-user emulation without skipping any assertion.",
+        "remove_when": "A native RISC-V runner proves the upstream 10 ms TLS reconnect margin reliable, or upstream adopts an architecture-independent timing margin.",
+        "sha256": "c1a546312983b11c269acfe11893a04cfdec683d213df0da6adfa42bb1cdd599",
+        "source": "Exact-head openEuler RISC-V QEMU CI run 31463568107, cross-checked against upstream v1.4.1/master and Fedora 44 dist-git.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "hiredis.spec"
