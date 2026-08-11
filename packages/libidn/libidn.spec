@@ -52,6 +52,9 @@ EMACS=no %configure \
 %make_install
 rm -f %{buildroot}%{_libdir}/libidn.la
 rm -f %{buildroot}%{_infodir}/dir
+rm -f %{buildroot}%{_infodir}/libidn-components.png*
+rm -f %{buildroot}%{_datadir}/emacs/site-lisp/idna.el
+rm -f %{buildroot}%{_datadir}/emacs/site-lisp/punycode.el
 %find_lang %{name}
 
 %check
