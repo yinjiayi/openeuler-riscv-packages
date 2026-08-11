@@ -51,7 +51,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-tests-recognize-post-acl-device-cgroup-denial.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Preserve the ACL special-file invariant when a hardened container returns post-ACL device-cgroup EPERM before ENXIO.",
+        "remove_when": "Upstream carries an equivalent expectation or the locked CI grants read access to synthetic block device 91:64 and consistently reaches ENXIO.",
+        "sha256": "3d34545e81110d1036fd31e9b220dfeb64f422b986177aefc290e4122ba78023",
+        "source": "Downstream openEuler CI review, with Linux permission-gate ordering verified at torvalds/linux d58772d8520c7ef247c4b95c9bd76d3a25da9ff5.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "acl.spec"
@@ -60,7 +70,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official 2.4.0 archive independently pinned from the immutable discovery snapshot. Fedora and AUR packaging content was not executed; the only matching AUR clue was stale acl-git metadata and was excluded.",
+    "notes": "Official 2.4.0 archive independently pinned from the immutable discovery snapshot. Fedora and AUR packaging content was not executed; the only matching AUR clue was stale acl-git metadata and was excluded. CI repair pre-creates and fail-closed verifies the libtool wrappers for the unprivileged bin identity, then preserves the upstream ACL gate while accepting only the hardened container's post-ACL device-cgroup EPERM as an alternative to ENXIO.",
     "status": "active"
   },
   "package_id": "acl",

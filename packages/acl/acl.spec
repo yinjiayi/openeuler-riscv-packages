@@ -6,6 +6,7 @@ Summary:        POSIX access control list utilities
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later
 URL:            https://savannah.nongnu.org/projects/acl
 Source0:        acl-%{version}.tar.xz
+Patch0:         0001-tests-recognize-post-acl-device-cgroup-denial.patch
 
 BuildRequires:  gawk
 BuildRequires:  gcc
@@ -13,6 +14,7 @@ BuildRequires:  gettext
 BuildRequires:  libattr-devel
 BuildRequires:  make
 BuildRequires:  perl
+BuildRequires:  util-linux
 Requires:       libacl%{?_isa} = %{version}-%{release}
 
 %description
@@ -51,7 +53,17 @@ rm -rf %{buildroot}%{_docdir}/%{name}*
 %find_lang %{name}
 
 %check
-export LD_LIBRARY_PATH="$PWD/libacl/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH="$PWD/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Pre-create libtool's fast-install executables with a world-executable mode.
+# Otherwise a parallel root test with umask 027 can create lt-getfacl as 0750,
+# preventing the test harness's unprivileged bin identity from executing it.
+umask 022
+./getfacl --version >/dev/null
+./setfacl --version >/dev/null
+chmod a+rx "$PWD" "$PWD/.libs" \
+  "$PWD/.libs/lt-getfacl" "$PWD/.libs/lt-setfacl"
+runuser -u bin -- "$PWD/getfacl" --version >/dev/null
+runuser -u bin -- "$PWD/setfacl" --version >/dev/null
 %make_build check
 
 %files -f %{name}.lang
@@ -80,3 +92,4 @@ export LD_LIBRARY_PATH="$PWD/libacl/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 %changelog
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.0-1
 - Initial openEuler RISC-V package with the complete upstream test suite.
+- Preserve root tests under parallel libtool execution and hardened device cgroups.
