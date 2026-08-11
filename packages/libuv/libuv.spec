@@ -46,7 +46,7 @@ rmdir %{buildroot}%{_docdir}/%{name}
 %check
 # rpmbuild runs as root.  This is the upstream-supported opt-in that keeps the
 # complete shared/static test suite enabled in that environment.  Exporting is
-# required because %ctest changes directory before launching ctest.
+# required because the RPM CTest helper changes directory before launching it.
 export UV_RUN_AS_ROOT=1
 export UV_TEST_TIMEOUT_MULTIPLIER=10
 %ctest
