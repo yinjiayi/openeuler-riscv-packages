@@ -34,6 +34,7 @@ developing applications with LZO 2.
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
+rm -rf %{buildroot}%{_docdir}/%{name}
 
 %check
 %make_build check
@@ -45,6 +46,7 @@ find %{buildroot} -name '*.la' -delete
 
 %files devel
 %license COPYING
+%doc doc/LZOAPI.TXT doc/LZO.FAQ doc/LZO.TXT
 %{_includedir}/lzo/
 %{_libdir}/liblzo2.so
 %{_libdir}/pkgconfig/lzo2.pc
