@@ -40,6 +40,7 @@ find %{buildroot} -name '*.la' -delete
 %license COPYING
 %doc ChangeLog README
 %{_libdir}/libmd.so.0*
+%{_mandir}/man7/libmd.7*
 
 %files devel
 %license COPYING
