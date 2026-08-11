@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "QEMU user-mode relies on host-kernel signal and MMU semantics, and the complete upstream suite aborts or misses the c-stack and both libsigsegv stack-overflow cases; native openEuler riscv64 validation is required to verify alternate-stack and signal delivery and to separately determine whether the C-locale localeconv frac_digits assertion is a QEMU-only artifact or a target glibc/locale defect.",
     "network_during_build": false,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 60
   },
   "discovery": {
@@ -75,7 +75,7 @@
     "isa": "RVA23",
     "os": "openEuler",
     "release": "24.03-LTS-SP3",
-    "riscv_status": "unknown"
+    "riscv_status": "qemu-limitation"
   },
   "updates": {
     "enabled": true,
