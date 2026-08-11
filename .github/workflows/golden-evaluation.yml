@@ -80,12 +80,13 @@ jobs:
         id: source
         env:
           PACKAGE_ID: ${{ matrix.package_id }}
-          GITHUB_SHA: ${{ github.sha }}
+          BUILD_COMMIT_SHA: ${{ github.sha }}
         run: |
           mkdir -p "artifacts/golden/$PACKAGE_ID" "work/$PACKAGE_ID"
           scripts/build-rpm --package-dir "packages/$PACKAGE_ID" --repo-root . \
             --work-dir "work/$PACKAGE_ID" \
             --result "artifacts/golden/$PACKAGE_ID/source-phase-result.json" \
+            --commit-sha "$BUILD_COMMIT_SHA" \
             --verify-only --expected-arch riscv64
       - name: Validate metadata and package-local patch policy
         id: validation
@@ -163,6 +164,7 @@ jobs:
           EXPECTED: ${{ matrix.expected }}
           DERIVED_IMAGE: ${{ steps.dependencies.outputs.image }}
           BASE_IMAGE: ${{ steps.image.outputs.ref }}
+          BUILD_COMMIT_SHA: ${{ github.sha }}
         run: |
           result="artifacts/golden/$PACKAGE_ID/rpmbuild-phase-result.json"
           log="artifacts/golden/$PACKAGE_ID/rpmbuild.log"
@@ -176,14 +178,14 @@ jobs:
             docker run --rm --platform linux/riscv64 --network none \
               --memory 6g --cpus 2 --pids-limit 1024 \
               --security-opt no-new-privileges -e OE_RVA23_PROBE=passed \
-              -e "GITHUB_SHA=$GITHUB_SHA" \
               -v "$GITHUB_WORKSPACE:/workspace:ro" \
               -v "$GITHUB_WORKSPACE/work/$PACKAGE_ID:/workspace/work/$PACKAGE_ID:rw" \
               -v "$GITHUB_WORKSPACE/artifacts/golden/$PACKAGE_ID:/workspace/artifacts/golden/$PACKAGE_ID:rw" \
               -w /workspace "$DERIVED_IMAGE" \
               scripts/build-rpm --package-dir "packages/$PACKAGE_ID" \
                 --repo-root /workspace --work-dir "work/$PACKAGE_ID" \
-                --result "$result" --offline --skip-install-smoke \
+                --result "$result" --commit-sha "$BUILD_COMMIT_SHA" \
+                --offline --skip-install-smoke \
                 --expected-arch riscv64
           build_exit=$?
           internal_log="work/$PACKAGE_ID/logs/rpmbuild.log"
@@ -239,10 +241,11 @@ jobs:
           STEP_RESULT: ${{ job.status }}
           SOURCE_RESULT: ${{ steps.source.outcome }}
           VALIDATION_RESULT: ${{ steps.validation.outcome }}
+          BUILD_COMMIT_SHA: ${{ github.sha }}
         run: |
           args=(
             --package-id "$PACKAGE_ID"
-            --commit-sha "$GITHUB_SHA"
+            --commit-sha "$BUILD_COMMIT_SHA"
             --job-id "${GITHUB_RUN_ID}:${GITHUB_RUN_ATTEMPT}:golden:$PACKAGE_ID"
             --image-lock ci/image.lock
             --metadata-result "$VALIDATION_RESULT"
