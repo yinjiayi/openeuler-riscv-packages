@@ -49,6 +49,8 @@ rm -f %{buildroot}%{_libdir}/libpipeline.la
 %{_libdir}/libpipeline.so
 %{_libdir}/pkgconfig/libpipeline.pc
 %{_mandir}/man3/libpipeline.3*
+%{_mandir}/man3/pipecmd_*.3*
+%{_mandir}/man3/pipeline_*.3*
 
 %changelog
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.8-1
