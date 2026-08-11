@@ -43,7 +43,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-drop-redundant-gtest-system-include.patch",
+        "sha256": "2aae2952537df3b91f5810f61ec1849a82e38f07307e49bfa0540cbeeb762df3",
+        "purpose": "Remove only the redundant /usr/include imported by GTest so libstdc++ include_next works in the locked RVA23 QEMU buildroot.",
+        "source": "Downstream reconstruction from the observed openEuler 24.03 LTS SP3 RVA23 build",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "The locked openEuler CMake/GTest buildroot no longer exports /usr/include as a redundant imported-target system include."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "c-ares.spec"

@@ -8,6 +8,15 @@ so it emits -isystem /usr/include.  That makes libstdc++'s include_next lookup
 for stdlib.h skip the only system copy.  Remove only this compiler-default
 path while retaining any non-default include paths exported by GTest.
 
+Root cause: the imported GTest targets expose a compiler-default include as a
+system include while CMake's QEMU buildroot probe omits that same default from
+its implicit include set.
+Patch-Source: downstream reconstruction from the observed openEuler RVA23 build
+Patch-License: MIT
+Upstream-Status: Not Submitted (the trigger is downstream toolchain metadata)
+Removal: remove when the locked openEuler CMake/GTest buildroot no longer emits
+         /usr/include as a redundant imported-target system include.
+
 ---
  test/CMakeLists.txt | 15 +++++++++++++++
  1 file changed, 15 insertions(+)
