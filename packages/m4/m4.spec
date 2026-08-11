@@ -24,22 +24,19 @@ extensions commonly used by software build systems.
 %install
 %make_install
 rm -f %{buildroot}%{_infodir}/dir
+%find_lang %{name}
 
 %check
-# Linux-user QEMU does not provide the stack-overflow signal semantics required
-# by this one diagnostic test.  Exit 77 records the test as skipped while the
-# other 242 manual checks and the installed-package smoke test remain required.
-echo 'exit 77' > checks/stackovf.test
-# A gnulib permission test deliberately leaves a mode-000 temporary directory
-# when a later check exits nonzero.  Restore owner access on shell exit so CI
-# can always retain the complete structured failure artifact.
+# Gnulib's update-copyright test replaces init.sh's cleanup trap and can leave
+# a root-owned mode-0700 test directory behind.  Make it traversable by the
+# unprivileged artifact collector without changing any test result.
 cleanup_test_permissions() {
-    chmod -R u+rwX tests/gt-test-update-copyright.sh.* 2>/dev/null || :
+    chmod -R a+rX tests/gt-test-update-copyright.sh.* 2>/dev/null || :
 }
 trap cleanup_test_permissions EXIT
 make check
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %doc AUTHORS ChangeLog ChangeLog-2014 NEWS README THANKS TODO
 %{_bindir}/m4

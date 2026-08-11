@@ -3,9 +3,10 @@
 set -euo pipefail
 
 rpm -q -- m4
-actual=$(m4 <<'EOF'
-define(`TARGET', `riscv64-RVA23')dnl
-TARGET
-EOF
+actual=$(
+    printf '%s\n' \
+        'changequote([,])dnl' \
+        'define([TARGET], [riscv64-RVA23])dnl' \
+        'TARGET' | m4
 )
 test "$actual" = "riscv64-RVA23"
