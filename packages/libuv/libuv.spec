@@ -64,7 +64,7 @@ export UV_TEST_TIMEOUT_MULTIPLIER=10
 %{_includedir}/uv.h
 %{_includedir}/uv/
 %{_libdir}/libuv.so
-%{_libdir}/libuv_a.a
+%{_libdir}/libuv.a
 %{_libdir}/cmake/libuv/
 %{_libdir}/pkgconfig/libuv.pc
 %{_libdir}/pkgconfig/libuv-static.pc
