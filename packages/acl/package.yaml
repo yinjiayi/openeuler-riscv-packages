@@ -1,0 +1,110 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/acl/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "acl",
+        "package_name": "acl",
+        "source": "arch-core",
+        "source_version": "2.4.0-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/stable/acl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "acl",
+        "package_name": "acl",
+        "source": "debian",
+        "source_version": "2.3.2-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/acl/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "acl",
+        "package_name": "acl",
+        "source": "fedora",
+        "source_version": "2.3.2-6.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/acl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "acl",
+        "package_name": "acl",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.4.0-1.2"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/acl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "acl",
+        "package_name": "acl",
+        "source": "ubuntu",
+        "source_version": "2.3.2-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-tests-recognize-post-acl-device-cgroup-denial.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Preserve the ACL special-file invariant when a hardened container returns post-ACL device-cgroup EPERM before ENXIO.",
+        "remove_when": "Upstream carries an equivalent expectation or the locked CI grants read access to synthetic block device 91:64 and consistently reaches ENXIO.",
+        "sha256": "3d34545e81110d1036fd31e9b220dfeb64f422b986177aefc290e4122ba78023",
+        "source": "Downstream openEuler CI review, with Linux permission-gate ordering verified at torvalds/linux d58772d8520c7ef247c4b95c9bd76d3a25da9ff5.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "acl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 2.4.0 archive independently pinned from the immutable discovery snapshot. Fedora and AUR packaging content was not executed; the only matching AUR clue was stale acl-git metadata and was excluded. CI repair pre-creates and fail-closed verifies the libtool wrappers for the unprivileged bin identity, then preserves the upstream ACL gate while accepting only the hardened container's post-ACL device-cgroup EPERM as an alternative to ENXIO.",
+    "status": "active"
+  },
+  "package_id": "acl",
+  "rpm": {
+    "license": "GPL-2.0-or-later AND LGPL-2.1-or-later",
+    "name": "acl",
+    "summary": "POSIX access control list utilities and library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "savannah.nongnu.org-projects-acl",
+    "homepage": "https://savannah.nongnu.org/projects/acl",
+    "release_api": "https://download.savannah.nongnu.org/releases/acl/",
+    "release_channel": "stable",
+    "release_regex": "acl-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://git.savannah.nongnu.org/git/acl.git",
+    "source_url_template": "https://download.savannah.nongnu.org/releases/acl/acl-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.4.0",
+    "latest_detected": "2.4.0",
+    "release": "1"
+  }
+}

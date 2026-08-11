@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://hyperrealm.github.io/libconfig/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfig",
+        "package_name": "libconfig",
+        "source": "arch-extra",
+        "source_version": "1.8.2-2"
+      },
+      {
+        "evidence_url": "https://hyperrealm.github.io/libconfig/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfig",
+        "package_name": "libconfig",
+        "source": "debian",
+        "source_version": "1.7.3-2"
+      },
+      {
+        "evidence_url": "https://hyperrealm.github.io/libconfig/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfig",
+        "package_name": "libconfig",
+        "source": "fedora",
+        "source_version": "1.8.2-2.fc44"
+      },
+      {
+        "evidence_url": "https://hyperrealm.github.io/libconfig/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfig",
+        "package_name": "libconfig",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.8.1-1.6"
+      },
+      {
+        "evidence_url": "https://hyperrealm.github.io/libconfig/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfig",
+        "package_name": "libconfig",
+        "source": "ubuntu",
+        "source_version": "1.7.3-2.1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libconfig.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable archive reviewed and SHA-256 pinned from the immutable discovery snapshot; external distribution packaging was inspected only as metadata and was not executed.",
+    "status": "active"
+  },
+  "package_id": "libconfig",
+  "rpm": {
+    "license": "LGPL-2.1-or-later AND GPL-3.0-or-later WITH Bison-exception-2.2",
+    "name": "libconfig",
+    "summary": "C and C++ library for structured configuration files"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-hyperrealm-libconfig",
+    "homepage": "https://hyperrealm.github.io/libconfig/",
+    "release_api": "https://api.github.com/repos/hyperrealm/libconfig/releases",
+    "release_channel": "stable",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/hyperrealm/libconfig",
+    "source_url_template": "https://hyperrealm.github.io/libconfig/dist/libconfig-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.8.2",
+    "latest_detected": "1.8.2",
+    "release": "1"
+  }
+}

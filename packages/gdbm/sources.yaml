@@ -1,0 +1,21 @@
+{
+  "package_id": "gdbm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6a24504a14de4a744103dcb936be976df6fbe88ccff26065e54c1c47946f4a5e"
+      },
+      "filename": "gdbm-1.26.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/gdbm/gdbm-1.26.tar.gz",
+      "version": "1.26"
+    }
+  ]
+}

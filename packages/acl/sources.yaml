@@ -1,0 +1,21 @@
+{
+  "package_id": "acl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e661131456d2708a01c614a0f400e11d7d1bfaeb6f3e74b75bb980b72f0161a3"
+      },
+      "filename": "acl-2.4.0.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://download.savannah.nongnu.org/releases/acl/acl-2.4.0.tar.xz",
+      "version": "2.4.0"
+    }
+  ]
+}
