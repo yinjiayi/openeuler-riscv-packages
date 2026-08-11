@@ -19,9 +19,15 @@ ordering while the source advances to official stable `1.26`.
 The fixed target repodata contains every declared BuildRequires, including
 `readline-devel`, `libtool`, and `texinfo`. `%check` runs the complete upstream
 GDBM and ndbm compatibility suite. The installed smoke test stores and fetches
-a persistent record and inspects a real database dump. No downstream or
-RISC-V patch is currently required. RISC-V build status remains `unknown`
-until the locked QEMU CI image runs the RPM build.
+a persistent record, writes it to an explicit dump file, restores that dump,
+and fetches the same record from the restored database. GDBM 1.26's generated
+`gdbm_dump(1)` page says an omitted output file uses standard error, while the
+authoritative Texinfo manual and the 1.26 implementation use standard output;
+the explicit file avoids that documentation discrepancy. The ASCII dump also
+Base64-encodes record data, so grepping it for the original plaintext key is
+not a valid content check. No downstream or RISC-V patch is currently required.
+RISC-V build status remains `unknown` until the locked QEMU CI image runs the
+RPM build.
 
 External source licenses remain those of upstream. Apache-2.0 covers only the
 original packaging metadata, test, and documentation in this directory.
