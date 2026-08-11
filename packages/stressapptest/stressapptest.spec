@@ -37,6 +37,5 @@ load. Meaningful validation requires native RISC-V hardware.
 %{_mandir}/man1/stressapptest.1*
 
 %changelog
-* Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.11-1
+* Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.11-1
 - Initial openEuler RISC-V package; require native hardware validation.
-

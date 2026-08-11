@@ -52,7 +52,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "notes": "Official 1.0.11 archive is pinned; Fedora 44 dist-git was reviewed but not executed. Acceptance remains native-only because QEMU cannot validate physical memory, cache, timing, or I/O stress behavior.",
     "status": "active"
   },
   "package_id": "stressapptest",

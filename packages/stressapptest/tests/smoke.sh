@@ -3,4 +3,3 @@
 set -euo pipefail
 rpm -q -- stressapptest
 test -x /usr/bin/stressapptest
-
