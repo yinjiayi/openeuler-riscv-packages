@@ -3,7 +3,7 @@ Name:           doctest
 Version:        2.5.2
 Release:        1%{?dist}
 Summary:        Lightweight feature-rich C++ testing framework
-License:        MIT
+License:        MIT AND CC-BY-4.0 AND BSL-1.0 AND BSD-3-Clause
 URL:            https://github.com/doctest/doctest
 Source0:        doctest-2.5.2.tar.gz
 BuildRequires:  cmake
@@ -29,7 +29,8 @@ install -Dpm 0644 %{_vpath_builddir}/libdoctest_with_main.a \
   %{buildroot}%{_libdir}/libdoctest_with_main.a
 
 %check
-ctest --output-on-failure --force-new-ctest-process -j1
+ctest --test-dir %{_vpath_builddir} \
+  --output-on-failure --force-new-ctest-process -j1
 
 %files
 %license LICENSE.txt
