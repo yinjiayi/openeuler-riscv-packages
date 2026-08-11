@@ -43,7 +43,7 @@ mv %{buildroot}%{_datadir}/pkgconfig/yajl.pc \
 
 %files
 %license COPYING
-%doc ChangeLog README README.md TODO
+%doc ChangeLog README TODO
 %{_bindir}/json_reformat
 %{_bindir}/json_verify
 %{_libdir}/libyajl.so.2*
