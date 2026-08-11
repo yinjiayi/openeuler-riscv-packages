@@ -125,6 +125,27 @@ def main() -> int:
         errors.append("package-ci.yml writes a phase result directly to build-result.json")
     if "rpmbuild-internal.log" not in package_ci:
         errors.append("package-ci.yml does not retain the RPM tool's internal log for repair evidence")
+    if 'result=$?' not in package_ci or 'exit "$result"' not in package_ci:
+        errors.append("package-ci.yml does not preserve the exact rpmbuild exit code")
+    if package_ci.count('--commit-sha "$BUILD_COMMIT_SHA"') < 2 or "GITHUB_SHA:" in package_ci:
+        errors.append("package-ci.yml does not pass the exact head explicitly to source and rpmbuild results")
+    build_artifact_marker = "name: package-ci-build-${{ github.run_id }}"
+    if build_artifact_marker not in package_ci:
+        errors.append("package-ci.yml is missing the build artifact upload")
+    else:
+        build_artifact_block = package_ci.split(build_artifact_marker, 1)[1].split("if-no-files-found:", 1)[0]
+        if "${{ runner.temp }}/package-ci-build-upload/" not in build_artifact_block:
+            errors.append("package-ci.yml does not upload the sanitized build staging tree")
+        for unsafe_tree in ("/BUILD/", "/BUILDROOT/", "/SOURCES/", "/SPECS/"):
+            if unsafe_tree in build_artifact_block:
+                errors.append(f"package-ci.yml build artifact includes unsafe raw tree {unsafe_tree}")
+    stager = root / "ci" / "stage-build-artifacts.py"
+    if not stager.is_file() or "regular .json/.log evidence and regular .rpm products only" not in stager.read_text(encoding="utf-8"):
+        errors.append("build artifact stager does not enforce the regular evidence/RPM allowlist")
+
+    build_rpm = (root / "scripts" / "build-rpm").read_text(encoding="utf-8")
+    if "GITHUB_SHA" in build_rpm or '"commit_sha": args.commit_sha' not in build_rpm:
+        errors.append("build-rpm must use only the explicit --commit-sha provenance input")
 
     image_workflow = (workflows / "build-ci-image.yml").read_text(encoding="utf-8") if (workflows / "build-ci-image.yml").exists() else ""
     if "--method PATCH" in image_workflow and "/user/packages/container/" in image_workflow:

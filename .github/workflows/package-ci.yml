@@ -166,7 +166,7 @@ jobs:
           MODE: ${{ needs.prepare.outputs.mode }}
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           PREPARE_RESULT: ${{ needs.prepare.result }}
-          GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          BUILD_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
         run: |
           test "$PREPARE_RESULT" = success
           mkdir -p artifacts/source
@@ -175,6 +175,7 @@ jobs:
               --repo-root . \
               --work-dir "work/$PACKAGE_ID" \
               --result artifacts/source/source-phase-result.json \
+              --commit-sha "$BUILD_COMMIT_SHA" \
               --verify-only --expected-arch riscv64
           else
             python3 - <<'PY'
@@ -336,7 +337,7 @@ jobs:
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           IMAGE_REF: ${{ steps.dependencies.outputs.image }}
-          GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          BUILD_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
         run: |
           mkdir -p artifacts/build
           set +e
@@ -346,7 +347,6 @@ jobs:
               --memory 6g --cpus 2 --pids-limit 1024 \
               --security-opt no-new-privileges \
               -e OE_RVA23_PROBE=passed \
-              -e "GITHUB_SHA=$GITHUB_SHA" \
               -v "$GITHUB_WORKSPACE:/workspace:ro" \
               -v "$GITHUB_WORKSPACE/work/$PACKAGE_ID:/workspace/work/$PACKAGE_ID:rw" \
               -v "$GITHUB_WORKSPACE/artifacts/build:/workspace/artifacts/build:rw" \
@@ -355,6 +355,7 @@ jobs:
                 --repo-root /workspace \
                 --work-dir "work/$PACKAGE_ID" \
                 --result artifacts/build/rpmbuild-phase-result.json \
+                --commit-sha "$BUILD_COMMIT_SHA" \
                 --offline --skip-install-smoke --expected-arch riscv64
           result=$?
           if [[ -f "work/$PACKAGE_ID/logs/rpmbuild.log" ]]; then
@@ -402,19 +403,22 @@ jobs:
         run: |
           mkdir -p artifacts/build
           printf '%s\n' '{"schema_version":1,"kind":"not-applicable","check":"rpmbuild-riscv64","reason":"infrastructure change"}' > artifacts/build/not-applicable.json
+      - name: Stage upload-safe build evidence
+        if: always()
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+        run: |
+          ci/stage-build-artifacts.py \
+            --package-id "$PACKAGE_ID" \
+            --artifact-dir artifacts/build \
+            --work-dir "work/$PACKAGE_ID" \
+            --output-dir "$RUNNER_TEMP/package-ci-build-upload"
       - name: Upload build products and complete logs
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: package-ci-build-${{ github.run_id }}
-          path: |
-            artifacts/build/
-            work/${{ needs.prepare.outputs.package_id }}/RPMS/
-            work/${{ needs.prepare.outputs.package_id }}/SRPMS/
-            work/${{ needs.prepare.outputs.package_id }}/BUILD/
-            work/${{ needs.prepare.outputs.package_id }}/BUILDROOT/
-            work/${{ needs.prepare.outputs.package_id }}/SOURCES/
-            work/${{ needs.prepare.outputs.package_id }}/SPECS/
+          path: ${{ runner.temp }}/package-ci-build-upload/
           if-no-files-found: warn
           retention-days: 7
 
