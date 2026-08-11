@@ -92,7 +92,6 @@ rm -f %{buildroot}%{_libdir}/liblzma.la
 %files help
 %license COPYING COPYING.0BSD COPYING.GPLv2 COPYING.GPLv3 COPYING.LGPLv2.1
 %{_docdir}/%{name}/
-%{_infodir}/xz.info*
 %{_mandir}/man1/*
 %{_mandir}/*/man1/*
 %{_datadir}/locale/*/LC_MESSAGES/xz.mo
@@ -100,3 +99,4 @@ rm -f %{buildroot}%{_libdir}/liblzma.la
 %changelog
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.8.3-1
 - Initial openEuler RISC-V package from reviewed Fedora 44 and upstream evidence.
+- Match the upstream 5.8.3 documentation payload, which has no Texinfo manual.
