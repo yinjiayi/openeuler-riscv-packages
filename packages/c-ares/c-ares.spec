@@ -31,7 +31,11 @@ unversioned library link for developing applications with c-ares.
 %autosetup -p1
 
 %build
+# Upstream enables C++ only in the test subdirectory after its warning helper
+# has created an empty normal-scope CMAKE_CXX_FLAGS.  Pass the RPM flags
+# explicitly so openEuler's hardened PIE/PIC policy reaches the test objects.
 %cmake_conf \
+  -DCMAKE_CXX_FLAGS:STRING="%{optflags}" \
   -DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON \
   -DCARES_BUILD_TESTS=ON \
   -DCARES_BUILD_TOOLS=ON \
@@ -75,3 +79,4 @@ GTEST_FILTER='-*Live*' ctest --test-dir %{_vpath_builddir} \
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.34.8-1
 - Initial openEuler RISC-V package with offline upstream tests.
 - Serialize the QEMU-emulated build and test processes to avoid linker crashes.
+- Preserve RPM C++ hardening flags for the late-enabled CMake test language.
