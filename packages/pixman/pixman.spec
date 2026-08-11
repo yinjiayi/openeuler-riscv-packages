@@ -29,6 +29,15 @@ developing applications with pixman.
 
 %build
 %meson \
+  -Dloongson-mmi=disabled \
+  -Dmmx=disabled \
+  -Dsse2=disabled \
+  -Dssse3=disabled \
+  -Dvmx=disabled \
+  -Darm-simd=disabled \
+  -Dneon=disabled \
+  -Da64-neon=disabled \
+  -Dmips-dspr2=disabled \
   -Ddemos=disabled \
   -Dgtk=disabled \
   -Dlibpng=enabled \
