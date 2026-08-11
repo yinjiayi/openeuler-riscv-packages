@@ -55,6 +55,7 @@ find %{buildroot} -name '*.la' -delete
 %{_sysconfdir}/bash_completion.d/libcap-ng.bash_completion
 %{_libdir}/libcap-ng.so.0*
 %{_libdir}/libdrop_ambient.so.0*
+%{_mandir}/man7/libdrop_ambient.7*
 %{_mandir}/man8/filecap.8*
 %{_mandir}/man8/netcap.8*
 %{_mandir}/man8/pscap.8*
@@ -65,6 +66,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/libcap-ng.so
 %{_libdir}/libdrop_ambient.so
 %{_libdir}/pkgconfig/libcap-ng.pc
+%{_datadir}/aclocal/cap-ng.m4
 %{_mandir}/man3/*.3*
 
 %changelog
