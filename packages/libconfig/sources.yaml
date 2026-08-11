@@ -1,0 +1,21 @@
+{
+  "package_id": "libconfig",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e59ffb902dd5731d5d4e4fb81d3b989697615feab72dfd7c30618167b91a42ee"
+      },
+      "filename": "libconfig-1.8.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://hyperrealm.github.io/libconfig/dist/libconfig-1.8.2.tar.gz",
+      "version": "1.8.2"
+    }
+  ]
+}
