@@ -1,0 +1,21 @@
+{
+  "package_id": "mpfr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b67ba0383ef7e8a8563734e2e889ef5ec3c3b898a01d00fa0a6869ad81c6ce01"
+      },
+      "filename": "mpfr-4.2.2.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://www.mpfr.org/mpfr-4.2.2/mpfr-4.2.2.tar.xz",
+      "version": "4.2.2"
+    }
+  ]
+}
