@@ -5,7 +5,7 @@ Release:        1%{?dist}
 Summary:        Minimal C client library for Redis
 License:        BSD-3-Clause
 URL:            https://github.com/redis/hiredis
-Source0:        hiredis-%{version}.tar.gz
+Source0:        hiredis-1.4.1.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -43,6 +43,8 @@ developing applications with hiredis and hiredis_ssl.
 %cmake_install
 
 %check
+export REDIS_SERVER=redis-server
+export TEST_SSL=1
 %ctest
 
 %files
@@ -62,5 +64,5 @@ developing applications with hiredis and hiredis_ssl.
 %{_libdir}/cmake/hiredis_ssl/
 
 %changelog
-* Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.1-1
+* Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.1-1
 - Initial openEuler RISC-V package with offline Redis, SSL, and async tests.

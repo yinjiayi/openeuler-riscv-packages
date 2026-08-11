@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
-
 rpm -q -- hiredis hiredis-devel
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
