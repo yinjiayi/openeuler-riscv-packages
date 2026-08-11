@@ -41,7 +41,7 @@ Low-level pngfix and png-fix-itxt utilities supplied by libpng upstream.
 
 %install
 %make_install
-find %{buildroot} -type f -name '*.la' -delete
+find %{buildroot} -name '*.la' -delete
 
 %check
 %make_build -j1 check
