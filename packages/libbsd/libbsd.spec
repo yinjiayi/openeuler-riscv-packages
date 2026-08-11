@@ -24,6 +24,14 @@ Requires:       libmd-devel%{?_isa}
 BSD compatibility headers, manual pages, pkg-config metadata, and the
 unversioned shared-library link for developing applications with libbsd.
 
+%package ctor-static
+Summary:        Static constructor library for libbsd
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description ctor-static
+The libbsd constructor archive is required when setproctitle() is used from a
+threaded program that loads libbsd through dlopen().
+
 %prep
 %autosetup -p1
 
@@ -48,10 +56,13 @@ find %{buildroot} -name '*.la' -delete
 %{_includedir}/bsd/
 %{_libdir}/libbsd.so
 %{_libdir}/pkgconfig/libbsd.pc
-%{_libdir}/pkgconfig/libbsd-ctor.pc
 %{_libdir}/pkgconfig/libbsd-overlay.pc
 %{_mandir}/man3/*.3*
 %{_mandir}/man7/*.7*
+
+%files ctor-static
+%{_libdir}/libbsd-ctor.a
+%{_libdir}/pkgconfig/libbsd-ctor.pc
 
 %changelog
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.12.2-1
