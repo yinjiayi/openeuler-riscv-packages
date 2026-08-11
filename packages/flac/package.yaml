@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 240
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/flac/",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "flac",
+        "package_name": "flac",
+        "source": "arch-extra",
+        "source_version": "1.5.0-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-flac",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "android-riscv64-flac",
+        "package_name": "android-riscv64-flac",
+        "source": "aur",
+        "source_version": "1.5.0-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/flac",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "flac",
+        "package_name": "flac",
+        "source": "debian",
+        "source_version": "1.5.0+ds-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/flac/tree/f44",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "flac",
+        "package_name": "flac",
+        "source": "fedora",
+        "source_version": "1.5.0-8.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/flac",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "flac",
+        "package_name": "flac",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.5.0"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/flac",
+        "observed_at": "2026-08-11T10:16:24Z",
+        "package_base": "flac",
+        "package_name": "flac",
+        "source": "ubuntu",
+        "source_version": "1.5.0+ds-5"
+      }
+    ],
+    "snapshot_id": "discovery-20260811T101624Z-f0e51f294df02a76"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "flac.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official Xiph FLAC 1.5.0 stable release bytes match the SHA-256 published by upstream. Fedora 44, Arch stable, openSUSE Tumbleweed, Debian stable, and Ubuntu GA all independently confirm the 1.5.0 release line. AUR was queried through RPC only, and no AUR packaging content was read or executed. Distribution specs were treated only as untrusted, read-only lineage references and were never executed.",
+    "status": "active"
+  },
+  "package_id": "flac",
+  "rpm": {
+    "license": "BSD-3-Clause AND GPL-2.0-or-later AND GFDL-1.3-or-later",
+    "name": "flac",
+    "summary": "Free Lossless Audio Codec reference implementation"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "xiph.org-flac",
+    "homepage": "https://xiph.org/flac/",
+    "release_api": "https://downloads.xiph.org/releases/flac/",
+    "release_channel": "stable",
+    "release_regex": "flac-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://github.com/xiph/flac",
+    "source_url_template": "https://downloads.xiph.org/releases/flac/flac-{version}.tar.xz"
+  },
+  "version": {"current": "1.5.0", "latest_detected": "1.5.0", "release": "1"}
+}
