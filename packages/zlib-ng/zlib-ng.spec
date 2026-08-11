@@ -39,7 +39,7 @@ complete upstream GoogleTest suite remains enabled.
 %autosetup
 
 %build
-%cmake \
+%cmake_conf \
   -DBUILD_TESTING=ON \
   -DINSTALL_UTILS=OFF \
   -DWITH_GTEST=ON \
