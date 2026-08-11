@@ -3038,6 +3038,7 @@
         }
       },
       "build_requires": [
+        "gawk",
         "gcc",
         "make"
       ],
@@ -3196,7 +3197,9 @@
       },
       "build_requires": [
         "gcc",
-        "make"
+        "gcc-c++",
+        "make",
+        "perl"
       ],
       "requires": []
     },
@@ -3281,7 +3284,7 @@
       "package_id": "mpfr",
       "canonical_name": "mpfr",
       "summary": "Multiple-precision floating-point library with correct rounding",
-      "license": "LGPL-3.0-or-later",
+      "license": "LGPL-3.0-or-later AND GFDL-1.3-or-later",
       "version": "4.2.2",
       "upstream": {
         "homepage": "https://www.mpfr.org/",
@@ -3426,6 +3429,7 @@
       "build_requires": [
         "cmake",
         "gcc-c++",
+        "gtest-devel",
         "make"
       ],
       "requires": []
