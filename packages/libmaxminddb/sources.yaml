@@ -1,0 +1,21 @@
+{
+  "package_id": "libmaxminddb",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a66502ea76eadbe17f2cd6fd708946777253972d2ae8157dee1b23a2fb528171"
+      },
+      "filename": "libmaxminddb-1.13.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/maxmind/libmaxminddb/releases/download/1.13.3/libmaxminddb-1.13.3.tar.gz",
+      "version": "1.13.3"
+    }
+  ]
+}
