@@ -56,6 +56,7 @@ rm -f %{buildroot}%{_infodir}/dir
 %{_libdir}/libassuan.so.9*
 
 %files devel
+%{_bindir}/libassuan-config
 %{_includedir}/libassuan3/
 %{_libdir}/libassuan.so
 %{_libdir}/pkgconfig/libassuan.pc
