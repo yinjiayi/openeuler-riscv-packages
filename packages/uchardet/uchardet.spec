@@ -28,7 +28,7 @@ metadata for developing applications with uchardet.
 %autosetup
 
 %build
-%cmake \
+%cmake_conf \
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_STATIC=OFF \
   -DCMAKE_INSTALL_LIBDIR=%{_libdir}
