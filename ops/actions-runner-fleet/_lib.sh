@@ -109,6 +109,28 @@ oe_runner_dir() {
   printf '%s/%s\n' "$oe_runner_base" "$name"
 }
 
+oe_runner_version() {
+  local runner=${1:?Runner.Listener path is required}
+  local working_directory=${2:?Runner working directory is required}
+  [[ -x $runner && ! -L $runner ]] || oe_die "Runner.Listener is missing or unsafe: $runner"
+  [[ -d $working_directory && ! -L $working_directory ]] \
+    || oe_die "Runner working directory is missing or unsafe: $working_directory"
+  if [[ $EUID -eq 0 ]]; then
+    # Runner.Listener always opens a timestamped _diag log, even for
+    # --version. Lifecycle commands run as root immediately before systemd's
+    # oegha preflight, so probing as root can create a same-second root-owned
+    # log that the service account cannot reopen. Use the service identity for
+    # every installed-payload probe; extracted payloads are handled separately
+    # before the account-owned runtime tree exists.
+    # Positional parameters intentionally expand in the child shell.
+    # shellcheck disable=SC2016
+    runuser --user "$oe_runner_user" -- /bin/bash -c \
+      'cd -- "${1:?}" && exec "${2:?}" --version' bash "$working_directory" "$runner"
+  else
+    (cd -- "$working_directory" && "$runner" --version)
+  fi
+}
+
 oe_service_name() {
   local name=${1:?name is required}
   oe_host_from_name "$name" >/dev/null

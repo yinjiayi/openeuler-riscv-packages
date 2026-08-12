@@ -31,7 +31,8 @@ oe_load_policy
 
 runner_dir=$(oe_runner_dir "$name")
 [[ -x $runner_dir/bin/Runner.Listener && -r $runner_dir/.runner ]] || oe_die 'runner is not configured'
-[[ $("$runner_dir/bin/Runner.Listener" --version) == 2.336.0 ]] || oe_die 'runner version is not the pinned release'
+[[ $(oe_runner_version "$runner_dir/bin/Runner.Listener" "$runner_dir") == 2.336.0 ]] \
+  || oe_die 'runner version is not the pinned release'
 [[ -S /run/docker.sock ]] || oe_die 'Docker socket is unavailable'
 oe_run docker info >/dev/null 2>&1 || oe_die 'runner service account cannot reach Docker'
 command -v qemu-riscv64 >/dev/null || oe_die 'qemu-riscv64 is missing'

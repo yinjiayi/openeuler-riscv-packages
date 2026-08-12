@@ -30,7 +30,8 @@ service=$(oe_service_name "$OE_ARG_NAME")
 
 [[ $OE_IDENTITY_HOST == "$OE_ARG_HOST" && $OE_IDENTITY_NAME == "$OE_ARG_NAME" ]] || oe_die 'installed identity does not match arguments'
 [[ -x $runner_dir/bin/Runner.Listener ]] || oe_die 'Runner.Listener is missing'
-[[ $("$runner_dir/bin/Runner.Listener" --version) == "$RUNNER_VERSION" ]] || oe_die 'Runner version differs from lock'
+[[ $(oe_runner_version "$runner_dir/bin/Runner.Listener" "$runner_dir") == "$RUNNER_VERSION" ]] \
+  || oe_die 'Runner version differs from lock'
 grep -Fxq "sha256=$RUNNER_SHA256" "$runner_dir/.release" || oe_die 'installed release evidence differs from lock'
 [[ ! -L $runner_dir && $(stat -c '%U:%G:%a' "$runner_dir") == root:root:755 ]] || oe_die 'runner root ownership/mode is unsafe'
 for directory in "$runner_dir/_work" "$runner_dir/_diag" "$runner_dir/_state"; do

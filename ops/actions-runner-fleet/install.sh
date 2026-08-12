@@ -97,7 +97,7 @@ oe_install_identity "$OE_ARG_HOST" "$OE_ARG_NAME" "$OE_ARG_ALLOW_DEGRADED"
 runner_dir=$(oe_runner_dir "$OE_ARG_NAME")
 installed=false
 if [[ -x $runner_dir/bin/Runner.Listener && -r $runner_dir/.release ]]; then
-  observed_version=$("$runner_dir/bin/Runner.Listener" --version)
+  observed_version=$(oe_runner_version "$runner_dir/bin/Runner.Listener" "$runner_dir")
   if [[ $observed_version == "$RUNNER_VERSION" ]] && grep -Fxq "sha256=$RUNNER_SHA256" "$runner_dir/.release"; then
     installed=true
   else
