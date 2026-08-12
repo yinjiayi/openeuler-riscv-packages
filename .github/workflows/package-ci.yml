@@ -65,6 +65,7 @@ jobs:
       package_id: ${{ steps.scope.outputs.package_id }}
       needs_native: ${{ steps.policy.outputs.needs_native }}
       timeout_minutes: ${{ steps.policy.outputs.timeout_minutes }}
+      build_user: ${{ steps.policy.outputs.build_user }}
     steps:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -102,7 +103,7 @@ jobs:
               --output artifacts/scope/package-policy.json \
               --github-output "$GITHUB_OUTPUT"
           else
-            printf 'needs_native=false\ntimeout_minutes=120\n' >>"$GITHUB_OUTPUT"
+            printf 'needs_native=false\ntimeout_minutes=120\nbuild_user=root\n' >>"$GITHUB_OUTPUT"
           fi
       - name: Upload scope evidence
         if: always()
@@ -381,6 +382,7 @@ jobs:
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           BASE_IMAGE: ${{ steps.image.outputs.ref }}
+          BUILD_USER: ${{ needs.prepare.outputs.build_user }}
         run: |
           mkdir -p artifacts/build/dependencies
           derived="openeuler-builddeps:${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
@@ -393,7 +395,8 @@ jobs:
               --output artifacts/build/dependencies/result.json \
               --derived-tag "$derived" \
               --supplemental-repo-file artifacts/repository/openeuler-riscv-project.repo \
-              --supplemental-evidence artifacts/repository/resolution.json
+              --supplemental-evidence artifacts/repository/resolution.json \
+              --build-user "$BUILD_USER"
           dependency_status=$?
           set -e
           if ((dependency_status != 0)); then
@@ -423,26 +426,21 @@ jobs:
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           IMAGE_REF: ${{ steps.dependencies.outputs.image }}
+          BUILD_USER: ${{ needs.prepare.outputs.build_user }}
           BUILD_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
         run: |
           mkdir -p artifacts/build
           set +e
           ci/run-capped.sh --log artifacts/build/rpmbuild.log \
             --max-bytes 52428800 --timeout-seconds 6900 -- \
-            docker run --rm --platform linux/riscv64 --network none \
-              --memory 6g --cpus 2 --pids-limit 1024 \
-              --security-opt no-new-privileges \
-              -e OE_RVA23_PROBE=passed \
-              -v "$GITHUB_WORKSPACE:/workspace:ro" \
-              -v "$GITHUB_WORKSPACE/work/$PACKAGE_ID:/workspace/work/$PACKAGE_ID:rw" \
-              -v "$GITHUB_WORKSPACE/artifacts/build:/workspace/artifacts/build:rw" \
-              -w /workspace "$IMAGE_REF" \
-              scripts/build-rpm --package-dir "packages/$PACKAGE_ID" \
-                --repo-root /workspace \
-                --work-dir "work/$PACKAGE_ID" \
-                --result artifacts/build/rpmbuild-phase-result.json \
-                --commit-sha "$BUILD_COMMIT_SHA" \
-                --offline --skip-install-smoke --expected-arch riscv64
+            ci/run-rpmbuild-container.py run \
+              --image "$IMAGE_REF" \
+              --package-id "$PACKAGE_ID" \
+              --repo-root "$GITHUB_WORKSPACE" \
+              --work-dir "$GITHUB_WORKSPACE/work/$PACKAGE_ID" \
+              --artifact-dir "$GITHUB_WORKSPACE/artifacts/build" \
+              --commit-sha "$BUILD_COMMIT_SHA" \
+              --build-user "$BUILD_USER"
           result=$?
           if [[ -f "work/$PACKAGE_ID/logs/rpmbuild.log" ]]; then
             cp -- "work/$PACKAGE_ID/logs/rpmbuild.log" artifacts/build/rpmbuild-internal.log
