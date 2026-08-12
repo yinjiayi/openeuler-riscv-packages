@@ -8,4 +8,7 @@ libexec=/usr/local/libexec/openeuler-actions-runner
 source "$libexec/_lib.sh"
 oe_load_identity
 timeout --signal=KILL 5m "$libexec/job-guard.sh"
-timeout --signal=KILL 5m "$libexec/cleanup.sh" --name "$OE_IDENTITY_NAME" --phase before
+runner_dir=$(oe_runner_dir "$OE_IDENTITY_NAME")
+workspace=$(oe_job_workspace "$runner_dir/_work" "$PWD")
+timeout --signal=KILL 5m "$libexec/cleanup.sh" \
+  --name "$OE_IDENTITY_NAME" --phase job-start --workspace "$workspace"
