@@ -25,6 +25,10 @@ DNF_NETWORK_OPTIONS = [
     "--setopt=minrate=1",
     "--setopt=max_parallel_downloads=1",
 ]
+BUILD_USERS = {"root", "unprivileged"}
+TARGET_BUILD_USER = "rpmbuild"
+TARGET_BUILD_UID = 10001
+TARGET_BUILD_GID = 10001
 
 
 def run(argv: list[str], *, capture: bool = False) -> str:
@@ -65,12 +69,48 @@ def run_with_retries(
     raise subprocess.CalledProcessError(last.returncode, argv)
 
 
+def root_exec(container: str, *argv: str) -> list[str]:
+    """Build an explicit root-only docker exec command."""
+
+    return ["docker", "exec", "--user", "0:0", container, *argv]
+
+
+def build_user_provision_commands(container: str) -> list[list[str]]:
+    """Return the fail-closed commands that create the fixed build identity."""
+
+    return [
+        root_exec(
+            container,
+            "groupadd",
+            "--gid",
+            str(TARGET_BUILD_GID),
+            TARGET_BUILD_USER,
+        ),
+        root_exec(
+            container,
+            "useradd",
+            "--uid",
+            str(TARGET_BUILD_UID),
+            "--gid",
+            str(TARGET_BUILD_GID),
+            "--create-home",
+            "--home-dir",
+            "/var/lib/rpmbuild",
+            "--shell",
+            "/sbin/nologin",
+            TARGET_BUILD_USER,
+        ),
+    ]
+
+
 def rpm_manifest(container: str) -> list[str]:
     output = run(
-        [
-            "docker", "exec", container, "rpm", "-qa",
+        root_exec(
+            container,
+            "rpm",
+            "-qa",
             "--qf", "%{NAME}\\t%{EPOCHNUM}:%{VERSION}-%{RELEASE}\\t%{ARCH}\\n",
-        ],
+        ),
         capture=True,
     )
     return sorted(line for line in output.splitlines() if line)
@@ -85,6 +125,7 @@ def main() -> int:
     parser.add_argument("--derived-tag", required=True)
     parser.add_argument("--supplemental-repo-file", required=True)
     parser.add_argument("--supplemental-evidence", required=True)
+    parser.add_argument("--build-user", required=True, choices=sorted(BUILD_USERS))
     args = parser.parse_args()
 
     root = pathlib.Path.cwd().resolve()
@@ -133,6 +174,7 @@ def main() -> int:
             "docker", "run", "--rm", "--platform", "linux/riscv64", "--network", "none",
             "--memory", "2g", "--cpus", "2", "--pids-limit", "512",
             "--security-opt", "no-new-privileges",
+            "--user", "0:0",
             "-v", f"{root}:/workspace:ro",
             "-v", f"{work_dir}:/workspace/work/{package_id}:rw",
             "-v", f"{output.parent}:/evidence:rw",
@@ -172,20 +214,39 @@ def main() -> int:
             "--memory", "6g", "--cpus", "2", "--pids-limit", "1024",
             "--security-opt", "no-new-privileges",
             "--mount", f"type=bind,src={supplemental_repo},dst=/etc/yum.repos.d/openeuler-riscv-project.repo,readonly",
+            "--user", "0:0",
             args.base_image, "/bin/bash", "-c", "while :; do sleep 3600; done",
         ])
         run(["docker", "start", container])
         started = True
+        dependency_uid = int(run(root_exec(container, "id", "-u"), capture=True).strip())
+        dependency_gid = int(run(root_exec(container, "id", "-g"), capture=True).strip())
+        if dependency_uid != 0 or dependency_gid != 0:
+            raise SystemExit("dependency installation container is not running as root")
         before = rpm_manifest(container)
         if dependencies:
-            install_attempts = run_with_retries([
-                "docker", "exec", container, "dnf", "-y",
+            install_attempts = run_with_retries(root_exec(
+                container, "dnf", "-y",
                 "--setopt=install_weak_deps=False", *DNF_NETWORK_OPTIONS, "--disablerepo=*",
                 "--enablerepo=openeuler-rva23", "--enablerepo=openeuler-riscv-project",
                 "install", "--", *dependencies,
-            ])
+            ))
+        if args.build_user == "unprivileged":
+            for command in build_user_provision_commands(container):
+                run(command)
+            observed_build_uid = int(
+                run(root_exec(container, "id", "-u", TARGET_BUILD_USER), capture=True).strip()
+            )
+            observed_build_gid = int(
+                run(root_exec(container, "id", "-g", TARGET_BUILD_USER), capture=True).strip()
+            )
+            if observed_build_uid != TARGET_BUILD_UID or observed_build_gid != TARGET_BUILD_GID:
+                raise SystemExit("fixed rpmbuild identity does not match the required UID/GID")
+        else:
+            observed_build_uid = 0
+            observed_build_gid = 0
         after = rpm_manifest(container)
-        run(["docker", "exec", container, "dnf", "clean", "all"])
+        run(root_exec(container, "dnf", "clean", "all"))
         image_id = run(["docker", "commit", container, args.derived_tag], capture=True).strip()
     finally:
         if started:
@@ -220,6 +281,18 @@ def main() -> int:
         "rpm_manifest_before": before,
         "rpm_manifest_after": after,
         "rpm_delta_added": added,
+        "dependency_install_identity": {
+            "uid": dependency_uid,
+            "gid": dependency_gid,
+            "is_root": True,
+        },
+        "target_build_identity": {
+            "policy": args.build_user,
+            "user": TARGET_BUILD_USER if args.build_user == "unprivileged" else "root",
+            "uid": observed_build_uid,
+            "gid": observed_build_gid,
+            "is_root": args.build_user == "root",
+        },
         "created_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "ephemeral": True,
         "published": False,

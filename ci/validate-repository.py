@@ -161,6 +161,33 @@ def main() -> int:
     build_rpm = (root / "scripts" / "build-rpm").read_text(encoding="utf-8")
     if "GITHUB_SHA" in build_rpm or '"commit_sha": args.commit_sha' not in build_rpm:
         errors.append("build-rpm must use only the explicit --commit-sha provenance input")
+    package_policy = (root / "ci" / "package-policy.py").read_text(encoding="utf-8")
+    package_schema = (root / "schemas" / "package.schema.json").read_text(encoding="utf-8")
+    if 'build.get("user", "root")' not in package_policy:
+        errors.append("package build-user policy must preserve the compatible root default")
+    if '"user": {"enum": ["root", "unprivileged"]}' not in package_schema:
+        errors.append("package schema does not fail closed on build.user")
+    if "build_user: ${{ steps.policy.outputs.build_user }}" not in package_ci:
+        errors.append("package-ci.yml does not propagate the validated build-user policy")
+    if package_ci.count('--build-user "$BUILD_USER"') < 2:
+        errors.append("package-ci.yml does not bind dependency and rpmbuild stages to build.user")
+    build_runner_path = root / "ci" / "run-rpmbuild-container.py"
+    build_runner = (
+        build_runner_path.read_text(encoding="utf-8") if build_runner_path.exists() else ""
+    )
+    for marker in (
+        'BUILD_USERS = {"root", "unprivileged"}',
+        'TARGET_UID = 10001',
+        '"--network",',
+        '"none",',
+        '"--commit-sha",',
+        '"--offline",',
+        'EVIDENCE_FILES =',
+    ):
+        if marker not in build_runner:
+            errors.append(
+                f"rpmbuild user orchestrator is missing required contract marker {marker}"
+            )
 
     image_workflow = (workflows / "build-ci-image.yml").read_text(encoding="utf-8") if (workflows / "build-ci-image.yml").exists() else ""
     if "--method PATCH" in image_workflow and "/user/packages/container/" in image_workflow:
@@ -304,6 +331,14 @@ def main() -> int:
     ):
         if marker not in backfill:
             errors.append(f"RPM repository backfill is missing: {marker}")
+
+    if 'def root_exec(' not in builddeps or '"--user", "0:0"' not in builddeps:
+        errors.append("BuildRequires installation does not explicitly retain root identity")
+    if (
+        'TARGET_BUILD_UID = 10001' not in builddeps
+        or 'args.build_user == "unprivileged"' not in builddeps
+    ):
+        errors.append("BuildRequires image does not provision the fixed opt-in build identity")
 
     all_workflow_text = "\n".join(path.read_text(encoding="utf-8") for path in workflows.glob("*.yml"))
     exact_repo = "https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/"
