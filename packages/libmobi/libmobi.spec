@@ -45,6 +45,7 @@ autoreconf -fi
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
+rm -f %{buildroot}%{_libdir}/libmobi.a
 
 %check
 %make_build check
