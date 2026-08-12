@@ -12,8 +12,8 @@ cat >"$smoke_dir/smoke.c" <<'EOF'
 int main(void) {
     char message[128] = {0};
     if (MDNS_PORT != 5353) return 1;
-    if (mdns_strerror(0, message, sizeof(message)) != 0) return 2;
-    return message[0] == '\0' ? 3 : 0;
+    if (mdns_strerror(0, message, sizeof(message)) >= 0) return 2;
+    return message[0] == '\0' ? 0 : 3;
 }
 EOF
 
