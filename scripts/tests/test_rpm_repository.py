@@ -185,6 +185,36 @@ class UploadStagingTests(unittest.TestCase):
             with self.assertRaisesRegex(publisher.PublishError, "exactly match"):
                 publisher.validate_ready(batch, ready)
 
+    def test_source_rpm_uses_sourcepackage_tag_instead_of_build_arch(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "hello-1-1.src.rpm"
+            source.write_bytes(b"source-rpm-fixture")
+            completed = subprocess.CompletedProcess(
+                ["rpm"],
+                0,
+                stdout="hello\t0\t1\t1\tnoarch\t1\n",
+                stderr="",
+            )
+            with mock.patch.object(publisher, "run", return_value=completed):
+                identity = publisher.query_rpm(source)
+            self.assertEqual(identity["arch"], "noarch")
+            self.assertEqual(identity["sourcepackage"], "1")
+
+    def test_binary_noarch_rpm_is_not_mistaken_for_source(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            binary = Path(temporary) / "hello-1-1.noarch.rpm"
+            binary.write_bytes(b"binary-rpm-fixture")
+            completed = subprocess.CompletedProcess(
+                ["rpm"],
+                0,
+                stdout="hello\t0\t1\t1\tnoarch\t(none)\n",
+                stderr="",
+            )
+            with mock.patch.object(publisher, "run", return_value=completed):
+                identity = publisher.query_rpm(binary)
+            self.assertEqual(identity["arch"], "noarch")
+            self.assertEqual(identity["sourcepackage"], "(none)")
+
 
 class BackfillPlanTests(unittest.TestCase):
     def test_native_retired_and_golden_packages_are_recorded_as_skipped(self) -> None:

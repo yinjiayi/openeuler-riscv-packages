@@ -288,6 +288,8 @@ def main() -> int:
             "rrsync -wo -no-del -no-overwrite",
             "createrepo_c",
             "PathChanged=/opt/openeuler-riscv-rpm-repo/incoming",
+            "%{SOURCEPACKAGE}",
+            'identity["sourcepackage"] == "1"',
         ):
             if marker not in server_text:
                 errors.append(f"RPM repository server definition is missing: {marker}")
