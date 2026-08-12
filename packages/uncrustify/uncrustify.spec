@@ -20,7 +20,7 @@ Objective-C, Java, D, Pawn, Vala, ECMAScript, and related languages.
 %autosetup -p1 -n uncrustify-uncrustify-%{version}
 
 %build
-%cmake_conf -DBUILD_TESTING=ON
+%cmake_conf -DBUILD_TESTING=ON -DCMAKE_BUILD_TYPE=Release
 %cmake_build
 
 %install
@@ -37,4 +37,4 @@ Objective-C, Java, D, Pawn, Vala, ECMAScript, and related languages.
 
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.83.0-1
-- Initial openEuler RISC-V package with all 14 upstream CTest entries.
+- Initial openEuler RISC-V package with the complete 14-entry Release test gate.
