@@ -7,7 +7,6 @@ Summary:        Lightweight Open Sound Control implementation
 License:        LGPL-2.1-or-later
 URL:            https://liblo.sourceforge.net/
 Source0:        liblo-%{version}.tar.gz
-Patch0:         0001-tests-bind-multicast-to-loopback.patch
 
 BuildRequires:  doxygen
 BuildRequires:  gcc
@@ -70,5 +69,4 @@ rm -f %{buildroot}%{_libdir}/liblo.la
 
 %changelog
 * Thu Aug 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.36-1
-- Initial openEuler RISC-V package with all four registered upstream tests,
-  including multicast over the build namespace's loopback interface.
+- Initial openEuler RISC-V package with all four registered upstream tests.

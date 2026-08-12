@@ -25,14 +25,5 @@ upstream's full `make distcheck`. The installed smoke compiles through
 `liblo.pc`, links the public ABI, and validates a real address object's
 protocol and port without sending network traffic.
 
-Package CI deliberately builds without an external network interface. In
-that namespace upstream's unqualified IPv4 multicast membership returns
-`ENODEV`; the loopback interface is present and accepts explicit multicast
-membership. The downstream test-only patch binds the existing multicast
-sender and receiver to `127.0.0.1`. It preserves the join, message, reply, and
-byte-count assertions and all four registered test programs. Exact RVA23
-before/after reproduction records the unpatched failure and the patched 4/4
-pass with zero skips.
-
 liblo is LGPL-2.1-or-later. Apache-2.0 covers only this repository's original
 packaging metadata and scripts.
