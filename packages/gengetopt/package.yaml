@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/gengetopt/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gengetopt",
+        "package_name": "gengetopt",
+        "source": "arch-extra",
+        "source_version": "2.23-4"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/gengetopt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gengetopt",
+        "package_name": "gengetopt",
+        "source": "debian",
+        "source_version": "2.23+dfsg1-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/gengetopt/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gengetopt",
+        "package_name": "gengetopt",
+        "source": "fedora",
+        "source_version": "2.23-17.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/gengetopt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gengetopt",
+        "package_name": "gengetopt",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.23-1.26"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/gengetopt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gengetopt",
+        "package_name": "gengetopt",
+        "source": "ubuntu",
+        "source_version": "2.23+dfsg1-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gengetopt.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official GNU 2.23 release archive and the complete serial Automake test suite were reviewed; the stale AUR entry was excluded by policy and no external recipes were executed.",
+    "status": "active"
+  },
+  "package_id": "gengetopt",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "gengetopt",
+    "summary": "Generate C command-line parsers using getopt_long"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-gengetopt",
+    "homepage": "https://www.gnu.org/software/gengetopt/",
+    "release_api": "https://ftp.gnu.org/gnu/gengetopt/",
+    "release_channel": "stable",
+    "release_regex": "gengetopt-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://git.savannah.gnu.org/git/gengetopt.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/gengetopt/gengetopt-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.23",
+    "latest_detected": "2.23",
+    "release": "1"
+  }
+}
