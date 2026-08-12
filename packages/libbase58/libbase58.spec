@@ -39,6 +39,8 @@ applications with libbase58.
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
+rm -f %{buildroot}%{_libdir}/libbase58.a
+rm -f %{buildroot}%{_docdir}/%{name}/COPYING
 
 %check
 %make_build check
