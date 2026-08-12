@@ -28,6 +28,8 @@ Headers, linker name, and pkg-config metadata for developing with gf2x.
 %autosetup -p1
 
 %build
+# Upstream's build-compiler probe calls exit() without including stdlib.h.
+export CC_FOR_BUILD="gcc -include stdlib.h"
 %configure --disable-static
 %make_build
 
