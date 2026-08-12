@@ -25,14 +25,14 @@ metadata needed to build and run CppUTest test programs.
   -DBUILD_SHARED_LIBS=ON \
   -DEXTENSIONS=ON \
   -DTESTS=ON \
-  -DTESTS_DETAILED=ON
+  -DTESTS_DETAILED=OFF
 %cmake_build
 
 %install
 %cmake_install
 
 %check
-%ctest
+%ctest -- -j1
 
 %files
 %license COPYING
