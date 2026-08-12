@@ -28,6 +28,10 @@ conversion, sequencing, sorting, testing, and time-zone operations.
 
 %install
 %make_install
+# RPM owns the Info index globally, and %license installs the authoritative
+# copy under %{_licensedir}; do not retain upstream's duplicate doc copy.
+rm -f %{buildroot}%{_infodir}/dir
+rm -f %{buildroot}%{_docdir}/%{name}/LICENSE
 
 %check
 %make_build check
@@ -56,9 +60,7 @@ conversion, sequencing, sorting, testing, and time-zone operations.
 %{_bindir}/strptime
 %{_datadir}/dateutils/
 %{_infodir}/dateutils.info*
-%{_mandir}/man1/date*.1*
-%{_mandir}/man1/d*.1*
-%{_mandir}/man1/strptime.1*
+%{_mandir}/man1/*.1*
 
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.11-1
