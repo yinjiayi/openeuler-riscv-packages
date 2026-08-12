@@ -13,6 +13,7 @@ base58 -d 6 <"$smoke_dir/encoded.txt" >"$smoke_dir/decoded.bin"
 cmp "$smoke_dir/input.bin" "$smoke_dir/decoded.bin"
 
 cat >"$smoke_dir/libbase58-smoke.c" <<'EOF'
+#include <stdint.h>
 #include <libbase58.h>
 #include <stdbool.h>
 #include <stddef.h>
