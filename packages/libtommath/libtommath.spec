@@ -34,7 +34,7 @@ The LibTomMath reference manual and upstream release documentation.
 %autosetup -p1 -n libtommath-%{version}
 
 %build
-%cmake \
+%cmake_conf \
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_TESTING=ON \
   -DENABLE_CCACHE=OFF
