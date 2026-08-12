@@ -32,7 +32,7 @@ library and provides a gzip-like command-line interface.
 
 %files
 %license COPYING
-%doc AUTHORS NEWS README THANKS
+%doc %{_docdir}/lzop/
 %{_bindir}/lzop
 %{_mandir}/man1/lzop.1*
 
