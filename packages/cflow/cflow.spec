@@ -29,6 +29,8 @@ EMACS=no %configure
 
 %install
 %make_install
+install -Dpm 0644 elisp/cflow-mode.el \
+  %{buildroot}%{_datadir}/emacs/site-lisp/cflow-mode.el
 rm -f %{buildroot}%{_infodir}/dir
 %find_lang %{name}
 
