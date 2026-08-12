@@ -110,6 +110,22 @@ oe_runner_dir() {
   printf '%s/%s\n' "$oe_runner_base" "$name"
 }
 
+oe_job_workspace() {
+  local work_dir=${1:?Runner work directory is required}
+  local presented=${2:?job workspace is required}
+  local repository_name expected parent
+  [[ -d $work_dir && ! -L $work_dir ]] || oe_die 'Runner work directory is missing or unsafe'
+  repository_name=${oe_runner_repo_slug#*/}
+  [[ $oe_runner_repo_slug == */* && -n $repository_name && $repository_name != */* ]] \
+    || oe_die 'configured repository slug is invalid'
+  parent=$work_dir/$repository_name
+  expected=$parent/$repository_name
+  [[ $presented == "$expected" ]] || oe_die 'job hook working directory is outside the configured repository workspace'
+  [[ -d $parent && ! -L $parent && -d $expected && ! -L $expected ]] \
+    || oe_die 'job workspace or its repository parent is missing or unsafe'
+  printf '%s\n' "$expected"
+}
+
 oe_runner_version() {
   local runner=${1:?Runner.Listener path is required}
   local working_directory=${2:?Runner working directory is required}

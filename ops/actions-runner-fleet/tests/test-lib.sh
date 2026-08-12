@@ -40,6 +40,15 @@ oe_runner_config=$test_root/config
 runner_name=oe-rva23-qemu-201
 runner_dir=$(oe_runner_dir "$runner_name")
 mkdir -p "$runner_dir" "$oe_runner_lock_dir"
+repository_name=${oe_runner_repo_slug#*/}
+work_dir=$runner_dir/_work
+job_workspace=$work_dir/$repository_name/$repository_name
+mkdir -p "$job_workspace" "$work_dir/_actions/pinned-action"
+[[ $(oe_job_workspace "$work_dir" "$job_workspace") == "$job_workspace" ]]
+if (oe_job_workspace "$work_dir" "$work_dir/_actions/pinned-action") 2>/dev/null; then
+  printf 'Runner action cache was accepted as a job workspace\n' >&2
+  exit 1
+fi
 oe_run() {
   if [[ ${1-} == systemctl ]]; then
     printf '%s\n' openeuler-actions-runner@.service "$(oe_service_name "$runner_name")"

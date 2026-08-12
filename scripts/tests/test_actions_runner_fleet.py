@@ -123,6 +123,23 @@ class RunnerFleetStaticTests(unittest.TestCase):
             "ReadWritePaths=/opt/openeuler-actions-runner/.locks", unit
         )
 
+    def test_job_start_cleanup_preserves_runner_managed_action_state(self) -> None:
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+        cleanup = (OPS / "cleanup.sh").read_text(encoding="utf-8")
+        started = (OPS / "job-started.sh").read_text(encoding="utf-8")
+        completed = (OPS / "job-completed.sh").read_text(encoding="utf-8")
+        activate = (OPS / "activate.sh").read_text(encoding="utf-8")
+
+        self.assertIn("oe_job_workspace()", library)
+        self.assertIn('workspace=$(oe_job_workspace "$runner_dir/_work" "$PWD")', started)
+        self.assertIn('--phase job-start --workspace "$workspace"', started)
+        self.assertIn('cleanup_work=$workspace', cleanup)
+        self.assertIn('src=$cleanup_work,dst=/cleanup/work', cleanup)
+        self.assertNotIn('src=$work_dir,dst=/cleanup/work', cleanup)
+        self.assertIn('cd -- "$runner_dir"', completed)
+        self.assertLess(completed.index('cd -- "$runner_dir"'), completed.index("cleanup.sh"))
+        self.assertIn('--phase before', activate)
+
     def test_runner_uniqueness_allows_only_the_managed_lock_directory(self) -> None:
         library = (OPS / "_lib.sh").read_text(encoding="utf-8")
 
