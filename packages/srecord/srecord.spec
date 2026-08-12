@@ -43,6 +43,8 @@ Headers and the static library for developing applications with SRecord.
 %autosetup -n srecord-%{version}-Source -p1
 
 %build
+# Upstream registers its non-executable test scripts through $ENV{SHELL}.
+export SHELL=/bin/sh
 %cmake_conf
 %cmake_build
 
