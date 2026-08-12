@@ -44,7 +44,7 @@ rm -rf %{buildroot}%{_docdir}/mxml4
 
 %files devel
 %license LICENSE NOTICE
-%{_includedir}/libmxml4/
+%{_includedir}/mxml.h
 %{_libdir}/libmxml4.so
 %{_libdir}/pkgconfig/mxml4.pc
 %{_mandir}/man3/mxml4.3*
