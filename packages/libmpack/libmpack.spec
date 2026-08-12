@@ -37,6 +37,7 @@ developing applications with libmpack.
 %make_install config=release MAJOR=1 MINOR=0 PATCH=5 \
   PREFIX=%{_prefix} LIBDIR=%{_libdir} INCDIR=%{_includedir}
 find %{buildroot} -name '*.la' -delete
+rm -f %{buildroot}%{_libdir}/libmpack.a
 
 %check
 %make_build config=release MAJOR=1 MINOR=0 PATCH=5 \
