@@ -222,6 +222,8 @@ def main() -> int:
     build_runner = (
         build_runner_path.read_text(encoding="utf-8") if build_runner_path.exists() else ""
     )
+    if not build_runner_path.is_file() or not build_runner_path.stat().st_mode & 0o111:
+        errors.append("rpmbuild user orchestrator is missing or not executable")
     for marker in (
         'BUILD_USERS = {"root", "unprivileged"}',
         'TARGET_UID = 10001',

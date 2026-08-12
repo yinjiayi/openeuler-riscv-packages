@@ -41,6 +41,11 @@ def option(command: list[str], name: str) -> str:
 
 
 class BuildUserPolicyTests(unittest.TestCase):
+    def test_host_build_entrypoints_are_executable(self) -> None:
+        for path in (PREPARE_DEPS, RUNNER):
+            self.assertTrue(path.is_file(), path)
+            self.assertTrue(path.stat().st_mode & 0o111, f"not executable: {path}")
+
     def test_package_schema_accepts_only_the_two_build_user_policies(self) -> None:
         schema = json.loads((REPO / "schemas" / "package.schema.json").read_text())
         package = json.loads(
