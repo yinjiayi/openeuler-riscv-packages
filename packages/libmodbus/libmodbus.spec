@@ -43,7 +43,12 @@ autoreconf -fi
 find %{buildroot} -name '*.la' -delete
 
 %check
-%make_build check
+%make_build check || {
+  for log in tests/unit-test-server.log tests/unit-test-client.log; do
+    test ! -f "$log" || { echo "=== $log ==="; cat "$log"; }
+  done
+  exit 1
+}
 (cd tests && ./proxy-tests.sh)
 
 %files
