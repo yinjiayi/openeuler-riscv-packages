@@ -32,4 +32,33 @@ oe_load_release_lock "$source_dir/runner-release.lock"
 oe_load_cleanup_image_lock "$source_dir/cleanup-image.lock"
 [[ $CLEANUP_IMAGE_REF =~ @sha256:[0-9a-f]{64}$ ]]
 
+test_root=$(mktemp -d)
+trap 'rm -rf -- "$test_root"' EXIT
+oe_runner_base=$test_root/base
+oe_runner_libexec=$test_root/libexec
+oe_runner_config=$test_root/config
+runner_name=oe-rva23-qemu-201
+runner_dir=$(oe_runner_dir "$runner_name")
+mkdir -p "$runner_dir"
+oe_run() {
+  if [[ ${1-} == systemctl ]]; then
+    printf '%s\n' openeuler-actions-runner@.service "$(oe_service_name "$runner_name")"
+  else
+    command "$@"
+  fi
+}
+oe_check_no_other_runners "$runner_name"
+if (
+  oe_run() { printf '%s\n' actions.runner.unexpected.service; }
+  oe_check_no_other_runners "$runner_name"
+) 2>/dev/null; then
+  printf 'another runner service was accepted\n' >&2
+  exit 1
+fi
+mkdir "$oe_runner_base/unmanaged-runner"
+if (oe_check_no_other_runners "$runner_name") 2>/dev/null; then
+  printf 'another runner directory was accepted\n' >&2
+  exit 1
+fi
+
 printf 'runner fleet shell guards passed\n'

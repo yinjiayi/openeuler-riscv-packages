@@ -301,15 +301,20 @@ oe_wipe_secret() {
 
 oe_check_no_other_runners() {
   local name=${1:?name is required}
-  local unit directory
+  local unit directory runner_dir
+  runner_dir=$(oe_runner_dir "$name")
   while IFS= read -r unit; do
-    [[ -z $unit || $unit == "$(oe_service_name "$name")" ]] \
-      || oe_die "another Actions Runner service already exists: $unit"
+    case $unit in
+      ''|openeuler-actions-runner@.service|"$(oe_service_name "$name")") ;;
+      *) oe_die "another Actions Runner service already exists: $unit" ;;
+    esac
   done < <(oe_run systemctl list-unit-files --type=service --no-legend --no-pager 'actions.runner*' 'openeuler-actions-runner@*' 2>/dev/null | awk '{print $1}')
   if [[ -d $oe_runner_base ]]; then
     while IFS= read -r directory; do
-      [[ ${directory##*/} == "$name" ]] \
-        || oe_die "another runner directory exists: $directory"
+      case $directory in
+        "$runner_dir") ;;
+        *) oe_die "another runner directory exists: $directory" ;;
+      esac
     done < <(find "$oe_runner_base" -mindepth 1 -maxdepth 1 -type d -print)
   fi
 }
