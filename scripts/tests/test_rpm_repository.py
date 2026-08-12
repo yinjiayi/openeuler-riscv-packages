@@ -9,12 +9,14 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 
 REPO = Path(__file__).resolve().parents[2]
 CLIENT_PATH = REPO / "ci" / "rpm-repo-client.py"
 STAGER = REPO / "ci" / "stage-rpm-repository-upload.py"
 LIST_PACKAGES = REPO / "ci" / "list-rpm-repo-packages.py"
+BUILDDEPS_PATH = REPO / "ci" / "prepare-build-deps.py"
 PUBLISHER_PATH = REPO / "ops" / "rpm-repo-server" / "rpmrepo_publish.py"
 BACKFILL_WORKFLOW = REPO / ".github" / "workflows" / "rpm-repo-backfill.yml"
 PACKAGE_WORKFLOW = REPO / ".github" / "workflows" / "package-ci.yml"
@@ -32,6 +34,7 @@ def load_module(name: str, path: Path):
 
 client = load_module("rpm_repo_client", CLIENT_PATH)
 publisher = load_module("rpm_repo_publisher", PUBLISHER_PATH)
+builddeps = load_module("prepare_build_deps", BUILDDEPS_PATH)
 
 
 def run(argv: list[str], expected: int = 0) -> subprocess.CompletedProcess[str]:
@@ -182,6 +185,36 @@ class UploadStagingTests(unittest.TestCase):
             with self.assertRaisesRegex(publisher.PublishError, "exactly match"):
                 publisher.validate_ready(batch, ready)
 
+    def test_source_rpm_uses_sourcepackage_tag_instead_of_build_arch(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "hello-1-1.src.rpm"
+            source.write_bytes(b"source-rpm-fixture")
+            completed = subprocess.CompletedProcess(
+                ["rpm"],
+                0,
+                stdout="hello\t0\t1\t1\tnoarch\t1\n",
+                stderr="",
+            )
+            with mock.patch.object(publisher, "run", return_value=completed):
+                identity = publisher.query_rpm(source)
+            self.assertEqual(identity["arch"], "noarch")
+            self.assertEqual(identity["sourcepackage"], "1")
+
+    def test_binary_noarch_rpm_is_not_mistaken_for_source(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            binary = Path(temporary) / "hello-1-1.noarch.rpm"
+            binary.write_bytes(b"binary-rpm-fixture")
+            completed = subprocess.CompletedProcess(
+                ["rpm"],
+                0,
+                stdout="hello\t0\t1\t1\tnoarch\t(none)\n",
+                stderr="",
+            )
+            with mock.patch.object(publisher, "run", return_value=completed):
+                identity = publisher.query_rpm(binary)
+            self.assertEqual(identity["arch"], "noarch")
+            self.assertEqual(identity["sourcepackage"], "(none)")
+
 
 class BackfillPlanTests(unittest.TestCase):
     def test_native_retired_and_golden_packages_are_recorded_as_skipped(self) -> None:
@@ -206,6 +239,10 @@ class BackfillPlanTests(unittest.TestCase):
 
 
 class BackfillWorkflowContractTests(unittest.TestCase):
+    def test_backfill_keeps_parallelism_without_overloading_the_single_upstream(self) -> None:
+        workflow = BACKFILL_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("max-parallel: 8", workflow)
+
     def test_caller_permission_ceiling_covers_reusable_workflow_jobs(self) -> None:
         caller_blocks = permission_blocks(BACKFILL_WORKFLOW)
         caller = next(block for indent, block in caller_blocks if indent == 0)
@@ -221,6 +258,29 @@ class BackfillWorkflowContractTests(unittest.TestCase):
             if PERMISSION_LEVEL[caller.get(key, "none")] < PERMISSION_LEVEL[value]
         }
         self.assertEqual(insufficient, {})
+
+
+class BuildRequiresRetryTests(unittest.TestCase):
+    def test_retry_preserves_the_transaction_and_stops_after_success(self) -> None:
+        results = [
+            subprocess.CompletedProcess(["dnf"], 1),
+            subprocess.CompletedProcess(["dnf"], 92),
+            subprocess.CompletedProcess(["dnf"], 0),
+        ]
+        with mock.patch.object(builddeps.subprocess, "run", side_effect=results) as invoked:
+            with mock.patch.object(builddeps.time, "sleep") as sleeper:
+                used = builddeps.run_with_retries(["dnf", "install", "gcc"], delays=(0, 0))
+        self.assertEqual(used, 3)
+        self.assertEqual(invoked.call_count, 3)
+        self.assertEqual(sleeper.call_count, 2)
+
+    def test_retry_is_bounded_for_deterministic_failures(self) -> None:
+        result = subprocess.CompletedProcess(["dnf"], 1)
+        with mock.patch.object(builddeps.subprocess, "run", return_value=result) as invoked:
+            with mock.patch.object(builddeps.time, "sleep"):
+                with self.assertRaises(subprocess.CalledProcessError):
+                    builddeps.run_with_retries(["dnf", "install", "missing"], delays=(0, 0))
+        self.assertEqual(invoked.call_count, 3)
 
 
 if __name__ == "__main__":

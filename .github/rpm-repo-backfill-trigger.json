@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "request_id": "initial-opt-repository-backfill-permission-fix-20260812",
-  "requested_at": "2026-08-12T04:10:58Z",
-  "reason": "Retry the protected-main backfill after aligning caller permissions with the reusable Package CI contract."
+  "request_id": "opt-repository-backfill-download-resilience-20260812",
+  "requested_at": "2026-08-12T04:34:38Z",
+  "reason": "Queue a protected-main retry with bounded cache-preserving DNF retries and reduced upstream mirror pressure."
 }

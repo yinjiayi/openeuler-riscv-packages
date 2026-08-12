@@ -240,6 +240,15 @@ def main() -> int:
     ):
         if marker not in builddeps:
             errors.append(f"BuildRequires preparation is missing supplemental repository control: {marker}")
+    for marker in (
+        "run_with_retries",
+        "--setopt=retries=20",
+        "--setopt=minrate=1",
+        "--setopt=max_parallel_downloads=1",
+        '"dependency_install_attempts"',
+    ):
+        if marker not in builddeps:
+            errors.append(f"BuildRequires preparation is missing bounded download resilience: {marker}")
 
     install_smoke = (root / "ci" / "install-smoke.sh").read_text(encoding="utf-8")
     if "--enablerepo=openeuler-riscv-project" not in install_smoke:
@@ -279,6 +288,8 @@ def main() -> int:
             "rrsync -wo -no-del -no-overwrite",
             "createrepo_c",
             "PathChanged=/opt/openeuler-riscv-rpm-repo/incoming",
+            "%{SOURCEPACKAGE}",
+            'identity["sourcepackage"] == "1"',
         ):
             if marker not in server_text:
                 errors.append(f"RPM repository server definition is missing: {marker}")
@@ -287,7 +298,7 @@ def main() -> int:
     for marker in (
         "ci/list-rpm-repo-packages.py",
         "uses: ./.github/workflows/package-ci.yml",
-        "max-parallel: 20",
+        "max-parallel: 8",
         "publish_to_repo: true",
         "retention-days: 7",
     ):

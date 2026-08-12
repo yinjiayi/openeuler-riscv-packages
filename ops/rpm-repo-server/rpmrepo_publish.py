@@ -176,7 +176,7 @@ def query_rpm(path: Path) -> dict[str, str]:
                 "--query",
                 "--package",
                 "--queryformat",
-                "%{NAME}\t%{EPOCHNUM}\t%{VERSION}\t%{RELEASE}\t%{ARCH}\n",
+                "%{NAME}\t%{EPOCHNUM}\t%{VERSION}\t%{RELEASE}\t%{ARCH}\t%{SOURCEPACKAGE}\n",
                 str(path),
             ]
         )
@@ -184,12 +184,21 @@ def query_rpm(path: Path) -> dict[str, str]:
         detail = (error.stderr or error.stdout or "RPM query failed").strip()
         raise PublishError(f"{path.name}: {detail[:1000]}") from error
     fields = completed.stdout.rstrip("\n").split("\t")
-    if len(fields) != 5 or not all(fields):
+    if len(fields) != 6 or not all(fields):
         raise PublishError(f"{path.name}: RPM query returned an invalid identity")
-    name, epoch, version, release, arch = fields
+    name, epoch, version, release, arch, sourcepackage = fields
     if arch not in {"riscv64", "noarch", "src", "nosrc"}:
         raise PublishError(f"{path.name}: unsupported RPM architecture {arch!r}")
-    return {"name": name, "epoch": epoch, "version": version, "release": release, "arch": arch}
+    if sourcepackage not in {"1", "(none)"}:
+        raise PublishError(f"{path.name}: invalid SOURCEPACKAGE marker {sourcepackage!r}")
+    return {
+        "name": name,
+        "epoch": epoch,
+        "version": version,
+        "release": release,
+        "arch": arch,
+        "sourcepackage": sourcepackage,
+    }
 
 
 def validate_artifacts(batch: Path, artifacts: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -205,7 +214,9 @@ def validate_artifacts(batch: Path, artifacts: list[dict[str, Any]]) -> list[dic
         if path.stat().st_size != artifact["size"] or sha256_file(path) != artifact["sha256"]:
             raise PublishError(f"{path.name}: size or SHA-256 does not match the ready marker")
         identity = query_rpm(path)
-        actual_kind = "source" if identity["arch"] in {"src", "nosrc"} else "binary"
+        # SRPM headers retain the package's build architecture (often noarch or
+        # riscv64); SOURCEPACKAGE is RPM's authoritative source-package tag.
+        actual_kind = "source" if identity["sourcepackage"] == "1" else "binary"
         if actual_kind != artifact["kind"]:
             raise PublishError(f"{path.name}: ready-marker kind does not match RPM architecture")
         validated.append({**artifact, "path": path, "identity": identity})
