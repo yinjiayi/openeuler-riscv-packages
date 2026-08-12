@@ -52,6 +52,8 @@ Qhull command manual pages and upstream HTML documentation.
 
 %install
 %cmake_install
+mv %{buildroot}%{_prefix}/lib/pkgconfig \
+  %{buildroot}%{_libdir}/pkgconfig
 install -p -m 0755 %{_vpath_builddir}/libqhull.so.%{library_version} \
   %{buildroot}%{_libdir}/libqhull.so.%{library_version}
 ln -s libqhull.so.%{library_version} \
@@ -90,10 +92,10 @@ ln -s libqhull_p.so.8.0 %{buildroot}%{_libdir}/libqhull_p.so
 %{_libdir}/libqhullstatic.a
 %{_libdir}/libqhullstatic_r.a
 %{_prefix}/lib/cmake/Qhull/
-%{_prefix}/lib/pkgconfig/qhull_r.pc
-%{_prefix}/lib/pkgconfig/qhullcpp.pc
-%{_prefix}/lib/pkgconfig/qhullstatic.pc
-%{_prefix}/lib/pkgconfig/qhullstatic_r.pc
+%{_libdir}/pkgconfig/qhull_r.pc
+%{_libdir}/pkgconfig/qhullcpp.pc
+%{_libdir}/pkgconfig/qhullstatic.pc
+%{_libdir}/pkgconfig/qhullstatic_r.pc
 
 %files help
 %license COPYING.txt
