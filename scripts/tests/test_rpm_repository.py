@@ -299,7 +299,7 @@ class RrsyncLockRetryTests(unittest.TestCase):
                 "RRSYNC_LOCK_MAX_ATTEMPTS": "4",
                 "RRSYNC_LOCK_BASE_DELAY_SECONDS": "0",
                 "RRSYNC_LOCK_JITTER_MAX_SECONDS": "0",
-                "RRSYNC_LOCK_JITTER_SEED": "123",
+                "RRSYNC_LOCK_JITTER_KEY": "123:demo",
             }
         )
         return subprocess.run(
@@ -344,6 +344,14 @@ class RrsyncLockRetryTests(unittest.TestCase):
             )
             self.assertEqual(completed.returncode, 23)
             self.assertEqual(counter.read_text(encoding="utf-8").strip(), "1")
+
+    def test_workflow_jitter_key_is_distinct_for_each_package(self) -> None:
+        workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn(
+            "RRSYNC_LOCK_JITTER_KEY: ${{ format('{0}:{1}', github.run_id, needs.prepare.outputs.package_id) }}",
+            workflow,
+        )
+        self.assertNotIn("RRSYNC_LOCK_JITTER_SEED: ${{ github.run_id }}", workflow)
 
 
 class BuildRequiresRetryTests(unittest.TestCase):

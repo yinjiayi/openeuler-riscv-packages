@@ -123,7 +123,7 @@ def main() -> int:
         errors.append("package-ci.yml cannot validate a trusted bot-created PR head via workflow_dispatch")
     for marker in (
         "ci/rsync-with-lock-retry.sh -- rsync",
-        "RRSYNC_LOCK_JITTER_SEED: ${{ github.run_id }}",
+        "RRSYNC_LOCK_JITTER_KEY: ${{ format('{0}:{1}', github.run_id, needs.prepare.outputs.package_id) }}",
     ):
         if marker not in package_ci:
             errors.append(f"package CI repository publication is missing: {marker}")
