@@ -40,6 +40,7 @@ Header and linker name for developing applications with http-parser.
 %check
 %make_build test \
   CFLAGS="%{optflags} -Wall -Wextra -Werror" \
+  CFLAGS_DEBUG="%{optflags} -Wall -Wextra -Werror -Wp,-U_FORTIFY_SOURCE -O0 -g" \
   LDFLAGS="%{build_ldflags}"
 
 %files
@@ -53,4 +54,5 @@ Header and linker name for developing applications with http-parser.
 
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.9.4-4
-- Preserve target EVR while retaining both complete upstream parser suites.
+- Retain both parser suites while making the required -O0 strict build
+  compatible with the target toolchain's Fortify policy.
