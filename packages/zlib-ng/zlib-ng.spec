@@ -8,6 +8,7 @@ Summary:        Zlib replacement with next-generation optimizations
 License:        Zlib
 URL:            https://github.com/zlib-ng/zlib-ng
 Source0:        zlib-ng-%{version}.tar.gz
+Patch0:         0001-riscv-build-zbc-without-rvv.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -36,7 +37,7 @@ The static zlib-ng library, built together with the shared library so the
 complete upstream GoogleTest suite remains enabled.
 
 %prep
-%autosetup
+%autosetup -p1
 
 %build
 %cmake_conf \
