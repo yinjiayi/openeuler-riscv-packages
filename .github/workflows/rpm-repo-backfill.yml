@@ -3,6 +3,11 @@ name: RPM Repository Backfill
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/rpm-repo-backfill-trigger.json
 
 concurrency:
   group: rpm-repository-backfill
