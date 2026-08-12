@@ -32,7 +32,7 @@ metadata needed to build and run CppUTest test programs.
 %cmake_install
 
 %check
-%ctest -- -j1
+ctest --output-on-failure --force-new-ctest-process -j1
 
 %files
 %license COPYING
@@ -46,4 +46,4 @@ metadata needed to build and run CppUTest test programs.
 
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-1
-- Initial openEuler RISC-V package with the complete 77-case upstream gate.
+- Initial openEuler RISC-V package with the complete upstream test gate.
