@@ -54,6 +54,7 @@ Manual page and upstream release documentation for libqb.
 %install
 %make_install
 rm -f %{buildroot}%{_libdir}/libqb.la
+rm -rf -- %{buildroot}%{_docdir}/libqb
 
 %check
 %make_build check
