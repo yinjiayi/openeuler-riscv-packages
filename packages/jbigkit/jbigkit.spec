@@ -6,6 +6,8 @@ Summary:        JBIG1 lossless image compression tools
 License:        GPL-2.0-or-later
 URL:            https://www.cl.cam.ac.uk/~mgk25/jbigkit/
 Source0:        jbigkit-%{version}.tar.gz
+Patch0:         0001-cve-2017-9937-limit-decoded-image-size.patch
+Patch1:         0002-jbg-newlen-check-marker-length.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -76,7 +78,7 @@ install -pm0644 pbmtools/jbgtopbm.1 pbmtools/pbmtojbg.1 \
 
 %check
 LD_LIBRARY_PATH="$PWD/libjbig${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" \
-  %make_build test \
+  %{__make} -j1 test \
   CC="%{__cc}" \
   CFLAGS="%{optflags} -fPIC -W -Wno-unused-result"
 
@@ -105,3 +107,4 @@ LD_LIBRARY_PATH="$PWD/libjbig${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" \
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1-1
 - Initial openEuler RISC-V package from Fedora 44 and frozen cross-distribution evidence.
+- Backport the Ubuntu/upstream denial-of-service fixes for CVE-2017-9937.

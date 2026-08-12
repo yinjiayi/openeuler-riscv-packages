@@ -21,5 +21,12 @@ a PBM-to-JBIG-to-PBM conversion against the packaged shared libraries. RISC-V
 status remains unknown until the pinned openEuler RVA23/QEMU workflow
 completes.
 
+The pristine 2.1 release predates upstream's decoded-image memory limit. This
+package backports the two patches shipped by Ubuntu's official
+`2.1-3.1ubuntu0.22.04.1` security source package: the upstream 2 GB
+decoded-image limit for CVE-2017-9937 and the associated truncated
+`MARKER_NEWLEN` guard. The functional suite is run serially because its
+Makefile shares temporary filenames across test targets; no test is skipped.
+
 External source licenses remain upstream's. Apache-2.0 covers only this
 repository's original packaging metadata, scripts, tests, and documentation.

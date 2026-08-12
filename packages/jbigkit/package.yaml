@@ -59,14 +59,33 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cve-2017-9937-limit-decoded-image-size.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Backport upstream's decoded-image memory ceiling to mitigate CVE-2017-9937 denial of service in the 2.1 release.",
+        "remove_when": "Upstream publishes a stable release after 2.1 containing the decoded-image maxmem change.",
+        "sha256": "906b9e9cd9125eda9e62865529874de2fc7192a906b7010d1daff09aa3da9782",
+        "source": "Ubuntu security source package jbigkit 2.1-3.1ubuntu0.22.04.1; original upstream change by Markus Kuhn.",
+        "upstream_status": "accepted"
+      },
+      {
+        "file": "patches/0002-jbg-newlen-check-marker-length.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Reject truncated MARKER_NEWLEN input before reading the marker payload.",
+        "remove_when": "Upstream publishes a stable release after 2.1 containing the jbg_newlen end-of-file guard.",
+        "sha256": "9fa937db94020724ba8c5946c8c86f277760856923d1e17db62796fdf30c5703",
+        "source": "Ubuntu security source package jbigkit 2.1-3.1ubuntu0.22.04.1; original upstream change by Markus Kuhn.",
+        "upstream_status": "accepted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "jbigkit.spec"
   },
   "maintenance": {
     "maintainers": ["yinjiayi"],
-    "notes": "Official Cambridge JBIG-KIT 2.1 release bytes are SHA-256 pinned. The complete T.82/T.85 and PBM functional test suite remains enabled. Shared objects retain the target's libjbig.so.2.1 and libjbig85.so.2.1 SONAMEs. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "notes": "Official Cambridge JBIG-KIT 2.1 release bytes are SHA-256 pinned. Ubuntu's upstream-authored CVE-2017-9937 and truncated-marker security fixes are backported with exact patch hashes. The complete T.82/T.85 and PBM functional test suite remains enabled and runs serially because upstream test targets share temporary filenames. Shared objects retain the target's libjbig.so.2.1 and libjbig85.so.2.1 SONAMEs. AUR was read-only RPC metadata only; no external packaging content was executed.",
     "status": "active"
   },
   "package_id": "jbigkit",
