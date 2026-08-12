@@ -12,6 +12,7 @@ set +x
 # This file is sourced by multiple entry points; these shared assignments are
 # intentionally consumed by the caller rather than by every source operation.
 oe_runner_base=/opt/openeuler-actions-runner
+oe_runner_lock_dir=$oe_runner_base/.locks
 oe_runner_user=oegha
 oe_runner_group=oegha
 oe_runner_repo_url=https://github.com/yinjiayi/openeuler-riscv-packages
@@ -107,6 +108,22 @@ oe_runner_dir() {
   local name=${1:?name is required}
   oe_host_from_name "$name" >/dev/null
   printf '%s/%s\n' "$oe_runner_base" "$name"
+}
+
+oe_job_workspace() {
+  local work_dir=${1:?Runner work directory is required}
+  local presented=${2:?job workspace is required}
+  local repository_name expected parent
+  [[ -d $work_dir && ! -L $work_dir ]] || oe_die 'Runner work directory is missing or unsafe'
+  repository_name=${oe_runner_repo_slug#*/}
+  [[ $oe_runner_repo_slug == */* && -n $repository_name && $repository_name != */* ]] \
+    || oe_die 'configured repository slug is invalid'
+  parent=$work_dir/$repository_name
+  expected=$parent/$repository_name
+  [[ $presented == "$expected" ]] || oe_die 'job hook working directory is outside the configured repository workspace'
+  [[ -d $parent && ! -L $parent && -d $expected && ! -L $expected ]] \
+    || oe_die 'job workspace or its repository parent is missing or unsafe'
+  printf '%s\n' "$expected"
 }
 
 oe_runner_version() {
@@ -334,7 +351,7 @@ oe_check_no_other_runners() {
   if [[ -d $oe_runner_base ]]; then
     while IFS= read -r directory; do
       case $directory in
-        "$runner_dir") ;;
+        "$runner_dir"|"$oe_runner_lock_dir") ;;
         *) oe_die "another runner directory exists: $directory" ;;
       esac
     done < <(find "$oe_runner_base" -mindepth 1 -maxdepth 1 -type d -print)
