@@ -157,6 +157,7 @@ jobs:
         env:
           PACKAGE_ID: ${{ matrix.package_id }}
           BASE_IMAGE: ${{ steps.image.outputs.ref }}
+          BUILD_USER: ${{ steps.policy.outputs.build_user }}
         run: |
           derived="golden-builddeps:${GITHUB_RUN_ID}-${PACKAGE_ID}"
           ci/run-capped.sh --log "artifacts/golden/$PACKAGE_ID/dependencies.log" \
@@ -166,7 +167,8 @@ jobs:
               --output "artifacts/golden/$PACKAGE_ID/dependencies.json" \
               --derived-tag "$derived" \
               --supplemental-repo-file "artifacts/golden/$PACKAGE_ID/openeuler-riscv-project.repo" \
-              --supplemental-evidence "artifacts/golden/$PACKAGE_ID/repository-resolution.json"
+              --supplemental-evidence "artifacts/golden/$PACKAGE_ID/repository-resolution.json" \
+              --build-user "$BUILD_USER"
           printf 'image=%s\n' "$derived" >>"$GITHUB_OUTPUT"
       - name: Exercise actual offline RISC-V build and expected state
         if: steps.policy.outputs.needs_native != 'true'
@@ -176,7 +178,12 @@ jobs:
           DERIVED_IMAGE: ${{ steps.dependencies.outputs.image }}
           BASE_IMAGE: ${{ steps.image.outputs.ref }}
           BUILD_COMMIT_SHA: ${{ github.sha }}
+          BUILD_USER: ${{ steps.policy.outputs.build_user }}
         run: |
+          # The three fixed fixtures intentionally exercise the compatible
+          # root policy. Fail closed if a fixture changes its identity policy
+          # until this direct golden path is migrated to the shared wrapper.
+          test "$BUILD_USER" = root
           result="artifacts/golden/$PACKAGE_ID/rpmbuild-phase-result.json"
           log="artifacts/golden/$PACKAGE_ID/rpmbuild.log"
           expected=$EXPECTED
@@ -187,6 +194,7 @@ jobs:
           set +e
           ci/run-capped.sh --log "$log" --max-bytes 52428800 --timeout-seconds 6900 -- \
             docker run --rm --platform linux/riscv64 --network none \
+              --user 0:0 \
               --memory 6g --cpus 2 --pids-limit 1024 \
               --security-opt no-new-privileges -e OE_RVA23_PROBE=passed \
               -v "$GITHUB_WORKSPACE:/workspace:ro" \

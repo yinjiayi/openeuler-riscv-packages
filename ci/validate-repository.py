@@ -313,6 +313,14 @@ def main() -> int:
         errors.append("golden-evaluation.yml does not use stage-aware golden assertions")
     if "rpmbuild-internal.log" not in golden:
         errors.append("golden-evaluation.yml does not retain the RPM tool's internal log")
+    for marker in (
+        "BUILD_USER: ${{ steps.policy.outputs.build_user }}",
+        '--build-user "$BUILD_USER"',
+        'test "$BUILD_USER" = root',
+        "--user 0:0",
+    ):
+        if marker not in golden:
+            errors.append(f"golden-evaluation.yml does not preserve build-user policy: {marker}")
 
     builddeps_path = root / "ci" / "prepare-build-deps.py"
     builddeps = builddeps_path.read_text(encoding="utf-8") if builddeps_path.exists() else ""

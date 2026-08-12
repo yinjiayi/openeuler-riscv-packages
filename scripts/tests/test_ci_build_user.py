@@ -329,6 +329,16 @@ class BuildContainerCommandTests(unittest.TestCase):
         self.assertIn('ci/run-rpmbuild-container.py run', workflow)
         self.assertIn('--build-user "$BUILD_USER"', workflow)
 
+    def test_golden_workflow_propagates_and_fails_closed_on_build_user(self) -> None:
+        workflow = (REPO / ".github" / "workflows" / "golden-evaluation.yml").read_text()
+        self.assertGreaterEqual(
+            workflow.count("BUILD_USER: ${{ steps.policy.outputs.build_user }}"),
+            2,
+        )
+        self.assertIn('--build-user "$BUILD_USER"', workflow)
+        self.assertIn('test "$BUILD_USER" = root', workflow)
+        self.assertIn("--user 0:0", workflow)
+
     def test_self_hosted_qemu_pool_is_protected_main_only(self) -> None:
         workflow = (REPO / ".github" / "workflows" / "package-ci.yml").read_text()
         trusted = (
