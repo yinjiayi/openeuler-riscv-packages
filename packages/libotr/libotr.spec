@@ -51,7 +51,7 @@ rm -f %{buildroot}%{_libdir}/*.la
 %doc AUTHORS NEWS README Protocol-v3.html
 %{_bindir}/otr_*
 %{_libdir}/libotr.so.5*
-%{_mandir}/man1/otr_toolkit.1*
+%{_mandir}/man1/otr_*.1*
 
 %files devel
 %doc ChangeLog UPGRADING
