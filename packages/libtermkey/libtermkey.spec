@@ -43,7 +43,7 @@ developing applications with libtermkey.
 %make_install \
   PREFIX=%{_prefix} \
   LIBDIR=%{_libdir}
-rm -f %{buildroot}%{_libdir}/libtermkey.la
+rm -f %{buildroot}%{_libdir}/libtermkey.{a,la}
 
 %check
 %make_build test \
