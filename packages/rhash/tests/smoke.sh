@@ -7,7 +7,7 @@ rpm -q -- rhash rhash-devel
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
 
-test "$(rhash --sha256 --simple -m abc)" = \
+test "$(rhash --sha256 --one-hash -m abc)" = \
   "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
 
 cat >"$smoke_dir/smoke.c" <<'EOF'
