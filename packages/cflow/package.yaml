@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "cflow",
+  "rpm": {
+    "name": "cflow",
+    "summary": "Analyze C source files and print call graphs",
+    "license": "GPL-3.0-or-later AND GFDL-1.2-or-later"
+  },
+  "upstream": {
+    "component": "gnu.org-cflow",
+    "homepage": "https://www.gnu.org/software/cflow/",
+    "source_repository": "https://git.savannah.gnu.org/cgit/cflow.git",
+    "release_channel": "stable",
+    "release_api": "https://ftp.gnu.org/gnu/cflow/",
+    "release_regex": "cflow-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://ftp.gnu.org/gnu/cflow/cflow-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.8",
+    "release": "1",
+    "latest_detected": "1.8"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "cflow",
+        "package_base": "cflow",
+        "source_version": "1.8-1",
+        "evidence_url": "https://aur.archlinux.org/packages/cflow",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "cflow",
+        "package_base": "cflow",
+        "source_version": "1:1.7-5",
+        "evidence_url": "https://packages.debian.org/trixie/source/cflow",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "cflow",
+        "package_base": "cflow",
+        "source_version": "1.8-3.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/cflow/cflow/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "cflow",
+        "package_base": "cflow",
+        "source_version": "1.8-2.5",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/cflow",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "cflow",
+        "package_base": "cflow",
+        "source_version": "1:1.8-1build1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/cflow",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "cflow.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "GNU cflow 1.8 is the current stable GNU release and its exact archive is pinned. Fedora 44, AUR RPC metadata, Debian, openSUSE, and Ubuntu corroborate the package lineage. AUR was queried through its read-only RPC interface only; no PKGBUILD or distribution recipe was read or executed. The target openEuler repository has no cflow build, so there is no target EVR or ABI to replace."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "gnu-ftp-index"
+  }
+}
