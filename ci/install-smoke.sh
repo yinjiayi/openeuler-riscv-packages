@@ -57,8 +57,15 @@ mapfile -d '' rpms < <(find "$rpm_root" -type f -name '*.rpm' \
   ! -name '*-debuginfo-*' ! -name '*-debugsource-*' -print0 | sort -z)
 ((${#rpms[@]} > 0)) || { message="no binary RPM was produced"; exit 1; }
 
+supplemental_repo=/etc/yum.repos.d/openeuler-riscv-project.repo
+[[ -f $supplemental_repo && ! -L $supplemental_repo ]] || {
+  message="verified supplemental repository configuration is missing"
+  exit 1
+}
+
 dnf -y --setopt install_weak_deps=False --disablerepo='*' \
-  --enablerepo=openeuler-rva23 install "${rpms[@]}"
+  --enablerepo=openeuler-rva23 --enablerepo=openeuler-riscv-project \
+  install "${rpms[@]}"
 
 smoke="$package_dir/tests/smoke.sh"
 [[ -f $smoke ]] || { message="tests/smoke.sh is missing"; exit 2; }

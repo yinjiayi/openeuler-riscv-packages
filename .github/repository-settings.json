@@ -27,5 +27,8 @@
   "forbidden_actions_secrets": [
     "OPENAI_API_KEY",
     "CODEX_API_KEY"
+  ],
+  "allowed_actions_secrets": [
+    "RPM_REPO_SSH_PRIVATE_KEY"
   ]
 }
