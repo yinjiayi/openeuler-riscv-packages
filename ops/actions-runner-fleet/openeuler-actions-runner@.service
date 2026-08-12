@@ -1,0 +1,66 @@
+# SPDX-License-Identifier: Apache-2.0
+[Unit]
+Description=openEuler RVA23 trusted QEMU GitHub Actions Runner (%i)
+Documentation=https://github.com/yinjiayi/openeuler-riscv-packages/tree/main/ops/actions-runner-fleet
+After=network-online.target docker.service systemd-binfmt.service
+Wants=network-online.target
+Requires=docker.service
+ConditionPathExists=/opt/openeuler-actions-runner/%i/.runner
+
+[Service]
+Type=simple
+User=oegha
+Group=oegha
+SupplementaryGroups=docker
+WorkingDirectory=/opt/openeuler-actions-runner/%i
+ExecStartPre=/usr/local/libexec/openeuler-actions-runner/preflight.sh --name %i
+ExecStart=/opt/openeuler-actions-runner/%i/bin/Runner.Listener run --startuptype service
+Restart=always
+RestartSec=10s
+TimeoutStartSec=90s
+TimeoutStopSec=90s
+KillMode=mixed
+UMask=0077
+
+Environment=HOME=/opt/openeuler-actions-runner/%i/_state/home
+Environment=DOCKER_CONFIG=/opt/openeuler-actions-runner/%i/_state/docker
+Environment=ACTIONS_RUNNER_HOOK_JOB_STARTED=/usr/local/libexec/openeuler-actions-runner/job-started.sh
+Environment=ACTIONS_RUNNER_HOOK_JOB_COMPLETED=/usr/local/libexec/openeuler-actions-runner/job-completed.sh
+Environment=ACTIONS_RUNNER_RETURN_VERSION_DEPRECATED_EXIT_CODE=1
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# The runner deliberately has Docker socket access and is therefore equivalent
+# to a root-capable trust boundary. The remaining sandbox limits accidental
+# host access; it does not make untrusted public-fork jobs safe.
+NoNewPrivileges=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+PrivateDevices=true
+PrivateTmp=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectProc=invisible
+ProtectSystem=strict
+ReadWritePaths=/opt/openeuler-actions-runner/%i/_work
+ReadWritePaths=/opt/openeuler-actions-runner/%i/_diag
+ReadWritePaths=/opt/openeuler-actions-runner/%i/_state
+ReadWritePaths=/run/docker.sock
+RemoveIPC=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+SystemCallArchitectures=native
+LockPersonality=true
+CPUQuota=2800%
+MemoryHigh=48G
+MemoryMax=52G
+TasksMax=8192
+
+[Install]
+WantedBy=multi-user.target

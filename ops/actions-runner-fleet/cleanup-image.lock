@@ -1,0 +1,3 @@
+# SPDX-License-Identifier: Apache-2.0
+# Must match ci/image.lock. It is used only for root-owned workspace cleanup.
+CLEANUP_IMAGE_REF=ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild@sha256:ddb05e127943bfd0bd8cca4afe0811fa897c44ed4a216a3d4e3176f68c9aa9af

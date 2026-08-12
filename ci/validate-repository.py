@@ -88,7 +88,6 @@ def main() -> int:
     forbidden = {
         "OPENAI_API_KEY": "Actions must not hold OpenAI credentials",
         "pull_request_target": "write-capable pull_request_target is forbidden",
-        "runs-on: self-hosted": "self-hosted RISC-V runners are not enabled in M0/M1",
         "ubuntu-latest": "runner images must use an explicit version",
     }
     for workflow in sorted(workflows.glob("*.yml")):
@@ -171,6 +170,39 @@ def main() -> int:
         errors.append("package-ci.yml does not propagate the validated build-user policy")
     if package_ci.count('--build-user "$BUILD_USER"') < 2:
         errors.append("package-ci.yml does not bind dependency and rpmbuild stages to build.user")
+    runner_expression = (
+        "needs.prepare.outputs.mode == 'package' && "
+        "needs.prepare.outputs.needs_native != 'true' && "
+        "(github.event_name == 'push' || github.event_name == 'workflow_dispatch') && "
+        "github.ref == 'refs/heads/main'"
+    )
+    runner_labels = '["self-hosted","linux","x64","oe-rva23-qemu"]'
+    if package_ci.count(runner_expression) != 2:
+        errors.append(
+            "package-ci.yml must route exactly the two heavy QEMU jobs only from protected-main trusted events"
+        )
+    if package_ci.count(runner_labels) != 2:
+        errors.append(
+            "package-ci.yml must bind exactly two heavy jobs to the approved QEMU runner label set"
+        )
+    qemu_policy_path = root / "ci" / "qemu-runner-policy.py"
+    qemu_policy = qemu_policy_path.read_text(encoding="utf-8") if qemu_policy_path.exists() else ""
+    for marker in (
+        'TRUSTED_EVENTS = {"push", "workflow_dispatch"}',
+        'PROTECTED_REF = "refs/heads/main"',
+        'SELF_HOSTED_LABELS = ["self-hosted", "linux", "x64", "oe-rva23-qemu"]',
+    ):
+        if marker not in qemu_policy:
+            errors.append(f"QEMU runner evidence policy is missing {marker}")
+    if "ci/qemu-runner-policy.py" not in package_ci:
+        errors.append("package-ci.yml does not emit structured QEMU runner routing evidence")
+    for workflow in sorted(workflows.glob("*.yml")):
+        if workflow.name == "package-ci.yml":
+            continue
+        if "oe-rva23-qemu" in workflow.read_text(encoding="utf-8"):
+            errors.append(
+                f"{workflow.name}: repository QEMU runner label is outside package-ci.yml"
+            )
     build_runner_path = root / "ci" / "run-rpmbuild-container.py"
     build_runner = (
         build_runner_path.read_text(encoding="utf-8") if build_runner_path.exists() else ""
@@ -206,6 +238,20 @@ def main() -> int:
         errors.append("default GITHUB_TOKEN permissions must remain read-only")
     if actions_settings.get("can_approve_pull_request_reviews") is not True:
         errors.append("Actions cannot create the reviewed digest-lock PR")
+    if actions_settings.get("fork_pull_request_approval_policy") != "all_external_contributors":
+        errors.append("every external fork workflow must require explicit maintainer approval")
+    qemu_runner = actions_settings.get("self_hosted_qemu_runner", {})
+    if qemu_runner != {
+        "enabled": True,
+        "trust_boundary": "protected-main-only",
+        "labels": ["self-hosted", "linux", "x64", "oe-rva23-qemu"],
+    }:
+        errors.append("repository settings do not record the protected-main QEMU runner boundary")
+    github_configurator = (root / "ci" / "configure-github.sh").read_text(encoding="utf-8")
+    if "actions/permissions/fork-pr-contributor-approval" not in github_configurator:
+        errors.append("GitHub provisioning does not enforce the external fork workflow approval policy")
+    if github_configurator.count("all_external_contributors") < 1:
+        errors.append("GitHub provisioning does not fail closed on the external fork policy")
     if settings.get("allowed_actions_secrets") != ["RPM_REPO_SSH_PRIVATE_KEY"]:
         errors.append("repository settings must allow only the restricted RPM repository deployment key")
     forbidden_secrets = settings.get("forbidden_actions_secrets", [])

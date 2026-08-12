@@ -18,6 +18,7 @@ REPO = pathlib.Path(__file__).resolve().parents[2]
 RUNNER = REPO / "ci" / "run-rpmbuild-container.py"
 PREPARE_DEPS = REPO / "ci" / "prepare-build-deps.py"
 PACKAGE_POLICY = REPO / "ci" / "package-policy.py"
+QEMU_RUNNER_POLICY = REPO / "ci" / "qemu-runner-policy.py"
 sys.path.insert(0, str(REPO / "scripts"))
 
 
@@ -32,6 +33,7 @@ def load_module(path: pathlib.Path, name: str):
 
 RUNNER_MODULE = load_module(RUNNER, "ci_run_rpmbuild_container")
 DEPS_MODULE = load_module(PREPARE_DEPS, "ci_prepare_build_deps")
+QEMU_POLICY_MODULE = load_module(QEMU_RUNNER_POLICY, "ci_qemu_runner_policy")
 
 
 def option(command: list[str], name: str) -> str:
@@ -321,6 +323,52 @@ class BuildContainerCommandTests(unittest.TestCase):
         )
         self.assertIn('ci/run-rpmbuild-container.py run', workflow)
         self.assertIn('--build-user "$BUILD_USER"', workflow)
+
+    def test_self_hosted_qemu_pool_is_protected_main_only(self) -> None:
+        workflow = (REPO / ".github" / "workflows" / "package-ci.yml").read_text()
+        trusted = (
+            "needs.prepare.outputs.mode == 'package' && "
+            "needs.prepare.outputs.needs_native != 'true' && "
+            "(github.event_name == 'push' || github.event_name == 'workflow_dispatch') && "
+            "github.ref == 'refs/heads/main'"
+        )
+        labels = '["self-hosted","linux","x64","oe-rva23-qemu"]'
+        self.assertEqual(workflow.count(trusted), 2)
+        self.assertEqual(workflow.count(labels), 2)
+        self.assertNotIn("github.event_name == 'pull_request'", trusted)
+        self.assertNotIn("github.event_name == 'merge_group'", trusted)
+        self.assertIn("needs.prepare.outputs.needs_native != 'true'", trusted)
+
+    def test_runner_policy_routes_only_non_native_protected_main_work(self) -> None:
+        for event in ("pull_request", "merge_group", "workflow_run", "schedule"):
+            decision = QEMU_POLICY_MODULE.decide(
+                "package", False, event, "refs/heads/main"
+            )
+            self.assertEqual(decision["runner_kind"], "github-hosted", event)
+        for ref in ("refs/pull/1/merge", "refs/heads/topic", "refs/tags/v1"):
+            decision = QEMU_POLICY_MODULE.decide("package", False, "push", ref)
+            self.assertEqual(decision["runner_kind"], "github-hosted", ref)
+        self.assertEqual(
+            QEMU_POLICY_MODULE.decide(
+                "infrastructure", False, "push", "refs/heads/main"
+            )["runner_kind"],
+            "github-hosted",
+        )
+        self.assertEqual(
+            QEMU_POLICY_MODULE.decide(
+                "package", True, "push", "refs/heads/main"
+            )["runner_kind"],
+            "github-hosted",
+        )
+        for event in ("push", "workflow_dispatch"):
+            decision = QEMU_POLICY_MODULE.decide(
+                "package", False, event, "refs/heads/main"
+            )
+            self.assertEqual(decision["runner_kind"], "self-hosted-qemu", event)
+            self.assertEqual(
+                decision["labels"],
+                ["self-hosted", "linux", "x64", "oe-rva23-qemu"],
+            )
 
 
 if __name__ == "__main__":
