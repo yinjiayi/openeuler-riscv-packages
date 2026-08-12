@@ -2,19 +2,50 @@
 name: Package CI
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - packages/**
   pull_request:
     types: [opened, synchronize, reopened]
   merge_group:
     types: [checks_requested]
+  workflow_call:
+    inputs:
+      package_id:
+        description: Canonical package selected by the trusted backfill planner
+        required: true
+        type: string
+      commit_sha:
+        description: Exact protected-main commit to build
+        required: true
+        type: string
+      publish_to_repo:
+        description: Publish successful RPM and SRPM outputs
+        required: true
+        type: boolean
+    secrets:
+      RPM_REPO_SSH_PRIVATE_KEY:
+        description: Restricted rrsync-only deployment key
+        required: true
   workflow_dispatch:
     inputs:
       base_sha:
         description: Immutable default-branch base SHA for a trusted bot-created PR
-        required: true
+        required: false
         type: string
+      package_id:
+        description: Optional existing package to rebuild at the selected main commit
+        required: false
+        type: string
+      publish_to_repo:
+        description: Publish successful package output to the supplemental RPM repository
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
-  group: package-ci-${{ github.event.pull_request.number || github.event.merge_group.head_sha || github.ref }}
+  group: package-ci-${{ inputs.package_id || github.event.pull_request.number || github.event.merge_group.head_sha || github.sha }}
   cancel-in-progress: true
 
 permissions:
@@ -38,20 +69,28 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           fetch-depth: 0
           persist-credentials: false
       - name: Classify the diff
         id: scope
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || inputs.base_sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.event.before || inputs.base_sha }}
+          HEAD_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          EXPLICIT_PACKAGE: ${{ inputs.package_id }}
         run: |
           mkdir -p artifacts/scope
-          ci/detect-change-scope.py \
-            --base "$BASE_SHA" --head "$HEAD_SHA" \
-            --output artifacts/scope/change-scope.json \
-            --github-output "$GITHUB_OUTPUT"
+          if [[ -n "$EXPLICIT_PACKAGE" ]]; then
+            ci/select-package-scope.py \
+              --package-id "$EXPLICIT_PACKAGE" --head "$HEAD_SHA" \
+              --output artifacts/scope/change-scope.json \
+              --github-output "$GITHUB_OUTPUT"
+          else
+            ci/detect-change-scope.py \
+              --base "$BASE_SHA" --head "$HEAD_SHA" \
+              --output artifacts/scope/change-scope.json \
+              --github-output "$GITHUB_OUTPUT"
+          fi
       - name: Read canonical package build profile
         id: policy
         env:
@@ -69,7 +108,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: package-ci-scope-${{ github.run_id }}
+          name: package-ci-scope-${{ steps.scope.outputs.package_id }}-${{ github.run_id }}
           path: artifacts/scope/
           if-no-files-found: error
           retention-days: 7
@@ -84,7 +123,7 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
       - name: Validate metadata and schemas
         env:
@@ -100,7 +139,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: package-ci-metadata-${{ github.run_id }}
+          name: package-ci-metadata-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: artifacts/metadata/
           if-no-files-found: warn
           retention-days: 7
@@ -115,7 +154,7 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
       - name: Enforce patch ownership and application
         env:
@@ -142,7 +181,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: package-ci-patch-policy-${{ github.run_id }}
+          name: package-ci-patch-policy-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: artifacts/patch-policy/
           if-no-files-found: warn
           retention-days: 7
@@ -157,7 +196,7 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
       - name: Record source-stage environment
         run: ci/record-environment.sh artifacts/source/environment.json
@@ -166,7 +205,7 @@ jobs:
           MODE: ${{ needs.prepare.outputs.mode }}
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           PREPARE_RESULT: ${{ needs.prepare.result }}
-          BUILD_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          BUILD_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
         run: |
           test "$PREPARE_RESULT" = success
           mkdir -p artifacts/source
@@ -191,12 +230,50 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: package-ci-source-${{ github.run_id }}
+          name: package-ci-source-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: |
             artifacts/source/
             work/${{ needs.prepare.outputs.package_id }}/SOURCES/
             work/${{ needs.prepare.outputs.package_id }}/source-verification.json
           if-no-files-found: warn
+          retention-days: 7
+
+  repository-snapshot:
+    name: repository-snapshot
+    needs: prepare
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository client at the exact head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          persist-credentials: false
+      - name: Resolve one immutable supplemental repository generation
+        env:
+          MODE: ${{ needs.prepare.outputs.mode }}
+          NEEDS_NATIVE: ${{ needs.prepare.outputs.needs_native }}
+          PREPARE_RESULT: ${{ needs.prepare.result }}
+        run: |
+          test "$PREPARE_RESULT" = success
+          mkdir -p artifacts/repository
+          if [[ "$MODE" = package && "$NEEDS_NATIVE" != true ]]; then
+            ci/rpm-repo-client.py resolve \
+              --state-url http://2.27.148.101:38080/state.json \
+              --repo-file artifacts/repository/openeuler-riscv-project.repo \
+              --output artifacts/repository/resolution.json
+          else
+            printf '%s\n' '{"schema_version":1,"kind":"not-applicable","check":"repository-snapshot","reason":"no QEMU package build is in scope"}' \
+              > artifacts/repository/not-applicable.json
+          fi
+      - name: Upload immutable repository evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: package-ci-repository-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
+          path: artifacts/repository/
+          if-no-files-found: error
           retention-days: 7
 
   merge-policy:
@@ -247,7 +324,7 @@ jobs:
 
   rpmbuild-riscv64:
     name: rpmbuild-riscv64
-    needs: [prepare, metadata-validate, patch-policy, source-verify]
+    needs: [prepare, metadata-validate, patch-policy, source-verify, repository-snapshot]
     if: always()
     runs-on: ubuntu-24.04
     timeout-minutes: 120
@@ -255,13 +332,18 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
       - name: Download verified sources
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: package-ci-source-${{ github.run_id }}
+          name: package-ci-source-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: .
+      - name: Download the verified immutable repository configuration
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: package-ci-repository-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
+          path: artifacts/repository
       - name: Record build environment
         run: ci/record-environment.sh artifacts/build/environment.json
       - name: Check prerequisite results
@@ -270,11 +352,13 @@ jobs:
           METADATA_RESULT: ${{ needs.metadata-validate.result }}
           PATCH_RESULT: ${{ needs.patch-policy.result }}
           SOURCE_RESULT: ${{ needs.source-verify.result }}
+          REPOSITORY_RESULT: ${{ needs.repository-snapshot.result }}
         run: |
           test "$PREPARE_RESULT" = success
           test "$METADATA_RESULT" = success
           test "$PATCH_RESULT" = success
           test "$SOURCE_RESULT" = success
+          test "$REPOSITORY_RESULT" = success
       - name: Install RISC-V QEMU/binfmt
         if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
         uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
@@ -307,7 +391,9 @@ jobs:
               --package-dir "packages/$PACKAGE_ID" \
               --work-dir "work/$PACKAGE_ID" \
               --output artifacts/build/dependencies/result.json \
-              --derived-tag "$derived"
+              --derived-tag "$derived" \
+              --supplemental-repo-file artifacts/repository/openeuler-riscv-project.repo \
+              --supplemental-evidence artifacts/repository/resolution.json
           dependency_status=$?
           set -e
           if ((dependency_status != 0)); then
@@ -337,7 +423,7 @@ jobs:
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           IMAGE_REF: ${{ steps.dependencies.outputs.image }}
-          BUILD_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          BUILD_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
         run: |
           mkdir -p artifacts/build
           set +e
@@ -417,14 +503,14 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: package-ci-build-${{ github.run_id }}
+          name: package-ci-build-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: ${{ runner.temp }}/package-ci-build-upload/
           if-no-files-found: warn
           retention-days: 7
 
   rpm-install-smoke:
     name: rpm-install-smoke
-    needs: [prepare, metadata-validate, patch-policy, source-verify, rpmbuild-riscv64]
+    needs: [prepare, metadata-validate, patch-policy, source-verify, repository-snapshot, rpmbuild-riscv64]
     if: always()
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -432,13 +518,18 @@ jobs:
       - name: Check out the exact head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
       - name: Download RISC-V build products
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: package-ci-build-${{ github.run_id }}
+          name: package-ci-build-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: .
+      - name: Download the same immutable repository configuration
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: package-ci-repository-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
+          path: artifacts/repository
       - name: Check build result
         env:
           BUILD_RESULT: ${{ needs.rpmbuild-riscv64.result }}
@@ -474,6 +565,7 @@ jobs:
             docker run --rm --platform linux/riscv64 \
               --memory 6g --cpus 2 --pids-limit 1024 \
               --security-opt no-new-privileges \
+              -v "$GITHUB_WORKSPACE/artifacts/repository/openeuler-riscv-project.repo:/etc/yum.repos.d/openeuler-riscv-project.repo:ro" \
               -v "$GITHUB_WORKSPACE:/workspace:ro" \
               -v "$GITHUB_WORKSPACE/work/$PACKAGE_ID:/workspace/work/$PACKAGE_ID:rw" \
               -v "$GITHUB_WORKSPACE/artifacts/smoke:/workspace/artifacts/smoke:rw" \
@@ -514,7 +606,7 @@ jobs:
           MODE: ${{ needs.prepare.outputs.mode }}
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           NEEDS_NATIVE: ${{ needs.prepare.outputs.needs_native }}
-          COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           METADATA_RESULT: ${{ needs.metadata-validate.result }}
           SOURCE_RESULT: ${{ needs.source-verify.result }}
@@ -541,9 +633,10 @@ jobs:
             --rpmbuild-phase artifacts/build/rpmbuild-phase-result.json
             --smoke-phase artifacts/smoke/smoke-phase-result.json
             --failure-classification artifacts/build/failure.json
-            --artifact-reference "package-ci-source-${GITHUB_RUN_ID}"
-            --artifact-reference "package-ci-build-${GITHUB_RUN_ID}"
-            --artifact-reference "package-ci-smoke-${GITHUB_RUN_ID}"
+            --artifact-reference "package-ci-source-${PACKAGE_ID}-${GITHUB_RUN_ID}"
+            --artifact-reference "package-ci-repository-${PACKAGE_ID}-${GITHUB_RUN_ID}"
+            --artifact-reference "package-ci-build-${PACKAGE_ID}-${GITHUB_RUN_ID}"
+            --artifact-reference "package-ci-smoke-${PACKAGE_ID}-${GITHUB_RUN_ID}"
             --output artifacts/smoke/build-result.json
           )
           if [[ "$NEEDS_NATIVE" = true ]]; then
@@ -557,14 +650,113 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: package-ci-smoke-${{ github.run_id }}
+          name: package-ci-smoke-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: artifacts/smoke/
+          if-no-files-found: warn
+          retention-days: 7
+
+  publish-rpm-repository:
+    name: publish-rpm-repository
+    needs: [prepare, rpmbuild-riscv64, rpm-install-smoke]
+    if: >-
+      always() &&
+      needs.prepare.result == 'success' &&
+      needs.rpmbuild-riscv64.result == 'success' &&
+      needs.rpm-install-smoke.result == 'success' &&
+      needs.prepare.outputs.mode == 'package' &&
+      needs.prepare.outputs.needs_native != 'true' &&
+      ((github.event_name == 'push' && github.ref == 'refs/heads/main') || inputs.publish_to_repo)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out trusted publishing code at the built commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.commit_sha || github.sha }}
+          persist-credentials: false
+      - name: Download sanitized RPM and SRPM products
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: package-ci-build-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/rpm-repo-build
+      - name: Stage one checksum-bound upload batch
+        id: stage
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          COMMIT_SHA: ${{ inputs.commit_sha || github.sha }}
+        run: |
+          mkdir -p artifacts/repository-publish
+          generation=$(ci/stage-rpm-repository-upload.py \
+            --artifact-root "$RUNNER_TEMP/rpm-repo-build" \
+            --output-dir "$RUNNER_TEMP/rpm-repo-upload" \
+            --package-id "$PACKAGE_ID" \
+            --commit-sha "$COMMIT_SHA" \
+            --run-id "$GITHUB_RUN_ID" \
+            --run-attempt "$GITHUB_RUN_ATTEMPT")
+          cp "$RUNNER_TEMP/rpm-repo-upload/publish-evidence.json" \
+            artifacts/repository-publish/upload.json
+          printf 'generation=%s\n' "$generation" >>"$GITHUB_OUTPUT"
+      - name: Configure the restricted deployment identity
+        env:
+          RPM_REPO_SSH_PRIVATE_KEY: ${{ secrets.RPM_REPO_SSH_PRIVATE_KEY }}
+        run: |
+          test -n "$RPM_REPO_SSH_PRIVATE_KEY"
+          install -d -m 0700 "$RUNNER_TEMP/rpm-repo-ssh"
+          printf '%s\n' "$RPM_REPO_SSH_PRIVATE_KEY" \
+            > "$RUNNER_TEMP/rpm-repo-ssh/id_ed25519"
+          chmod 0600 "$RUNNER_TEMP/rpm-repo-ssh/id_ed25519"
+          cp ci/rpm-repo-known-hosts "$RUNNER_TEMP/rpm-repo-ssh/known_hosts"
+          chmod 0644 "$RUNNER_TEMP/rpm-repo-ssh/known_hosts"
+          expected=$(awk 'NR == 1 {print $2}' ops/rpm-repo-server/deploy-key.pub)
+          actual=$(ssh-keygen -y -f "$RUNNER_TEMP/rpm-repo-ssh/id_ed25519" | awk '{print $2}')
+          test "$actual" = "$expected"
+      - name: Upload RPMs first and the ready marker last
+        env:
+          GENERATION: ${{ steps.stage.outputs.generation }}
+        run: |
+          ssh_transport="ssh -p 38022 -i $RUNNER_TEMP/rpm-repo-ssh/id_ed25519 -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$RUNNER_TEMP/rpm-repo-ssh/known_hosts"
+          rsync -r -e "$ssh_transport" \
+            "$RUNNER_TEMP/rpm-repo-upload/payload/" \
+            "reposync@2.27.148.101:$GENERATION/"
+          rsync -r -e "$ssh_transport" \
+            "$RUNNER_TEMP/rpm-repo-upload/.ready" \
+            "reposync@2.27.148.101:$GENERATION/.ready"
+      - name: Verify the immutable public generation
+        env:
+          GENERATION: ${{ steps.stage.outputs.generation }}
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          COMMIT_SHA: ${{ inputs.commit_sha || github.sha }}
+        run: |
+          state_url="http://2.27.148.101:38080/generations/$GENERATION/state.json"
+          for attempt in $(seq 1 60); do
+            printf 'publication verification attempt %s/60\n' "$attempt"
+            if ci/rpm-repo-client.py verify-generation \
+              --state-url "$state_url" \
+              --expected-generation "$GENERATION" \
+              --expected-package "$PACKAGE_ID" \
+              --expected-commit "$COMMIT_SHA" \
+              --output artifacts/repository-publish/result.json; then
+              exit 0
+            fi
+            sleep 5
+          done
+          printf '%s\n' '{"schema_version":1,"kind":"rpm-repository-publication-verification","status":"failed","reason":"generation was not publicly verifiable within 300 seconds"}' \
+            > artifacts/repository-publish/result.json
+          exit 1
+      - name: Upload repository publication evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rpm-repository-publish-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
+          path: artifacts/repository-publish/
           if-no-files-found: warn
           retention-days: 7
 
   ci-state:
     name: record-ci-state
-    needs: [prepare, metadata-validate, source-verify, patch-policy, merge-policy, rpmbuild-riscv64, rpm-install-smoke]
+    needs: [prepare, metadata-validate, source-verify, patch-policy, repository-snapshot, merge-policy, rpmbuild-riscv64, rpm-install-smoke]
     if: always() && github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -594,5 +786,5 @@ jobs:
           HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
           EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           ARTIFACT_DIR: artifacts/all-results
-          OVERALL_RESULT: ${{ needs.prepare.result == 'success' && needs.metadata-validate.result == 'success' && needs.source-verify.result == 'success' && needs.patch-policy.result == 'success' && needs.merge-policy.result == 'success' && needs.rpmbuild-riscv64.result == 'success' && needs.rpm-install-smoke.result == 'success' && 'success' || 'failure' }}
+          OVERALL_RESULT: ${{ needs.prepare.result == 'success' && needs.metadata-validate.result == 'success' && needs.source-verify.result == 'success' && needs.patch-policy.result == 'success' && needs.repository-snapshot.result == 'success' && needs.merge-policy.result == 'success' && needs.rpmbuild-riscv64.result == 'success' && needs.rpm-install-smoke.result == 'success' && 'success' || 'failure' }}
         run: ci/label-ci-result.sh

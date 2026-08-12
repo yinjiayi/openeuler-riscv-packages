@@ -14,6 +14,7 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - A **build result** is the schema-valid `build-result.json` tied to an exact Git commit SHA. It is evidence, not a self-reported success claim.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
 - A **golden package** is a fixed end-to-end fixture with a pinned source/content digest, expected state, allowed changes, and assertions.
+- A **repository generation** is an immutable binary/source RPM snapshot with a state-bound `repomd.xml` SHA-256. A build resolves the mutable `state.json` pointer once, then uses only that generation URL.
 
 ## Safety and trust boundary
 
@@ -23,6 +24,9 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. `rpmbuild` runs without network after source verification.
 - Required native-kernel or hardware validation becomes `needs-native-riscv`; no self-hosted runner is currently scheduled.
 - Repair runs only on a maintainer's local Codex through local `gh` authentication or an explicitly authorized process-scoped `GH_TOKEN`. Using that token for local `gh`/Git operations is permitted; persisting or publishing its value in repository content, commits, PR text, logs, artifacts, Actions configuration, or Pages is forbidden. `scripts/github-credential-guard` checks the active token against repository, staged, and publication content without printing it. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`.
+- The only custom Actions secret is `RPM_REPO_SSH_PRIVATE_KEY`. It is a forced-command, write-only `rrsync` deployment identity for `/opt/openeuler-riscv-rpm-repo/incoming`; it cannot run a shell, delete or overwrite remote files, and is never available to build commands. It is not an OpenAI/Codex credential.
+- Successful package output is published only after the exact package build and installed-RPM smoke pass on a protected `main` push (or an explicit trusted backfill call). Pull-request builds never publish RPMs.
+- The supplemental project repository is served from the operator-provided HTTP endpoint `http://2.27.148.101:38080`. Its unsigned project RPMs use `gpgcheck=0`; CI compensates with a pinned SSH host key for publication, per-file upload SHA-256, immutable generations, no HTTP redirects, and a state-bound `repomd.xml` digest. The official openEuler HTTPS/GPG-checked repository remains enabled and authoritative.
 - Automation never writes to upstream projects. RISC-V patches remain in `packages/<id>/patches/` and are referenced by the SPEC.
 
 ## Current catalog evidence
@@ -47,6 +51,7 @@ The reviewed overlay currently promotes 100 verified components. Eighty-eight ha
 | `tests/golden/` | Fixed success, repair, and native-only acceptance fixtures |
 | `catalog/` | Discovery source policy, immutable run snapshots, and reviewed official-release evidence |
 | `dashboard/` | Static Pages application and generated evidence |
+| `ops/rpm-repo-server/` | Idempotent Nginx, restricted rsync, systemd, and atomic `createrepo_c` deployment |
 
 ## Local verification
 
@@ -71,6 +76,21 @@ scripts/build-rpm \
 ```
 
 The full build is intentionally run by `package-ci.yml` inside the locked RISC-V OCI, after a separate audited BuildRequires stage, with `--offline` and container networking disabled.
+
+Resolve and verify the exact supplemental repository generation that would be
+mounted into dependency installation and installed-RPM smoke:
+
+```sh
+ci/rpm-repo-client.py resolve \
+  --state-url http://2.27.148.101:38080/state.json \
+  --repo-file work/openeuler-riscv-project.repo \
+  --output work/rpm-repository-resolution.json
+```
+
+`RPM Repository Backfill` builds every active non-golden package whose policy
+does not require native RISC-V hardware. It runs up to 20 independent package
+builds in parallel, publishes both RPM and SRPM products, and records native,
+retired, and golden exclusions in its seven-day plan artifact.
 
 Replay discovery against saved fixture metadata without executing external packaging code:
 

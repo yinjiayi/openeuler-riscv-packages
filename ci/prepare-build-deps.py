@@ -48,12 +48,16 @@ def main() -> int:
     parser.add_argument("--work-dir", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--derived-tag", required=True)
+    parser.add_argument("--supplemental-repo-file", required=True)
+    parser.add_argument("--supplemental-evidence", required=True)
     args = parser.parse_args()
 
     root = pathlib.Path.cwd().resolve()
     package_dir = pathlib.Path(args.package_dir).resolve()
     work_dir = pathlib.Path(args.work_dir).resolve()
     output = pathlib.Path(args.output).resolve()
+    supplemental_repo = pathlib.Path(args.supplemental_repo_file).resolve()
+    supplemental_evidence_path = pathlib.Path(args.supplemental_evidence).resolve()
     package_id = package_dir.name
     if not PACKAGE_ID.fullmatch(package_id) or package_dir.parent != root / "packages":
         raise SystemExit("package directory is outside packages/ or has a noncanonical id")
@@ -61,6 +65,26 @@ def main() -> int:
         raise SystemExit("base image must be the approved GHCR repository at an immutable digest")
     if not DERIVED_TAG.fullmatch(args.derived_tag):
         raise SystemExit("derived image tag is unsafe")
+    if not supplemental_repo.is_file() or supplemental_repo.is_symlink():
+        raise SystemExit("supplemental repository file must be a regular non-symlink file")
+    if not supplemental_evidence_path.is_file() or supplemental_evidence_path.is_symlink():
+        raise SystemExit("supplemental repository evidence must be a regular non-symlink file")
+    supplemental_evidence = json.loads(supplemental_evidence_path.read_text(encoding="utf-8"))
+    if (
+        supplemental_evidence.get("kind") != "supplemental-repository-resolution"
+        or not re.fullmatch(r"(?:bootstrap-[0-9]{8}T[0-9]{6}Z|[a-z0-9-]+-[0-9a-f]{40}-[1-9][0-9]*-[1-9][0-9]*)", str(supplemental_evidence.get("generation", "")))
+        or not re.fullmatch(r"[0-9a-f]{64}", str(supplemental_evidence.get("state_sha256", "")))
+    ):
+        raise SystemExit("supplemental repository evidence is invalid")
+    repository_text = supplemental_repo.read_text(encoding="utf-8")
+    expected_baseurl = supplemental_evidence.get("repositories", {}).get("riscv64", {}).get("baseurl")
+    if (
+        "[openeuler-riscv-project]" not in repository_text
+        or f"baseurl={expected_baseurl}" not in repository_text
+        or "gpgcheck=0" not in repository_text
+        or "skip_if_unavailable=0" not in repository_text
+    ):
+        raise SystemExit("supplemental repository file does not match its verified evidence")
     work_dir.mkdir(parents=True, exist_ok=True)
     output.parent.mkdir(parents=True, exist_ok=True)
     plan_path = output.parent / "dependency-plan.json"
@@ -111,6 +135,7 @@ def main() -> int:
             "docker", "create", "--platform", "linux/riscv64", "--name", container,
             "--memory", "6g", "--cpus", "2", "--pids-limit", "1024",
             "--security-opt", "no-new-privileges",
+            "--mount", f"type=bind,src={supplemental_repo},dst=/etc/yum.repos.d/openeuler-riscv-project.repo,readonly",
             args.base_image, "/bin/bash", "-c", "while :; do sleep 3600; done",
         ])
         run(["docker", "start", container])
@@ -120,7 +145,8 @@ def main() -> int:
             run([
                 "docker", "exec", container, "dnf", "-y",
                 "--setopt=install_weak_deps=False", "--disablerepo=*",
-                "--enablerepo=openeuler-rva23", "install", "--", *dependencies,
+                "--enablerepo=openeuler-rva23", "--enablerepo=openeuler-riscv-project",
+                "install", "--", *dependencies,
             ])
         after = rpm_manifest(container)
         run(["docker", "exec", container, "dnf", "clean", "all"])
@@ -139,11 +165,20 @@ def main() -> int:
         "derived_image_id": image_id,
         "derived_tag": args.derived_tag,
         "repository": "https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/",
+        "supplemental_repository": {
+            "state_url": supplemental_evidence["state_url"],
+            "state_sha256": supplemental_evidence["state_sha256"],
+            "generation": supplemental_evidence["generation"],
+            "baseurl": expected_baseurl,
+            "repomd_sha256": supplemental_evidence["repositories"]["riscv64"]["repomd_sha256"],
+            "rpm_gpgcheck": False,
+        },
         "build_requires": dependencies,
         "planned_install_argv": planned_argv,
         "executed_install_argv": [
             "dnf", "-y", "--setopt=install_weak_deps=False", "--disablerepo=*",
-            "--enablerepo=openeuler-rva23", "install", "--", *dependencies,
+            "--enablerepo=openeuler-rva23", "--enablerepo=openeuler-riscv-project",
+            "install", "--", *dependencies,
         ],
         "rpm_manifest_before": before,
         "rpm_manifest_after": after,

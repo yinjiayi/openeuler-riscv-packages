@@ -142,6 +142,15 @@ jobs:
           docker pull --platform linux/riscv64 "$ref"
           docker run --rm --platform linux/riscv64 --memory 1g --cpus 2 --pids-limit 256 \
             "$ref" /usr/local/bin/verify-target
+      - name: Resolve one immutable supplemental repository generation
+        if: steps.policy.outputs.needs_native != 'true'
+        env:
+          PACKAGE_ID: ${{ matrix.package_id }}
+        run: |
+          ci/rpm-repo-client.py resolve \
+            --state-url http://2.27.148.101:38080/state.json \
+            --repo-file "artifacts/golden/$PACKAGE_ID/openeuler-riscv-project.repo" \
+            --output "artifacts/golden/$PACKAGE_ID/repository-resolution.json"
       - name: Prepare audited BuildRequires in an ephemeral image
         if: steps.policy.outputs.needs_native != 'true'
         id: dependencies
@@ -155,7 +164,9 @@ jobs:
             ci/prepare-build-deps.py --base-image "$BASE_IMAGE" \
               --package-dir "packages/$PACKAGE_ID" --work-dir "work/$PACKAGE_ID" \
               --output "artifacts/golden/$PACKAGE_ID/dependencies.json" \
-              --derived-tag "$derived"
+              --derived-tag "$derived" \
+              --supplemental-repo-file "artifacts/golden/$PACKAGE_ID/openeuler-riscv-project.repo" \
+              --supplemental-evidence "artifacts/golden/$PACKAGE_ID/repository-resolution.json"
           printf 'image=%s\n' "$derived" >>"$GITHUB_OUTPUT"
       - name: Exercise actual offline RISC-V build and expected state
         if: steps.policy.outputs.needs_native != 'true'
@@ -200,6 +211,7 @@ jobs:
               docker run --rm --platform linux/riscv64 \
                 --memory 6g --cpus 2 --pids-limit 1024 \
                 --security-opt no-new-privileges \
+                -v "$GITHUB_WORKSPACE/artifacts/golden/$PACKAGE_ID/openeuler-riscv-project.repo:/etc/yum.repos.d/openeuler-riscv-project.repo:ro" \
                 -v "$GITHUB_WORKSPACE:/workspace:ro" \
                 -v "$GITHUB_WORKSPACE/work/$PACKAGE_ID:/workspace/work/$PACKAGE_ID:rw" \
                 -v "$GITHUB_WORKSPACE/artifacts/golden/$PACKAGE_ID:/workspace/artifacts/golden/$PACKAGE_ID:rw" \
