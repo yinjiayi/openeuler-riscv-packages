@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- lzop
-lzop --version | grep -F 'lzop v1.04'
+lzop --version | grep -Fx 'lzop 1.04'
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
