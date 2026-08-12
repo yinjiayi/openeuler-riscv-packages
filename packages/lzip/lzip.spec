@@ -32,6 +32,7 @@ bzip2. It uses a simplified LZMA stream format with integrity checking.
 
 %install
 %make_install
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 # Run the complete maintained compression, decompression, listing, and
