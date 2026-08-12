@@ -4,7 +4,7 @@ set -euo pipefail
 
 rpm -q -- libmobi libmobi-devel
 rpm -q --provides libmobi | grep -F 'libmobi.so.0()(64bit)'
-mobitool --version | grep -F 'libmobi: 0.12'
+mobitool -v | grep -F 'libmobi: 0.12'
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
