@@ -140,12 +140,18 @@ shared host dependencies.
 ## Per-job cleanup
 
 GitHub-supported synchronous pre/post hooks run `job-guard.sh` and
-`cleanup.sh` with a five-minute timeout. Cleanup is locked per Runner, removes
-verified children of that Runner's `_work`, home, and Docker-client state
-directories, and runs both before and after every job. These hosts are
-dedicated to exactly one Runner. Cleanup therefore fails before any Docker
-mutation if *any* running container exists; it never guesses container
-ownership. When Docker is idle it removes all stopped/created containers,
+`cleanup.sh` with a five-minute timeout. **Activation cleanup** is the full
+workspace cleanup that runs before the Runner service starts. **Job-start
+cleanup** runs after the Runner has downloaded pinned actions, so it removes
+only the exact configured repository workspace contents plus home and
+Docker-client state; it deliberately preserves the sibling `_actions`,
+`_temp`, and `_tool` directories required by the current job. **Completion
+cleanup** first leaves the job workspace and then removes all verified Runner
+work/home/Docker-state children. All phases share the same lock.
+
+These hosts are dedicated to exactly one Runner. Cleanup therefore fails
+before any Docker mutation if *any* running container exists; it never guesses
+container ownership. When Docker is idle it removes all stopped/created containers,
 dangling volumes, and unused custom networks, plus only the workflow-defined
 `openeuler-builddeps:*` derived images. The digest-pinned
 `ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild` base image and all other image
