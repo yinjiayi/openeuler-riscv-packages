@@ -92,6 +92,15 @@ class RunnerFleetStaticTests(unittest.TestCase):
         for label in ("self-hosted", "linux", "x64", "oe-rva23-qemu"):
             self.assertIn(label, workflow)
 
+    def test_installer_uses_ubuntu_runuser_group_initialization(self) -> None:
+        installer = (OPS / "install.sh").read_text(encoding="utf-8")
+        self.assertIn(
+            'runuser --user "$oe_runner_user" -- docker info',
+            installer,
+        )
+        self.assertNotIn("runuser --user \"$oe_runner_user\" --groups", installer)
+        self.assertIn('usermod --append --groups docker "$oe_runner_user"', installer)
+
     def test_shell_and_python_sources_parse_and_are_executable(self) -> None:
         for path in sorted(OPS.glob("*.sh")):
             completed = subprocess.run(

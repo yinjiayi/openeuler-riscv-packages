@@ -148,7 +148,7 @@ oe_check_no_other_runners "$OE_ARG_NAME"
 systemctl daemon-reload
 systemctl enable --now docker.service
 systemctl restart systemd-binfmt.service
-runuser --user "$oe_runner_user" --groups "$oe_runner_group,docker" -- docker info >/dev/null
+runuser --user "$oe_runner_user" -- docker info >/dev/null
 command -v qemu-riscv64 >/dev/null || oe_die 'qemu-riscv64 is missing after installation'
 [[ -r /proc/sys/fs/binfmt_misc/qemu-riscv64 ]] || oe_die 'qemu-riscv64 binfmt registration is absent after installation'
 grep -Fxq enabled /proc/sys/fs/binfmt_misc/qemu-riscv64 || oe_die 'qemu-riscv64 binfmt registration is not enabled'
