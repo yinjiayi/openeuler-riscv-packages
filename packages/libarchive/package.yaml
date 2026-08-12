@@ -3,7 +3,8 @@
     "native_reason": null,
     "network_during_build": false,
     "profile": "qemu-user",
-    "timeout_minutes": 180
+    "timeout_minutes": 180,
+    "user": "unprivileged"
   },
   "discovery": {
     "lineage": [
