@@ -12,6 +12,7 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
 BuildRequires:  python3
+BuildRequires:  python3-fonttools
 
 %description
 Graphite2 is a rendering engine for fonts that contain Graphite smart-font
