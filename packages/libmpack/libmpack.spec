@@ -30,7 +30,7 @@ developing applications with libmpack.
 %autosetup -n libmpack-%{upstream_commit} -p1
 
 %build
-%make_build config=release MAJOR=1 MINOR=0 PATCH=5 \
+%make_build CFLAGS="%{optflags}" config=release MAJOR=1 MINOR=0 PATCH=5 \
   PREFIX=%{_prefix} LIBDIR=%{_libdir} INCDIR=%{_includedir} lib-bin test-bin
 
 %install
