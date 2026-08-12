@@ -32,6 +32,8 @@ applications with libvterm.
 
 %build
 %make_build \
+  CFLAGS='%{build_cflags}' \
+  LDFLAGS='%{build_ldflags}' \
   PREFIX=%{_prefix} \
   LIBDIR=%{_libdir}
 
@@ -43,6 +45,8 @@ rm -f %{buildroot}%{_libdir}/libvterm.la
 
 %check
 %make_build test \
+  CFLAGS='%{build_cflags}' \
+  LDFLAGS='%{build_ldflags}' \
   PREFIX=%{_prefix} \
   LIBDIR=%{_libdir}
 
