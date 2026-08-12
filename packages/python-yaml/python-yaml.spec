@@ -38,8 +38,8 @@ export PYYAML_FORCE_LIBYAML=1
 
 %check
 export PYTHONPATH=%{buildroot}%{python3_sitearch}
-%{python3} -c 'import yaml, yaml._yaml; assert yaml.__with_libyaml__'
-%{python3} -m pytest -v
+%{__python3} -c 'import yaml, yaml._yaml; assert yaml.__with_libyaml__'
+%{__python3} -m pytest -v
 
 %files -n python3-pyyaml
 %license LICENSE
