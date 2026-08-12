@@ -53,7 +53,8 @@ developing applications with libdisplay-info.
 %files
 %license LICENSE
 %doc README.md
-%{_libdir}/libdisplay-info.so.4*
+%{_libdir}/libdisplay-info.so.4
+%{_libdir}/libdisplay-info.so.0.4.0
 
 %files tools
 %license LICENSE
