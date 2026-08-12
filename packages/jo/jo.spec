@@ -36,7 +36,7 @@ shell arguments, files, standard input, and pipelines.
 %license COPYING
 %doc AUTHORS ChangeLog NEWS README
 %{_bindir}/jo
-%{_datadir}/bash-completion/completions/jo.bash
+%{_sysconfdir}/bash_completion.d/jo.bash
 %{_datadir}/zsh/site-functions/_jo
 %{_mandir}/man1/jo.1*
 
