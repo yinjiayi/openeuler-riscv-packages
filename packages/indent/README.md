@@ -1,0 +1,7 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+# indent
+
+GNU indent 2.2.13 for openEuler 24.03 LTS SP3 `riscv64`/RVA23. The official
+GNU release is SHA-256 pinned and archive/license inspected. Stable Arch,
+Debian, Fedora 44, openSUSE Tumbleweed, and Ubuntu lineage is recorded without
+reading or executing distribution recipes or AUR content.
