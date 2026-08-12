@@ -12,12 +12,19 @@ import pathlib
 import re
 import subprocess
 import sys
+import time
 import uuid
 
 PACKAGE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 CAPABILITY = re.compile(r"^[A-Za-z0-9_+.:()/%{}~<>= -]+$")
 IMAGE_REF = re.compile(r"^ghcr\.io/yinjiayi/openeuler-riscv64-rpmbuild@sha256:[a-f0-9]{64}$")
 DERIVED_TAG = re.compile(r"^[a-z0-9][a-z0-9._-]{0,127}:[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$")
+DNF_NETWORK_OPTIONS = [
+    "--setopt=retries=20",
+    "--setopt=timeout=60",
+    "--setopt=minrate=1",
+    "--setopt=max_parallel_downloads=1",
+]
 
 
 def run(argv: list[str], *, capture: bool = False) -> str:
@@ -28,6 +35,34 @@ def run(argv: list[str], *, capture: bool = False) -> str:
         stdout=subprocess.PIPE if capture else None,
     )
     return completed.stdout if capture else ""
+
+
+def run_with_retries(
+    argv: list[str],
+    *,
+    attempts: int = 3,
+    delays: tuple[int, ...] = (5, 15),
+) -> int:
+    """Run a networked dependency transaction with bounded cache-preserving retries."""
+    if attempts < 1 or not delays or any(delay < 0 for delay in delays):
+        raise ValueError("retry policy is invalid")
+    last: subprocess.CompletedProcess[str] | None = None
+    for attempt in range(1, attempts + 1):
+        print(f"dependency install attempt {attempt}/{attempts}", flush=True)
+        last = subprocess.run(argv, check=False, text=True)
+        if last.returncode == 0:
+            return attempt
+        if attempt < attempts:
+            delay = delays[min(attempt - 1, len(delays) - 1)]
+            print(
+                f"dependency install attempt {attempt} failed with exit {last.returncode}; "
+                f"retrying after {delay}s with the same DNF cache",
+                file=sys.stderr,
+                flush=True,
+            )
+            time.sleep(delay)
+    assert last is not None
+    raise subprocess.CalledProcessError(last.returncode, argv)
 
 
 def rpm_manifest(container: str) -> list[str]:
@@ -130,6 +165,7 @@ def main() -> int:
 
     container = f"openeuler-builddeps-{os.getpid()}-{uuid.uuid4().hex[:8]}"
     started = False
+    install_attempts = 0
     try:
         run([
             "docker", "create", "--platform", "linux/riscv64", "--name", container,
@@ -142,9 +178,9 @@ def main() -> int:
         started = True
         before = rpm_manifest(container)
         if dependencies:
-            run([
+            install_attempts = run_with_retries([
                 "docker", "exec", container, "dnf", "-y",
-                "--setopt=install_weak_deps=False", "--disablerepo=*",
+                "--setopt=install_weak_deps=False", *DNF_NETWORK_OPTIONS, "--disablerepo=*",
                 "--enablerepo=openeuler-rva23", "--enablerepo=openeuler-riscv-project",
                 "install", "--", *dependencies,
             ])
@@ -176,10 +212,11 @@ def main() -> int:
         "build_requires": dependencies,
         "planned_install_argv": planned_argv,
         "executed_install_argv": [
-            "dnf", "-y", "--setopt=install_weak_deps=False", "--disablerepo=*",
+            "dnf", "-y", "--setopt=install_weak_deps=False", *DNF_NETWORK_OPTIONS, "--disablerepo=*",
             "--enablerepo=openeuler-rva23", "--enablerepo=openeuler-riscv-project",
             "install", "--", *dependencies,
         ],
+        "dependency_install_attempts": install_attempts,
         "rpm_manifest_before": before,
         "rpm_manifest_after": after,
         "rpm_delta_added": added,
