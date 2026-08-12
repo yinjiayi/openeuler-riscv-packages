@@ -29,6 +29,7 @@ developing applications with pixman.
 
 %build
 %meson \
+  --auto-features=auto \
   -Dloongson-mmi=disabled \
   -Dmmx=disabled \
   -Dsse2=disabled \
