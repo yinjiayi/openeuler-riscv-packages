@@ -123,6 +123,15 @@ class RunnerFleetStaticTests(unittest.TestCase):
             "ReadWritePaths=/opt/openeuler-actions-runner/.locks", unit
         )
 
+    def test_runner_uniqueness_allows_only_the_managed_lock_directory(self) -> None:
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+
+        self.assertIn('"$runner_dir"|"$oe_runner_lock_dir") ;;', library)
+        self.assertIn(
+            '*) oe_die "another runner directory exists: $directory" ;;',
+            library,
+        )
+
     def test_service_sandbox_permits_only_required_network_families(self) -> None:
         unit = (OPS / "openeuler-actions-runner@.service").read_text(encoding="utf-8")
         self.assertIn(

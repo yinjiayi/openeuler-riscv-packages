@@ -335,7 +335,7 @@ oe_check_no_other_runners() {
   if [[ -d $oe_runner_base ]]; then
     while IFS= read -r directory; do
       case $directory in
-        "$runner_dir") ;;
+        "$runner_dir"|"$oe_runner_lock_dir") ;;
         *) oe_die "another runner directory exists: $directory" ;;
       esac
     done < <(find "$oe_runner_base" -mindepth 1 -maxdepth 1 -type d -print)
