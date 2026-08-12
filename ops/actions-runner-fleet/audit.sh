@@ -34,6 +34,13 @@ service=$(oe_service_name "$OE_ARG_NAME")
   || oe_die 'Runner version differs from lock'
 grep -Fxq "sha256=$RUNNER_SHA256" "$runner_dir/.release" || oe_die 'installed release evidence differs from lock'
 [[ ! -L $runner_dir && $(stat -c '%U:%G:%a' "$runner_dir") == root:root:755 ]] || oe_die 'runner root ownership/mode is unsafe'
+[[ -d $oe_runner_lock_dir && ! -L $oe_runner_lock_dir \
+  && $(stat -c '%U:%G:%a' "$oe_runner_lock_dir") == root:root:755 ]] \
+  || oe_die 'cleanup lock directory ownership/mode is unsafe'
+cleanup_lock=$oe_runner_lock_dir/$OE_ARG_NAME.lock
+[[ -f $cleanup_lock && ! -L $cleanup_lock \
+  && $(stat -c '%U:%G:%a' "$cleanup_lock") == root:"$oe_runner_group":660 ]] \
+  || oe_die 'cleanup lock ownership/mode is unsafe'
 for directory in "$runner_dir/_work" "$runner_dir/_diag" "$runner_dir/_state"; do
   [[ ! -L $directory && $(stat -c '%U:%G:%a' "$directory") == "$oe_runner_user:$oe_runner_group:700" ]] \
     || oe_die "runner-writable directory ownership/mode is unsafe: $directory"
