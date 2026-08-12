@@ -39,6 +39,7 @@ find %{buildroot} -type f -name perllocal.pod -delete
 %files
 %doc Changes README
 %{perl_vendorlib}/Config/
+%{perl_vendorlib}/auto/Config/
 %{_mandir}/man3/Config::Simple.3*
 
 %changelog
