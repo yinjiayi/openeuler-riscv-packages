@@ -33,7 +33,7 @@ Six compatibility utilities installed for Python 3.
 %py3_install
 
 %check
-%{python3} -m pytest -v
+%{__python3} -m pytest -v
 
 %files -n python3-six
 %license LICENSE
