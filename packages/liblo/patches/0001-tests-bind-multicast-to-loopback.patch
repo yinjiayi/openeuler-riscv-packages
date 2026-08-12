@@ -1,0 +1,46 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Wed, 12 Aug 2026 00:00:00 +0000
+Subject: [PATCH] tests: bind multicast sender and receiver to loopback
+
+Source: https://github.com/radarsat1/liblo/releases/tag/0.36
+License: LGPL-2.1-or-later
+Applicable-Version: 0.36
+Upstream-Status: Not Submitted (test-environment adaptation; automated upstream writes forbidden)
+Origin: openEuler RISC-V packaging
+
+The package build runs without an external network interface.  The upstream
+multicast test asks the kernel to join its group on INADDR_ANY, which fails
+with ENODEV in that network namespace even though its loopback interface is
+available and supports IPv4 multicast membership.
+
+Use liblo's public interface-selection APIs to bind both sides of the same
+multicast test to 127.0.0.1.  This keeps the multicast join, send, receive,
+handler, reply, and byte-count assertions intact, and it does not skip or
+replace any of the four registered upstream test programs.
+
+Remove this patch when upstream selects an available interface for its
+multicast self-test or the locked build network exposes an interface that
+allows the unqualified INADDR_ANY membership to succeed.
+
+---
+ src/testlo.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/testlo.c b/src/testlo.c
+--- a/src/testlo.c
++++ b/src/testlo.c
+@@ -784,8 +784,10 @@ void test_multicast(lo_server_thread st)
+ 
+     /* test multicast server and sender */
+     /* message is sent from st otherwise reply doesn't work */
+-    ms = lo_server_new_multicast("224.0.1.1", "15432", error);
++    ms = lo_server_new_multicast_iface("224.0.1.1", "15432", NULL,
++                                       "127.0.0.1", error);
+     ma = lo_address_new("224.0.1.1", "15432");
++    TEST(lo_address_set_iface(ma, NULL, "127.0.0.1") == 0);
+     lo_address_set_ttl(ma, 1);
+     lo_server_add_method(ms, "/foo/bar", "fi", foo_handler, ms);
+     lo_server_add_method(ms, "/reply", "s", reply_handler, NULL);
+-- 
+2.50.1
+

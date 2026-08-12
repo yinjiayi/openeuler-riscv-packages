@@ -51,7 +51,17 @@
     "snapshot_id": "discovery-20260812T161000Z-b34-liblo"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-tests-bind-multicast-to-loopback.patch",
+        "license": "LGPL-2.1-or-later",
+        "purpose": "Bind the unchanged multicast sender and receiver assertions to the isolated build namespace's available loopback interface.",
+        "remove_when": "Upstream selects an available interface for its multicast self-test or the locked build network permits unqualified INADDR_ANY multicast membership.",
+        "sha256": "a58ef0c69ef953143272f5ef051b231b803ff0c92d16ab748b7325cf09011ae9",
+        "source": "openEuler RISC-V package CI exact before/after reproduction for liblo 0.36",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "liblo.spec"
@@ -60,7 +70,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official 0.36 release asset was archive-audited and SHA-256 pinned; all four registered upstream tests remain mandatory.",
+    "notes": "Official 0.36 release asset was archive-audited and SHA-256 pinned; all four registered upstream tests remain mandatory, with multicast bound to the isolated build namespace's loopback interface.",
     "status": "active"
   },
   "package_id": "liblo",
