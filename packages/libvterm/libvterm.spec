@@ -41,7 +41,7 @@ applications with libvterm.
 %make_install \
   PREFIX=%{_prefix} \
   LIBDIR=%{_libdir}
-rm -f %{buildroot}%{_libdir}/libvterm.la
+rm -f %{buildroot}%{_libdir}/libvterm.{a,la}
 
 %check
 %make_build test \
