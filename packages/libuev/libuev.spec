@@ -34,6 +34,7 @@ developing applications with libuEv.
 %install
 %make_install
 rm -f %{buildroot}%{_libdir}/libuev.la
+rm -f %{buildroot}%{_docdir}/libuev/LICENSE
 
 %check
 # Run all seven maintained event-loop and API tests.
