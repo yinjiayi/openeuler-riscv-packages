@@ -44,7 +44,7 @@ Manual pages, API examples, and upstream release documentation.
 %autosetup -p1
 
 %build
-%cmake \
+%cmake_conf \
   -DENABLE_SHARED=ON \
   -DENABLE_STATIC=OFF \
   -DFLOATTEST=fp-contract \
