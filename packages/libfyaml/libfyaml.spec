@@ -41,7 +41,8 @@ The static libfyaml library for applications that explicitly require static
 linking.
 
 %prep
-%autosetup -p1 -a 1 -a 2
+%autosetup -p1 -a 1
+%setup -T -D -a 2
 mv yaml-test-suite-6e6c296ae9c9d2d5c4134b4b64d01b29ac19ff6f \
   test/test-suite-data
 mv JSONTestSuite-d64aefb55228d9584d3e5b2433f720ea8fd00c82 \
