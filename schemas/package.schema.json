@@ -98,6 +98,7 @@
       "required": ["profile", "network_during_build", "timeout_minutes"],
       "properties": {
         "profile": {"enum": ["qemu-user", "needs-native-riscv"]},
+        "user": {"enum": ["root", "unprivileged"]},
         "network_during_build": {"const": false},
         "timeout_minutes": {"type": "integer", "minimum": 5, "maximum": 360},
         "native_reason": {"type": ["string", "null"]}
