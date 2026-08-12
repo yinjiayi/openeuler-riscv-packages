@@ -27,6 +27,17 @@ therefore fail-closed:
   stopped until the root-owned `policy.conf` is explicitly changed to
   `OE_RUNNER_ENROLLMENT_ENABLED=true` and `activate.sh` passes every check.
 
+The service keeps `NoNewPrivileges=true` and empty capability sets, but
+explicitly leaves `RestrictSUIDSGID` disabled. Ubuntu 26.04 implements that
+directive under systemd 259 by denying GNU tar's safe `openat2` directory
+resolution with `ENOSYS`, which prevents the Runner from extracting even a
+pinned `actions/checkout` archive.
+The systemd `ExecStartPre` now creates and extracts a local archive containing
+an installed executable and verifies its bytes and executable bit. This
+**action-extraction compatibility probe** means the service must prove the
+same host tar operation needed during GitHub's pre-step setup before it can
+come online; it does not relax the protected-main workflow/event gate.
+
 On 2026-08-12 the repository security baseline was also verified remotely:
 the repository is public, `yinjiayi` is the only collaborator and has admin
 access, and zero self-hosted runners existed. The fork-workflow approval policy

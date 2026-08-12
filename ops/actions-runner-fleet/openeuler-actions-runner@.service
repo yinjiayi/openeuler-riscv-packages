@@ -57,7 +57,10 @@ RemoveIPC=true
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
 RestrictNamespaces=true
 RestrictRealtime=true
-RestrictSUIDSGID=true
+# actions/runner extracts downloaded action archives with GNU tar. On Ubuntu
+# 26.04/systemd 259, RestrictSUIDSGID denies tar's safe openat2 directory
+# resolution with ENOSYS. NoNewPrivileges and empty capability sets remain.
+RestrictSUIDSGID=false
 SystemCallArchitectures=native
 LockPersonality=true
 CPUQuota=2800%

@@ -114,6 +114,28 @@ class RunnerFleetStaticTests(unittest.TestCase):
         self.assertIn("oe_assert_local_host", preflight)
         self.assertIn("ip -o -4 address show scope global", library)
 
+    def test_service_sandbox_preserves_runner_action_tar_extraction(self) -> None:
+        unit = (OPS / "openeuler-actions-runner@.service").read_text(encoding="utf-8")
+        self.assertIn("NoNewPrivileges=true", unit)
+        self.assertIn("CapabilityBoundingSet=", unit)
+        self.assertIn("AmbientCapabilities=", unit)
+        self.assertIn("RestrictSUIDSGID=false", unit)
+        self.assertNotIn("RestrictSUIDSGID=true", unit)
+
+        preflight = (OPS / "preflight.sh").read_text(encoding="utf-8")
+        self.assertIn(".tar-extract-preflight.", preflight)
+        self.assertIn('mkdir "$tar_probe_dir/source"', preflight)
+        self.assertIn(
+            'tar -czf "$tar_probe_dir/preflight.tar.gz" -C "$tar_probe_dir" source',
+            preflight,
+        )
+        self.assertIn('tar -xzf "$tar_probe_dir/preflight.tar.gz"', preflight)
+        self.assertIn('cmp -s "$oe_runner_libexec/preflight.sh"', preflight)
+        self.assertIn(
+            '[[ -x $tar_probe_dir/extracted/source/preflight.sh ]]', preflight
+        )
+        self.assertIn("trap cleanup_tar_probe EXIT", preflight)
+
     def test_installed_runner_version_probes_use_the_service_identity(self) -> None:
         library = (OPS / "_lib.sh").read_text(encoding="utf-8")
         self.assertIn("oe_runner_version()", library)
