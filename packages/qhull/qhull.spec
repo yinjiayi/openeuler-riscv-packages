@@ -44,6 +44,7 @@ Qhull command manual pages and upstream HTML documentation.
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_STATIC_LIBS=ON \
   -DLINK_APPS_SHARED=ON \
+  -DINCLUDE_INSTALL_DIR=include \
   -DLIB_INSTALL_DIR=%{_lib}
 %cmake_build
 # These deprecated shared targets remain part of the target ABI and must be
