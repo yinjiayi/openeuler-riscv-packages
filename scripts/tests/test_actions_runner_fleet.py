@@ -101,6 +101,19 @@ class RunnerFleetStaticTests(unittest.TestCase):
         self.assertNotIn("runuser --user \"$oe_runner_user\" --groups", installer)
         self.assertIn('usermod --append --groups docker "$oe_runner_user"', installer)
 
+    def test_service_sandbox_permits_only_required_network_families(self) -> None:
+        unit = (OPS / "openeuler-actions-runner@.service").read_text(encoding="utf-8")
+        self.assertIn(
+            "RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK",
+            unit,
+        )
+        self.assertNotIn("AF_PACKET", unit)
+        self.assertNotIn("AF_RAW", unit)
+        preflight = (OPS / "preflight.sh").read_text(encoding="utf-8")
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+        self.assertIn("oe_assert_local_host", preflight)
+        self.assertIn("ip -o -4 address show scope global", library)
+
     def test_shell_and_python_sources_parse_and_are_executable(self) -> None:
         for path in sorted(OPS.glob("*.sh")):
             completed = subprocess.run(
