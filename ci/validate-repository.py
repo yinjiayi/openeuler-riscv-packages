@@ -388,7 +388,7 @@ def main() -> int:
     for marker in (
         "ci/list-rpm-repo-packages.py",
         "uses: ./.github/workflows/package-ci.yml",
-        "max-parallel: 16",
+        "max-parallel: ${{ fromJSON(vars.RPM_BACKFILL_MAX_CONCURRENCY || '32') }}",
         "publish_to_repo: true",
         "retention-days: 7",
     ):

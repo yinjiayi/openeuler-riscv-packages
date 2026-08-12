@@ -240,9 +240,13 @@ class BackfillPlanTests(unittest.TestCase):
 
 
 class BackfillWorkflowContractTests(unittest.TestCase):
-    def test_backfill_uses_sixteen_hosted_qemu_runners(self) -> None:
+    def test_backfill_defaults_to_thirty_two_self_hosted_qemu_workers(self) -> None:
         workflow = BACKFILL_WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("max-parallel: 16", workflow)
+        self.assertIn(
+            "max-parallel: ${{ fromJSON(vars.RPM_BACKFILL_MAX_CONCURRENCY || '32') }}",
+            workflow,
+        )
+        self.assertNotIn("max-parallel: 16", workflow)
 
     def test_caller_permission_ceiling_covers_reusable_workflow_jobs(self) -> None:
         caller_blocks = permission_blocks(BACKFILL_WORKFLOW)
