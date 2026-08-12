@@ -40,6 +40,7 @@ metadata for developing applications with Graphite2.
 
 %install
 %cmake_install
+rm %{buildroot}%{_libdir}/libgraphite2.la
 
 %check
 CTEST_PARALLEL_LEVEL=1 %ctest --timeout 300 --output-on-failure
