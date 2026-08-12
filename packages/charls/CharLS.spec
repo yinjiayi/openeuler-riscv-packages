@@ -30,7 +30,7 @@ developing applications with CharLS.
 %autosetup -n charls-%{version} -p1
 
 %build
-%cmake \
+%cmake_conf \
   -DBUILD_SHARED_LIBS=ON \
   -DCHARLS_BUILD_FUZZ_TEST=OFF \
   -DCHARLS_BUILD_SAMPLES=ON \
