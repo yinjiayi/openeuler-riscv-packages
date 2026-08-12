@@ -38,7 +38,7 @@ patch -p0 < %{SOURCE2}
 patch -p0 < %{SOURCE3}
 
 %build
-%configure --disable-static --with-curses
+%configure --disable-static --disable-install-examples --with-curses
 %make_build SHLIB_LIBS=-lncurses
 
 %install
