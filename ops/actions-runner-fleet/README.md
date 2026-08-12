@@ -27,6 +27,17 @@ therefore fail-closed:
   stopped until the root-owned `policy.conf` is explicitly changed to
   `OE_RUNNER_ENROLLMENT_ENABLED=true` and `activate.sh` passes every check.
 
+The service keeps `NoNewPrivileges=true` and empty capability sets, but
+explicitly leaves `RestrictSUIDSGID` disabled. Ubuntu 26.04 implements that
+directive under systemd 259 by denying GNU tar's safe `openat2` directory
+resolution with `ENOSYS`, which prevents the Runner from extracting even a
+pinned `actions/checkout` archive.
+The systemd `ExecStartPre` now creates and extracts a local archive containing
+an installed executable and verifies its bytes and executable bit. This
+**action-extraction compatibility probe** means the service must prove the
+same host tar operation needed during GitHub's pre-step setup before it can
+come online; it does not relax the protected-main workflow/event gate.
+
 On 2026-08-12 the repository security baseline was also verified remotely:
 the repository is public, `yinjiayi` is the only collaborator and has admin
 access, and zero self-hosted runners existed. The fork-workflow approval policy
@@ -129,12 +140,18 @@ shared host dependencies.
 ## Per-job cleanup
 
 GitHub-supported synchronous pre/post hooks run `job-guard.sh` and
-`cleanup.sh` with a five-minute timeout. Cleanup is locked per Runner, removes
-verified children of that Runner's `_work`, home, and Docker-client state
-directories, and runs both before and after every job. These hosts are
-dedicated to exactly one Runner. Cleanup therefore fails before any Docker
-mutation if *any* running container exists; it never guesses container
-ownership. When Docker is idle it removes all stopped/created containers,
+`cleanup.sh` with a five-minute timeout. **Activation cleanup** is the full
+workspace cleanup that runs before the Runner service starts. **Job-start
+cleanup** runs after the Runner has downloaded pinned actions, so it removes
+only the exact configured repository workspace contents plus home and
+Docker-client state; it deliberately preserves the sibling `_actions`,
+`_temp`, and `_tool` directories required by the current job. **Completion
+cleanup** first leaves the job workspace and then removes all verified Runner
+work/home/Docker-state children. All phases share the same lock.
+
+These hosts are dedicated to exactly one Runner. Cleanup therefore fails
+before any Docker mutation if *any* running container exists; it never guesses
+container ownership. When Docker is idle it removes all stopped/created containers,
 dangling volumes, and unused custom networks, plus only the workflow-defined
 `openeuler-builddeps:*` derived images. The digest-pinned
 `ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild` base image and all other image
@@ -143,6 +160,16 @@ root cleanup container for root-owned QEMU build outputs in three exact bind
 mounts; it has no network and cannot mount Runner credentials. Before the first
 base pull, the empty/user-owned paths use host deletion. Every object list is
 bounded to 512 entries and the hook itself is bounded to five minutes.
+
+The **cleanup lock** is the persistent advisory lock that serializes root-run
+activation cleanup with the non-root pre/post-job hooks. It lives at
+`/opt/openeuler-actions-runner/.locks/<runner>.lock`, not inside the
+Runner-writable `_state` tree. Its parent is `root:root:0755`, while the regular
+lock file is `root:oegha:0660`; this lets both execution identities open the
+same inode without letting workflow code replace it. Installation repairs the
+exact owner/mode idempotently, and both cleanup and audit fail closed if the
+directory, file type, ownership, or mode differs.
+
 Persistent hardware is not equivalent to a clean JIT VM, so the public
 repository routing restrictions remain mandatory.
 
