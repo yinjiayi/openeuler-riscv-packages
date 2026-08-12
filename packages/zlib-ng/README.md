@@ -18,6 +18,10 @@ not auto-disable its GoogleTest suite in shared-only mode. System
 `gtest-devel` keeps configuration offline, and `%check` runs every configured
 CTest. `WITH_RVV=OFF` follows Fedora 44's explicit riscv64 toolchain boundary;
 it does not skip tests, and generic plus RISC-V Zbc paths remain built. The
+upstream fix merged as zlib-ng commit `9f396c3d09d65dc59cce607d52f67f03b266c2de`
+is backported because 2.3.3 otherwise enables Zbc without wiring the common
+RISC-V feature declarations when RVV is disabled. Upstream PR #2152 reports
+a successful Fedora riscv64 RPM build of this exact release with the fix. The
 installed smoke test performs a real compression/decompression round trip
 through `zlib-ng.h`. RISC-V status remains `unknown` until pinned openEuler
 RVA23/QEMU CI completes.
