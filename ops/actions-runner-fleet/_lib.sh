@@ -12,6 +12,7 @@ set +x
 # This file is sourced by multiple entry points; these shared assignments are
 # intentionally consumed by the caller rather than by every source operation.
 oe_runner_base=/opt/openeuler-actions-runner
+oe_runner_lock_dir=$oe_runner_base/.locks
 oe_runner_user=oegha
 oe_runner_group=oegha
 oe_runner_repo_url=https://github.com/yinjiayi/openeuler-riscv-packages

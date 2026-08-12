@@ -154,6 +154,16 @@ root cleanup container for root-owned QEMU build outputs in three exact bind
 mounts; it has no network and cannot mount Runner credentials. Before the first
 base pull, the empty/user-owned paths use host deletion. Every object list is
 bounded to 512 entries and the hook itself is bounded to five minutes.
+
+The **cleanup lock** is the persistent advisory lock that serializes root-run
+activation cleanup with the non-root pre/post-job hooks. It lives at
+`/opt/openeuler-actions-runner/.locks/<runner>.lock`, not inside the
+Runner-writable `_state` tree. Its parent is `root:root:0755`, while the regular
+lock file is `root:oegha:0660`; this lets both execution identities open the
+same inode without letting workflow code replace it. Installation repairs the
+exact owner/mode idempotently, and both cleanup and audit fail closed if the
+directory, file type, ownership, or mode differs.
+
 Persistent hardware is not equivalent to a clean JIT VM, so the public
 repository routing restrictions remain mandatory.
 
