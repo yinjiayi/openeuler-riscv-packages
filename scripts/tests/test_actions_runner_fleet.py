@@ -114,6 +114,20 @@ class RunnerFleetStaticTests(unittest.TestCase):
         self.assertIn("oe_assert_local_host", preflight)
         self.assertIn("ip -o -4 address show scope global", library)
 
+    def test_installed_runner_version_probes_use_the_service_identity(self) -> None:
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+        self.assertIn("oe_runner_version()", library)
+        self.assertIn('runuser --user "$oe_runner_user"', library)
+        self.assertIn("exec \"${2:?}\" --version", library)
+        for filename in ("install.sh", "register.sh", "preflight.sh", "audit.sh"):
+            source = (OPS / filename).read_text(encoding="utf-8")
+            self.assertIn("oe_runner_version", source, filename)
+            self.assertNotRegex(
+                source,
+                r'runner_dir/bin/Runner\.Listener["}]?"? --version',
+                filename,
+            )
+
     def test_shell_and_python_sources_parse_and_are_executable(self) -> None:
         for path in sorted(OPS.glob("*.sh")):
             completed = subprocess.run(
