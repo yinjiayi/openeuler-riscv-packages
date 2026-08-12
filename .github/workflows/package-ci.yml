@@ -730,12 +730,13 @@ jobs:
       - name: Upload RPMs first and the ready marker last
         env:
           GENERATION: ${{ steps.stage.outputs.generation }}
+          RRSYNC_LOCK_JITTER_KEY: ${{ format('{0}:{1}', github.run_id, needs.prepare.outputs.package_id) }}
         run: |
           ssh_transport="ssh -p 38022 -i $RUNNER_TEMP/rpm-repo-ssh/id_ed25519 -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$RUNNER_TEMP/rpm-repo-ssh/known_hosts"
-          rsync -r -e "$ssh_transport" \
+          ci/rsync-with-lock-retry.sh -- rsync -r -e "$ssh_transport" \
             "$RUNNER_TEMP/rpm-repo-upload/payload/" \
             "reposync@2.27.148.101:$GENERATION/"
-          rsync -r -e "$ssh_transport" \
+          ci/rsync-with-lock-retry.sh -- rsync -r -e "$ssh_transport" \
             "$RUNNER_TEMP/rpm-repo-upload/.ready" \
             "reposync@2.27.148.101:$GENERATION/.ready"
       - name: Verify the immutable public generation

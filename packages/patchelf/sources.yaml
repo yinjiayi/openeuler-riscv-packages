@@ -1,0 +1,19 @@
+{
+  "package_id": "patchelf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "2cce01de93653829f6ab68a20c2ec275e1c00a946110704a27e928d2e6e88716"},
+      "filename": "patchelf-0.19.1.tar.bz2",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL-licensed source is fetched from the official immutable versioned release asset in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/NixOS/patchelf/releases/download/0.19.1/patchelf-0.19.1.tar.bz2",
+      "version": "0.19.1"
+    }
+  ]
+}
