@@ -114,11 +114,26 @@ def main() -> int:
                     errors.append(f"{workflow.name}:{index + 1}: artifact retention is not explicitly 7 days")
 
     package_ci = (workflows / "package-ci.yml").read_text(encoding="utf-8") if (workflows / "package-ci.yml").exists() else ""
+    rsync_retry_path = root / "ci" / "rsync-with-lock-retry.sh"
+    rsync_retry = rsync_retry_path.read_text(encoding="utf-8") if rsync_retry_path.exists() else ""
     for event in ("opened", "synchronize", "reopened", "merge_group", "workflow_dispatch", "workflow_call", "push"):
         if event not in package_ci:
             errors.append(f"package-ci.yml does not visibly support {event}")
     if "inputs.base_sha" not in package_ci or "github.sha" not in package_ci:
         errors.append("package-ci.yml cannot validate a trusted bot-created PR head via workflow_dispatch")
+    for marker in (
+        "ci/rsync-with-lock-retry.sh -- rsync",
+        "RRSYNC_LOCK_JITTER_KEY: ${{ format('{0}:{1}', github.run_id, needs.prepare.outputs.package_id) }}",
+    ):
+        if marker not in package_ci:
+            errors.append(f"package CI repository publication is missing: {marker}")
+    for marker in (
+        "result != 12",
+        "rrsync error: Another instance of rrsync is already accessing this directory.",
+        "attempt >= max_attempts",
+    ):
+        if marker not in rsync_retry:
+            errors.append(f"rrsync lock retry is missing fail-closed marker: {marker}")
     for check in ("metadata-validate", "source-verify", "rpmbuild-riscv64", "rpm-install-smoke", "patch-policy", "merge-policy"):
         if not re.search(rf"(?m)^  {re.escape(check)}:\s*$", package_ci):
             errors.append(f"package-ci.yml is missing required check job {check}")
@@ -325,7 +340,7 @@ def main() -> int:
     for marker in (
         "ci/list-rpm-repo-packages.py",
         "uses: ./.github/workflows/package-ci.yml",
-        "max-parallel: 8",
+        "max-parallel: 16",
         "publish_to_repo: true",
         "retention-days: 7",
     ):
