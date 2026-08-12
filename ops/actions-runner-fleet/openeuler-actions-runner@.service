@@ -51,7 +51,10 @@ ReadWritePaths=/opt/openeuler-actions-runner/%i/_diag
 ReadWritePaths=/opt/openeuler-actions-runner/%i/_state
 ReadWritePaths=/run/docker.sock
 RemoveIPC=true
-RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+# preflight.sh resolves the managed host identity with `ip address`, which
+# uses the read-only rtnetlink interface. Keep packet/raw families forbidden,
+# but permit AF_NETLINK so the same identity check works inside this sandbox.
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
 RestrictNamespaces=true
 RestrictRealtime=true
 RestrictSUIDSGID=true
