@@ -4,7 +4,7 @@ Name:           ioping
 Version:        1.3
 Release:        1%{?dist}
 Summary:        Disk I/O latency measurement utility
-License:        GPL-3.0-only
+License:        GPL-3.0-or-later
 URL:            https://github.com/koct9i/ioping
 Source0:        ioping-%{version}.tar.gz
 

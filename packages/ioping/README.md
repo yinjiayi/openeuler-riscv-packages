@@ -20,5 +20,5 @@ latency, rapid-read, and request-rate modes perform real temporary filesystem
 I/O and all must succeed. The installed smoke independently generates three
 I/O requests and checks the request-generation summary.
 
-ioping is GPL-3.0-only. Apache-2.0 covers only this repository's original
+ioping is GPL-3.0-or-later. Apache-2.0 covers only this repository's original
 packaging metadata and scripts.
