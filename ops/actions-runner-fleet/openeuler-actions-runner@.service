@@ -49,6 +49,7 @@ ProtectSystem=strict
 ReadWritePaths=/opt/openeuler-actions-runner/%i/_work
 ReadWritePaths=/opt/openeuler-actions-runner/%i/_diag
 ReadWritePaths=/opt/openeuler-actions-runner/%i/_state
+ReadWritePaths=/opt/openeuler-actions-runner/.locks
 ReadWritePaths=/run/docker.sock
 RemoveIPC=true
 # preflight.sh resolves the managed host identity with `ip address`, which

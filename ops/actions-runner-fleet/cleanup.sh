@@ -35,14 +35,20 @@ state_dir=$runner_dir/_state
   || oe_die 'managed Runner base directory is missing or unsafe'
 [[ -d $runner_dir && ! -L $runner_dir && $(stat -c '%U:%G:%a' "$runner_dir") == root:root:755 ]] \
   || oe_die 'managed Runner directory is missing or unsafe'
+[[ -d $oe_runner_lock_dir && ! -L $oe_runner_lock_dir \
+  && $(stat -c '%U:%G:%a' "$oe_runner_lock_dir") == root:root:755 ]] \
+  || oe_die 'managed cleanup lock directory is missing or unsafe'
 [[ -d $work_dir && ! -L $work_dir && $work_dir == "$oe_runner_base/$name/_work" ]] || oe_die 'managed work directory is missing or unsafe'
 [[ -d $state_dir && ! -L $state_dir && $state_dir == "$oe_runner_base/$name/_state" ]] || oe_die 'managed state directory is missing or unsafe'
 for directory in "$work_dir" "$state_dir" "$state_dir/home" "$state_dir/docker"; do
   [[ -d $directory && ! -L $directory ]] || oe_die "managed cleanup directory is missing or unsafe: $directory"
 done
 
-cleanup_lock=$state_dir/cleanup.lock
-exec 9>"$cleanup_lock"
+cleanup_lock=$oe_runner_lock_dir/$name.lock
+[[ -f $cleanup_lock && ! -L $cleanup_lock \
+  && $(stat -c '%U:%G:%a' "$cleanup_lock") == root:"$oe_runner_group":660 ]] \
+  || oe_die 'managed cleanup lock is missing or unsafe'
+exec 9<>"$cleanup_lock"
 flock --exclusive --timeout 60 9 || oe_die 'cleanup lock timed out'
 
 # This is safe only because identity/fleet checks above prove that this is the

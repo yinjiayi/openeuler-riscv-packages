@@ -101,6 +101,28 @@ class RunnerFleetStaticTests(unittest.TestCase):
         self.assertNotIn("runuser --user \"$oe_runner_user\" --groups", installer)
         self.assertIn('usermod --append --groups docker "$oe_runner_user"', installer)
 
+    def test_cleanup_lock_survives_root_activation_then_runner_hooks(self) -> None:
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+        installer = (OPS / "install.sh").read_text(encoding="utf-8")
+        cleanup = (OPS / "cleanup.sh").read_text(encoding="utf-8")
+        audit = (OPS / "audit.sh").read_text(encoding="utf-8")
+        unit = (OPS / "openeuler-actions-runner@.service").read_text(encoding="utf-8")
+
+        self.assertIn("oe_runner_lock_dir=$oe_runner_base/.locks", library)
+        self.assertIn('"$oe_runner_base" "$oe_runner_lock_dir"', installer)
+        self.assertIn(
+            'install -o root -g "$oe_runner_group" -m 0660 /dev/null "$cleanup_lock"',
+            installer,
+        )
+        self.assertIn('cleanup_lock=$oe_runner_lock_dir/$name.lock', cleanup)
+        self.assertIn('root:"$oe_runner_group":660', cleanup)
+        self.assertIn('exec 9<>"$cleanup_lock"', cleanup)
+        self.assertNotIn('cleanup_lock=$state_dir/cleanup.lock', cleanup)
+        self.assertIn('cleanup_lock=$oe_runner_lock_dir/$OE_ARG_NAME.lock', audit)
+        self.assertIn(
+            "ReadWritePaths=/opt/openeuler-actions-runner/.locks", unit
+        )
+
     def test_service_sandbox_permits_only_required_network_families(self) -> None:
         unit = (OPS / "openeuler-actions-runner@.service").read_text(encoding="utf-8")
         self.assertIn(
