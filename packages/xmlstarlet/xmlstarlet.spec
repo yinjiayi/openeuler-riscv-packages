@@ -8,8 +8,8 @@ URL:            https://xmlstar.sourceforge.net/
 Source0:        xmlstarlet-%{version}.tar.gz
 
 BuildRequires:  gcc
-BuildRequires:  libxml2-devel = 2.11.9-7%{?dist}
-BuildRequires:  libxslt-devel = 1.1.39-7%{?dist}
+BuildRequires:  libxml2-devel = 2.11.9-7.oe2403sp3
+BuildRequires:  libxslt-devel = 1.1.39-7.oe2403sp3
 BuildRequires:  make
 
 %description
