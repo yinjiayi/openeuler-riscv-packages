@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "request_id": "initial-opt-repository-backfill-user-event-20260812",
-  "requested_at": "2026-08-12T04:05:56Z",
-  "reason": "Emit a non-Actions-token protected-main event to populate the newly deployed /opt-backed public RPM and SRPM repository."
+  "request_id": "initial-opt-repository-backfill-permission-fix-20260812",
+  "requested_at": "2026-08-12T04:10:58Z",
+  "reason": "Retry the protected-main backfill after aligning caller permissions with the reusable Package CI contract."
 }

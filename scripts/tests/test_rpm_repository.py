@@ -16,6 +16,9 @@ CLIENT_PATH = REPO / "ci" / "rpm-repo-client.py"
 STAGER = REPO / "ci" / "stage-rpm-repository-upload.py"
 LIST_PACKAGES = REPO / "ci" / "list-rpm-repo-packages.py"
 PUBLISHER_PATH = REPO / "ops" / "rpm-repo-server" / "rpmrepo_publish.py"
+BACKFILL_WORKFLOW = REPO / ".github" / "workflows" / "rpm-repo-backfill.yml"
+PACKAGE_WORKFLOW = REPO / ".github" / "workflows" / "package-ci.yml"
+PERMISSION_LEVEL = {"none": 0, "read": 1, "write": 2}
 
 
 def load_module(name: str, path: Path):
@@ -48,6 +51,30 @@ def run(argv: list[str], expected: int = 0) -> subprocess.CompletedProcess[str]:
             f"expected {expected}, got {completed.returncode}\nstdout:\n{completed.stdout}\nstderr:\n{completed.stderr}"
         )
     return completed
+
+
+def permission_blocks(path: Path) -> list[tuple[int, dict[str, str]]]:
+    lines = path.read_text(encoding="utf-8").splitlines()
+    blocks: list[tuple[int, dict[str, str]]] = []
+    for index, line in enumerate(lines):
+        stripped = line.lstrip(" ")
+        if stripped != "permissions:":
+            continue
+        indent = len(line) - len(stripped)
+        block: dict[str, str] = {}
+        for candidate in lines[index + 1:]:
+            candidate_stripped = candidate.lstrip(" ")
+            candidate_indent = len(candidate) - len(candidate_stripped)
+            if candidate_stripped and candidate_indent <= indent:
+                break
+            if candidate_indent != indent + 2 or ":" not in candidate_stripped:
+                continue
+            key, value = candidate_stripped.split(":", 1)
+            value = value.strip()
+            if value in PERMISSION_LEVEL:
+                block[key] = value
+        blocks.append((indent, block))
+    return blocks
 
 
 class RepositoryClientTests(unittest.TestCase):
@@ -176,6 +203,24 @@ class BackfillPlanTests(unittest.TestCase):
             plan = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(plan["packages"], ["active"])
             self.assertEqual({item["package_id"] for item in plan["skipped"]}, {"native", "retired", "golden-success-hello"})
+
+
+class BackfillWorkflowContractTests(unittest.TestCase):
+    def test_caller_permission_ceiling_covers_reusable_workflow_jobs(self) -> None:
+        caller_blocks = permission_blocks(BACKFILL_WORKFLOW)
+        caller = next(block for indent, block in caller_blocks if indent == 0)
+        required: dict[str, str] = {}
+        for _, block in permission_blocks(PACKAGE_WORKFLOW):
+            for key, value in block.items():
+                current = required.get(key, "none")
+                if PERMISSION_LEVEL[value] > PERMISSION_LEVEL[current]:
+                    required[key] = value
+        insufficient = {
+            key: {"caller": caller.get(key, "none"), "required": value}
+            for key, value in required.items()
+            if PERMISSION_LEVEL[caller.get(key, "none")] < PERMISSION_LEVEL[value]
+        }
+        self.assertEqual(insufficient, {})
 
 
 if __name__ == "__main__":
