@@ -35,11 +35,11 @@ oe_load_cleanup_image_lock "$source_dir/cleanup-image.lock"
 test_root=$(mktemp -d)
 trap 'rm -rf -- "$test_root"' EXIT
 oe_runner_base=$test_root/base
-oe_runner_libexec=$test_root/libexec
+oe_runner_lock_dir=$oe_runner_base/.locks
 oe_runner_config=$test_root/config
 runner_name=oe-rva23-qemu-201
 runner_dir=$(oe_runner_dir "$runner_name")
-mkdir -p "$runner_dir"
+mkdir -p "$runner_dir" "$oe_runner_lock_dir"
 oe_run() {
   if [[ ${1-} == systemctl ]]; then
     printf '%s\n' openeuler-actions-runner@.service "$(oe_service_name "$runner_name")"
