@@ -17,6 +17,7 @@ CLIENT_PATH = REPO / "ci" / "rpm-repo-client.py"
 STAGER = REPO / "ci" / "stage-rpm-repository-upload.py"
 LIST_PACKAGES = REPO / "ci" / "list-rpm-repo-packages.py"
 BUILDDEPS_PATH = REPO / "ci" / "prepare-build-deps.py"
+RSYNC_RETRY = REPO / "ci" / "rsync-with-lock-retry.sh"
 PUBLISHER_PATH = REPO / "ops" / "rpm-repo-server" / "rpmrepo_publish.py"
 BACKFILL_WORKFLOW = REPO / ".github" / "workflows" / "rpm-repo-backfill.yml"
 PACKAGE_WORKFLOW = REPO / ".github" / "workflows" / "package-ci.yml"
@@ -239,9 +240,9 @@ class BackfillPlanTests(unittest.TestCase):
 
 
 class BackfillWorkflowContractTests(unittest.TestCase):
-    def test_backfill_keeps_parallelism_without_overloading_the_single_upstream(self) -> None:
+    def test_backfill_uses_sixteen_hosted_qemu_runners(self) -> None:
         workflow = BACKFILL_WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("max-parallel: 8", workflow)
+        self.assertIn("max-parallel: 16", workflow)
 
     def test_caller_permission_ceiling_covers_reusable_workflow_jobs(self) -> None:
         caller_blocks = permission_blocks(BACKFILL_WORKFLOW)
@@ -258,6 +259,91 @@ class BackfillWorkflowContractTests(unittest.TestCase):
             if PERMISSION_LEVEL[caller.get(key, "none")] < PERMISSION_LEVEL[value]
         }
         self.assertEqual(insufficient, {})
+
+
+class RrsyncLockRetryTests(unittest.TestCase):
+    def fake_command(self, root: Path) -> tuple[Path, Path]:
+        counter = root / "counter"
+        counter.write_text("0\n", encoding="utf-8")
+        command = root / "fake-rrsync"
+        command.write_text(
+            "#!/bin/sh\n"
+            'count=$(cat "$COUNT_FILE")\n'
+            'count=$((count + 1))\n'
+            'printf "%s\\n" "$count" >"$COUNT_FILE"\n'
+            'if [ "$count" -le "$FAILURES" ]; then\n'
+            '  printf "%s\\n" "$FAILURE_MESSAGE" >&2\n'
+            '  exit "$FAILURE_RESULT"\n'
+            "fi\n"
+            "exit 0\n",
+            encoding="utf-8",
+        )
+        command.chmod(0o755)
+        return command, counter
+
+    def invoke(
+        self,
+        command: Path,
+        counter: Path,
+        failures: int,
+        result: int,
+        message: str,
+    ) -> subprocess.CompletedProcess[str]:
+        environment = dict(os.environ)
+        environment.update(
+            {
+                "COUNT_FILE": str(counter),
+                "FAILURES": str(failures),
+                "FAILURE_RESULT": str(result),
+                "FAILURE_MESSAGE": message,
+                "RRSYNC_LOCK_MAX_ATTEMPTS": "4",
+                "RRSYNC_LOCK_BASE_DELAY_SECONDS": "0",
+                "RRSYNC_LOCK_JITTER_MAX_SECONDS": "0",
+                "RRSYNC_LOCK_JITTER_SEED": "123",
+            }
+        )
+        return subprocess.run(
+            [str(RSYNC_RETRY), "--", str(command)],
+            cwd=REPO,
+            env=environment,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+
+    def test_exact_rrsync_lock_code_retries_then_succeeds(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            command, counter = self.fake_command(Path(temporary))
+            completed = self.invoke(
+                command,
+                counter,
+                2,
+                12,
+                "rrsync error: Another instance of rrsync is already accessing this directory.",
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertEqual(counter.read_text(encoding="utf-8").strip(), "3")
+
+    def test_other_code_12_failure_is_not_retried(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            command, counter = self.fake_command(Path(temporary))
+            completed = self.invoke(command, counter, 3, 12, "rsync authentication failed")
+            self.assertEqual(completed.returncode, 12)
+            self.assertEqual(counter.read_text(encoding="utf-8").strip(), "1")
+
+    def test_lock_text_with_other_exit_code_is_not_retried(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            command, counter = self.fake_command(Path(temporary))
+            completed = self.invoke(
+                command,
+                counter,
+                3,
+                23,
+                "rrsync error: Another instance of rrsync is already accessing this directory.",
+            )
+            self.assertEqual(completed.returncode, 23)
+            self.assertEqual(counter.read_text(encoding="utf-8").strip(), "1")
 
 
 class BuildRequiresRetryTests(unittest.TestCase):

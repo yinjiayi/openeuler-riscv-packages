@@ -51,9 +51,10 @@ jobs:
     needs: plan
     strategy:
       fail-fast: false
-      # Eight independent QEMU builds remain parallel while avoiding 20-way
-      # duplication of the same large openEuler BuildRequires downloads.
-      max-parallel: 8
+      # Sixteen independent QEMU builds use separate hosted runners. Bounded
+      # cache-preserving DNF retries protect the single official mirror while
+      # the supplemental project repository absorbs newly built dependencies.
+      max-parallel: 16
       matrix:
         package_id: ${{ fromJSON(needs.plan.outputs.packages) }}
     uses: ./.github/workflows/package-ci.yml
