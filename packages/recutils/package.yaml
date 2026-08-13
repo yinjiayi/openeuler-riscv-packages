@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "package_id": "recutils",
+  "rpm": {
+    "name": "recutils",
+    "summary": "Tools and library for text-based recfile databases",
+    "license": "GPL-3.0-or-later AND GFDL-1.3-or-later"
+  },
+  "upstream": {
+    "component": "gnu.org-software-recutils",
+    "homepage": "https://www.gnu.org/software/recutils/",
+    "source_repository": "https://git.savannah.gnu.org/cgit/recutils.git",
+    "release_channel": "stable",
+    "release_api": "https://ftp.gnu.org/gnu/recutils/",
+    "release_regex": "recutils-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://ftp.gnu.org/gnu/recutils/recutils-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.9",
+    "release": "1",
+    "latest_detected": "1.9"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "recutils",
+        "package_base": "recutils",
+        "source_version": "1.9-2",
+        "evidence_url": "https://aur.archlinux.org/packages/recutils",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "recutils",
+        "package_base": "recutils",
+        "source_version": "1.9-13.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/recutils/recutils/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "gnu-recutils",
+        "package_base": "gnu-recutils",
+        "source_version": "1.9-3.5",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/gnu-recutils",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "recutils",
+        "package_base": "recutils",
+        "source_version": "1.9-4",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/recutils",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "recutils.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "GNU recutils 1.9 was independently reviewed from the official GNU archive, pinned by SHA-256, archive-audited, and verified with GNU's keyring and Jose E. Marchesi's signing key. The shared reviewed-release catalog does not yet contain recutils. Fedora 44, openSUSE, Ubuntu, and stale AUR RPC metadata provide frozen lineage only; no AUR PKGBUILD or distribution recipe was read or executed. The fixed target lacks mdbtools, so upstream conditionally omits mdb2rec while retaining encryption, curl-backed remote descriptors, UUID types, Bash builtins, and the full test suite."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "gnu-ftp-index"
+  }
+}
