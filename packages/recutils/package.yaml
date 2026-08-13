@@ -73,7 +73,17 @@
   "files": {
     "spec": "recutils.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-fix-generated-lexer-declarations.patch",
+        "sha256": "e4ba72cf24e500eaeec73ce96f9c7d951ebe77ce14511d2e5efc81a451fb4899",
+        "purpose": "Provide declarations for the generated flex lexer API so strict C99 compilation checks the parser calls.",
+        "source": "https://src.fedoraproject.org/rpms/recutils/raw/f44/f/recutils-c99.patch",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "submitted",
+        "remove_when": "Remove when a recutils release ships the generated lexer declarations and includes them from the parser sources."
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
