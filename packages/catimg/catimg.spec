@@ -20,6 +20,7 @@ images directly in a terminal using ANSI color escape sequences.
 
 %build
 %cmake \
+  -DCMAKE_C_FLAGS="%{optflags} -D_DEFAULT_SOURCE" \
   -DMAN_OUTPUT_PATH=%{_mandir}/man1
 %make_build
 
