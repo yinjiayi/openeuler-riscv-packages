@@ -8,6 +8,7 @@ URL:            https://www.gnu.org/software/recutils/
 Source0:        recutils-%{version}.tar.gz
 Patch0:         0001-fix-generated-lexer-declarations.patch
 Patch1:         0002-fix-bash-builtin-argv-type.patch
+Patch2:         0003-fix-torture-missing-stdlib.patch
 
 BuildRequires:  bash-devel
 BuildRequires:  bison
@@ -118,3 +119,4 @@ rm -f %{buildroot}%{_infodir}/dir
 - Initial openEuler RISC-V package from official GNU and frozen distribution evidence.
 - Apply the upstream-submitted generated lexer declaration fix for strict C99 builds.
 - Match Bash 5.2's make_builtin_argv return type in the testrec builtin.
+- Apply the accepted upstream torture include fix for strict C compilation.

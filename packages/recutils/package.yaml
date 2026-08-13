@@ -91,6 +91,15 @@
         "license": "GPL-3.0-or-later",
         "upstream_status": "not-submitted",
         "remove_when": "Remove when a recutils release declares the testrec argv variable with the Bash make_builtin_argv return type."
+      },
+      {
+        "file": "patches/0003-fix-torture-missing-stdlib.patch",
+        "sha256": "cd7a81a2abd25bd5f6e096e8ab6a5c28e6707ab2ec9097127d8d70695f948c0b",
+        "purpose": "Apply the accepted upstream fix that declares free() in all five torture sources using it, avoiding implicit function declarations under strict target compilation.",
+        "source": "https://git.savannah.gnu.org/cgit/recutils.git/commit/?id=bb5334390e54fff34305000aa176b5b2b41a9032",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "accepted",
+        "remove_when": "Remove when a recutils release tarball includes upstream commit bb5334390e54fff34305000aa176b5b2b41a9032."
       }
     ],
     "smoke_test": "tests/smoke.sh"

@@ -30,9 +30,10 @@ remain enabled through their available target dependencies.
 `%check` runs the complete upstream C torture and shell utility suites without
 test exclusions. Installed smoke performs a typed recfile query, a CSV-to-rec
 and rec-to-CSV round trip, a public `librec` API compile/link/run check, and a
-Bash loadable-builtin load check. Source and BuildRequires acquisition may use
-the network, but the actual RPM build and all tests run with networking
-disabled.
+Bash loadable-builtin load check. Package CI may use the network while fetching
+the pinned source, resolving BuildRequires, and running the target RPM build;
+the source SHA-256 gate remains mandatory and no downloaded build output is
+committed to this package directory.
 
 External source licenses remain those of upstream. Apache-2.0 covers only the
 original packaging metadata, test, and documentation in this directory.
