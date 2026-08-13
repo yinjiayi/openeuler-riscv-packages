@@ -94,7 +94,7 @@
       },
       {
         "file": "patches/0003-fix-torture-missing-stdlib.patch",
-        "sha256": "cd7a81a2abd25bd5f6e096e8ab6a5c28e6707ab2ec9097127d8d70695f948c0b",
+        "sha256": "f251b3e22b24f3c843fb55776ee5f4130de3f95342dfb25ebe2d61274c228640",
         "purpose": "Apply the accepted upstream fix that declares free() in all five torture sources using it, avoiding implicit function declarations under strict target compilation.",
         "source": "https://git.savannah.gnu.org/cgit/recutils.git/commit/?id=bb5334390e54fff34305000aa176b5b2b41a9032",
         "license": "GPL-3.0-or-later",

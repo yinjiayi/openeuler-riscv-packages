@@ -22,9 +22,7 @@ diff --git a/torture/rec-parser/rec-parse-record-str.c b/torture/rec-parser/rec-
 index 141aa15..3d0c3bb 100644
 --- a/torture/rec-parser/rec-parse-record-str.c
 +++ b/torture/rec-parser/rec-parse-record-str.c
-@@ -26,4 +26,5 @@
- #include <config.h>
- #include <string.h>
+@@ -28,2 +28,3 @@
  #include <stdio.h>
 +#include <stdlib.h>
  #include <check.h>
@@ -32,9 +30,7 @@ diff --git a/torture/rec-parser/rec-parse-record.c b/torture/rec-parser/rec-pars
 index 79e34ff..f77f6cd 100644
 --- a/torture/rec-parser/rec-parse-record.c
 +++ b/torture/rec-parser/rec-parse-record.c
-@@ -26,4 +26,5 @@
- #include <config.h>
- #include <string.h>
+@@ -28,2 +28,3 @@
  #include <stdio.h>
 +#include <stdlib.h>
  #include <check.h>
@@ -42,9 +38,7 @@ diff --git a/torture/rec-writer/rec-write-comment-str.c b/torture/rec-writer/rec
 index 21849e2..0b7d916 100644
 --- a/torture/rec-writer/rec-write-comment-str.c
 +++ b/torture/rec-writer/rec-write-comment-str.c
-@@ -26,4 +26,5 @@
- #include <config.h>
- #include <string.h>
+@@ -28,2 +28,3 @@
  #include <stdio.h>
 +#include <stdlib.h>
  #include <check.h>
@@ -52,9 +46,7 @@ diff --git a/torture/rec-writer/rec-write-field-name-str.c b/torture/rec-writer/
 index 1687243..a8ec6c2 100644
 --- a/torture/rec-writer/rec-write-field-name-str.c
 +++ b/torture/rec-writer/rec-write-field-name-str.c
-@@ -26,4 +26,5 @@
- #include <config.h>
- #include <string.h>
+@@ -28,2 +28,3 @@
  #include <stdio.h>
 +#include <stdlib.h>
  #include <check.h>
@@ -62,9 +54,7 @@ diff --git a/torture/rec-writer/rec-write-field-str.c b/torture/rec-writer/rec-w
 index efbeb54..3a5b7b0 100644
 --- a/torture/rec-writer/rec-write-field-str.c
 +++ b/torture/rec-writer/rec-write-field-str.c
-@@ -26,4 +26,5 @@
- #include <config.h>
- #include <string.h>
+@@ -28,2 +28,3 @@
  #include <stdio.h>
 +#include <stdlib.h>
  #include <check.h>
