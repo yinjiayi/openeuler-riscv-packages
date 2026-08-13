@@ -49,7 +49,7 @@ rm -f %{buildroot}%{_libdir}/libssh2.a
 rm -rf %{buildroot}%{_docdir}/libssh2
 
 %check
-%ctest --output-on-failure --force-new-ctest-process -j1
+%ctest --output-on-failure --force-new-ctest-process -- -j1
 
 %files
 %license COPYING
