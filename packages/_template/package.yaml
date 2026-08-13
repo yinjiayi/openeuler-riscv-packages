@@ -41,7 +41,7 @@
   },
   "build": {
     "profile": "qemu-user",
-    "network_during_build": true,
+    "network_during_build": false,
     "timeout_minutes": 60,
     "native_reason": null
   },
