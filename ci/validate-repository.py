@@ -140,6 +140,10 @@ def main() -> int:
         errors.append("package-ci.yml does not compose a final commit-bound build result")
     if "repository-snapshot:" not in package_ci or "ci/rpm-repo-client.py resolve" not in package_ci:
         errors.append("package-ci.yml does not resolve one immutable supplemental repository generation")
+    if "--allow-unavailable" not in package_ci:
+        errors.append("package-ci.yml does not record the official-repository-only outage fallback")
+    if "artifacts/repository/resolution.json" not in package_ci:
+        errors.append("package-ci.yml does not pass repository resolution evidence to installed smoke")
     if "publish-rpm-repository:" not in package_ci or "ci/stage-rpm-repository-upload.py" not in package_ci:
         errors.append("package-ci.yml does not publish passing main-branch RPM/SRPM batches")
     if "github.event_name == 'push'" not in package_ci or "github.ref == 'refs/heads/main'" not in package_ci:
@@ -314,6 +318,10 @@ def main() -> int:
         errors.append("golden-evaluation.yml does not use stage-aware golden assertions")
     if "rpmbuild-internal.log" not in golden:
         errors.append("golden-evaluation.yml does not retain the RPM tool's internal log")
+    if "--allow-unavailable" not in golden or "repository-resolution.json" not in golden:
+        errors.append("golden-evaluation.yml does not propagate repository outage evidence")
+    if "BUILD_USER: ${{ steps.policy.outputs.build_user }}" not in golden or '--build-user "$BUILD_USER"' not in golden:
+        errors.append("golden-evaluation.yml does not pass the package build identity to dependency preparation")
 
     builddeps_path = root / "ci" / "prepare-build-deps.py"
     builddeps = builddeps_path.read_text(encoding="utf-8") if builddeps_path.exists() else ""
@@ -328,6 +336,7 @@ def main() -> int:
         "--supplemental-evidence",
         "--enablerepo=openeuler-riscv-project",
         "openeuler-riscv-project.repo,readonly",
+        "fallback_repository_ids",
     ):
         if marker not in builddeps:
             errors.append(f"BuildRequires preparation is missing supplemental repository control: {marker}")
@@ -344,10 +353,15 @@ def main() -> int:
     install_smoke = (root / "ci" / "install-smoke.sh").read_text(encoding="utf-8")
     if "--enablerepo=openeuler-riscv-project" not in install_smoke:
         errors.append("installed-RPM smoke does not use the verified supplemental repository")
+    for marker in ("repository_evidence", "endpoint-unavailable", "enabled_repositories"):
+        if marker not in install_smoke:
+            errors.append(f"installed-RPM smoke is missing repository outage control: {marker}")
 
     rpm_client = root / "ci" / "rpm-repo-client.py"
     if not rpm_client.is_file() or "http://2.27.148.101:38080" not in rpm_client.read_text(encoding="utf-8"):
         errors.append("supplemental RPM repository client is missing or does not pin the operator endpoint")
+    elif "RepositoryUnavailable" not in rpm_client.read_text(encoding="utf-8"):
+        errors.append("supplemental RPM repository client cannot distinguish outages from integrity failures")
     known_hosts = root / "ci" / "rpm-repo-known-hosts"
     if not known_hosts.is_file() or "[2.27.148.101]:38022 ssh-ed25519 " not in known_hosts.read_text(encoding="utf-8"):
         errors.append("RPM repository SSH host key is not pinned")
