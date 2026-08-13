@@ -438,7 +438,7 @@ jobs:
             exit "$dependency_status"
           fi
           printf 'image=%s\n' "$derived" >>"$GITHUB_OUTPUT"
-      - name: Build SRPM and RPM without network
+      - name: Build SRPM and RPM with verified source networking
         if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}

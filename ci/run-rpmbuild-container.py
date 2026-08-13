@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0
-"""Run offline rpmbuild under a fail-closed per-package user policy.
+"""Run network-enabled rpmbuild under a fail-closed per-package user policy.
 
 ``root`` preserves the historical build identity for packages whose complete
 upstream checks require root capabilities. ``unprivileged`` first hands the
@@ -73,12 +73,14 @@ def require_exact_child(path: pathlib.Path, parent: pathlib.Path, label: str) ->
     return resolved
 
 
-def docker_limits() -> list[str]:
+def docker_limits(*, network: str) -> list[str]:
+    if network not in {"bridge", "none"}:
+        raise ContractError(f"unsupported build container network: {network}")
     return [
         "--platform",
         "linux/riscv64",
         "--network",
-        "none",
+        network,
         "--memory",
         "6g",
         "--cpus",
@@ -116,7 +118,7 @@ def unprivileged_prepare_command(
         "docker",
         "run",
         "--rm",
-        *docker_limits(),
+        *docker_limits(network="none"),
         "--user",
         "0:0",
         *common_mounts(repo_root, work_dir, package_id),
@@ -163,11 +165,13 @@ def build_command(
         "docker",
         "run",
         "--rm",
-        *docker_limits(),
+        *docker_limits(network="bridge"),
         "--user",
         run_uid_gid,
         "-e",
         "OE_RVA23_PROBE=passed",
+        "-e",
+        "OE_BUILD_NETWORK=enabled",
         *user_environment,
         *common_mounts(repo_root, work_dir, package_id),
         *extra_mounts,
@@ -194,7 +198,6 @@ def build_command(
         f"{result_dir}/rpmbuild-phase-result.json",
         "--commit-sha",
         commit_sha,
-        "--offline",
         "--skip-install-smoke",
         "--expected-arch",
         "riscv64",
@@ -315,8 +318,10 @@ def exec_mode(args: argparse.Namespace) -> int:
     result_dir = pathlib.Path(args.result_dir)
     if not args.command or args.command[0] != "scripts/build-rpm":
         raise ContractError("build wrapper may execute only scripts/build-rpm")
-    if "--offline" not in args.command:
-        raise ContractError("rpmbuild invocation must remain offline")
+    if "--offline" in args.command:
+        raise ContractError("rpmbuild invocation must allow verified network source retrieval")
+    if os.environ.get("OE_BUILD_NETWORK") != "enabled":
+        raise ContractError("network-enabled build policy was not reported by the container")
     previous_umask = os.umask(0o022)
     identity = {
         "schema_version": 1,
@@ -329,6 +334,7 @@ def exec_mode(args: argparse.Namespace) -> int:
         "is_root": effective_uid == 0,
         "umask": "0022",
         "previous_umask": f"{previous_umask:04o}",
+        "network_access_policy": "enabled",
         "work_directory": directory_evidence(work_dir, "work directory", expected_owner),
         "result_directory": directory_evidence(
             result_dir, "result directory", expected_owner
