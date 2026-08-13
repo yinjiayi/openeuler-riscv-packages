@@ -186,9 +186,10 @@ jobs:
           fi
           set +e
           ci/run-capped.sh --log "$log" --max-bytes 52428800 --timeout-seconds 6900 -- \
-            docker run --rm --platform linux/riscv64 --network none \
+            docker run --rm --platform linux/riscv64 --network bridge \
               --memory 6g --cpus 2 --pids-limit 1024 \
-              --security-opt no-new-privileges -e OE_RVA23_PROBE=passed \
+              --security-opt no-new-privileges \
+              -e OE_RVA23_PROBE=passed -e OE_BUILD_NETWORK=enabled \
               -v "$GITHUB_WORKSPACE:/workspace:ro" \
               -v "$GITHUB_WORKSPACE/work/$PACKAGE_ID:/workspace/work/$PACKAGE_ID:rw" \
               -v "$GITHUB_WORKSPACE/artifacts/golden/$PACKAGE_ID:/workspace/artifacts/golden/$PACKAGE_ID:rw" \
@@ -196,7 +197,7 @@ jobs:
               scripts/build-rpm --package-dir "packages/$PACKAGE_ID" \
                 --repo-root /workspace --work-dir "work/$PACKAGE_ID" \
                 --result "$result" --commit-sha "$BUILD_COMMIT_SHA" \
-                --offline --skip-install-smoke \
+                --skip-install-smoke \
                 --expected-arch riscv64
           build_exit=$?
           internal_log="work/$PACKAGE_ID/logs/rpmbuild.log"

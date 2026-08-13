@@ -227,10 +227,11 @@ def main() -> int:
     for marker in (
         'BUILD_USERS = {"root", "unprivileged"}',
         'TARGET_UID = 10001',
-        '"--network",',
-        '"none",',
+        'docker_limits(network="bridge")',
+        'docker_limits(network="none")',
         '"--commit-sha",',
-        '"--offline",',
+        'verified network source retrieval',
+        'OE_BUILD_NETWORK=enabled',
         'EVIDENCE_FILES =',
     ):
         if marker not in build_runner:
