@@ -46,8 +46,6 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_bindir}/*
 %{_libdir}/libhogweed.so.*
 %{_libdir}/libnettle.so.*
-%{_infodir}/nettle.info*
-%{_mandir}/man1/*.1*
 
 %files devel
 %{_includedir}/nettle/
@@ -59,3 +57,4 @@ rm -f %{buildroot}%{_libdir}/*.la
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-1
 - Initial openEuler RISC-V package with the complete upstream test suite.
+- Remove file globs for documentation not installed by the upstream build.
