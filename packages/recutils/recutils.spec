@@ -111,8 +111,8 @@ rm -f %{buildroot}%{_infodir}/dir
 
 %files bash-builtins
 %license COPYING
-%{_libdir}/readrec.so
-%{_libdir}/testrec.so
+%{_libdir}/readrec.so*
+%{_libdir}/testrec.so*
 
 %changelog
 * Thu Aug 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9-1
@@ -120,3 +120,4 @@ rm -f %{buildroot}%{_infodir}/dir
 - Apply the upstream-submitted generated lexer declaration fix for strict C99 builds.
 - Match Bash 5.2's make_builtin_argv return type in the testrec builtin.
 - Apply the accepted upstream torture include fix for strict C compilation.
+- Package the complete libtool output for both loadable Bash builtins.
