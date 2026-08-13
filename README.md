@@ -21,6 +21,7 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
 - A **golden package** is a fixed end-to-end fixture with a pinned source/content digest, expected state, allowed changes, and assertions.
 - A **repository generation** is an immutable binary/source RPM snapshot with a state-bound `repomd.xml` SHA-256. A build resolves the mutable `state.json` pointer once, then uses only that generation URL.
+- An **official-repository-only fallback** is an evidence-recorded dependency mode used only when the fixed supplemental repository cannot be contacted. It disables that project repository and retains the HTTPS/GPG-checked official openEuler repository; it does not waive missing dependencies or convert a failed DNF transaction into success.
 
 ## Safety and trust boundary
 
@@ -90,8 +91,14 @@ mounted into dependency installation and installed-RPM smoke:
 ci/rpm-repo-client.py resolve \
   --state-url http://2.27.148.101:38080/state.json \
   --repo-file work/openeuler-riscv-project.repo \
-  --output work/rpm-repository-resolution.json
+  --output work/rpm-repository-resolution.json \
+  --allow-unavailable
 ```
+
+With `--allow-unavailable`, connection, timeout, and transient HTTP service
+failures produce an explicit `unavailable` resolution and a disabled
+supplemental repository file. Redirects, non-transient HTTP responses, JSON,
+URL, generation, and checksum integrity failures still fail closed.
 
 `RPM Repository Backfill` builds every active non-golden package whose policy
 does not require native RISC-V hardware. It runs up to 20 independent package

@@ -142,7 +142,7 @@ jobs:
           docker pull --platform linux/riscv64 "$ref"
           docker run --rm --platform linux/riscv64 --memory 1g --cpus 2 --pids-limit 256 \
             "$ref" /usr/local/bin/verify-target
-      - name: Resolve one immutable supplemental repository generation
+      - name: Resolve one immutable supplemental repository generation or official-only fallback
         if: steps.policy.outputs.needs_native != 'true'
         env:
           PACKAGE_ID: ${{ matrix.package_id }}
@@ -150,13 +150,15 @@ jobs:
           ci/rpm-repo-client.py resolve \
             --state-url http://2.27.148.101:38080/state.json \
             --repo-file "artifacts/golden/$PACKAGE_ID/openeuler-riscv-project.repo" \
-            --output "artifacts/golden/$PACKAGE_ID/repository-resolution.json"
+            --output "artifacts/golden/$PACKAGE_ID/repository-resolution.json" \
+            --allow-unavailable
       - name: Prepare audited BuildRequires in an ephemeral image
         if: steps.policy.outputs.needs_native != 'true'
         id: dependencies
         env:
           PACKAGE_ID: ${{ matrix.package_id }}
           BASE_IMAGE: ${{ steps.image.outputs.ref }}
+          BUILD_USER: ${{ steps.policy.outputs.build_user }}
         run: |
           derived="golden-builddeps:${GITHUB_RUN_ID}-${PACKAGE_ID}"
           ci/run-capped.sh --log "artifacts/golden/$PACKAGE_ID/dependencies.log" \
@@ -166,7 +168,8 @@ jobs:
               --output "artifacts/golden/$PACKAGE_ID/dependencies.json" \
               --derived-tag "$derived" \
               --supplemental-repo-file "artifacts/golden/$PACKAGE_ID/openeuler-riscv-project.repo" \
-              --supplemental-evidence "artifacts/golden/$PACKAGE_ID/repository-resolution.json"
+              --supplemental-evidence "artifacts/golden/$PACKAGE_ID/repository-resolution.json" \
+              --build-user "$BUILD_USER"
           printf 'image=%s\n' "$derived" >>"$GITHUB_OUTPUT"
       - name: Exercise actual offline RISC-V build and expected state
         if: steps.policy.outputs.needs_native != 'true'
@@ -218,7 +221,8 @@ jobs:
                 -v "$GITHUB_WORKSPACE/artifacts/golden/$PACKAGE_ID:/workspace/artifacts/golden/$PACKAGE_ID:rw" \
                 -w /workspace "$BASE_IMAGE" \
                 ci/install-smoke.sh "packages/$PACKAGE_ID" "work/$PACKAGE_ID" \
-                  "artifacts/golden/$PACKAGE_ID/smoke-phase-result.json"
+                  "artifacts/golden/$PACKAGE_ID/smoke-phase-result.json" \
+                  "artifacts/golden/$PACKAGE_ID/repository-resolution.json"
           else
             test "$expected" = repair-queued
             test "$build_exit" -ne 0
