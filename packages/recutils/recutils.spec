@@ -7,6 +7,7 @@ License:        GPL-3.0-or-later AND GFDL-1.3-or-later
 URL:            https://www.gnu.org/software/recutils/
 Source0:        recutils-%{version}.tar.gz
 Patch0:         0001-fix-generated-lexer-declarations.patch
+Patch1:         0002-fix-bash-builtin-argv-type.patch
 
 BuildRequires:  bash-devel
 BuildRequires:  bison
@@ -116,3 +117,4 @@ rm -f %{buildroot}%{_infodir}/dir
 * Thu Aug 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9-1
 - Initial openEuler RISC-V package from official GNU and frozen distribution evidence.
 - Apply the upstream-submitted generated lexer declaration fix for strict C99 builds.
+- Match Bash 5.2's make_builtin_argv return type in the testrec builtin.

@@ -82,6 +82,15 @@
         "license": "GPL-3.0-or-later",
         "upstream_status": "submitted",
         "remove_when": "Remove when a recutils release ships the generated lexer declarations and includes them from the parser sources."
+      },
+      {
+        "file": "patches/0002-fix-bash-builtin-argv-type.patch",
+        "sha256": "39d115a5a3fb1522a342e1050539407b02f742ea8bf0fb76b821664fd7b36625",
+        "purpose": "Match the testrec argv declaration to Bash 5.2's make_builtin_argv API so strict compiler diagnostics accept the loadable builtin.",
+        "source": "https://git.savannah.gnu.org/cgit/bash.git/tree/builtins/common.h?h=bash-5.2",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Remove when a recutils release declares the testrec argv variable with the Bash make_builtin_argv return type."
       }
     ],
     "smoke_test": "tests/smoke.sh"
