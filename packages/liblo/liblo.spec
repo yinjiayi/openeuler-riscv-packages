@@ -8,7 +8,6 @@ License:        LGPL-2.1-or-later
 URL:            https://liblo.sourceforge.net/
 Source0:        liblo-%{version}.tar.gz
 
-BuildRequires:  doxygen
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
@@ -40,7 +39,7 @@ metadata for developing applications with liblo.
 %autosetup -p1
 
 %build
-%configure --disable-static
+%configure --disable-static --disable-doc
 %make_build
 
 %install
