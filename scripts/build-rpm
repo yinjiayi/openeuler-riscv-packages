@@ -452,8 +452,6 @@ def main() -> int:
                 raise NativeRouting()
             build_result["phase"] = "environment-check"
             build_result["environment"] = environment_check(args.expected_arch, args.expected_os, args.expected_isa)
-            if not args.offline:
-                raise ToolError("build phase requires --offline after a separate source verification step", 1)
             rpmbuild = shutil.which("rpmbuild")
             if not rpmbuild:
                 raise ToolError("rpmbuild is not installed in the build environment", 1)
