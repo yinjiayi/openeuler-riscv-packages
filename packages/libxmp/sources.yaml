@@ -1,0 +1,21 @@
+{
+  "package_id": "libxmp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "510a96eefd79e4558fb1fa41fb5494870328776b3f77563f94f61f241f64bde1"
+      },
+      "filename": "libxmp-4.7.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Permissively licensed source is fetched from the official versioned SourceForge release asset in CI."
+      },
+      "signature": null,
+      "url": "https://downloads.sourceforge.net/project/xmp/libxmp/4.7.2/libxmp-4.7.2.tar.gz",
+      "version": "4.7.2"
+    }
+  ]
+}
