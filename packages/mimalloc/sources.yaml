@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "mimalloc",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/microsoft/mimalloc/archive/refs/tags/v3.4.5.tar.gz",
+      "filename": "mimalloc-3.4.5.tar.gz",
+      "version": "3.4.5",
+      "digests": {
+        "sha256": "19a43af0645c57d348e729d5b31e23e912582911bb1047f795790834d3416221"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "MIT-licensed source is fetched from the official GitHub tag archive in CI."
+      }
+    }
+  ]
+}
