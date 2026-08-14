@@ -6,6 +6,7 @@ Summary:        RDF parser and serializer toolkit
 License:        Apache-2.0 OR GPL-2.0-or-later OR LGPL-2.1-or-later
 URL:            https://librdf.org/raptor/
 Source0:        raptor2-%{version}.tar.gz
+Patch0:         0001-libxml2-2.11-private-entity-fields.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++

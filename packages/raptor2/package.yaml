@@ -1,7 +1,7 @@
 {
   "build": {
     "native_reason": null,
-    "network_during_build": false,
+    "network_during_build": true,
     "profile": "qemu-user",
     "timeout_minutes": 120
   },
@@ -59,7 +59,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-libxml2-2.11-private-entity-fields.patch",
+        "license": "LGPL-2.1-or-later OR GPL-2.0-or-later OR Apache-2.0",
+        "purpose": "Backport the upstream compatibility guard for the private xmlEntity.checked field removed in libxml2 2.11.",
+        "remove_when": "raptor2 is updated past upstream commit 4dbc4c1da2a033c497d84a1291c46f416a9cac51.",
+        "sha256": "20e54aaebe643edb034cf2c587e4ba6f673ecdc5d85accf6cb5f47811c2299cf",
+        "source": "https://github.com/dajobe/raptor/commit/4dbc4c1da2a033c497d84a1291c46f416a9cac51",
+        "upstream_status": "accepted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "raptor2.spec"
@@ -68,7 +78,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Canonical RPM/package ID raptor2 and SONAME libraptor2.so.0 were verified against the target repository. Official 2.0.16 release bytes and the complete shipped parser/serializer fixture corpus are pinned; all normal make-check targets run unchanged and offline.",
+    "notes": "Canonical RPM/package ID raptor2 and SONAME libraptor2.so.0 were verified against the target repository. Official 2.0.16 release bytes and the complete shipped parser/serializer fixture corpus are pinned; all normal make-check targets remain enabled. Upstream commit 4dbc4c1da2a033c497d84a1291c46f416a9cac51 is backported for libxml2 2.11 and newer.",
     "status": "active"
   },
   "package_id": "raptor2",
