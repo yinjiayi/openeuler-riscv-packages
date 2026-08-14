@@ -30,7 +30,7 @@ rm -f %{buildroot}%{_libdir}/*.la
 %make_build check
 %files
 %license COPYING MIT-LICENSE.txt GPL-LICENSE.txt
-%doc ChangeLog README.markdown
+%doc ChangeLog README
 %{_libdir}/libstrophe.so.0*
 %files devel
 %{_includedir}/strophe.h
