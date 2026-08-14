@@ -51,10 +51,12 @@ jobs:
     needs: plan
     strategy:
       fail-fast: false
-      # Sixteen independent QEMU builds use separate hosted runners. Bounded
-      # cache-preserving DNF retries protect the single official mirror while
-      # the supplemental project repository absorbs newly built dependencies.
-      max-parallel: 16
+      # The protected-main self-hosted pool currently has fifty isolated
+      # QEMU workers. Default to thirty-two builds so pull-request CI retains
+      # spare capacity; operators may lower the bounded matrix through the
+      # repository variable without editing trusted workflow code. Publishing
+      # remains atomic and retries only the exact restricted-rsync lock error.
+      max-parallel: ${{ fromJSON(vars.RPM_BACKFILL_MAX_CONCURRENCY || '32') }}
       matrix:
         package_id: ${{ fromJSON(needs.plan.outputs.packages) }}
     uses: ./.github/workflows/package-ci.yml
