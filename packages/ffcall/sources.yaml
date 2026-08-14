@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "ffcall",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://ftp.gnu.org/gnu/libffcall/libffcall-2.5.tar.gz",
+      "filename": "libffcall-2.5.tar.gz",
+      "version": "2.5",
+      "digests": {
+        "sha256": "7f422096b40498b1389093955825f141bb67ed6014249d884009463dc7846879"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "GNU libffcall 2.5 is distributed under GPL-2.0-or-later terms."
+      }
+    }
+  ]
+}

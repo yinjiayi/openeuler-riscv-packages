@@ -1,0 +1,77 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/clzip",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "clzip",
+        "package_name": "clzip",
+        "source": "debian",
+        "source_version": "1.15-3"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/clzip",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "clzip",
+        "package_name": "clzip",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.16-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "clzip.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable clzip 1.16 archive reviewed and SHA-256 pinned; distribution packaging was metadata-only lineage evidence and was not executed.",
+    "status": "active"
+  },
+  "package_id": "clzip",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "clzip",
+    "summary": "C implementation of the lzip lossless data compressor"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "nongnu.org-lzip-clzip.html",
+    "homepage": "https://www.nongnu.org/lzip/clzip.html",
+    "release_api": "https://download.savannah.gnu.org/releases/lzip/clzip/",
+    "release_channel": "stable",
+    "release_regex": "clzip-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.nongnu.org/projects/lzip/",
+    "source_url_template": "https://download.savannah.gnu.org/releases/lzip/clzip/clzip-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.16",
+    "latest_detected": "1.16",
+    "release": "1"
+  }
+}
