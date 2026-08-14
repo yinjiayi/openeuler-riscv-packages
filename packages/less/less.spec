@@ -28,7 +28,7 @@ backward movement, searching, filtering, and large files.
 %make_install
 
 %check
-%make_build test
+%make_build check
 
 %files
 %license COPYING LICENSE
