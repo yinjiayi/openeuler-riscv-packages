@@ -35,11 +35,12 @@ mkdir macro-smoke
 cat > macro-smoke/configure.ac <<'EOF'
 AC_INIT([archive-smoke], [1.0])
 AC_CONFIG_SRCDIR([configure.ac])
-AX_CHECK_COMPILE_FLAG([-Wall], [AC_DEFINE([HAS_WALL], [1])])
+AX_CHECK_COMPILE_FLAG([-Wall], [ax_has_wall=yes], [ax_has_wall=no])
+AS_IF([test "x$ax_has_wall" != xyes],
+      [AC_MSG_ERROR([AX_CHECK_COMPILE_FLAG rejected -Wall])])
 AC_OUTPUT
 EOF
 (cd macro-smoke && autoreconf -fi && ./configure)
-grep -F '#define HAS_WALL 1' macro-smoke/config.log
 
 %files
 %license COPYING COPYING.EXCEPTION
