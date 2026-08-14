@@ -6,6 +6,7 @@ Summary:        GNU stream-oriented text editor
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/sed/
 Source0:        sed-%{version}.tar.xz
+Patch0:         0001-gnulib-normalize-unsigned-char-localeconv-sentinel.patch
 
 BuildRequires:  gcc
 BuildRequires:  gettext-devel

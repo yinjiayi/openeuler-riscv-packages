@@ -18,5 +18,10 @@ requiring downstream suppression of a known system-regex back-reference test.
 ACL and SELinux support remain enabled, and the installed smoke test verifies
 extended-regex, capture, and in-place editing behavior.
 
+The bundled gnulib `localeconv` replacement normalizes openEuler RISC-V's
+unsigned-`char` unavailable-field representation to the standard `CHAR_MAX`
+sentinel. This keeps the complete upstream test suite enabled and preserves
+the interface expected by sed and other gnulib code.
+
 External source licenses remain those of the upstream project. The repository
 license covers only original packaging metadata, scripts, and documentation.
