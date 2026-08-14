@@ -6,6 +6,7 @@ Summary:        Structured concurrency library for C
 License:        MIT
 URL:            https://github.com/sustrik/libdill
 Source0:        libdill-%{version}.tar.gz
+Patch0:         0001-fix-compilation-for-gcc-9.patch
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -64,3 +65,4 @@ rm -f %{buildroot}%{_libdir}/*.la
 %changelog
 * Fri Aug 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.14-1
 - Initial openEuler RISC-V package from the independently verified upstream tag.
+- Apply the post-release upstream fix for GCC 9 and newer.

@@ -49,7 +49,17 @@
   "files": {
     "spec": "libdill.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-fix-compilation-for-gcc-9.patch",
+        "sha256": "d21b26109ae98fc235785e6bf418c7c29e8255f4c55e1602352dda791cace805",
+        "purpose": "Apply the accepted upstream fix that keeps compound-literal address expressions valid with GCC 9 and newer.",
+        "source": "https://github.com/sustrik/libdill/commit/195809f97a368380487259dca3f0926d29a298a6",
+        "license": "MIT",
+        "upstream_status": "accepted",
+        "remove_when": "The packaged release contains upstream commit 195809f97a368380487259dca3f0926d29a298a6."
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
