@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "qhull",
+  "rpm": {
+    "name": "qhull",
+    "summary": "Compute convex hulls and related geometric structures",
+    "license": "LicenseRef-qhull"
+  },
+  "upstream": {
+    "component": "github.com-qhull-qhull",
+    "homepage": "http://www.qhull.org/",
+    "source_repository": "https://github.com/qhull/qhull.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/qhull/qhull/git/refs/tags",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/qhull/qhull/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2020.2",
+    "release": "2",
+    "latest_detected": "2020.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "qhull",
+        "package_base": "qhull",
+        "source_version": "2020.2-5",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/qhull/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "aur",
+        "package_name": "mingw-w64-qhull",
+        "package_base": "mingw-w64-qhull",
+        "source_version": "2020.2-1",
+        "evidence_url": "https://aur.archlinux.org/packages/mingw-w64-qhull",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "qhull",
+        "package_base": "qhull",
+        "source_version": "2020.2-6",
+        "evidence_url": "https://packages.debian.org/trixie/source/qhull",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "qhull",
+        "package_base": "qhull",
+        "source_version": "1:8.0.2-8.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/qhull/qhull/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "qhull",
+        "package_base": "qhull",
+        "source_version": "2020.2-6.6",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/qhull",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "qhull.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official annotated 2020.2 tag resolves to immutable commit 613debeaea72ee66626dace9ba1a2eff11b5d37d, whose commit archive is SHA-256 pinned. Frozen Arch, read-only AUR RPC, Debian, Fedora 44, and openSUSE evidence corroborates the lineage; no external packaging recipe was read or executed. Release 2 exceeds target EVR 2020.2-1 and preserves libqhull.so.8.0, libqhull_p.so.8.0, libqhull_r.so.8.0, and the target main/devel/help split."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-tags"
+  }
+}

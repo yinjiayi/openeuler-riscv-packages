@@ -174,8 +174,9 @@ class BuildContainerCommandTests(unittest.TestCase):
         self.assertEqual(option(command, "--commit-sha"), self.commit)
         self.assertEqual(option(command, "--result"), "/evidence/rpmbuild-phase-result.json")
         self.assertIn(f"{self.artifacts}:/evidence:rw", command)
-        self.assertIn("--offline", command)
-        self.assertEqual(option(command, "--network"), "none")
+        self.assertNotIn("--offline", command)
+        self.assertEqual(option(command, "--network"), "bridge")
+        self.assertIn("OE_BUILD_NETWORK=enabled", command)
 
     def test_unprivileged_policy_uses_fixed_identity_and_generated_work_tree(self) -> None:
         command = RUNNER_MODULE.build_command(
@@ -196,8 +197,9 @@ class BuildContainerCommandTests(unittest.TestCase):
         self.assertNotIn(f"{self.artifacts}:/evidence:rw", command)
         self.assertIn(f"{self.work}:/workspace/work/demo:rw", command)
         self.assertIn(f"{self.repo}:/workspace:ro", command)
-        self.assertIn("--offline", command)
-        self.assertEqual(option(command, "--network"), "none")
+        self.assertNotIn("--offline", command)
+        self.assertEqual(option(command, "--network"), "bridge")
+        self.assertIn("OE_BUILD_NETWORK=enabled", command)
 
     def test_ownership_handoff_is_root_only_and_network_isolated(self) -> None:
         command = RUNNER_MODULE.unprivileged_prepare_command(
@@ -231,9 +233,9 @@ class BuildContainerCommandTests(unittest.TestCase):
             work_dir="/work",
             result_dir="/result",
             identity_output="/result/identity.json",
-            command=["scripts/build-rpm", "--offline"],
+            command=["scripts/build-rpm"],
         )
-        with mock.patch.object(
+        with mock.patch.dict(RUNNER_MODULE.os.environ, {"OE_BUILD_NETWORK": "enabled"}), mock.patch.object(
             RUNNER_MODULE,
             "target_identity",
             return_value=(Namespace(pw_name="rpmbuild"), Namespace()),
@@ -244,10 +246,30 @@ class BuildContainerCommandTests(unittest.TestCase):
                 RUNNER_MODULE.exec_mode(arguments)
 
         arguments.build_user = "root"
-        with mock.patch.object(RUNNER_MODULE.os, "geteuid", return_value=10001), mock.patch.object(
+        with mock.patch.dict(RUNNER_MODULE.os.environ, {"OE_BUILD_NETWORK": "enabled"}), mock.patch.object(RUNNER_MODULE.os, "geteuid", return_value=10001), mock.patch.object(
             RUNNER_MODULE.os, "getegid", return_value=10001
         ):
             with self.assertRaisesRegex(RUNNER_MODULE.ContractError, "UID/GID 0:0"):
+                RUNNER_MODULE.exec_mode(arguments)
+
+    def test_exec_identity_rejects_missing_network_policy_marker(self) -> None:
+        arguments = Namespace(
+            build_user="root",
+            work_dir="/work",
+            result_dir="/result",
+            identity_output="/result/identity.json",
+            command=["scripts/build-rpm"],
+        )
+        with mock.patch.dict(RUNNER_MODULE.os.environ, {}, clear=True), mock.patch.object(
+            RUNNER_MODULE.os, "geteuid", return_value=0
+        ), mock.patch.object(RUNNER_MODULE.os, "getegid", return_value=0), mock.patch.object(
+            RUNNER_MODULE.pwd,
+            "getpwuid",
+            return_value=Namespace(pw_name="root"),
+        ):
+            with self.assertRaisesRegex(
+                RUNNER_MODULE.ContractError, "network-enabled build policy"
+            ):
                 RUNNER_MODULE.exec_mode(arguments)
 
     def test_unprivileged_run_copies_only_regular_structured_evidence(self) -> None:

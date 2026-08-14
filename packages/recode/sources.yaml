@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "recode",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/rrthomas/recode/releases/download/v3.7.15/recode-3.7.15.tar.gz",
+      "filename": "recode-3.7.15.tar.gz",
+      "version": "3.7.15",
+      "digests": {
+        "sha256": "f590407fc51badb351973fc1333ee33111f05ec83a8f954fd8cf0c5e30439806"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution and modification are permitted by the upstream GPL-3.0-or-later, LGPL-3.0-or-later, BSD-2-Clause, and manual-documentation licenses."
+      }
+    }
+  ]
+}

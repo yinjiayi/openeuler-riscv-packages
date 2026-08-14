@@ -1,0 +1,36 @@
+{
+  "package_id": "fzy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "93d300d9c6c7063b2c6bda4e08a9704a029ec33f609718cd95443d1a890aff4e"
+      },
+      "filename": "fzy-1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official fzy source is MIT with ISC vendored test code."
+      },
+      "signature": null,
+      "url": "https://github.com/jhawthorn/fzy/archive/refs/tags/1.1.tar.gz",
+      "version": "1.1"
+    },
+    {
+      "digests": {
+        "sha256": "ff138e475916fe70b4157c69c5569e5c1a5e26294671e7ac0ad00206edf8d76c"
+      },
+      "filename": "ttytest-0.6.0.gem",
+      "id": "source1",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official ttytest 0.6.0 RubyGem is MIT and is used only for the pinned upstream acceptance gate."
+      },
+      "signature": null,
+      "url": "https://rubygems.org/downloads/ttytest-0.6.0.gem",
+      "version": "0.6.0"
+    }
+  ]
+}
