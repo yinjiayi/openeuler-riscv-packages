@@ -6,6 +6,7 @@ Summary:        Utilities for renaming files more efficiently
 License:        GPL-3.0-or-later
 URL:            https://www.nongnu.org/renameutils/
 Source0:        renameutils-%{version}.tar.gz
+Patch0:         0001-build-fix-bindir-expansion.patch
 
 BuildRequires:  gettext
 BuildRequires:  gettext-devel
@@ -56,3 +57,4 @@ done
 * Fri Aug 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.12.0-1
 - Initial package from the official Savannah 0.12.0 release archive.
 - Preserve the complete utility and translation set with the upstream check gate.
+- Fix the upstream bindir expansion so staged installation succeeds.

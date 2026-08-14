@@ -81,7 +81,17 @@
   "files": {
     "spec": "renameutils.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-build-fix-bindir-expansion.patch",
+        "sha256": "63404ece79f55674f304ead0ff5e6c8d9f71525649e044d6445313cc6cd7441f",
+        "purpose": "Correct the upstream Automake bindir expansion so DESTDIR installation uses a valid path.",
+        "source": "Upstream 0.12.0 source and openEuler RISC-V package CI run 31768267502",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "An upstream release ships the corrected bindir expansion in Makefile.am and Makefile.in."
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
