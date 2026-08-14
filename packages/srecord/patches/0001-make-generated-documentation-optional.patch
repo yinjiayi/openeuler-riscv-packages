@@ -38,5 +38,9 @@ in the release archive without running the website generators.
 +++ b/srecord/CMakeLists.txt
 @@ -36,0 +37 @@
 +if(SRECORD_BUILD_DOCUMENTATION)
-@@ -49,0 +51 @@
+@@ -39,0 +41 @@
++endif()
+@@ -46,0 +48 @@
++if(SRECORD_BUILD_DOCUMENTATION)
+@@ -49,0 +52 @@
 +endif()
