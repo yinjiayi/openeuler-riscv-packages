@@ -27,7 +27,7 @@ with editable name lists or GNU Readline support.
 
 %install
 %make_install
-%find_lang %{name}
+%find_lang %{name} --all-name
 
 %check
 %make_build check
@@ -58,3 +58,4 @@ done
 - Initial package from the official Savannah 0.12.0 release archive.
 - Preserve the complete utility and translation set with the upstream check gate.
 - Fix the upstream bindir expansion so staged installation succeeds.
+- Include the bundled gnulib message catalogs in the RPM language manifest.
