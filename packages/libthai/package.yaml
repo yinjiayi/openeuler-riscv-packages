@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libthai/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libthai",
+        "package_name": "libthai",
+        "source": "arch-extra",
+        "source_version": "0.1.30-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libthai",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libthai",
+        "package_name": "libthai",
+        "source": "debian",
+        "source_version": "0.1.29-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libthai/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libthai",
+        "package_name": "libthai",
+        "source": "fedora",
+        "source_version": "0.1.30-2.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libthai",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libthai",
+        "package_name": "libthai",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.1.30-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libthai",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libthai",
+        "package_name": "libthai",
+        "source": "ubuntu",
+        "source_version": "0.1.30-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libthai.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The publisher's stable 0.1.30 archive was pinned; all nine maintained tests ran offline with the full generated dictionary and target SONAME 0 was preserved.",
+    "status": "active"
+  },
+  "package_id": "libthai",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "libthai",
+    "summary": "Thai language support library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "linux.thai.net-libthai",
+    "homepage": "https://linux.thai.net/projects/libthai",
+    "release_api": "https://api.github.com/repos/tlwg/libthai/releases/latest",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/tlwg/libthai",
+    "source_url_template": "https://linux.thai.net/pub/ThaiLinux/software/libthai/libthai-{version}.tar.xz"
+  },
+  "version": {
+    "current": "0.1.30",
+    "latest_detected": "0.1.30",
+    "release": "1"
+  }
+}

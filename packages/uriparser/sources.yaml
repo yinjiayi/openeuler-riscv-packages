@@ -1,0 +1,19 @@
+{
+  "package_id": "uriparser",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "dd2e4843f43de6f5aedf430e530f1e2d159eba8ca4d64c2787af1c20f707a9e4"},
+      "filename": "uriparser-1.0.2.tar.bz2",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Freely redistributable uriparser source is fetched from the official stable release asset in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/uriparser/uriparser/releases/download/uriparser-1.0.2/uriparser-1.0.2.tar.bz2",
+      "version": "1.0.2"
+    }
+  ]
+}

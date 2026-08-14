@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "opus",
+        "package_base": "opus",
+        "source_version": "1.6.1-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/opus/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "aur",
+        "package_name": "android-riscv64-opus",
+        "package_base": "android-riscv64-opus",
+        "source_version": "1.6.1-1",
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-opus",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "opus",
+        "package_base": "opus",
+        "source_version": "1.5.2-2",
+        "evidence_url": "https://packages.debian.org/source/stable/opus",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "opus",
+        "package_base": "opus",
+        "source_version": "1.6-2.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/opus/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "opus",
+        "package_base": "opus",
+        "source_version": "1.6.1-1.5",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/opus",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "opus",
+        "package_base": "opus",
+        "source_version": "1.6.1-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/opus",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "opus.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official Xiph Opus 1.6.1 stable release bytes and the upstream-published SHA-256 were independently matched. This is a stable forward release relative to Fedora 44 and Debian stable. AUR was queried through RPC only, and no AUR packaging content was read or executed. Distribution specs were treated only as untrusted, read-only lineage references and were never executed.",
+    "status": "active"
+  },
+  "package_id": "opus",
+  "rpm": {
+    "license": "BSD-3-Clause AND BSD-2-Clause",
+    "name": "opus",
+    "summary": "Low-delay speech and audio codec library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "xiph.org-opus",
+    "homepage": "https://opus-codec.org/",
+    "release_api": "https://downloads.xiph.org/releases/opus/",
+    "release_channel": "stable",
+    "release_regex": "opus-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://gitlab.xiph.org/xiph/opus",
+    "source_url_template": "https://downloads.xiph.org/releases/opus/opus-{version}.tar.gz"
+  },
+  "version": {"current": "1.6.1", "latest_detected": "1.6.1", "release": "1"}
+}
