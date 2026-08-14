@@ -237,6 +237,10 @@ def main() -> int:
         'verified network source retrieval',
         'OE_BUILD_NETWORK=enabled',
         'EVIDENCE_FILES =',
+        'grant_unprivileged_workspace_access(repo_root, args.package_id)',
+        'grant_other_access(repo_root, readable=False)',
+        'grant_other_access(packages_dir, readable=False)',
+        'grant_other_access(work_parent, readable=False)',
     ):
         if marker not in build_runner:
             errors.append(
