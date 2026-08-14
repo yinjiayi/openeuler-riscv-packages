@@ -45,7 +45,7 @@ find %{buildroot} -name '*.la' -delete
 
 %files
 %license LICENSE
-%doc README
+%doc README doc/README.html doc/style.css
 %{_libdir}/libdaemon.so.0*
 
 %files devel
