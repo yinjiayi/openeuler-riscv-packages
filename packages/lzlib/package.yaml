@@ -1,0 +1,93 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/lzlib/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lzlib",
+        "package_name": "lzlib",
+        "source": "arch-extra",
+        "source_version": "1.16-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/mingw-w64-lzlib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-lzlib",
+        "package_name": "mingw-w64-lzlib",
+        "source": "aur",
+        "source_version": "1.15-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/lzlib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lzlib",
+        "package_name": "lzlib",
+        "source": "debian",
+        "source_version": "1.15-3"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/lzlib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lzlib",
+        "package_name": "lzlib",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.16-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "lzlib.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable lzlib 1.16 archive reviewed and pinned; external distribution packaging was metadata-only lineage evidence.",
+    "status": "active"
+  },
+  "package_id": "lzlib",
+  "rpm": {
+    "license": "BSD-2-Clause AND GPL-2.0-or-later",
+    "name": "lzlib",
+    "summary": "Compression library for the lzip format"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "nongnu.org-lzip-lzlib.html",
+    "homepage": "https://www.nongnu.org/lzip/lzlib.html",
+    "release_api": "https://download.savannah.gnu.org/releases/lzip/lzlib/",
+    "release_channel": "stable",
+    "release_regex": "lzlib-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.nongnu.org/projects/lzip/",
+    "source_url_template": "https://download.savannah.gnu.org/releases/lzip/lzlib/lzlib-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.16",
+    "latest_detected": "1.16",
+    "release": "1"
+  }
+}
