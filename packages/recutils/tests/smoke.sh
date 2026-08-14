@@ -26,7 +26,7 @@ recfix --check "$recfile"
 
 printf 'Name,Arch\nrunner,riscv64\n' | csv2rec >"$smoke_dir/from-csv.rec"
 rec2csv "$smoke_dir/from-csv.rec" >"$smoke_dir/roundtrip.csv"
-test "$(sed -n '2p' "$smoke_dir/roundtrip.csv")" = 'runner,riscv64'
+test "$(sed -n '2p' "$smoke_dir/roundtrip.csv")" = '"runner","riscv64"'
 
 cat >"$smoke_dir/rec-smoke.c" <<'EOF'
 #include <rec.h>
@@ -44,7 +44,7 @@ cc "$smoke_dir/rec-smoke.c" -o "$smoke_dir/rec-smoke" -lrec
 "$smoke_dir/rec-smoke"
 
 libdir=$(rpm --eval '%{_libdir}')
-builtin -f "$libdir/readrec.so" readrec
-builtin -f "$libdir/testrec.so" testrec
+enable -f "$libdir/readrec.so" readrec
+enable -f "$libdir/testrec.so" testrec
 help readrec >/dev/null
 help testrec >/dev/null
