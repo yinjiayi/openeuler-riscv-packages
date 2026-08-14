@@ -8,7 +8,7 @@ URL:            https://github.com/sustrik/libdill
 Source0:        libdill-%{version}.tar.gz
 Patch0:         0001-fix-compilation-for-gcc-9.patch
 
-%define _fortify_level 0
+%define _preprocessor_defines -Wp,-D_GLIBCXX_ASSERTIONS
 %global fallback_cflags %{optflags} -fno-stack-protector -fno-stack-clash-protection
 
 BuildRequires:  autoconf
