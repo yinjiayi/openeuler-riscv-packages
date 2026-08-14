@@ -45,7 +45,8 @@ complete upstream GoogleTest suite remains enabled.
   -DINSTALL_UTILS=OFF \
   -DWITH_GTEST=ON \
   -DWITH_RVV=OFF \
-  -DBUILD_SHARED_LIBS=OFF
+  -DWITH_RISCV_ZBC=OFF \
+  -UBUILD_SHARED_LIBS
 %cmake_build
 
 %install

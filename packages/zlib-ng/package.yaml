@@ -60,7 +60,7 @@
   },
   "maintenance": {
     "maintainers": ["yinjiayi"],
-    "notes": "Official zlib-ng 2.3.3 stable tag archive is SHA-256 pinned. Arch stable, Fedora 44, openSUSE Tumbleweed, and a non-bin AUR cross-toolchain metadata row corroborate 2.3.3. Debian stable and Ubuntu GA contained no zlib-ng source row in the committed snapshot; that absence is recorded rather than treated as corroboration. AUR metadata was read through RPC only and no packaging recipe or distribution spec was executed. RVV is disabled to follow Fedora's explicit riscv64 toolchain boundary while retaining all generic/RISC-V Zbc code and the complete upstream test suite. Upstream commit 9f396c3d09d65dc59cce607d52f67f03b266c2de is backported so Zbc-only RISC-V builds include the common feature declarations and runtime detector.",
+    "notes": "Official zlib-ng 2.3.3 stable tag archive is SHA-256 pinned. Arch stable, Fedora 44, openSUSE Tumbleweed, and a non-bin AUR cross-toolchain metadata row corroborate 2.3.3. Debian stable and Ubuntu GA contained no zlib-ng source row in the committed snapshot; that absence is recorded rather than treated as corroboration. AUR metadata was read through RPC only and no packaging recipe or distribution spec was executed. RVV is disabled to follow Fedora's explicit riscv64 toolchain boundary. The optional Zbc CRC path is also disabled because the commit-bound openEuler QEMU test run reached SIGILL with the statically linked library; generic CRC and the complete upstream test suite remain enabled. Upstream commit 9f396c3d09d65dc59cce607d52f67f03b266c2de remains backported so the source tree has the accepted Zbc-without-RVV build fix when runtime Zbc support can be safely re-enabled.",
     "status": "active"
   },
   "package_id": "zlib-ng",
