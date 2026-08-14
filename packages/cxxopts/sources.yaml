@@ -1,0 +1,21 @@
+{
+  "package_id": "cxxopts",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3bfc70542c521d4b55a46429d808178916a579b28d048bd8c727ee76c39e2072"
+      },
+      "filename": "cxxopts-3.3.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The installed header is MIT and the vendored maintained test header is BSL-1.0."
+      },
+      "signature": null,
+      "url": "https://github.com/jarro2783/cxxopts/archive/refs/tags/v3.3.1.tar.gz",
+      "version": "3.3.1"
+    }
+  ]
+}

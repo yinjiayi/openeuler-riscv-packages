@@ -105,6 +105,19 @@ jobs:
           else
             printf 'needs_native=false\ntimeout_minutes=120\nbuild_user=root\n' >>"$GITHUB_OUTPUT"
           fi
+      - name: Record the fail-closed QEMU runner policy
+        env:
+          MODE: ${{ steps.scope.outputs.mode }}
+          NEEDS_NATIVE: ${{ steps.policy.outputs.needs_native }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_REF: ${{ github.ref }}
+        run: |
+          ci/qemu-runner-policy.py \
+            --mode "$MODE" \
+            --needs-native "$NEEDS_NATIVE" \
+            --event-name "$EVENT_NAME" \
+            --ref "$EVENT_REF" \
+            --output artifacts/scope/qemu-runner-policy.json
       - name: Upload scope evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -251,7 +264,7 @@ jobs:
         with:
           ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
-      - name: Resolve one immutable supplemental repository generation
+      - name: Resolve one immutable supplemental repository generation or official-only fallback
         env:
           MODE: ${{ needs.prepare.outputs.mode }}
           NEEDS_NATIVE: ${{ needs.prepare.outputs.needs_native }}
@@ -263,7 +276,8 @@ jobs:
             ci/rpm-repo-client.py resolve \
               --state-url http://2.27.148.101:38080/state.json \
               --repo-file artifacts/repository/openeuler-riscv-project.repo \
-              --output artifacts/repository/resolution.json
+              --output artifacts/repository/resolution.json \
+              --allow-unavailable
           else
             printf '%s\n' '{"schema_version":1,"kind":"not-applicable","check":"repository-snapshot","reason":"no QEMU package build is in scope"}' \
               > artifacts/repository/not-applicable.json
@@ -327,7 +341,11 @@ jobs:
     name: rpmbuild-riscv64
     needs: [prepare, metadata-validate, patch-policy, source-verify, repository-snapshot]
     if: always()
-    runs-on: ubuntu-24.04
+    # Public pull-request and merge-queue workflows stay on a disposable
+    # GitHub-hosted VM.  The repository-level pool is reachable only from a
+    # protected-main push or workflow_dispatch after the hosted prepare job
+    # has proven that one QEMU-buildable package is in scope.
+    runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
     timeout-minutes: 120
     steps:
       - name: Check out the exact head
@@ -421,7 +439,7 @@ jobs:
             exit "$dependency_status"
           fi
           printf 'image=%s\n' "$derived" >>"$GITHUB_OUTPUT"
-      - name: Build SRPM and RPM without network
+      - name: Build SRPM and RPM with verified source networking
         if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
@@ -510,7 +528,7 @@ jobs:
     name: rpm-install-smoke
     needs: [prepare, metadata-validate, patch-policy, source-verify, repository-snapshot, rpmbuild-riscv64]
     if: always()
-    runs-on: ubuntu-24.04
+    runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
     timeout-minutes: 30
     steps:
       - name: Check out the exact head
@@ -569,7 +587,8 @@ jobs:
               -v "$GITHUB_WORKSPACE/artifacts/smoke:/workspace/artifacts/smoke:rw" \
               -w /workspace "$IMAGE_REF" \
               ci/install-smoke.sh "packages/$PACKAGE_ID" "work/$PACKAGE_ID" \
-                artifacts/smoke/smoke-phase-result.json
+                artifacts/smoke/smoke-phase-result.json \
+                artifacts/repository/resolution.json
       - name: Record expected native RISC-V smoke routing
         if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native == 'true'
         env:

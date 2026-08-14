@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/python-yaml/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-yaml",
+        "package_name": "python-yaml",
+        "source": "arch-extra",
+        "source_version": "6.0.3-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/pypy3-yaml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pypy-yaml",
+        "package_name": "pypy3-yaml",
+        "source": "aur",
+        "source_version": "6.0.3-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/pyyaml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pyyaml",
+        "package_name": "pyyaml",
+        "source": "debian",
+        "source_version": "6.0.2-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/PyYAML/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "PyYAML",
+        "package_name": "PyYAML",
+        "source": "fedora",
+        "source_version": "6.0.3-3.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/python-PyYAML",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-PyYAML",
+        "package_name": "python-PyYAML",
+        "source": "opensuse-tumbleweed",
+        "source_version": "6.0.3-1.6"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/pyyaml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pyyaml",
+        "package_name": "pyyaml",
+        "source": "ubuntu",
+        "source_version": "6.0.3-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-yaml.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 6.0.3 tag resolution, commit-pinned source, licensing, fixed target Cython/LibYAML dependencies, and the complete compiled-extension pytest gate were reviewed; AUR content was not executed.",
+    "status": "active"
+  },
+  "package_id": "python-yaml",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-yaml",
+    "summary": "Python YAML parser and emitter with LibYAML bindings"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-yaml-pyyaml",
+    "homepage": "https://pyyaml.org/",
+    "release_api": "https://api.github.com/repos/yaml/pyyaml/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/yaml/pyyaml",
+    "source_url_template": "https://github.com/yaml/pyyaml/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "6.0.3",
+    "latest_detected": "6.0.3",
+    "release": "1"
+  }
+}
