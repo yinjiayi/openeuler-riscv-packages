@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- unifdef
-unifdef -V | grep -Fq '2.12'
+unifdef -V 2>&1 | grep -Fq '2.12'
 smoke_dir=$(mktemp -d)
 trap 'rm -rf -- "$smoke_dir"' EXIT
 cat >"$smoke_dir/input.c" <<'EOF'
