@@ -25,7 +25,7 @@ Headers, library link, and pkg-config metadata for Serd.
 %autosetup -p1
 
 %build
-%meson -Dtests=enabled -Ddocs=disabled -Dlint=false
+%meson -Dtests=enabled -Ddocs=disabled -Dman_html=disabled -Dlint=false
 %meson_build
 
 %install
