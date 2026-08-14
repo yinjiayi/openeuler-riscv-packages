@@ -32,7 +32,7 @@ with editable name lists or GNU Readline support.
 %check
 %make_build check
 for command in qcmd qmv qcp icmd imv icp deurlname; do
-  "$command" --version >/dev/null
+  "./src/$command" --version >/dev/null
 done
 
 %files -f %{name}.lang
