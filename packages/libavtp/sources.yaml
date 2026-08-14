@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libavtp",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/Avnu/libavtp/archive/refs/tags/v0.2.0.tar.gz",
+      "filename": "libavtp-0.2.0.tar.gz",
+      "version": "0.2.0",
+      "digests": {
+        "sha256": "631f5e704a1b7c8f953ca017a382ad945e75c2952c81813ff355e9ab8071b70e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution and modification are permitted by the upstream BSD-3-Clause license."
+      }
+    }
+  ]
+}
