@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "package_id": "libmobi",
+  "rpm": {"name": "libmobi", "summary": "Library and tools for handling Mobipocket documents", "license": "LGPL-3.0-or-later"},
+  "upstream": {
+    "component": "github.com-bfabiszewski-libmobi",
+    "homepage": "https://github.com/bfabiszewski/libmobi",
+    "source_repository": "https://github.com/bfabiszewski/libmobi.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/bfabiszewski/libmobi/tags",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/bfabiszewski/libmobi/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "0.12", "release": "1", "latest_detected": "0.12"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T163424Z-39ddf6449a3f83ba",
+    "lineage": [
+      {"source": "aur", "package_name": "libmobi", "package_base": "libmobi", "source_version": "0.12-1", "evidence_url": "https://aur.archlinux.org/packages/libmobi", "observed_at": "2026-08-08T16:34:24Z"},
+      {"source": "debian", "package_name": "libmobi", "package_base": "libmobi", "source_version": "0.12+dfsg-1", "evidence_url": "https://packages.debian.org/source/stable/libmobi", "observed_at": "2026-08-08T16:34:24Z"},
+      {"source": "ubuntu", "package_name": "libmobi", "package_base": "libmobi", "source_version": "0.12+dfsg-1build2", "evidence_url": "https://packages.ubuntu.com/source/resolute/libmobi", "observed_at": "2026-08-08T16:34:24Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libmobi.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official v0.12 tag resolves to immutable commit 85dcfe803fc2a21020ddcf15c3eb66b93d388add. Frozen AUR, Debian, and Ubuntu metadata corroborates the component; no distribution recipe was read or executed. Target dependency closure and package/component/libmobi.so.0 collision scans are clean. All 12 archive sample tests, including the expected invalid sample, remain enabled with their shipped checksum fixtures."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-tags"}
+}

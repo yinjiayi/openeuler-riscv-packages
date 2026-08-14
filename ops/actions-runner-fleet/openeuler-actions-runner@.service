@@ -49,12 +49,19 @@ ProtectSystem=strict
 ReadWritePaths=/opt/openeuler-actions-runner/%i/_work
 ReadWritePaths=/opt/openeuler-actions-runner/%i/_diag
 ReadWritePaths=/opt/openeuler-actions-runner/%i/_state
+ReadWritePaths=/opt/openeuler-actions-runner/.locks
 ReadWritePaths=/run/docker.sock
 RemoveIPC=true
-RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+# preflight.sh resolves the managed host identity with `ip address`, which
+# uses the read-only rtnetlink interface. Keep packet/raw families forbidden,
+# but permit AF_NETLINK so the same identity check works inside this sandbox.
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
 RestrictNamespaces=true
 RestrictRealtime=true
-RestrictSUIDSGID=true
+# actions/runner extracts downloaded action archives with GNU tar. On Ubuntu
+# 26.04/systemd 259, RestrictSUIDSGID denies tar's safe openat2 directory
+# resolution with ENOSYS. NoNewPrivileges and empty capability sets remain.
+RestrictSUIDSGID=false
 SystemCallArchitectures=native
 LockPersonality=true
 CPUQuota=2800%
