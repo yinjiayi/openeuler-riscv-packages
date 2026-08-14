@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "package_id": "libfyaml",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/pantoniou/libfyaml/releases/download/v0.9.6/libfyaml-0.9.6.tar.gz",
+      "filename": "libfyaml-0.9.6.tar.gz",
+      "version": "0.9.6",
+      "digests": {
+        "sha256": "a59cc3331e2eb903ec36933ad52a45888041cac31e44f553a00511131242c483"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution and modification are permitted by the upstream MIT and bundled-source license terms."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://codeload.github.com/yaml/yaml-test-suite/tar.gz/6e6c296ae9c9d2d5c4134b4b64d01b29ac19ff6f",
+      "filename": "yaml-test-suite-6e6c296ae9c9d2d5c4134b4b64d01b29ac19ff6f.tar.gz",
+      "version": "6e6c296ae9c9d2d5c4134b4b64d01b29ac19ff6f",
+      "digests": {
+        "sha256": "cc4a08f9ccc1cb2e66f32b3f1192bf1f07b3175682bbb715bf709bafa70322d4"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The YAML project publishes this public conformance corpus for reuse by parser implementations; it is pinned to the exact commit required by libfyaml and used only for tests."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "test-dependency",
+      "url": "https://codeload.github.com/nst/JSONTestSuite/tar.gz/d64aefb55228d9584d3e5b2433f720ea8fd00c82",
+      "filename": "JSONTestSuite-d64aefb55228d9584d3e5b2433f720ea8fd00c82.tar.gz",
+      "version": "d64aefb55228d9584d3e5b2433f720ea8fd00c82",
+      "digests": {
+        "sha256": "884f40380b88f305a29456b99d79c17a397242fee19c898032c7349baeb9a3b0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The pinned upstream JSONTestSuite corpus is MIT-licensed and used only for the complete offline test suite."
+      }
+    }
+  ]
+}

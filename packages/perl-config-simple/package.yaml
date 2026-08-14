@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/any/perl-config-simple/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-config-simple",
+        "package_name": "perl-config-simple",
+        "source": "arch-extra",
+        "source_version": "4.59-20"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/rpc/v5/info?arg[]=perl-anyevent-dbus",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-anyevent-dbus",
+        "package_name": "perl-anyevent-dbus",
+        "source": "aur",
+        "source_version": "0.31-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libconfig-simple-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfig-simple-perl",
+        "package_name": "libconfig-simple-perl",
+        "source": "debian",
+        "source_version": "4.59-7"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/perl-Config-Simple/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Config-Simple",
+        "package_name": "perl-Config-Simple",
+        "source": "fedora",
+        "source_version": "4.59-50.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/perl-Config-Simple",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Config-Simple",
+        "package_name": "perl-Config-Simple",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.59-19.37"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libconfig-simple-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfig-simple-perl",
+        "package_name": "libconfig-simple-perl",
+        "source": "ubuntu",
+        "source_version": "4.59-7"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-config-simple.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN 4.59 bytes, archive safety, Perl licensing, fixed target dependencies, and all 89 upstream tests were reviewed; AUR content was not executed or used as source identity.",
+    "status": "active"
+  },
+  "package_id": "perl-config-simple",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Config-Simple",
+    "summary": "Simple Perl configuration file class"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "search.cpan.org-perldoc",
+    "homepage": "https://metacpan.org/dist/Config-Simple",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SH/SHERZODR/",
+    "release_channel": "stable",
+    "release_regex": "Config-Simple-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Config-Simple",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SH/SHERZODR/Config-Simple-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.59",
+    "latest_detected": "4.59",
+    "release": "1"
+  }
+}
