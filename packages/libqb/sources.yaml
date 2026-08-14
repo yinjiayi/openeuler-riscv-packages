@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libqb",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/ClusterLabs/libqb/releases/download/v2.0.10/libqb-2.0.10.tar.xz",
+      "filename": "libqb-2.0.10.tar.xz",
+      "version": "2.0.10",
+      "digests": {
+        "sha256": "326a69fb5b2ee4479f0db4f98d10d670ad0798b5ded8c4cfd585b765fd8941e8"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution and modification are permitted by the upstream LGPL-2.1-or-later license."
+      }
+    }
+  ]
+}
