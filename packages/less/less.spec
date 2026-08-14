@@ -36,6 +36,7 @@ backward movement, searching, filtering, and large files.
 %{_bindir}/less
 %{_bindir}/lesskey
 %{_libexecdir}/lessecho
+%{_libexecdir}/less-osc8-open
 %{_mandir}/man1/less.1*
 %{_mandir}/man1/lesskey.1*
 %{_mandir}/man1/lessecho.1*
