@@ -1,0 +1,19 @@
+{
+  "package_id": "libidn",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "499608bab3a65650a0ea52888c13a8deebe3f71408e319acd9ec52e02eb13959"},
+      "filename": "libidn-1.44.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "GNU GPL/LGPL/GFDL source is fetched from the official versioned GNU release directory in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/libidn/libidn-1.44.tar.gz",
+      "version": "1.44"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "gflags",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "34af2f15cf7367513b352bdcd2493ab14ce43692d2dcd9dfc499492966c64dcf"
+      },
+      "filename": "gflags-2.2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official source archive is redistributable under BSD-3-Clause."
+      },
+      "signature": null,
+      "url": "https://github.com/gflags/gflags/archive/refs/tags/v2.2.2.tar.gz",
+      "version": "2.2.2"
+    }
+  ]
+}

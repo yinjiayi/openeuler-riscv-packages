@@ -14,7 +14,18 @@
   },
   "actions": {
     "default_workflow_permissions": "read",
-    "can_approve_pull_request_reviews": true
+    "can_approve_pull_request_reviews": true,
+    "fork_pull_request_approval_policy": "all_external_contributors",
+    "self_hosted_qemu_runner": {
+      "enabled": true,
+      "trust_boundary": "protected-main-only",
+      "labels": [
+        "self-hosted",
+        "linux",
+        "x64",
+        "oe-rva23-qemu"
+      ]
+    }
   },
   "actions_variables": {
     "UPDATE_SHARD_SIZE": "100",
@@ -27,5 +38,8 @@
   "forbidden_actions_secrets": [
     "OPENAI_API_KEY",
     "CODEX_API_KEY"
+  ],
+  "allowed_actions_secrets": [
+    "RPM_REPO_SSH_PRIVATE_KEY"
   ]
 }

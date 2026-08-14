@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 240
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/file/",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "file",
+        "package_name": "file",
+        "source": "arch-core",
+        "source_version": "5.48-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/file-git",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "file-git",
+        "package_name": "file-git",
+        "source": "aur",
+        "source_version": "5.43.r81.g4cfda317-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/file",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "file",
+        "package_name": "file",
+        "source": "debian",
+        "source_version": "1:5.46-5"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/file/file/",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "file",
+        "package_name": "file",
+        "source": "fedora",
+        "source_version": "5.46-10.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/file",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "file",
+        "package_name": "file",
+        "source": "opensuse-tumbleweed",
+        "source_version": "5.48"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/file",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "file",
+        "package_name": "file",
+        "source": "ubuntu",
+        "source_version": "1:5.46-5build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260811T112957Z-9ae2365cec323954"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "file.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official file 5.48 stable release bytes are SHA-256 pinned. Arch stable and openSUSE Tumbleweed confirm 5.48; Fedora 44 stable, Debian stable, and Ubuntu GA were still on 5.46, so this is an intentional official-stable forward release. Fedora updates-testing was excluded. The AUR file-git metadata row is VCS-only and older than 730 days, so it was excluded as a source. AUR was queried through RPC only; no AUR recipe or distribution spec was executed. Optional libseccomp is disabled because QEMU linux-user cannot install a guest seccomp filter; all upstream checks remain enabled.",
+    "status": "active"
+  },
+  "package_id": "file",
+  "rpm": {
+    "license": "BSD-2-Clause-Darwin AND BSD-2-Clause",
+    "name": "file",
+    "summary": "Utility for determining file types"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "darwinsys.com-file",
+    "homepage": "https://www.darwinsys.com/file/",
+    "release_api": "https://astron.com/pub/file/",
+    "release_channel": "stable",
+    "release_regex": "file-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/file/file",
+    "source_url_template": "https://astron.com/pub/file/file-{version}.tar.gz"
+  },
+  "version": {"current": "5.48", "latest_detected": "5.48", "release": "1"}
+}
