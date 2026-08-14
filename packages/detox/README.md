@@ -22,12 +22,18 @@ The target repository contains Bash `5.2.15-19.oe2403sp3`, Check-devel
 `1.9.5-2.oe2403sp3`, and Valgrind `1:3.25.1-4.oe2403sp3`; it contains
 neither detox nor an `inline-detox` provider.
 
+CI fetches and verifies the pinned source during the network-enabled build.
 `%check` enables Check explicitly and runs the full maintained upstream
 suite. The fail-closed legacy driver runs all 17 issue/directory/man-page
-scenarios, including the Valgrind path and the de_DE.UTF-8 locale path, and
-the Check harness runs all 14 unit executables (14/14 pass, zero skips).
-The installed smoke verifies the version, renames an actual file, and checks
-the deterministic `inline-detox` stream transformation.
+scenarios and the Check harness runs all 14 unit executables. Exact-head run
+`31761326115` showed that the repository's Valgrind cannot start against the
+stripped RISC-V dynamic loader because compatible glibc debuginfo is outside
+the approved build-dependency repository. A downstream test-only patch probes
+the exact detox binary, skips instrumentation only for the two known startup
+signatures, and leaves every other Valgrind failure fatal; the issue 56
+functional stress loop still runs. The installed smoke verifies the version,
+renames an actual file, and checks the deterministic `inline-detox` stream
+transformation. Fresh exact-head CI remains the target authority.
 
 detox is BSD-3-Clause. Apache-2.0 covers only this repository's original
 packaging metadata and scripts.

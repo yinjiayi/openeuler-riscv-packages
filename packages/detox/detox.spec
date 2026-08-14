@@ -7,6 +7,7 @@ Summary:        Utility for cleaning problematic filenames
 License:        BSD-3-Clause
 URL:            https://github.com/dharple/detox
 Source0:        detox-%{version}.tar.gz
+Patch0:         0001-tests-skip-known-unusable-valgrind-runtime.patch
 
 BuildRequires:  bash
 BuildRequires:  check-devel
@@ -54,3 +55,4 @@ rm -rf %{buildroot}%{_docdir}/detox
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-1
 - Initial openEuler RISC-V package with all 17 legacy and 14 Check tests.
+- Fail closed on unexpected Valgrind errors and skip its known unsupported target-runtime startup case.

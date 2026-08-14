@@ -1,7 +1,7 @@
 {
   "build": {
     "native_reason": null,
-    "network_during_build": false,
+    "network_during_build": true,
     "profile": "qemu-user",
     "timeout_minutes": 120
   },
@@ -43,7 +43,17 @@
     "snapshot_id": "discovery-20260812T150000Z-b34-detox"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-tests-skip-known-unusable-valgrind-runtime.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Skip Valgrind instrumentation only for its known pre-execution failure on the stripped target glibc loader while failing closed on other errors.",
+        "remove_when": "The approved target buildroot supplies compatible glibc debug information or upstream carries an equivalent fail-closed Valgrind capability probe.",
+        "sha256": "d85f0613ec96b8065903ca3588a87c1b3ec75e43855c00ac11380e258e150c67",
+        "source": "Downstream diagnosis from exact-head openEuler RISC-V CI run 31761326115 and the pinned detox 3.0.1 source.",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "detox.spec"
@@ -52,7 +62,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official v3.0.1 release asset was archive-audited and SHA-256 pinned; all 17 legacy and 14 Check tests remain mandatory.",
+    "notes": "Official v3.0.1 release asset was archive-audited and SHA-256 pinned; CI fetches it with networking enabled. All 17 legacy and 14 Check tests remain mandatory. The issue 56 test probes Valgrind against the exact detox binary and skips only the known target-glibc startup limitation; every other Valgrind error remains fatal and the functional stress scenario still runs.",
     "status": "active"
   },
   "package_id": "detox",
