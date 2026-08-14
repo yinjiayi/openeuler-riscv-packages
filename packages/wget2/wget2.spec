@@ -12,7 +12,6 @@ BuildRequires:  automake
 BuildRequires:  brotli-devel
 BuildRequires:  bzip2-devel
 BuildRequires:  ca-certificates
-BuildRequires:  doxygen
 BuildRequires:  flex
 BuildRequires:  gcc
 BuildRequires:  gettext
@@ -59,6 +58,7 @@ manual pages for developing applications with libwget.
 %configure \
   --disable-static \
   --enable-shared \
+  --disable-doc \
   --enable-libproxy \
   --with-ssl=gnutls \
   --with-bzip2 \
@@ -70,6 +70,13 @@ manual pages for developing applications with libwget.
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
+install -d \
+  %{buildroot}%{_mandir}/man1 \
+  %{buildroot}%{_mandir}/man3
+install -m 0644 docs/man/man1/wget2.1 \
+  %{buildroot}%{_mandir}/man1/wget2.1
+install -m 0644 docs/man/man3/libwget-*.3 \
+  %{buildroot}%{_mandir}/man3/
 %find_lang %{name}
 
 %check
