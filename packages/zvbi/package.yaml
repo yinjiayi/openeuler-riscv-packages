@@ -1,0 +1,106 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/zvbi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zvbi",
+        "package_name": "zvbi",
+        "source": "arch-extra",
+        "source_version": "0.2.44-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/lib32-zvbi",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-zvbi",
+        "package_name": "lib32-zvbi",
+        "source": "aur",
+        "source_version": "0.2.44-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/zvbi",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zvbi",
+        "package_name": "zvbi",
+        "source": "debian",
+        "source_version": "0.2.44-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/zvbi/zvbi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zvbi",
+        "package_name": "zvbi",
+        "source": "fedora",
+        "source_version": "0.2.44-3.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/zvbi",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zvbi",
+        "package_name": "zvbi",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.2.44-1.6"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/zvbi",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zvbi",
+        "package_name": "zvbi",
+        "source": "ubuntu",
+        "source_version": "0.2.44-1ubuntu2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "zvbi.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "The signed upstream v0.2.44 tag was resolved to immutable commit 5169a428d51c3ae8ff7b0897e8a687d8e05e37b5 and the official archive is SHA-256 pinned. Tests and examples stay enabled and the complete top-level check target runs. libzvbi.so.0 preserves the target ABI major. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "zvbi",
+  "rpm": {
+    "license": "GPL-2.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-2-Clause AND MIT",
+    "name": "zvbi",
+    "summary": "Raw VBI, Teletext, and Closed Caption decoding library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "zapping-vbi/zvbi",
+    "homepage": "https://github.com/zapping-vbi/zvbi",
+    "release_api": "https://api.github.com/repos/zapping-vbi/zvbi/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/zapping-vbi/zvbi",
+    "source_url_template": "https://github.com/zapping-vbi/zvbi/archive/refs/tags/v{version}/zvbi-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2.44",
+    "latest_detected": "0.2.44",
+    "release": "1"
+  }
+}

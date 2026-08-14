@@ -39,7 +39,8 @@ oe_check_no_other_runners "$OE_ARG_NAME"
 runner_dir=$(oe_runner_dir "$OE_ARG_NAME")
 service=$(oe_service_name "$OE_ARG_NAME")
 [[ -x $runner_dir/config.sh && -x $runner_dir/bin/Runner.Listener ]] || oe_die 'install.sh must complete first'
-[[ $("$runner_dir/bin/Runner.Listener" --version) == 2.336.0 ]] || oe_die 'Runner payload is not the pinned version'
+[[ $(oe_runner_version "$runner_dir/bin/Runner.Listener" "$runner_dir") == 2.336.0 ]] \
+  || oe_die 'Runner payload is not the pinned version'
 
 if [[ -r $runner_dir/.runner ]]; then
   python3 - "$runner_dir/.runner" "$OE_ARG_NAME" "$oe_runner_repo_url" <<'PY'

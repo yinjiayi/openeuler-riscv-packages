@@ -206,7 +206,7 @@ def build_files(candidate: Mapping[str, Any], package_id: str, allow_unverified:
             "isa": "RVA23",
             "riscv_status": "unknown",
         },
-        "build": {"profile": "qemu-user", "network_during_build": False, "timeout_minutes": 60, "native_reason": None},
+        "build": {"profile": "qemu-user", "network_during_build": True, "timeout_minutes": 60, "native_reason": None},
         "files": {
             "spec": "%s.spec" % name,
             "sources": "sources.yaml",
