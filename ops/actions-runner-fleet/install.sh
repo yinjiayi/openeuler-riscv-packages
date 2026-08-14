@@ -81,6 +81,7 @@ install -d -o root -g root -m 0755 \
   || oe_die 'managed cleanup lock directory ownership/mode is unsafe'
 install -o root -g root -m 0755 \
   "$source_dir/_lib.sh" \
+  "$source_dir/audit.sh" \
   "$source_dir/preflight.sh" \
   "$source_dir/job-guard.sh" \
   "$source_dir/cleanup.sh" \
