@@ -49,7 +49,10 @@ developing applications with pixman.
 %meson_install
 
 %check
-%meson_test
+# Pixman's upstream tests use a fixed 120-second timeout. RISC-V execution
+# under QEMU user mode can exceed that budget while still making progress;
+# multiply the timeout without removing or skipping any test.
+%meson_test --timeout-multiplier 10
 
 %files
 %license COPYING
