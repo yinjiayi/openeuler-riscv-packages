@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           the_silver_searcher
 Version:        2.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fast recursive code-searching tool
 License:        Apache-2.0 AND BSD-1-Clause
 URL:            https://github.com/ggreer/the_silver_searcher
 Source0:        the_silver_searcher-%{version}.tar.gz
+Patch0:         0001-fix-multiple-global-symbol-definitions.patch
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -52,6 +53,9 @@ printf '%s\n' 'alpha' 'needle from stdin' | \
 %{_datadir}/zsh/site-functions/_the_silver_searcher
 
 %changelog
+* Fri Aug 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.0-2
+- Apply the accepted upstream fix for GCC's -fno-common default.
+
 * Fri Aug 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.0-1
 - Package the official stable 2.2.0 tag for RVA23.
 - Exercise deterministic file and stdin searches during check and smoke.

@@ -17,7 +17,7 @@
   },
   "version": {
     "current": "2.2.0",
-    "release": "1",
+    "release": "2",
     "latest_detected": "2.2.0"
   },
   "discovery": {
@@ -74,13 +74,23 @@
   "files": {
     "spec": "the_silver_searcher.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-fix-multiple-global-symbol-definitions.patch",
+        "sha256": "e22d46b8133875cd069142ff4368b415652766ea11b49ef039cf441e2ed3b422",
+        "purpose": "Use one definition per global symbol so the 2.2.0 source links with GCC's -fno-common default.",
+        "source": "https://github.com/ggreer/the_silver_searcher/commit/21eaa1c4160b868b0c5bbf59da17974429f30055",
+        "license": "Apache-2.0",
+        "upstream_status": "accepted",
+        "remove_when": "The package updates to an upstream stable release containing merge commit 3f6ecb6c02f147d5d180b9d85373e74c83f675ec."
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "The official 2.2.0 tag and commit 520ff29c528503668020c8cbedb5b03bccf4c7e0 were independently verified; the tag archive was downloaded, archive-audited, and SHA-256 pinned. Distribution metadata is lineage only and no external packaging recipe was executed. openEuler lacks python3-cram, so check retains direct deterministic file and stdin CLI regressions rather than silently skipping validation."
+    "notes": "The official 2.2.0 tag and commit 520ff29c528503668020c8cbedb5b03bccf4c7e0 were independently verified; the tag archive was downloaded, archive-audited, and SHA-256 pinned. Distribution metadata is lineage only and no external packaging recipe was executed. The accepted upstream global-symbol fix is backported from commit 21eaa1c4160b868b0c5bbf59da17974429f30055 for modern GCC. openEuler lacks python3-cram, so check retains direct deterministic file and stdin CLI regressions rather than silently skipping validation."
   },
   "updates": {
     "enabled": true,
