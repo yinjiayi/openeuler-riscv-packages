@@ -1,0 +1,157 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/libssh2/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libssh2",
+        "package_name": "libssh2",
+        "source": "arch-core",
+        "source_version": "1.11.1-7"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-aarch64-libssh2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-libssh2",
+        "package_name": "android-aarch64-libssh2",
+        "source": "aur",
+        "source_version": "1.11.1-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-armv7a-eabi-libssh2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-libssh2",
+        "package_name": "android-armv7a-eabi-libssh2",
+        "source": "aur",
+        "source_version": "1.11.1-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libssh2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libssh2",
+        "package_name": "android-riscv64-libssh2",
+        "source": "aur",
+        "source_version": "1.11.1-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-x86-64-libssh2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-libssh2",
+        "package_name": "android-x86-64-libssh2",
+        "source": "aur",
+        "source_version": "1.11.1-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-x86-libssh2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-libssh2",
+        "package_name": "android-x86-libssh2",
+        "source": "aur",
+        "source_version": "1.11.1-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/mingw-w64-libssh2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-libssh2",
+        "package_name": "mingw-w64-libssh2",
+        "source": "aur",
+        "source_version": "1.11.1-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libssh2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libssh2",
+        "package_name": "libssh2",
+        "source": "debian",
+        "source_version": "1.11.1-1+deb13u1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libssh2/libssh2/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libssh2",
+        "package_name": "libssh2",
+        "source": "fedora",
+        "source_version": "1.11.1-5.fc44"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/mingw-libssh2/mingw-libssh2/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-libssh2",
+        "package_name": "mingw-libssh2",
+        "source": "fedora",
+        "source_version": "1.11.1-3.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libssh2_org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libssh2_org",
+        "package_name": "libssh2_org",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.11.1-4.1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libssh2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libssh2",
+        "package_name": "libssh2",
+        "source": "ubuntu",
+        "source_version": "1.11.1-1build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libssh2.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official libssh2.org 1.11.1 archive was downloaded from the upstream release site, matched the GitHub release asset byte-for-byte, pinned by SHA-256, and inspected for safe members. This onboarding review is fixed in sources.yaml; distribution metadata is lineage evidence only and was not executed. CI keeps upstream CMake tests and local OpenSSH fixture tests while disabling only tests that require nested Docker.",
+    "status": "active"
+  },
+  "package_id": "libssh2",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "libssh2",
+    "summary": "Client-side C library implementing the SSH2 protocol"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "libssh2.org",
+    "homepage": "https://libssh2.org",
+    "release_api": "https://api.github.com/repos/libssh2/libssh2/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/libssh2/libssh2",
+    "source_url_template": "https://libssh2.org/download/libssh2-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.11.1",
+    "latest_detected": "1.11.1",
+    "release": "1"
+  }
+}
