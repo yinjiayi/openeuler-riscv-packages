@@ -5,6 +5,7 @@ set -Eeuo pipefail
 package_dir=${1:-}
 work_dir=${2:-}
 result_file=${3:-artifacts/smoke-result.json}
+repository_evidence=${4:-}
 package_id=$(basename "$package_dir")
 started_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 status=failed
@@ -62,10 +63,80 @@ supplemental_repo=/etc/yum.repos.d/openeuler-riscv-project.repo
   message="verified supplemental repository configuration is missing"
   exit 1
 }
+[[ -f $repository_evidence && ! -L $repository_evidence ]] || {
+  message="supplemental repository resolution evidence is missing"
+  exit 1
+}
 
+repository_status=$(python3 - "$supplemental_repo" "$repository_evidence" <<'PY'
+import configparser
+import json
+import re
+import sys
+
+repository_path, evidence_path = sys.argv[1:]
+with open(evidence_path, encoding="utf-8") as handle:
+    evidence = json.load(handle)
+parser = configparser.ConfigParser(interpolation=None, strict=True)
+with open(repository_path, encoding="utf-8") as handle:
+    parser.read_file(handle)
+if parser.sections() != ["openeuler-riscv-project"]:
+    raise SystemExit("supplemental repository file has unexpected sections")
+repository = parser["openeuler-riscv-project"]
+expected_keys = {
+    "name", "baseurl", "enabled", "gpgcheck", "repo_gpgcheck",
+    "metadata_expire", "skip_if_unavailable", "module_hotfixes",
+}
+if (
+    evidence.get("kind") != "supplemental-repository-resolution"
+    or evidence.get("state_url") != "http://2.27.148.101:38080/state.json"
+    or set(repository) != expected_keys
+    or repository.get("gpgcheck") != "0"
+    or repository.get("repo_gpgcheck") != "0"
+    or repository.get("metadata_expire") != "never"
+    or repository.get("module_hotfixes") != "1"
+):
+    raise SystemExit("supplemental repository evidence or trust policy is invalid")
+status = evidence.get("status", "passed")
+if status == "passed":
+    generation = str(evidence.get("generation", ""))
+    state_sha = str(evidence.get("state_sha256", ""))
+    binary = evidence.get("repositories", {}).get("riscv64", {})
+    if (
+        not re.fullmatch(r"(?:bootstrap-[0-9]{8}T[0-9]{6}Z|[a-z0-9-]+-[0-9a-f]{40}-[1-9][0-9]*-[1-9][0-9]*)", generation)
+        or not re.fullmatch(r"[0-9a-f]{64}", state_sha)
+        or repository.get("baseurl") != binary.get("baseurl")
+        or repository.get("enabled") != "1"
+        or repository.get("skip_if_unavailable") != "0"
+    ):
+        raise SystemExit("verified supplemental repository configuration is invalid")
+elif status == "unavailable":
+    if (
+        evidence.get("reason") != "endpoint-unavailable"
+        or evidence.get("generation") is not None
+        or evidence.get("state_sha256") is not None
+        or evidence.get("repositories") != {}
+        or evidence.get("fallback") != {
+            "active_repository_ids": ["openeuler-rva23"],
+            "supplemental_repository_enabled": False,
+        }
+        or repository.get("baseurl") != "http://2.27.148.101:38080/"
+        or repository.get("enabled") != "0"
+        or repository.get("skip_if_unavailable") != "1"
+    ):
+        raise SystemExit("official-repository-only fallback is invalid")
+else:
+    raise SystemExit("supplemental repository status is invalid")
+print(status)
+PY
+)
+
+enabled_repositories=(--enablerepo=openeuler-rva23)
+if [[ $repository_status = passed ]]; then
+  enabled_repositories+=(--enablerepo=openeuler-riscv-project)
+fi
 dnf -y --setopt install_weak_deps=False --disablerepo='*' \
-  --enablerepo=openeuler-rva23 --enablerepo=openeuler-riscv-project \
-  install "${rpms[@]}"
+  "${enabled_repositories[@]}" install "${rpms[@]}"
 
 smoke="$package_dir/tests/smoke.sh"
 [[ -f $smoke ]] || { message="tests/smoke.sh is missing"; exit 2; }
