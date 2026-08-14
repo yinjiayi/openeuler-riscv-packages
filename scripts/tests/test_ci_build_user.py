@@ -41,6 +41,11 @@ def option(command: list[str], name: str) -> str:
 
 
 class BuildUserPolicyTests(unittest.TestCase):
+    def test_host_build_entrypoints_are_executable(self) -> None:
+        for path in (PREPARE_DEPS, RUNNER):
+            self.assertTrue(path.is_file(), path)
+            self.assertTrue(path.stat().st_mode & 0o111, f"not executable: {path}")
+
     def test_package_schema_accepts_only_the_two_build_user_policies(self) -> None:
         schema = json.loads((REPO / "schemas" / "package.schema.json").read_text())
         package = json.loads(
@@ -169,8 +174,9 @@ class BuildContainerCommandTests(unittest.TestCase):
         self.assertEqual(option(command, "--commit-sha"), self.commit)
         self.assertEqual(option(command, "--result"), "/evidence/rpmbuild-phase-result.json")
         self.assertIn(f"{self.artifacts}:/evidence:rw", command)
-        self.assertIn("--offline", command)
-        self.assertEqual(option(command, "--network"), "none")
+        self.assertNotIn("--offline", command)
+        self.assertEqual(option(command, "--network"), "bridge")
+        self.assertIn("OE_BUILD_NETWORK=enabled", command)
 
     def test_unprivileged_policy_uses_fixed_identity_and_generated_work_tree(self) -> None:
         command = RUNNER_MODULE.build_command(
@@ -191,8 +197,9 @@ class BuildContainerCommandTests(unittest.TestCase):
         self.assertNotIn(f"{self.artifacts}:/evidence:rw", command)
         self.assertIn(f"{self.work}:/workspace/work/demo:rw", command)
         self.assertIn(f"{self.repo}:/workspace:ro", command)
-        self.assertIn("--offline", command)
-        self.assertEqual(option(command, "--network"), "none")
+        self.assertNotIn("--offline", command)
+        self.assertEqual(option(command, "--network"), "bridge")
+        self.assertIn("OE_BUILD_NETWORK=enabled", command)
 
     def test_ownership_handoff_is_root_only_and_network_isolated(self) -> None:
         command = RUNNER_MODULE.unprivileged_prepare_command(
@@ -202,6 +209,86 @@ class BuildContainerCommandTests(unittest.TestCase):
         self.assertEqual(option(command, "--network"), "none")
         self.assertIn("prepare", command)
         self.assertIn("/workspace/work/demo/.ci-result", command)
+
+    def test_unprivileged_workspace_access_exposes_only_selected_inputs(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = pathlib.Path(temporary) / "repo"
+            selected_package = repo / "packages" / "demo"
+            unselected_package = repo / "packages" / "other"
+            for directory in (
+                repo / "ci",
+                repo / "scripts",
+                selected_package,
+                unselected_package,
+                repo / ".git",
+                repo / "_state",
+                repo / "work",
+            ):
+                directory.mkdir(parents=True, exist_ok=True)
+                directory.chmod(0o700)
+            repo.chmod(0o755)
+            (repo / "packages").chmod(0o755)
+            executable = repo / "scripts" / "build-rpm"
+            executable.write_text("#!/bin/sh\n")
+            executable.chmod(0o700)
+            for path in (
+                repo / "ci" / "run-rpmbuild-container.py",
+                selected_package / "package.yaml",
+                selected_package / "sources.yaml",
+                unselected_package / "package.yaml",
+                repo / ".git" / "config",
+                repo / "_state" / "docker-config.json",
+            ):
+                path.write_text("{}\n")
+                path.chmod(0o600)
+
+            RUNNER_MODULE.grant_unprivileged_workspace_access(repo, "demo")
+
+            self.assertEqual(repo.stat().st_mode & 0o007, 0o001)
+            self.assertEqual((repo / "packages").stat().st_mode & 0o007, 0o001)
+            self.assertEqual((repo / "work").stat().st_mode & 0o007, 0o001)
+            for directory in (repo / "ci", repo / "scripts", selected_package):
+                self.assertEqual(directory.stat().st_mode & 0o007, 0o005, directory)
+            for path in (
+                repo / "ci" / "run-rpmbuild-container.py",
+                selected_package / "package.yaml",
+                selected_package / "sources.yaml",
+            ):
+                self.assertEqual(path.stat().st_mode & 0o007, 0o004, path)
+            self.assertEqual(executable.stat().st_mode & 0o007, 0o005)
+            for path in (
+                unselected_package,
+                unselected_package / "package.yaml",
+                repo / ".git",
+                repo / ".git" / "config",
+                repo / "_state",
+                repo / "_state" / "docker-config.json",
+            ):
+                self.assertEqual(path.stat().st_mode & 0o007, 0, path)
+
+    def test_unprivileged_workspace_access_rejects_symlinked_inputs(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = pathlib.Path(temporary) / "repo"
+            (repo / "ci").mkdir(parents=True)
+            (repo / "scripts").mkdir()
+            (repo / "packages" / "demo").mkdir(parents=True)
+            (repo / "work").mkdir()
+            protected_directories = (
+                repo,
+                repo / "ci",
+                repo / "scripts",
+                repo / "packages",
+                repo / "packages" / "demo",
+                repo / "work",
+            )
+            for directory in protected_directories:
+                directory.chmod(0o700)
+            (repo / "packages" / "demo" / "package.yaml").symlink_to("../demo")
+
+            with self.assertRaisesRegex(RUNNER_MODULE.ContractError, "must not be a symlink"):
+                RUNNER_MODULE.grant_unprivileged_workspace_access(repo, "demo")
+            for directory in protected_directories:
+                self.assertEqual(directory.stat().st_mode & 0o007, 0, directory)
 
     def test_handoff_targets_fixed_uid_gid_and_rejects_symlinks(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -226,9 +313,9 @@ class BuildContainerCommandTests(unittest.TestCase):
             work_dir="/work",
             result_dir="/result",
             identity_output="/result/identity.json",
-            command=["scripts/build-rpm", "--offline"],
+            command=["scripts/build-rpm"],
         )
-        with mock.patch.object(
+        with mock.patch.dict(RUNNER_MODULE.os.environ, {"OE_BUILD_NETWORK": "enabled"}), mock.patch.object(
             RUNNER_MODULE,
             "target_identity",
             return_value=(Namespace(pw_name="rpmbuild"), Namespace()),
@@ -239,10 +326,30 @@ class BuildContainerCommandTests(unittest.TestCase):
                 RUNNER_MODULE.exec_mode(arguments)
 
         arguments.build_user = "root"
-        with mock.patch.object(RUNNER_MODULE.os, "geteuid", return_value=10001), mock.patch.object(
+        with mock.patch.dict(RUNNER_MODULE.os.environ, {"OE_BUILD_NETWORK": "enabled"}), mock.patch.object(RUNNER_MODULE.os, "geteuid", return_value=10001), mock.patch.object(
             RUNNER_MODULE.os, "getegid", return_value=10001
         ):
             with self.assertRaisesRegex(RUNNER_MODULE.ContractError, "UID/GID 0:0"):
+                RUNNER_MODULE.exec_mode(arguments)
+
+    def test_exec_identity_rejects_missing_network_policy_marker(self) -> None:
+        arguments = Namespace(
+            build_user="root",
+            work_dir="/work",
+            result_dir="/result",
+            identity_output="/result/identity.json",
+            command=["scripts/build-rpm"],
+        )
+        with mock.patch.dict(RUNNER_MODULE.os.environ, {}, clear=True), mock.patch.object(
+            RUNNER_MODULE.os, "geteuid", return_value=0
+        ), mock.patch.object(RUNNER_MODULE.os, "getegid", return_value=0), mock.patch.object(
+            RUNNER_MODULE.pwd,
+            "getpwuid",
+            return_value=Namespace(pw_name="root"),
+        ):
+            with self.assertRaisesRegex(
+                RUNNER_MODULE.ContractError, "network-enabled build policy"
+            ):
                 RUNNER_MODULE.exec_mode(arguments)
 
     def test_unprivileged_run_copies_only_regular_structured_evidence(self) -> None:
@@ -254,6 +361,10 @@ class BuildContainerCommandTests(unittest.TestCase):
             work.mkdir(parents=True)
             artifacts.mkdir(parents=True)
             package.mkdir(parents=True)
+            (repo / "ci").mkdir()
+            (repo / "scripts").mkdir()
+            (repo / "ci" / "run-rpmbuild-container.py").write_text("#!/usr/bin/env python3\n")
+            (repo / "scripts" / "build-rpm").write_text("#!/usr/bin/env python3\n")
             (package / "package.yaml").write_text("{}\n")
 
             calls = 0
