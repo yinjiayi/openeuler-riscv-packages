@@ -26,19 +26,20 @@ with Unicode, byte-order-mark, safe in-place, and standard-stream support.
 
 %install
 %make_install prefix=%{_prefix}
-%find_lang %{name} --with-man
+%find_lang %{name}
 
 %check
 %make_build test
 
 %files -f %{name}.lang
 %license COPYING.txt
-%doc BUGS.txt ChangeLog.txt NEWS.txt README.txt TODO.txt
+%{_docdir}/%{name}-%{version}/
 %{_bindir}/dos2unix
 %{_bindir}/mac2unix
 %{_bindir}/unix2dos
 %{_bindir}/unix2mac
 %{_mandir}/man1/*.1*
+%{_mandir}/*/man1/*.1*
 
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 7.5.6-1
