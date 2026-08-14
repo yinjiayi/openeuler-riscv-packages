@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "libltc",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/x42/libltc/tar.gz/bf84b01097a1789c0296cc5fcfc3bf4608407930",
+      "filename": "libltc-1.3.2.tar.gz",
+      "version": "1.3.2",
+      "digests": {"sha256": "b29587920f01bd16787c3320a71e277ab21158497e140306dc38cf51ee8fc1a9"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Redistribution and modification are permitted by the upstream LGPL-3.0-or-later license."}
+    }
+  ]
+}
