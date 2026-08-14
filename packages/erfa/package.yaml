@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "erfa",
+  "rpm": {
+    "name": "erfa",
+    "summary": "Essential Routines for Fundamental Astronomy",
+    "license": "BSD-3-Clause"
+  },
+  "upstream": {
+    "component": "github.com-liberfa-erfa",
+    "homepage": "https://github.com/liberfa/erfa",
+    "source_repository": "https://github.com/liberfa/erfa.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/liberfa/erfa/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/liberfa/erfa/releases/download/v{version}/erfa-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.0.1",
+    "release": "1",
+    "latest_detected": "2.0.1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "erfa",
+        "package_base": "erfa",
+        "source_version": "2.0.1-2",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/erfa/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "erfa",
+        "package_base": "erfa",
+        "source_version": "2.0.1-1",
+        "evidence_url": "https://packages.debian.org/trixie/source/erfa",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "erfa",
+        "package_base": "erfa",
+        "source_version": "2.0.1-8.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/erfa/erfa/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "erfa",
+        "package_base": "erfa",
+        "source_version": "2.0.1-1.9",
+        "evidence_url": "https://software.opensuse.org/package/erfa",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "erfa",
+        "package_base": "erfa",
+        "source_version": "2.0.1-1build2",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/erfa",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "erfa.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official release 2.0.1 is SHA-256 pinned and archive-safe. Frozen Arch, Fedora 44, Debian, openSUSE, and Ubuntu metadata corroborate the component; AUR RPC had no exact package. Target metadata has no prior ERFA or liberfa.so.1 provider. Both complete upstream test executables remain enabled."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases-latest"
+  }
+}
