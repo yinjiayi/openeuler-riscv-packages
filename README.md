@@ -12,17 +12,28 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - **Reviewed upstream evidence** is a schema-valid mapping from one component in an immutable discovery snapshot to its official stable release page, source repository, release feed/index, exact archive SHA-256, license evidence, and archive-safety inspection. It supplements missing catalog fields; it does not execute or trust distribution recipes. Document-level `reviewed_at` records completion of that overlay revision, while each release's `evidence.verified_at` records when its archive bytes were verified.
 - A **lineage promotion** is a reviewed selector that maps one exact raw lineage row in an immutable snapshot to a canonical official upstream component. It records the frozen component key, distribution source, original name, package base, version, and relationship; it neither rewrites the snapshot nor turns AUR metadata or a functional provider into source evidence.
 - A **build result** is the schema-valid `build-result.json` tied to an exact Git commit SHA. It is evidence, not a self-reported success claim.
+- A **network-enabled target build** is a target-architecture build container with
+  outbound Docker bridge networking. It may retrieve only the declared sources;
+  each source remains bound to its committed SHA-256 and is verified before
+  `rpmbuild` starts. Network availability does not make unpinned source bytes
+  acceptable.
+- A **build-user policy** is the per-package `build.user` choice controlling the identity that executes `rpmbuild` and `%check`. Its compatible default is `root`; `unprivileged` opts into the fixed `rpmbuild` identity with UID/GID `10001:10001`. It does not change the root-only dependency-install stage or grant privileges to installed smoke tests.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
 - A **golden package** is a fixed end-to-end fixture with a pinned source/content digest, expected state, allowed changes, and assertions.
+- A **repository generation** is an immutable binary/source RPM snapshot with a state-bound `repomd.xml` SHA-256. A build resolves the mutable `state.json` pointer once, then uses only that generation URL.
+- An **official-repository-only fallback** is an evidence-recorded dependency mode used only when the fixed supplemental repository cannot be contacted. It disables that project repository and retains the HTTPS/GPG-checked official openEuler repository; it does not waive missing dependencies or convert a failed DNF transaction into success.
 
 ## Safety and trust boundary
 
 - Arch stable `core`/`extra` and AUR are primary discovery indexes. AUR data is untrusted metadata: no workflow executes a `PKGBUILD`.
 - Pure AUR `-bin` entries and entries older than 730 days are excluded by default. VCS/nightly variants are discovery clues only.
 - Supplementary discovery resolves the current stable openSUSE Tumbleweed snapshot, latest Fedora GA, Debian `stable`, and latest Ubuntu GA release in standard support. Rawhide, testing/unstable, staging, multilib, development, and prerelease feeds are excluded.
-- An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. `rpmbuild` runs without network after source verification.
-- Required native-kernel or hardware validation becomes `needs-native-riscv`; no self-hosted runner is currently scheduled.
+- An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. Target build containers may retrieve the pinned source over HTTPS and verify that digest again before `rpmbuild` starts.
+- Required native-kernel or hardware validation becomes `needs-native-riscv`. The self-hosted fleet accelerates protected-main QEMU user-mode builds on x86_64 only; it is never treated as native RISC-V validation, and pull-request/merge-queue jobs remain on disposable GitHub-hosted runners.
 - Repair runs only on a maintainer's local Codex through local `gh` authentication or an explicitly authorized process-scoped `GH_TOKEN`. Using that token for local `gh`/Git operations is permitted; persisting or publishing its value in repository content, commits, PR text, logs, artifacts, Actions configuration, or Pages is forbidden. `scripts/github-credential-guard` checks the active token against repository, staged, and publication content without printing it. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`.
+- The only custom Actions secret is `RPM_REPO_SSH_PRIVATE_KEY`. It is a forced-command, write-only `rrsync` deployment identity for `/opt/openeuler-riscv-rpm-repo/incoming`; it cannot run a shell, delete or overwrite remote files, and is never available to build commands. It is not an OpenAI/Codex credential.
+- Successful package output is published only after the exact package build and installed-RPM smoke pass on a protected `main` push (or an explicit trusted backfill call). Pull-request builds never publish RPMs.
+- The supplemental project repository is served from the operator-provided HTTP endpoint `http://2.27.148.101:38080`. Its unsigned project RPMs use `gpgcheck=0`; CI compensates with a pinned SSH host key for publication, per-file upload SHA-256, immutable generations, no HTTP redirects, and a state-bound `repomd.xml` digest. The official openEuler HTTPS/GPG-checked repository remains enabled and authoritative.
 - Automation never writes to upstream projects. RISC-V patches remain in `packages/<id>/patches/` and are referenced by the SPEC.
 
 ## Current catalog evidence
@@ -47,6 +58,7 @@ The reviewed overlay currently promotes 100 verified components. Eighty-eight ha
 | `tests/golden/` | Fixed success, repair, and native-only acceptance fixtures |
 | `catalog/` | Discovery source policy, immutable run snapshots, and reviewed official-release evidence |
 | `dashboard/` | Static Pages application and generated evidence |
+| `ops/rpm-repo-server/` | Idempotent Nginx, restricted rsync, systemd, and atomic `createrepo_c` deployment |
 
 ## Local verification
 
@@ -70,7 +82,28 @@ scripts/build-rpm \
   --verify-only
 ```
 
-The full build is intentionally run by `package-ci.yml` inside the locked RISC-V OCI, after a separate audited BuildRequires stage, with `--offline` and container networking disabled.
+The full build is intentionally run by `package-ci.yml` inside the locked RISC-V OCI after a separate audited BuildRequires stage. The target build container has network access so it can retrieve declared sources, and `scripts/build-rpm` verifies every pinned SHA-256 before invoking `rpmbuild`.
+
+Resolve and verify the exact supplemental repository generation that would be
+mounted into dependency installation and installed-RPM smoke:
+
+```sh
+ci/rpm-repo-client.py resolve \
+  --state-url http://2.27.148.101:38080/state.json \
+  --repo-file work/openeuler-riscv-project.repo \
+  --output work/rpm-repository-resolution.json \
+  --allow-unavailable
+```
+
+With `--allow-unavailable`, connection, timeout, and transient HTTP service
+failures produce an explicit `unavailable` resolution and a disabled
+supplemental repository file. Redirects, non-transient HTTP responses, JSON,
+URL, generation, and checksum integrity failures still fail closed.
+
+`RPM Repository Backfill` builds every active non-golden package whose policy
+does not require native RISC-V hardware. It runs up to 20 independent package
+builds in parallel, publishes both RPM and SRPM products, and records native,
+retired, and golden exclusions in its seven-day plan artifact.
 
 Replay discovery against saved fixture metadata without executing external packaging code:
 
@@ -114,6 +147,8 @@ https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/risc
 ```
 
 Package CI reads an immutable digest from `ci/image.lock`; a mutable tag is never accepted as build evidence. Image publication records the `repomd.xml` digest, installed RPM manifest, OCI digest, QEMU version, and RVA23 probe result.
+
+Audited BuildRequires are installed as root in a per-run, unpublished derived image. Package metadata then selects the `rpmbuild` identity: existing and root-capability suites default to `root`, while packages whose upstream checks require ordinary filesystem permission semantics may explicitly select `unprivileged`. The latter path performs a symlink-refusing ownership handoff for the fresh generated work tree, verifies the exact UID/GID before execution, and preserves regular JSON/log/RPM evidence for the host-side artifact stager. A root-dependent suite must use the compatible root policy or an evidence-backed native route; CI never silently skips it.
 
 ## Auto-merge policy
 

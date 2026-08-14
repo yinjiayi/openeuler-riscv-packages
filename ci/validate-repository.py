@@ -77,6 +77,7 @@ def main() -> int:
         "auto-merge.yml",
         "golden-evaluation.yml",
         "update-schedule-monitor.yml",
+        "rpm-repo-backfill.yml",
     }
     workflows = root / ".github" / "workflows"
     present = {path.name for path in workflows.glob("*.yml")}
@@ -87,15 +88,18 @@ def main() -> int:
     forbidden = {
         "OPENAI_API_KEY": "Actions must not hold OpenAI credentials",
         "pull_request_target": "write-capable pull_request_target is forbidden",
-        "runs-on: self-hosted": "self-hosted RISC-V runners are not enabled in M0/M1",
         "ubuntu-latest": "runner images must use an explicit version",
-        "secrets.": "custom Actions secrets are outside this repository's CI design",
     }
     for workflow in sorted(workflows.glob("*.yml")):
         text = workflow.read_text(encoding="utf-8")
         for needle, reason in forbidden.items():
             if needle in text:
                 errors.append(f"{workflow.name}: {reason} ({needle})")
+        for secret_name in re.findall(r"secrets\.([A-Za-z_][A-Za-z0-9_]*)", text):
+            if secret_name != "RPM_REPO_SSH_PRIVATE_KEY":
+                errors.append(f"{workflow.name}: unapproved Actions secret {secret_name}")
+            elif workflow.name not in {"package-ci.yml", "rpm-repo-backfill.yml"}:
+                errors.append(f"{workflow.name}: RPM repository deploy key is outside its approved workflows")
         for action in ACTION_REF.findall(text):
             if action.startswith("./"):
                 continue
@@ -109,16 +113,45 @@ def main() -> int:
                     errors.append(f"{workflow.name}:{index + 1}: artifact retention is not explicitly 7 days")
 
     package_ci = (workflows / "package-ci.yml").read_text(encoding="utf-8") if (workflows / "package-ci.yml").exists() else ""
-    for event in ("opened", "synchronize", "reopened", "merge_group", "workflow_dispatch"):
+    rsync_retry_path = root / "ci" / "rsync-with-lock-retry.sh"
+    rsync_retry = rsync_retry_path.read_text(encoding="utf-8") if rsync_retry_path.exists() else ""
+    for event in ("opened", "synchronize", "reopened", "merge_group", "workflow_dispatch", "workflow_call", "push"):
         if event not in package_ci:
             errors.append(f"package-ci.yml does not visibly support {event}")
     if "inputs.base_sha" not in package_ci or "github.sha" not in package_ci:
         errors.append("package-ci.yml cannot validate a trusted bot-created PR head via workflow_dispatch")
+    for marker in (
+        "ci/rsync-with-lock-retry.sh -- rsync",
+        "RRSYNC_LOCK_JITTER_KEY: ${{ format('{0}:{1}', github.run_id, needs.prepare.outputs.package_id) }}",
+    ):
+        if marker not in package_ci:
+            errors.append(f"package CI repository publication is missing: {marker}")
+    for marker in (
+        "result != 12",
+        "rrsync error: Another instance of rrsync is already accessing this directory.",
+        "attempt >= max_attempts",
+    ):
+        if marker not in rsync_retry:
+            errors.append(f"rrsync lock retry is missing fail-closed marker: {marker}")
     for check in ("metadata-validate", "source-verify", "rpmbuild-riscv64", "rpm-install-smoke", "patch-policy", "merge-policy"):
         if not re.search(rf"(?m)^  {re.escape(check)}:\s*$", package_ci):
             errors.append(f"package-ci.yml is missing required check job {check}")
     if "ci/compose-build-result.py" not in package_ci:
         errors.append("package-ci.yml does not compose a final commit-bound build result")
+    if "repository-snapshot:" not in package_ci or "ci/rpm-repo-client.py resolve" not in package_ci:
+        errors.append("package-ci.yml does not resolve one immutable supplemental repository generation")
+    if "--allow-unavailable" not in package_ci:
+        errors.append("package-ci.yml does not record the official-repository-only outage fallback")
+    if "artifacts/repository/resolution.json" not in package_ci:
+        errors.append("package-ci.yml does not pass repository resolution evidence to installed smoke")
+    if "publish-rpm-repository:" not in package_ci or "ci/stage-rpm-repository-upload.py" not in package_ci:
+        errors.append("package-ci.yml does not publish passing main-branch RPM/SRPM batches")
+    if "github.event_name == 'push'" not in package_ci or "github.ref == 'refs/heads/main'" not in package_ci:
+        errors.append("package-ci.yml does not restrict automatic RPM publication to protected main pushes")
+    if "RPM_REPO_SSH_PRIVATE_KEY: ${{ secrets.RPM_REPO_SSH_PRIVATE_KEY }}" not in package_ci:
+        errors.append("package-ci.yml is missing the single approved restricted deployment key")
+    if "ci/rpm-repo-known-hosts" not in package_ci or "StrictHostKeyChecking=yes" not in package_ci:
+        errors.append("package-ci.yml does not pin and enforce the RPM repository SSH host key")
     if "issues: write\n      pull-requests: write" not in package_ci:
         errors.append("record-ci-state cannot label trusted PRs with its job-scoped token")
     if re.search(r"--result\s+[^\n]*build-result\.json", package_ci):
@@ -129,7 +162,7 @@ def main() -> int:
         errors.append("package-ci.yml does not preserve the exact rpmbuild exit code")
     if package_ci.count('--commit-sha "$BUILD_COMMIT_SHA"') < 2 or "GITHUB_SHA:" in package_ci:
         errors.append("package-ci.yml does not pass the exact head explicitly to source and rpmbuild results")
-    build_artifact_marker = "name: package-ci-build-${{ github.run_id }}"
+    build_artifact_marker = "name: package-ci-build-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}"
     if build_artifact_marker not in package_ci:
         errors.append("package-ci.yml is missing the build artifact upload")
     else:
@@ -146,6 +179,73 @@ def main() -> int:
     build_rpm = (root / "scripts" / "build-rpm").read_text(encoding="utf-8")
     if "GITHUB_SHA" in build_rpm or '"commit_sha": args.commit_sha' not in build_rpm:
         errors.append("build-rpm must use only the explicit --commit-sha provenance input")
+    package_policy = (root / "ci" / "package-policy.py").read_text(encoding="utf-8")
+    package_schema = (root / "schemas" / "package.schema.json").read_text(encoding="utf-8")
+    if 'build.get("user", "root")' not in package_policy:
+        errors.append("package build-user policy must preserve the compatible root default")
+    if '"user": {"enum": ["root", "unprivileged"]}' not in package_schema:
+        errors.append("package schema does not fail closed on build.user")
+    if "build_user: ${{ steps.policy.outputs.build_user }}" not in package_ci:
+        errors.append("package-ci.yml does not propagate the validated build-user policy")
+    if package_ci.count('--build-user "$BUILD_USER"') < 2:
+        errors.append("package-ci.yml does not bind dependency and rpmbuild stages to build.user")
+    runner_expression = (
+        "needs.prepare.outputs.mode == 'package' && "
+        "needs.prepare.outputs.needs_native != 'true' && "
+        "(github.event_name == 'push' || github.event_name == 'workflow_dispatch') && "
+        "github.ref == 'refs/heads/main'"
+    )
+    runner_labels = '["self-hosted","linux","x64","oe-rva23-qemu"]'
+    if package_ci.count(runner_expression) != 2:
+        errors.append(
+            "package-ci.yml must route exactly the two heavy QEMU jobs only from protected-main trusted events"
+        )
+    if package_ci.count(runner_labels) != 2:
+        errors.append(
+            "package-ci.yml must bind exactly two heavy jobs to the approved QEMU runner label set"
+        )
+    qemu_policy_path = root / "ci" / "qemu-runner-policy.py"
+    qemu_policy = qemu_policy_path.read_text(encoding="utf-8") if qemu_policy_path.exists() else ""
+    for marker in (
+        'TRUSTED_EVENTS = {"push", "workflow_dispatch"}',
+        'PROTECTED_REF = "refs/heads/main"',
+        'SELF_HOSTED_LABELS = ["self-hosted", "linux", "x64", "oe-rva23-qemu"]',
+    ):
+        if marker not in qemu_policy:
+            errors.append(f"QEMU runner evidence policy is missing {marker}")
+    if "ci/qemu-runner-policy.py" not in package_ci:
+        errors.append("package-ci.yml does not emit structured QEMU runner routing evidence")
+    for workflow in sorted(workflows.glob("*.yml")):
+        if workflow.name == "package-ci.yml":
+            continue
+        if "oe-rva23-qemu" in workflow.read_text(encoding="utf-8"):
+            errors.append(
+                f"{workflow.name}: repository QEMU runner label is outside package-ci.yml"
+            )
+    build_runner_path = root / "ci" / "run-rpmbuild-container.py"
+    build_runner = (
+        build_runner_path.read_text(encoding="utf-8") if build_runner_path.exists() else ""
+    )
+    if not build_runner_path.is_file() or not build_runner_path.stat().st_mode & 0o111:
+        errors.append("rpmbuild user orchestrator is missing or not executable")
+    for marker in (
+        'BUILD_USERS = {"root", "unprivileged"}',
+        'TARGET_UID = 10001',
+        'docker_limits(network="bridge")',
+        'docker_limits(network="none")',
+        '"--commit-sha",',
+        'verified network source retrieval',
+        'OE_BUILD_NETWORK=enabled',
+        'EVIDENCE_FILES =',
+        'grant_unprivileged_workspace_access(repo_root, args.package_id)',
+        'grant_other_access(repo_root, readable=False)',
+        'grant_other_access(packages_dir, readable=False)',
+        'grant_other_access(work_parent, readable=False)',
+    ):
+        if marker not in build_runner:
+            errors.append(
+                f"rpmbuild user orchestrator is missing required contract marker {marker}"
+            )
 
     image_workflow = (workflows / "build-ci-image.yml").read_text(encoding="utf-8") if (workflows / "build-ci-image.yml").exists() else ""
     if "--method PATCH" in image_workflow and "/user/packages/container/" in image_workflow:
@@ -164,6 +264,25 @@ def main() -> int:
         errors.append("default GITHUB_TOKEN permissions must remain read-only")
     if actions_settings.get("can_approve_pull_request_reviews") is not True:
         errors.append("Actions cannot create the reviewed digest-lock PR")
+    if actions_settings.get("fork_pull_request_approval_policy") != "all_external_contributors":
+        errors.append("every external fork workflow must require explicit maintainer approval")
+    qemu_runner = actions_settings.get("self_hosted_qemu_runner", {})
+    if qemu_runner != {
+        "enabled": True,
+        "trust_boundary": "protected-main-only",
+        "labels": ["self-hosted", "linux", "x64", "oe-rva23-qemu"],
+    }:
+        errors.append("repository settings do not record the protected-main QEMU runner boundary")
+    github_configurator = (root / "ci" / "configure-github.sh").read_text(encoding="utf-8")
+    if "actions/permissions/fork-pr-contributor-approval" not in github_configurator:
+        errors.append("GitHub provisioning does not enforce the external fork workflow approval policy")
+    if github_configurator.count("all_external_contributors") < 1:
+        errors.append("GitHub provisioning does not fail closed on the external fork policy")
+    if settings.get("allowed_actions_secrets") != ["RPM_REPO_SSH_PRIVATE_KEY"]:
+        errors.append("repository settings must allow only the restricted RPM repository deployment key")
+    forbidden_secrets = settings.get("forbidden_actions_secrets", [])
+    if "OPENAI_API_KEY" not in forbidden_secrets or "CODEX_API_KEY" not in forbidden_secrets:
+        errors.append("OpenAI and Codex Actions secrets must remain explicitly forbidden")
 
     discovery = (workflows / "catalog-discovery.yml").read_text(encoding="utf-8") if (workflows / "catalog-discovery.yml").exists() else ""
     if "scripts/snapshot-catalog" not in discovery or "scripts/discover-packages" not in discovery:
@@ -203,6 +322,10 @@ def main() -> int:
         errors.append("golden-evaluation.yml does not use stage-aware golden assertions")
     if "rpmbuild-internal.log" not in golden:
         errors.append("golden-evaluation.yml does not retain the RPM tool's internal log")
+    if "--allow-unavailable" not in golden or "repository-resolution.json" not in golden:
+        errors.append("golden-evaluation.yml does not propagate repository outage evidence")
+    if "BUILD_USER: ${{ steps.policy.outputs.build_user }}" not in golden or '--build-user "$BUILD_USER"' not in golden:
+        errors.append("golden-evaluation.yml does not pass the package build identity to dependency preparation")
 
     builddeps_path = root / "ci" / "prepare-build-deps.py"
     builddeps = builddeps_path.read_text(encoding="utf-8") if builddeps_path.exists() else ""
@@ -212,6 +335,92 @@ def main() -> int:
         errors.append("BuildRequires evidence cannot be nested beneath the read-only /workspace mount")
     if ":/evidence:rw" not in builddeps or '"/evidence/' not in builddeps:
         errors.append("BuildRequires planning is missing its dedicated writable /evidence mount")
+    for marker in (
+        "--supplemental-repo-file",
+        "--supplemental-evidence",
+        "--enablerepo=openeuler-riscv-project",
+        "openeuler-riscv-project.repo,readonly",
+        "fallback_repository_ids",
+    ):
+        if marker not in builddeps:
+            errors.append(f"BuildRequires preparation is missing supplemental repository control: {marker}")
+    for marker in (
+        "run_with_retries",
+        "--setopt=retries=20",
+        "--setopt=minrate=1",
+        "--setopt=max_parallel_downloads=1",
+        '"dependency_install_attempts"',
+    ):
+        if marker not in builddeps:
+            errors.append(f"BuildRequires preparation is missing bounded download resilience: {marker}")
+
+    install_smoke = (root / "ci" / "install-smoke.sh").read_text(encoding="utf-8")
+    if "--enablerepo=openeuler-riscv-project" not in install_smoke:
+        errors.append("installed-RPM smoke does not use the verified supplemental repository")
+    for marker in ("repository_evidence", "endpoint-unavailable", "enabled_repositories"):
+        if marker not in install_smoke:
+            errors.append(f"installed-RPM smoke is missing repository outage control: {marker}")
+
+    rpm_client = root / "ci" / "rpm-repo-client.py"
+    if not rpm_client.is_file() or "http://2.27.148.101:38080" not in rpm_client.read_text(encoding="utf-8"):
+        errors.append("supplemental RPM repository client is missing or does not pin the operator endpoint")
+    elif "RepositoryUnavailable" not in rpm_client.read_text(encoding="utf-8"):
+        errors.append("supplemental RPM repository client cannot distinguish outages from integrity failures")
+    known_hosts = root / "ci" / "rpm-repo-known-hosts"
+    if not known_hosts.is_file() or "[2.27.148.101]:38022 ssh-ed25519 " not in known_hosts.read_text(encoding="utf-8"):
+        errors.append("RPM repository SSH host key is not pinned")
+
+    server_dir = root / "ops" / "rpm-repo-server"
+    required_server_files = {
+        "README.md",
+        "deploy-key.pub",
+        "install.sh",
+        "nginx.conf",
+        "openeuler-rpmrepo.default",
+        "openeuler-rpmrepo.path",
+        "openeuler-rpmrepo.service",
+        "openeuler-rpmrepo.timer",
+        "rpmrepo_publish.py",
+    }
+    if not server_dir.is_dir() or not required_server_files.issubset({path.name for path in server_dir.iterdir()}):
+        errors.append("reproducible RPM repository server deployment assets are incomplete")
+    else:
+        server_text = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in server_dir.iterdir()
+            if path.is_file() and path.suffix not in {".pub"}
+        )
+        if "/srv/openeuler-riscv-rpm-repo" in server_text:
+            errors.append("RPM repository data must not use the retired /srv path")
+        for marker in (
+            "/opt/openeuler-riscv-rpm-repo",
+            "rrsync -wo -no-del -no-overwrite",
+            "createrepo_c",
+            "PathChanged=/opt/openeuler-riscv-rpm-repo/incoming",
+            "%{SOURCEPACKAGE}",
+            'identity["sourcepackage"] == "1"',
+        ):
+            if marker not in server_text:
+                errors.append(f"RPM repository server definition is missing: {marker}")
+
+    backfill = (workflows / "rpm-repo-backfill.yml").read_text(encoding="utf-8") if (workflows / "rpm-repo-backfill.yml").exists() else ""
+    for marker in (
+        "ci/list-rpm-repo-packages.py",
+        "uses: ./.github/workflows/package-ci.yml",
+        "max-parallel: ${{ fromJSON(vars.RPM_BACKFILL_MAX_CONCURRENCY || '32') }}",
+        "publish_to_repo: true",
+        "retention-days: 7",
+    ):
+        if marker not in backfill:
+            errors.append(f"RPM repository backfill is missing: {marker}")
+
+    if 'def root_exec(' not in builddeps or '"--user", "0:0"' not in builddeps:
+        errors.append("BuildRequires installation does not explicitly retain root identity")
+    if (
+        'TARGET_BUILD_UID = 10001' not in builddeps
+        or 'args.build_user == "unprivileged"' not in builddeps
+    ):
+        errors.append("BuildRequires image does not provision the fixed opt-in build identity")
 
     all_workflow_text = "\n".join(path.read_text(encoding="utf-8") for path in workflows.glob("*.yml"))
     exact_repo = "https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/"
