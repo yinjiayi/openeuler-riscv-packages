@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "jo",
+  "rpm": {
+    "name": "jo",
+    "summary": "Create JSON objects from the shell",
+    "license": "GPL-2.0-or-later AND MIT AND LicenseRef-Public-Domain"
+  },
+  "upstream": {
+    "component": "github.com-jpmens-jo",
+    "homepage": "https://github.com/jpmens/jo",
+    "source_repository": "https://github.com/jpmens/jo.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/jpmens/jo/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/jpmens/jo/releases/download/{version}/jo-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.9",
+    "release": "1",
+    "latest_detected": "1.9"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "jo",
+        "package_base": "jo",
+        "source_version": "1.9-3",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/jo/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "jo",
+        "package_base": "jo",
+        "source_version": "1.9-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/jo",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "jo",
+        "package_base": "jo",
+        "source_version": "1.9-18.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/jo/jo/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "jo",
+        "package_base": "jo",
+        "source_version": "1.9-1.12",
+        "evidence_url": "https://software.opensuse.org/package/jo",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "jo",
+        "package_base": "jo",
+        "source_version": "1.9-2",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/jo",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "jo.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 1.9 release bytes are pinned and archive-safe. Frozen Arch, Fedora 44, Debian, openSUSE, and Ubuntu lineage corroborates the component; AUR RPC had no exact package. Target metadata has no prior jo package and there is no shared ABI. All 27 upstream TAP cases remain enabled."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases-latest"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "adns",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d0f62b6028bba2676a1e8f863181d92b2155104a3e73418ae94c316695853fc9"
+      },
+      "filename": "adns-1.6.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official adns source archive is distributed under GPL-3.0-or-later terms."
+      },
+      "signature": null,
+      "url": "https://www.chiark.greenend.org.uk/~ian/adns/ftp/adns-1.6.2.tar.gz",
+      "version": "1.6.2"
+    }
+  ]
+}
