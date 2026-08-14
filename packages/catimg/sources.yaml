@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "catimg",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/posva/catimg/archive/refs/tags/v2.8.0.tar.gz",
+      "filename": "catimg-2.8.0.tar.gz",
+      "version": "2.8.0",
+      "digests": {
+        "sha256": "1f4f54c237cd3b70c8a125044eb2578e8263c12b42d401a42c02c32f10f62548"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "MIT-licensed source is fetched from the official GitHub tag archive in CI."
+      }
+    }
+  ]
+}
