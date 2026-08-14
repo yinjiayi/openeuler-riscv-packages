@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "The upstream RVV runtime probe executes an illegal instruction under the current QEMU user-mode runner despite its advertised RVA23 capability; validate the SIMD-enabled build and full upstream test suite on native RISC-V hardware.",
     "network_during_build": false,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 240
   },
   "discovery": {
@@ -66,7 +66,7 @@
   },
   "maintenance": {
     "maintainers": ["yinjiayi"],
-    "notes": "Official libjpeg-turbo 3.2.0 stable release bytes and SHA-256 are corroborated by the upstream GitHub release asset metadata, and Arch stable confirms 3.2.0. Fedora 44, openSUSE Tumbleweed, Debian stable, and Ubuntu GA carried older stable lines, so this is an intentional official-stable forward release. The AUR libjpeg-turbo-git row is VCS-only and excluded as a source. AUR RPC metadata only was read; no AUR recipe or distribution spec was executed. SIMD, tools, TurboJPEG, and every upstream regression test remain enabled; the Fedora-proven fp-contract mode is selected on RISC-V without skipping tests.",
+    "notes": "Official libjpeg-turbo 3.2.0 stable release bytes and SHA-256 are corroborated by the upstream GitHub release asset metadata, and Arch stable confirms 3.2.0. Fedora 44, openSUSE Tumbleweed, Debian stable, and Ubuntu GA carried older stable lines, so this is an intentional official-stable forward release. The AUR libjpeg-turbo-git row is VCS-only and excluded as a source. AUR RPC metadata only was read; no AUR recipe or distribution spec was executed. SIMD, tools, TurboJPEG, and every upstream regression test remain enabled in the SPEC; the Fedora-proven fp-contract mode is selected on RISC-V without skipping tests. The current QEMU user-mode runner faults in libjpeg-turbo's RVV capability probe despite advertising RVA23 support, so native RISC-V hardware must validate the SIMD-enabled package and full upstream test suite.",
     "status": "active"
   },
   "package_id": "libjpeg-turbo",
@@ -81,7 +81,7 @@
     "isa": "RVA23",
     "os": "openEuler",
     "release": "24.03-LTS-SP3",
-    "riscv_status": "unknown"
+    "riscv_status": "qemu-limitation"
   },
   "updates": {
     "enabled": true,
