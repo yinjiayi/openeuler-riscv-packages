@@ -22,7 +22,7 @@
     ]
   },
   "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
-  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
   "files": {"spec": "lziprecover.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
   "maintenance": {
     "status": "active",

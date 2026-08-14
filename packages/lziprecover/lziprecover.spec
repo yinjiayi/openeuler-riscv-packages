@@ -28,7 +28,7 @@ and provides lzip-compatible decompression and integrity testing.
   --infodir=%{_infodir} \
   --mandir=%{_mandir} \
   CXX="%{__cxx}" \
-  CXXFLAGS="%{build_cxxflags}" \
+  CXXFLAGS="%{build_cxxflags} -fPIE" \
   LDFLAGS="%{build_ldflags}"
 %make_build
 
