@@ -241,6 +241,8 @@ def main() -> int:
         'grant_other_access(repo_root, readable=False)',
         'grant_other_access(packages_dir, readable=False)',
         'grant_other_access(work_parent, readable=False)',
+        'successful unprivileged build is missing required evidence',
+        'require_complete=completed.returncode == 0',
     ):
         if marker not in build_runner:
             errors.append(
