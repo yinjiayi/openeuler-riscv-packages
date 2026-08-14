@@ -10,6 +10,7 @@ BuildRequires: expat-devel
 BuildRequires: gcc
 BuildRequires: make
 BuildRequires: openssl-devel
+BuildRequires: zlib-devel
 %description
 libstrophe is a minimal XMPP client library written in C.
 %package devel
