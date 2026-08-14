@@ -9,6 +9,8 @@ headers and leave extern declarations there so each symbol has one definition.
 Patch-Source: https://github.com/ggreer/the_silver_searcher/commit/21eaa1c4160b868b0c5bbf59da17974429f30055
 Patch-License: Apache-2.0
 Upstream-Status: Accepted (merged by upstream as 3f6ecb6c02f147d5d180b9d85373e74c83f675ec)
+Backport-Note: Context normalized against the official 2.2.0 archive for
+ GNU patch zero-fuzz compatibility; code changes match the upstream commit.
 ---
  src/ignore.c  |  2 ++
  src/ignore.h  |  2 +-
@@ -103,7 +105,7 @@ diff --git a/src/search.c b/src/search.c
 index 0f4ae2113..0dad3c072 100644
 --- a/src/search.c
 +++ b/src/search.c
-@@ -2,5 +2,18 @@
+@@ -2,6 +2,19 @@
  #include "print.h"
  #include "scandir.h"
  
@@ -122,6 +124,7 @@ index 0f4ae2113..0dad3c072 100644
 +
  void search_buf(const char *buf, const size_t buf_len,
                  const char *dir_full_path) {
+     int binary = -1; /* 1 = yes, 0 = no, -1 = don't know */
 diff --git a/src/search.h b/src/search.h
 index 6bac42038..00aa018dd 100644
 --- a/src/search.h
