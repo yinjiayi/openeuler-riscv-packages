@@ -47,4 +47,16 @@ libdir=$(rpm --eval '%{_libdir}')
 enable -f "$libdir/readrec.so" readrec
 enable -f "$libdir/testrec.so" testrec
 help readrec >/dev/null
-help testrec >/dev/null
+test "$(type -t '[%')" = builtin
+
+printf 'Name: compiler\nCount: 2\n\n' >"$smoke_dir/builtin.rec"
+Name=
+Count=
+readrec <"$smoke_dir/builtin.rec"
+test "$Name" = compiler
+test "$Count" = 2
+command '[%' 'Name = "compiler"' '%]'
+if command '[%' 'Name = "emulator"' '%]'; then
+    echo 'testrec unexpectedly matched a different record' >&2
+    exit 1
+fi
