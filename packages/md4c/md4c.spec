@@ -39,11 +39,11 @@ for developing applications with MD4C and its HTML renderer.
 
 %check
 for spec_file in test/spec*.txt; do
-  %{python3} test/run-testsuite.py \
+  %{__python3} test/run-testsuite.py \
     --program "%{_vpath_builddir}/md2html/md2html" \
     --spec "$spec_file"
 done
-%{python3} test/pathological-tests.py \
+%{__python3} test/pathological-tests.py \
   --program "%{_vpath_builddir}/md2html/md2html"
 
 %files
