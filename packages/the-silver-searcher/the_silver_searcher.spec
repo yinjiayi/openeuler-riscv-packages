@@ -41,7 +41,7 @@ printf '%s\n' 'alpha' 'needle from file' >"$check_dir/input.txt"
 ./ag --noaffinity --nocolor --nogroup --workers=1 --parallel \
   'needle' "$check_dir" | grep -F 'needle from file'
 printf '%s\n' 'alpha' 'needle from stdin' | \
-  ./ag --noaffinity --nocolor --workers=1 --parallel 'needle' - | \
+  ./ag --noaffinity --nocolor --workers=1 'needle' | \
   grep -Fx 'needle from stdin'
 
 %files
