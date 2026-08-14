@@ -1,7 +1,7 @@
 {
   "build": {
     "native_reason": null,
-    "network_during_build": false,
+    "network_during_build": true,
     "profile": "qemu-user",
     "timeout_minutes": 120
   },
@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "GitHub marks v0.6.0 as the current non-prerelease release and publishes the exact SHA-256 digest used here. The publisher archive contains the complete compiled and archive-corpus tests, which run unchanged and offline.",
+    "notes": "GitHub marks v0.6.0 as the current non-prerelease release and publishes the exact SHA-256 digest used here. CI fetches the pinned source with networking enabled. The complete compiled and archive-corpus suite remains enabled; test-only objects receive -fPIE because upstream clears CFLAGS while openEuler links PIE executables.",
     "status": "active"
   },
   "package_id": "lhasa",

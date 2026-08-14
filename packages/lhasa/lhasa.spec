@@ -38,7 +38,9 @@ rm -f %{buildroot}%{_libdir}/liblhasa.la
 
 %check
 # Run every compiled decoder test and every shipped archive/extraction corpus.
-%make_build check
+# Upstream deliberately clears CFLAGS for its unoptimized test objects. Keep
+# the position-independent code property required by openEuler's PIE linker.
+%make_build check CFLAGS="-fPIE"
 
 %files
 %license COPYING.md
@@ -56,3 +58,5 @@ rm -f %{buildroot}%{_libdir}/liblhasa.la
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.6.0-1
 - Initial openEuler RISC-V package with the complete archive regression suite.
+- Compile the upstream test-only objects for openEuler's PIE link policy.
+- Pass installed-smoke pkg-config flags as an explicit Bash array.

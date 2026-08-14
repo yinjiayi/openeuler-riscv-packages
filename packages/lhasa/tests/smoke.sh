@@ -16,5 +16,6 @@ int main(void) {
     return decoder == NULL ? 1 : 0;
 }
 EOF
-cc "$smoke_dir/smoke.c" $(pkg-config --cflags --libs liblhasa) -o "$smoke_dir/smoke"
+read -r -a pc_flags <<<"$(pkg-config --cflags --libs liblhasa)"
+cc "$smoke_dir/smoke.c" "${pc_flags[@]}" -o "$smoke_dir/smoke"
 "$smoke_dir/smoke"

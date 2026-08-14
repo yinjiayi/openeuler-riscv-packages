@@ -14,10 +14,14 @@ GitHub marks `v0.6.0` as the current stable, non-prerelease release. The
 publisher asset carries GitHub's SHA-256 digest
 `9840154367f73e9d9c3196f944a121ab4d398d84e921c8fe8fca8a931274aed7`,
 which matches the locally verified bytes. It is a single-root archive with no
-unsafe paths, links, or special files. `%check` runs every compiled CRC,
+unsafe paths, links, or special files. CI fetches and verifies this pinned
+source during the network-enabled build. `%check` runs every compiled CRC,
 reader, and decoder unit plus all decompression, header, listing, printing,
-dry-run, extraction, OS-format, and regression archive corpora unchanged and
-offline.
+dry-run, extraction, OS-format, and regression archive corpora. Upstream
+deliberately clears `CFLAGS` for unoptimized test-only objects; exact-head run
+`31761326968` showed that this conflicts with openEuler's PIE linker on
+RISC-V. The SPEC restores only `-fPIE` for those test objects and leaves the
+test corpus unchanged. Fresh exact-head CI remains the target authority.
 
 External source licenses remain those of upstream. The repository's
 Apache-2.0 license covers only the original packaging metadata, scripts, and
