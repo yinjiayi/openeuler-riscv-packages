@@ -34,6 +34,7 @@ completion to interactive command-line programs.
 %{_bindir}/rlwrap
 %{_datadir}/rlwrap/
 %{_mandir}/man1/rlwrap.1*
+%{_mandir}/man3/RlwrapFilter.3pm*
 
 %changelog
 * Fri Aug 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.48-1
