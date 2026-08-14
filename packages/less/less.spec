@@ -35,7 +35,7 @@ backward movement, searching, filtering, and large files.
 %doc INSTALL NEWS README
 %{_bindir}/less
 %{_bindir}/lesskey
-%{_bindir}/lessecho
+%{_libexecdir}/lessecho
 %{_mandir}/man1/less.1*
 %{_mandir}/man1/lesskey.1*
 %{_mandir}/man1/lessecho.1*
