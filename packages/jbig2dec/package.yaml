@@ -1,0 +1,117 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/jbig2dec/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jbig2dec",
+        "package_name": "jbig2dec",
+        "source": "arch-extra",
+        "source_version": "0.20-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/lib32-jbig2dec",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-jbig2dec",
+        "package_name": "lib32-jbig2dec",
+        "source": "aur",
+        "source_version": "0.20-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/mingw-w64-jbig2dec",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-jbig2dec",
+        "package_name": "mingw-w64-jbig2dec",
+        "source": "aur",
+        "source_version": "0.20-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/jbig2dec",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jbig2dec",
+        "package_name": "jbig2dec",
+        "source": "debian",
+        "source_version": "0.20-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/jbig2dec/jbig2dec/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jbig2dec",
+        "package_name": "jbig2dec",
+        "source": "fedora",
+        "source_version": "0.20-8.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/jbig2dec",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jbig2dec",
+        "package_name": "jbig2dec",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.20-2.10"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/noble/jbig2dec",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jbig2dec",
+        "package_name": "jbig2dec",
+        "source": "ubuntu",
+        "source_version": "0.20-1build4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "jbig2dec.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable jbig2dec 0.20 release archive was independently reviewed, archive-inspected, and pinned by SHA-256; distribution packaging was metadata-only lineage evidence and was not executed.",
+    "status": "active"
+  },
+  "package_id": "jbig2dec",
+  "rpm": {
+    "license": "AGPL-3.0-or-later",
+    "name": "jbig2dec",
+    "summary": "JBIG2 bi-level image decoder library and utility"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-ArtifexSoftware-jbig2dec",
+    "homepage": "https://jbig2dec.com/",
+    "release_api": "https://api.github.com/repos/ArtifexSoftware/jbig2dec/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/ArtifexSoftware/jbig2dec",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.20",
+    "latest_detected": "0.20",
+    "release": "1"
+  }
+}
