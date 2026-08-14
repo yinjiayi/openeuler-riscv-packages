@@ -38,6 +38,34 @@ an installed executable and verifies its bytes and executable bit. This
 same host tar operation needed during GitHub's pre-step setup before it can
 come online; it does not relax the protected-main workflow/event gate.
 
+## Trusted package dispatch
+
+A **trusted package dispatch** is a maintainer-local `workflow_dispatch` of
+the `main` version of `Package CI` that checks out one exact package PR head.
+It is not a pull-request event and it is not an approval for arbitrary branch
+code. `scripts/dispatch-trusted-package-ci` first requires local GitHub
+authentication, verifies that the PR is open, same-repository, owner/member
+authored, prefix-limited, based on `main`, and confined to one
+`packages/<package-id>/` directory. It supplies the PR number, head, and base
+to the pinned `main` workflow with publication disabled. Before any job checks
+out that head, a GitHub-hosted authorization job checks out `github.sha` from
+protected `main` and repeats the live PR, base/head, author, branch, and file
+scope checks through the GitHub API. A direct workflow dispatch therefore
+cannot bypass the local bridge by supplying an arbitrary SHA or enabling
+publication. Required contexts are posted only after the final
+`build-result.json` matches the requested package and commit. This lets a
+trusted maintainer use the fleet for package PRs without allowing public PR
+workflows onto persistent Docker-capable hosts.
+
+Run it only from a reviewed checkout after `scripts/github-credential-guard`
+has passed:
+
+```bash
+scripts/dispatch-trusted-package-ci \
+  --pr 123 --package-id example \
+  --output /private/tmp/example-pr123-dispatch.json
+```
+
 On 2026-08-12 the repository security baseline was also verified remotely:
 the repository is public, `yinjiayi` is the only collaborator and has admin
 access, and zero self-hosted runners existed. The fork-workflow approval policy
