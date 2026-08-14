@@ -6,6 +6,7 @@ Summary: Library for reading and writing audio files
 License: LGPL-2.1-or-later AND GPL-2.0-or-later
 URL: https://github.com/mpruett/audiofile
 Source0: audiofile-%{version}.tar.gz
+Patch0: 0001-fix-negative-left-shift.patch
 BuildRequires: autoconf
 BuildRequires: automake
 BuildRequires: flac-devel
