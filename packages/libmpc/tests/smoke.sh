@@ -16,11 +16,11 @@ int main(void) {
     int failed = strcmp(MPC_VERSION_STRING, "1.4.1") != 0;
     mpc_init2(value, 128);
     failed |= mpc_set_ui_ui(value, 1, 2, MPC_RNDNN) != 0;
-    failed |= mpfr_cmp_ui(mpc_realref(value), 1) != 0;
-    failed |= mpfr_cmp_ui(mpc_imagref(value), 2) != 0;
+    failed |= mpc_cmp_si_si(value, 1, 2) != 0;
     mpc_clear(value);
     return failed;
 }
 EOF
-cc "$smoke_dir/mpc-smoke.c" $(pkg-config --cflags --libs mpc) -o "$smoke_dir/mpc-smoke"
+read -r -a mpc_flags <<<"$(pkg-config --cflags --libs mpc)"
+cc "$smoke_dir/mpc-smoke.c" "${mpc_flags[@]}" -o "$smoke_dir/mpc-smoke"
 "$smoke_dir/mpc-smoke"
