@@ -6,6 +6,7 @@ Summary:        Charset analyzer and converter
 License:        GPL-2.0-only AND LicenseRef-Public-Domain
 URL:            https://cihar.com/software/enca/
 Source0:        enca-%{version}.tar.xz
+Patch0:         0001-tests-select-librecode-converter.patch
 
 BuildRequires:  gcc
 BuildRequires:  gettext-devel
@@ -63,3 +64,4 @@ find %{buildroot} -name '*.la' -delete
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.22-1
 - Update Enca for openEuler RISC-V with complete librecode-enabled upstream tests.
+- Select the built librecode backend in the TeX regression test.

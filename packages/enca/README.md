@@ -16,13 +16,17 @@ no links or special entries, and no unsafe path. Enca's implementation is
 GPL-2.0-only; its installed public header explicitly states public-domain
 status, reflected in the RPM license expression.
 
-The full upstream check gate enables librecode and external conversion so all
-21 bundled tests, including TeX, recode, iconv, locale, and error paths, run
-without a skip. Installed smoke verifies the selected converter, command
-version, pkg-config metadata, and public library API. The fixed target has
-Enca 1.19-1 and `libenca.so.0`; version 1.22 is a higher EVR and preserves the
-same SONAME. All BuildRequires are present. Target RPM, install, and smoke
-status remains unknown until exact-head QEMU CI completes.
+CI fetches and verifies the pinned source during the network-enabled build.
+The upstream check gate schedules all 21 tests. A downstream test-only patch
+makes the TeX regression select the registered `librecode` backend instead of
+the nonexistent `recode` converter name observed in exact-head run
+`31761326622`; the iconv-only check retains upstream's explicit skip when
+configure rejects the target iconv implementation. Installed smoke verifies
+the selected converter, command version, pkg-config metadata, and public
+library API. The fixed target has Enca 1.19-1 and `libenca.so.0`; version 1.22
+is a higher EVR and preserves the same SONAME. All BuildRequires are present.
+Fresh exact-head CI remains the authority for target RPM, install, and smoke
+status.
 
 External source licenses remain upstream's. Apache-2.0 covers only this
 repository's original packaging metadata, scripts, tests, and documentation.

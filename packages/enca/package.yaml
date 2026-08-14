@@ -1,7 +1,7 @@
 {
   "build": {
     "native_reason": null,
-    "network_during_build": false,
+    "network_during_build": true,
     "profile": "qemu-user",
     "timeout_minutes": 180
   },
@@ -59,7 +59,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-tests-select-librecode-converter.patch",
+        "license": "GPL-2.0-only",
+        "purpose": "Make the TeX regression select the registered librecode backend that it already verified is available.",
+        "remove_when": "An upstream release selects librecode rather than the nonexistent recode converter name in test/test-tex.sh.",
+        "sha256": "e42722b95dffcb4ff92830132f07ab2252479356f960db7c9cb856899ec9c076",
+        "source": "Downstream diagnosis from exact-head openEuler RISC-V CI run 31761326622 and the pinned Enca 1.22 source.",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "enca.spec"
@@ -68,7 +78,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official Project-OSS-Revival 1.22 release asset and publisher SHA-256 agree. All 21 upstream checks run with librecode enabled. The libenca.so.0 ABI major matches the target's existing Enca package. AUR is metadata-only; no external packaging recipe was read or executed.",
+    "notes": "Official Project-OSS-Revival 1.22 release asset and publisher SHA-256 agree. CI fetches the pinned source with networking enabled. The suite schedules all 21 upstream checks; the TeX path selects the registered librecode backend, while the iconv-only check follows upstream's explicit skip when configure rejects the target iconv implementation. The libenca.so.0 ABI major matches the target's existing Enca package. AUR is metadata-only; no external packaging recipe was read or executed.",
     "status": "active"
   },
   "package_id": "enca",
