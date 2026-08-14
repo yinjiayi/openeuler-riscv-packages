@@ -29,7 +29,7 @@ commands supplied on the command line or in a script.
 %autosetup -p1
 
 %build
-%configure \
+gl_cv_func_localeconv_works=no %configure \
   --disable-silent-rules \
   --with-included-regex
 %make_build

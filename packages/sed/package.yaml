@@ -65,7 +65,7 @@
         "license": "LGPL-2.1-or-later",
         "purpose": "Normalize the C-locale localeconv unavailable sentinel when an unsigned-char RISC-V libc exposes SCHAR_MAX.",
         "remove_when": "The bundled gnulib localeconv probe and replacement handle this openEuler RISC-V representation upstream.",
-        "sha256": "036827fe21bf66ca643e7f94bc280007e9fe44a40607b91986ab756fafd0adcd",
+        "sha256": "58bdb09d20990100f468d00a0822964437b2c978495c72c5a362db70bb5cc168",
         "source": "Downstream openEuler RISC-V CI failure in gnulib-tests/test-localeconv on openEuler 24.03 LTS SP3.",
         "upstream_status": "downstream-only"
       }

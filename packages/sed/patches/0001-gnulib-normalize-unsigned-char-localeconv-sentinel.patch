@@ -8,50 +8,22 @@ Origin: openEuler RISC-V package CI
 
 On openEuler's RISC-V build, the C locale's unavailable monetary fields can
 be exposed as SCHAR_MAX because the ABI uses an unsigned plain char while the
-locale data uses the signed-char sentinel representation.  The bundled
-gnulib probe only treated negative values as broken, so configure accepted the
-system localeconv implementation and the test suite later rejected the value.
-
-Treat any C-locale frac_digits value other than CHAR_MAX as requiring gnulib's
-replacement, and normalize both negative values and SCHAR_MAX in that
-replacement.  This preserves the full test suite and the specified CHAR_MAX
-interface without changing sed's application code.
+locale data uses the signed-char sentinel representation.  The SPEC forces
+the bundled gnulib replacement through its configure cache; this patch makes
+that replacement normalize both negative values and SCHAR_MAX to CHAR_MAX.
+This preserves the full test suite and the specified CHAR_MAX interface
+without changing sed's application code.
 
 Remove this patch when an upstream gnulib release carries equivalent handling
 for unsigned-char localeconv sentinels.
 
 ---
- configure         | 2 +-
- lib/localeconv.c  | 6 +++---
- m4/localeconv.m4  | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ lib/localeconv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
---- a/configure
-+++ b/configure
-@@ -37126,5 +37126,5 @@ else case e in #(
-             int main ()
-             {
-               struct lconv *l = localeconv ();
--              return l->frac_digits != CHAR_MAX && l->frac_digits < 0;
-+              return l->frac_digits != CHAR_MAX;
-             }
 diff --git a/lib/localeconv.c b/lib/localeconv.c
 --- a/lib/localeconv.c
 +++ b/lib/localeconv.c
 @@ -26 +26 @@
 -# define FIX_CHAR_VALUE(x) ((x) >= 0 ? (x) : CHAR_MAX)
 +# define FIX_CHAR_VALUE(x) ((x) < 0 || (x) == SCHAR_MAX ? CHAR_MAX : (x))
-@@ -29 +29 @@
--   members or where fields of type 'char' are set to -1 instead of CHAR_MAX.  */
-+   members or where fields of type 'char' are set to a non-CHAR_MAX sentinel.  */
-diff --git a/m4/localeconv.m4 b/m4/localeconv.m4
---- a/m4/localeconv.m4
-+++ b/m4/localeconv.m4
-@@ -27,5 +27,5 @@
-             int main ()
-             {
-               struct lconv *l = localeconv ();
--              return l->frac_digits != CHAR_MAX && l->frac_digits < 0;
-+              return l->frac_digits != CHAR_MAX;
-             }
