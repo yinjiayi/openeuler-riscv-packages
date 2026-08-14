@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import argparse
+import configparser
 import datetime as dt
 import json
 import os
@@ -29,6 +30,17 @@ BUILD_USERS = {"root", "unprivileged"}
 TARGET_BUILD_USER = "rpmbuild"
 TARGET_BUILD_UID = 10001
 TARGET_BUILD_GID = 10001
+SUPPLEMENTAL_STATE_URL = "http://2.27.148.101:38080/state.json"
+SUPPLEMENTAL_REPO_KEYS = {
+    "name",
+    "baseurl",
+    "enabled",
+    "gpgcheck",
+    "repo_gpgcheck",
+    "metadata_expire",
+    "skip_if_unavailable",
+    "module_hotfixes",
+}
 
 
 def run(argv: list[str], *, capture: bool = False) -> str:
@@ -116,6 +128,96 @@ def rpm_manifest(container: str) -> list[str]:
     return sorted(line for line in output.splitlines() if line)
 
 
+def validate_supplemental_repository(
+    evidence: dict[str, object], repository_text: str
+) -> tuple[bool, dict[str, object]]:
+    if evidence.get("kind") != "supplemental-repository-resolution":
+        raise ValueError("supplemental repository evidence has the wrong kind")
+    if evidence.get("state_url") != SUPPLEMENTAL_STATE_URL:
+        raise ValueError("supplemental repository evidence has the wrong state URL")
+
+    parser = configparser.ConfigParser(interpolation=None, strict=True)
+    try:
+        parser.read_string(repository_text)
+    except configparser.Error as error:
+        raise ValueError("supplemental repository file is not valid INI") from error
+    if parser.sections() != ["openeuler-riscv-project"]:
+        raise ValueError("supplemental repository file has unexpected sections")
+    repository = parser["openeuler-riscv-project"]
+    if set(repository) != SUPPLEMENTAL_REPO_KEYS:
+        raise ValueError("supplemental repository file has unexpected settings")
+    if (
+        repository.get("gpgcheck") != "0"
+        or repository.get("repo_gpgcheck") != "0"
+        or repository.get("metadata_expire") != "never"
+        or repository.get("module_hotfixes") != "1"
+    ):
+        raise ValueError("supplemental repository file changed its fixed RPM trust policy")
+
+    status = evidence.get("status", "passed")
+    if status == "passed":
+        generation = str(evidence.get("generation", ""))
+        state_sha = str(evidence.get("state_sha256", ""))
+        repositories = evidence.get("repositories")
+        if (
+            not re.fullmatch(
+                r"(?:bootstrap-[0-9]{8}T[0-9]{6}Z|[a-z0-9-]+-[0-9a-f]{40}-[1-9][0-9]*-[1-9][0-9]*)",
+                generation,
+            )
+            or not re.fullmatch(r"[0-9a-f]{64}", state_sha)
+            or not isinstance(repositories, dict)
+        ):
+            raise ValueError("verified supplemental repository evidence is invalid")
+        binary = repositories.get("riscv64")
+        if not isinstance(binary, dict):
+            raise ValueError("verified supplemental repository evidence lacks riscv64 metadata")
+        expected_baseurl = binary.get("baseurl")
+        repomd_sha = binary.get("repomd_sha256")
+        if (
+            not isinstance(expected_baseurl, str)
+            or not re.fullmatch(r"[0-9a-f]{64}", str(repomd_sha or ""))
+            or repository.get("baseurl") != expected_baseurl
+            or repository.get("enabled") != "1"
+            or repository.get("skip_if_unavailable") != "0"
+        ):
+            raise ValueError("supplemental repository file does not match verified evidence")
+        return True, {
+            "status": "passed",
+            "state_url": evidence["state_url"],
+            "state_sha256": state_sha,
+            "generation": generation,
+            "baseurl": expected_baseurl,
+            "repomd_sha256": repomd_sha,
+            "rpm_gpgcheck": False,
+        }
+
+    fallback = evidence.get("fallback")
+    if (
+        status != "unavailable"
+        or evidence.get("reason") != "endpoint-unavailable"
+        or evidence.get("generation") is not None
+        or evidence.get("state_sha256") is not None
+        or evidence.get("repositories") != {}
+        or fallback
+        != {
+            "active_repository_ids": ["openeuler-rva23"],
+            "supplemental_repository_enabled": False,
+        }
+        or repository.get("baseurl") != "http://2.27.148.101:38080/"
+        or repository.get("enabled") != "0"
+        or repository.get("skip_if_unavailable") != "1"
+    ):
+        raise ValueError("unavailable supplemental repository fallback is invalid")
+    return False, {
+        "status": "unavailable",
+        "state_url": evidence["state_url"],
+        "enabled": False,
+        "reason": "endpoint-unavailable",
+        "fallback_repository_ids": ["openeuler-rva23"],
+        "rpm_gpgcheck": True,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--base-image", required=True)
@@ -146,21 +248,13 @@ def main() -> int:
     if not supplemental_evidence_path.is_file() or supplemental_evidence_path.is_symlink():
         raise SystemExit("supplemental repository evidence must be a regular non-symlink file")
     supplemental_evidence = json.loads(supplemental_evidence_path.read_text(encoding="utf-8"))
-    if (
-        supplemental_evidence.get("kind") != "supplemental-repository-resolution"
-        or not re.fullmatch(r"(?:bootstrap-[0-9]{8}T[0-9]{6}Z|[a-z0-9-]+-[0-9a-f]{40}-[1-9][0-9]*-[1-9][0-9]*)", str(supplemental_evidence.get("generation", "")))
-        or not re.fullmatch(r"[0-9a-f]{64}", str(supplemental_evidence.get("state_sha256", "")))
-    ):
-        raise SystemExit("supplemental repository evidence is invalid")
     repository_text = supplemental_repo.read_text(encoding="utf-8")
-    expected_baseurl = supplemental_evidence.get("repositories", {}).get("riscv64", {}).get("baseurl")
-    if (
-        "[openeuler-riscv-project]" not in repository_text
-        or f"baseurl={expected_baseurl}" not in repository_text
-        or "gpgcheck=0" not in repository_text
-        or "skip_if_unavailable=0" not in repository_text
-    ):
-        raise SystemExit("supplemental repository file does not match its verified evidence")
+    try:
+        supplemental_available, supplemental_record = validate_supplemental_repository(
+            supplemental_evidence, repository_text
+        )
+    except ValueError as error:
+        raise SystemExit(str(error)) from error
     work_dir.mkdir(parents=True, exist_ok=True)
     output.parent.mkdir(parents=True, exist_ok=True)
     plan_path = output.parent / "dependency-plan.json"
@@ -224,13 +318,15 @@ def main() -> int:
         if dependency_uid != 0 or dependency_gid != 0:
             raise SystemExit("dependency installation container is not running as root")
         before = rpm_manifest(container)
+        enabled_repositories = ["--enablerepo=openeuler-rva23"]
+        if supplemental_available:
+            enabled_repositories.append("--enablerepo=openeuler-riscv-project")
+        executed_install_argv = [
+            "dnf", "-y", "--setopt=install_weak_deps=False", *DNF_NETWORK_OPTIONS,
+            "--disablerepo=*", *enabled_repositories, "install", "--", *dependencies,
+        ]
         if dependencies:
-            install_attempts = run_with_retries(root_exec(
-                container, "dnf", "-y",
-                "--setopt=install_weak_deps=False", *DNF_NETWORK_OPTIONS, "--disablerepo=*",
-                "--enablerepo=openeuler-rva23", "--enablerepo=openeuler-riscv-project",
-                "install", "--", *dependencies,
-            ))
+            install_attempts = run_with_retries(root_exec(container, *executed_install_argv))
         if args.build_user == "unprivileged":
             for command in build_user_provision_commands(container):
                 run(command)
@@ -262,21 +358,10 @@ def main() -> int:
         "derived_image_id": image_id,
         "derived_tag": args.derived_tag,
         "repository": "https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/",
-        "supplemental_repository": {
-            "state_url": supplemental_evidence["state_url"],
-            "state_sha256": supplemental_evidence["state_sha256"],
-            "generation": supplemental_evidence["generation"],
-            "baseurl": expected_baseurl,
-            "repomd_sha256": supplemental_evidence["repositories"]["riscv64"]["repomd_sha256"],
-            "rpm_gpgcheck": False,
-        },
+        "supplemental_repository": supplemental_record,
         "build_requires": dependencies,
         "planned_install_argv": planned_argv,
-        "executed_install_argv": [
-            "dnf", "-y", "--setopt=install_weak_deps=False", *DNF_NETWORK_OPTIONS, "--disablerepo=*",
-            "--enablerepo=openeuler-rva23", "--enablerepo=openeuler-riscv-project",
-            "install", "--", *dependencies,
-        ],
+        "executed_install_argv": executed_install_argv,
         "dependency_install_attempts": install_attempts,
         "rpm_manifest_before": before,
         "rpm_manifest_after": after,

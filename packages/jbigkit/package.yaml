@@ -1,0 +1,125 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/jbigkit/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jbigkit",
+        "package_name": "jbigkit",
+        "source": "arch-extra",
+        "source_version": "2.1-8"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-jbigkit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-jbigkit",
+        "package_name": "android-riscv64-jbigkit",
+        "source": "aur",
+        "source_version": "2.1-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/jbigkit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jbigkit",
+        "package_name": "jbigkit",
+        "source": "debian",
+        "source_version": "2.1-6.1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/jbigkit/jbigkit/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jbigkit",
+        "package_name": "jbigkit",
+        "source": "fedora",
+        "source_version": "2.1-33.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/jbigkit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jbigkit",
+        "package_name": "jbigkit",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.1-5.9"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/jbigkit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jbigkit",
+        "package_name": "jbigkit",
+        "source": "ubuntu",
+        "source_version": "2.1-6.1ubuntu3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cve-2017-9937-limit-decoded-image-size.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Backport upstream's decoded-image memory ceiling to mitigate CVE-2017-9937 denial of service in the 2.1 release.",
+        "remove_when": "Upstream publishes a stable release after 2.1 containing the decoded-image maxmem change.",
+        "sha256": "906b9e9cd9125eda9e62865529874de2fc7192a906b7010d1daff09aa3da9782",
+        "source": "Ubuntu security source package jbigkit 2.1-3.1ubuntu0.22.04.1; original upstream change by Markus Kuhn.",
+        "upstream_status": "accepted"
+      },
+      {
+        "file": "patches/0002-jbg-newlen-check-marker-length.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Reject truncated MARKER_NEWLEN input before reading the marker payload.",
+        "remove_when": "Upstream publishes a stable release after 2.1 containing the jbg_newlen end-of-file guard.",
+        "sha256": "9fa937db94020724ba8c5946c8c86f277760856923d1e17db62796fdf30c5703",
+        "source": "Ubuntu security source package jbigkit 2.1-3.1ubuntu0.22.04.1; original upstream change by Markus Kuhn.",
+        "upstream_status": "accepted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "jbigkit.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official Cambridge JBIG-KIT 2.1 release bytes are SHA-256 pinned. Ubuntu's upstream-authored CVE-2017-9937 and truncated-marker security fixes are backported with exact patch hashes. The complete T.82/T.85 and PBM functional test suite remains enabled and runs serially because upstream test targets share temporary filenames. Shared objects retain the target's libjbig.so.2.1 and libjbig85.so.2.1 SONAMEs. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "jbigkit",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "jbigkit",
+    "summary": "JBIG1 lossless image compression tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cambridge-release-page"
+  },
+  "upstream": {
+    "component": "jbigkit",
+    "homepage": "https://www.cl.cam.ac.uk/~mgk25/jbigkit/",
+    "release_api": "https://www.cl.cam.ac.uk/~mgk25/jbigkit/",
+    "release_channel": "stable",
+    "release_regex": "jbigkit-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://www.cl.cam.ac.uk/~mgk25/git/jbigkit",
+    "source_url_template": "https://www.cl.cam.ac.uk/~mgk25/jbigkit/download/jbigkit-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.1",
+    "latest_detected": "2.1",
+    "release": "1"
+  }
+}
