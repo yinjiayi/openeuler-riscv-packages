@@ -234,12 +234,15 @@ def main() -> int:
         "ci/authorize-trusted-package-dispatch.py",
         "--pr-number \"$PR_NUMBER\"",
         "--publish-to-repo \"$PUBLISH_TO_REPO\"",
+        "$GITHUB_REPOSITORY/.github/workflows/rpm-repo-backfill.yml@refs/heads/main",
         "inputs.commit_sha == '' && inputs.publish_to_repo",
     ):
         if marker not in package_ci:
             errors.append("package-ci.yml is missing fixed-main trusted dispatch authorization: %s" % marker)
     if package_ci.count("if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'") < 7:
         errors.append("package-ci.yml can check out a dispatch head before trusted authorization succeeds")
+    if "(github.event_name == 'workflow_call' && inputs.publish_to_repo)" in package_ci:
+        errors.append("package-ci.yml permits reusable callers other than the protected RPM backfill to publish")
     trusted_dispatch = root / "scripts" / "dispatch-trusted-package-ci"
     if not trusted_dispatch.is_file() or not trusted_dispatch.stat().st_mode & 0o111:
         errors.append("trusted protected-main package dispatcher is missing or not executable")

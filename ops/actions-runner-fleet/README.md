@@ -55,7 +55,9 @@ cannot bypass the local bridge by supplying an arbitrary SHA or enabling
 publication. Required contexts are posted only after the final
 `build-result.json` matches the requested package and commit. This lets a
 trusted maintainer use the fleet for package PRs without allowing public PR
-workflows onto persistent Docker-capable hosts.
+workflows onto persistent Docker-capable hosts. The separately protected
+`rpm-repo-backfill.yml` reusable caller remains allowed by its exact `main`
+workflow reference, so it can rebuild and publish already-merged packages.
 
 Run it only from a reviewed checkout after `scripts/github-credential-guard`
 has passed:

@@ -412,6 +412,11 @@ class BackfillWorkflowContractTests(unittest.TestCase):
             workflow,
         )
         self.assertNotIn("max-parallel: 16", workflow)
+        package_workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn(
+            "$GITHUB_REPOSITORY/.github/workflows/rpm-repo-backfill.yml@refs/heads/main",
+            package_workflow,
+        )
 
     def test_caller_permission_ceiling_covers_reusable_workflow_jobs(self) -> None:
         caller_blocks = permission_blocks(BACKFILL_WORKFLOW)

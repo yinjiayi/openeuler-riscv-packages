@@ -87,6 +87,7 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
           EVENT_REF: ${{ github.ref }}
+          CALLER_WORKFLOW_REF: ${{ github.workflow_ref }}
           PR_NUMBER: ${{ inputs.pr_number }}
           PACKAGE_ID: ${{ inputs.package_id }}
           BASE_SHA: ${{ inputs.base_sha }}
@@ -94,6 +95,10 @@ jobs:
           PUBLISH_TO_REPO: ${{ inputs.publish_to_repo }}
           GITHUB_TOKEN: ${{ github.token }}
         run: |
+          if [[ "$CALLER_WORKFLOW_REF" == "$GITHUB_REPOSITORY/.github/workflows/rpm-repo-backfill.yml@refs/heads/main" ]]; then
+            printf 'authorized=true\n' >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
           if [[ "$EVENT_NAME" != workflow_dispatch || -z "$COMMIT_SHA" ]]; then
             printf 'authorized=true\n' >>"$GITHUB_OUTPUT"
             exit 0
@@ -737,7 +742,7 @@ jobs:
       needs.prepare.outputs.mode == 'package' &&
       needs.prepare.outputs.needs_native != 'true' &&
       ((github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-       (github.event_name == 'workflow_call' && inputs.publish_to_repo) ||
+       (github.workflow_ref == 'yinjiayi/openeuler-riscv-packages/.github/workflows/rpm-repo-backfill.yml@refs/heads/main' && inputs.publish_to_repo) ||
        (github.event_name == 'workflow_dispatch' && inputs.commit_sha == '' && inputs.publish_to_repo))
     runs-on: ubuntu-24.04
     timeout-minutes: 15
