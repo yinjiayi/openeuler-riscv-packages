@@ -7,13 +7,14 @@ License:        GPL-3.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later AND
 URL:            https://www.gnu.org/software/global/
 Source0:        global-%{version}.tar.gz
 
+# The release archive ships global.info newer than global.texi; texinfo is
+# only needed when regenerating the release files.
 BuildRequires:  ctags
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  ncurses-devel
 BuildRequires:  python3
 BuildRequires:  sqlite-devel
-BuildRequires:  texinfo
 Requires:       ctags
 Requires:       python3
 
