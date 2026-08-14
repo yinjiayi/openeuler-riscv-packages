@@ -10,6 +10,7 @@ trap 'rm -rf -- "$smoke_dir"' EXIT
 
 cat >"$smoke_dir/libasyncns-smoke.c" <<'EOF'
 #include <asyncns.h>
+#include <stddef.h>
 
 int main(void) {
     asyncns_t *session = asyncns_new(1);
@@ -27,6 +28,8 @@ int main(void) {
 }
 EOF
 
-${CC:-cc} ${CFLAGS:-} -pthread "$smoke_dir/libasyncns-smoke.c" \
-  $(pkg-config --cflags --libs libasyncns) -o "$smoke_dir/libasyncns-smoke"
+read -r -a extra_cflags <<<"${CFLAGS:-}"
+read -r -a pkg_flags <<<"$(pkg-config --cflags --libs libasyncns)"
+"${CC:-cc}" "${extra_cflags[@]}" -pthread "$smoke_dir/libasyncns-smoke.c" \
+  "${pkg_flags[@]}" -o "$smoke_dir/libasyncns-smoke"
 "$smoke_dir/libasyncns-smoke"
