@@ -36,7 +36,7 @@ int main(void) {
         return 1;
     if (spng_set_option(ctx, SPNG_ENCODE_TO_BUFFER, 1) != 0 ||
         spng_set_ihdr(ctx, &ihdr) != 0 ||
-        spng_encode_image(ctx, pixel, sizeof(pixel), SPNG_FMT_RGBA8,
+        spng_encode_image(ctx, pixel, sizeof(pixel), SPNG_FMT_PNG,
                           SPNG_ENCODE_FINALIZE) != 0)
         return 2;
     png = spng_get_png_buffer(ctx, &png_size, &error);
