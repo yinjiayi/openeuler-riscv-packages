@@ -1,0 +1,94 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/tree/",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "tree",
+        "package_name": "tree",
+        "source": "arch-extra",
+        "source_version": "2.3.2-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/tree",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "tree",
+        "package_name": "tree",
+        "source": "debian",
+        "source_version": "2.2.1-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/tree-pkg/tree/",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "tree-pkg",
+        "package_name": "tree",
+        "source": "fedora",
+        "source_version": "2.2.1-4.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/tree",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "tree",
+        "package_name": "tree",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.3.2"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/tree",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "tree",
+        "package_name": "tree",
+        "source": "ubuntu",
+        "source_version": "2.3.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260811T112957Z-e0bbad697d0611fb"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tree.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official tree 2.3.2 stable release bytes are SHA-256 pinned. Arch stable and openSUSE Tumbleweed confirm 2.3.2; Fedora 44, Debian stable, and Ubuntu GA carried older stable releases, so this is an intentional official-stable forward release. AUR RPC exact-name and search snapshots contained no matching tree component package; unrelated name matches were rejected. No AUR recipe or distribution spec was read as executable content or executed.",
+    "status": "active"
+  },
+  "package_id": "tree",
+  "rpm": {
+    "license": "GPL-2.0-or-later AND LGPL-2.1-or-later",
+    "name": "tree",
+    "summary": "Display directory contents in a tree-like format"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "oldmanprogrammer.net-tree",
+    "homepage": "https://oldmanprogrammer.net/source.php?dir=projects/tree",
+    "release_api": "https://oldmanprogrammer.net/tar/tree/",
+    "release_channel": "stable",
+    "release_regex": "tree-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz",
+    "source_repository": "https://gitlab.com/OldManProgrammer/unix-tree",
+    "source_url_template": "https://oldmanprogrammer.net/tar/tree/tree-{version}.tgz"
+  },
+  "version": {"current": "2.3.2", "latest_detected": "2.3.2", "release": "1"}
+}

@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/jk-jeon/dragonbox",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dragonbox-git",
+        "package_name": "dragonbox-git",
+        "source": "aur",
+        "source_version": "1.1.3.r248.gbeeeef9-1"
+      },
+      {
+        "evidence_url": "https://github.com/jk-jeon/dragonbox",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dragonbox",
+        "package_name": "dragonbox",
+        "source": "debian",
+        "source_version": "1.1.3-2"
+      },
+      {
+        "evidence_url": "https://github.com/jk-jeon/dragonbox",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dragonbox",
+        "package_name": "dragonbox",
+        "source": "fedora",
+        "source_version": "1.1.3-10.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/jk-jeon/dragonbox",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dragonbox",
+        "package_name": "dragonbox",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.1.3-3.8"
+      },
+      {
+        "evidence_url": "https://github.com/jk-jeon/dragonbox",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dragonbox",
+        "package_name": "dragonbox",
+        "source": "ubuntu",
+        "source_version": "1.1.3-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "dragonbox.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "dragonbox",
+  "rpm": {
+    "license": "Apache-2.0 WITH LLVM-exception OR BSL-1.0",
+    "name": "dragonbox",
+    "summary": "Header-only float-to-string conversion library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-jk-jeon-dragonbox",
+    "homepage": "https://github.com/jk-jeon/dragonbox",
+    "release_api": "https://api.github.com/repos/jk-jeon/dragonbox/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/jk-jeon/dragonbox",
+    "source_url_template": "https://github.com/jk-jeon/dragonbox/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.1.3",
+    "latest_detected": "1.1.3",
+    "release": "1"
+  }
+}

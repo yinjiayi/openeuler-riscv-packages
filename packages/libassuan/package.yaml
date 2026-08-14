@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/libassuan/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libassuan",
+        "package_name": "libassuan",
+        "source": "arch-core",
+        "source_version": "3.0.0-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libassuan",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libassuan",
+        "package_name": "android-riscv64-libassuan",
+        "source": "aur",
+        "source_version": "3.0.0-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libassuan",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libassuan",
+        "package_name": "libassuan",
+        "source": "debian",
+        "source_version": "3.0.2-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libassuan/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libassuan",
+        "package_name": "libassuan",
+        "source": "fedora",
+        "source_version": "2.5.7-5.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libassuan",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libassuan",
+        "package_name": "libassuan",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.0.2-1.6"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libassuan",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libassuan",
+        "package_name": "libassuan",
+        "source": "ubuntu",
+        "source_version": "3.0.2-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libassuan.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 3.0.2 archive independently downloaded, inspected, and pinned. Fedora dist-git and AUR data were reviewed as untrusted text metadata only and were not executed. The new SONAME is packaged as libassuan9 so the target libassuan.so.0 runtime remains installed.",
+    "status": "active"
+  },
+  "package_id": "libassuan",
+  "rpm": {
+    "license": "GPL-3.0-or-later AND LGPL-2.1-or-later AND LGPL-3.0-or-later",
+    "name": "libassuan",
+    "summary": "IPC library used by GnuPG components"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnupg.org-related-software-libassuan",
+    "homepage": "https://gnupg.org/related_software/libassuan/",
+    "release_api": "https://gnupg.org/ftp/gcrypt/libassuan/",
+    "release_channel": "stable",
+    "release_regex": "libassuan-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+    "source_repository": "https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libassuan.git",
+    "source_url_template": "https://gnupg.org/ftp/gcrypt/libassuan/libassuan-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "3.0.2",
+    "latest_detected": "3.0.2",
+    "release": "1"
+  }
+}

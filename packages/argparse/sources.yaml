@@ -1,0 +1,21 @@
+{
+  "package_id": "argparse",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9dcb3d8ce0a41b2a48ac8baa54b51a9f1b6a2c52dd374e28cc713bab0568ec98"
+      },
+      "filename": "argparse-3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/p-ranav/argparse/archive/refs/tags/v3.2.tar.gz",
+      "version": "3.2"
+    }
+  ]
+}

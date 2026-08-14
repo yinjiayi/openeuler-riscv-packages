@@ -1,0 +1,21 @@
+{
+  "package_id": "libb2",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "10053dbc2fa342516b780a6bbf6e7b2a2360b8d49c5ac426936bf3df82526732"
+      },
+      "filename": "libb2-0.98.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/BLAKE2/libb2/archive/refs/tags/v0.98.1.tar.gz",
+      "version": "0.98.1"
+    }
+  ]
+}

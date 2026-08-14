@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/libconfuse/libconfuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "confuse",
+        "package_name": "confuse",
+        "source": "arch-extra",
+        "source_version": "3.3-5"
+      },
+      {
+        "evidence_url": "https://github.com/libconfuse/libconfuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfuse",
+        "package_name": "libconfuse",
+        "source": "debian",
+        "source_version": "3.3-4"
+      },
+      {
+        "evidence_url": "https://github.com/libconfuse/libconfuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfuse",
+        "package_name": "libconfuse",
+        "source": "fedora",
+        "source_version": "3.3-16.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/libconfuse/libconfuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-libconfuse",
+        "package_name": "mingw-libconfuse",
+        "source": "fedora",
+        "source_version": "3.2.2-20.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/libconfuse/libconfuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfuse",
+        "package_name": "libconfuse",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.3-2.12"
+      },
+      {
+        "evidence_url": "https://github.com/libconfuse/libconfuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfuse",
+        "package_name": "libconfuse",
+        "source": "ubuntu",
+        "source_version": "3.3-4build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libconfuse.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libconfuse",
+  "rpm": {
+    "license": "ISC",
+    "name": "libconfuse",
+    "summary": "Configuration file parser library for C"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-libconfuse-libconfuse",
+    "homepage": "https://github.com/libconfuse/libconfuse",
+    "release_api": "https://api.github.com/repos/libconfuse/libconfuse/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/libconfuse/libconfuse",
+    "source_url_template": "https://github.com/libconfuse/libconfuse/releases/download/v{version}/confuse-{version}.tar.xz"
+  },
+  "version": {
+    "current": "3.3",
+    "latest_detected": "3.3",
+    "release": "1"
+  }
+}

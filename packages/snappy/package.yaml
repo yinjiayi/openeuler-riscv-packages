@@ -1,0 +1,158 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snappy",
+        "package_name": "snappy",
+        "source": "arch-extra",
+        "source_version": "1.2.2-3"
+      },
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-snappy",
+        "package_name": "android-aarch64-snappy",
+        "source": "aur",
+        "source_version": "1.2.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-snappy",
+        "package_name": "android-armv7a-eabi-snappy",
+        "source": "aur",
+        "source_version": "1.2.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-snappy",
+        "package_name": "android-riscv64-snappy",
+        "source": "aur",
+        "source_version": "1.2.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-snappy",
+        "package_name": "android-x86-64-snappy",
+        "source": "aur",
+        "source_version": "1.2.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-snappy",
+        "package_name": "android-x86-snappy",
+        "source": "aur",
+        "source_version": "1.2.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-snappy",
+        "package_name": "lib32-snappy",
+        "source": "aur",
+        "source_version": "1.2.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-snappy",
+        "package_name": "mingw-w64-snappy",
+        "source": "aur",
+        "source_version": "1.2.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snappy",
+        "package_name": "snappy",
+        "source": "debian",
+        "source_version": "1.2.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snappy",
+        "package_name": "snappy",
+        "source": "fedora",
+        "source_version": "1.2.2-4.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/google/snappy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snappy",
+        "package_name": "snappy",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.2.2-1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-use-system-googletest.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Use openEuler's GoogleTest and GoogleMock packages because GitHub source archives omit Snappy's test submodule.",
+        "remove_when": "Upstream release archives include the test dependency or support system GoogleTest without a downstream patch.",
+        "sha256": "aba55555e771ff41c71619823a74217562e762a4ea12e2f5566d93c69f750fad",
+        "source": "Downstream offline-build review of upstream Snappy 1.2.2 CMake sources.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "snappy.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "snappy",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "snappy",
+    "summary": "Fast compression and decompression library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-google-snappy",
+    "homepage": "https://github.com/google/snappy",
+    "release_api": "https://api.github.com/repos/google/snappy/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/google/snappy",
+    "source_url_template": "https://github.com/google/snappy/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.2.2",
+    "latest_detected": "1.2.2",
+    "release": "1"
+  }
+}

@@ -39,12 +39,26 @@ class NativeRouting(Exception):
     """Internal control flow for an expected needs-native result."""
 
 
+COMMIT_SHA = re.compile(r"^[a-f0-9]{40}$")
+
+
+def exact_commit_sha(value: str) -> str:
+    if not COMMIT_SHA.fullmatch(value):
+        raise argparse.ArgumentTypeError("commit SHA must be exactly 40 lowercase hexadecimal characters")
+    return value
+
+
 def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser(description=__doc__)
     result.add_argument("--package-dir", required=True)
     result.add_argument("--repo-root", default=".")
     result.add_argument("--work-dir", required=True)
     result.add_argument("--result", required=True)
+    result.add_argument(
+        "--commit-sha",
+        type=exact_commit_sha,
+        help="exact checked-out commit represented by this result; never inferred from CI merge refs",
+    )
     mode = result.add_mutually_exclusive_group()
     mode.add_argument("--verify-only", action="store_true")
     mode.add_argument("--plan", action="store_true")
@@ -349,7 +363,7 @@ def main() -> int:
         "phase": "initialize",
         "exit_code": 1,
         "target": {"os": args.expected_os, "arch": args.expected_arch, "isa": args.expected_isa},
-        "commit_sha": os.environ.get("GITHUB_SHA") or os.environ.get("BUILD_COMMIT_SHA"),
+        "commit_sha": args.commit_sha,
         "source_verification": [],
         "commands": [],
         "artifacts": [],
@@ -438,8 +452,6 @@ def main() -> int:
                 raise NativeRouting()
             build_result["phase"] = "environment-check"
             build_result["environment"] = environment_check(args.expected_arch, args.expected_os, args.expected_isa)
-            if not args.offline:
-                raise ToolError("build phase requires --offline after a separate source verification step", 1)
             rpmbuild = shutil.which("rpmbuild")
             if not rpmbuild:
                 raise ToolError("rpmbuild is not installed in the build environment", 1)

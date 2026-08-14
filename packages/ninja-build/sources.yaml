@@ -1,0 +1,21 @@
+{
+  "package_id": "ninja-build",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "974d6b2f4eeefa25625d34da3cb36bdcebe7fbce40f4c16ac0835fd1c0cbae17"
+      },
+      "filename": "ninja-build-1.13.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ninja-build/ninja/archive/refs/tags/v1.13.2.tar.gz",
+      "version": "1.13.2"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/klange/nyancat",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nyancat",
+        "package_name": "nyancat",
+        "source": "arch-extra",
+        "source_version": "1.5.2-3"
+      },
+      {
+        "evidence_url": "https://github.com/klange/nyancat",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nyancat",
+        "package_name": "nyancat",
+        "source": "debian",
+        "source_version": "1.5.2-0.3"
+      },
+      {
+        "evidence_url": "https://github.com/klange/nyancat",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nyancat",
+        "package_name": "nyancat",
+        "source": "fedora",
+        "source_version": "1.5.2-18.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/klange/nyancat",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nyancat",
+        "package_name": "nyancat",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.5.2-2.18"
+      },
+      {
+        "evidence_url": "https://github.com/klange/nyancat",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nyancat",
+        "package_name": "nyancat",
+        "source": "ubuntu",
+        "source_version": "1.5.2-0.3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "nyancat.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "nyancat",
+  "rpm": {
+    "license": "NCSA",
+    "name": "nyancat",
+    "summary": "Nyan Cat animation rendered in a terminal"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-klange-nyancat",
+    "homepage": "https://github.com/klange/nyancat",
+    "release_api": "https://api.github.com/repos/klange/nyancat/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/klange/nyancat",
+    "source_url_template": "https://github.com/klange/nyancat/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.5.2",
+    "latest_detected": "1.5.2",
+    "release": "1"
+  }
+}

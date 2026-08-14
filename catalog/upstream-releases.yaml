@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "reviewed-upstream-releases",
   "source_snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
-  "reviewed_at": "2026-08-10T10:30:00Z",
+  "reviewed_at": "2026-08-11T11:32:10Z",
   "policy": {
     "stable_only": true,
     "official_https_required": true,
@@ -2966,6 +2966,1498 @@
         "make"
       ],
       "requires": []
+    },
+    {
+      "component_id": "sourceware.org-bzip2",
+      "package_id": "bzip2",
+      "canonical_name": "bzip2",
+      "summary": "High-quality data compression utilities and library",
+      "license": "bzip2-1.0.6",
+      "version": "1.0.8",
+      "upstream": {
+        "homepage": "https://sourceware.org/bzip2/",
+        "repository_url": "https://sourceware.org/git/bzip2.git",
+        "release_api": "https://sourceware.org/pub/bzip2/",
+        "release_regex": "bzip2-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://sourceware.org/pub/bzip2/bzip2-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz",
+        "filename": "bzip2-1.0.8.tar.gz",
+        "sha256": "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
+      },
+      "evidence": {
+        "release_page": "https://sourceware.org/pub/bzip2/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "bzip2-1.0.8",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "libcheck.github.io-check",
+      "package_id": "check",
+      "canonical_name": "check",
+      "summary": "Unit testing framework for C",
+      "license": "LGPL-2.1-or-later",
+      "version": "0.15.2",
+      "upstream": {
+        "homepage": "https://libcheck.github.io/check/",
+        "repository_url": "https://github.com/libcheck/check",
+        "release_api": "https://api.github.com/repos/libcheck/check/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/libcheck/check/releases/download/{version}/check-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz",
+        "filename": "check-0.15.2.tar.gz",
+        "sha256": "a8de4e0bacfb4d76dd1c618ded263523b53b85d92a146d8835eb1a52932fa20a"
+      },
+      "evidence": {
+        "release_page": "https://github.com/libcheck/check/releases/tag/0.15.2",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "COPYING.LESSER",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "check-0.15.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gawk",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-davegamble-cjson",
+      "package_id": "cjson",
+      "canonical_name": "cjson",
+      "summary": "Ultralightweight JSON parser in ANSI C",
+      "license": "MIT",
+      "version": "1.7.19",
+      "upstream": {
+        "homepage": "https://github.com/DaveGamble/cJSON",
+        "repository_url": "https://github.com/DaveGamble/cJSON",
+        "release_api": "https://api.github.com/repos/DaveGamble/cJSON/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/DaveGamble/cJSON/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/DaveGamble/cJSON/archive/refs/tags/v1.7.19.tar.gz",
+        "filename": "cjson-1.7.19.tar.gz",
+        "sha256": "7fa616e3046edfa7a28a32d5f9eacfd23f92900fe1f8ccd988c1662f30454562"
+      },
+      "evidence": {
+        "release_page": "https://github.com/DaveGamble/cJSON/releases/tag/v1.7.19",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "cJSON-1.7.19",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "libbsd.freedesktop.org",
+      "package_id": "libbsd",
+      "canonical_name": "libbsd",
+      "summary": "Utility functions from BSD systems",
+      "license": "BSD-3-Clause AND BSD-2-Clause AND BSD-4-Clause-UC AND ISC AND LicenseRef-Beerware AND LicenseRef-Public-Domain",
+      "version": "0.12.2",
+      "upstream": {
+        "homepage": "https://libbsd.freedesktop.org/",
+        "repository_url": "https://gitlab.freedesktop.org/libbsd/libbsd",
+        "release_api": "https://libbsd.freedesktop.org/releases/",
+        "release_regex": "libbsd-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://libbsd.freedesktop.org/releases/libbsd-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://libbsd.freedesktop.org/releases/libbsd-0.12.2.tar.xz",
+        "filename": "libbsd-0.12.2.tar.xz",
+        "sha256": "b88cc9163d0c652aaf39a99991d974ddba1c3a9711db8f1b5838af2a14731014"
+      },
+      "evidence": {
+        "release_page": "https://libbsd.freedesktop.org/releases/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libbsd-0.12.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "libmd-devel",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-stevegrubb-libcap-ng",
+      "package_id": "libcap-ng",
+      "canonical_name": "libcap-ng",
+      "summary": "Alternate POSIX capabilities library",
+      "license": "GPL-2.0-or-later AND LGPL-2.1-or-later",
+      "version": "0.9.2",
+      "upstream": {
+        "homepage": "https://github.com/stevegrubb/libcap-ng",
+        "repository_url": "https://github.com/stevegrubb/libcap-ng",
+        "release_api": "https://api.github.com/repos/stevegrubb/libcap-ng/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/stevegrubb/libcap-ng/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/stevegrubb/libcap-ng/archive/refs/tags/v0.9.2.tar.gz",
+        "filename": "libcap-ng-0.9.2.tar.gz",
+        "sha256": "df6910d996818848de92db9c05f96492e008c4e35f96a8673f9b7cc44f5cf813"
+      },
+      "evidence": {
+        "release_page": "https://github.com/stevegrubb/libcap-ng/releases/tag/v0.9.2",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING and COPYING.LIB",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libcap-ng-0.9.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "autoconf",
+        "automake",
+        "gcc",
+        "libtool",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "maxmind.github.io-libmaxminddb",
+      "package_id": "libmaxminddb",
+      "canonical_name": "libmaxminddb",
+      "summary": "Library for reading MaxMind DB files",
+      "license": "Apache-2.0",
+      "version": "1.13.3",
+      "upstream": {
+        "homepage": "https://maxmind.github.io/libmaxminddb/",
+        "repository_url": "https://github.com/maxmind/libmaxminddb",
+        "release_api": "https://api.github.com/repos/maxmind/libmaxminddb/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/maxmind/libmaxminddb/releases/download/{version}/libmaxminddb-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/maxmind/libmaxminddb/releases/download/1.13.3/libmaxminddb-1.13.3.tar.gz",
+        "filename": "libmaxminddb-1.13.3.tar.gz",
+        "sha256": "a66502ea76eadbe17f2cd6fd708946777253972d2ae8157dee1b23a2fb528171"
+      },
+      "evidence": {
+        "release_page": "https://github.com/maxmind/libmaxminddb/releases/tag/1.13.3",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "LICENSE and NOTICE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libmaxminddb-1.13.3",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "gcc-c++",
+        "make",
+        "perl"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "hadrons.org-software-libmd",
+      "package_id": "libmd",
+      "canonical_name": "libmd",
+      "summary": "Message-digest functions from BSD systems",
+      "license": "BSD-3-Clause AND BSD-2-Clause AND ISC AND LicenseRef-Beerware AND LicenseRef-Public-Domain",
+      "version": "1.2.0",
+      "upstream": {
+        "homepage": "https://www.hadrons.org/software/libmd/",
+        "repository_url": "https://git.hadrons.org/cgit/libmd.git",
+        "release_api": "https://libbsd.freedesktop.org/releases/",
+        "release_regex": "libmd-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://libbsd.freedesktop.org/releases/libmd-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://libbsd.freedesktop.org/releases/libmd-1.2.0.tar.xz",
+        "filename": "libmd-1.2.0.tar.xz",
+        "sha256": "ac15ffb8430502fbaccdec66c5a82ee0eab0b0f36220df56710feadfeb13d0a0"
+      },
+      "evidence": {
+        "release_page": "https://libbsd.freedesktop.org/releases/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libmd-1.2.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "netfilter.org-projects-libmnl",
+      "package_id": "libmnl",
+      "canonical_name": "libmnl",
+      "summary": "Minimalistic Netlink userspace library",
+      "license": "LGPL-2.1-only",
+      "version": "1.0.5",
+      "upstream": {
+        "homepage": "https://netfilter.org/projects/libmnl/",
+        "repository_url": "https://git.netfilter.org/libmnl/",
+        "release_api": "https://netfilter.org/projects/libmnl/files/",
+        "release_regex": "libmnl-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+        "source_url_template": "https://netfilter.org/projects/libmnl/files/libmnl-{version}.tar.bz2"
+      },
+      "source": {
+        "url": "https://netfilter.org/projects/libmnl/files/libmnl-1.0.5.tar.bz2",
+        "filename": "libmnl-1.0.5.tar.bz2",
+        "sha256": "274b9b919ef3152bfb3da3a13c950dd60d6e2bcd54230ffeca298d03b40d0525"
+      },
+      "evidence": {
+        "release_page": "https://netfilter.org/projects/libmnl/files/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libmnl-1.0.5",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "mpfr.org",
+      "package_id": "mpfr",
+      "canonical_name": "mpfr",
+      "summary": "Multiple-precision floating-point library with correct rounding",
+      "license": "LGPL-3.0-or-later AND GFDL-1.3-or-later",
+      "version": "4.2.2",
+      "upstream": {
+        "homepage": "https://www.mpfr.org/",
+        "repository_url": "https://gitlab.inria.fr/mpfr/mpfr",
+        "release_api": "https://www.mpfr.org/mpfr-current/",
+        "release_regex": "mpfr-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://www.mpfr.org/mpfr-{version}/mpfr-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://www.mpfr.org/mpfr-4.2.2/mpfr-4.2.2.tar.xz",
+        "filename": "mpfr-4.2.2.tar.xz",
+        "sha256": "b67ba0383ef7e8a8563734e2e889ef5ec3c3b898a01d00fa0a6869ad81c6ce01"
+      },
+      "evidence": {
+        "release_page": "https://www.mpfr.org/mpfr-4.2.2/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING.LESSER and COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "mpfr-4.2.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "gmp-devel",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "oberhumer.com-opensource-lzo",
+      "package_id": "lzo",
+      "canonical_name": "lzo",
+      "summary": "Data compression library optimized for decompression speed",
+      "license": "GPL-2.0-or-later",
+      "version": "2.10",
+      "upstream": {
+        "homepage": "https://www.oberhumer.com/opensource/lzo/",
+        "repository_url": "https://www.oberhumer.com/opensource/lzo/",
+        "release_api": "https://www.oberhumer.com/opensource/lzo/download/",
+        "release_regex": "lzo-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://www.oberhumer.com/opensource/lzo/download/lzo-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz",
+        "filename": "lzo-2.10.tar.gz",
+        "sha256": "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072"
+      },
+      "evidence": {
+        "release_page": "https://www.oberhumer.com/opensource/lzo/download/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "lzo-2.10",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "gnu.org-software-m4",
+      "package_id": "m4",
+      "canonical_name": "m4",
+      "summary": "GNU macro processor",
+      "license": "GPL-3.0-or-later",
+      "version": "1.4.21",
+      "upstream": {
+        "homepage": "https://www.gnu.org/software/m4/",
+        "repository_url": "https://git.savannah.gnu.org/cgit/m4.git",
+        "release_api": "https://ftp.gnu.org/gnu/m4/",
+        "release_regex": "m4-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://ftpmirror.gnu.org/m4/m4-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://ftpmirror.gnu.org/m4/m4-1.4.21.tar.xz",
+        "filename": "m4-1.4.21.tar.xz",
+        "sha256": "f25c6ab51548a73a75558742fb031e0625d6485fe5f9155949d6486a2408ab66"
+      },
+      "evidence": {
+        "release_page": "https://ftp.gnu.org/gnu/m4/",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "m4-1.4.21",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "ninja-build.org",
+      "package_id": "ninja-build",
+      "canonical_name": "ninja-build",
+      "summary": "Small build system focused on speed",
+      "license": "Apache-2.0",
+      "version": "1.13.2",
+      "upstream": {
+        "homepage": "https://ninja-build.org/",
+        "repository_url": "https://github.com/ninja-build/ninja",
+        "release_api": "https://api.github.com/repos/ninja-build/ninja/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/ninja-build/ninja/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/ninja-build/ninja/archive/refs/tags/v1.13.2.tar.gz",
+        "filename": "ninja-build-1.13.2.tar.gz",
+        "sha256": "974d6b2f4eeefa25625d34da3cb36bdcebe7fbce40f4c16ac0835fd1c0cbae17"
+      },
+      "evidence": {
+        "release_page": "https://github.com/ninja-build/ninja/releases/tag/v1.13.2",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "ninja-1.13.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc-c++",
+        "gtest-devel",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-juliastrings-utf8proc",
+      "package_id": "utf8proc",
+      "canonical_name": "utf8proc",
+      "summary": "Unicode normalization and case-folding library",
+      "license": "MIT",
+      "version": "2.11.3",
+      "upstream": {
+        "homepage": "https://github.com/JuliaStrings/utf8proc",
+        "repository_url": "https://github.com/JuliaStrings/utf8proc",
+        "release_api": "https://api.github.com/repos/JuliaStrings/utf8proc/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/JuliaStrings/utf8proc/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/JuliaStrings/utf8proc/archive/refs/tags/v2.11.3.tar.gz",
+        "filename": "utf8proc-2.11.3.tar.gz",
+        "sha256": "abfed50b6d4da51345713661370290f4f4747263ee73dc90356299dfc7990c78"
+      },
+      "evidence": {
+        "release_page": "https://github.com/JuliaStrings/utf8proc/releases/tag/v2.11.3",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE.md",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "utf8proc-2.11.3",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-troydhanson-uthash",
+      "package_id": "uthash",
+      "canonical_name": "uthash",
+      "summary": "Hash table and utility headers for C",
+      "license": "BSD-1-Clause",
+      "version": "2.3.0",
+      "upstream": {
+        "homepage": "https://troydhanson.github.io/uthash/",
+        "repository_url": "https://github.com/troydhanson/uthash",
+        "release_api": "https://api.github.com/repos/troydhanson/uthash/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/troydhanson/uthash/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/troydhanson/uthash/archive/refs/tags/v2.3.0.tar.gz",
+        "filename": "uthash-2.3.0.tar.gz",
+        "sha256": "e10382ab75518bad8319eb922ad04f907cb20cccb451a3aa980c9d005e661acc"
+      },
+      "evidence": {
+        "release_page": "https://github.com/troydhanson/uthash/releases/tag/v2.3.0",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "uthash-2.3.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": true,
+          "unsafe_links": false,
+          "link_count": 1
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make",
+        "perl"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-lloyd-yajl",
+      "package_id": "yajl",
+      "canonical_name": "yajl",
+      "summary": "Yet Another JSON Library",
+      "license": "ISC",
+      "version": "2.1.0",
+      "upstream": {
+        "homepage": "https://github.com/lloyd/yajl",
+        "repository_url": "https://github.com/lloyd/yajl",
+        "release_api": "https://api.github.com/repos/lloyd/yajl/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/lloyd/yajl/archive/refs/tags/{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/lloyd/yajl/archive/refs/tags/2.1.0.tar.gz",
+        "filename": "yajl-2.1.0.tar.gz",
+        "sha256": "3fb73364a5a30efe615046d07e6db9d09fd2b41c763c5f7d3bfb121cd5c5ac5a"
+      },
+      "evidence": {
+        "release_page": "https://github.com/lloyd/yajl/releases/tag/2.1.0",
+        "verified_at": "2026-08-11T02:19:30Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "yajl-2.1.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-akheron-jansson",
+      "package_id": "jansson",
+      "canonical_name": "jansson",
+      "summary": "C library for encoding, decoding, and manipulating JSON",
+      "license": "MIT AND LicenseRef-Public-Domain",
+      "version": "2.15.1",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "github.com-akheron-jansson",
+          "source": "arch",
+          "original_name": "jansson",
+          "package_base": "jansson",
+          "source_version": "2.15.0-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "digip.org-jansson",
+          "source": "aur",
+          "original_name": "jansson-git",
+          "package_base": "jansson-git",
+          "source_version": "2.14.r17.gbde2846-1",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "github.com-akheron-jansson",
+          "source": "debian",
+          "original_name": "jansson",
+          "package_base": "jansson",
+          "source_version": "2.14-2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-akheron-jansson",
+          "source": "fedora",
+          "original_name": "jansson",
+          "package_base": "jansson",
+          "source_version": "2.14-4.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-akheron-jansson",
+          "source": "opensuse",
+          "original_name": "libjansson",
+          "package_base": "libjansson",
+          "source_version": "2.15.1-1.2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-akheron-jansson",
+          "source": "ubuntu",
+          "original_name": "jansson",
+          "package_base": "jansson",
+          "source_version": "2.14-2build4",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://jansson.readthedocs.io/",
+        "repository_url": "https://github.com/akheron/jansson",
+        "release_api": "https://api.github.com/repos/akheron/jansson/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/akheron/jansson/releases/download/v{version}/jansson-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/akheron/jansson/releases/download/v2.15.1/jansson-2.15.1.tar.gz",
+        "filename": "jansson-2.15.1.tar.gz",
+        "sha256": "0c7114dc0b2d22a670724a1f95922029d7077c19dbf79a584cb8084d2f267f2f"
+      },
+      "evidence": {
+        "release_page": "https://github.com/akheron/jansson/releases/tag/v2.15.1",
+        "verified_at": "2026-08-11T11:10:00Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "jansson-2.15.1",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "xiph.org-libogg",
+      "package_id": "libogg",
+      "canonical_name": "libogg",
+      "summary": "Ogg bitstream format library",
+      "license": "BSD-3-Clause",
+      "version": "1.3.6",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "xiph.org-vorbis",
+          "source": "arch",
+          "original_name": "libogg",
+          "package_base": "libogg",
+          "source_version": "1.3.6-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "xiph.org-vorbis",
+          "source": "aur",
+          "original_name": "android-riscv64-libogg",
+          "package_base": "android-riscv64-libogg",
+          "source_version": "1.3.6-1",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "xiph.org-vorbis",
+          "source": "debian",
+          "original_name": "libogg",
+          "package_base": "libogg",
+          "source_version": "1.3.5-3",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "xiph.org-vorbis",
+          "source": "fedora",
+          "original_name": "libogg",
+          "package_base": "libogg",
+          "source_version": "2:1.3.6-2.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "xiph.org-vorbis",
+          "source": "opensuse",
+          "original_name": "libogg",
+          "package_base": "libogg",
+          "source_version": "1.3.6-1.5",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "libogg",
+          "source": "ubuntu",
+          "original_name": "libogg",
+          "package_base": "libogg",
+          "source_version": "1.3.6-2",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://xiph.org/ogg/",
+        "repository_url": "https://gitlab.xiph.org/xiph/ogg",
+        "release_api": "https://downloads.xiph.org/releases/ogg/",
+        "release_regex": "libogg-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://downloads.xiph.org/releases/ogg/libogg-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://downloads.xiph.org/releases/ogg/libogg-1.3.6.tar.xz",
+        "filename": "libogg-1.3.6.tar.xz",
+        "sha256": "5c8253428e181840cd20d41f3ca16557a9cc04bad4a3d04cce84808677fa1061"
+      },
+      "evidence": {
+        "release_page": "https://downloads.xiph.org/releases/ogg/",
+        "verified_at": "2026-08-11T11:10:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libogg-1.3.6",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "gnu.org-software-gperf",
+      "package_id": "gperf",
+      "canonical_name": "gperf",
+      "summary": "Perfect hash function generator",
+      "license": "GPL-3.0-or-later",
+      "version": "3.3",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "gnu.org-software-gperf",
+          "source": "arch",
+          "original_name": "gperf",
+          "package_base": "gperf",
+          "source_version": "3.3-2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-gperf",
+          "source": "aur",
+          "original_name": "gperf-git",
+          "package_base": "gperf-git",
+          "source_version": "3.3.r3.g4939b6b-2",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-gperf",
+          "source": "debian",
+          "original_name": "gperf",
+          "package_base": "gperf",
+          "source_version": "3.2.1-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-gperf",
+          "source": "fedora",
+          "original_name": "gperf",
+          "package_base": "gperf",
+          "source_version": "3.2.1-3.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-gperf",
+          "source": "opensuse",
+          "original_name": "gperf",
+          "package_base": "gperf",
+          "source_version": "3.3-1.5",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gperf",
+          "source": "ubuntu",
+          "original_name": "gperf",
+          "package_base": "gperf",
+          "source_version": "3.3-1",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://www.gnu.org/software/gperf/",
+        "repository_url": "https://git.savannah.gnu.org/git/gperf.git",
+        "release_api": "https://ftp.gnu.org/gnu/gperf/",
+        "release_regex": "gperf-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://ftp.gnu.org/gnu/gperf/gperf-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/gperf/gperf-3.3.tar.gz",
+        "filename": "gperf-3.3.tar.gz",
+        "sha256": "fd87e0aba7e43ae054837afd6cd4db03a3f2693deb3619085e6ed9d8d9604ad8"
+      },
+      "evidence": {
+        "release_page": "https://ftp.gnu.org/gnu/gperf/",
+        "verified_at": "2026-08-11T11:10:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "gperf-3.3",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc-c++",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "gnu.org-software-patch",
+      "package_id": "patch",
+      "canonical_name": "patch",
+      "summary": "Utility for applying diff files",
+      "license": "GPL-3.0-or-later",
+      "version": "2.8",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "savannah.gnu.org-projects-patch",
+          "source": "arch",
+          "original_name": "patch",
+          "package_base": "patch",
+          "source_version": "2.8-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-patch-patch.html",
+          "source": "aur",
+          "original_name": "patch-git",
+          "package_base": "patch-git",
+          "source_version": "2.7.6.r29.gc835ecc-1",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "savannah.gnu.org-projects-patch",
+          "source": "debian",
+          "original_name": "patch",
+          "package_base": "patch",
+          "source_version": "2.8-2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "savannah.gnu.org-projects-patch",
+          "source": "fedora",
+          "original_name": "patch",
+          "package_base": "patch",
+          "source_version": "2.8-4.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "savannah.gnu.org-projects-patch",
+          "source": "opensuse",
+          "original_name": "patch",
+          "package_base": "patch",
+          "source_version": "2.8-3.2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "savannah.gnu.org-projects-patch",
+          "source": "ubuntu",
+          "original_name": "patch",
+          "package_base": "patch",
+          "source_version": "2.8-2build1",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://savannah.gnu.org/projects/patch/",
+        "repository_url": "https://git.savannah.gnu.org/git/patch.git",
+        "release_api": "https://ftp.gnu.org/gnu/patch/",
+        "release_regex": "patch-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://ftp.gnu.org/gnu/patch/patch-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/patch/patch-2.8.tar.xz",
+        "filename": "patch-2.8.tar.xz",
+        "sha256": "f87cee69eec2b4fcbf60a396b030ad6aa3415f192aa5f7ee84cad5e11f7f5ae3"
+      },
+      "evidence": {
+        "release_page": "https://ftp.gnu.org/gnu/patch/",
+        "verified_at": "2026-08-11T11:10:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "patch-2.8",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "ed",
+        "gcc",
+        "libattr-devel",
+        "make"
+      ],
+      "requires": [
+        "ed"
+      ]
+    },
+    {
+      "component_id": "sourceforge.net-project-libpng",
+      "package_id": "libpng",
+      "canonical_name": "libpng",
+      "summary": "PNG reference library",
+      "license": "libpng-2.0",
+      "version": "1.6.58",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "libpng.org-pub-png-libpng.html",
+          "source": "arch",
+          "original_name": "libpng",
+          "package_base": "libpng",
+          "source_version": "1.6.58-2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "libpng.org-pub-png-libpng.html",
+          "source": "aur",
+          "original_name": "android-riscv64-libpng",
+          "package_base": "android-riscv64-libpng",
+          "source_version": "1.6.54-1",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "libpng.org-pub-png-libpng.html",
+          "source": "debian",
+          "original_name": "libpng1.6",
+          "package_base": "libpng1.6",
+          "source_version": "1.6.48-1+deb13u5",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "libpng.org-pub-png",
+          "source": "fedora",
+          "original_name": "libpng",
+          "package_base": "libpng",
+          "source_version": "2:1.6.55-1.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "libpng.org-pub-png-libpng.html",
+          "source": "opensuse",
+          "original_name": "libpng16",
+          "package_base": "libpng16",
+          "source_version": "1.6.58-1.2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "libpng1.6",
+          "source": "ubuntu",
+          "original_name": "libpng1.6",
+          "package_base": "libpng1.6",
+          "source_version": "1.6.57-1",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://libpng.sourceforge.io/",
+        "repository_url": "https://github.com/pnggroup/libpng",
+        "release_api": "https://sourceforge.net/projects/libpng/rss?path=/libpng16",
+        "release_regex": "libpng-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://downloads.sourceforge.net/project/libpng/libpng16/{version}/libpng-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://downloads.sourceforge.net/project/libpng/libpng16/1.6.58/libpng-1.6.58.tar.xz",
+        "filename": "libpng-1.6.58.tar.xz",
+        "sha256": "28eb403f51f0f7405249132cecfe82ea5c0ef97f1b32c5a65828814ae0d34775"
+      },
+      "evidence": {
+        "release_page": "https://sourceforge.net/projects/libpng/files/libpng16/1.6.58/",
+        "verified_at": "2026-08-11T11:10:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libpng-1.6.58",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make",
+        "zlib-devel"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-tukaani-project-xz",
+      "package_id": "xz",
+      "canonical_name": "xz",
+      "summary": "LZMA compression utilities and library",
+      "license": "0BSD AND GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.1-or-later",
+      "version": "5.8.3",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "tukaani.org-xz",
+          "source": "arch",
+          "original_name": "xz",
+          "package_base": "xz",
+          "source_version": "5.8.3-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "tukaani.org-xz",
+          "source": "aur",
+          "original_name": "mingw-w64-xz",
+          "package_base": "mingw-w64-xz",
+          "source_version": "5.8.3-1",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "tukaani.org-xz",
+          "source": "debian",
+          "original_name": "xz-utils",
+          "package_base": "xz-utils",
+          "source_version": "5.8.1-1+deb13u1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "tukaani.org-xz",
+          "source": "fedora",
+          "original_name": "xz",
+          "package_base": "xz",
+          "source_version": "1:5.8.2-2.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "tukaani.org-xz",
+          "source": "opensuse",
+          "original_name": "xz",
+          "package_base": "xz",
+          "source_version": "5.8.3-1.4",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "xz-utils",
+          "source": "ubuntu",
+          "original_name": "xz-utils",
+          "package_base": "xz-utils",
+          "source_version": "5.8.3-1",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://tukaani.org/xz/",
+        "repository_url": "https://github.com/tukaani-project/xz",
+        "release_api": "https://api.github.com/repos/tukaani-project/xz/releases",
+        "release_regex": null,
+        "source_url_template": "https://github.com/tukaani-project/xz/releases/download/v{version}/xz-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://github.com/tukaani-project/xz/releases/download/v5.8.3/xz-5.8.3.tar.xz",
+        "filename": "xz-5.8.3.tar.xz",
+        "sha256": "fff1ffcf2b0da84d308a14de513a1aa23d4e9aa3464d17e64b9714bfdd0bbfb6"
+      },
+      "evidence": {
+        "release_page": "https://github.com/tukaani-project/xz/releases/tag/v5.8.3",
+        "verified_at": "2026-08-11T11:10:00Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "COPYING, COPYING.0BSD, COPYING.GPLv2, COPYING.GPLv3, and COPYING.LGPLv2.1",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "xz-5.8.3",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "doxygen",
+        "gcc",
+        "gettext-devel",
+        "make"
+      ],
+      "requires": [
+        "grep"
+      ]
+    },
+    {
+      "component_id": "gnu.org-software-sed",
+      "package_id": "sed",
+      "canonical_name": "sed",
+      "summary": "GNU stream-oriented text editor",
+      "license": "GPL-3.0-or-later",
+      "version": "4.10",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "gnu.org-software-sed",
+          "source": "arch",
+          "original_name": "sed",
+          "package_base": "sed",
+          "source_version": "4.10-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-sed",
+          "source": "aur",
+          "original_name": "sed-git",
+          "package_base": "sed-git",
+          "source_version": "4.9.r32.g5420e97-1",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-sed",
+          "source": "debian",
+          "original_name": "sed",
+          "package_base": "sed",
+          "source_version": "4.9-2+deb13u1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-sed",
+          "source": "fedora",
+          "original_name": "sed",
+          "package_base": "sed",
+          "source_version": "4.9-7.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-sed",
+          "source": "opensuse",
+          "original_name": "sed",
+          "package_base": "sed",
+          "source_version": "4.10-1.4",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-sed",
+          "source": "ubuntu",
+          "original_name": "sed",
+          "package_base": "sed",
+          "source_version": "4.9-2build3",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://www.gnu.org/software/sed/",
+        "repository_url": "https://git.savannah.gnu.org/git/sed.git",
+        "release_api": "https://ftp.gnu.org/gnu/sed/",
+        "release_regex": "sed-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://ftp.gnu.org/gnu/sed/sed-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/sed/sed-4.10.tar.xz",
+        "filename": "sed-4.10.tar.xz",
+        "sha256": "b8e72182b2ec96a3574e2998c47b7aaa64cc20ce000d8e9ac313cc07cecf28c7"
+      },
+      "evidence": {
+        "release_page": "https://ftp.gnu.org/gnu/sed/",
+        "verified_at": "2026-08-11T11:10:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "sed-4.10",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "gettext-devel",
+        "glibc-all-langpacks",
+        "libacl-devel",
+        "libselinux-devel",
+        "make",
+        "perl",
+        "perl(FileHandle)",
+        "perl-Getopt-Long"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "xiph.org-opus",
+      "package_id": "opus",
+      "canonical_name": "opus",
+      "summary": "Low-delay speech and audio codec library",
+      "license": "BSD-3-Clause AND BSD-2-Clause",
+      "version": "1.6.1",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "opus-codec.org",
+          "source": "arch",
+          "original_name": "opus",
+          "package_base": "opus",
+          "source_version": "1.6.1-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "opus-codec.org",
+          "source": "aur",
+          "original_name": "android-riscv64-opus",
+          "package_base": "android-riscv64-opus",
+          "source_version": "1.6.1-1",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "opus-codec.org",
+          "source": "debian",
+          "original_name": "opus",
+          "package_base": "opus",
+          "source_version": "1.5.2-2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "opus-codec.org",
+          "source": "fedora",
+          "original_name": "opus",
+          "package_base": "opus",
+          "source_version": "1.6-2.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "opus-codec.org",
+          "source": "opensuse",
+          "original_name": "opus",
+          "package_base": "opus",
+          "source_version": "1.6.1-1.5",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "opus",
+          "source": "ubuntu",
+          "original_name": "opus",
+          "package_base": "opus",
+          "source_version": "1.6.1-1",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://opus-codec.org/",
+        "repository_url": "https://gitlab.xiph.org/xiph/opus",
+        "release_api": "https://downloads.xiph.org/releases/opus/",
+        "release_regex": "opus-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://downloads.xiph.org/releases/opus/opus-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://downloads.xiph.org/releases/opus/opus-1.6.1.tar.gz",
+        "filename": "opus-1.6.1.tar.gz",
+        "sha256": "6ffcb593207be92584df15b32466ed64bbec99109f007c82205f0194572411a1"
+      },
+      "evidence": {
+        "release_page": "https://downloads.xiph.org/releases/opus/",
+        "verified_at": "2026-08-11T11:10:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING and source file headers",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "opus-1.6.1",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "doxygen",
+        "gcc",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "xiph.org-flac",
+      "package_id": "flac",
+      "canonical_name": "flac",
+      "summary": "Free Lossless Audio Codec reference implementation",
+      "license": "BSD-3-Clause AND GPL-2.0-or-later AND GFDL-1.3-or-later",
+      "version": "1.5.0",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "xiph.org-flac",
+          "source": "arch",
+          "original_name": "flac",
+          "package_base": "flac",
+          "source_version": "1.5.0-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "xiph.org-flac",
+          "source": "aur",
+          "original_name": "android-riscv64-flac",
+          "package_base": "android-riscv64-flac",
+          "source_version": "1.5.0-1",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "xiph.org-flac",
+          "source": "debian",
+          "original_name": "flac",
+          "package_base": "flac",
+          "source_version": "1.5.0+ds-2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "xiph.org-flac",
+          "source": "fedora",
+          "original_name": "flac",
+          "package_base": "flac",
+          "source_version": "1.5.0-8.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "xiph.org-flac",
+          "source": "opensuse",
+          "original_name": "flac",
+          "package_base": "flac",
+          "source_version": "1.5.0-1.6",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "flac",
+          "source": "ubuntu",
+          "original_name": "flac",
+          "package_base": "flac",
+          "source_version": "1.5.0+ds-5",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://xiph.org/flac/",
+        "repository_url": "https://github.com/xiph/flac",
+        "release_api": "https://downloads.xiph.org/releases/flac/",
+        "release_regex": "flac-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://downloads.xiph.org/releases/flac/flac-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://downloads.xiph.org/releases/flac/flac-1.5.0.tar.xz",
+        "filename": "flac-1.5.0.tar.xz",
+        "sha256": "f2c1c76592a82ffff8413ba3c4a1299b6c7ab06c734dee03fd88630485c2b920"
+      },
+      "evidence": {
+        "release_page": "https://downloads.xiph.org/releases/flac/",
+        "verified_at": "2026-08-11T11:10:00Z",
+        "method": "downloaded-official-archive-and-matched-publisher-sha256sum",
+        "license_file": "COPYING.Xiph, COPYING.GPL, and COPYING.FDL",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "flac-1.5.0",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "doxygen",
+        "gcc",
+        "gcc-c++",
+        "gettext-devel",
+        "libogg-devel",
+        "make"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "gnu.org-software-which",
+      "package_id": "which",
+      "canonical_name": "which",
+      "summary": "Display the full path of commands",
+      "license": "GPL-3.0-or-later",
+      "version": "2.25",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "savannah.gnu.org-projects-which",
+          "source": "arch",
+          "original_name": "which",
+          "package_base": "which",
+          "source_version": "2.25-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "savannah.gnu.org-projects-which",
+          "source": "aur",
+          "original_name": "which-git",
+          "package_base": "which-git",
+          "source_version": "r251.g3e2c8f8-1",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "debianutils",
+          "source": "debian",
+          "original_name": "debianutils",
+          "package_base": "debianutils",
+          "source_version": "5.23.2",
+          "relationship": "functional-provider"
+        },
+        {
+          "snapshot_component_id": "savannah.gnu.org-projects-which",
+          "source": "fedora",
+          "original_name": "which",
+          "package_base": "which",
+          "source_version": "2.23-4.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "savannah.gnu.org-projects-which",
+          "source": "opensuse",
+          "original_name": "which",
+          "package_base": "which",
+          "source_version": "2.25-1.3",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "debianutils",
+          "source": "ubuntu",
+          "original_name": "debianutils",
+          "package_base": "debianutils",
+          "source_version": "5.23.2build1",
+          "relationship": "functional-provider"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://savannah.gnu.org/projects/which/",
+        "repository_url": "https://git.savannah.gnu.org/git/which.git",
+        "release_api": "https://ftp.gnu.org/gnu/which/",
+        "release_regex": "which-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://ftp.gnu.org/gnu/which/which-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/which/which-2.25.tar.gz",
+        "filename": "which-2.25.tar.gz",
+        "sha256": "1cb83e4f702e60b8211ab5ec4c2afbab1b1dec80209456a7d2faf7584ed225ea"
+      },
+      "evidence": {
+        "release_page": "https://ftp.gnu.org/gnu/which/",
+        "verified_at": "2026-08-11T11:10:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "which-2.25",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "gcc-c++",
+        "make",
+        "readline-devel"
+      ],
+      "requires": [
+        "coreutils"
+      ]
     }
   ]
 }

@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/libxcrypt/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxcrypt",
+        "package_name": "libxcrypt",
+        "source": "arch-core",
+        "source_version": "4.5.2-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libxcrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libxcrypt",
+        "package_name": "android-riscv64-libxcrypt",
+        "source": "aur",
+        "source_version": "4.5.2-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libxcrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxcrypt",
+        "package_name": "libxcrypt",
+        "source": "debian",
+        "source_version": "1:4.4.38-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libxcrypt/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxcrypt",
+        "package_name": "libxcrypt",
+        "source": "fedora",
+        "source_version": "4.5.2-3.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libxcrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxcrypt",
+        "package_name": "libxcrypt",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.5.2-2.4"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libxcrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxcrypt",
+        "package_name": "libxcrypt",
+        "source": "ubuntu",
+        "source_version": "1:4.5.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libxcrypt.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 4.5.2 release asset independently downloaded, inspected, and pinned. Fedora dist-git and AUR data were reviewed as untrusted text metadata only and were not executed. The build preserves the target libcrypt.so.1 ABI.",
+    "status": "active"
+  },
+  "package_id": "libxcrypt",
+  "rpm": {
+    "license": "LGPL-2.1-or-later AND BSD-3-Clause AND BSD-2-Clause AND BSD-2-Clause-FreeBSD AND 0BSD AND CC0-1.0 AND LicenseRef-Fedora-Public-Domain",
+    "name": "libxcrypt",
+    "summary": "Modern library for one-way password hashing"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-besser82-libxcrypt",
+    "homepage": "https://github.com/besser82/libxcrypt",
+    "release_api": "https://api.github.com/repos/besser82/libxcrypt/releases",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/besser82/libxcrypt",
+    "source_url_template": "https://github.com/besser82/libxcrypt/releases/download/v{version}/libxcrypt-{version}.tar.xz"
+  },
+  "version": {
+    "current": "4.5.2",
+    "latest_detected": "4.5.2",
+    "release": "1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "sipsak",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ffcb116c4bcce58c165f1b4644debf9cb973f9239a5fc1c3cf37328549f13c91"
+      },
+      "filename": "sipsak-0.9.8.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nils-ohlmeier/sipsak/archive/refs/tags/0.9.8.1.tar.gz",
+      "version": "0.9.8.1"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "package_id": "libzip",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8a247f57d1e3e6f6d11413b12a6f28a9d388de110adc0ec608d893180ed7097b"
+      },
+      "filename": "libzip-1.11.4.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://libzip.org/download/libzip-1.11.4.tar.xz",
+      "version": "1.11.4"
+    },
+    {
+      "digests": {
+        "sha256": "e8f309fb5007089fe13a0b563fb2ed78105207a04e7dc9e14486119ce3053978"
+      },
+      "filename": "nihtest-1.9.1.tar.gz",
+      "id": "test0",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "nihtest is BSD-3-Clause licensed and is fetched only for the offline upstream regression suite."
+      },
+      "signature": null,
+      "url": "https://nih.at/nihtest/nihtest-1.9.1.tar.gz",
+      "version": "1.9.1"
+    }
+  ]
+}

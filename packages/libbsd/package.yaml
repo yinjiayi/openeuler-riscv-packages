@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://libbsd.freedesktop.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libbsd",
+        "package_name": "libbsd",
+        "source": "arch-extra",
+        "source_version": "0.12.2-2"
+      },
+      {
+        "evidence_url": "https://libbsd.freedesktop.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-libbsd",
+        "package_name": "lib32-libbsd",
+        "source": "aur",
+        "source_version": "0.12.2-1"
+      },
+      {
+        "evidence_url": "https://libbsd.freedesktop.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libbsd",
+        "package_name": "libbsd",
+        "source": "debian",
+        "source_version": "0.12.2-2"
+      },
+      {
+        "evidence_url": "https://libbsd.freedesktop.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libbsd",
+        "package_name": "libbsd",
+        "source": "fedora",
+        "source_version": "0.12.2-7.fc44"
+      },
+      {
+        "evidence_url": "https://libbsd.freedesktop.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libbsd",
+        "package_name": "libbsd",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.11.7-2.12"
+      },
+      {
+        "evidence_url": "https://libbsd.freedesktop.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libbsd",
+        "package_name": "libbsd",
+        "source": "ubuntu",
+        "source_version": "0.12.2-2build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libbsd.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libbsd",
+  "rpm": {
+    "license": "BSD-3-Clause AND BSD-2-Clause AND BSD-4-Clause-UC AND ISC AND LicenseRef-Beerware AND LicenseRef-Public-Domain",
+    "name": "libbsd",
+    "summary": "Utility functions from BSD systems"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libbsd.freedesktop.org",
+    "homepage": "https://libbsd.freedesktop.org",
+    "release_api": "https://libbsd.freedesktop.org/releases/",
+    "release_channel": "stable",
+    "release_regex": "libbsd-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.freedesktop.org/libbsd/libbsd",
+    "source_url_template": "https://libbsd.freedesktop.org/releases/libbsd-{version}.tar.xz"
+  },
+  "version": {
+    "current": "0.12.2",
+    "latest_detected": "0.12.2",
+    "release": "1"
+  }
+}

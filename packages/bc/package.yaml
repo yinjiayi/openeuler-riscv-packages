@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/bc/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bc",
+        "package_name": "bc",
+        "source": "arch-extra",
+        "source_version": "1.08.2-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/bc/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bc",
+        "package_name": "bc",
+        "source": "debian",
+        "source_version": "1.07.1-4"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/bc/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bc",
+        "package_name": "bc",
+        "source": "fedora",
+        "source_version": "1.08.2-4.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/bc/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bc",
+        "package_name": "bc",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.08.2-1.6"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/bc/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bc",
+        "package_name": "bc",
+        "source": "ubuntu",
+        "source_version": "1.07.1-4build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "bc.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable archive reviewed and SHA-256 pinned from the immutable discovery snapshot; external distribution packaging was inspected only as metadata and was not executed.",
+    "status": "active"
+  },
+  "package_id": "bc",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "bc",
+    "summary": "GNU arbitrary precision calculator language"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-bc",
+    "homepage": "https://www.gnu.org/software/bc/",
+    "release_api": "https://ftp.gnu.org/gnu/bc/",
+    "release_channel": "stable",
+    "release_regex": "bc-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://git.savannah.gnu.org/git/bc.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/bc/bc-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.08.2",
+    "latest_detected": "1.08.2",
+    "release": "1"
+  }
+}
