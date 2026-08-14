@@ -19,5 +19,11 @@ the full suite successfully with the official lzip 1.26 dependency. Installed
 smoke verifies the version and decodes a fixed lzip stream; target SP3/RVA23 CI
 remains authoritative.
 
+The openEuler SP3 RISC-V binutils 2.42 linker reports an
+`R_RISCV_PCREL_HI20` overflow while relaxing the PIE link. The SPEC disables
+RISC-V linker relaxation for this small executable while retaining the
+distribution compile and link hardening flags. Remove the workaround after the
+target linker can build the package with relaxation enabled.
+
 External source licenses remain those of upstream. Apache-2.0 covers only the
 original packaging metadata, scripts, tests, and documentation here.
