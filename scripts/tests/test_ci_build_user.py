@@ -295,13 +295,26 @@ class BuildContainerCommandTests(unittest.TestCase):
             root = pathlib.Path(temporary) / "work"
             (root / "SOURCES").mkdir(parents=True)
             (root / "SOURCES" / "source.tar.xz").write_bytes(b"source")
+            executable = root / "run-check"
+            executable.write_text("#!/bin/sh\n")
+            root.chmod(0o700)
+            (root / "SOURCES").chmod(0o700)
+            (root / "SOURCES" / "source.tar.xz").chmod(0o600)
+            executable.chmod(0o700)
             with mock.patch.object(RUNNER_MODULE.os, "chown") as chown:
                 count = RUNNER_MODULE.handoff_ownership(root)
-            self.assertEqual(count, 3)
-            self.assertEqual(chown.call_count, 3)
+            self.assertEqual(count, 4)
+            self.assertEqual(chown.call_count, 4)
             for call in chown.call_args_list:
                 self.assertEqual(call.args[1:3], (10001, 10001))
                 self.assertFalse(call.kwargs["follow_symlinks"])
+            self.assertEqual(root.stat().st_mode & 0o007, 0o005)
+            self.assertEqual((root / "SOURCES").stat().st_mode & 0o007, 0o005)
+            self.assertEqual(
+                (root / "SOURCES" / "source.tar.xz").stat().st_mode & 0o007,
+                0o004,
+            )
+            self.assertEqual(executable.stat().st_mode & 0o007, 0o005)
 
             (root / "unsafe").symlink_to("SOURCES")
             with self.assertRaises(RUNNER_MODULE.ContractError):
@@ -395,7 +408,9 @@ class BuildContainerCommandTests(unittest.TestCase):
                 commit_sha=self.commit,
                 build_user="unprivileged",
             )
-            with mock.patch.object(RUNNER_MODULE.subprocess, "run", side_effect=fake_run):
+            with mock.patch.object(
+                RUNNER_MODULE.subprocess, "run", side_effect=fake_run
+            ):
                 self.assertEqual(RUNNER_MODULE.run_mode(arguments), 0)
             self.assertEqual(calls, 2)
             for name in RUNNER_MODULE.EVIDENCE_FILES:
@@ -406,6 +421,54 @@ class BuildContainerCommandTests(unittest.TestCase):
                 ],
                 self.commit,
             )
+
+    def test_successful_unprivileged_run_requires_complete_readback_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = pathlib.Path(temporary) / "repo"
+            work = repo / "work" / "demo"
+            artifacts = repo / "artifacts" / "build"
+            package = repo / "packages" / "demo"
+            for directory in (
+                work,
+                artifacts,
+                package,
+                repo / "ci",
+                repo / "scripts",
+            ):
+                directory.mkdir(parents=True, exist_ok=True)
+            (repo / "ci" / "run-rpmbuild-container.py").write_text(
+                "#!/usr/bin/env python3\n"
+            )
+            (repo / "scripts" / "build-rpm").write_text("#!/usr/bin/env python3\n")
+            (package / "package.yaml").write_text("{}\n")
+
+            calls = 0
+
+            def fake_run(command, *, check):
+                nonlocal calls
+                calls += 1
+                if calls == 1:
+                    (work / ".ci-result" / "ownership-handoff.json").write_text(
+                        '{"kind":"rpmbuild-ownership-handoff"}\n'
+                    )
+                return subprocess.CompletedProcess(command, 0)
+
+            arguments = Namespace(
+                image=self.image,
+                package_id="demo",
+                repo_root=str(repo),
+                work_dir=str(work),
+                artifact_dir=str(artifacts),
+                commit_sha=self.commit,
+                build_user="unprivileged",
+            )
+            with mock.patch.object(RUNNER_MODULE.subprocess, "run", side_effect=fake_run):
+                with self.assertRaisesRegex(
+                    RUNNER_MODULE.ContractError,
+                    "successful unprivileged build is missing required evidence",
+                ):
+                    RUNNER_MODULE.run_mode(arguments)
+            self.assertEqual(calls, 2)
 
     def test_dependency_install_and_user_provisioning_are_explicitly_root(self) -> None:
         self.assertEqual(
