@@ -7,9 +7,9 @@
     "homepage": "https://www.nongnu.org/lzip/lziprecover.html",
     "source_repository": "https://savannah.nongnu.org/projects/lzip/",
     "release_channel": "stable",
-    "release_api": "https://download.savannah.gnu.org/releases/lzip/lziprecover/",
+    "release_api": "https://download-mirror.savannah.gnu.org/releases/lzip/lziprecover/",
     "release_regex": "lziprecover-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
-    "source_url_template": "https://download.savannah.gnu.org/releases/lzip/lziprecover/lziprecover-{version}.tar.gz"
+    "source_url_template": "https://download-mirror.savannah.gnu.org/releases/lzip/lziprecover/lziprecover-{version}.tar.gz"
   },
   "version": {"current": "1.26", "release": "1", "latest_detected": "1.26"},
   "discovery": {
