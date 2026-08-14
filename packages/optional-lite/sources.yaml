@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "optional-lite",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/nonstd-lite/optional-lite/archive/refs/tags/v3.6.0.tar.gz",
+      "filename": "optional-lite-3.6.0.tar.gz",
+      "version": "3.6.0",
+      "digests": {
+        "sha256": "2be17fcfc764809612282c3e728cabc42afe703b9dc333cc87c48d882fcfc2c2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the upstream Boost Software License; source is fetched in CI."
+      }
+    }
+  ]
+}
