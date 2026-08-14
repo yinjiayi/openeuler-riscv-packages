@@ -8,6 +8,8 @@ URL:            https://github.com/sustrik/libdill
 Source0:        libdill-%{version}.tar.gz
 Patch0:         0001-fix-compilation-for-gcc-9.patch
 
+%global fallback_cflags %{optflags} -fno-stack-protector -fno-stack-clash-protection -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0
+
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
@@ -36,9 +38,9 @@ printf '%s\n' '%{version}' > .version
 %build
 ./autogen.sh
 %configure --enable-shared --disable-static
-# The upstream fallback stack switch documents that stack protector is not
-# compatible with non-x86 coroutine stacks.
-%make_build CFLAGS="%{optflags} -fno-stack-protector"
+# The non-x86 fallback moves the stack with alloca. Upstream documents that
+# stack protection, fortification, and other stack checking are incompatible.
+%make_build CFLAGS="%{fallback_cflags}"
 
 %install
 %make_install
@@ -47,7 +49,7 @@ rm -f %{buildroot}%{_libdir}/*.la
 %check
 # Keep the complete upstream test suite enabled; serialize socket tests so
 # parallel jobs do not share temporary endpoints.
-%make_build -j1 check
+%make_build -j1 CFLAGS="%{fallback_cflags}" check
 
 %files
 %license COPYING
@@ -66,3 +68,4 @@ rm -f %{buildroot}%{_libdir}/*.la
 * Fri Aug 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.14-1
 - Initial openEuler RISC-V package from the independently verified upstream tag.
 - Apply the post-release upstream fix for GCC 9 and newer.
+- Preserve the full coroutine test suite with the upstream fallback C flags.
