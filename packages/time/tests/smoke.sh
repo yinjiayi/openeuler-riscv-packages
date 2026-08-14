@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- time
-/usr/bin/time --version | head -n 1 | grep -F 'GNU time 1.10'
+test "$(/usr/bin/time --version | sed -n '1s/.* //p')" = 1.10
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
