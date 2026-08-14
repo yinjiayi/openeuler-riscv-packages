@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "slang",
+  "rpm": {
+    "name": "slang",
+    "summary": "Embeddable interpreted language and application library",
+    "license": "GPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "jedsoft.org-slang",
+    "homepage": "https://www.jedsoft.org/slang/",
+    "source_repository": "https://www.jedsoft.org/slang/",
+    "release_channel": "stable",
+    "release_api": "https://www.jedsoft.org/slang/download.html",
+    "release_regex": "slang-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+    "source_url_template": "https://www.jedsoft.org/releases/slang/slang-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "2.3.3",
+    "release": "4",
+    "latest_detected": "2.3.3"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "slang",
+        "package_base": "slang",
+        "source_version": "2.3.3-4",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/slang/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "slang2",
+        "package_base": "slang2",
+        "source_version": "2.3.3-5",
+        "evidence_url": "https://packages.debian.org/trixie/source/slang2",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "slang",
+        "package_base": "slang",
+        "source_version": "2.3.3-9.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/slang/slang/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "slang",
+        "package_base": "slang",
+        "source_version": "2.3.3+git16.89d32bb-2.6",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/slang",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "slang2",
+        "package_base": "slang2",
+        "source_version": "2.3.3-5build1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/slang2",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "slang.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official current-stable 2.3.3 publisher archive is SHA-256 pinned and contains the complete upstream interpreter, C API, module, and slsh test suites. Frozen Arch, Debian, Fedora 44, openSUSE, and Ubuntu evidence corroborates the lineage; the unrelated AUR jed alias is excluded and no external packaging recipe was read or executed. Release 4 exceeds target EVR 2.3.3-3 while preserving libslang.so.2 and the target main/devel/help split."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

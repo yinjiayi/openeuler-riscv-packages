@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libucl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/vstakhov/libucl/archive/refs/tags/0.9.4.tar.gz",
+      "filename": "libucl-0.9.4.tar.gz",
+      "version": "0.9.4",
+      "digests": {
+        "sha256": "319d8ff13441f55d91cd7f3708a54bd03779733e26958c2346c5109014520aaf"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution and modification are permitted by the upstream BSD-2-Clause license."
+      }
+    }
+  ]
+}
