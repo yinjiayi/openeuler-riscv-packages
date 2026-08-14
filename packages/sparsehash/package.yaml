@@ -1,0 +1,116 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/sparsehash/sparsehash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sparsehash",
+        "package_name": "sparsehash",
+        "source": "arch-extra",
+        "source_version": "2.0.4-3"
+      },
+      {
+        "evidence_url": "https://github.com/sparsehash/sparsehash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-sparsehash",
+        "package_name": "mingw-w64-sparsehash",
+        "source": "aur",
+        "source_version": "2.0.4-1"
+      },
+      {
+        "evidence_url": "https://github.com/sparsehash/sparsehash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sparsehash",
+        "package_name": "sparsehash",
+        "source": "debian",
+        "source_version": "2.0.3-2"
+      },
+      {
+        "evidence_url": "https://github.com/sparsehash/sparsehash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-sparsehash",
+        "package_name": "mingw-sparsehash",
+        "source": "fedora",
+        "source_version": "2.0.3-16.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/sparsehash/sparsehash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sparsehash",
+        "package_name": "sparsehash",
+        "source": "fedora",
+        "source_version": "2.0.3-17.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/sparsehash/sparsehash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sparsehash",
+        "package_name": "sparsehash",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.0.4-2.2"
+      },
+      {
+        "evidence_url": "https://github.com/sparsehash/sparsehash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sparsehash",
+        "package_name": "sparsehash",
+        "source": "ubuntu",
+        "source_version": "2.0.3-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "sparsehash.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "sparsehash",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "sparsehash",
+    "summary": "Memory-efficient C++ hash table headers"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-sparsehash-sparsehash",
+    "homepage": "https://github.com/sparsehash/sparsehash",
+    "release_api": "https://api.github.com/repos/sparsehash/sparsehash/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "\\\"tag_name\\\"\\s*:\\s*\\\"sparsehash-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\\"",
+    "source_repository": "https://github.com/sparsehash/sparsehash",
+    "source_url_template": "https://github.com/sparsehash/sparsehash/archive/refs/tags/sparsehash-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.0.4",
+    "latest_detected": "2.0.4",
+    "release": "1"
+  }
+}

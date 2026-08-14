@@ -1,0 +1,21 @@
+{
+  "package_id": "sysfsutils",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f7f669d27c997d3eb3f3e014b4c0aa1aa4d07ce4d6f9e41fa835240f2bf38810"
+      },
+      "filename": "sysfsutils-2.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linux-ras/sysfsutils/archive/refs/tags/v2.1.1.tar.gz",
+      "version": "2.1.1"
+    }
+  ]
+}

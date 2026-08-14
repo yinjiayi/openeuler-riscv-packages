@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import runpy
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 from helpers import SCRIPTS, run_tool, write_json
 
@@ -68,9 +70,12 @@ class BuildAndClassifyTests(unittest.TestCase):
             digest = canonical_tar_gz(fixture, archive, "golden-demo-1.0")["sha256"]
             package_dir = golden_package(root, "golden-demo", digest)
             result = root / "result.json"
-            run_tool("build-rpm", ["--package-dir", str(package_dir), "--repo-root", str(root), "--work-dir", str(root / "work"), "--result", str(result), "--verify-only", "--now", "2026-08-08T00:00:00Z"], root)
+            exact_head = "a" * 40
+            with mock.patch.dict(os.environ, {"GITHUB_SHA": "b" * 40}):
+                run_tool("build-rpm", ["--package-dir", str(package_dir), "--repo-root", str(root), "--work-dir", str(root / "work"), "--result", str(result), "--commit-sha", exact_head, "--verify-only", "--now", "2026-08-08T00:00:00Z"], root)
             document = json.loads(result.read_text())
             self.assertEqual(document["status"], "source-verified")
+            self.assertEqual(document["commit_sha"], exact_head)
             self.assertEqual(document["source_verification"][0]["sha256"], digest)
             self.assertEqual(document["dependency_plan"]["build_requires"], ["gcc"])
             offline = root / "offline.json"

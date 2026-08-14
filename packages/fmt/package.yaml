@@ -1,0 +1,188 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fmt",
+        "package_name": "fmt",
+        "source": "arch-extra",
+        "source_version": "12.2.0-1"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fmt",
+        "package_name": "fmt-docs",
+        "source": "arch-extra",
+        "source_version": "12.2.0-1"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-fmt",
+        "package_name": "android-aarch64-fmt",
+        "source": "aur",
+        "source_version": "12.1.0-1"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-fmt",
+        "package_name": "android-armv7a-eabi-fmt",
+        "source": "aur",
+        "source_version": "12.1.0-1"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-fmt",
+        "package_name": "android-riscv64-fmt",
+        "source": "aur",
+        "source_version": "12.1.0-1"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-fmt",
+        "package_name": "android-x86-64-fmt",
+        "source": "aur",
+        "source_version": "12.1.0-1"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-fmt",
+        "package_name": "android-x86-fmt",
+        "source": "aur",
+        "source_version": "12.1.0-1"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fmt-git",
+        "package_name": "fmt-git",
+        "source": "aur",
+        "source_version": "12.1.0.r109.g88c5a91-1"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fmt10",
+        "package_name": "fmt10",
+        "source": "aur",
+        "source_version": "10.2.1-1"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fmt9",
+        "package_name": "fmt9",
+        "source": "aur",
+        "source_version": "9.1.0-6"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-fmt",
+        "package_name": "mingw-w64-fmt",
+        "source": "aur",
+        "source_version": "12.2.0-1"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fmtlib",
+        "package_name": "fmtlib",
+        "source": "debian",
+        "source_version": "10.1.1+ds1-4"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fmt",
+        "package_name": "fmt",
+        "source": "opensuse-tumbleweed",
+        "source_version": "12.1.0-1.5"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fmt-10",
+        "package_name": "fmt-10",
+        "source": "opensuse-tumbleweed",
+        "source_version": "10.2.1-1.8"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fmt-9",
+        "package_name": "fmt-9",
+        "source": "opensuse-tumbleweed",
+        "source_version": "9.1.0-1.9"
+      },
+      {
+        "evidence_url": "https://fmt.dev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fmtlib",
+        "package_name": "fmtlib",
+        "source": "ubuntu",
+        "source_version": "10.1.1+ds1-4build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "fmt.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "fmt",
+  "rpm": {
+    "license": "MIT",
+    "name": "fmt",
+    "summary": "Modern formatting library for C++"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "fmt.dev",
+    "homepage": "https://fmt.dev",
+    "release_api": "https://api.github.com/repos/fmtlib/fmt/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/fmtlib/fmt",
+    "source_url_template": "https://github.com/fmtlib/fmt/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "12.2.0",
+    "latest_detected": "12.2.0",
+    "release": "1"
+  }
+}

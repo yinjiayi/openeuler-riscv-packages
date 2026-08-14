@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/kazuho/picojson",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "picojson",
+        "package_name": "picojson",
+        "source": "debian",
+        "source_version": "1.3.0+git20210118.111c9be-2"
+      },
+      {
+        "evidence_url": "https://github.com/kazuho/picojson",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "picojson",
+        "package_name": "picojson",
+        "source": "fedora",
+        "source_version": "1.3.0-24.20210117git111c9be.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/kazuho/picojson",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "picojson",
+        "package_name": "picojson",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.3.0-1.25"
+      },
+      {
+        "evidence_url": "https://github.com/kazuho/picojson",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "picojson",
+        "package_name": "picojson",
+        "source": "ubuntu",
+        "source_version": "1.3.0+git20210118.111c9be-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "picojson.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "picojson",
+  "rpm": {
+    "license": "BSD-2-Clause",
+    "name": "picojson",
+    "summary": "Header-only JSON parser and serializer for C++"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-kazuho-picojson",
+    "homepage": "https://github.com/kazuho/picojson",
+    "release_api": "https://api.github.com/repos/kazuho/picojson/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/kazuho/picojson",
+    "source_url_template": "https://github.com/kazuho/picojson/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.3.0",
+    "latest_detected": "1.3.0",
+    "release": "1"
+  }
+}

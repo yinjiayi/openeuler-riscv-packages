@@ -1,0 +1,116 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://libcheck.github.io/check",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "check",
+        "package_name": "check",
+        "source": "arch-extra",
+        "source_version": "0.15.2-4"
+      },
+      {
+        "evidence_url": "https://libcheck.github.io/check",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "check",
+        "package_name": "check-docs",
+        "source": "arch-extra",
+        "source_version": "0.15.2-4"
+      },
+      {
+        "evidence_url": "https://libcheck.github.io/check",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-check",
+        "package_name": "lib32-check",
+        "source": "aur",
+        "source_version": "0.15.2-5"
+      },
+      {
+        "evidence_url": "https://libcheck.github.io/check",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "check",
+        "package_name": "check",
+        "source": "debian",
+        "source_version": "0.15.2-3"
+      },
+      {
+        "evidence_url": "https://libcheck.github.io/check",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "check",
+        "package_name": "check",
+        "source": "fedora",
+        "source_version": "0.15.2-21.fc44"
+      },
+      {
+        "evidence_url": "https://libcheck.github.io/check",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "check",
+        "package_name": "check",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.15.2-2.20"
+      },
+      {
+        "evidence_url": "https://libcheck.github.io/check",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "check",
+        "package_name": "check",
+        "source": "ubuntu",
+        "source_version": "0.15.2-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "check.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "check",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "check",
+    "summary": "Unit testing framework for C"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "libcheck.github.io-check",
+    "homepage": "https://libcheck.github.io/check",
+    "release_api": "https://api.github.com/repos/libcheck/check/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/libcheck/check",
+    "source_url_template": "https://github.com/libcheck/check/releases/download/{version}/check-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.15.2",
+    "latest_detected": "0.15.2",
+    "release": "1"
+  }
+}

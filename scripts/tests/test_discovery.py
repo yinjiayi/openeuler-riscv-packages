@@ -308,6 +308,28 @@ class DiscoveryTests(unittest.TestCase):
             self.assertFalse(result["policy"]["external_packaging_executed"])
             self.assertEqual(json.loads(snapshot.read_text()), original)
 
+            reviewed = json.loads(evidence.read_text())
+            for method in (
+                "downloaded-official-release-archive-and-calculated-sha256",
+                "downloaded-official-release-asset-and-calculated-sha256",
+                "downloaded-official-tag-archive-and-calculated-sha256",
+                "downloaded-official-archive-and-matched-publisher-sha256sum",
+            ):
+                reviewed["releases"][0]["evidence"]["method"] = method
+                write_json(evidence, reviewed)
+                run_tool(
+                    "resolve-upstream",
+                    [
+                        "--input",
+                        str(snapshot),
+                        "--reviewed-evidence",
+                        str(evidence),
+                        "--output",
+                        str(root / ("resolved-" + method + ".json")),
+                    ],
+                    root,
+                )
+
             unsafe = json.loads(evidence.read_text())
             unsafe["releases"][0]["evidence"]["archive_inspection"]["symlinks"] = True
             write_json(evidence, unsafe)
@@ -318,6 +340,136 @@ class DiscoveryTests(unittest.TestCase):
                 expected=2,
             )
             self.assertIn("archive safety inspection is incomplete", rejected.stderr)
+
+    def test_resolver_promotes_exact_split_lineage_to_canonical_component(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            snapshot = root / "snapshot.json"
+            original = {
+                "snapshot_id": "discovery-split-fixture",
+                "candidates": [],
+                "rejections": [
+                    {
+                        "name": "unrelated-bundle-name",
+                        "component_id": "wrong.example-bundle",
+                        "stable_version": "9.0",
+                        "decision": "unverified-upstream",
+                        "lineage": [
+                            {"source": "arch", "repository": "extra", "original_name": "demo", "package_base": "demo", "source_version": "1.1-1", "fetched_at": "2026-08-08T00:00:00Z"},
+                            {"source": "aur", "repository": "aur", "original_name": "demo-git", "package_base": "demo-git", "source_version": "1.1.r2-1", "fetched_at": "2026-08-08T00:00:00Z"},
+                        ],
+                    },
+                    {
+                        "name": "demo",
+                        "component_id": "demo-split",
+                        "stable_version": "1.1",
+                        "decision": "unverified-upstream",
+                        "lineage": [
+                            {"source": "ubuntu", "repository": "stable/main", "original_name": "demo", "package_base": "demo", "source_version": "1.1-2", "fetched_at": "2026-08-08T00:00:00Z"}
+                        ],
+                    },
+                    {
+                        "name": "provider-suite",
+                        "component_id": "provider-suite",
+                        "stable_version": "5.0",
+                        "decision": "unverified-upstream",
+                        "lineage": [
+                            {"source": "debian", "repository": "stable/main", "original_name": "provider-suite", "package_base": "provider-suite", "source_version": "5.0-1", "fetched_at": "2026-08-08T00:00:00Z"}
+                        ],
+                    },
+                ],
+            }
+            write_json(snapshot, original)
+            evidence = root / "evidence.json"
+            reviewed = {
+                "schema_version": 1,
+                "kind": "reviewed-upstream-releases",
+                "source_snapshot_id": "discovery-split-fixture",
+                "reviewed_at": "2026-08-08T01:00:00Z",
+                "policy": {"stable_only": True, "official_https_required": True, "source_sha256_required": True, "external_packaging_executed": False},
+                "releases": [
+                    {
+                        "component_id": "official.example-demo",
+                        "package_id": "demo",
+                        "canonical_name": "demo",
+                        "summary": "Reviewed split-lineage demo",
+                        "license": "MIT",
+                        "version": "1.1",
+                        "lineage_promotions": [
+                            {"snapshot_component_id": "wrong.example-bundle", "source": "arch", "original_name": "demo", "package_base": "demo", "source_version": "1.1-1", "relationship": "upstream-component"},
+                            {"snapshot_component_id": "wrong.example-bundle", "source": "aur", "original_name": "demo-git", "package_base": "demo-git", "source_version": "1.1.r2-1", "relationship": "metadata-clue"},
+                            {"snapshot_component_id": "demo-split", "source": "ubuntu", "original_name": "demo", "package_base": "demo", "source_version": "1.1-2", "relationship": "upstream-component"},
+                            {"snapshot_component_id": "provider-suite", "source": "debian", "original_name": "provider-suite", "package_base": "provider-suite", "source_version": "5.0-1", "relationship": "functional-provider"},
+                        ],
+                        "upstream": {
+                            "homepage": "https://official.example/demo",
+                            "repository_url": "https://official.example/demo.git",
+                            "release_api": "https://official.example/demo/releases/",
+                            "release_regex": "demo-([0-9.]+)\\.tar\\.gz",
+                            "source_url_template": "https://official.example/demo-{version}.tar.gz",
+                        },
+                        "source": {"url": "https://official.example/demo-1.1.tar.gz", "filename": "demo-1.1.tar.gz", "sha256": "e" * 64},
+                        "evidence": {
+                            "release_page": "https://official.example/demo/releases/",
+                            "verified_at": "2026-08-08T01:00:00Z",
+                            "method": "downloaded-official-archive-and-calculated-sha256",
+                            "license_file": "LICENSE",
+                            "archive_inspection": {"checked": True, "root_directory": "demo-1.1", "absolute_paths": False, "parent_traversal": False, "symlinks": False},
+                        },
+                        "build_requires": ["gcc", "make"],
+                        "requires": [],
+                    }
+                ],
+            }
+            write_json(evidence, reviewed)
+            output = root / "resolved.json"
+            run_tool("resolve-upstream", ["--input", str(snapshot), "--reviewed-evidence", str(evidence), "--output", str(output)], root)
+            result = json.loads(output.read_text())
+            self.assertEqual(len(result["components"]), 1)
+            component = result["components"][0]
+            self.assertEqual(component["component_id"], "official.example-demo")
+            self.assertEqual(component["package_id"], "demo")
+            self.assertEqual(len(component["lineage"]), 4)
+            self.assertEqual({item["snapshot_component_id"] for item in component["lineage"]}, {"wrong.example-bundle", "demo-split", "provider-suite"})
+            provider = next(item for item in component["lineage"] if item["source"] == "debian")
+            self.assertEqual(provider["promotion_relationship"], "functional-provider")
+            corroboration = next(item for item in component["resolution_evidence"] if item["type"] == "cross-distribution-corroboration")
+            self.assertEqual(corroboration["value"], ["arch", "aur", "ubuntu"])
+            self.assertEqual(json.loads(snapshot.read_text()), original)
+
+            reviewed["releases"][0]["lineage_promotions"][0]["source_version"] = "missing-version"
+            write_json(evidence, reviewed)
+            rejected = run_tool(
+                "resolve-upstream",
+                ["--input", str(snapshot), "--reviewed-evidence", str(evidence), "--output", str(root / "invalid.json")],
+                root,
+                expected=2,
+            )
+            self.assertIn("must match exactly one immutable snapshot row", rejected.stderr)
+
+            reviewed["releases"][0]["lineage_promotions"][0]["source_version"] = "1.1-1"
+            write_json(evidence, reviewed)
+            ambiguous = json.loads(json.dumps(original))
+            ambiguous["rejections"].append(
+                {
+                    "name": "duplicate-demo-record",
+                    "component_id": "wrong.example-bundle",
+                    "stable_version": "1.1",
+                    "decision": "unverified-upstream",
+                    "lineage": [
+                        {"source": "arch", "repository": "extra", "original_name": "demo", "package_base": "demo", "source_version": "1.1-1", "fetched_at": "2026-08-08T00:00:00Z"}
+                    ],
+                }
+            )
+            write_json(snapshot, ambiguous)
+            rejected = run_tool(
+                "resolve-upstream",
+                ["--input", str(snapshot), "--reviewed-evidence", str(evidence), "--output", str(root / "ambiguous.json")],
+                root,
+                expected=2,
+            )
+            self.assertIn("matched 2", rejected.stderr)
+            self.assertEqual(json.loads(snapshot.read_text()), ambiguous)
 
 
 if __name__ == "__main__":

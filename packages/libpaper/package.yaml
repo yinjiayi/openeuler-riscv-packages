@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/rrthomas/libpaper",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libpaper",
+        "package_name": "libpaper",
+        "source": "arch-extra",
+        "source_version": "2.2.8-1"
+      },
+      {
+        "evidence_url": "https://github.com/rrthomas/libpaper",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-libpaper",
+        "package_name": "lib32-libpaper",
+        "source": "aur",
+        "source_version": "2.2.6-1"
+      },
+      {
+        "evidence_url": "https://github.com/rrthomas/libpaper",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libpaper",
+        "package_name": "libpaper",
+        "source": "debian",
+        "source_version": "2.2.5-0.3"
+      },
+      {
+        "evidence_url": "https://github.com/rrthomas/libpaper",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libpaper",
+        "package_name": "libpaper",
+        "source": "fedora",
+        "source_version": "1:2.1.1-10.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/rrthomas/libpaper",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libpaper",
+        "package_name": "libpaper",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.2.8-1.3"
+      },
+      {
+        "evidence_url": "https://github.com/rrthomas/libpaper",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libpaper",
+        "package_name": "libpaper",
+        "source": "ubuntu",
+        "source_version": "2.2.5-0.3maysync1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libpaper.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libpaper",
+  "rpm": {
+    "license": "LGPL-2.1-or-later AND GPL-2.0-only AND GPL-3.0-or-later AND MIT AND LicenseRef-Public-Domain",
+    "name": "libpaper",
+    "summary": "Library and utilities for handling paper sizes"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-rrthomas-libpaper",
+    "homepage": "https://github.com/rrthomas/libpaper",
+    "release_api": "https://api.github.com/repos/rrthomas/libpaper/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/rrthomas/libpaper",
+    "source_url_template": "https://github.com/rrthomas/libpaper/releases/download/v{version}/libpaper-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.2.8",
+    "latest_detected": "2.2.8",
+    "release": "1"
+  }
+}

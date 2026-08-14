@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/ioping/",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "ioping",
+        "package_name": "ioping",
+        "source": "arch-extra",
+        "source_version": "1.3-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/ioping",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "ioping",
+        "package_name": "ioping",
+        "source": "debian",
+        "source_version": "1.3-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/ioping/tree/f44",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "ioping",
+        "package_name": "ioping",
+        "source": "fedora",
+        "source_version": "1.3-10.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/ioping",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "ioping",
+        "package_name": "ioping",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.3-1.12"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/ioping",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "ioping",
+        "package_name": "ioping",
+        "source": "ubuntu",
+        "source_version": "1.3-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260812T140000Z-b34-ioping"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "ioping.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable v1.3 was archive-audited and SHA-256 pinned; all commands in the maintained make test target remain mandatory.",
+    "status": "active"
+  },
+  "package_id": "ioping",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "ioping",
+    "summary": "Disk I/O latency measurement utility"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-koct9i-ioping",
+    "homepage": "https://github.com/koct9i/ioping",
+    "release_api": "https://api.github.com/repos/koct9i/ioping/tags",
+    "release_channel": "stable",
+    "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/koct9i/ioping",
+    "source_url_template": "https://github.com/koct9i/ioping/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.3",
+    "latest_detected": "1.3",
+    "release": "1"
+  }
+}

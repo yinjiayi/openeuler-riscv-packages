@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://netfilter.org/projects/libmnl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmnl",
+        "package_name": "libmnl",
+        "source": "arch-core",
+        "source_version": "1.0.5-2"
+      },
+      {
+        "evidence_url": "https://netfilter.org/projects/libmnl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmnl",
+        "package_name": "libmnl",
+        "source": "debian",
+        "source_version": "1.0.5-3"
+      },
+      {
+        "evidence_url": "https://netfilter.org/projects/libmnl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmnl",
+        "package_name": "libmnl",
+        "source": "fedora",
+        "source_version": "1.0.5-9.fc44"
+      },
+      {
+        "evidence_url": "https://netfilter.org/projects/libmnl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmnl",
+        "package_name": "libmnl",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.0.5-2.7"
+      },
+      {
+        "evidence_url": "https://netfilter.org/projects/libmnl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmnl",
+        "package_name": "libmnl",
+        "source": "ubuntu",
+        "source_version": "1.0.5-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libmnl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libmnl",
+  "rpm": {
+    "license": "LGPL-2.1-only",
+    "name": "libmnl",
+    "summary": "Minimalistic Netlink userspace library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "netfilter.org-projects-libmnl",
+    "homepage": "https://netfilter.org/projects/libmnl",
+    "release_api": "https://netfilter.org/projects/libmnl/files/",
+    "release_channel": "stable",
+    "release_regex": "libmnl-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+    "source_repository": "https://git.netfilter.org/libmnl/",
+    "source_url_template": "https://netfilter.org/projects/libmnl/files/libmnl-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "1.0.5",
+    "latest_detected": "1.0.5",
+    "release": "1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "popt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6eb40d650526cb9fe63eb4415bcecdf9cf306f7556e77eff689abc5a44670060"
+      },
+      "filename": "popt-1.19.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rpm-software-management/popt/archive/refs/tags/popt-1.19-release.tar.gz",
+      "version": "1.19"
+    }
+  ]
+}

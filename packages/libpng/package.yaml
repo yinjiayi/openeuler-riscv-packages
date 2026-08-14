@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libpng",
+        "package_base": "libpng",
+        "source_version": "1.6.58-2",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libpng/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "aur",
+        "package_name": "android-riscv64-libpng",
+        "package_base": "android-riscv64-libpng",
+        "source_version": "1.6.54-1",
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libpng",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libpng1.6",
+        "package_base": "libpng1.6",
+        "source_version": "1.6.48-1+deb13u5",
+        "evidence_url": "https://packages.debian.org/source/stable/libpng1.6",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libpng",
+        "package_base": "libpng",
+        "source_version": "2:1.6.55-1.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/libpng/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libpng16",
+        "package_base": "libpng16",
+        "source_version": "1.6.58-1.2",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libpng16",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libpng1.6",
+        "package_base": "libpng1.6",
+        "source_version": "1.6.57-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libpng1.6",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libpng.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official production libpng 1.6.58 archive independently reviewed and SHA-256 pinned. It is a stable forward release relative to Debian stable and Ubuntu GA. AUR was queried through RPC only and no external distribution packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "libpng",
+  "rpm": {
+    "license": "libpng-2.0",
+    "name": "libpng",
+    "summary": "PNG reference library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "sourceforge.net-project-libpng",
+    "homepage": "https://libpng.sourceforge.io/",
+    "release_api": "https://sourceforge.net/projects/libpng/rss?path=/libpng16",
+    "release_channel": "stable",
+    "release_regex": "libpng-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://github.com/pnggroup/libpng",
+    "source_url_template": "https://downloads.sourceforge.net/project/libpng/libpng16/{version}/libpng-{version}.tar.xz"
+  },
+  "version": {"current": "1.6.58", "latest_detected": "1.6.58", "release": "1"}
+}

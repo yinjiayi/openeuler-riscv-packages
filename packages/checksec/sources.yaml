@@ -1,0 +1,21 @@
+{
+  "package_id": "checksec",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a0d7a444d4603fb3d62fa25ef678e544ef39fa7b3c9bd5d22f1a8c526152cdde"
+      },
+      "filename": "checksec-2.7.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/slimm609/checksec.sh/archive/refs/tags/2.7.1.tar.gz",
+      "version": "2.7.1"
+    }
+  ]
+}
