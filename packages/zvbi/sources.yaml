@@ -1,0 +1,21 @@
+{
+  "package_id": "zvbi",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f503d37ddaff9172919e17ee32f4d66cc488f47218cf3961bf1c81055e0455e8"
+      },
+      "filename": "zvbi-0.2.44.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL/LGPL/permissively licensed source is fetched from the official repository archive for the immutable signed-release commit in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/zapping-vbi/zvbi/archive/5169a428d51c3ae8ff7b0897e8a687d8e05e37b5/zvbi-0.2.44.tar.gz",
+      "version": "0.2.44"
+    }
+  ]
+}
