@@ -25,9 +25,7 @@ Remove-When: An upstream release reports its tag version and uses
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -16,10 +16,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.svn")
- endif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.svn")
-
+@@ -18,8 +18,9 @@
  ## Project information ##
  project(libdivsufsort C)
 +include(GNUInstallDirs)

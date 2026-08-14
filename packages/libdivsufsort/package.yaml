@@ -38,7 +38,7 @@
     "patches": [
       {
         "file": "patches/0001-cmake-version-and-libdir.patch",
-        "sha256": "947126262cad5e8d71b54f86af979e3bbee01d12cae31df6593c05be319eaae3",
+        "sha256": "dd73cee2240788171040216af3d6812bc21f03f34f55e17edf89f33e3f456eec",
         "purpose": "Correct the version embedded by the official tag and install libraries, headers, and pkg-config metadata through GNUInstallDirs.",
         "source": "Downstream review of the official libdivsufsort 2.0.1 tag",
         "license": "MIT",
