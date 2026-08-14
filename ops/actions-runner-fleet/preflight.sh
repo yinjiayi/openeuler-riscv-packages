@@ -39,4 +39,26 @@ command -v qemu-riscv64 >/dev/null || oe_die 'qemu-riscv64 is missing'
 [[ -r /proc/sys/fs/binfmt_misc/qemu-riscv64 ]] || oe_die 'qemu-riscv64 binfmt registration is missing'
 grep -Fxq enabled /proc/sys/fs/binfmt_misc/qemu-riscv64 || oe_die 'qemu-riscv64 binfmt registration is disabled'
 
+# GitHub downloads pinned action sources before any workflow step or job hook.
+# Exercise the same GNU tar extraction path inside the systemd service sandbox
+# so an incompatible syscall restriction fails before the Runner goes online.
+tar_probe_dir=$(mktemp -d "$runner_dir/_state/.tar-extract-preflight.XXXXXX")
+cleanup_tar_probe() {
+  [[ -z ${tar_probe_dir:-} ]] || rm -rf -- "$tar_probe_dir"
+}
+trap cleanup_tar_probe EXIT
+mkdir "$tar_probe_dir/source"
+cp -- "$oe_runner_libexec/preflight.sh" "$tar_probe_dir/source/preflight.sh"
+chmod 0755 "$tar_probe_dir/source/preflight.sh"
+tar -czf "$tar_probe_dir/preflight.tar.gz" -C "$tar_probe_dir" source
+mkdir "$tar_probe_dir/extracted"
+tar -xzf "$tar_probe_dir/preflight.tar.gz" -C "$tar_probe_dir/extracted"
+cmp -s "$oe_runner_libexec/preflight.sh" "$tar_probe_dir/extracted/source/preflight.sh" \
+  || oe_die 'Runner service sandbox cannot faithfully extract a tar archive'
+[[ -x $tar_probe_dir/extracted/source/preflight.sh ]] \
+  || oe_die 'Runner service sandbox did not preserve the archive executable bit'
+cleanup_tar_probe
+tar_probe_dir=
+trap - EXIT
+
 printf 'Runner preflight passed for %s (%s).\n' "$name" "$host"

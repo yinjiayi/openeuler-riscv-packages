@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/liboggz/",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "liboggz",
+        "package_name": "liboggz",
+        "source": "arch-extra",
+        "source_version": "1.1.3-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/liboggz",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "liboggz",
+        "package_name": "liboggz",
+        "source": "debian",
+        "source_version": "1.1.3-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/liboggz/tree/f44",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "liboggz",
+        "package_name": "liboggz",
+        "source": "fedora",
+        "source_version": "1.1.3-1.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/liboggz",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "liboggz",
+        "package_name": "liboggz",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.1.3-2.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/liboggz",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "liboggz",
+        "package_name": "liboggz",
+        "source": "ubuntu",
+        "source_version": "1.1.3-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260812T140000Z-b34-liboggz"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "liboggz.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official Xiph.org 1.1.3 archive was audited and SHA-256 pinned; all 24 registered upstream tests remain mandatory.",
+    "status": "active"
+  },
+  "package_id": "liboggz",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "liboggz",
+    "summary": "Ogg container inspection and authoring library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "xiph.org-liboggz",
+    "homepage": "https://www.xiph.org/oggz/",
+    "release_api": "https://downloads.xiph.org/releases/liboggz/",
+    "release_channel": "stable",
+    "release_regex": "liboggz-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://gitlab.xiph.org/xiph/liboggz",
+    "source_url_template": "https://downloads.xiph.org/releases/liboggz/liboggz-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.1.3",
+    "latest_detected": "1.1.3",
+    "release": "1"
+  }
+}
