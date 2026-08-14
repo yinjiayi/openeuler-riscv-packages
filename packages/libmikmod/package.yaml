@@ -1,0 +1,106 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libmikmod/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmikmod",
+        "package_name": "libmikmod",
+        "source": "arch-extra",
+        "source_version": "3.3.13-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/mikmod",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mikmod",
+        "package_name": "mikmod",
+        "source": "aur",
+        "source_version": "3.2.9-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/libmikmod",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmikmod",
+        "package_name": "libmikmod",
+        "source": "debian",
+        "source_version": "3.3.13-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libmikmod/libmikmod/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmikmod",
+        "package_name": "libmikmod",
+        "source": "fedora",
+        "source_version": "3.3.13-3.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libmikmod",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmikmod",
+        "package_name": "libmikmod",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.3.13-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libmikmod",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmikmod",
+        "package_name": "libmikmod",
+        "source": "ubuntu",
+        "source_version": "3.3.13-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libmikmod.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official libmikmod 3.3.13 SourceForge release bytes are SHA-256 pinned. The upstream check target remains enabled, and the public API smoke adds installed-artifact coverage. libmikmod.so.3 preserves the target ABI major. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "libmikmod",
+  "rpm": {
+    "license": "GPL-2.0-only AND LicenseRef-Callaway-LGPLv2+",
+    "name": "libmikmod",
+    "summary": "Library for playing tracker module music files"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-sourceforge-files"
+  },
+  "upstream": {
+    "component": "mikmod/libmikmod",
+    "homepage": "https://mikmod.sourceforge.net/",
+    "release_api": "https://sourceforge.net/projects/mikmod/files/libmikmod/",
+    "release_channel": "stable",
+    "release_regex": "libmikmod-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://sourceforge.net/p/mikmod/code/ci/master/tree/",
+    "source_url_template": "https://downloads.sourceforge.net/project/mikmod/libmikmod/{version}/libmikmod-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.3.13",
+    "latest_detected": "3.3.13",
+    "release": "1"
+  }
+}
