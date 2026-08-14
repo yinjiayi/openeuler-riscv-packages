@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 name: Package CI
+run-name: Package CI ${{ inputs.commit_sha && format('PR {0} {1}', inputs.pr_number, inputs.commit_sha) || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
 
 on:
   push:
@@ -30,6 +31,14 @@ on:
         required: true
   workflow_dispatch:
     inputs:
+      commit_sha:
+        description: Exact trusted same-repository package PR head for a protected-main QEMU dispatch
+        required: false
+        type: string
+      pr_number:
+        description: Open same-repository PR that owns commit_sha for a protected-main QEMU dispatch
+        required: false
+        type: string
       base_sha:
         description: Immutable default-branch base SHA for a trusted bot-created PR
         required: false
@@ -50,14 +59,59 @@ concurrency:
 
 permissions:
   contents: read
+  pull-requests: read
 
 env:
   ARTIFACT_RETENTION_DAYS: "7"
   TARGET_PLATFORM: linux/riscv64
 
 jobs:
+  authorize-trusted-dispatch:
+    name: trusted-dispatch-authorization
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.authorize.outputs.authorized }}
+    steps:
+      # This is deliberately the workflow's protected-main revision, never the
+      # caller-provided PR head. The authorizer runs before any later checkout
+      # accepts inputs.commit_sha.
+      - name: Check out fixed protected-main authorization code
+        if: github.event_name == 'workflow_dispatch' && inputs.commit_sha != ''
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Authorize a trusted package dispatch or normal main build
+        id: authorize
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_REF: ${{ github.ref }}
+          PR_NUMBER: ${{ inputs.pr_number }}
+          PACKAGE_ID: ${{ inputs.package_id }}
+          BASE_SHA: ${{ inputs.base_sha }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          PUBLISH_TO_REPO: ${{ inputs.publish_to_repo }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          if [[ "$EVENT_NAME" != workflow_dispatch || -z "$COMMIT_SHA" ]]; then
+            printf 'authorized=true\n' >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
+          ci/authorize-trusted-package-dispatch.py \
+            --repo "$GITHUB_REPOSITORY" \
+            --pr-number "$PR_NUMBER" \
+            --package-id "$PACKAGE_ID" \
+            --base-sha "$BASE_SHA" \
+            --commit-sha "$COMMIT_SHA" \
+            --publish-to-repo "$PUBLISH_TO_REPO" \
+            --event-ref "$EVENT_REF" \
+            --github-output "$GITHUB_OUTPUT"
+
   prepare:
     name: change-scope
+    needs: authorize-trusted-dispatch
+    if: needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     outputs:
@@ -129,8 +183,8 @@ jobs:
 
   metadata-validate:
     name: metadata-validate
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -160,8 +214,8 @@ jobs:
 
   patch-policy:
     name: patch-policy
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -202,8 +256,8 @@ jobs:
 
   source-verify:
     name: source-verify
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -254,8 +308,8 @@ jobs:
 
   repository-snapshot:
     name: repository-snapshot
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -293,8 +347,8 @@ jobs:
 
   merge-policy:
     name: merge-policy
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -339,8 +393,8 @@ jobs:
 
   rpmbuild-riscv64:
     name: rpmbuild-riscv64
-    needs: [prepare, metadata-validate, patch-policy, source-verify, repository-snapshot]
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare, metadata-validate, patch-policy, source-verify, repository-snapshot]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     # Public pull-request and merge-queue workflows stay on a disposable
     # GitHub-hosted VM.  The repository-level pool is reachable only from a
     # protected-main push or workflow_dispatch after the hosted prepare job
@@ -526,8 +580,8 @@ jobs:
 
   rpm-install-smoke:
     name: rpm-install-smoke
-    needs: [prepare, metadata-validate, patch-policy, source-verify, repository-snapshot, rpmbuild-riscv64]
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare, metadata-validate, patch-policy, source-verify, repository-snapshot, rpmbuild-riscv64]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
     timeout-minutes: 30
     steps:
@@ -682,7 +736,9 @@ jobs:
       needs.rpm-install-smoke.result == 'success' &&
       needs.prepare.outputs.mode == 'package' &&
       needs.prepare.outputs.needs_native != 'true' &&
-      ((github.event_name == 'push' && github.ref == 'refs/heads/main') || inputs.publish_to_repo)
+      ((github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+       (github.event_name == 'workflow_call' && inputs.publish_to_repo) ||
+       (github.event_name == 'workflow_dispatch' && inputs.commit_sha == '' && inputs.publish_to_repo))
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:

@@ -120,6 +120,8 @@ def main() -> int:
             errors.append(f"package-ci.yml does not visibly support {event}")
     if "inputs.base_sha" not in package_ci or "github.sha" not in package_ci:
         errors.append("package-ci.yml cannot validate a trusted bot-created PR head via workflow_dispatch")
+    if "commit_sha:" not in package_ci or "pr_number:" not in package_ci or "run-name: Package CI ${{ inputs.commit_sha" not in package_ci:
+        errors.append("package-ci.yml cannot bind a protected-main trusted dispatch to its exact input commit")
     for marker in (
         "ci/rsync-with-lock-retry.sh -- rsync",
         "RRSYNC_LOCK_JITTER_KEY: ${{ format('{0}:{1}', github.run_id, needs.prepare.outputs.package_id) }}",
@@ -215,6 +217,40 @@ def main() -> int:
             errors.append(f"QEMU runner evidence policy is missing {marker}")
     if "ci/qemu-runner-policy.py" not in package_ci:
         errors.append("package-ci.yml does not emit structured QEMU runner routing evidence")
+    authorization = root / "ci" / "authorize-trusted-package-dispatch.py"
+    if not authorization.is_file() or not authorization.stat().st_mode & 0o111:
+        errors.append("trusted protected-main dispatch authorizer is missing or not executable")
+    elif not all(marker in authorization.read_text(encoding="utf-8") for marker in (
+        "PROTECTED_REF = \"refs/heads/main\"",
+        "TRUSTED_ASSOCIATIONS",
+        "PR changes are not confined",
+        "trusted PR dispatch must disable repository publication",
+    )):
+        errors.append("trusted protected-main dispatch authorizer is missing required scope or publication guards")
+    for marker in (
+        "authorize-trusted-dispatch:",
+        "needs: authorize-trusted-dispatch",
+        "ref: ${{ github.sha }}",
+        "ci/authorize-trusted-package-dispatch.py",
+        "--pr-number \"$PR_NUMBER\"",
+        "--publish-to-repo \"$PUBLISH_TO_REPO\"",
+        "inputs.commit_sha == '' && inputs.publish_to_repo",
+    ):
+        if marker not in package_ci:
+            errors.append("package-ci.yml is missing fixed-main trusted dispatch authorization: %s" % marker)
+    if package_ci.count("if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'") < 7:
+        errors.append("package-ci.yml can check out a dispatch head before trusted authorization succeeds")
+    trusted_dispatch = root / "scripts" / "dispatch-trusted-package-ci"
+    if not trusted_dispatch.is_file() or not trusted_dispatch.stat().st_mode & 0o111:
+        errors.append("trusted protected-main package dispatcher is missing or not executable")
+    elif not all(marker in trusted_dispatch.read_text(encoding="utf-8") for marker in (
+        '"--ref",\n                "main"',
+        '"pr_number=%d" % args.pr',
+        '"publish_to_repo=false"',
+        "TRUSTED_ASSOCIATIONS",
+        "download_build_result",
+    )):
+        errors.append("trusted protected-main package dispatcher is missing required scope or evidence guards")
     for workflow in sorted(workflows.glob("*.yml")):
         if workflow.name == "package-ci.yml":
             continue
