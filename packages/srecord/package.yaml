@@ -74,14 +74,24 @@
   },
   "build": {
     "profile": "qemu-user",
-    "network_during_build": false,
+    "network_during_build": true,
     "timeout_minutes": 180,
     "native_reason": null
   },
   "files": {
     "spec": "srecord.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-make-generated-documentation-optional.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Avoid the timed-out generated documentation toolchain while preserving the library, CLI tools, complete CTest suite, and release man page sources.",
+        "remove_when": "The target build image can install and run the complete generated documentation toolchain within the package CI dependency timeout.",
+        "sha256": "d1d9775b5b98099c85e3276bb85d318c8e1a7226d00b1548ff468c51c43ae534",
+        "source": "https://github.com/sierrafoxtrot/srecord",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
@@ -89,7 +99,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official latest 1.65.0 bytes are SHA-256 pinned and archive-safe. Target metadata has no srecord package, CLI provider, libsrecord archive, or shared SONAME. The complete 208-case upstream CTest suite remains enabled; the installed devel artifact is static-only and cannot replace a shared ABI."
+    "notes": "Official latest 1.65.0 bytes are SHA-256 pinned and archive-safe. Target metadata has no srecord package, CLI provider, libsrecord archive, or shared SONAME. The complete 208-case upstream CTest suite remains enabled; generated website/PDF documentation is disabled only to avoid the demonstrated dependency timeout, while release man page sources remain installed."
   },
   "updates": {
     "enabled": true,

@@ -6,23 +6,17 @@ Summary:        Manipulate EPROM load files
 License:        GPL-3.0-or-later AND LGPL-3.0-or-later
 URL:            https://srecord.sourceforge.net/
 Source0:        srecord-%{version}-Source.tar.gz
+Patch0:         0001-make-generated-documentation-optional.patch
 
 BuildRequires:  bash
 BuildRequires:  cmake
 BuildRequires:  coreutils
 BuildRequires:  diffutils
-BuildRequires:  doxygen
 BuildRequires:  gawk
 BuildRequires:  gcc-c++
-BuildRequires:  git
-BuildRequires:  ghostscript
-BuildRequires:  graphviz
 BuildRequires:  grep
-BuildRequires:  groff
 BuildRequires:  libgcrypt-devel
 BuildRequires:  make
-BuildRequires:  netpbm
-BuildRequires:  psutils
 BuildRequires:  sed
 BuildRequires:  which
 
@@ -45,7 +39,7 @@ Headers and the static library for developing applications with SRecord.
 %build
 # Upstream registers its non-executable test scripts through $ENV{SHELL}.
 export SHELL=/bin/sh
-%cmake_conf
+%cmake_conf -DSRECORD_BUILD_DOCUMENTATION=OFF
 %cmake_build
 
 %install
@@ -57,6 +51,11 @@ mv %{buildroot}%{_libdir}/liblib_srecord.a \
 find %{buildroot}%{_libdir} -mindepth 1 -maxdepth 1 \
   ! -name libsrecord.a -delete
 rm -rf %{buildroot}%{_docdir}/%{name}/htdocs
+for section in 1 3 5; do
+  install -d "%{buildroot}%{_mandir}/man${section}"
+  install -m 0644 "doc/man${section}/"* \
+    "%{buildroot}%{_mandir}/man${section}/"
+done
 
 %check
 %ctest -- -j1
@@ -67,15 +66,14 @@ rm -rf %{buildroot}%{_docdir}/%{name}/htdocs
 %{_bindir}/srec_cat
 %{_bindir}/srec_cmp
 %{_bindir}/srec_info
-%{_docdir}/%{name}/*.pdf
-%{_mandir}/man1/srec_*.1*
-%{_mandir}/man5/srec_*.5*
+%{_mandir}/man1/*
+%{_mandir}/man5/*
 
 %files devel
 %license LICENSE
 %{_includedir}/srecord/
 %{_libdir}/libsrecord.a
-%{_mandir}/man3/srecord*.3*
+%{_mandir}/man3/*
 
 %changelog
 * Thu Aug 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.65.0-1
