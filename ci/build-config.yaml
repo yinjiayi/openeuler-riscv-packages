@@ -36,7 +36,15 @@ package_ci:
   build_timeout_minutes: 120
   smoke_timeout_minutes: 30
   maximum_log_bytes: 52428800
-  network_during_build: false
+  network_during_build: true
+  qemu_runner:
+    enabled: true
+    trust_boundary: protected-main-only
+    labels:
+      - self-hosted
+      - linux
+      - x64
+      - oe-rva23-qemu
   native_runner:
     enabled: false
     labels:
@@ -57,4 +65,3 @@ updates:
   retry_count: 3
   missed_after_hours: 24
   apply_batch_size: 20
-

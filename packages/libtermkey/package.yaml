@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "libtermkey",
+  "rpm": {
+    "name": "libtermkey",
+    "summary": "Library for processing terminal keyboard input",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "leonerd.org.uk-code-libtermkey",
+    "homepage": "https://www.leonerd.org.uk/code/libtermkey/",
+    "source_repository": "https://github.com/neovim/libtermkey.git",
+    "release_channel": "stable",
+    "release_api": "https://www.leonerd.org.uk/code/libtermkey/",
+    "release_regex": "libtermkey-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://www.leonerd.org.uk/code/libtermkey/libtermkey-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.22",
+    "release": "1",
+    "latest_detected": "0.22"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libtermkey",
+        "package_base": "libtermkey",
+        "source_version": "0.22-4",
+        "evidence_url": "https://aur.archlinux.org/packages/libtermkey",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libtermkey",
+        "package_base": "libtermkey",
+        "source_version": "0.22-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/libtermkey",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libtermkey",
+        "package_base": "libtermkey",
+        "source_version": "0.22-12.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libtermkey/libtermkey/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libtermkey",
+        "package_base": "libtermkey",
+        "source_version": "0.22-3.8",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libtermkey",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libtermkey",
+        "package_base": "libtermkey",
+        "source_version": "0.22-2build1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libtermkey",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtermkey.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official v0.22 tag resolves to immutable commit c97f926ddcd1ade551162272bd4c8cf69e0b7de2, whose commit archive is SHA-256 pinned and contains all 17 maintained strict TAP tests. Frozen read-only AUR RPC, Debian, Fedora 44, openSUSE, and Ubuntu evidence corroborates the lineage; no external packaging recipe was read or executed. The package is new to the fixed target, consumes reviewed supplemental unibilium-devel, and introduces libtermkey.so.1."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
