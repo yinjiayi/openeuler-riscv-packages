@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: Apache-2.0
+[Unit]
+Description=Retry completed openEuler RISC-V RPM repository uploads
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=2min
+RandomizedDelaySec=15s
+Persistent=true
+Unit=openeuler-rpmrepo.service
+
+[Install]
+WantedBy=timers.target
