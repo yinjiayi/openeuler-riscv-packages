@@ -101,6 +101,21 @@ class RunnerFleetStaticTests(unittest.TestCase):
         self.assertNotIn("runuser --user \"$oe_runner_user\" --groups", installer)
         self.assertIn('usermod --append --groups docker "$oe_runner_user"', installer)
 
+    def test_fleet_audit_is_installed_with_machine_only_stdout(self) -> None:
+        installer = (OPS / "install.sh").read_text(encoding="utf-8")
+        audit = (OPS / "audit.sh").read_text(encoding="utf-8")
+        fleet_audit = (OPS / "fleet-audit.py").read_text(encoding="utf-8")
+
+        self.assertIn('"$source_dir/audit.sh"', installer)
+        self.assertIn(
+            '"$oe_runner_libexec/preflight.sh" --name "$OE_ARG_NAME" >&2',
+            audit,
+        )
+        self.assertIn(
+            '"/usr/local/libexec/openeuler-actions-runner/audit.sh"',
+            fleet_audit,
+        )
+
     def test_cleanup_lock_survives_root_activation_then_runner_hooks(self) -> None:
         library = (OPS / "_lib.sh").read_text(encoding="utf-8")
         installer = (OPS / "install.sh").read_text(encoding="utf-8")
