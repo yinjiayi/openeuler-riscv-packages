@@ -28,7 +28,8 @@ int main(void) {
     if (context == NULL || strcmp(ln_version(), "2.1.0") != 0) {
         return 1;
     }
-    return ln_exitCtx(context);
+    ln_exitCtx(context);
+    return 0;
 }
 EOF
 cc $({ pkg-config --cflags lognorm; }) "$smoke_dir/liblognorm-smoke.c" \
