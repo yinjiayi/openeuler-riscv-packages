@@ -7,6 +7,8 @@ License:        GPL-2.0-or-later
 URL:            https://cyberelk.net/tim/software/patchutils/
 Source0:        patchutils-%{version}.tar.xz
 
+Requires:       patch
+
 BuildRequires:  diffutils
 BuildRequires:  gawk
 BuildRequires:  gcc
