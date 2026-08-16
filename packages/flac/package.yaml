@@ -3,7 +3,8 @@
     "native_reason": null,
     "network_during_build": false,
     "profile": "qemu-user",
-    "timeout_minutes": 240
+    "timeout_minutes": 240,
+    "user": "unprivileged"
   },
   "discovery": {
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
