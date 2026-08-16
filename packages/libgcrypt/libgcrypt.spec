@@ -9,11 +9,11 @@ Source0:        libgcrypt-1.12.2.tar.bz2
 
 BuildRequires:  gawk
 BuildRequires:  gcc
-BuildRequires:  libgpg-error-devel
+BuildRequires:  libgpg-error-devel >= 1.56
 BuildRequires:  libtool
 BuildRequires:  make
 BuildRequires:  pkgconf-pkg-config
-Requires:       libgpg-error%{?_isa}
+Requires:       libgpg-error%{?_isa} >= 1.56
 
 %description
 Libgcrypt is a general-purpose cryptographic library based on the code used by
@@ -22,7 +22,7 @@ the GNU Privacy Guard project.
 %package devel
 Summary:        Development files for libgcrypt
 Requires:       libgcrypt%{?_isa} = %{version}-%{release}
-Requires:       libgpg-error-devel%{?_isa}
+Requires:       libgpg-error-devel%{?_isa} >= 1.56
 Requires:       pkgconf-pkg-config
 
 %description devel
