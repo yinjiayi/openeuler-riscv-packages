@@ -22,7 +22,7 @@ int main(void) {
     struct aec_stream decoder = {0};
     size_t compressed_size;
 
-    if (strcmp(AEC_VERSION_STR, "1.1.7") != 0) {
+    if (strcmp(AEC_VERSION_STRING, "1.1.7") != 0) {
         return 1;
     }
     encoder.next_in = (const unsigned char *)input;
