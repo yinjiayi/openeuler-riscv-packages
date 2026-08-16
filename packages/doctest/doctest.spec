@@ -22,6 +22,7 @@ doctest is a lightweight, feature-rich C++ testing framework.
   -DDOCTEST_WITH_TESTS=ON \
   -DDOCTEST_WITH_MAIN_IN_STATIC_LIB=ON
 %cmake_build
+%cmake_build --target doctest_with_main
 
 %install
 %cmake_install
@@ -43,4 +44,5 @@ ctest --test-dir %{_vpath_builddir} \
 %changelog
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.2-1
 - Initial openEuler RISC-V package.
+- Build the separately excluded static-library target before installation.
 - Run the complete CTest suite serially under QEMU.
