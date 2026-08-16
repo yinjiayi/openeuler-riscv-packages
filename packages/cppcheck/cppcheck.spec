@@ -15,6 +15,7 @@ BuildRequires:  pcre-devel
 BuildRequires:  pkgconf
 BuildRequires:  python3
 Requires:       python3
+Requires:       python3-pygments
 
 %description
 Cppcheck is a static analysis tool for C and C++ code. It detects classes of
