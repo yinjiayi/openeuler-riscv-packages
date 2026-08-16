@@ -49,6 +49,11 @@ found in source files for many programming languages.
 %{_bindir}/etags
 %{_bindir}/optscript
 %{_bindir}/readtags
+%{_mandir}/man1/ctags.1*
+%{_mandir}/man1/readtags.1*
+%{_mandir}/man5/ctags-json-output.5*
+%{_mandir}/man5/tags.5*
+%{_mandir}/man7/ctags-*.7*
 
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 6.2.1-1
