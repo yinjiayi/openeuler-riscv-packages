@@ -1,0 +1,21 @@
+{
+  "package_id": "cloc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a8fac35f4cf42728765580ba11afc2568ad205509a22204663f526169548436d"
+      },
+      "filename": "cloc-2.10.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/AlDanial/cloc/archive/refs/tags/v2.10.tar.gz",
+      "version": "2.10"
+    }
+  ]
+}
