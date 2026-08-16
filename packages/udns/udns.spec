@@ -48,7 +48,7 @@ cat > version-check.c <<'EOF'
 #include "udns.h"
 int main(void) { puts(dns_version()); return 0; }
 EOF
-%{__cc} %{build_cflags} version-check.c -L. -Wl,-rpath,. -ludns \
+%{__cc} %{build_cflags} version-check.c ./libudns.so.0 -Wl,-rpath,. \
   %{build_ldflags} -o version-check
 ./version-check | grep -Fx '%{version}'
 
