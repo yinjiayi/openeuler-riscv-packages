@@ -42,7 +42,7 @@ This package contains the CUnit manual page, HTML documentation, and XML
 DTD/XSL support files.
 
 %prep
-%autosetup -p1
+%autosetup -n CUnit-2.1-3 -p1
 
 %build
 autoreconf -fi
