@@ -59,6 +59,10 @@ autoreconf -fi
 %install
 %make_install docdir=%{_docdir}/%{name}
 rm -f %{buildroot}%{_libdir}/*.la
+# The upstream install target places its architecture-specific internal test
+# executable under the shared-data directory; it is already exercised in %check.
+rm -f %{buildroot}%{_datadir}/CUnit/Test/test_cunit
+rmdir %{buildroot}%{_datadir}/CUnit/Test
 
 %check
 %make_build check
