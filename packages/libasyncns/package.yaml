@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libasyncns/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libasyncns",
+        "package_name": "libasyncns",
+        "source": "arch-extra",
+        "source_version": "1:0.8+r3+g68cd5af-3"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libasyncns",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libasyncns",
+        "package_name": "android-riscv64-libasyncns",
+        "source": "aur",
+        "source_version": "0.8-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/libasyncns",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libasyncns",
+        "package_name": "libasyncns",
+        "source": "debian",
+        "source_version": "0.8-6"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libasyncns/libasyncns/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libasyncns",
+        "package_name": "libasyncns",
+        "source": "fedora",
+        "source_version": "0.8-32.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libasyncns.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official 0.8 release archive was independently downloaded, inspected, and SHA-256 pinned. Distribution records provide lineage only; no AUR or distribution recipe was executed. The upstream check target builds its shipped test program, while the installed smoke test avoids external DNS dependencies.",
+    "status": "active"
+  },
+  "package_id": "libasyncns",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "libasyncns",
+    "summary": "Asynchronous name service query library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "0pointer.net-lennart-projects-libasyncns",
+    "homepage": "https://0pointer.net/lennart/projects/libasyncns/",
+    "release_api": "https://0pointer.net/lennart/projects/libasyncns/",
+    "release_channel": "stable",
+    "release_regex": "libasyncns-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://git.0pointer.de/libasyncns.git",
+    "source_url_template": "https://0pointer.net/lennart/projects/libasyncns/libasyncns-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.8",
+    "latest_detected": "0.8",
+    "release": "1"
+  }
+}

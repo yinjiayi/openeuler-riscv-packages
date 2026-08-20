@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "protobuf-c",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/protobuf-c/protobuf-c/releases/download/v1.5.2/protobuf-c-1.5.2.tar.gz",
+      "filename": "protobuf-c-1.5.2.tar.gz",
+      "version": "1.5.2",
+      "digests": {
+        "sha256": "e2c86271873a79c92b58fef7ebf8de1aa0df4738347a8bd5d4e65a80a16d0d24"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution in source and binary forms is permitted by the upstream BSD-2-Clause license."
+      }
+    }
+  ]
+}

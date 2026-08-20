@@ -1,0 +1,379 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Run one trusted internal package PR head on the protected-main QEMU fleet.
+
+The persistent Runner fleet accepts only ``workflow_dispatch`` events from the
+protected ``main`` ref. This maintainer-local bridge keeps that boundary while
+binding a dispatch to one exact, same-repository package PR head. It posts the
+ordinary required-status contexts only after the run and its final build result
+agree on that exact head.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import pathlib
+import re
+import subprocess
+import sys
+import tempfile
+import time
+from typing import Any, Mapping, Optional, Sequence
+
+
+REPOSITORY = "yinjiayi/openeuler-riscv-packages"
+PACKAGE_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+TRUSTED_ASSOCIATIONS = {"OWNER", "MEMBER", "COLLABORATOR"}
+TRUSTED_LOGINS = {"yinjiayi", "github-actions[bot]", "dependabot[bot]"}
+TRUSTED_PREFIXES = ("onboard/", "update/", "repair/", "golden/")
+REQUIRED_CONTEXTS = (
+    "metadata-validate",
+    "source-verify",
+    "rpmbuild-riscv64",
+    "rpm-install-smoke",
+    "patch-policy",
+    "merge-policy",
+)
+
+
+class ToolError(RuntimeError):
+    """A checked local or GitHub operation failed."""
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--repo", default=REPOSITORY)
+    result.add_argument("--pr", required=True, type=int)
+    result.add_argument("--package-id", required=True)
+    result.add_argument("--output", required=True, type=pathlib.Path)
+    result.add_argument("--poll-seconds", type=int, default=3)
+    return result
+
+
+def run(command: Sequence[str], *, check: bool = True, cwd: Optional[pathlib.Path] = None) -> subprocess.CompletedProcess[str]:
+    completed = subprocess.run(
+        list(command),
+        cwd=str(cwd) if cwd else None,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if check and completed.returncode != 0:
+        detail = completed.stderr.strip() or completed.stdout.strip() or "command failed"
+        raise ToolError("%s: %s" % (command[0], detail))
+    return completed
+
+
+def gh_json(arguments: Sequence[str]) -> Any:
+    completed = run(["gh", *arguments])
+    try:
+        return json.loads(completed.stdout)
+    except json.JSONDecodeError as exc:
+        raise ToolError("gh returned invalid JSON") from exc
+
+
+def require_sha(value: Any, field: str) -> str:
+    text = str(value or "").lower()
+    if not SHA_RE.fullmatch(text):
+        raise ToolError("%s must be a full lowercase commit SHA" % field)
+    return text
+
+
+def run_name(pr_number: int, head_sha: str) -> str:
+    return "Package CI PR %d %s" % (pr_number, head_sha)
+
+
+def trusted_pr(pr: Mapping[str, Any], files: Sequence[Mapping[str, Any]], package_id: str, repo: str) -> dict[str, str]:
+    if str(pr.get("state") or "").lower() != "open":
+        raise ToolError("PR is not open")
+    head = pr.get("head") if isinstance(pr.get("head"), Mapping) else {}
+    base = pr.get("base") if isinstance(pr.get("base"), Mapping) else {}
+    user = pr.get("user") if isinstance(pr.get("user"), Mapping) else {}
+    head_repository = head.get("repo") if isinstance(head.get("repo"), Mapping) else {}
+    head_repo = str(head_repository.get("full_name") or "")
+    head_ref = str(head.get("ref") or "")
+    head_sha = require_sha(head.get("sha"), "PR head")
+    base_ref = str(base.get("ref") or "")
+    base_sha = require_sha(base.get("sha"), "PR base")
+    login = str(user.get("login") or "")
+    association = str(pr.get("author_association") or "")
+    if head_repo.lower() != repo.lower():
+        raise ToolError("PR head is not in the trusted repository")
+    if base_ref != "main":
+        raise ToolError("PR base must be protected main")
+    if not head_ref.startswith(TRUSTED_PREFIXES):
+        raise ToolError("PR head ref is outside the trusted package prefixes")
+    if association not in TRUSTED_ASSOCIATIONS and login not in TRUSTED_LOGINS:
+        raise ToolError("PR author is not trusted for persistent runner execution")
+    changed_files = pr.get("changed_files")
+    if not isinstance(changed_files, int) or changed_files < 1 or changed_files > 100:
+        raise ToolError("PR changed-file count is outside the trusted one-page boundary")
+    if len(files) != changed_files:
+        raise ToolError("PR file listing is incomplete")
+    package_prefix = "packages/%s/" % package_id
+    paths = [str(item.get("filename") or "") for item in files]
+    if not paths or any(not path.startswith(package_prefix) for path in paths):
+        raise ToolError("PR changes are not confined to packages/%s" % package_id)
+    return {
+        "head_ref": head_ref,
+        "head_sha": head_sha,
+        "base_sha": base_sha,
+        "url": str(pr.get("html_url") or ""),
+    }
+
+
+def fetch_pr(repo: str, number: int) -> tuple[Mapping[str, Any], list[Mapping[str, Any]]]:
+    pr = gh_json(["api", "repos/%s/pulls/%d" % (repo, number)])
+    if not isinstance(pr, Mapping):
+        raise ToolError("GitHub PR response is not an object")
+    files = gh_json(["api", "repos/%s/pulls/%d/files?per_page=100&page=1" % (repo, number)])
+    if not isinstance(files, list) or not all(isinstance(item, Mapping) for item in files):
+        raise ToolError("GitHub PR file response is not a list")
+    return pr, list(files)
+
+
+def verify_current(repo: str, number: int, expected: Mapping[str, str], package_id: str) -> dict[str, str]:
+    pr, files = fetch_pr(repo, number)
+    current = trusted_pr(pr, files, package_id, repo)
+    for field in ("head_ref", "head_sha", "base_sha"):
+        if current[field] != expected[field]:
+            raise ToolError("PR changed while the trusted dispatch was running")
+    return current
+
+
+def post_status(repo: str, head_sha: str, context: str, state: str, description: str, target_url: str) -> None:
+    run(
+        [
+            "gh",
+            "api",
+            "--method",
+            "POST",
+            "repos/%s/statuses/%s" % (repo, head_sha),
+            "-f",
+            "state=%s" % state,
+            "-f",
+            "context=%s" % context,
+            "-f",
+            "description=%s" % description,
+            "-f",
+            "target_url=%s" % target_url,
+        ]
+    )
+
+
+def list_dispatches(repo: str) -> list[Mapping[str, Any]]:
+    document = gh_json(
+        [
+            "run",
+            "list",
+            "--repo",
+            repo,
+            "--workflow",
+            "package-ci.yml",
+            "--branch",
+            "main",
+            "--event",
+            "workflow_dispatch",
+            "--limit",
+            "100",
+            "--json",
+            "databaseId,displayTitle,status,conclusion,url",
+        ]
+    )
+    if not isinstance(document, list) or not all(isinstance(item, Mapping) for item in document):
+        raise ToolError("GitHub workflow list response is not a list")
+    return list(document)
+
+
+def wait_for_dispatch(repo: str, expected_name: str, before_ids: set[int], poll_seconds: int) -> Mapping[str, Any]:
+    for _ in range(40):
+        candidates = list_dispatches(repo)
+        matching = [
+            item
+            for item in candidates
+            if item.get("displayTitle") == expected_name
+            and isinstance(item.get("databaseId"), int)
+            and item["databaseId"] not in before_ids
+        ]
+        if matching:
+            return matching[0]
+        time.sleep(poll_seconds)
+    raise ToolError("protected-main dispatch was not observable")
+
+
+def completed_run(repo: str, run_id: int, expected_name: str) -> Mapping[str, Any]:
+    document = gh_json(
+        [
+            "run",
+            "view",
+            str(run_id),
+            "--repo",
+            repo,
+            "--json",
+            "status,conclusion,displayTitle,jobs,url",
+        ]
+    )
+    if not isinstance(document, Mapping):
+        raise ToolError("GitHub workflow response is not an object")
+    if document.get("status") != "completed" or document.get("displayTitle") != expected_name:
+        raise ToolError("workflow result is not the expected completed protected-main dispatch")
+    return document
+
+
+def context_results(run_document: Mapping[str, Any]) -> list[dict[str, str]]:
+    jobs = run_document.get("jobs")
+    if not isinstance(jobs, list):
+        raise ToolError("workflow response has no job list")
+    result: list[dict[str, str]] = []
+    for context in REQUIRED_CONTEXTS:
+        matches = [job for job in jobs if isinstance(job, Mapping) and job.get("name") == context]
+        conclusion = str(matches[0].get("conclusion") or "missing") if len(matches) == 1 else "missing"
+        result.append({"name": context, "conclusion": conclusion})
+    return result
+
+
+def verify_build_result(document: Mapping[str, Any], package_id: str, head_sha: str) -> None:
+    if document.get("package_id") != package_id or document.get("commit_sha") != head_sha:
+        raise ToolError("final build result does not bind the requested package and commit")
+    if document.get("status") != "passed" or document.get("classification") != "none":
+        raise ToolError("final build result is not a passed QEMU package result")
+
+
+def download_build_result(repo: str, run_id: int, package_id: str, head_sha: str) -> None:
+    with tempfile.TemporaryDirectory(prefix="trusted-package-ci-") as temporary:
+        root = pathlib.Path(temporary)
+        run(
+            [
+                "gh",
+                "run",
+                "download",
+                str(run_id),
+                "--repo",
+                repo,
+                "--name",
+                "package-ci-smoke-%s-%d" % (package_id, run_id),
+                "--dir",
+                str(root),
+            ]
+        )
+        candidates = [path for path in root.rglob("build-result.json") if path.is_file()]
+        if len(candidates) != 1:
+            raise ToolError("expected exactly one final build-result artifact")
+        try:
+            document = json.loads(candidates[0].read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ToolError("cannot read final build-result artifact") from exc
+        if not isinstance(document, Mapping):
+            raise ToolError("final build-result artifact is not an object")
+        verify_build_result(document, package_id, head_sha)
+
+
+def atomic_json(path: pathlib.Path, document: Mapping[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(".%s.tmp" % path.name)
+    temporary.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    temporary.replace(path)
+
+
+def preflight(root: pathlib.Path) -> None:
+    guard = root / "scripts" / "github-credential-guard"
+    if not guard.is_file():
+        raise ToolError("repository credential guard is missing")
+    run([str(guard), "--require-auth"], cwd=root)
+
+
+def main() -> int:
+    args = parser().parse_args()
+    if args.repo != REPOSITORY:
+        raise ToolError("refusing an unexpected repository")
+    if args.pr < 1 or not PACKAGE_RE.fullmatch(args.package_id):
+        raise ToolError("PR number or package id is invalid")
+    if args.poll_seconds < 1:
+        raise ToolError("poll seconds must be positive")
+
+    root = pathlib.Path(__file__).resolve().parents[1]
+    pending = False
+    expected: Optional[dict[str, str]] = None
+    run_url = "https://github.com/%s/actions/workflows/package-ci.yml" % args.repo
+    try:
+        preflight(root)
+        pr, files = fetch_pr(args.repo, args.pr)
+        expected = trusted_pr(pr, files, args.package_id, args.repo)
+        expected_name = run_name(args.pr, expected["head_sha"])
+        for context in REQUIRED_CONTEXTS:
+            post_status(args.repo, expected["head_sha"], context, "pending", "Waiting for protected-main QEMU dispatch", run_url)
+        pending = True
+
+        prior = list_dispatches(args.repo)
+        before_ids = {item["databaseId"] for item in prior if isinstance(item.get("databaseId"), int)}
+        run(
+            [
+                "gh",
+                "workflow",
+                "run",
+                "package-ci.yml",
+                "--repo",
+                args.repo,
+                "--ref",
+                "main",
+                "-f",
+                "pr_number=%d" % args.pr,
+                "-f",
+                "base_sha=%s" % expected["base_sha"],
+                "-f",
+                "package_id=%s" % args.package_id,
+                "-f",
+                "commit_sha=%s" % expected["head_sha"],
+                "-f",
+                "publish_to_repo=false",
+            ]
+        )
+        dispatched = wait_for_dispatch(args.repo, expected_name, before_ids, args.poll_seconds)
+        run_id = int(dispatched["databaseId"])
+        run_url = str(dispatched.get("url") or "https://github.com/%s/actions/runs/%d" % (args.repo, run_id))
+        run(["gh", "run", "watch", str(run_id), "--repo", args.repo, "--exit-status", "--interval", str(args.poll_seconds)], check=False)
+        final = completed_run(args.repo, run_id, expected_name)
+        checks = context_results(final)
+        success = all(check["conclusion"] == "success" for check in checks)
+        verify_current(args.repo, args.pr, expected, args.package_id)
+        if success:
+            download_build_result(args.repo, run_id, args.package_id, expected["head_sha"])
+        for check in checks:
+            state = "success" if success and check["conclusion"] == "success" else "failure"
+            post_status(args.repo, expected["head_sha"], check["name"], state, "Protected-main Package CI job: %s" % check["conclusion"], run_url)
+        pending = False
+        document = {
+            "schema_version": 1,
+            "kind": "trusted-package-ci-dispatch",
+            "repository": args.repo,
+            "pr_number": args.pr,
+            "package_id": args.package_id,
+            "head_ref": expected["head_ref"],
+            "head_sha": expected["head_sha"],
+            "base_sha": expected["base_sha"],
+            "dispatch_ref": "main",
+            "run_id": run_id,
+            "run_url": run_url,
+            "run_name": expected_name,
+            "checks": checks,
+            "success": success,
+        }
+        atomic_json(args.output, document)
+        return 0 if success else 1
+    except ToolError as exc:
+        if pending and expected is not None:
+            try:
+                verify_current(args.repo, args.pr, expected, args.package_id)
+                for context in REQUIRED_CONTEXTS:
+                    post_status(args.repo, expected["head_sha"], context, "error", "Protected-main QEMU dispatch failed closed", run_url)
+            except ToolError:
+                pass
+        print("dispatch-trusted-package-ci: %s" % exc, file=sys.stderr)
+        return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

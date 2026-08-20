@@ -120,6 +120,8 @@ def main() -> int:
             errors.append(f"package-ci.yml does not visibly support {event}")
     if "inputs.base_sha" not in package_ci or "github.sha" not in package_ci:
         errors.append("package-ci.yml cannot validate a trusted bot-created PR head via workflow_dispatch")
+    if "commit_sha:" not in package_ci or "pr_number:" not in package_ci or "run-name: Package CI ${{ inputs.commit_sha" not in package_ci:
+        errors.append("package-ci.yml cannot bind a protected-main trusted dispatch to its exact input commit")
     for marker in (
         "ci/rsync-with-lock-retry.sh -- rsync",
         "RRSYNC_LOCK_JITTER_KEY: ${{ format('{0}:{1}', github.run_id, needs.prepare.outputs.package_id) }}",
@@ -140,6 +142,10 @@ def main() -> int:
         errors.append("package-ci.yml does not compose a final commit-bound build result")
     if "repository-snapshot:" not in package_ci or "ci/rpm-repo-client.py resolve" not in package_ci:
         errors.append("package-ci.yml does not resolve one immutable supplemental repository generation")
+    if "--allow-unavailable" not in package_ci:
+        errors.append("package-ci.yml does not record the official-repository-only outage fallback")
+    if "artifacts/repository/resolution.json" not in package_ci:
+        errors.append("package-ci.yml does not pass repository resolution evidence to installed smoke")
     if "publish-rpm-repository:" not in package_ci or "ci/stage-rpm-repository-upload.py" not in package_ci:
         errors.append("package-ci.yml does not publish passing main-branch RPM/SRPM batches")
     if "github.event_name == 'push'" not in package_ci or "github.ref == 'refs/heads/main'" not in package_ci:
@@ -211,6 +217,43 @@ def main() -> int:
             errors.append(f"QEMU runner evidence policy is missing {marker}")
     if "ci/qemu-runner-policy.py" not in package_ci:
         errors.append("package-ci.yml does not emit structured QEMU runner routing evidence")
+    authorization = root / "ci" / "authorize-trusted-package-dispatch.py"
+    if not authorization.is_file() or not authorization.stat().st_mode & 0o111:
+        errors.append("trusted protected-main dispatch authorizer is missing or not executable")
+    elif not all(marker in authorization.read_text(encoding="utf-8") for marker in (
+        "PROTECTED_REF = \"refs/heads/main\"",
+        "TRUSTED_ASSOCIATIONS",
+        "PR changes are not confined",
+        "trusted PR dispatch must disable repository publication",
+    )):
+        errors.append("trusted protected-main dispatch authorizer is missing required scope or publication guards")
+    for marker in (
+        "authorize-trusted-dispatch:",
+        "needs: authorize-trusted-dispatch",
+        "ref: ${{ github.sha }}",
+        "ci/authorize-trusted-package-dispatch.py",
+        "--pr-number \"$PR_NUMBER\"",
+        "--publish-to-repo \"$PUBLISH_TO_REPO\"",
+        "$GITHUB_REPOSITORY/.github/workflows/rpm-repo-backfill.yml@refs/heads/main",
+        "inputs.commit_sha == '' && inputs.publish_to_repo",
+    ):
+        if marker not in package_ci:
+            errors.append("package-ci.yml is missing fixed-main trusted dispatch authorization: %s" % marker)
+    if package_ci.count("if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'") < 7:
+        errors.append("package-ci.yml can check out a dispatch head before trusted authorization succeeds")
+    if "(github.event_name == 'workflow_call' && inputs.publish_to_repo)" in package_ci:
+        errors.append("package-ci.yml permits reusable callers other than the protected RPM backfill to publish")
+    trusted_dispatch = root / "scripts" / "dispatch-trusted-package-ci"
+    if not trusted_dispatch.is_file() or not trusted_dispatch.stat().st_mode & 0o111:
+        errors.append("trusted protected-main package dispatcher is missing or not executable")
+    elif not all(marker in trusted_dispatch.read_text(encoding="utf-8") for marker in (
+        '"--ref",\n                "main"',
+        '"pr_number=%d" % args.pr',
+        '"publish_to_repo=false"',
+        "TRUSTED_ASSOCIATIONS",
+        "download_build_result",
+    )):
+        errors.append("trusted protected-main package dispatcher is missing required scope or evidence guards")
     for workflow in sorted(workflows.glob("*.yml")):
         if workflow.name == "package-ci.yml":
             continue
@@ -222,14 +265,23 @@ def main() -> int:
     build_runner = (
         build_runner_path.read_text(encoding="utf-8") if build_runner_path.exists() else ""
     )
+    if not build_runner_path.is_file() or not build_runner_path.stat().st_mode & 0o111:
+        errors.append("rpmbuild user orchestrator is missing or not executable")
     for marker in (
         'BUILD_USERS = {"root", "unprivileged"}',
         'TARGET_UID = 10001',
-        '"--network",',
-        '"none",',
+        'docker_limits(network="bridge")',
+        'docker_limits(network="none")',
         '"--commit-sha",',
-        '"--offline",',
+        'verified network source retrieval',
+        'OE_BUILD_NETWORK=enabled',
         'EVIDENCE_FILES =',
+        'grant_unprivileged_workspace_access(repo_root, args.package_id)',
+        'grant_other_access(repo_root, readable=False)',
+        'grant_other_access(packages_dir, readable=False)',
+        'grant_other_access(work_parent, readable=False)',
+        'successful unprivileged build is missing required evidence',
+        'require_complete=completed.returncode == 0',
     ):
         if marker not in build_runner:
             errors.append(
@@ -311,6 +363,10 @@ def main() -> int:
         errors.append("golden-evaluation.yml does not use stage-aware golden assertions")
     if "rpmbuild-internal.log" not in golden:
         errors.append("golden-evaluation.yml does not retain the RPM tool's internal log")
+    if "--allow-unavailable" not in golden or "repository-resolution.json" not in golden:
+        errors.append("golden-evaluation.yml does not propagate repository outage evidence")
+    if "BUILD_USER: ${{ steps.policy.outputs.build_user }}" not in golden or '--build-user "$BUILD_USER"' not in golden:
+        errors.append("golden-evaluation.yml does not pass the package build identity to dependency preparation")
 
     builddeps_path = root / "ci" / "prepare-build-deps.py"
     builddeps = builddeps_path.read_text(encoding="utf-8") if builddeps_path.exists() else ""
@@ -325,6 +381,7 @@ def main() -> int:
         "--supplemental-evidence",
         "--enablerepo=openeuler-riscv-project",
         "openeuler-riscv-project.repo,readonly",
+        "fallback_repository_ids",
     ):
         if marker not in builddeps:
             errors.append(f"BuildRequires preparation is missing supplemental repository control: {marker}")
@@ -341,10 +398,15 @@ def main() -> int:
     install_smoke = (root / "ci" / "install-smoke.sh").read_text(encoding="utf-8")
     if "--enablerepo=openeuler-riscv-project" not in install_smoke:
         errors.append("installed-RPM smoke does not use the verified supplemental repository")
+    for marker in ("repository_evidence", "endpoint-unavailable", "enabled_repositories"):
+        if marker not in install_smoke:
+            errors.append(f"installed-RPM smoke is missing repository outage control: {marker}")
 
     rpm_client = root / "ci" / "rpm-repo-client.py"
     if not rpm_client.is_file() or "http://2.27.148.101:38080" not in rpm_client.read_text(encoding="utf-8"):
         errors.append("supplemental RPM repository client is missing or does not pin the operator endpoint")
+    elif "RepositoryUnavailable" not in rpm_client.read_text(encoding="utf-8"):
+        errors.append("supplemental RPM repository client cannot distinguish outages from integrity failures")
     known_hosts = root / "ci" / "rpm-repo-known-hosts"
     if not known_hosts.is_file() or "[2.27.148.101]:38022 ssh-ed25519 " not in known_hosts.read_text(encoding="utf-8"):
         errors.append("RPM repository SSH host key is not pinned")
@@ -386,7 +448,7 @@ def main() -> int:
     for marker in (
         "ci/list-rpm-repo-packages.py",
         "uses: ./.github/workflows/package-ci.yml",
-        "max-parallel: 16",
+        "max-parallel: ${{ fromJSON(vars.RPM_BACKFILL_MAX_CONCURRENCY || '32') }}",
         "publish_to_repo: true",
         "retention-days: 7",
     ):
