@@ -101,6 +101,69 @@ class RunnerFleetStaticTests(unittest.TestCase):
         self.assertNotIn("runuser --user \"$oe_runner_user\" --groups", installer)
         self.assertIn('usermod --append --groups docker "$oe_runner_user"', installer)
 
+    def test_fleet_audit_is_installed_with_machine_only_stdout(self) -> None:
+        installer = (OPS / "install.sh").read_text(encoding="utf-8")
+        audit = (OPS / "audit.sh").read_text(encoding="utf-8")
+        fleet_audit = (OPS / "fleet-audit.py").read_text(encoding="utf-8")
+
+        self.assertIn('"$source_dir/audit.sh"', installer)
+        self.assertIn(
+            '"$oe_runner_libexec/preflight.sh" --name "$OE_ARG_NAME" >&2',
+            audit,
+        )
+        self.assertIn(
+            '"/usr/local/libexec/openeuler-actions-runner/audit.sh"',
+            fleet_audit,
+        )
+
+    def test_cleanup_lock_survives_root_activation_then_runner_hooks(self) -> None:
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+        installer = (OPS / "install.sh").read_text(encoding="utf-8")
+        cleanup = (OPS / "cleanup.sh").read_text(encoding="utf-8")
+        audit = (OPS / "audit.sh").read_text(encoding="utf-8")
+        unit = (OPS / "openeuler-actions-runner@.service").read_text(encoding="utf-8")
+
+        self.assertIn("oe_runner_lock_dir=$oe_runner_base/.locks", library)
+        self.assertIn('"$oe_runner_base" "$oe_runner_lock_dir"', installer)
+        self.assertIn(
+            'install -o root -g "$oe_runner_group" -m 0660 /dev/null "$cleanup_lock"',
+            installer,
+        )
+        self.assertIn('cleanup_lock=$oe_runner_lock_dir/$name.lock', cleanup)
+        self.assertIn('root:"$oe_runner_group":660', cleanup)
+        self.assertIn('exec 9<>"$cleanup_lock"', cleanup)
+        self.assertNotIn('cleanup_lock=$state_dir/cleanup.lock', cleanup)
+        self.assertIn('cleanup_lock=$oe_runner_lock_dir/$OE_ARG_NAME.lock', audit)
+        self.assertIn(
+            "ReadWritePaths=/opt/openeuler-actions-runner/.locks", unit
+        )
+
+    def test_job_start_cleanup_preserves_runner_managed_action_state(self) -> None:
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+        cleanup = (OPS / "cleanup.sh").read_text(encoding="utf-8")
+        started = (OPS / "job-started.sh").read_text(encoding="utf-8")
+        completed = (OPS / "job-completed.sh").read_text(encoding="utf-8")
+        activate = (OPS / "activate.sh").read_text(encoding="utf-8")
+
+        self.assertIn("oe_job_workspace()", library)
+        self.assertIn('workspace=$(oe_job_workspace "$runner_dir/_work" "$PWD")', started)
+        self.assertIn('--phase job-start --workspace "$workspace"', started)
+        self.assertIn('cleanup_work=$workspace', cleanup)
+        self.assertIn('src=$cleanup_work,dst=/cleanup/work', cleanup)
+        self.assertNotIn('src=$work_dir,dst=/cleanup/work', cleanup)
+        self.assertIn('cd -- "$runner_dir"', completed)
+        self.assertLess(completed.index('cd -- "$runner_dir"'), completed.index("cleanup.sh"))
+        self.assertIn('--phase before', activate)
+
+    def test_runner_uniqueness_allows_only_the_managed_lock_directory(self) -> None:
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+
+        self.assertIn('"$runner_dir"|"$oe_runner_lock_dir") ;;', library)
+        self.assertIn(
+            '*) oe_die "another runner directory exists: $directory" ;;',
+            library,
+        )
+
     def test_service_sandbox_permits_only_required_network_families(self) -> None:
         unit = (OPS / "openeuler-actions-runner@.service").read_text(encoding="utf-8")
         self.assertIn(
@@ -113,6 +176,42 @@ class RunnerFleetStaticTests(unittest.TestCase):
         library = (OPS / "_lib.sh").read_text(encoding="utf-8")
         self.assertIn("oe_assert_local_host", preflight)
         self.assertIn("ip -o -4 address show scope global", library)
+
+    def test_service_sandbox_preserves_runner_action_tar_extraction(self) -> None:
+        unit = (OPS / "openeuler-actions-runner@.service").read_text(encoding="utf-8")
+        self.assertIn("NoNewPrivileges=true", unit)
+        self.assertIn("CapabilityBoundingSet=", unit)
+        self.assertIn("AmbientCapabilities=", unit)
+        self.assertIn("RestrictSUIDSGID=false", unit)
+        self.assertNotIn("RestrictSUIDSGID=true", unit)
+
+        preflight = (OPS / "preflight.sh").read_text(encoding="utf-8")
+        self.assertIn(".tar-extract-preflight.", preflight)
+        self.assertIn('mkdir "$tar_probe_dir/source"', preflight)
+        self.assertIn(
+            'tar -czf "$tar_probe_dir/preflight.tar.gz" -C "$tar_probe_dir" source',
+            preflight,
+        )
+        self.assertIn('tar -xzf "$tar_probe_dir/preflight.tar.gz"', preflight)
+        self.assertIn('cmp -s "$oe_runner_libexec/preflight.sh"', preflight)
+        self.assertIn(
+            '[[ -x $tar_probe_dir/extracted/source/preflight.sh ]]', preflight
+        )
+        self.assertIn("trap cleanup_tar_probe EXIT", preflight)
+
+    def test_installed_runner_version_probes_use_the_service_identity(self) -> None:
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+        self.assertIn("oe_runner_version()", library)
+        self.assertIn('runuser --user "$oe_runner_user"', library)
+        self.assertIn("exec \"${2:?}\" --version", library)
+        for filename in ("install.sh", "register.sh", "preflight.sh", "audit.sh"):
+            source = (OPS / filename).read_text(encoding="utf-8")
+            self.assertIn("oe_runner_version", source, filename)
+            self.assertNotRegex(
+                source,
+                r'runner_dir/bin/Runner\.Listener["}]?"? --version',
+                filename,
+            )
 
     def test_shell_and_python_sources_parse_and_are_executable(self) -> None:
         for path in sorted(OPS.glob("*.sh")):
