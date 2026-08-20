@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "aha",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/theZiz/aha/archive/refs/tags/0.5.1.tar.gz",
+      "filename": "aha-0.5.1.tar.gz",
+      "version": "0.5.1",
+      "digests": {
+        "sha256": "6aea13487f6b5c3e453a447a67345f8095282f5acd97344466816b05ebd0b3b1"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Dual-licensed LGPL-2.0-or-later or MPL-1.1 source is fetched from the official GitHub tag archive in CI."
+      }
+    }
+  ]
+}
