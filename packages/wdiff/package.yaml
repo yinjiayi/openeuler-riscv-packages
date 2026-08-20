@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "wdiff",
+  "rpm": {
+    "name": "wdiff",
+    "summary": "Display word differences between text files",
+    "license": "GPL-3.0-or-later"
+  },
+  "upstream": {
+    "component": "gnu.org-software-wdiff",
+    "homepage": "https://www.gnu.org/software/wdiff/",
+    "source_repository": "https://git.savannah.gnu.org/git/wdiff.git",
+    "release_channel": "stable",
+    "release_api": "https://ftp.gnu.org/gnu/wdiff/",
+    "release_regex": "wdiff-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://ftp.gnu.org/gnu/wdiff/wdiff-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.2.2",
+    "release": "1",
+    "latest_detected": "1.2.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "wdiff",
+        "package_base": "wdiff",
+        "source_version": "1.2.2-5",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/wdiff/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "wdiff",
+        "package_base": "wdiff",
+        "source_version": "1.2.2-57.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/wdiff/wdiff/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "wdiff",
+        "package_base": "wdiff",
+        "source_version": "1.2.2-9.7",
+        "evidence_url": "https://software.opensuse.org/package/wdiff",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "wdiff",
+        "package_base": "wdiff",
+        "source_version": "1.2.2-9",
+        "evidence_url": "https://packages.debian.org/source/stable/wdiff",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "wdiff",
+        "package_base": "wdiff",
+        "source_version": "1.2.2-9build1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/wdiff",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "wdiff.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official latest 1.2.2 bytes are SHA-256 pinned and archive-safe. Target metadata has no wdiff package or /usr/bin/wdiff provider. The complete four-case Autotest suite remains enabled, including its screen-based pager acceptance case."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "gnu-ftp-index"
+  }
+}
