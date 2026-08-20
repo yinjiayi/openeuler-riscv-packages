@@ -38,7 +38,6 @@ filtering, combining, comparing, splitting, and repairing patch files.
 %license COPYING
 %doc AUTHORS ChangeLog NEWS README.md
 %{_bindir}/*
-%{_mandir}/man1/*.1*
 %{_datadir}/bash-completion/completions/*
 
 %changelog
