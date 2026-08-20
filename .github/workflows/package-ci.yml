@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 name: Package CI
+run-name: Package CI ${{ inputs.commit_sha && format('PR {0} {1}', inputs.pr_number, inputs.commit_sha) || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
 
 on:
   push:
@@ -30,6 +31,14 @@ on:
         required: true
   workflow_dispatch:
     inputs:
+      commit_sha:
+        description: Exact trusted same-repository package PR head for a protected-main QEMU dispatch
+        required: false
+        type: string
+      pr_number:
+        description: Open same-repository PR that owns commit_sha for a protected-main QEMU dispatch
+        required: false
+        type: string
       base_sha:
         description: Immutable default-branch base SHA for a trusted bot-created PR
         required: false
@@ -50,14 +59,64 @@ concurrency:
 
 permissions:
   contents: read
+  pull-requests: read
 
 env:
   ARTIFACT_RETENTION_DAYS: "7"
   TARGET_PLATFORM: linux/riscv64
 
 jobs:
+  authorize-trusted-dispatch:
+    name: trusted-dispatch-authorization
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.authorize.outputs.authorized }}
+    steps:
+      # This is deliberately the workflow's protected-main revision, never the
+      # caller-provided PR head. The authorizer runs before any later checkout
+      # accepts inputs.commit_sha.
+      - name: Check out fixed protected-main authorization code
+        if: github.event_name == 'workflow_dispatch' && inputs.commit_sha != ''
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Authorize a trusted package dispatch or normal main build
+        id: authorize
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_REF: ${{ github.ref }}
+          CALLER_WORKFLOW_REF: ${{ github.workflow_ref }}
+          PR_NUMBER: ${{ inputs.pr_number }}
+          PACKAGE_ID: ${{ inputs.package_id }}
+          BASE_SHA: ${{ inputs.base_sha }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          PUBLISH_TO_REPO: ${{ inputs.publish_to_repo }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          if [[ "$CALLER_WORKFLOW_REF" == "$GITHUB_REPOSITORY/.github/workflows/rpm-repo-backfill.yml@refs/heads/main" ]]; then
+            printf 'authorized=true\n' >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ "$EVENT_NAME" != workflow_dispatch || -z "$COMMIT_SHA" ]]; then
+            printf 'authorized=true\n' >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
+          ci/authorize-trusted-package-dispatch.py \
+            --repo "$GITHUB_REPOSITORY" \
+            --pr-number "$PR_NUMBER" \
+            --package-id "$PACKAGE_ID" \
+            --base-sha "$BASE_SHA" \
+            --commit-sha "$COMMIT_SHA" \
+            --publish-to-repo "$PUBLISH_TO_REPO" \
+            --event-ref "$EVENT_REF" \
+            --github-output "$GITHUB_OUTPUT"
+
   prepare:
     name: change-scope
+    needs: authorize-trusted-dispatch
+    if: needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     outputs:
@@ -105,6 +164,19 @@ jobs:
           else
             printf 'needs_native=false\ntimeout_minutes=120\nbuild_user=root\n' >>"$GITHUB_OUTPUT"
           fi
+      - name: Record the fail-closed QEMU runner policy
+        env:
+          MODE: ${{ steps.scope.outputs.mode }}
+          NEEDS_NATIVE: ${{ steps.policy.outputs.needs_native }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_REF: ${{ github.ref }}
+        run: |
+          ci/qemu-runner-policy.py \
+            --mode "$MODE" \
+            --needs-native "$NEEDS_NATIVE" \
+            --event-name "$EVENT_NAME" \
+            --ref "$EVENT_REF" \
+            --output artifacts/scope/qemu-runner-policy.json
       - name: Upload scope evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -116,8 +188,8 @@ jobs:
 
   metadata-validate:
     name: metadata-validate
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -147,8 +219,8 @@ jobs:
 
   patch-policy:
     name: patch-policy
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -189,8 +261,8 @@ jobs:
 
   source-verify:
     name: source-verify
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -241,8 +313,8 @@ jobs:
 
   repository-snapshot:
     name: repository-snapshot
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -251,7 +323,7 @@ jobs:
         with:
           ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
-      - name: Resolve one immutable supplemental repository generation
+      - name: Resolve one immutable supplemental repository generation or official-only fallback
         env:
           MODE: ${{ needs.prepare.outputs.mode }}
           NEEDS_NATIVE: ${{ needs.prepare.outputs.needs_native }}
@@ -263,7 +335,8 @@ jobs:
             ci/rpm-repo-client.py resolve \
               --state-url http://2.27.148.101:38080/state.json \
               --repo-file artifacts/repository/openeuler-riscv-project.repo \
-              --output artifacts/repository/resolution.json
+              --output artifacts/repository/resolution.json \
+              --allow-unavailable
           else
             printf '%s\n' '{"schema_version":1,"kind":"not-applicable","check":"repository-snapshot","reason":"no QEMU package build is in scope"}' \
               > artifacts/repository/not-applicable.json
@@ -279,8 +352,8 @@ jobs:
 
   merge-policy:
     name: merge-policy
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -325,9 +398,13 @@ jobs:
 
   rpmbuild-riscv64:
     name: rpmbuild-riscv64
-    needs: [prepare, metadata-validate, patch-policy, source-verify, repository-snapshot]
-    if: always()
-    runs-on: ubuntu-24.04
+    needs: [authorize-trusted-dispatch, prepare, metadata-validate, patch-policy, source-verify, repository-snapshot]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
+    # Public pull-request and merge-queue workflows stay on a disposable
+    # GitHub-hosted VM.  The repository-level pool is reachable only from a
+    # protected-main push or workflow_dispatch after the hosted prepare job
+    # has proven that one QEMU-buildable package is in scope.
+    runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
     timeout-minutes: 120
     steps:
       - name: Check out the exact head
@@ -421,7 +498,7 @@ jobs:
             exit "$dependency_status"
           fi
           printf 'image=%s\n' "$derived" >>"$GITHUB_OUTPUT"
-      - name: Build SRPM and RPM without network
+      - name: Build SRPM and RPM with verified source networking
         if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
@@ -508,9 +585,9 @@ jobs:
 
   rpm-install-smoke:
     name: rpm-install-smoke
-    needs: [prepare, metadata-validate, patch-policy, source-verify, repository-snapshot, rpmbuild-riscv64]
-    if: always()
-    runs-on: ubuntu-24.04
+    needs: [authorize-trusted-dispatch, prepare, metadata-validate, patch-policy, source-verify, repository-snapshot, rpmbuild-riscv64]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
+    runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
     timeout-minutes: 30
     steps:
       - name: Check out the exact head
@@ -569,7 +646,8 @@ jobs:
               -v "$GITHUB_WORKSPACE/artifacts/smoke:/workspace/artifacts/smoke:rw" \
               -w /workspace "$IMAGE_REF" \
               ci/install-smoke.sh "packages/$PACKAGE_ID" "work/$PACKAGE_ID" \
-                artifacts/smoke/smoke-phase-result.json
+                artifacts/smoke/smoke-phase-result.json \
+                artifacts/repository/resolution.json
       - name: Record expected native RISC-V smoke routing
         if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native == 'true'
         env:
@@ -663,7 +741,9 @@ jobs:
       needs.rpm-install-smoke.result == 'success' &&
       needs.prepare.outputs.mode == 'package' &&
       needs.prepare.outputs.needs_native != 'true' &&
-      ((github.event_name == 'push' && github.ref == 'refs/heads/main') || inputs.publish_to_repo)
+      ((github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+       (github.workflow_ref == 'yinjiayi/openeuler-riscv-packages/.github/workflows/rpm-repo-backfill.yml@refs/heads/main' && inputs.publish_to_repo) ||
+       (github.event_name == 'workflow_dispatch' && inputs.commit_sha == '' && inputs.publish_to_repo))
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
@@ -713,12 +793,13 @@ jobs:
       - name: Upload RPMs first and the ready marker last
         env:
           GENERATION: ${{ steps.stage.outputs.generation }}
+          RRSYNC_LOCK_JITTER_KEY: ${{ format('{0}:{1}', github.run_id, needs.prepare.outputs.package_id) }}
         run: |
           ssh_transport="ssh -p 38022 -i $RUNNER_TEMP/rpm-repo-ssh/id_ed25519 -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$RUNNER_TEMP/rpm-repo-ssh/known_hosts"
-          rsync -r -e "$ssh_transport" \
+          ci/rsync-with-lock-retry.sh -- rsync -r -e "$ssh_transport" \
             "$RUNNER_TEMP/rpm-repo-upload/payload/" \
             "reposync@2.27.148.101:$GENERATION/"
-          rsync -r -e "$ssh_transport" \
+          ci/rsync-with-lock-retry.sh -- rsync -r -e "$ssh_transport" \
             "$RUNNER_TEMP/rpm-repo-upload/.ready" \
             "reposync@2.27.148.101:$GENERATION/.ready"
       - name: Verify the immutable public generation

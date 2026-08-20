@@ -67,6 +67,14 @@ gh api --method PUT "repos/$repo/actions/permissions/workflow" \
   -f "default_workflow_permissions=$default_workflow_permissions" \
   -F "can_approve_pull_request_reviews=$can_approve_pull_request_reviews" >/dev/null
 
+fork_approval_policy=$(jq -r .actions.fork_pull_request_approval_policy "$settings")
+[[ $fork_approval_policy == all_external_contributors ]] || {
+  printf 'every external fork workflow must require maintainer approval\n' >&2
+  exit 1
+}
+gh api --method PUT "repos/$repo/actions/permissions/fork-pr-contributor-approval" \
+  -f "approval_policy=$fork_approval_policy" >/dev/null
+
 while IFS= read -r label; do
   name=$(jq -r .name <<<"$label")
   color=$(jq -r .color <<<"$label")
@@ -105,5 +113,12 @@ fi
 
 applied=$(gh api "repos/$repo/rulesets" --paginate \
   --jq ".[] | select(.name == \"$ruleset_name\") | {id,name,enforcement}")
+applied_fork_policy=$(gh api "repos/$repo/actions/permissions/fork-pr-contributor-approval" \
+  --jq .approval_policy)
+[[ $applied_fork_policy == "$fork_approval_policy" ]] || {
+  printf 'fork workflow approval policy readback mismatch\n' >&2
+  exit 1
+}
 jq -n --arg repo "$repo" --argjson ruleset "$applied" \
-  '{mode:"apply",repository:$repo,ruleset:$ruleset,writes_performed:true,actions_secrets_created:false}'
+  --arg fork_approval_policy "$applied_fork_policy" \
+  '{mode:"apply",repository:$repo,ruleset:$ruleset,fork_approval_policy:$fork_approval_policy,writes_performed:true,actions_secrets_created:false}'

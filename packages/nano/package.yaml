@@ -1,0 +1,101 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://nano-editor.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nano",
+        "package_name": "nano",
+        "source": "arch-core",
+        "source_version": "9.1-1"
+      },
+      {
+        "evidence_url": "https://nano-editor.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nano",
+        "package_name": "nano",
+        "source": "debian",
+        "source_version": "8.4-1+deb13u1"
+      },
+      {
+        "evidence_url": "https://nano-editor.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nano",
+        "package_name": "nano",
+        "source": "fedora",
+        "source_version": "8.7.1-1.fc44"
+      },
+      {
+        "evidence_url": "https://nano-editor.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nano",
+        "package_name": "nano",
+        "source": "opensuse-tumbleweed",
+        "source_version": "9.2-1.1"
+      },
+      {
+        "evidence_url": "https://nano-editor.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nano",
+        "package_name": "nano",
+        "source": "ubuntu",
+        "source_version": "8.7.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "nano.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive is reviewed and pinned in catalog/upstream-releases.yaml; the complete upstream check entry point is retained for the network-enabled target build.",
+    "status": "active"
+  },
+  "package_id": "nano",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "nano",
+    "summary": "Small and friendly text editor"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "nano-editor.org",
+    "homepage": "https://nano-editor.org",
+    "release_api": "https://www.nano-editor.org/dist/v9/",
+    "release_channel": "stable",
+    "release_regex": "nano-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://git.savannah.gnu.org/git/nano.git",
+    "source_url_template": "https://www.nano-editor.org/dist/v9/nano-{version}.tar.xz"
+  },
+  "version": {
+    "current": "9.2",
+    "latest_detected": "9.2",
+    "release": "1"
+  }
+}
