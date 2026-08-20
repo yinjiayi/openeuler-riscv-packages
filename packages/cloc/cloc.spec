@@ -33,6 +33,13 @@ git -C Unix/cloc_submodule_test fetch --no-tags --quiet origin \
   f647093e8be34e337366457005cfb8056b847ebb
 git -C Unix/cloc_submodule_test reset --quiet --hard \
   f647093e8be34e337366457005cfb8056b847ebb
+# The release archive omits the repository metadata used by the VCS option
+# tests; recreate the fixture repository with a deterministic local commit.
+git -C tests/inputs init --quiet
+git -C tests/inputs config user.email ci@example.invalid
+git -C tests/inputs config user.name cloc-ci
+git -C tests/inputs add --all .
+git -C tests/inputs commit --quiet -m 'Restore cloc test input history'
 
 %build
 # cloc is a Perl script; the upstream Unix Makefile owns installation.
