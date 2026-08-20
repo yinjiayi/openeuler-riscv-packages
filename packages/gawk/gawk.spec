@@ -30,7 +30,7 @@ The gawk API header used to build dynamically loaded extensions.
 %autosetup -p1
 
 %build
-%configure --disable-static --with-mpfr --with-readline
+%configure --disable-static --disable-pma --with-mpfr --with-readline
 %make_build
 
 %install
