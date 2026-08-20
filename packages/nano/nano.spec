@@ -33,6 +33,7 @@ make -j1 check
 %files
 %license COPYING
 %doc README*
+%doc %{_docdir}/%{name}/*.html
 %{_bindir}/nano
 %{_bindir}/rnano
 %{_datadir}/info/nano.info*
@@ -41,6 +42,7 @@ make -j1 check
 %{_mandir}/man1/nano.1*
 %{_mandir}/man1/rnano.1*
 %{_mandir}/man5/nanorc.5*
+%{_infodir}/dir
 
 %changelog
 * Sun Aug 16 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 9.2-1
