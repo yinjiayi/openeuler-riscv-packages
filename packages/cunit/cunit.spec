@@ -82,6 +82,7 @@ rmdir %{buildroot}%{_datadir}/CUnit/Test
 %files help
 %doc README AUTHORS NEWS ChangeLog
 %{_docdir}/%{name}/
+%{_prefix}/doc/CUnit/headers/
 %{_mandir}/man3/CUnit.3*
 %{_datadir}/CUnit/
 
