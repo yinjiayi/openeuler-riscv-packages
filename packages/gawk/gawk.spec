@@ -36,7 +36,6 @@ The gawk API header used to build dynamically loaded extensions.
 %install
 %make_install
 rm -f %{buildroot}%{_infodir}/dir
-ln -s gawk %{buildroot}%{_bindir}/awk
 ln -s gawk.1 %{buildroot}%{_mandir}/man1/awk.1
 
 %check
