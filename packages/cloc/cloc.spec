@@ -6,9 +6,11 @@ Summary:        Count lines of code in many programming languages
 License:        GPL-2.0-or-later
 URL:            https://github.com/AlDanial/cloc
 Source0:        cloc-2.10.tar.gz
+Source1:        cloc_submodule_test-f647093e8be34e337366457005cfb8056b847ebb.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  make
+BuildRequires:  git
 BuildRequires:  perl-Parallel-ForkManager
 BuildRequires:  perl-Regexp-Common
 BuildRequires:  perl-interpreter
@@ -20,7 +22,17 @@ Requires:       perl-Regexp-Common
 Count lines of code in many programming languages
 
 %prep
-%autosetup -p1 -n cloc-%{version}
+%autosetup -p1 -n cloc-%{version} -a 1
+mv cloc_submodule_test-f647093e8be34e337366457005cfb8056b847ebb \
+  Unix/cloc_submodule_test
+# Restore the fixture's pinned history because the source archive omits .git.
+git -C Unix/cloc_submodule_test init --quiet
+git -C Unix/cloc_submodule_test remote add origin \
+  https://github.com/AlDanial/cloc_submodule_test.git
+git -C Unix/cloc_submodule_test fetch --no-tags --quiet origin \
+  f647093e8be34e337366457005cfb8056b847ebb
+git -C Unix/cloc_submodule_test reset --quiet --hard \
+  f647093e8be34e337366457005cfb8056b847ebb
 
 %build
 # cloc is a Perl script; the upstream Unix Makefile owns installation.
