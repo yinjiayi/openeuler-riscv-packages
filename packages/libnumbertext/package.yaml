@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "package_id": "libnumbertext",
+  "rpm": {
+    "name": "libnumbertext",
+    "summary": "Number-to-text conversion library",
+    "license": "(LGPL-3.0-or-later OR BSD-3-Clause) AND (LGPL-3.0-or-later OR CC-BY-SA-3.0)"
+  },
+  "upstream": {
+    "component": "github.com-numbertext-libnumbertext",
+    "homepage": "https://github.com/Numbertext/libnumbertext",
+    "source_repository": "https://github.com/Numbertext/libnumbertext.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/Numbertext/libnumbertext/releases/latest",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/Numbertext/libnumbertext/releases/download/{version}/libnumbertext-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.0.11",
+    "release": "1",
+    "latest_detected": "1.0.11"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libnumbertext",
+        "package_base": "libnumbertext",
+        "source_version": "1.0.11-3",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libnumbertext/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "aur",
+        "package_name": "mingw-w64-libnumbertext",
+        "package_base": "mingw-w64-libnumbertext",
+        "source_version": "1.0.7-1",
+        "evidence_url": "https://aur.archlinux.org/rpc/v5/search/libnumbertext?by=name",
+        "observed_at": "2026-08-12T15:35:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libnumbertext",
+        "package_base": "libnumbertext",
+        "source_version": "1.0.11-10.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libnumbertext/libnumbertext/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libnumbertext",
+        "package_base": "libnumbertext",
+        "source_version": "1.0.11-1.12",
+        "evidence_url": "https://software.opensuse.org/package/libnumbertext",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libnumbertext",
+        "package_base": "libnumbertext",
+        "source_version": "1.0.11-4",
+        "evidence_url": "https://packages.debian.org/source/stable/libnumbertext",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libnumbertext",
+        "package_base": "libnumbertext",
+        "source_version": "1.0.11-4build2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libnumbertext",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libnumbertext.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official latest 1.0.11 asset is SHA-256 pinned and archive-safe. Target metadata has no libnumbertext package or libnumbertext-1.0.so.0 provider. The complete one-case Automake suite remains enabled with warnings treated as errors."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases-latest"
+  }
+}
