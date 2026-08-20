@@ -82,7 +82,7 @@ rm -f %{buildroot}%{_libdir}/*.la
 
 %files help
 %license COPYING COPYING.ASL20
-%doc AGENTS.md AUTHORS ChangeLog NEWS README
+%doc AUTHORS ChangeLog NEWS README
 
 %changelog
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.0-1
