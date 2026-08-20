@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "cwalk",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/likle/cwalk/archive/refs/tags/v1.2.9.tar.gz",
+      "filename": "cwalk-1.2.9.tar.gz",
+      "version": "1.2.9",
+      "digests": {
+        "sha256": "54f160031687ec90a414e0656cf6266445207cb91b720dacf7a7c415d6bc7108"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official MIT-licensed tag archive is fetched and SHA-256 verified by CI."
+      }
+    }
+  ]
+}

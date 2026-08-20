@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "package_id": "bmake",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://ftp.netbsd.org/pub/NetBSD/misc/sjg/bmake-20260714.tar.gz",
+      "filename": "bmake-20260714.tar.gz",
+      "version": "20260714",
+      "digests": {
+        "sha256": "0810781d24ad6efe010a8ce91c5c529dc8dd95a561d6c93b30e56b8d679cce65"
+      },
+      "signature": {
+        "url": "https://ftp.netbsd.org/pub/NetBSD/misc/sjg/bmake-20260714.tar.gz.asc",
+        "key_fingerprint": "7E22 8507 C26D 8DC1 64F5 31BF BA54 C8AF 755A 2A99",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official source archive is redistributable under the BSD terms retained in LICENSE and individual source notices."
+      }
+    }
+  ]
+}
