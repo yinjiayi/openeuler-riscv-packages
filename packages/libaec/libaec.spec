@@ -34,7 +34,7 @@ libaec.
 %autosetup -p1
 
 %build
-%cmake \
+%cmake_conf \
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_STATIC_LIBS=OFF \
   -DBUILD_TESTING=ON
