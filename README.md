@@ -22,6 +22,8 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - A **golden package** is a fixed end-to-end fixture with a pinned source/content digest, expected state, allowed changes, and assertions.
 - A **repository generation** is an immutable binary/source RPM snapshot with a state-bound `repomd.xml` SHA-256. A build resolves the mutable `state.json` pointer once, then uses only that generation URL.
 - An **official-repository-only fallback** is an evidence-recorded dependency mode used only when the fixed supplemental repository cannot be contacted. It disables that project repository and retains the HTTPS/GPG-checked official openEuler repository; it does not waive missing dependencies or convert a failed DNF transaction into success.
+- A **package inventory** is the generated, machine-readable union of managed package directories, reviewed upstream releases, inferred package PRs, and deduplicated discovery names. It is a status index, not an authorization to build every discovered name.
+- A **discovery key** is the stable `package_base`, `name`, or `component_id` fallback used to deduplicate raw catalog records. The immutable discovery snapshot remains the authoritative source for every raw record and lineage row.
 
 ## Safety and trust boundary
 
@@ -44,7 +46,9 @@ Snapshot `discovery-20260808T165000Z-9a89920c269462cd` records 251,506 raw recor
 
 Strict discovery emits zero directly importable candidates because distribution indexes do not prove the bytes of an official upstream release archive. It retains 181,134 deduplicated rejection/hold decisions: 89,975 unverified upstreams, 46,870 stale entries, 17,752 license blocks, 12,949 VCS-only variants, 12,765 binary-only variants, and 823 prereleases. These are an auditable backlog, not silently discarded packages.
 
-The reviewed overlay currently promotes 100 verified components. Eighty-eight have Arch stable lineage, 68 have AUR metadata lineage, 98 have cross-distribution corroboration, and 44 retain rows from all six configured sources: Arch stable, AUR, Debian, Fedora, openSUSE, and Ubuntu. `bftpd` and `libcap-ng` are explicitly retained with single-distribution raw lineage plus separately verified official upstream bytes. The newest ten promotions use exact frozen-row selectors where the snapshot split a package across component keys; GNU Which additionally marks Debian and Ubuntu `debianutils` rows as functional providers rather than GNU Which source/version evidence. All declared source URLs remain subject to the independent downloader/checksum verifier. No AUR recipe was trusted or executed.
+The reviewed overlay currently promotes 110 verified components. Eighty-eight have Arch stable lineage, 68 have AUR metadata lineage, 98 have cross-distribution corroboration, and 44 retain rows from all six configured sources: Arch stable, AUR, Debian, Fedora, openSUSE, and Ubuntu. `bftpd` and `libcap-ng` are explicitly retained with single-distribution raw lineage plus separately verified official upstream bytes. The newest ten promotions use exact frozen-row selectors where the snapshot split a package across component keys; GNU Which additionally marks Debian and Ubuntu `debianutils` rows as functional providers rather than GNU Which source/version evidence. All declared source URLs remain subject to the independent downloader/checksum verifier. No AUR recipe was trusted or executed.
+
+The full package inventory is committed as `catalog/package-index.json.gz`, with a compact readback at `catalog/package-index-summary.json`. The compressed index contains one entry for each of the 151,835 deduplicated discovery keys, plus all managed packages, reviewed releases, and 421 observed pull requests. Its `source_snapshot` field points to the immutable 251,506-record snapshot above, so the index does not replace or silently rewrite raw catalog evidence. Regenerate it only from a fresh `gh pr list --state all` JSON input and an explicit protected-main SHA; validate it with `scripts/validate-package-index`.
 
 ## Repository map
 
@@ -56,7 +60,7 @@ The reviewed overlay currently promotes 100 verified components. Eighty-eight ha
 | `ci/` | Exact openEuler repository config, rootfs-to-OCI build, QEMU/RVA23 checks, and image digest lock |
 | `packages/` | One directory per managed package plus `_template` |
 | `tests/golden/` | Fixed success, repair, and native-only acceptance fixtures |
-| `catalog/` | Discovery source policy, immutable run snapshots, and reviewed official-release evidence |
+| `catalog/` | Discovery source policy, immutable run snapshots, reviewed official-release evidence, and the full package inventory |
 | `dashboard/` | Static Pages application and generated evidence |
 | `ops/rpm-repo-server/` | Idempotent Nginx, restricted rsync, systemd, and atomic `createrepo_c` deployment |
 
@@ -69,6 +73,8 @@ make validate
 make test
 make golden
 make dashboard
+# Read back the generated full inventory and its immutable snapshot link.
+scripts/validate-package-index
 ```
 
 Verify and materialize one package's pinned source without building it:
