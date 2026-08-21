@@ -5442,7 +5442,7 @@
         "license_file": "LICENSE",
         "archive_inspection": {"checked": true, "root_directory": "bcal-2.5", "absolute_paths": false, "parent_traversal": false, "symlinks": false, "link_count": 0}
       },
-      "build_requires": ["gcc", "make", "readline-devel"],
+      "build_requires": ["gcc", "make", "python3-pytest", "readline-devel"],
       "requires": []
     },
     {
