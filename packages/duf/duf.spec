@@ -2,6 +2,7 @@
 Name:           duf
 Version:        0.9.1
 Release:        1%{?dist}
+%global debug_package %{nil}
 Summary:        Disk Usage/Free Utility
 License:        MIT
 URL:            https://github.com/muesli/duf
