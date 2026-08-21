@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "reviewed-upstream-releases",
   "source_snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
-  "reviewed_at": "2026-08-21T13:59:35Z",
+  "reviewed_at": "2026-08-21T15:14:30Z",
   "policy": {
     "stable_only": true,
     "official_https_required": true,
@@ -5407,6 +5407,114 @@
         "archive_inspection": {"checked": true, "root_directory": "ripgrep-15.2.0", "absolute_paths": false, "parent_traversal": false, "symlinks": true, "unsafe_links": false, "link_count": 1}
       },
       "build_requires": ["cargo", "gcc"],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-jarun-bcal",
+      "package_id": "bcal",
+      "canonical_name": "bcal",
+      "summary": "Storage conversion and expression calculator",
+      "license": "GPL-3.0-only",
+      "version": "2.5",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-jarun-bcal", "source": "aur", "original_name": "bcal", "package_base": "bcal", "source_version": "2.5-1", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-jarun-bcal", "source": "debian", "original_name": "bcal", "package_base": "bcal", "source_version": "2.4-2", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-jarun-bcal", "source": "fedora", "original_name": "bcal", "package_base": "bcal", "source_version": "2.5-1.fc44", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-jarun-bcal", "source": "opensuse", "original_name": "bcal", "package_base": "bcal", "source_version": "2.4-2.5", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-jarun-bcal", "source": "ubuntu", "original_name": "bcal", "package_base": "bcal", "source_version": "2.4-2.1build1", "relationship": "upstream-component"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/jarun/bcal",
+        "repository_url": "https://github.com/jarun/bcal",
+        "release_api": "https://api.github.com/repos/jarun/bcal/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/jarun/bcal/releases/download/v{version}/bcal-v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/jarun/bcal/releases/download/v2.5/bcal-v2.5.tar.gz",
+        "filename": "bcal-v2.5.tar.gz",
+        "sha256": "794fcf539dcc759bc144ebb56a290f1eda2d1af0bbe7473daad19cc31cac431e"
+      },
+      "evidence": {
+        "release_page": "https://github.com/jarun/bcal/releases/tag/v2.5",
+        "verified_at": "2026-08-21T15:12:00Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {"checked": true, "root_directory": "bcal-2.5", "absolute_paths": false, "parent_traversal": false, "symlinks": false, "link_count": 0}
+      },
+      "build_requires": ["gcc", "make", "readline-devel"],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-tgraf-bmon",
+      "package_id": "bmon",
+      "canonical_name": "bmon",
+      "summary": "Portable bandwidth monitor and rate estimator",
+      "license": "MIT AND BSD-2-Clause",
+      "version": "4.0",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-tgraf-bmon", "source": "arch", "original_name": "bmon", "package_base": "bmon", "source_version": "4.0-5", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-tgraf-bmon", "source": "debian", "original_name": "bmon", "package_base": "bmon", "source_version": "1:4.0-10", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-tgraf-bmon", "source": "fedora", "original_name": "bmon", "package_base": "bmon", "source_version": "4.0-15.fc44", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-tgraf-bmon", "source": "opensuse", "original_name": "bmon", "package_base": "bmon", "source_version": "4.0-1.39", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-tgraf-bmon", "source": "ubuntu", "original_name": "bmon", "package_base": "bmon", "source_version": "1:4.0-10build1", "relationship": "upstream-component"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/tgraf/bmon",
+        "repository_url": "https://github.com/tgraf/bmon",
+        "release_api": "https://api.github.com/repos/tgraf/bmon/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/Jafaral/bmon/releases/download/v{version}/bmon-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/Jafaral/bmon/releases/download/v4.0/bmon-4.0.tar.gz",
+        "filename": "bmon-4.0.tar.gz",
+        "sha256": "02fdc312b8ceeb5786b28bf905f54328f414040ff42f45c83007f24b76cc9f7a"
+      },
+      "evidence": {
+        "release_page": "https://github.com/Jafaral/bmon/releases/tag/v4.0",
+        "verified_at": "2026-08-21T15:12:00Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "LICENSE.MIT and LICENSE.BSD",
+        "archive_inspection": {"checked": true, "root_directory": "bmon-4.0", "absolute_paths": false, "parent_traversal": false, "symlinks": false, "link_count": 0}
+      },
+      "build_requires": ["autoconf", "automake", "gcc", "libconfuse-devel", "libnl3-devel", "libtool", "make", "ncurses-devel", "pkgconf-pkg-config"],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-opensuse-catatonit",
+      "package_id": "catatonit",
+      "canonical_name": "catatonit",
+      "summary": "A minimal container init process",
+      "license": "GPL-2.0-or-later",
+      "version": "0.2.1",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-opensuse-catatonit", "source": "arch", "original_name": "catatonit", "package_base": "catatonit", "source_version": "0.2.1-2", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-opensuse-catatonit", "source": "debian", "original_name": "catatonit", "package_base": "catatonit", "source_version": "0.2.1-2", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-opensuse-catatonit", "source": "fedora", "original_name": "catatonit", "package_base": "catatonit", "source_version": "0.2.1-5.fc44", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-opensuse-catatonit", "source": "opensuse", "original_name": "catatonit", "package_base": "catatonit", "source_version": "0.2.1-1.7", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-opensuse-catatonit", "source": "ubuntu", "original_name": "catatonit", "package_base": "catatonit", "source_version": "0.2.1-2build1", "relationship": "upstream-component"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/openSUSE/catatonit",
+        "repository_url": "https://github.com/openSUSE/catatonit",
+        "release_api": "https://api.github.com/repos/openSUSE/catatonit/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/openSUSE/catatonit/releases/download/v{version}/catatonit.tar.xz"
+      },
+      "source": {
+        "url": "https://github.com/openSUSE/catatonit/releases/download/v0.2.1/catatonit.tar.xz",
+        "filename": "catatonit.tar.xz",
+        "sha256": "9950425501af862e12f618bdc930ea755c46db6a16072a1462b4fc93b2bd59bc"
+      },
+      "evidence": {
+        "release_page": "https://github.com/openSUSE/catatonit/releases/tag/v0.2.1",
+        "verified_at": "2026-08-21T15:12:00Z",
+        "method": "downloaded-official-archive-and-matched-publisher-sha256sum",
+        "license_file": "COPYING",
+        "archive_inspection": {"checked": true, "root_directory": "catatonit-0.2.1", "absolute_paths": false, "parent_traversal": false, "symlinks": false, "link_count": 0}
+      },
+      "build_requires": ["autoconf", "automake", "gcc", "libtool", "make"],
       "requires": []
     }
   ]
