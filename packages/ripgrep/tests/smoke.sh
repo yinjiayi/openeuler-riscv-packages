@@ -3,7 +3,9 @@
 set -euo pipefail
 rpm -q -- ripgrep
 test -x /usr/bin/rg
-test -s /usr/share/man/man1/rg.1
+manpage=$(find /usr/share/man/man1 -maxdepth 1 -type f -name 'rg.1*' -print -quit)
+test -n "$manpage"
+test -s "$manpage"
 test -s /usr/share/bash-completion/completions/rg
 
 tmpdir=$(mktemp -d)
