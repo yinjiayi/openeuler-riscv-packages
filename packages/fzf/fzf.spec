@@ -2,6 +2,7 @@
 Name:           fzf
 Version:        0.74.3
 Release:        1%{?dist}
+%global debug_package %{nil}
 Summary:        Command-line fuzzy finder
 License:        MIT
 URL:            https://github.com/junegunn/fzf
