@@ -20,7 +20,7 @@ X25519 and passphrase recipients, SSH identities, and age plugins.
 export CGO_ENABLED=0
 mkdir -p bin
 for command in age age-keygen age-inspect age-plugin-batchpass; do
-  go build -trimpath -ldflags "-X main.Version=v%{version}" \
+  go build -buildvcs=false -trimpath -ldflags "-X main.Version=v%{version}" \
     -o "bin/${command}" "./cmd/${command}"
 done
 
