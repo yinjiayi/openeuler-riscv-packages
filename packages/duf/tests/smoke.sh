@@ -4,5 +4,5 @@ set -euo pipefail
 rpm -q -- duf
 duf --version | grep -F 'duf 0.9.1'
 
-json=$(duf --json /)
+json=$(duf --json)
 printf '%s\n' "$json" | grep -F '"mountpoint"'
