@@ -1,0 +1,46 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Fri, 14 Aug 2026 10:45:00 +0800
+Subject: [PATCH] Make generated documentation optional
+
+License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (distribution build profile)
+Origin: openEuler RISC-V packaging
+
+The generated website and PDF toolchain pulls hundreds of packages into a
+clean build root. Add an explicit option that disables only generated
+documentation while leaving the library, command-line tools, and complete
+CTest suite unchanged. Packagers can install the man page sources shipped
+in the release archive without running the website generators.
+
+---
+ CMakeLists.txt         |  6 +++++-
+ etc/configure.cmake    |  2 ++
+ srecord/CMakeLists.txt |  4 ++++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -39,0 +40,2 @@
++option(SRECORD_BUILD_DOCUMENTATION
++       "Build generated website, PDF, and API documentation" ON)
+@@ -58 +60,3 @@
+-add_subdirectory(doc)
++if(SRECORD_BUILD_DOCUMENTATION)
++  add_subdirectory(doc)
++endif()
+--- a/etc/configure.cmake
++++ b/etc/configure.cmake
+@@ -106,0 +107 @@
++if(SRECORD_BUILD_DOCUMENTATION)
+@@ -134,0 +136 @@
++endif()
+--- a/srecord/CMakeLists.txt
++++ b/srecord/CMakeLists.txt
+@@ -36,0 +37 @@
++if(SRECORD_BUILD_DOCUMENTATION)
+@@ -39,0 +41 @@
++endif()
+@@ -46,0 +48 @@
++if(SRECORD_BUILD_DOCUMENTATION)
+@@ -49,0 +52 @@
++endif()
