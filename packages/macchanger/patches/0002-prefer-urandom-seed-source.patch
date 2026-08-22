@@ -1,0 +1,32 @@
+From: Fedora macchanger maintainers <macchanger-maintainers@fedoraproject.org>
+Date: Fri, 4 Jul 2014 00:00:00 +0000
+Subject: [PATCH] random: prefer urandom as the seed source
+
+Prefer the nonblocking kernel random source before /dev/random and do not use
+the hardware RNG directly. This is the behavior carried by Fedora 44 for
+macchanger 1.7.0.
+
+Root cause: upstream 1.7.0 tries /dev/hwrng and blocking /dev/random before
+/dev/urandom even though the seed does not require either behavior.
+Patch-Source: Fedora 44 macchanger-1.7.0-30.fc44 source RPM,
+              macchanger-1.7.0-seed-source.diff
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (existing Fedora downstream patch)
+Removal: remove when a stable upstream release uses a suitable nonblocking
+         kernel random source first.
+
+---
+ src/main.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/src/main.c b/src/main.c
+--- a/src/main.c
++++ b/src/main.c
+@@ -97,3 +97,2 @@
+-	if ((fd = open("/dev/hwrng", O_RDONLY)) >= 0 ||
+-	    (fd = open("/dev/random", O_RDONLY)) >= 0 ||
+-	    (fd = open("/dev/urandom", O_RDONLY)) >= 0)
++	if ((fd = open("/dev/urandom", O_RDONLY)) >= 0 ||
++	    (fd = open("/dev/random", O_RDONLY)) >= 0)
+--
+2.50.1

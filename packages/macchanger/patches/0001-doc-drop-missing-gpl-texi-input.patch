@@ -1,0 +1,25 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Sat, 8 Aug 2026 17:20:00 +0000
+Subject: [PATCH] doc: drop nonexistent gpl.texi auxiliary input
+
+The tagged source archive does not contain doc/gpl.texi, and macchanger.texi
+does not include it. Do not ask Automake to distribute a nonexistent file.
+
+Root cause: tag 1.7.0 declares an auxiliary Texinfo input that is absent from
+the official archive even though the main manual does not reference it.
+Patch-Source: downstream reconstruction from the official 1.7.0 archive
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes are prohibited)
+Removal: remove when a stable upstream release stops declaring doc/gpl.texi.
+
+---
+ doc/Makefile.am | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/doc/Makefile.am b/doc/Makefile.am
+--- a/doc/Makefile.am
++++ b/doc/Makefile.am
+@@ -2 +1,0 @@
+-macc_TEXINFOS = gpl.texi
+--
+2.50.1
