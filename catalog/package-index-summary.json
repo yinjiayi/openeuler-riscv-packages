@@ -1,14 +1,14 @@
 {
   "artifact": "catalog/package-index.json.gz",
-  "entry_count": 151851,
-  "generated_at": "2026-08-21T00:00:00Z",
+  "entry_count": 151852,
+  "generated_at": "2026-08-23T00:00:00Z",
   "kind": "package-inventory-summary",
-  "main_ref": "627cf9dde27db36714777414fabc64da294ec3c0",
-  "managed_package_count": 269,
-  "merged_pull_request_count": 342,
-  "open_pull_request_count": 79,
-  "pull_request_count": 421,
-  "reviewed_release_count": 110,
+  "main_ref": "22432d4ece478eb13be94ba8d1a1525a38159a03",
+  "managed_package_count": 275,
+  "merged_pull_request_count": 351,
+  "open_pull_request_count": 84,
+  "pull_request_count": 435,
+  "reviewed_release_count": 118,
   "schema_version": 1,
   "source_snapshot": {
     "candidate_record_count": 0,
@@ -42,8 +42,9 @@
     "unique_discovery_key_count": 151835
   },
   "status_counts": {
-    "discovered": 151521,
-    "managed": 269,
-    "open-pr": 61
+    "discovered": 151513,
+    "managed": 275,
+    "merged-pr": 1,
+    "open-pr": 63
   }
 }
