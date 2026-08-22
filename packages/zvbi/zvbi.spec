@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           zvbi
-Version:        0.2.44
+Version:        0.2.45
 Release:        1%{?dist}
 Summary:        Raw VBI, Teletext, and Closed Caption decoding library
 License:        GPL-2.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-2-Clause AND MIT
 URL:            https://github.com/zapping-vbi/zvbi
-Source0:        zvbi-%{version}.tar.gz
+Source0:        zvbi-0.2.45.tar.gz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
