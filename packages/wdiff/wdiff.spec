@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           wdiff
-Version:        1.2.2
+Version:        1.2.3
 Release:        1%{?dist}
 Summary:        Display word differences between text files
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/wdiff/
-Source0:        wdiff-%{version}.tar.gz
+Source0:        wdiff-1.2.3.tar.gz
 
 BuildRequires:  bash
 BuildRequires:  coreutils
