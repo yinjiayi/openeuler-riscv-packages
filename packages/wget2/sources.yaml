@@ -1,0 +1,21 @@
+{
+  "package_id": "wget2",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d7544b13e37f18e601244fce5f5f40688ac1d6ab9541e0fbb01a32ee1fb447b4"
+      },
+      "filename": "wget2-2.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official GNU stable source release is redistributable under its GPL, LGPL, and GFDL terms."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/wget/wget2-2.2.1.tar.gz",
+      "version": "2.2.1"
+    }
+  ]
+}
