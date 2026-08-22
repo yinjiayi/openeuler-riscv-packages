@@ -1,0 +1,32 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Fri, 14 Aug 2026 00:00:00 +0000
+Subject: [PATCH] tests: select the librecode converter by its registered name
+
+License: GPL-2.0-only
+Upstream-Status: not-submitted
+Origin: openEuler RISC-V packaging
+
+Enca registers the in-process GNU recode backend as "librecode".  The TeX
+regression first confirms that this backend is available, but then requests
+the nonexistent converter name "recode".  Select "librecode" so the test
+exercises the backend it just detected instead of failing during option
+parsing.
+
+This was reproduced by exact-head openEuler RISC-V CI run 31761326622.
+Remove the patch when an upstream release carries the same converter name.
+
+---
+ test/test-tex.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/test-tex.sh b/test/test-tex.sh
+--- a/test/test-tex.sh
++++ b/test/test-tex.sh
+@@ -8,7 +8,7 @@ else
+   if $ENCA --list converters | grep '^librecode$' >/dev/null; then
+     TEST_TEXT=$srcdir/cs-s.tex
+-    OPTS="-L cs -C recode"
++    OPTS="-L cs -C librecode"
+     # File
+     cp $TEST_TEXT $TESTNAME.actual
+     $ENCA $OPTS -x UTF-8 $TESTNAME.actual || DIE=1
