@@ -3,8 +3,10 @@
   "schema_version": 1,
   "sources": [
     {
-      "digests": {"sha256": "8fbb03054556498ba9c4cc48fcaa36a4483748c6504a65bdb9ba348f555b0e56"},
-      "filename": "libpsl-0.23.1.tar.gz",
+      "digests": {
+        "sha256": "f2ea0e59bffb36597a872f6ef89893ffa4c30196c87eff7aeb2c47e4e8c98133"
+      },
+      "filename": "libpsl-0.23.2.tar.gz",
       "id": "source0",
       "kind": "upstream-release",
       "redistribution": {
@@ -12,8 +14,8 @@
         "reason": "Open-source release and bundled Public Suffix List data are fetched from the official versioned asset in CI."
       },
       "signature": null,
-      "url": "https://github.com/rockdaboot/libpsl/releases/download/0.23.1/libpsl-0.23.1.tar.gz",
-      "version": "0.23.1"
+      "url": "https://github.com/rockdaboot/libpsl/releases/download/0.23.2/libpsl-0.23.2.tar.gz",
+      "version": "0.23.2"
     }
   ]
 }
