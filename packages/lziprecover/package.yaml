@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "package_id": "lziprecover",
+  "rpm": {"name": "lziprecover", "summary": "Data recovery tool and decompressor for lzip files", "license": "GPL-2.0-or-later"},
+  "upstream": {
+    "component": "nongnu.org-lzip-lziprecover",
+    "homepage": "https://www.nongnu.org/lzip/lziprecover.html",
+    "source_repository": "https://savannah.nongnu.org/projects/lzip/",
+    "release_channel": "stable",
+    "release_api": "https://download-mirror.savannah.gnu.org/releases/lzip/lziprecover/",
+    "release_regex": "lziprecover-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://download-mirror.savannah.gnu.org/releases/lzip/lziprecover/lziprecover-{version}.tar.gz"
+  },
+  "version": {"current": "1.26", "release": "1", "latest_detected": "1.26"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "lziprecover", "package_base": "lziprecover", "source_version": "1.25-3", "evidence_url": "https://packages.debian.org/stable/lziprecover", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "lziprecover", "package_base": "lziprecover", "source_version": "1.26-1.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/lziprecover/lziprecover/fedora-44.html", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "opensuse-tumbleweed", "package_name": "lziprecover", "package_base": "lziprecover", "source_version": "1.25-2.6", "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/lziprecover", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "lziprecover", "package_base": "lziprecover", "source_version": "1.26-1", "evidence_url": "https://packages.ubuntu.com/resolute/lziprecover", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "lziprecover.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official 1.26 archive is SHA-256 pinned and carries the complete recovery suite and fixtures. Frozen Debian, Fedora 44, openSUSE, and Ubuntu metadata corroborates the component. Target and repository collision scans are clean, including separation from the existing lzip package."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}
