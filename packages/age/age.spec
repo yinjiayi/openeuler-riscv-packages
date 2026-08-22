@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
+%global debug_package %{nil}
+
 Name:           age
 Version:        1.3.1
 Release:        1%{?dist}
