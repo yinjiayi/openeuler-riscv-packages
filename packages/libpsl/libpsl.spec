@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libpsl
-Version:        0.23.1
+Version:        0.23.3
 Release:        1%{?dist}
 Summary:        C library for the Public Suffix List
 License:        BSD-3-Clause AND MIT AND MPL-2.0
 URL:            https://rockdaboot.github.io/libpsl/
-Source0:        libpsl-%{version}.tar.gz
+Source0:        libpsl-0.23.3.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  libidn2-devel
