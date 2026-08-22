@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libcap-ng
-Version:        0.9.2
+Version:        0.9.5
 Release:        1%{?dist}
 Summary:        Alternate POSIX capabilities library
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later
 URL:            https://github.com/stevegrubb/libcap-ng
-Source0:        libcap-ng-%{version}.tar.gz
+Source0:        v0.9.5.tar.gz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
