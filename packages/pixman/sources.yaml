@@ -1,0 +1,19 @@
+{
+  "package_id": "pixman",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "a098c33924754ad43f981b740f6d576c70f9ed1006e12221b1845431ebce1239"},
+      "filename": "pixman-0.46.4.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Freely redistributable MIT-licensed pixman source is fetched from the official release directory in CI."
+      },
+      "signature": null,
+      "url": "https://cairographics.org/releases/pixman-0.46.4.tar.xz",
+      "version": "0.46.4"
+    }
+  ]
+}
