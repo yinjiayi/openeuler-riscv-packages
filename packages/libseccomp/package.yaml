@@ -1,0 +1,124 @@
+{
+  "build": {
+    "native_reason": "The upstream acceptance suite must load seccomp filters into the target kernel; QEMU user mode returned ECANCELED from seccomp_load and cannot validate native RISC-V filtering semantics.",
+    "network_during_build": false,
+    "profile": "needs-native-riscv",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/seccomp/libseccomp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libseccomp",
+        "package_name": "libseccomp",
+        "source": "arch-core",
+        "source_version": "2.6.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/seccomp/libseccomp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libseccomp",
+        "package_name": "python-libseccomp",
+        "source": "arch-core",
+        "source_version": "2.6.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/seccomp/libseccomp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-libseccomp",
+        "package_name": "lib32-libseccomp",
+        "source": "aur",
+        "source_version": "2.5.6-1"
+      },
+      {
+        "evidence_url": "https://github.com/seccomp/libseccomp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libseccomp",
+        "package_name": "libseccomp",
+        "source": "debian",
+        "source_version": "2.6.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/seccomp/libseccomp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libseccomp",
+        "package_name": "libseccomp",
+        "source": "fedora",
+        "source_version": "2.6.0-3.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/seccomp/libseccomp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libseccomp",
+        "package_name": "libseccomp",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.6.1-2.2"
+      },
+      {
+        "evidence_url": "https://github.com/seccomp/libseccomp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libseccomp-python",
+        "package_name": "libseccomp-python",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.6.1-2.2"
+      },
+      {
+        "evidence_url": "https://github.com/seccomp/libseccomp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libseccomp",
+        "package_name": "libseccomp",
+        "source": "ubuntu",
+        "source_version": "2.6.0-2ubuntu5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libseccomp.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 2.6.1 release archive is pinned; Fedora 44 dist-git was reviewed but not executed. Native target-kernel validation remains required after the observed QEMU seccomp_load limitation.",
+    "status": "active"
+  },
+  "package_id": "libseccomp",
+  "rpm": {
+    "license": "LGPL-2.1-only",
+    "name": "libseccomp",
+    "summary": "System call filtering library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "qemu-limitation"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-seccomp-libseccomp",
+    "homepage": "https://github.com/seccomp/libseccomp",
+    "release_api": "https://api.github.com/repos/seccomp/libseccomp/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/seccomp/libseccomp",
+    "source_url_template": "https://github.com/seccomp/libseccomp/releases/download/v{version}/libseccomp-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.6.1",
+    "latest_detected": "2.6.1",
+    "release": "1"
+  }
+}
