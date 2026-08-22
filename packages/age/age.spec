@@ -34,6 +34,7 @@ for manual in age age-keygen age-inspect age-plugin-batchpass; do
 done
 
 %check
+export GOFLAGS=-buildvcs=false
 go test ./...
 for command in age age-keygen age-inspect age-plugin-batchpass; do
   "bin/${command}" --version | grep -Fx 'v%{version}'
