@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           bitwise
-Version:        0.50
+Version:        0.60
 Release:        1%{?dist}
 Summary:        Interactive ncurses bitwise calculator
 License:        GPL-3.0-or-later AND BSD-2-Clause
 URL:            https://github.com/mellowcandle/bitwise
-Source0:        bitwise-0.50.tar.gz
+Source0:        v0.60.tar.gz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
