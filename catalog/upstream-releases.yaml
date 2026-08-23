@@ -5516,6 +5516,42 @@
       },
       "build_requires": ["autoconf", "automake", "gcc", "libtool", "make"],
       "requires": []
+    },
+    {
+      "component_id": "gnu.org-software-hello",
+      "package_id": "hello",
+      "canonical_name": "hello",
+      "summary": "A Friendly Greeting Program",
+      "license": "GPL-3.0-or-later",
+      "version": "2.12.3",
+      "upstream": {
+        "homepage": "https://www.gnu.org/software/hello/",
+        "repository_url": "https://git.savannah.gnu.org/git/hello.git",
+        "release_api": "https://ftp.gnu.org/gnu/hello/",
+        "release_regex": "hello-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://ftp.gnu.org/gnu/hello/hello-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/hello/hello-2.12.3.tar.gz",
+        "filename": "hello-2.12.3.tar.gz",
+        "sha256": "0d5f60154382fee10b114a1c34e785d8b1f492073ae2d3a6f7b147687b366aa0"
+      },
+      "evidence": {
+        "release_page": "https://www.gnu.org/software/hello/",
+        "verified_at": "2026-08-23T02:00:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "hello-2.12.3",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": ["gcc", "make", "gettext", "texinfo"],
+      "requires": []
     }
   ]
 }
