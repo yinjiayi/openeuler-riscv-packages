@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           utf8cpp
-Version:        4.1.1
+Version:        4.2.0
 Release:        1%{?dist}
 Summary:        Portable header-only library for UTF-8 encoded strings
 License:        BSL-1.0
 URL:            https://github.com/nemtrif/utfcpp
-Source0:        utf8cpp-%{version}.tar.gz
+Source0:        v4.2.0.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
