@@ -22,7 +22,7 @@ Remove the patch when an upstream release carries the same converter name.
 diff --git a/test/test-tex.sh b/test/test-tex.sh
 --- a/test/test-tex.sh
 +++ b/test/test-tex.sh
-@@ -8,7 +8,7 @@ else
+@@ -8,6 +8,6 @@ else
    if $ENCA --list converters | grep '^librecode$' >/dev/null; then
      TEST_TEXT=$srcdir/cs-s.tex
 -    OPTS="-L cs -C recode"
