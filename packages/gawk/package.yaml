@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "The complete upstream suite reproducibly fails six unassigned-value tests under QEMU user mode: array elements are formatted as numeric zero instead of the empty string. The same result at the default optimization and at -O1 rules out the attempted optimization workaround; validate the unchanged suite on native riscv64.",
     "network_during_build": true,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 240,
     "user": "unprivileged"
   },
@@ -61,7 +61,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed. The complete suite remains mandatory and requires native riscv64 validation after reproducible QEMU-user unassigned-value failures at both the default optimization and -O1.",
     "status": "active"
   },
   "package_id": "gawk",

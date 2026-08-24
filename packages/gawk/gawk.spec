@@ -30,11 +30,7 @@ The gawk API header used to build dynamically loaded extensions.
 %autosetup -p1
 
 %build
-# The GCC 14.3 -O2 riscv64 build makes the full upstream suite observe
-# unassigned array elements as numeric zero. Keep the suite intact and test
-# the smallest optimization reduction for this target.
-%configure CFLAGS="%{optflags} -O1" \
-  --disable-static --disable-pma --with-mpfr --with-readline
+%configure --disable-static --disable-pma --with-mpfr --with-readline
 %make_build
 
 %install
@@ -68,4 +64,3 @@ ln -s gawk.1 %{buildroot}%{_mandir}/man1/awk.1
 %changelog
 * Sun Aug 16 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.4.1-1
 - Package gawk with MPFR/readline support and the complete upstream test suite.
-- Test an -O1 workaround for the riscv64 GCC 14.3 Node_elem_new failures.
