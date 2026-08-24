@@ -46,6 +46,11 @@ install -m 0644 test/unity_config.h Unity-2.7.0/src/unity_config.h
 
 %install
 %cmake_install
+# Unity is a pinned test-only dependency; do not ship its install targets as
+# part of iniparser.
+rm -rf %{buildroot}%{_includedir}/unity
+rm -rf %{buildroot}%{_libdir}/cmake/unity
+rm -f %{buildroot}%{_libdir}/libunity.a
 
 %check
 %ctest
