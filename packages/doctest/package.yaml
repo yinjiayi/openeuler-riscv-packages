@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "The complete 191-test upstream suite reaches test 143 under QEMU user mode and then traps with SIGILL; run 32330303295 reproduced the earlier doctest QEMU limitation and requires native riscv64 validation.",
     "network_during_build": false,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 60
   },
   "discovery": {
@@ -44,7 +44,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed. The full suite remains mandatory and requires native riscv64 after a reproducible QEMU-user SIGILL.",
     "status": "active"
   },
   "package_id": "doctest",
