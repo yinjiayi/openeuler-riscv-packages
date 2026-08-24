@@ -36,8 +36,8 @@ autoreconf -fi
 ./bitwise --version | grep -F '%{version}'
 
 %files
-%license COPYING LICENSE
-%doc AUTHORS ChangeLog NEWS README.md
+%license COPYING
+%doc AUTHORS ChangeLog NEWS README
 %{_bindir}/bitwise
 %{_mandir}/man1/bitwise.1*
 
