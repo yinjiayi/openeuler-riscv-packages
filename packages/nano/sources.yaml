@@ -1,0 +1,21 @@
+{
+  "package_id": "nano",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "05ecb99247b782e8a5b3a25ed4101dd034b0236902f7449bc9795b717642f7e9"
+      },
+      "filename": "nano-9.2.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://www.nano-editor.org/dist/v9/nano-9.2.tar.xz",
+      "version": "9.2"
+    }
+  ]
+}
