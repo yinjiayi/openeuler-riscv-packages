@@ -48,8 +48,10 @@ grep -F '\-\-flag' fixture.1
 %doc NEWS README THANKS
 %{_bindir}/help2man
 %{_libdir}/help2man/
-%{_infodir}/help2man.info*
+%{_datadir}/locale/*/LC_MESSAGES/help2man.mo
+%{_infodir}/help2man*.info*
 %{_mandir}/man1/help2man.1*
+%{_mandir}/*/man1/help2man.1*
 
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.49.3-1
