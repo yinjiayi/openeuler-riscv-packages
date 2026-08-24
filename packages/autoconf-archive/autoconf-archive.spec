@@ -27,6 +27,7 @@ GNU Autoconf Archive is a collection of more than 500 reusable Autoconf macros.
 
 %install
 %make_install
+rm -f %{buildroot}%{_docdir}/%{name}/COPYING*
 rm -f %{buildroot}%{_infodir}/dir
 
 %check
