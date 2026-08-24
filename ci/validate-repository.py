@@ -448,7 +448,10 @@ def main() -> int:
     for marker in (
         "ci/list-rpm-repo-packages.py",
         "uses: ./.github/workflows/package-ci.yml",
-        "max-parallel: ${{ fromJSON(vars.RPM_BACKFILL_MAX_CONCURRENCY || '32') }}",
+        "--max-concurrency \"${{ vars.RPM_BACKFILL_MAX_CONCURRENCY || '50' }}\"",
+        "packages_0: ${{ steps.plan.outputs.packages_0 }}",
+        "packages_1: ${{ steps.plan.outputs.packages_1 }}",
+        "max-parallel: ${{ fromJSON(needs.plan.outputs.max_parallel_per_shard) }}",
         "publish_to_repo: true",
         "retention-days: 7",
     ):
