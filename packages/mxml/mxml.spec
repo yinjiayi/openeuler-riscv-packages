@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           mxml
-Version:        4.0.4
+Version:        4.0.5
 Release:        1%{?dist}
 Summary:        Small XML parsing and serialization library
 License:        Apache-2.0 WITH mxml-exception
 URL:            https://www.msweet.org/mxml/
-Source0:        mxml-%{version}.tar.gz
+Source0:        mxml-4.0.5.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
