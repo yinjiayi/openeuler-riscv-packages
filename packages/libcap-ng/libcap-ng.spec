@@ -42,6 +42,7 @@ autoreconf -fi
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
+rm -f %{buildroot}%{_datadir}/bash-completion/completions/cap-audit
 
 %check
 %make_build check
@@ -58,6 +59,10 @@ find %{buildroot} -name '*.la' -delete
 %{_mandir}/man8/filecap.8*
 %{_mandir}/man8/netcap.8*
 %{_mandir}/man8/pscap.8*
+%{_datadir}/bash-completion/completions/filecap
+%{_datadir}/bash-completion/completions/libcap-ng.bash_completion
+%{_datadir}/bash-completion/completions/netcap
+%{_datadir}/bash-completion/completions/pscap
 
 %files devel
 %license COPYING.LIB
@@ -70,7 +75,7 @@ find %{buildroot} -name '*.la' -delete
 
 %changelog
 * Mon Aug 24 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.9.5-1
-- Remove the obsolete bash-completion manifest entry no longer installed upstream.
+- Follow the upstream bash-completion layout and omit the disabled cap-audit alias.
 
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.9.2-1
 - Initial openEuler RISC-V package from Fedora 44 identity and official upstream evidence.
