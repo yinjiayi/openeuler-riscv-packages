@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "The complete 80-test CTest suite passes tests 1 through 8 under QEMU user mode, then test_expect_u_int_not_in_set traps with SIGILL at test 9 in run 32684368561; validate the unchanged suite on native riscv64.",
     "network_during_build": true,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 180,
     "user": "unprivileged"
   },
@@ -69,7 +69,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed. The complete 80-test suite remains mandatory and requires native riscv64 validation after a reproducible QEMU-user SIGILL at test 9.",
     "status": "active"
   },
   "package_id": "cmocka",
