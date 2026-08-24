@@ -31,7 +31,6 @@ test "$(./src/fping -g 192.0.2.1 192.0.2.2 | wc -l)" -eq 2
 %license COPYING
 %doc CHANGELOG.md README.md
 %{_sbindir}/fping
-%{_sbindir}/fping6
 %{_mandir}/man8/fping.8*
 
 %changelog
