@@ -43,6 +43,7 @@ Header, shared-library link, pkg-config metadata, and API documentation.
 %{_includedir}/samplerate.h
 %{_libdir}/libsamplerate.so
 %{_libdir}/pkgconfig/samplerate.pc
+%{_libdir}/cmake/SampleRate/
 %{_datadir}/doc/libsamplerate/
 
 %changelog
