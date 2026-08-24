@@ -15,6 +15,7 @@ BuildRequires:  perl-Encode
 BuildRequires:  perl-Locale-gettext
 
 Requires:       perl
+Requires:       perl-Locale-gettext
 
 %description
 GNU help2man produces manual pages from a program's --help and --version output.
