@@ -38,7 +38,7 @@ AC_CONFIG_SRCDIR([configure.ac])
 m4_include([../m4/ax_check_compile_flag.m4])
 AX_CHECK_COMPILE_FLAG([-Wall], [ax_has_wall=yes], [ax_has_wall=no])
 AS_IF([test "x$ax_has_wall" != xyes],
-      [AC_MSG_ERROR([AX_CHECK_COMPILE_FLAG rejected -Wall])])
+      [AC_MSG_ERROR([compiler rejected -Wall])])
 AC_OUTPUT
 EOF
 (cd macro-smoke && autoconf && ./configure)
