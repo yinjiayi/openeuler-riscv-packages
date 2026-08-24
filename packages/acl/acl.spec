@@ -60,7 +60,7 @@ export LD_LIBRARY_PATH="$PWD/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 umask 022
 ./getfacl --version >/dev/null
 ./setfacl --version >/dev/null
-chmod a+rx "$PWD" "$PWD/.libs" \
+chmod a+rx "%{_topdir}" "%{_builddir}" "$PWD" "$PWD/.libs" \
   "$PWD/.libs/lt-getfacl" "$PWD/.libs/lt-setfacl"
 runuser -u bin -- "$PWD/getfacl" --version >/dev/null
 runuser -u bin -- "$PWD/setfacl" --version >/dev/null
