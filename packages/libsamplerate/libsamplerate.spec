@@ -25,7 +25,7 @@ Header, shared-library link, pkg-config metadata, and API documentation.
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON -DLIBSAMPLERATE_EXAMPLES=OFF -DLIBSAMPLERATE_INSTALL=ON
+%cmake_conf -DBUILD_TESTING=ON -DLIBSAMPLERATE_EXAMPLES=OFF -DLIBSAMPLERATE_INSTALL=ON
 %cmake_build
 
 %install
