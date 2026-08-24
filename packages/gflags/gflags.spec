@@ -70,8 +70,8 @@ cat "$ctest_log"
 %license COPYING.txt
 %doc AUTHORS.txt ChangeLog.txt README.md
 %{_bindir}/gflags_completions.sh
-%{_libdir}/libgflags.so.2.2*
-%{_libdir}/libgflags_nothreads.so.2.2*
+%{_libdir}/libgflags.so.2.3*
+%{_libdir}/libgflags_nothreads.so.2.3*
 
 %files devel
 %license COPYING.txt
