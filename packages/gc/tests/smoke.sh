@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
 rpm -q -- gc gc-devel
+libdir=$(rpm --eval '%{_libdir}')
+rpm -qf -- "$libdir/libcord.so.1"
 d=$(mktemp -d); trap 'rm -rf "$d"' EXIT
 cat >"$d/smoke.c" <<'EOF'
 #include <gc.h>

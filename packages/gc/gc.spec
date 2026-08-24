@@ -38,7 +38,11 @@ rm -f %{buildroot}%{_libdir}/*.la
 
 %files
 %license README.QUICK
-%doc AUTHORS ChangeLog README.md
+%doc ChangeLog
+%{_docdir}/gc/AUTHORS
+%{_docdir}/gc/README*
+%{_docdir}/gc/[a-z]*.md
+%{_libdir}/libcord.so.1*
 %{_libdir}/libgc.so.1*
 %{_libdir}/libgccpp.so.1*
 %{_libdir}/libgctba.so.1*
@@ -47,10 +51,12 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_includedir}/gc.h
 %{_includedir}/gc_cpp.h
 %{_includedir}/gc/
+%{_libdir}/libcord.so
 %{_libdir}/libgc.so
 %{_libdir}/libgccpp.so
 %{_libdir}/libgctba.so
 %{_libdir}/pkgconfig/bdw-gc.pc
+%{_mandir}/man3/gc.3*
 
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 8.2.12-1
