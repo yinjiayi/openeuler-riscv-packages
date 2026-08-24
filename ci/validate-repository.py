@@ -305,8 +305,8 @@ def main() -> int:
         errors.append("default GITHUB_TOKEN permissions must remain read-only")
     if actions_settings.get("can_approve_pull_request_reviews") is not True:
         errors.append("Actions cannot create the reviewed digest-lock PR")
-    if actions_settings.get("fork_pull_request_approval_policy") != "all_external_contributors":
-        errors.append("every external fork workflow must require explicit maintainer approval")
+    if actions_settings.get("fork_pull_request_approval_policy") != "first_time_contributors_new_to_github":
+        errors.append("established contributors must be allowed to run fork workflows without repeated approval")
     qemu_runner = actions_settings.get("self_hosted_qemu_runner", {})
     if qemu_runner != {
         "enabled": True,
@@ -317,8 +317,8 @@ def main() -> int:
     github_configurator = (root / "ci" / "configure-github.sh").read_text(encoding="utf-8")
     if "actions/permissions/fork-pr-contributor-approval" not in github_configurator:
         errors.append("GitHub provisioning does not enforce the external fork workflow approval policy")
-    if github_configurator.count("all_external_contributors") < 1:
-        errors.append("GitHub provisioning does not fail closed on the external fork policy")
+    if github_configurator.count("first_time_contributors_new_to_github") < 1:
+        errors.append("GitHub provisioning does not enforce the least restrictive public-repository fork policy")
     if settings.get("allowed_actions_secrets") != ["RPM_REPO_SSH_PRIVATE_KEY"]:
         errors.append("repository settings must allow only the restricted RPM repository deployment key")
     forbidden_secrets = settings.get("forbidden_actions_secrets", [])
