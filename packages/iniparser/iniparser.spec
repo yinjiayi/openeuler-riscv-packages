@@ -12,6 +12,7 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  ruby
+BuildRequires:  rubygem-psych
 
 %description
 iniparser is a portable C library for reading, querying, and writing INI-style
