@@ -68,15 +68,15 @@ scripts/dispatch-trusted-package-ci \
   --output /private/tmp/example-pr123-dispatch.json
 ```
 
-On 2026-08-12 the repository security baseline was also verified remotely:
-the repository is public, `yinjiayi` is the only collaborator and has admin
-access, and zero self-hosted runners existed. The fork-workflow approval policy
-was changed from `first_time_contributors` to `all_external_contributors` and
-read back successfully. The operation used repository Actions-settings read and
-update API categories; no credential value was placed in a command, record, or
-log. Roll back that setting to `first_time_contributors` if the policy change
-must be reversed. This approval policy is defense in depth; it is not a
-substitute for the Runner's protected-main event/workflow gate.
+On 2026-08-24 the repository's fork-workflow approval policy was set to GitHub's
+least restrictive public-repository option,
+`first_time_contributors_new_to_github`, and read back successfully. Established
+contributors and the repository's approved automation can therefore run PR
+workflows without repeated maintainer approval. GitHub still requires approval
+for contributors whose accounts are new to GitHub; the public-repository API
+does not offer a fully disabled approval policy. This setting does not replace
+the Runner's protected-main event/workflow gate, and fork PR workflows remain
+read-only and isolated from repository secrets.
 
 ## Fixed software
 
