@@ -2,12 +2,12 @@
 %undefine _debugsource_packages
 
 Name:           catch2
-Version:        3.15.3
+Version:        3.16.0
 Release:        1%{?dist}
 Summary:        Modern C++ test framework for unit tests, TDD, and BDD
 License:        BSL-1.0
 URL:            https://github.com/catchorg/Catch2
-Source0:        catch2-3.15.3.tar.gz
+Source0:        v3.16.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  make
