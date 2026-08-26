@@ -1,0 +1,21 @@
+{
+  "package_id": "rpminspect",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bc12de2a75aee23758b09034d361c802d4a4d8fd8094970d19478c41b24a99f5"
+      },
+      "filename": "rpminspect-2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rpminspect/rpminspect/archive/refs/tags/v2.1.tar.gz",
+      "version": "2.1"
+    }
+  ]
+}
