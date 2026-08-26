@@ -10,6 +10,7 @@ BuildRequires:  gcc
 BuildRequires:  lzip
 BuildRequires:  make
 BuildRequires:  guile-devel
+BuildRequires:  iputils
 
 
 %description
