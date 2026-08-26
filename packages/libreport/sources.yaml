@@ -1,0 +1,21 @@
+{
+  "package_id": "libreport",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "cf181ed248f6bf12233b459e4a504fab645b3ce8040b6855a073453756311166"
+      },
+      "filename": "libreport-2.17.15.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/abrt/libreport/archive/refs/tags/2.17.15.tar.gz",
+      "version": "2.17.15"
+    }
+  ]
+}
