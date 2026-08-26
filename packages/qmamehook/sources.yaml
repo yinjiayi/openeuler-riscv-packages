@@ -1,0 +1,21 @@
+{
+  "package_id": "qmamehook",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7611c54a032cb1c32799b7488975021c4499f5ce4487d76179b4a4ac9207b674"
+      },
+      "filename": "qmamehook-2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/SeongGino/QMamehook/archive/refs/tags/v2.2.tar.gz",
+      "version": "2.2"
+    }
+  ]
+}
