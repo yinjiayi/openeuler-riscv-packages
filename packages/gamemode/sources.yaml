@@ -1,0 +1,21 @@
+{
+  "package_id": "gamemode",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2b4a20894822caf04767af6a1601130d6b718fc30b8a77895607341b1674740f"
+      },
+      "filename": "gamemode-1.8.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/FeralInteractive/gamemode/archive/refs/tags/1.8.2.tar.gz",
+      "version": "1.8.2"
+    }
+  ]
+}
