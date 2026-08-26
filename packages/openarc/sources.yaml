@@ -1,0 +1,21 @@
+{
+  "package_id": "openarc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "838b1ed373e0e656311b163992db2f4bef8c095caffc83d489b7f20924e36044"
+      },
+      "filename": "openarc-1.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/flowerysong/OpenARC/archive/refs/tags/v1.3.0.tar.gz",
+      "version": "1.3.0"
+    }
+  ]
+}
