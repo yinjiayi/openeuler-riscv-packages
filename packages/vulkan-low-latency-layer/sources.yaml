@@ -1,0 +1,21 @@
+{
+  "package_id": "vulkan-low-latency-layer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "197cce2253372b663f8319fe479cc95790a55aa20e87cfb5018ca350f5df735a"
+      },
+      "filename": "vulkan-low-latency-layer-0.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Korthos-Software/low_latency_layer/archive/refs/tags/v0.2.0.tar.gz",
+      "version": "0.2.0"
+    }
+  ]
+}
