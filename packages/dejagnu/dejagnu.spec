@@ -6,6 +6,7 @@ Summary:        Framework for testing other programs
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/dejagnu/
 Source0:        dejagnu-1.6.3.tar.gz
+BuildArch:      noarch
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  expect
