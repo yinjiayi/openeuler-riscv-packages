@@ -1,0 +1,21 @@
+{
+  "package_id": "suscan",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2e2c2ed4150d92c8eb8f2bcdb3e46fa9e2da25b154ce946d76d737c3c6d8d5c7"
+      },
+      "filename": "suscan-0.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/BatchDrake/suscan/archive/refs/tags/v0.3.0.tar.gz",
+      "version": "0.3.0"
+    }
+  ]
+}
