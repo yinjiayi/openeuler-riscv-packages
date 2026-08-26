@@ -1,0 +1,21 @@
+{
+  "package_id": "pam-luks-keyring-unlock",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b2b3b39a174978f57c02aa2a8d99eb410a3ec241f95ca40e21b8ecf2cd252243"
+      },
+      "filename": "pam-luks-keyring-unlock-1.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cubic3d/pam-luks-keyring-unlock/archive/refs/tags/v1.0.1.tar.gz",
+      "version": "1.0.1"
+    }
+  ]
+}
