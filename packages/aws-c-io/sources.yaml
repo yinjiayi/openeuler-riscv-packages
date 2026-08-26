@@ -1,0 +1,21 @@
+{
+  "package_id": "aws-c-io",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "aa132d5a728f18ab8e0a6ea96d3d2f7e66bc8d3fe029d9ed1b05c06aa0c5b900"
+      },
+      "filename": "aws-c-io-0.27.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/awslabs/aws-c-io/archive/refs/tags/v0.27.5.tar.gz",
+      "version": "0.27.5"
+    }
+  ]
+}
