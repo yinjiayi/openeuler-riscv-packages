@@ -24,6 +24,7 @@ A collection of utilities to access MS-DOS disks
 
 %install
 %make_install
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 %make_build check
@@ -33,6 +34,9 @@ A collection of utilities to access MS-DOS disks
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_infodir}/mtools.info*
+%{_mandir}/man1/*.1*
+%{_mandir}/man5/*.5*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0.49-1
