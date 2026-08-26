@@ -1,0 +1,21 @@
+{
+  "package_id": "dispenso",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d1c84ba77d6d3a0da24010a930c81acb4c149532afd8ab352c9cae54c51b6f72"
+      },
+      "filename": "dispenso-1.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/facebookincubator/dispenso/archive/refs/tags/v1.4.0.tar.gz",
+      "version": "1.4.0"
+    }
+  ]
+}
