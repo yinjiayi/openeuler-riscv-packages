@@ -1,0 +1,21 @@
+{
+  "package_id": "luau",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "097b63982a743b430583bf5b9194acd1566d6fa096a78919b0391a6d1300b85e"
+      },
+      "filename": "luau-0.733.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/luau-lang/luau/archive/refs/tags/0.733.tar.gz",
+      "version": "0.733"
+    }
+  ]
+}
