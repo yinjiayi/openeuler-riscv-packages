@@ -1,0 +1,21 @@
+{
+  "package_id": "lightning",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c045c7a33a00affbfeb11066fa502c03992e474a62ba95977aad06dbc14c6829"
+      },
+      "filename": "lightning-2.2.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/lightning/lightning-2.2.3.tar.gz",
+      "version": "2.2.3"
+    }
+  ]
+}
