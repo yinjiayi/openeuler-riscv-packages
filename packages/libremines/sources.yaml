@@ -1,0 +1,21 @@
+{
+  "package_id": "libremines",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "41a60f532ff43995071ad3e0b2b11c6dcfe81b1c23236fde207268390a8fb196"
+      },
+      "filename": "libremines-2.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Bollos00/LibreMines/archive/refs/tags/v2.3.0.tar.gz",
+      "version": "2.3.0"
+    }
+  ]
+}
