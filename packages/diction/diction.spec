@@ -32,6 +32,9 @@ Identifies diction and style errors
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_datadir}/diction/
+%{_mandir}/man1/diction.1*
+%{_mandir}/man1/style.1*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.11-1
