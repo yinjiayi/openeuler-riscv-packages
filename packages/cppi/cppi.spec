@@ -22,17 +22,19 @@ C preprocessor directive indenter
 
 %install
 %make_install
+%find_lang %{name}
 
 %check
 %make_build check
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %doc AUTHORS
 %doc ChangeLog
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_mandir}/man1/cppi.1*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.18-1
