@@ -1,0 +1,21 @@
+{
+  "package_id": "ckb-next",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1e4a15c2b3c5119164fe34560d0418e41679c4227d1a804113285e4d9109598b"
+      },
+      "filename": "ckb-next-0.6.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ckb-next/ckb-next/archive/refs/tags/v0.6.2.tar.gz",
+      "version": "0.6.2"
+    }
+  ]
+}
