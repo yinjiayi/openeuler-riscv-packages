@@ -1,0 +1,21 @@
+{
+  "package_id": "wine-nine",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "911c64f62e99bdcbcbec86ac37c9d366bf7f468f50fdf86c6a6135568623b146"
+      },
+      "filename": "wine-nine-0.10.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/iXit/wine-nine-standalone/archive/refs/tags/v0.10.tar.gz",
+      "version": "0.10"
+    }
+  ]
+}
