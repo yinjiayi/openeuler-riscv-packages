@@ -1,0 +1,21 @@
+{
+  "package_id": "mping",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "36005f5520cfd078dd308e92ec18d191520afd9b6735148dfdc740dd440ec56f"
+      },
+      "filename": "mping-2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/troglobit/mping/archive/refs/tags/v2.0.tar.gz",
+      "version": "2.0"
+    }
+  ]
+}
