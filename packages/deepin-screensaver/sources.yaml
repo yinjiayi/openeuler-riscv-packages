@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-screensaver",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "023260630ab7dd0e37a936bb9ab2d554663e945ddf359d8704b6f40f3e2f1384"
+      },
+      "filename": "deepin-screensaver-6.5.11.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/deepin-screensaver/archive/refs/tags/6.5.11.tar.gz",
+      "version": "6.5.11"
+    }
+  ]
+}
