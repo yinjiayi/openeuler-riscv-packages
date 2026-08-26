@@ -1,0 +1,21 @@
+{
+  "package_id": "xoreos",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "60292ed9cc7b94f73b1ae08f27d38871e64a07cac17f7ee41026fca0719f0e8c"
+      },
+      "filename": "xoreos-0.0.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/xoreos/xoreos/archive/refs/tags/v0.0.6.tar.gz",
+      "version": "0.0.6"
+    }
+  ]
+}
