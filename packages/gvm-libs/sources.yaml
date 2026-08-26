@@ -1,0 +1,21 @@
+{
+  "package_id": "gvm-libs",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ee9963a15416bceecee4feb114767f6a55abfac7647ecc44673d482e9aff2f81"
+      },
+      "filename": "gvm-libs-23.9.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/greenbone/gvm-libs/archive/refs/tags/v23.9.1.tar.gz",
+      "version": "23.9.1"
+    }
+  ]
+}
