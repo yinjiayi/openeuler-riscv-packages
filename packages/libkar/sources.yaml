@@ -1,0 +1,21 @@
+{
+  "package_id": "libkar",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1c5de06950ca2b8bd2ee9d8c9dd0f389008bbeaedaa4b6d38784bf3f5b7da262"
+      },
+      "filename": "libkar-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kipr/libkar/archive/refs/tags/v1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
