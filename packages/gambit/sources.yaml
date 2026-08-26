@@ -1,0 +1,21 @@
+{
+  "package_id": "gambit",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0d7c807b40cdc0d52c23e1585a4472da2c87ca63e306c4c00b55bf21841f9ce0"
+      },
+      "filename": "gambit-16.7.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/gambitproject/gambit/archive/refs/tags/v16.7.0.tar.gz",
+      "version": "16.7.0"
+    }
+  ]
+}
