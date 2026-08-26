@@ -8,7 +8,8 @@ URL:            https://www.gnu.org/software/spell/
 Source0:        spell-1.1.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
-BuildRequires:  ispell
+BuildRequires:  aspell
+Requires:       aspell
 
 
 %description
