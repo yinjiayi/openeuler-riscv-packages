@@ -1,0 +1,21 @@
+{
+  "package_id": "tosu-overlay",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "671ec7f4108d6e4d84fe240f783f258041d01999cda2fa0d3aa777708b1f1453"
+      },
+      "filename": "tosu-overlay-2.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/K4zoku/tosu-overlay-qt/archive/refs/tags/v2.1.1.tar.gz",
+      "version": "2.1.1"
+    }
+  ]
+}
