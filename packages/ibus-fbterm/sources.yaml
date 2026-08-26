@@ -1,0 +1,21 @@
+{
+  "package_id": "ibus-fbterm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4dd81bdf43b9f635125e814a501f764fe4e13d62be4dc78f57356f1b24c0e318"
+      },
+      "filename": "ibus-fbterm-1.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fujiwarat/ibus-fbterm/archive/refs/tags/1.0.2.tar.gz",
+      "version": "1.0.2"
+    }
+  ]
+}
