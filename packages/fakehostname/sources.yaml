@@ -1,0 +1,21 @@
+{
+  "package_id": "fakehostname",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b25e04b409d69bd5319ce1ad55888e9ac6ece68a943d62d8209dee26faf072da"
+      },
+      "filename": "fakehostname-0.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dtcooper/fakehostname/archive/refs/tags/0.3.2.tar.gz",
+      "version": "0.3.2"
+    }
+  ]
+}
