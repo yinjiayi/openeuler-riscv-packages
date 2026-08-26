@@ -1,0 +1,21 @@
+{
+  "package_id": "libwdm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "377b4c72ee204f7d440fbd7c1da983bc3f0002ec17265c6bcde233eb3c92a483"
+      },
+      "filename": "libwdm-0.2.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/tnagler/wdm/archive/refs/tags/v0.2.6.tar.gz",
+      "version": "0.2.6"
+    }
+  ]
+}
