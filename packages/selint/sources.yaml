@@ -1,0 +1,21 @@
+{
+  "package_id": "selint",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9748467a10be72cb29bcebbdcbb9df98edc7ac4e625c2c6386f0d26fb0b85695"
+      },
+      "filename": "selint-1.5.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/SELinuxProject/selint/archive/refs/tags/v1.5.1.tar.gz",
+      "version": "1.5.1"
+    }
+  ]
+}
