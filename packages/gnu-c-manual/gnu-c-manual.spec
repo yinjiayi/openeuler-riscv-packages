@@ -9,6 +9,7 @@ Source0:        gnu-c-manual-0.2.5.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  texinfo
+BuildArch:      noarch
 
 
 %description
@@ -18,19 +19,19 @@ GNU C language reference manual
 %autosetup -p1
 
 %build
-%configure
-%make_build
+makeinfo --no-split -o gnu-c-manual.info gnu-c-manual.texi
 
 %install
-%make_install
+install -d %{buildroot}%{_infodir}
+install -m 0644 gnu-c-manual.info %{buildroot}%{_infodir}/
 
 %check
-%make_build check
+test -s gnu-c-manual.info
 
 %files
 %license fdl.texi
 %doc README
-%{_bindir}/*
+%{_infodir}/gnu-c-manual.info*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.5-1
