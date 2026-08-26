@@ -1,0 +1,21 @@
+{
+  "package_id": "cagebreak",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9642c05320dcf5fa726060f6cfdf30c47783202eb65b9ef6f7a3fe9931aadeca"
+      },
+      "filename": "cagebreak-3.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/project-repo/cagebreak/archive/refs/tags/3.2.1.tar.gz",
+      "version": "3.2.1"
+    }
+  ]
+}
