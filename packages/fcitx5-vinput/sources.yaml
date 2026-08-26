@@ -1,0 +1,21 @@
+{
+  "package_id": "fcitx5-vinput",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "08ebd7def265e0b8dc82500ef5f59be8bb612a68b3f6eeae3e5d1cc409b9cda9"
+      },
+      "filename": "fcitx5-vinput-2.3.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/xifan2333/fcitx5-vinput/archive/refs/tags/v2.3.5.tar.gz",
+      "version": "2.3.5"
+    }
+  ]
+}
