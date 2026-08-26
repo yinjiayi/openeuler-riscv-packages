@@ -1,0 +1,21 @@
+{
+  "package_id": "booth",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "15e9243f59f0f8523cbc82148d38b4e9b345b56acf5d3ed1726252c4a1e6f846"
+      },
+      "filename": "booth-1.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ClusterLabs/booth/archive/refs/tags/v1.2.tar.gz",
+      "version": "1.2"
+    }
+  ]
+}
