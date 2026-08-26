@@ -1,0 +1,21 @@
+{
+  "package_id": "hstr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bceab1cb3c3b636d9ff4dfbaf8b035530e76a36d948767ed1735c4e79d7473eb"
+      },
+      "filename": "hstr-3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dvorka/hstr/archive/refs/tags/v3.2.tar.gz",
+      "version": "3.2"
+    }
+  ]
+}
