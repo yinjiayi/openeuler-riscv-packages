@@ -1,0 +1,21 @@
+{
+  "package_id": "libunicode",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "df2c7b1a80e7aeb52f0ac3e23e460d4b2ada3996307dd886aca8e058d3ddb653"
+      },
+      "filename": "libunicode-0.9.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/contour-terminal/libunicode/archive/refs/tags/v0.9.2.tar.gz",
+      "version": "0.9.2"
+    }
+  ]
+}
