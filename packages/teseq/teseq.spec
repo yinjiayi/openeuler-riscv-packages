@@ -23,6 +23,7 @@ A tool for control characters and terminal control sequences
 
 %install
 %make_install
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 %make_build check
@@ -34,6 +35,9 @@ A tool for control characters and terminal control sequences
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_infodir}/teseq.info*
+%{_mandir}/man1/reseq.1*
+%{_mandir}/man1/teseq.1*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.1-1
