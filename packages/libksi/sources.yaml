@@ -1,0 +1,21 @@
+{
+  "package_id": "libksi",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "65a686279fd6208fe146bbb7e1f6d741a2eb799fcf1b44e00899a92d6bdbce72"
+      },
+      "filename": "libksi-3.21.3087.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/guardtime/libksi/archive/refs/tags/v3.21.3087.tar.gz",
+      "version": "3.21.3087"
+    }
+  ]
+}
