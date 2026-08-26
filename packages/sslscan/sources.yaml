@@ -1,0 +1,21 @@
+{
+  "package_id": "sslscan",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f6095c01163eef04ff9b3540913f20d899f54e27b1194afd409c5fc807eacb46"
+      },
+      "filename": "sslscan-2.2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rbsec/sslscan/archive/refs/tags/2.2.2.tar.gz",
+      "version": "2.2.2"
+    }
+  ]
+}
