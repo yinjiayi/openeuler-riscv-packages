@@ -1,0 +1,21 @@
+{
+  "package_id": "ksmbd-tools",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e9edc06d5ed47ee878b3c3eddd194fb22f9bdcb2179e8fa21acfc2dfc46f7090"
+      },
+      "filename": "ksmbd-tools-3.5.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cifsd-team/ksmbd-tools/archive/refs/tags/3.5.6.tar.gz",
+      "version": "3.5.6"
+    }
+  ]
+}
