@@ -7,6 +7,7 @@ License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/gnurobots/
 Source0:        gnurobots-1.2.0.tar.gz
 BuildRequires:  gcc
+BuildRequires:  guile-devel
 BuildRequires:  make
 BuildRequires:  glib2-devel
 BuildRequires:  ncurses-devel
