@@ -16,6 +16,8 @@ A set of interactive text-mode tools
 
 %prep
 %autosetup -p1
+# Do not pass upstream copyright text as a printf format string.
+sed -i 's/printf(copyright);/printf("%s", copyright);/' src/git.c
 
 %build
 %configure
