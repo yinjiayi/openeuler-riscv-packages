@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-compressor",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "99bcdc5c275e777ace7943ef53ce13ece01f4119746ffbd6078d88fe3a2c4189"
+      },
+      "filename": "deepin-compressor-6.5.32.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/deepin-compressor/archive/refs/tags/6.5.32.tar.gz",
+      "version": "6.5.32"
+    }
+  ]
+}
