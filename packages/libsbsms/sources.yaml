@@ -1,0 +1,21 @@
+{
+  "package_id": "libsbsms",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4f88d152bc06fedbda9d5d65517d40254a7310c9050601a93122309d45afd2c9"
+      },
+      "filename": "libsbsms-2.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/claytonotey/libsbsms/archive/refs/tags/2.3.0.tar.gz",
+      "version": "2.3.0"
+    }
+  ]
+}
