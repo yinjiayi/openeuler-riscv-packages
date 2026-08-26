@@ -9,6 +9,7 @@ Source0:        ocrad-0.29.tar.lz
 BuildRequires:  gcc
 BuildRequires:  lzip
 BuildRequires:  make
+BuildRequires:  libpng-devel
 
 
 %description
