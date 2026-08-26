@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/danielrmeyer/g2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "g2",
+        "package_name": "g2",
+        "source": "aur",
+        "source_version": "0.72-6"
+      },
+      {
+        "evidence_url": "https://github.com/danielrmeyer/g2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "g2",
+        "package_name": "g2",
+        "source": "debian",
+        "source_version": "0.72-13"
+      },
+      {
+        "evidence_url": "https://github.com/danielrmeyer/g2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "g2",
+        "package_name": "g2",
+        "source": "ubuntu",
+        "source_version": "0.72-13build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "g2.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "g2",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "g2",
+    "summary": "2D graphics library; can be used with C, C++, Fortran to generate flow charts."
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-danielrmeyer-g2",
+    "homepage": "https://github.com/danielrmeyer/g2",
+    "release_api": "https://api.github.com/repos/danielrmeyer/g2/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/danielrmeyer/g2",
+    "source_url_template": "https://github.com/danielrmeyer/g2/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.72",
+    "latest_detected": "0.72",
+    "release": "1"
+  }
+}
