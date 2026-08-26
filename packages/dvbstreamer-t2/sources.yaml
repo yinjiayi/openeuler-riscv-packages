@@ -1,0 +1,21 @@
+{
+  "package_id": "dvbstreamer-t2",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b526d9ef5e50534a5007a7a38434863dfd70f065a518d626bab96bedf64350f1"
+      },
+      "filename": "dvbstreamer-t2-2.1.22.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ccdale/dvbstreamer/archive/refs/tags/v2.1.22.tar.gz",
+      "version": "2.1.22"
+    }
+  ]
+}
