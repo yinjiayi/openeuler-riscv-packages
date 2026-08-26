@@ -30,6 +30,8 @@ developing applications with liblogging.
 
 %prep
 %autosetup -p1
+# GCC 14 no longer accepts the implicit int used by this old RFC 3195 helper.
+sed -i '/^sbFramActualRecvFramCommonBody/i int' rfc3195/src/beepframe.c
 
 %build
 autoreconf -fiv
