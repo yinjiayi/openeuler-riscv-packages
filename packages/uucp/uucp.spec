@@ -19,6 +19,11 @@ Taylor UUCP is a free implementation of UUCP and is the standard UUCP used on th
 sed -i 's/^main(){return(0);}$/int main(void){return 0;}/' configure
 
 %build
+# The Autoconf 2.13 probes cannot recognize modern GCC, although these three
+# ANSI C language features are guaranteed by the selected compiler.
+export uucp_cv_c_prototypes=yes
+export uucp_cv_c_void=yes
+export uucp_cv_c_unsigned_char=yes
 %configure
 %make_build
 
