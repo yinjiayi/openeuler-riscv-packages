@@ -1,0 +1,21 @@
+{
+  "package_id": "netperf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4569bafa4cca3d548eb96a486755af40bd9ceb6ab7c6abd81cc6aa4875007c4e"
+      },
+      "filename": "netperf-2.7.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/HewlettPackard/netperf/archive/refs/tags/netperf-2.7.0.tar.gz",
+      "version": "2.7.0"
+    }
+  ]
+}
