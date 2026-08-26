@@ -1,0 +1,21 @@
+{
+  "package_id": "btrfsd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3046f8397b70bd83d151fb856767af32f9145747f8bd5e238db5f8740d0ff348"
+      },
+      "filename": "btrfsd-0.2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ximion/btrfsd/archive/refs/tags/v0.2.2.tar.gz",
+      "version": "0.2.2"
+    }
+  ]
+}
