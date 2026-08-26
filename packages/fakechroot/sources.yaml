@@ -1,0 +1,21 @@
+{
+  "package_id": "fakechroot",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7f9d60d0d48611969e195fadf84d05f6c74f71bbf8f41950ad8f5bf061773e18"
+      },
+      "filename": "fakechroot-2.20.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dex4er/fakechroot/archive/refs/tags/2.20.1.tar.gz",
+      "version": "2.20.1"
+    }
+  ]
+}
