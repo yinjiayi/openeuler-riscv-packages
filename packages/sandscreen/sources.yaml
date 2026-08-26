@@ -1,0 +1,21 @@
+{
+  "package_id": "sandscreen",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7f36ed7dcf2182fea95ec3af7c4d5e6eb3e8cbca8f8f90ab5b79c2611440db21"
+      },
+      "filename": "sandscreen-1.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/frostyarchtide/sandscreen/archive/refs/tags/v1.0.2.tar.gz",
+      "version": "1.0.2"
+    }
+  ]
+}
