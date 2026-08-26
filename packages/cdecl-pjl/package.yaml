@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/paul-j-lucas/cdecl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cdecl-pjl",
+        "package_name": "cdecl-pjl",
+        "source": "aur",
+        "source_version": "18.7.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/paul-j-lucas/cdecl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cdecl",
+        "package_name": "cdecl",
+        "source": "fedora",
+        "source_version": "18.7.2-1.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/paul-j-lucas/cdecl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cdecl",
+        "package_name": "cdecl",
+        "source": "opensuse-tumbleweed",
+        "source_version": "18.7.2-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "cdecl-pjl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "cdecl-pjl",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "cdecl-pjl",
+    "summary": "C declaration converter with improvements by Paul J. Lucas"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-paul-j-lucas-cdecl",
+    "homepage": "https://github.com/paul-j-lucas/cdecl",
+    "release_api": "https://api.github.com/repos/paul-j-lucas/cdecl/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^cdecl\\-([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/paul-j-lucas/cdecl",
+    "source_url_template": "https://github.com/paul-j-lucas/cdecl/archive/refs/tags/cdecl-{version}.tar.gz"
+  },
+  "version": {
+    "current": "18.7.2",
+    "latest_detected": "18.7.2",
+    "release": "1"
+  }
+}
