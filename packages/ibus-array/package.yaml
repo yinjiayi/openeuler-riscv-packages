@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/lexical/ibus-array",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ibus-array",
+        "package_name": "ibus-array",
+        "source": "debian",
+        "source_version": "0.2.3-3"
+      },
+      {
+        "evidence_url": "https://github.com/lexical/ibus-array",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ibus-array",
+        "package_name": "ibus-array",
+        "source": "fedora",
+        "source_version": "0.2.3-5.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/lexical/ibus-array",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ibus-array",
+        "package_name": "ibus-array",
+        "source": "ubuntu",
+        "source_version": "0.2.3-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "ibus-array.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "ibus-array",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "ibus-array",
+    "summary": "The Array 30 input method for IBus input platform"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-lexical-ibus-array",
+    "homepage": "https://github.com/lexical/ibus-array",
+    "release_api": "https://api.github.com/repos/lexical/ibus-array/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^release\\-([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/lexical/ibus-array",
+    "source_url_template": "https://github.com/lexical/ibus-array/archive/refs/tags/release-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2.3",
+    "latest_detected": "0.2.3",
+    "release": "1"
+  }
+}
