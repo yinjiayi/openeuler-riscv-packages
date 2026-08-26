@@ -1,0 +1,21 @@
+{
+  "package_id": "loadtracker",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4563acad37cc63dd5d09ddd2d8bef8ab5784d175e15e560552035b566c980f22"
+      },
+      "filename": "loadtracker-1.99.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libsidplayfp/loadtracker/archive/refs/tags/v1.99.4.tar.gz",
+      "version": "1.99.4"
+    }
+  ]
+}
