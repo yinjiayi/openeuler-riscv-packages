@@ -1,0 +1,21 @@
+{
+  "package_id": "intel-undervolt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "29a7ebaee4830d65d0b5cefa6d497887d4f23f34659876dfe944f3a020cf33ff"
+      },
+      "filename": "intel-undervolt-1.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kitsunyan/intel-undervolt/archive/refs/tags/1.7.tar.gz",
+      "version": "1.7"
+    }
+  ]
+}
