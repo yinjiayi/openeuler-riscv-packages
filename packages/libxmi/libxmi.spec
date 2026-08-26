@@ -13,15 +13,25 @@ BuildRequires:  make
 %description
 A library for rasterizing 2-D vector graphics
 
+%package devel
+Summary:        Development files for libxmi
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+Header and unversioned shared-library link for developing applications with libxmi.
+
 %prep
 %autosetup -p1
+# Autoconf 2.13 emitted an implicit-int compiler probe that GCC 14 rejects.
+sed -i 's/^main(){return(0);}$/int main(void){return 0;}/' configure
 
 %build
-%configure
+%configure --disable-static
 %make_build
 
 %install
 %make_install
+find %{buildroot} -name '*.la' -delete
 
 %check
 %make_build check
@@ -32,7 +42,12 @@ A library for rasterizing 2-D vector graphics
 %doc ChangeLog
 %doc NEWS
 %doc README
-%{_bindir}/*
+%{_libdir}/libxmi.so.0*
+
+%files devel
+%license COPYING
+%{_includedir}/xmi.h
+%{_libdir}/libxmi.so
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2-1
