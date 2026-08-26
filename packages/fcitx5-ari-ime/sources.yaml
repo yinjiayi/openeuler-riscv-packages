@@ -1,0 +1,21 @@
+{
+  "package_id": "fcitx5-ari-ime",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0af3587c490ff0daa1b5abbe1601a6a876dd2fbc076b4438e9ba83e4c0ab9e02"
+      },
+      "filename": "fcitx5-ari-ime-2.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kaiyasi/Ari-IME/archive/refs/tags/v2.0.3.tar.gz",
+      "version": "2.0.3"
+    }
+  ]
+}
