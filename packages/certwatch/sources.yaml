@@ -1,0 +1,21 @@
+{
+  "package_id": "certwatch",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8dde863f352ece4d61deeee4d850753316d84261b7f2c5aef8307af477f8b2bf"
+      },
+      "filename": "certwatch-1.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/notroj/certwatch/archive/refs/tags/v1.2.tar.gz",
+      "version": "1.2"
+    }
+  ]
+}
