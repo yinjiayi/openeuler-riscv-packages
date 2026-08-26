@@ -1,0 +1,21 @@
+{
+  "package_id": "linux-fireface-mixer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fdb2e2924a6f7206c0906504d464b3e4918b40092489584fcd8a22fbc66a3047"
+      },
+      "filename": "linux-fireface-mixer-0.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/oudeis01/linux-fireface-mixer/archive/refs/tags/v0.4.0.tar.gz",
+      "version": "0.4.0"
+    }
+  ]
+}
