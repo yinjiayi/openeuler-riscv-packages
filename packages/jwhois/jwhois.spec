@@ -24,17 +24,23 @@ sed -i '/^int add_text_to_buffer/i void timeout_init(void);' include/utils.h
 
 %install
 %make_install
+%find_lang %{name}
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 %make_build check
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %doc AUTHORS
 %doc ChangeLog
 %doc NEWS
 %doc README
 %{_bindir}/*
+%config(noreplace) %{_sysconfdir}/jwhois.conf
+%{_infodir}/jwhois.info*
+%{_mandir}/man1/jwhois.1*
+%{_mandir}/*/man1/jwhois.1*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-1
