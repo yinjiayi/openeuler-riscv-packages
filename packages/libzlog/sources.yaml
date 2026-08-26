@@ -1,0 +1,21 @@
+{
+  "package_id": "libzlog",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3977dc8ea0069139816ec4025b320d9a7fc2035398775ea91429e83cb0d1ce4e"
+      },
+      "filename": "libzlog-1.2.18.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/hardysimpson/zlog/archive/refs/tags/1.2.18.tar.gz",
+      "version": "1.2.18"
+    }
+  ]
+}
