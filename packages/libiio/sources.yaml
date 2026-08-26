@@ -1,0 +1,21 @@
+{
+  "package_id": "libiio",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fb445fb860ef1248759f45d4273a4eff360534480ec87af64c6b8db3b99be7e5"
+      },
+      "filename": "libiio-0.26.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/analogdevicesinc/libiio/archive/refs/tags/v0.26.tar.gz",
+      "version": "0.26"
+    }
+  ]
+}
