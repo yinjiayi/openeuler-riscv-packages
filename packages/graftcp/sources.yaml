@@ -1,0 +1,21 @@
+{
+  "package_id": "graftcp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "16263c3934460809629b9d78ed5ef62b133787aefb385ec7dbd149a67390d2e0"
+      },
+      "filename": "graftcp-0.8.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/hmgle/graftcp/archive/refs/tags/v0.8.2.tar.gz",
+      "version": "0.8.2"
+    }
+  ]
+}
