@@ -20,7 +20,9 @@ Demonstrates the theory of convolution underlying engineering systems and signal
 
 %build
 %configure
-%make_build
+# Upstream overwrites the distribution FCFLAGS; target PIE linking requires
+# position-independent Fortran objects on RISC-V.
+%make_build FCFLAGS="%{optflags} -fPIC"
 
 %install
 %make_install
