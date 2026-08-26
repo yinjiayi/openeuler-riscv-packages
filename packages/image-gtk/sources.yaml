@@ -1,0 +1,21 @@
+{
+  "package_id": "image-gtk",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a23005d4f7998922a63e395b901aff4c249bf905742806c5703366388d3a8fda"
+      },
+      "filename": "image-gtk-23.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/vl-nix/image-gtk/archive/refs/tags/23.5.tar.gz",
+      "version": "23.5"
+    }
+  ]
+}
