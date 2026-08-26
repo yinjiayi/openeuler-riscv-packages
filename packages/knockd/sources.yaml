@@ -1,0 +1,21 @@
+{
+  "package_id": "knockd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7a82c276ca1540faa7f5bb25010f4a59d45323a31c44a30fbe4a6e484dd18b1a"
+      },
+      "filename": "knockd-0.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jvinet/knock/archive/refs/tags/v0.8.tar.gz",
+      "version": "0.8"
+    }
+  ]
+}
