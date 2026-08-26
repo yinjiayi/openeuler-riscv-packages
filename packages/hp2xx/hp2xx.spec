@@ -19,6 +19,8 @@ Converts HP-GL Plotter Language into a Variety of Formats
 
 %prep
 %autosetup -p1
+# GCC 14 rejects upstream strings passed directly as printf formats.
+sed -i 's/fprintf(md, poly_end);/fprintf(md, "%s", poly_end);/g; s/fprintf(md, exit_cmd);/fprintf(md, "%s", exit_cmd);/' sources/to_vec.c
 
 %build
 %make_build -C sources \
