@@ -1,0 +1,21 @@
+{
+  "package_id": "gnomato",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "450cbddbc36709727774a96cfa319cf70ddce88e442eb75da2ec0b837ce8e44b"
+      },
+      "filename": "gnomato-1.1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/diegorubin/gnomato/archive/refs/tags/1.1.0.tar.gz",
+      "version": "1.1.0"
+    }
+  ]
+}
