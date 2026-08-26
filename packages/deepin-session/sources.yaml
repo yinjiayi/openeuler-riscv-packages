@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-session",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "40e1d2d05116c5c727c9f9c9d8520c0c20484164c9094c76ef0703d89a121a8a"
+      },
+      "filename": "deepin-session-2.0.30.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dde-session/archive/refs/tags/2.0.30.tar.gz",
+      "version": "2.0.30"
+    }
+  ]
+}
