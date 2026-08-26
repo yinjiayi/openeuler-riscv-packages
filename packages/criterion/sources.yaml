@@ -1,0 +1,21 @@
+{
+  "package_id": "criterion",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6d924ee5eeaaaed7762ab968f560b9ff543fc3473aa949bf53ac56a2a1a9416c"
+      },
+      "filename": "criterion-2.4.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Snaipe/Criterion/archive/refs/tags/v2.4.3.tar.gz",
+      "version": "2.4.3"
+    }
+  ]
+}
