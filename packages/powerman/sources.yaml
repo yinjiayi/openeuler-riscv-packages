@@ -1,0 +1,21 @@
+{
+  "package_id": "powerman",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3f46cf5feecdd06e1f2de966becf9100ef8e6690d20f9fbe2431f51465e7205a"
+      },
+      "filename": "powerman-2.4.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/chaos/powerman/archive/refs/tags/v2.4.4.tar.gz",
+      "version": "2.4.4"
+    }
+  ]
+}
