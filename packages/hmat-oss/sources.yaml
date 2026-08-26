@@ -1,0 +1,21 @@
+{
+  "package_id": "hmat-oss",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "01c5946f063178cf05a9cac4906eb06ba3b784a0f03a68e8ef757ec368dc077a"
+      },
+      "filename": "hmat-oss-1.11.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jeromerobert/hmat-oss/archive/refs/tags/1.11.1.tar.gz",
+      "version": "1.11.1"
+    }
+  ]
+}
