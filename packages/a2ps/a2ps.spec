@@ -9,6 +9,7 @@ Source0:        a2ps-4.15.8.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  pkgconfig(bdw-gc)
+BuildRequires:  libpaper-devel
 
 
 %description
