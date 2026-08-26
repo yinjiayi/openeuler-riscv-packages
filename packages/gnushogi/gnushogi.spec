@@ -19,13 +19,17 @@ GNU gnushogi package
 
 %build
 %configure
-%make_build
+# The legacy recursive build has ordering bugs under parallel make and relies on
+# common symbols that GCC 10 and newer no longer enable by default.
+make -j1 CFLAGS="%{optflags} -fcommon"
 
 %install
 %make_install
 
 %check
-%make_build check
+# Upstream has no check target; verify the two generated build products.
+test -x gnushogi/gnushogi
+test -s gnushogi/gnushogi.bbk
 
 %files
 %license COPYING
