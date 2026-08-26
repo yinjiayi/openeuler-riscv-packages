@@ -7,7 +7,9 @@ License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/vc-dwim/
 Source0:        vc-dwim-1.10.tar.xz
 BuildRequires:  gcc
+BuildRequires:  git
 BuildRequires:  make
+BuildRequires:  man-db
 
 
 %description
@@ -24,6 +26,10 @@ GNU utilities for version control and maintaining changelog files
 %make_install
 
 %check
+export GIT_AUTHOR_NAME='openEuler RISC-V CI'
+export GIT_AUTHOR_EMAIL='noreply@example.invalid'
+export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
+export GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 %make_build check
 
 %files
