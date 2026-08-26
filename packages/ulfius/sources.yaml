@@ -1,0 +1,21 @@
+{
+  "package_id": "ulfius",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "19cf789b2af1919b69f77c7701237bfc318a9781ec657b68fd4b6ffa9d53f111"
+      },
+      "filename": "ulfius-2.7.15.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/babelouest/ulfius/archive/refs/tags/v2.7.15.tar.gz",
+      "version": "2.7.15"
+    }
+  ]
+}
