@@ -1,0 +1,21 @@
+{
+  "package_id": "libacars",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "94b1669ce73f085494fb768a02aab8ac0f4e52704759269b9c526637aa6db7d9"
+      },
+      "filename": "libacars-2.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/szpajder/libacars/archive/refs/tags/v2.2.1.tar.gz",
+      "version": "2.2.1"
+    }
+  ]
+}
