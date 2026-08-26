@@ -23,17 +23,22 @@ Deamon that monitors events in the file system directories
 
 %install
 %make_install
+rm -f %{buildroot}%{_infodir}/dir
+%find_lang %{name}
 
 %check
 %make_build check
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %doc AUTHORS
 %doc ChangeLog
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_infodir}/direvent.info*
+%{_mandir}/man5/direvent.conf.5*
+%{_mandir}/man8/direvent.8*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.5-1
