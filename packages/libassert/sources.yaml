@@ -1,0 +1,21 @@
+{
+  "package_id": "libassert",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a7882ff2922c6d57f955f5ea9418014619e0855e936eb92e5443914dd1a8f724"
+      },
+      "filename": "libassert-2.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jeremy-rifkin/libassert/archive/refs/tags/v2.2.1.tar.gz",
+      "version": "2.2.1"
+    }
+  ]
+}
