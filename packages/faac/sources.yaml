@@ -1,0 +1,21 @@
+{
+  "package_id": "faac",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "70bf59db35b2d129c6fe204200427950405d0a63bea3ff8fa8804648dde2cbce"
+      },
+      "filename": "faac-2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/knik0/faac/archive/refs/tags/faac-2.0.tar.gz",
+      "version": "2.0"
+    }
+  ]
+}
