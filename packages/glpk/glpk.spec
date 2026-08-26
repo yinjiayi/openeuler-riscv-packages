@@ -13,15 +13,23 @@ BuildRequires:  make
 %description
 GNU Linear Programming Kit: solve LP, MIP and other problems
 
+%package devel
+Summary:        Development files for GLPK
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+Header and unversioned shared-library link for developing applications with GLPK.
+
 %prep
 %autosetup -p1
 
 %build
-%configure
+%configure --disable-static
 %make_build
 
 %install
 %make_install
+find %{buildroot} -name '*.la' -delete
 
 %check
 %make_build check
@@ -33,6 +41,12 @@ GNU Linear Programming Kit: solve LP, MIP and other problems
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_libdir}/libglpk.so.40*
+
+%files devel
+%license COPYING
+%{_includedir}/glpk.h
+%{_libdir}/libglpk.so
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.0-1
