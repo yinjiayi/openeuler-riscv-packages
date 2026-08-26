@@ -1,0 +1,21 @@
+{
+  "package_id": "hp2xx",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "47b72fb386a189b52f07e31e424c038954c4e0ce405803841bed742bab488817"
+      },
+      "filename": "hp2xx-3.4.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/hp2xx/hp2xx-3.4.4.tar.gz",
+      "version": "3.4.4"
+    }
+  ]
+}
