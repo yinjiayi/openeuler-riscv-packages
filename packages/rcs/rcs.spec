@@ -9,6 +9,7 @@ Source0:        rcs-5.10.1.tar.lz
 BuildRequires:  gcc
 BuildRequires:  lzip
 BuildRequires:  make
+BuildRequires:  ed
 
 
 %description
