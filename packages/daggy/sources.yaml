@@ -1,0 +1,21 @@
+{
+  "package_id": "daggy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "66a81b3b4d560102d00d858d4ad31a051b9e28981e341fd05ae301c12099d1fd"
+      },
+      "filename": "daggy-2.2.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/synacker/daggy/archive/refs/tags/v2.2.4.tar.gz",
+      "version": "2.2.4"
+    }
+  ]
+}
