@@ -21,7 +21,7 @@ sed -i 's/sprintf(ptr, patterns\[/sprintf(ptr, "%s", patterns[/' plessey.c
 
 %build
 %configure
-%make_build
+%make_build CFLAGS="%{optflags} -fcommon"
 
 %install
 %make_install
