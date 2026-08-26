@@ -1,0 +1,21 @@
+{
+  "package_id": "brlaser",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "16dae855aa7fff0eef0c05398fab37678243d7d610fa5f9af0d3a2cc9bf08cb0"
+      },
+      "filename": "brlaser-6.2.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Owl-Maintain/brlaser/archive/refs/tags/v6.2.8.tar.gz",
+      "version": "6.2.8"
+    }
+  ]
+}
