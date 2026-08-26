@@ -24,6 +24,8 @@ Header and unversioned shared-library link for developing applications with libx
 %autosetup -p1
 # Autoconf 2.13 emitted an implicit-int compiler probe that GCC 14 rejects.
 sed -i 's/^main(){return(0);}$/int main(void){return 0;}/' configure
+# GCC 14 rejects the omitted exit(3) declaration.
+sed -i '/#include "mi_api.h"/i #include <stdlib.h>' mi_alloc.c
 
 %build
 %configure --disable-static
