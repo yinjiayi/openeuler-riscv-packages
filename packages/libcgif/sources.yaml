@@ -1,0 +1,21 @@
+{
+  "package_id": "libcgif",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "dcc7731e974ee77db75df26c99aca4d95f11ca2d267d870d42bce1e0d1e1e75f"
+      },
+      "filename": "libcgif-0.5.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dloebl/cgif/archive/refs/tags/v0.5.3.tar.gz",
+      "version": "0.5.3"
+    }
+  ]
+}
