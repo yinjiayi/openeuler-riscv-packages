@@ -24,6 +24,7 @@ overstrikes, with syntax highlighting and configurable output layouts.
 
 %install
 %make_install
+rm -f %{buildroot}%{_infodir}/dir
 %find_lang enscript
 
 %check
