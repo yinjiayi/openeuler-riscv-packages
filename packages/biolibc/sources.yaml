@@ -1,0 +1,21 @@
+{
+  "package_id": "biolibc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d01f8e200a92ae893e69a6e2ed4d7e3939bd2559d1dabe87b9150496eba65cbe"
+      },
+      "filename": "biolibc-0.2.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/auerlab/biolibc/archive/refs/tags/0.2.7.tar.gz",
+      "version": "0.2.7"
+    }
+  ]
+}
