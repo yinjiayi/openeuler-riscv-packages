@@ -1,0 +1,21 @@
+{
+  "package_id": "lapifetch",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d2073d7bbac1844b6d6d05aa2711b8f9a2703e0ba7bdc98380d6ab3802c4f045"
+      },
+      "filename": "lapifetch-1.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/asunyan-dev/lapifetch/archive/refs/tags/v1.4.0.tar.gz",
+      "version": "1.4.0"
+    }
+  ]
+}
