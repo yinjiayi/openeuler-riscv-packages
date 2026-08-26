@@ -7,6 +7,7 @@ License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/complexity/
 Source0:        complexity-1.13.tar.xz
 BuildRequires:  autogen-devel
+BuildRequires:  autogen
 BuildRequires:  gcc
 BuildRequires:  make
 
@@ -16,6 +17,8 @@ Measure complexity of C source
 
 %prep
 %autosetup -p1
+# Regenerate AutoOpts sources to match the library shipped by openEuler.
+(cd src && autogen opts.def)
 
 %build
 %configure
