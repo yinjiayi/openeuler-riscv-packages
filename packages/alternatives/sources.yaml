@@ -1,0 +1,21 @@
+{
+  "package_id": "alternatives",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c973a38d46d75ab2b411ab141e4c320a66dc4cc98832c3f2f6c5999531057861"
+      },
+      "filename": "alternatives-1.33.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fedora-sysv/chkconfig/archive/refs/tags/1.33.tar.gz",
+      "version": "1.33"
+    }
+  ]
+}
