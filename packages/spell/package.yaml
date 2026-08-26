@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/spell/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "spell",
+        "package_name": "spell",
+        "source": "aur",
+        "source_version": "1.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "spell.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "spell",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "spell",
+    "summary": "A clone of the standard Unix program of the same name, implemented as a wrapper for Ispell"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-spell",
+    "homepage": "https://www.gnu.org/software/spell/",
+    "release_api": "https://ftp.gnu.org/gnu/spell/",
+    "release_channel": "stable",
+    "release_regex": "spell-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/spell/",
+    "source_url_template": "https://ftp.gnu.org/gnu/spell/spell-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.1",
+    "latest_detected": "1.1",
+    "release": "1"
+  }
+}
