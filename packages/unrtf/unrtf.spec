@@ -33,6 +33,8 @@ Command-line program which converts RTF documents to other formats
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_datadir}/unrtf/
+%{_mandir}/man1/unrtf.1*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.21.10-1
