@@ -7,6 +7,7 @@ License:        GPL-2.0-or-later
 URL:            https://www.gnu.org/software/ddrescue/
 Source0:        ddrescue-1.30.tar.lz
 BuildRequires:  gcc
+BuildRequires:  gcc-c++
 BuildRequires:  lzip
 BuildRequires:  make
 
@@ -19,7 +20,7 @@ GNU data recovery tool
 
 %build
 %configure
-%make_build
+%make_build CXXFLAGS="%{optflags}"
 
 %install
 %make_install
