@@ -20,7 +20,8 @@ server framework
 
 %build
 %configure
-%make_build
+# The generated Guile boot source and its consumer lack parallel ordering.
+make -j1
 
 %install
 %make_install
