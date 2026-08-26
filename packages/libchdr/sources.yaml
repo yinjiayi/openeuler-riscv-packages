@@ -1,0 +1,21 @@
+{
+  "package_id": "libchdr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "313f6bf5537e2494daa3daa8a931a2536fc4f2b8312c07e3c3d5324d2052fa20"
+      },
+      "filename": "libchdr-0.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rtissera/libchdr/archive/refs/tags/v0.3.0.tar.gz",
+      "version": "0.3.0"
+    }
+  ]
+}
