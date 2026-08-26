@@ -32,6 +32,8 @@ applications with GNU libmatheval.
 %autosetup -p1
 
 %build
+# The release archive omits this gettext auxiliary file required by autoreconf.
+cp %{_datadir}/gettext/config.rpath config/config.rpath
 autoreconf -fiv
 %configure --disable-static
 %make_build
