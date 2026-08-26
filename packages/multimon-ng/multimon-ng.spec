@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: Apache-2.0
+Name:           multimon-ng
+Version:        1.6.0
+Release:        1%{?dist}
+Summary:        A fork of multimon that decodes multiple digital transmission modes
+License:        GPL-2.0-or-later
+URL:            https://github.com/EliasOenal/multimon-ng
+Source0:        multimon-ng-1.6.0.tar.gz
+BuildRequires:  cmake
+BuildRequires:  gcc
+BuildRequires:  make
+
+%description
+A fork of multimon that decodes multiple digital transmission modes
+
+%prep
+%autosetup -p1
+
+%build
+%cmake -DBUILD_TESTING=ON
+%cmake_build
+
+%install
+%cmake_install
+find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+test -s %{name}.files
+
+%check
+ctest --test-dir %{_vpath_builddir} --output-on-failure
+
+%files -f %{name}.files
+%license COPYING
+%doc README.md
+
+%changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6.0-1
+- Initial openEuler RISC-V package from the full package inventory.
