@@ -1,0 +1,21 @@
+{
+  "package_id": "cadet-core",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "057a2695273278963191af8bac459db77c6aeaf412c3022f48dbb7f6227bc062"
+      },
+      "filename": "cadet-core-5.1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cadet/cadet-core/archive/refs/tags/v5.1.0.tar.gz",
+      "version": "5.1.0"
+    }
+  ]
+}
