@@ -1,0 +1,21 @@
+{
+  "package_id": "mate-user-admin",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b4eb0783b382ed9405c76b765148d105dd113e20f66e61ad63d6fb7de7cafe1d"
+      },
+      "filename": "mate-user-admin-1.7.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/zhuyaliang/user-admin/archive/refs/tags/v1.7.0.tar.gz",
+      "version": "1.7.0"
+    }
+  ]
+}
