@@ -9,6 +9,9 @@ Source0:        swbis-1.13.3.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  gettext-devel
+BuildRequires:  man-db
+BuildRequires:  rpm-devel
+BuildRequires:  zlib-devel
 
 
 %description
