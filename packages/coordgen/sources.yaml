@@ -1,0 +1,21 @@
+{
+  "package_id": "coordgen",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f67697434f7fec03bca150a6d84ea0e8409f6ec49d5aab43badc5833098ff4e3"
+      },
+      "filename": "coordgen-3.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/schrodinger/coordgenlibs/archive/refs/tags/v3.0.2.tar.gz",
+      "version": "3.0.2"
+    }
+  ]
+}
