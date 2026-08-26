@@ -15,6 +15,9 @@ A tool to convert text strings to printed bars
 
 %prep
 %autosetup -p1
+# GCC's format-security policy rejects using generated barcode data as a
+# printf format string.  Preserve the data and pass it through %s instead.
+sed -i 's/sprintf(ptr, patterns\[/sprintf(ptr, "%s", patterns[/' plessey.c
 
 %build
 %configure
