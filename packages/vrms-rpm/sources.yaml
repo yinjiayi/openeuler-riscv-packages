@@ -1,0 +1,21 @@
+{
+  "package_id": "vrms-rpm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "91a737da17cc03a74770ccc8442631c2dd5e8ba40688de9f66c4f10605b418b6"
+      },
+      "filename": "vrms-rpm-2.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/suve/vrms-rpm/archive/refs/tags/release-2.4.tar.gz",
+      "version": "2.4"
+    }
+  ]
+}
