@@ -59,7 +59,7 @@ test -s liblogging-test.log
 %doc ChangeLog README.md
 %{_bindir}/stdlogctl
 %{_libdir}/liblogging-rfc3195.so.0*
-%{_libdir}/liblogging-stdlog.so.1*
+%{_libdir}/liblogging-stdlog.so.0*
 %{_mandir}/man1/stdlogctl.1*
 %{_mandir}/man3/stdlog.3*
 
