@@ -7,6 +7,7 @@ License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/c-graph/
 Source0:        c-graph-2.0.1.tar.gz
 BuildRequires:  gcc
+BuildRequires:  gcc-gfortran
 BuildRequires:  make
 BuildRequires:  guile-devel
 
