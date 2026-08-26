@@ -1,0 +1,21 @@
+{
+  "package_id": "zipios",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d78b86c83af32864f1d68ced31bc0b2c47c69be0df518dca02b6b5ddd668dfe5"
+      },
+      "filename": "zipios-2.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Zipios/Zipios/archive/refs/tags/2.3.2.tar.gz",
+      "version": "2.3.2"
+    }
+  ]
+}
