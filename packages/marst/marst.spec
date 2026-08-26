@@ -26,12 +26,13 @@ Algol runtime library.
 %autosetup -p1
 
 %build
-%configure --disable-static
+%configure
 %make_build
 
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
+find %{buildroot} -name '*.a' -delete
 
 %check
 %make_build check
