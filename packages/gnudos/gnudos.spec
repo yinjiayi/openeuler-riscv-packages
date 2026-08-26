@@ -46,9 +46,6 @@ rm -f %{buildroot}%{_infodir}/dir
 %{_bindir}/mino
 %{_bindir}/prime
 %{_libdir}/libgnudos.so.2*
-%{_infodir}/gnudos.info*
-%{_infodir}/mino.info*
-%{_infodir}/prime.info*
 %{_mandir}/man1/gnudos.1*
 %{_mandir}/man1/mino.1*
 %{_mandir}/man1/prime.1*
