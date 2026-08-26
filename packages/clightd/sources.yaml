@@ -1,0 +1,21 @@
+{
+  "package_id": "clightd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "76ae865b5eeb721c98c23b1d4d8531b2b6c10b71386d0396b14666b5650f3054"
+      },
+      "filename": "clightd-5.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/FedeDP/Clightd/archive/refs/tags/5.9.tar.gz",
+      "version": "5.9"
+    }
+  ]
+}
