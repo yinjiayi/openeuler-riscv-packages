@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/awslabs/aws-c-auth",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "aws-c-auth",
+        "package_name": "aws-c-auth",
+        "source": "arch-extra",
+        "source_version": "0.10.1-1"
+      },
+      {
+        "evidence_url": "https://github.com/awslabs/aws-c-auth",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "aws-c-auth",
+        "package_name": "aws-c-auth",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.10.4-1.1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "aws-c-auth.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "aws-c-auth",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "aws-c-auth",
+    "summary": "AWS C99 library implementation of AWS client-side authentication"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-awslabs-aws-c-auth",
+    "homepage": "https://github.com/awslabs/aws-c-auth",
+    "release_api": "https://api.github.com/repos/awslabs/aws-c-auth/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/awslabs/aws-c-auth",
+    "source_url_template": "https://github.com/awslabs/aws-c-auth/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.10.4",
+    "latest_detected": "0.10.4",
+    "release": "1"
+  }
+}
