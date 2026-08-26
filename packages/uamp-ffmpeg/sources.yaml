@@ -1,0 +1,21 @@
+{
+  "package_id": "uamp-ffmpeg",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2ad6b34e29c45ac7e0b332653cbe41f8fc6916eb708706f6a39c255d654cbfbb"
+      },
+      "filename": "uamp-ffmpeg-0.1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/BonnyAD9/uamp-ffmpeg/archive/refs/tags/v0.1.0.tar.gz",
+      "version": "0.1.0"
+    }
+  ]
+}
