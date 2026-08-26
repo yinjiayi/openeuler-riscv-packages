@@ -1,0 +1,21 @@
+{
+  "package_id": "libva-intel-driver",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f89f77bc46ec6f46392c1b90b9bf34d09f908bf33c9d16d385897b1fe282bacc"
+      },
+      "filename": "libva-intel-driver-2.4.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/irql-notlessorequal/intel-vaapi-driver/archive/refs/tags/2.4.5.tar.gz",
+      "version": "2.4.5"
+    }
+  ]
+}
