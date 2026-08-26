@@ -6,6 +6,7 @@ Summary:        C++ library that simplifies the creation of CGI applications
 License:        LGPL-3.0-or-later AND GFDL-1.2-or-later
 URL:            https://www.gnu.org/software/cgicc/
 Source0:        cgicc-3.2.20.tar.gz
+BuildRequires:  autoconf
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  gcc-c++
