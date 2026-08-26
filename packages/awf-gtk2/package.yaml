@@ -1,0 +1,156 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-gtk2",
+        "package_name": "awf-gtk2",
+        "source": "aur",
+        "source_version": "4.2.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-gtk3",
+        "package_name": "awf-gtk3",
+        "source": "aur",
+        "source_version": "4.2.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-gtk4",
+        "package_name": "awf-gtk4",
+        "source": "aur",
+        "source_version": "4.2.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-qt5",
+        "package_name": "awf-qt5",
+        "source": "aur",
+        "source_version": "4.2.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-qt6",
+        "package_name": "awf-qt6",
+        "source": "aur",
+        "source_version": "4.2.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-gtk",
+        "package_name": "awf-gtk",
+        "source": "debian",
+        "source_version": "2.9.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-gtk2",
+        "package_name": "awf-gtk2",
+        "source": "fedora",
+        "source_version": "4.0.0-1.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-gtk3",
+        "package_name": "awf-gtk3",
+        "source": "fedora",
+        "source_version": "4.0.0-1.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-gtk4",
+        "package_name": "awf-gtk4",
+        "source": "fedora",
+        "source_version": "4.0.0-1.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-gtk2",
+        "package_name": "awf-gtk2",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.2.0-1.2"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-gtk3",
+        "package_name": "awf-gtk3",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.2.0-1.2"
+      },
+      {
+        "evidence_url": "https://github.com/luigifab/awf-extended",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "awf-gtk4",
+        "package_name": "awf-gtk4",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.2.0-1.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "awf-gtk2.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "awf-gtk2",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "awf-gtk2",
+    "summary": "Theme preview application for GTK 2"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-luigifab-awf-extended",
+    "homepage": "https://github.com/luigifab/awf-extended",
+    "release_api": "https://api.github.com/repos/luigifab/awf-extended/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/luigifab/awf-extended",
+    "source_url_template": "https://github.com/luigifab/awf-extended/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.2.0",
+    "latest_detected": "4.2.0",
+    "release": "1"
+  }
+}
