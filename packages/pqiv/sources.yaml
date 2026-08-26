@@ -1,0 +1,21 @@
+{
+  "package_id": "pqiv",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f0ffaa33e93299b38058c507da2945976a4b350c92cf1c4b3649586444395dfd"
+      },
+      "filename": "pqiv-2.13.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/phillipberndt/pqiv/archive/refs/tags/2.13.3.tar.gz",
+      "version": "2.13.3"
+    }
+  ]
+}
