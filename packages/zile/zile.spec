@@ -10,6 +10,9 @@ BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  gc-devel
 BuildRequires:  ncurses-devel
+BuildRequires:  glib2-devel
+BuildRequires:  libgee-devel
+BuildRequires:  vala
 
 
 %description
