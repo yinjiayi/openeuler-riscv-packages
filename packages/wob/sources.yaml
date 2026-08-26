@@ -1,0 +1,21 @@
+{
+  "package_id": "wob",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8a5850beec72b5b19be631a6eb21315a20082bf9135447080f9e9045f143938b"
+      },
+      "filename": "wob-0.16.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/francma/wob/archive/refs/tags/0.16.tar.gz",
+      "version": "0.16"
+    }
+  ]
+}
