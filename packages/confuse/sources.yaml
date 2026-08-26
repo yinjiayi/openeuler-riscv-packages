@@ -1,0 +1,21 @@
+{
+  "package_id": "confuse",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "cb90c06f2dbec971792af576d5b9a382fb3c4ca2b1deea55ea262b403f4e641e"
+      },
+      "filename": "confuse-3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libconfuse/libconfuse/archive/refs/tags/v3.3.tar.gz",
+      "version": "3.3"
+    }
+  ]
+}
