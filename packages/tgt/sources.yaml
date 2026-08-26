@@ -1,0 +1,21 @@
+{
+  "package_id": "tgt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "459a3ee133fbd850519cde15784664934d29e5dc9680f21142247746e62d9082"
+      },
+      "filename": "tgt-1.0.97.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fujita/tgt/archive/refs/tags/v1.0.97.tar.gz",
+      "version": "1.0.97"
+    }
+  ]
+}
