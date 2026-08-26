@@ -1,0 +1,21 @@
+{
+  "package_id": "libobjectbox",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c0c0d2b47a05663d0840a5e3c6eb69cf945bedee6684555a8260c5ab9bd966ef"
+      },
+      "filename": "libobjectbox-5.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/objectbox/objectbox-c/archive/refs/tags/v5.3.2.tar.gz",
+      "version": "5.3.2"
+    }
+  ]
+}
