@@ -14,15 +14,24 @@ BuildRequires:  gcc-c++
 %description
 Algol to C translator
 
+%package devel
+Summary:        Development files for the MARST Algol runtime
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+Header and unversioned shared-library link for programs using the MARST
+Algol runtime library.
+
 %prep
 %autosetup -p1
 
 %build
-%configure
+%configure --disable-static
 %make_build
 
 %install
 %make_install
+find %{buildroot} -name '*.la' -delete
 
 %check
 %make_build check
@@ -34,6 +43,12 @@ Algol to C translator
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_libdir}/libalgol.so.0*
+
+%files devel
+%license COPYING
+%{_includedir}/algol.h
+%{_libdir}/libalgol.so
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.8-1
