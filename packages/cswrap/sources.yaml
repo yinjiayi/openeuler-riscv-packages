@@ -1,0 +1,21 @@
+{
+  "package_id": "cswrap",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c034a8c8307f0fa38fd1205a64f1f6fb8f0a92828fcd0912d7fcc2305d408327"
+      },
+      "filename": "cswrap-2.2.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/csutils/cswrap/archive/refs/tags/cswrap-2.2.5.tar.gz",
+      "version": "2.2.5"
+    }
+  ]
+}
