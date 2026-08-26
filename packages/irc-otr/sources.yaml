@@ -1,0 +1,21 @@
+{
+  "package_id": "irc-otr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4619208b9c9171aa97a41960b3e892390b6473e2988a056b9fe8e110daa1ae9c"
+      },
+      "filename": "irc-otr-1.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cryptodotis/irssi-otr/archive/refs/tags/v1.0.2.tar.gz",
+      "version": "1.0.2"
+    }
+  ]
+}
