@@ -1,0 +1,21 @@
+{
+  "package_id": "watchflower",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e0504be0ae5ac5843b19bfd57a59e47dd93a93067790fc5b865994defe312729"
+      },
+      "filename": "watchflower-5.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/emericg/WatchFlower/archive/refs/tags/v5.4.tar.gz",
+      "version": "5.4"
+    }
+  ]
+}
