@@ -1,0 +1,21 @@
+{
+  "package_id": "opencloud-dolphin",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4944a0a6922ee74dc3f74a7ea21fa083045da93d35d3913c0b1a1c9cabcf8681"
+      },
+      "filename": "opencloud-dolphin-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/opencloud-eu/desktop-shell-integration-dolphin/archive/refs/tags/v1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
