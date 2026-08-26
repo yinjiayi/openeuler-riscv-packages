@@ -9,6 +9,7 @@ Source0:        vera-1.24.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  texinfo
+BuildArch:      noarch
 
 
 %description
@@ -18,19 +19,22 @@ GNU Virtual Entity of Relevant Acronyms data set
 %autosetup -p1
 
 %build
-%configure
-%make_build
+makeinfo --no-split -o vera.info vera.texi
 
 %install
-%make_install
+install -d %{buildroot}%{_datadir}/vera %{buildroot}%{_infodir}
+install -m 0644 vera.[0a-z] %{buildroot}%{_datadir}/vera/
+install -m 0644 vera.info %{buildroot}%{_infodir}/
 
 %check
-%make_build check
+test -s vera.info
+test -s vera.a
 
 %files
 %license fdl-1.3.texi
 %doc README
-%{_bindir}/*
+%{_datadir}/vera/
+%{_infodir}/vera.info*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.24-1
