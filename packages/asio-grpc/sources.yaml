@@ -1,0 +1,21 @@
+{
+  "package_id": "asio-grpc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9d6fea7a801954d8eb924363df8204e2a4353ba517630c11a8f583866a8ea670"
+      },
+      "filename": "asio-grpc-3.6.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Tradias/asio-grpc/archive/refs/tags/v3.6.0.tar.gz",
+      "version": "3.6.0"
+    }
+  ]
+}
