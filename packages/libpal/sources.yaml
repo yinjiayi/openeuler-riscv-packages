@@ -1,0 +1,21 @@
+{
+  "package_id": "libpal",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5fc055bbd935e2f4a91f96dbb2de75de98082d54826beb31b12792ac3f2326aa"
+      },
+      "filename": "libpal-0.9.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Starlink/pal/archive/refs/tags/v0.9.8.tar.gz",
+      "version": "0.9.8"
+    }
+  ]
+}
