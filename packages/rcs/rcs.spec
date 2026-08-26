@@ -7,6 +7,7 @@ License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/rcs/
 Source0:        rcs-5.10.1.tar.lz
 BuildRequires:  gcc
+BuildRequires:  lzip
 BuildRequires:  make
 
 
