@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: Apache-2.0
+Name:           vdr-robotv
+Version:        0.15.0
+Release:        1%{?dist}
+Summary:        VDR server plugin for roboTV
+License:        GPL-2.0-or-later
+URL:            https://github.com/pipelka/vdr-plugin-robotv
+Source0:        vdr-robotv-0.15.0.tar.gz
+BuildRequires:  cmake
+BuildRequires:  gcc
+BuildRequires:  make
+
+%description
+VDR server plugin for roboTV
+
+%prep
+%autosetup -p1
+
+%build
+%cmake -DBUILD_TESTING=ON
+%cmake_build
+
+%install
+%cmake_install
+find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+test -s %{name}.files
+
+%check
+ctest --test-dir %{_vpath_builddir} --output-on-failure
+
+%files -f %{name}.files
+%license COPYING
+%doc README.md
+
+%changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.15.0-1
+- Initial openEuler RISC-V package from the full package inventory.
