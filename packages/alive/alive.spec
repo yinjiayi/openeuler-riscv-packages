@@ -7,6 +7,7 @@ License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/alive/
 Source0:        alive-2.0.5.tar.lz
 BuildRequires:  gcc
+BuildRequires:  lzip
 BuildRequires:  make
 BuildRequires:  guile-devel
 
