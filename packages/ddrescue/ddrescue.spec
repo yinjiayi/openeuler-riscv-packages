@@ -7,6 +7,7 @@ License:        GPL-2.0-or-later
 URL:            https://www.gnu.org/software/ddrescue/
 Source0:        ddrescue-1.30.tar.lz
 BuildRequires:  gcc
+BuildRequires:  lzip
 BuildRequires:  make
 
 
