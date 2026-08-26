@@ -1,0 +1,21 @@
+{
+  "package_id": "batsignal",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c8c2a048f4aa105aae389d9d765b76057d4998dbfc29a7dfeaf66351eaa7cba1"
+      },
+      "filename": "batsignal-1.8.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/electrickite/batsignal/archive/refs/tags/1.8.0.tar.gz",
+      "version": "1.8.0"
+    }
+  ]
+}
