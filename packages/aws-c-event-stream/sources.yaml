@@ -1,0 +1,21 @@
+{
+  "package_id": "aws-c-event-stream",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "334b2abfe0cb5c68d79d52525598fdd5f6052b93a17a78a4b1ada7fa1be252c0"
+      },
+      "filename": "aws-c-event-stream-0.7.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/awslabs/aws-c-event-stream/archive/refs/tags/v0.7.1.tar.gz",
+      "version": "0.7.1"
+    }
+  ]
+}
