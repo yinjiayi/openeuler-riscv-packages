@@ -1,0 +1,21 @@
+{
+  "package_id": "ngp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0655c825e12f86ff98dbbd425b38bcd49a565d101028d0454e8e825cb2cd83d4"
+      },
+      "filename": "ngp-1.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jonathanklee/ngp/archive/refs/tags/1.4.tar.gz",
+      "version": "1.4"
+    }
+  ]
+}
