@@ -1,0 +1,21 @@
+{
+  "package_id": "sysbench",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e8ee79b1f399b2d167e6a90de52ccc90e52408f7ade1b9b7135727efe181347f"
+      },
+      "filename": "sysbench-1.0.20.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/akopytov/sysbench/archive/refs/tags/1.0.20.tar.gz",
+      "version": "1.0.20"
+    }
+  ]
+}
