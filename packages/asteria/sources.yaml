@@ -1,0 +1,21 @@
+{
+  "package_id": "asteria",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "df1fb07ffa8a5a00ca0eda1c5c9d7ed3b6486237d98381801a17b78acd7dcab2"
+      },
+      "filename": "asteria-2.4.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/alamahant/Asteria/archive/refs/tags/v2.4.7.tar.gz",
+      "version": "2.4.7"
+    }
+  ]
+}
