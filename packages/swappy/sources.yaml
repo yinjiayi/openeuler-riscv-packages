@@ -1,0 +1,21 @@
+{
+  "package_id": "swappy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "11f5bedde6cce4db0d27eb7107d7ce46e20d021255450eeba2c2036e10570520"
+      },
+      "filename": "swappy-1.8.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jtheoof/swappy/archive/refs/tags/v1.8.0.tar.gz",
+      "version": "1.8.0"
+    }
+  ]
+}
