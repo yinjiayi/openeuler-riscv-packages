@@ -1,0 +1,21 @@
+{
+  "package_id": "pix",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d765e779ee6e7d8220fe556c010c181ae69be059d53192d628f5bec5fdc9082b"
+      },
+      "filename": "pix-3.4.10.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxmint/pix/archive/refs/tags/3.4.10.tar.gz",
+      "version": "3.4.10"
+    }
+  ]
+}
