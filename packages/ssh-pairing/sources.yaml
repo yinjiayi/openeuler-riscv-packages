@@ -1,0 +1,21 @@
+{
+  "package_id": "ssh-pairing",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d4d7958af28ac3f0e054c128e714970b47ad98426e2d779b21f2a1e5bbd98a02"
+      },
+      "filename": "ssh-pairing-0.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Vogtinator/ssh-pairing/archive/refs/tags/v0.4.tar.gz",
+      "version": "0.4"
+    }
+  ]
+}
