@@ -15,6 +15,8 @@ Creates a bidirectional virtual data connection tunnelled in HTTP requests
 
 %prep
 %autosetup -p1
+# Autoconf 2.13 emitted an implicit-int compiler probe that GCC 14 rejects.
+sed -i 's/^main(){return(0);}$/int main(void){return 0;}/' configure
 
 %build
 %configure
