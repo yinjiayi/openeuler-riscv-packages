@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-launchpad",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7e8136ba84f1d843ddeb456d9739d5ffb7f843379d557de310ba4341e6caf9eb"
+      },
+      "filename": "deepin-launchpad-2.0.45.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dde-launchpad/archive/refs/tags/2.0.45.tar.gz",
+      "version": "2.0.45"
+    }
+  ]
+}
