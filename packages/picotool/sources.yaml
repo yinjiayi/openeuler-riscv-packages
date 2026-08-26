@@ -1,0 +1,21 @@
+{
+  "package_id": "picotool",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "97aaf36800d2317683528cba5762e3d4e7a5de0cba729d28011a6ee94b3b7538"
+      },
+      "filename": "picotool-2.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/raspberrypi/picotool/archive/refs/tags/2.3.0.tar.gz",
+      "version": "2.3.0"
+    }
+  ]
+}
