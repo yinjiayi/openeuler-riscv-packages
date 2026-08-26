@@ -1,0 +1,21 @@
+{
+  "package_id": "egl-x11",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "92e22178b3aba63be4cb2bf8953991bdf52ad3e5ec26212143b2df46d16e82d7"
+      },
+      "filename": "egl-x11-1.0.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/NVIDIA/egl-x11/archive/refs/tags/v1.0.5.tar.gz",
+      "version": "1.0.5"
+    }
+  ]
+}
