@@ -1,0 +1,21 @@
+{
+  "package_id": "zdhpctl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "eb3a122a32064ec1e38e79a7da62868989a73ba24b0e17654039ae81f417f394"
+      },
+      "filename": "zdhpctl-1.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/0zd0/zdhpctl/archive/refs/tags/v1.12.tar.gz",
+      "version": "1.12"
+    }
+  ]
+}
