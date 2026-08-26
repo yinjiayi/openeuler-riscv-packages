@@ -1,0 +1,21 @@
+{
+  "package_id": "gimp-plugin-resynthesizer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bc88ca6c36e15d518039a670b68ab1b7035ae2721ba2b51ca6174fe6527b9069"
+      },
+      "filename": "gimp-plugin-resynthesizer-3.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bootchk/resynthesizer/archive/refs/tags/v3.0.1.tar.gz",
+      "version": "3.0.1"
+    }
+  ]
+}
