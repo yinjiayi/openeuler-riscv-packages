@@ -1,0 +1,21 @@
+{
+  "package_id": "sandbox",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d4da913f49ee5e0e479665f5dd13d8f028e97167944bda01e37f9d9ba9b14142"
+      },
+      "filename": "sandbox-2.46.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/gentoo/sandbox/archive/refs/tags/v2.46.tar.gz",
+      "version": "2.46"
+    }
+  ]
+}
