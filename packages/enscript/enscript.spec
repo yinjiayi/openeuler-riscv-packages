@@ -32,9 +32,11 @@ overstrikes, with syntax highlighting and configurable output layouts.
 %files -f enscript.lang
 %license COPYING
 %doc AUTHORS ChangeLog NEWS README
+%config(noreplace) %{_sysconfdir}/enscript.cfg
 %{_bindir}/diffpp
 %{_bindir}/enscript
 %{_bindir}/mkafmmap
+%{_bindir}/over
 %{_bindir}/sliceprint
 %{_bindir}/states
 %{_datadir}/enscript/
