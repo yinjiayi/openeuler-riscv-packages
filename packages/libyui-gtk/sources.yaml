@@ -1,0 +1,21 @@
+{
+  "package_id": "libyui-gtk",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "94be307ad831d086bad877186bdbd78bdc9513bd5374a859743c0b5bba75e13a"
+      },
+      "filename": "libyui-gtk-2.52.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libyui/libyui-gtk/archive/refs/tags/2.52.5.tar.gz",
+      "version": "2.52.5"
+    }
+  ]
+}
