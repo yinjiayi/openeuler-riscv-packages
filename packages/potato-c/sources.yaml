@@ -1,0 +1,21 @@
+{
+  "package_id": "potato-c",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f32bdb7ac0b4adb70619d990953686698018dc7adb051647f5aa993ce5e0b892"
+      },
+      "filename": "potato-c-0.7.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nimaaskarian/potato-c/archive/refs/tags/0.7.4.tar.gz",
+      "version": "0.7.4"
+    }
+  ]
+}
