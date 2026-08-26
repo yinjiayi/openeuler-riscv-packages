@@ -34,6 +34,9 @@ GNU shtool package
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_datadir}/aclocal/shtool.m4
+%{_datadir}/shtool/
+%{_mandir}/man1/*.1*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.8-1
