@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/dejagnu/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dejagnu",
+        "package_name": "dejagnu",
+        "source": "arch-extra",
+        "source_version": "1.6.3-19"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/dejagnu/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dejagnu",
+        "package_name": "dejagnu",
+        "source": "fedora",
+        "source_version": "1:1.6.3-16.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/dejagnu/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dejagnu",
+        "package_name": "dejagnu",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.6.3-2.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "dejagnu.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "dejagnu",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "dejagnu",
+    "summary": "Framework for testing other programs"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-dejagnu",
+    "homepage": "https://www.gnu.org/software/dejagnu/",
+    "release_api": "https://ftp.gnu.org/gnu/dejagnu/",
+    "release_channel": "stable",
+    "release_regex": "dejagnu-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/dejagnu/",
+    "source_url_template": "https://ftp.gnu.org/gnu/dejagnu/dejagnu-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.6.3",
+    "latest_detected": "1.6.3",
+    "release": "1"
+  }
+}
