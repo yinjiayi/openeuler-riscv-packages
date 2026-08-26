@@ -1,0 +1,21 @@
+{
+  "package_id": "chsrc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a3fb56035dc53f662f3b78ad951db17de0300d103cb412e1c334621c3b881b13"
+      },
+      "filename": "chsrc-0.2.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/RubyMetric/chsrc/archive/refs/tags/v0.2.6.tar.gz",
+      "version": "0.2.6"
+    }
+  ]
+}
