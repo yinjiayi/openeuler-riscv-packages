@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-grand-search",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f8e18a8368d1a4310cf11177cea84c2cc6430b267bd1e3ef5ab410c3452a618b"
+      },
+      "filename": "deepin-grand-search-5.5.11.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dde-grand-search/archive/refs/tags/5.5.11.tar.gz",
+      "version": "5.5.11"
+    }
+  ]
+}
