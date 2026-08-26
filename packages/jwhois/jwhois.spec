@@ -15,6 +15,8 @@ An Internet Whois client
 
 %prep
 %autosetup -p1
+# The 4.0 release defines timeout_init in utils.c but omits its declaration.
+sed -i '/^int add_text_to_buffer/i void timeout_init(void);' include/utils.h
 
 %build
 %configure
