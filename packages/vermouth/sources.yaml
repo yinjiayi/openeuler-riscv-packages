@@ -1,0 +1,21 @@
+{
+  "package_id": "vermouth",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6b4e90b986dddc4086f746801aab3e1fbe564af77fcbbaaffd4408a49143cc7d"
+      },
+      "filename": "vermouth-1.9.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dekomote/vermouth/archive/refs/tags/v1.9.7.tar.gz",
+      "version": "1.9.7"
+    }
+  ]
+}
