@@ -7,6 +7,7 @@ License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/mtools/
 Source0:        mtools-4.0.49.tar.lz
 BuildRequires:  gcc
+BuildRequires:  lzip
 BuildRequires:  make
 BuildRequires:  libX11-devel
 
