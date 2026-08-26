@@ -1,0 +1,21 @@
+{
+  "package_id": "pdbg",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "abd96a51eb5c74985a59bcdb3667fa555058cfe0d7d73ece29cc4298ac3de15e"
+      },
+      "filename": "pdbg-3.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/open-power/pdbg/archive/refs/tags/v3.6.tar.gz",
+      "version": "3.6"
+    }
+  ]
+}
