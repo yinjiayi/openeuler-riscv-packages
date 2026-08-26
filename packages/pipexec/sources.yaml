@@ -1,0 +1,21 @@
+{
+  "package_id": "pipexec",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "78fe28821d21f0aa5afd40c5b828d7a211eee94b9227e7c21c6538a23174eba0"
+      },
+      "filename": "pipexec-2.6.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/flonatel/pipexec/archive/refs/tags/2.6.2.tar.gz",
+      "version": "2.6.2"
+    }
+  ]
+}
