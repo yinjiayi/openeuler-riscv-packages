@@ -7,6 +7,7 @@ License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/serveez/
 Source0:        serveez-0.3.1.tar.lz
 BuildRequires:  gcc
+BuildRequires:  lzip
 BuildRequires:  make
 BuildRequires:  guile-devel
 
