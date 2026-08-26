@@ -1,0 +1,21 @@
+{
+  "package_id": "libqpsd-qt6",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a2eb23da9b502fadbf92231c3be5fa9090c489f31c60ea96f69a5f62aa681f06"
+      },
+      "filename": "libqpsd-qt6-2.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/roniemartinez/libqpsd/archive/refs/tags/v2.3.0.tar.gz",
+      "version": "2.3.0"
+    }
+  ]
+}
