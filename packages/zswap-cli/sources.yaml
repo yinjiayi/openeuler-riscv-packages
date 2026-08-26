@@ -1,0 +1,21 @@
+{
+  "package_id": "zswap-cli",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "14f4d81353fbd5465c75c1fcff4cf5bc9848e05f2a9af90bfa93b2d6c2c0ff1f"
+      },
+      "filename": "zswap-cli-1.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/xvitaly/zswap-cli/archive/refs/tags/v1.2.0.tar.gz",
+      "version": "1.2.0"
+    }
+  ]
+}
