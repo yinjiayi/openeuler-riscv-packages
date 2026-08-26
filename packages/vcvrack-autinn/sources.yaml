@@ -1,0 +1,21 @@
+{
+  "package_id": "vcvrack-autinn",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6b4aa37f90fc742e82b2d1ef3f1192ab2eeac3545e138ce292ae54768ade5cdb"
+      },
+      "filename": "vcvrack-autinn-2.6.32.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/NikolaiVChr/Autinn/archive/refs/tags/v2.6.32.tar.gz",
+      "version": "2.6.32"
+    }
+  ]
+}
