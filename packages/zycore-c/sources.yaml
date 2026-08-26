@@ -1,0 +1,21 @@
+{
+  "package_id": "zycore-c",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "943f91eb9ab2a8cc01ab9f8b785e769a273502071e0ee8011cdfcaad93947cec"
+      },
+      "filename": "zycore-c-1.5.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/zyantific/zycore-c/archive/refs/tags/v1.5.2.tar.gz",
+      "version": "1.5.2"
+    }
+  ]
+}
