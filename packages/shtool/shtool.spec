@@ -6,6 +6,7 @@ Summary:        GNU shtool package
 License:        GPL-2.0-or-later
 URL:            https://www.gnu.org/software/shtool/
 Source0:        shtool-2.0.8.tar.gz
+BuildArch:      noarch
 BuildRequires:  gcc
 BuildRequires:  make
 
