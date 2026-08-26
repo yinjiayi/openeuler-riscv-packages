@@ -1,0 +1,21 @@
+{
+  "package_id": "candy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ca8178fb8e384d8c3af4b3b37b2db8a78432d6392e156faa508eb9a27f6f2751"
+      },
+      "filename": "candy-6.1.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/lanthora/candy/archive/refs/tags/v6.1.9.tar.gz",
+      "version": "6.1.9"
+    }
+  ]
+}
