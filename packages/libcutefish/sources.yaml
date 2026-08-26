@@ -1,0 +1,21 @@
+{
+  "package_id": "libcutefish",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fb9c9c1fe5a68394f99a98bc4b261989dadb4219597c465d5bd49fab92697c20"
+      },
+      "filename": "libcutefish-0.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cutefishos/libcutefish/archive/refs/tags/0.7.tar.gz",
+      "version": "0.7"
+    }
+  ]
+}
