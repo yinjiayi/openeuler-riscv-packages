@@ -1,0 +1,21 @@
+{
+  "package_id": "proxychains-ng",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1a2dc68fcbcb2546a07a915343c1ffc75845f5d9cc3ea5eb3bf0b62a66c0196f"
+      },
+      "filename": "proxychains-ng-4.17.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rofl0r/proxychains-ng/archive/refs/tags/v4.17.tar.gz",
+      "version": "4.17"
+    }
+  ]
+}
