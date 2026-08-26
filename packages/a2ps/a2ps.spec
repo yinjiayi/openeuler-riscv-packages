@@ -8,6 +8,7 @@ URL:            https://www.gnu.org/software/a2ps/
 Source0:        a2ps-4.15.8.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
+BuildRequires:  pkgconfig(bdw-gc)
 
 
 %description
