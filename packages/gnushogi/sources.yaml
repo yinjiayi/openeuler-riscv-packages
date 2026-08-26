@@ -1,0 +1,21 @@
+{
+  "package_id": "gnushogi",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1ecc48a866303c63652552b325d685e7ef5e9893244080291a61d96505d52b29"
+      },
+      "filename": "gnushogi-1.4.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/gnushogi/gnushogi-1.4.2.tar.gz",
+      "version": "1.4.2"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/gnushogi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xshogi",
+        "package_name": "xshogi",
+        "source": "aur",
+        "source_version": "1.4.2-2"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gnushogi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gnushogi",
+        "package_name": "gnushogi",
+        "source": "debian",
+        "source_version": "1.5~git20140725-2.3"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gnushogi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xshogi",
+        "package_name": "xshogi",
+        "source": "debian",
+        "source_version": "1.4.2-3"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gnushogi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gnushogi",
+        "package_name": "gnushogi",
+        "source": "fedora",
+        "source_version": "1.5-0.25.git5bb0b5b.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gnushogi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gnushogi",
+        "package_name": "gnushogi",
+        "source": "ubuntu",
+        "source_version": "1.5~git20140725-2.3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gnushogi.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "gnushogi",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "gnushogi",
+    "summary": "GNU gnushogi package"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-gnushogi",
+    "homepage": "https://www.gnu.org/software/gnushogi/",
+    "release_api": "https://ftp.gnu.org/gnu/gnushogi/",
+    "release_channel": "stable",
+    "release_regex": "gnushogi-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/gnushogi/",
+    "source_url_template": "https://ftp.gnu.org/gnu/gnushogi/gnushogi-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.4.2",
+    "latest_detected": "1.4.2",
+    "release": "1"
+  }
+}
