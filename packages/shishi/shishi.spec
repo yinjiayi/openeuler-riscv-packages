@@ -9,6 +9,7 @@ Source0:        shishi-1.0.3.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  gnutls-devel
+BuildRequires:  libgcrypt-devel
 BuildRequires:  libidn2-devel
 BuildRequires:  libtasn1-devel
 
