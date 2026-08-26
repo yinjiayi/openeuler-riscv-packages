@@ -1,0 +1,21 @@
+{
+  "package_id": "gnome-console-jc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fe0f51c9bcc1f7d4586b34307fe572cdbbf37525fa8a6b97816b4a46f696110a"
+      },
+      "filename": "gnome-console-jc-49.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/juancri/console/archive/refs/tags/49.0.tar.gz",
+      "version": "49.0"
+    }
+  ]
+}
