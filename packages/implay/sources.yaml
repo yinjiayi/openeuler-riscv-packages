@@ -1,0 +1,21 @@
+{
+  "package_id": "implay",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1f723681ee089c4c4916078f453970d94bfc14efa8ed0628f7ca418e5dab57a9"
+      },
+      "filename": "implay-1.5.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/tsl0922/ImPlay/archive/refs/tags/1.5.1.tar.gz",
+      "version": "1.5.1"
+    }
+  ]
+}
