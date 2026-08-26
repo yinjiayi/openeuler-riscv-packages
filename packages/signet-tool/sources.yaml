@@ -1,0 +1,21 @@
+{
+  "package_id": "signet-tool",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9d0d8b73dbb4805dcb9e4eb43f8116907d6e64a547b38c8322a2c61ecce09ed9"
+      },
+      "filename": "signet-tool-0.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/SamWindell/Signet/archive/refs/tags/v0.3.0.tar.gz",
+      "version": "0.3.0"
+    }
+  ]
+}
