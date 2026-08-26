@@ -1,0 +1,21 @@
+{
+  "package_id": "libjcat",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "28a1416cc207e51f6ffe2f0c16f7772541eac0cd864d38dbc0c3004888ef1131"
+      },
+      "filename": "libjcat-0.2.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/hughsie/libjcat/archive/refs/tags/0.2.6.tar.gz",
+      "version": "0.2.6"
+    }
+  ]
+}
