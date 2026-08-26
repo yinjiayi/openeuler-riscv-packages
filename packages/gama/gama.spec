@@ -6,6 +6,7 @@ Summary:        Package dedicated to the adjustment of surveying networks
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/gama/
 Source0:        gama-2.33.tar.gz
+BuildRequires:  expat-devel
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  gcc-c++
