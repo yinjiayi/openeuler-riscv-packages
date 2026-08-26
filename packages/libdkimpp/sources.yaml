@@ -1,0 +1,21 @@
+{
+  "package_id": "libdkimpp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "196042a19f3eee02a6754a9e1ef4b40412ffdf3695f8746ef19baec62d2dbeb2"
+      },
+      "filename": "libdkimpp-2.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/halonsecurity/libdkimpp/archive/refs/tags/v2.0.0.tar.gz",
+      "version": "2.0.0"
+    }
+  ]
+}
