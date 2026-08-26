@@ -1,0 +1,21 @@
+{
+  "package_id": "libopenshot-audio",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f4df0429db6efc8441817da23d2536fbfb198c723309698cd2de4cb0533afc26"
+      },
+      "filename": "libopenshot-audio-0.6.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/openshot/libopenshot-audio/archive/refs/tags/v0.6.0.tar.gz",
+      "version": "0.6.0"
+    }
+  ]
+}
