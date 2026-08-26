@@ -11,6 +11,7 @@ BuildRequires:  guile-devel
 BuildRequires:  make
 BuildRequires:  glib2-devel
 BuildRequires:  ncurses-devel
+BuildRequires:  gtk2-devel
 
 
 %description
