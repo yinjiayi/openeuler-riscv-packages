@@ -1,0 +1,21 @@
+{
+  "package_id": "wireshark-minecraft-dissector",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "60c47664d4cb65c2a6de839ed0f7b34bc625578c75acff60e22605fd247694ac"
+      },
+      "filename": "wireshark-minecraft-dissector-1.4.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Nickid2018/MC_Dissector/archive/refs/tags/v1.4.4.tar.gz",
+      "version": "1.4.4"
+    }
+  ]
+}
