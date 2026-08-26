@@ -23,17 +23,25 @@ GNU Restricted User Shell
 
 %install
 %make_install
+%find_lang %{name}
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 %make_build check
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %doc AUTHORS
 %doc ChangeLog
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_sbindir}/rush
+%config(noreplace) %{_sysconfdir}/rush.rc
+%{_infodir}/rush.info*
+%{_mandir}/man1/*.1*
+%{_mandir}/man5/*.5*
+%{_mandir}/man8/*.8*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4-1
