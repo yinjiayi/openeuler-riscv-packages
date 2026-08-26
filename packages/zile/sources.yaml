@@ -1,0 +1,21 @@
+{
+  "package_id": "zile",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d5d44b85cb490643d0707e1a2186f3a32998c2f6eabaa9481479b65caeee57c0"
+      },
+      "filename": "zile-2.6.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/zile/zile-2.6.4.tar.gz",
+      "version": "2.6.4"
+    }
+  ]
+}
