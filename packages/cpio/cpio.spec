@@ -22,17 +22,23 @@ A tool to copy files into or out of a cpio or tar archive
 
 %install
 %make_install
+%find_lang %{name}
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 %make_build check
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %doc AUTHORS
 %doc ChangeLog
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_libexecdir}/rmt
+%{_infodir}/cpio.info*
+%{_mandir}/man1/cpio.1*
+%{_mandir}/man8/rmt.8*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.15-1
