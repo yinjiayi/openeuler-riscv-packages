@@ -1,0 +1,21 @@
+{
+  "package_id": "libkiwix",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "cff1eb06d62ab42e1720a49f473b7d9364f02ee77a8a455c9adb26db419e0fff"
+      },
+      "filename": "libkiwix-14.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kiwix/libkiwix/archive/refs/tags/14.2.1.tar.gz",
+      "version": "14.2.1"
+    }
+  ]
+}
