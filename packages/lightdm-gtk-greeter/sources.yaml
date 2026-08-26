@@ -1,0 +1,21 @@
+{
+  "package_id": "lightdm-gtk-greeter",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a2ea9f0cc5dd8d2a4d81ff45ccc10498513ecec2f24437024abdb6ba016e702c"
+      },
+      "filename": "lightdm-gtk-greeter-2.0.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Xubuntu/lightdm-gtk-greeter/archive/refs/tags/lightdm-gtk-greeter-2.0.9.tar.gz",
+      "version": "2.0.9"
+    }
+  ]
+}
