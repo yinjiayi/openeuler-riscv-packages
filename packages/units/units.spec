@@ -34,7 +34,7 @@ test "$result" = "100"
 
 %files
 %license COPYING
-%doc ChangeLog NEWS README units.txt
+%doc NEWS README units.txt
 %{_bindir}/units
 %{_bindir}/units_cur
 %{_datadir}/units/
