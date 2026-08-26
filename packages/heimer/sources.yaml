@@ -1,0 +1,21 @@
+{
+  "package_id": "heimer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "92bedc9a42eb80d872f4700ee5ee3bfa3884762831d0a11b735c6f72452a4726"
+      },
+      "filename": "heimer-4.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/juzzlin/heimer/archive/refs/tags/4.5.0.tar.gz",
+      "version": "4.5.0"
+    }
+  ]
+}
