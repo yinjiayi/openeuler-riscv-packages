@@ -7,6 +7,7 @@ License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/fontopia/
 Source0:        fontopia-1.8.4.tar.gz
 BuildRequires:  gcc
+BuildRequires:  gnudos-devel
 BuildRequires:  make
 BuildRequires:  ncurses-devel
 
