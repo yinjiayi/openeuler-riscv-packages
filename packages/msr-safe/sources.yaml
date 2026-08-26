@@ -1,0 +1,21 @@
+{
+  "package_id": "msr-safe",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bdf4f96bde92a23dc3a98716611ebbe7d302005305adf6a368cb25da9c8a609a"
+      },
+      "filename": "msr-safe-1.7.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/LLNL/msr-safe/archive/refs/tags/v1.7.0.tar.gz",
+      "version": "1.7.0"
+    }
+  ]
+}
