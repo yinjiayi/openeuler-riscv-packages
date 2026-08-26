@@ -1,0 +1,21 @@
+{
+  "package_id": "colorized-logs",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1fb97c9c90efd739f03dabd8cf5825c2afc95d1f1e0d6cacf62d53a8c540b3df"
+      },
+      "filename": "colorized-logs-2.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kilobyte/colorized-logs/archive/refs/tags/v2.7.tar.gz",
+      "version": "2.7"
+    }
+  ]
+}
