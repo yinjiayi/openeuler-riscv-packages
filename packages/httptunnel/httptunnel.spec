@@ -17,6 +17,8 @@ Creates a bidirectional virtual data connection tunnelled in HTTP requests
 %autosetup -p1
 # Autoconf 2.13 emitted an implicit-int compiler probe that GCC 14 rejects.
 sed -i 's/^main(){return(0);}$/int main(void){return 0;}/' configure
+# GCC 14 rejects the omitted declaration for time(3).
+sed -i '/#include "base64.h"/i #include <time.h>' htc.c
 
 %build
 %configure
