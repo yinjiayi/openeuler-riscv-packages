@@ -1,0 +1,21 @@
+{
+  "package_id": "kahip",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3abad20158887b585b4d4792c35fa9023b7fd634b2bc4494334a3951b69f4842"
+      },
+      "filename": "kahip-3.25.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/KaHIP/KaHIP/archive/refs/tags/v3.25.tar.gz",
+      "version": "3.25"
+    }
+  ]
+}

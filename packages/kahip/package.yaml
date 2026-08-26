@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/KaHIP/KaHIP",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "kahip",
+        "package_name": "kahip",
+        "source": "aur",
+        "source_version": "3.25-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "kahip.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "kahip",
+  "rpm": {
+    "license": "MIT",
+    "name": "kahip",
+    "summary": "Karlsruhe HIGH Quality Partitioning"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-kahip-kahip",
+    "homepage": "https://github.com/KaHIP/KaHIP",
+    "release_api": "https://api.github.com/repos/KaHIP/KaHIP/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/KaHIP/KaHIP",
+    "source_url_template": "https://github.com/KaHIP/KaHIP/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.25",
+    "latest_detected": "3.25",
+    "release": "1"
+  }
+}
