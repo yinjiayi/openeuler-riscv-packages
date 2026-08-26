@@ -10,6 +10,7 @@ BuildRequires:  gcc
 BuildRequires:  git
 BuildRequires:  make
 BuildRequires:  man-db
+BuildRequires:  ctags
 
 
 %description
@@ -30,6 +31,7 @@ export GIT_AUTHOR_NAME='openEuler RISC-V CI'
 export GIT_AUTHOR_EMAIL='noreply@example.invalid'
 export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
 export GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
+export GIT_ALLOW_PROTOCOL=file
 %make_build check
 
 %files
