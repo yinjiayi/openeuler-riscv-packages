@@ -1,0 +1,21 @@
+{
+  "package_id": "subprocess",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "eb976fe5f632760a53398965df4d0ed4780e11cf0b154dc73ba2795585a25414"
+      },
+      "filename": "subprocess-0.6.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/benman64/subprocess/archive/refs/tags/v0.6.0.tar.gz",
+      "version": "0.6.0"
+    }
+  ]
+}
