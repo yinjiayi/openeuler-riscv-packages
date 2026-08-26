@@ -1,0 +1,21 @@
+{
+  "package_id": "arp-scan",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "204b13487158b8e46bf6dd207757a52621148fdd1d2467ebd104de17493bab25"
+      },
+      "filename": "arp-scan-1.10.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/royhills/arp-scan/archive/refs/tags/1.10.0.tar.gz",
+      "version": "1.10.0"
+    }
+  ]
+}
