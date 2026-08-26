@@ -22,17 +22,22 @@ Convert CloneCD cuesheets (.ccd) to less-compatible CDRWIN cuesheets (.cue)
 
 %install
 %make_install
+rm -f %{buildroot}%{_infodir}/dir
+%find_lang %{name}
 
 %check
 %make_build check
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %doc AUTHORS
 %doc ChangeLog
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_infodir}/ccd2cue.info*
+%{_mandir}/man1/ccd2cue.1*
+%{_mandir}/*/man1/ccd2cue.1*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.5-1
