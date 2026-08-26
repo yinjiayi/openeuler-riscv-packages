@@ -1,0 +1,21 @@
+{
+  "package_id": "librhsm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "93c1a2a75cda488ac5ec47b29a00f7b38801b438f6e2b2c3ae9e224baaf8c574"
+      },
+      "filename": "librhsm-0.0.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rpm-software-management/librhsm/archive/refs/tags/v0.0.4.tar.gz",
+      "version": "0.0.4"
+    }
+  ]
+}
