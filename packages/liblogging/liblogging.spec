@@ -32,6 +32,9 @@ developing applications with liblogging.
 %autosetup -p1
 # GCC 14 no longer accepts the implicit int used by this old RFC 3195 helper.
 sed -i '/^sbFramActualRecvFramCommonBody/i int' rfc3195/src/beepframe.c
+# The Unix-domain socket implementation is public to beeplisten.c but the
+# released header omits its prototype, which GCC 14 rejects.
+sed -i '/^srRetVal sbSock_gethostname/i srRetVal sbSock_InitUXDOMSOCK(sbSockObj **ppThis, char *pszSockName, int iSockType);' rfc3195/src/sockets.h
 
 %build
 autoreconf -fiv
