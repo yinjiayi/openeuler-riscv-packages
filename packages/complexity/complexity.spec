@@ -6,6 +6,7 @@ Summary:        Measure complexity of C source
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/complexity/
 Source0:        complexity-1.13.tar.xz
+BuildRequires:  autogen-devel
 BuildRequires:  gcc
 BuildRequires:  make
 
