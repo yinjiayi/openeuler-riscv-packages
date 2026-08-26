@@ -8,6 +8,7 @@ URL:            https://www.gnu.org/software/idutils/
 Source0:        idutils-4.6.tar.xz
 BuildRequires:  gcc
 BuildRequires:  make
+BuildRequires:  hostname
 
 
 %description
@@ -15,6 +16,8 @@ A package of language independent tools that indexes program identifiers, litera
 
 %prep
 %autosetup -p1
+# This bundled old gnulib assumes gets(3) remains declared by libc.
+sed -i '/gets is a security hole - use fgets instead/d' lib/stdio.in.h
 
 %build
 %configure
@@ -22,17 +25,22 @@ A package of language independent tools that indexes program identifiers, litera
 
 %install
 %make_install
+%find_lang %{name}
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 %make_build check
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %doc AUTHORS
 %doc ChangeLog
 %doc NEWS
 %doc README
 %{_bindir}/*
+%{_datadir}/id-lang.map
+%{_infodir}/idutils.info*
+%{_mandir}/man1/*.1*
 
 %changelog
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.6-1
