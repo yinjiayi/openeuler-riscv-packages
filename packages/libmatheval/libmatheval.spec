@@ -11,6 +11,7 @@ Patch0:         0001-guile-2.2.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
+BuildRequires:  gettext-devel
 BuildRequires:  guile-devel
 BuildRequires:  libtool
 BuildRequires:  make
