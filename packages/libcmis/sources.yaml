@@ -1,0 +1,21 @@
+{
+  "package_id": "libcmis",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "306cbafd745736f4663c4b5a01c2b977d7117f3fceb8ca9ee423cb6979d48fec"
+      },
+      "filename": "libcmis-0.6.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/tdf/libcmis/archive/refs/tags/v0.6.3.tar.gz",
+      "version": "0.6.3"
+    }
+  ]
+}
