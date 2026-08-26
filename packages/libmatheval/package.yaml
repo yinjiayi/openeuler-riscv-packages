@@ -35,7 +35,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-guile-2.2.patch",
+        "sha256": "1f3866be8d39ed805ac21b786895ca93bf336a730e2c90c5a0c7cd9c67b20e88",
+        "purpose": "Port the upstream Guile-based test harness to the Guile 2.2 API available on openEuler.",
+        "source": "Debian libmatheval 1.1.11+dfsg-5 patch 003-guile3.0.patch, adapted only for the Guile 2.2 library name",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "downstream-only",
+        "remove_when": "Upstream ships a release with a test harness compatible with current Guile APIs."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "libmatheval.spec"
@@ -44,7 +54,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded, inspected, and pinned by SHA-256. The Guile API compatibility patch was reviewed from Debian and adapted only for openEuler's Guile 2.2 library name; no external packaging recipe was executed.",
     "status": "active"
   },
   "package_id": "libmatheval",

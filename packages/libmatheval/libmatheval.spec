@@ -6,9 +6,13 @@ Summary:        Library for parsing and evaluating symbolic expressions
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/libmatheval/
 Source0:        libmatheval-%{version}.tar.gz
+Patch0:         0001-guile-2.2.patch
 
+BuildRequires:  autoconf
+BuildRequires:  automake
 BuildRequires:  gcc
 BuildRequires:  guile-devel
+BuildRequires:  libtool
 BuildRequires:  make
 
 %description
@@ -27,6 +31,7 @@ applications with GNU libmatheval.
 %autosetup -p1
 
 %build
+autoreconf -fiv
 %configure --disable-static
 %make_build
 
