@@ -1,0 +1,21 @@
+{
+  "package_id": "gperftools",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "172d27e6f6c1fa69df4be30bc61ea35ed225b74cd3a15500e2d75e981478fb2b"
+      },
+      "filename": "gperftools-2.18.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/gperftools/gperftools/archive/refs/tags/gperftools-2.18.1.tar.gz",
+      "version": "2.18.1"
+    }
+  ]
+}
