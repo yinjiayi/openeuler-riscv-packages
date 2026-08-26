@@ -1,0 +1,21 @@
+{
+  "package_id": "lua53-cffi-lua",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1d2577a62a843e5e6db35af1b58300d279b4df58eccef5e823441501f960d388"
+      },
+      "filename": "lua53-cffi-lua-0.2.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/q66/cffi-lua/archive/refs/tags/v0.2.3.tar.gz",
+      "version": "0.2.3"
+    }
+  ]
+}
