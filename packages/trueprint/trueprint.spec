@@ -15,6 +15,9 @@ Convert source code and text files to PostScript
 
 %prep
 %autosetup -p1
+# GCC 14 diagnoses these two omitted declarations as errors.
+sed -i '/#include "utils.h"/a #include "debug.h"' src/language.c
+sed -i '/#include <stdlib.h>/a #include <string.h>' src/lang_pike.c
 
 %build
 %configure
