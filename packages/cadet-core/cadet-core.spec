@@ -15,7 +15,7 @@ BuildRequires:  make
 Modeling and simulation framework for biotechnology processes – simulation backend
 
 %prep
-%autosetup -p1
+%autosetup -n CADET-Core-%{version} -p1
 
 %build
 %cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
