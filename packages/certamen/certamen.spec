@@ -9,7 +9,9 @@ Source0:        certamen-1.0.3.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  libssh-devel
 BuildRequires:  make
+BuildRequires:  yaml-cpp-devel
 
 %description
 TUI quiz game engine with SSH multiplayer support written in CPP with FTXUI
