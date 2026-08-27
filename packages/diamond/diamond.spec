@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           diamond
 Version:        2.2.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        High performance sequence aligner for protein and translated DNA searches with big sequence data. https://doi.org/10.1038/s41592-021-01101-x
 License:        GPL-3.0-or-later
 URL:            https://github.com/bbuchfink/diamond
@@ -12,6 +12,7 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  sqlite-devel
 BuildRequires:  zlib-devel
 
 %description
@@ -37,6 +38,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.4-4
+- Add the SQLite development headers required by the BLAST database reader.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.4-3
 - Complete the portable fingerprint interface and remove a duplicate trait.
 
