@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           notepadnext
 Version:        0.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross-platform reimplementation of Notepad++
 License:        GPL-3.0-or-later
 URL:            https://github.com/dail8859/NotepadNext
@@ -13,6 +13,7 @@ BuildRequires:  git
 BuildRequires:  make
 BuildRequires:  qt6-qt5compat-devel
 BuildRequires:  qt6-qtbase-devel
+BuildRequires:  qt6-qttools-devel
 
 %description
 Cross-platform reimplementation of Notepad++
@@ -37,5 +38,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.14-2
+- Add the Qt6 LinguistTools development component required by CMake.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.14-1
 - Initial openEuler RISC-V package from the full package inventory.
