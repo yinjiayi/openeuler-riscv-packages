@@ -9,7 +9,10 @@ Source0:        qpdf-12.3.2.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  make
+BuildRequires:  openssl-devel
+BuildRequires:  zlib-devel
 
 %description
 QPDF: A Content-Preserving PDF Transformation System
