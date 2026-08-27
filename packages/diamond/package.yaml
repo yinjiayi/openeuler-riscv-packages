@@ -27,7 +27,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-detect-riscv-architecture.patch",
+        "sha256": "3d0f6a1d7f34717b8bad0218898eb42f767b181bd20ec202b8bc57c6f12ef932",
+        "purpose": "Recognize RISC-V as non-x86 and use the portable generic implementation without unsupported x86 or tuning flags.",
+        "source": "Downstream adaptation of DIAMOND 2.2.4 CMakeLists.txt",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream architecture detection covers RISC-V and probes the generic tuning flag."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "diamond.spec"
@@ -51,7 +61,7 @@
     "isa": "RVA23",
     "os": "openEuler",
     "release": "24.03-LTS-SP3",
-    "riscv_status": "unknown"
+    "riscv_status": "patched-for-riscv"
   },
   "updates": {
     "enabled": true,
@@ -71,6 +81,6 @@
   "version": {
     "current": "2.2.4",
     "latest_detected": "2.2.4",
-    "release": "1"
+    "release": "2"
   }
 }
