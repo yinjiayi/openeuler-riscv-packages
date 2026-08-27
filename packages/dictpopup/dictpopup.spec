@@ -17,7 +17,7 @@ A Japanese popup dictionary working on mouse selection with Anki integration
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
