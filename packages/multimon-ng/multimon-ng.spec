@@ -22,7 +22,7 @@ A fork of multimon that decodes multiple digital transmission modes
 
 %install
 %cmake_install
-# RPM's brp-compress hook rewrites the installed manual page after %install.
+# RPM's brp-compress hook rewrites the installed manual page after the install phase.
 # Keep it out of the pre-compression dynamic list and own either compressed or
 # uncompressed output explicitly below.
 find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' \
