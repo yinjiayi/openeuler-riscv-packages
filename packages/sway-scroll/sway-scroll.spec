@@ -15,7 +15,7 @@ BuildRequires:  ninja-build
 Fork of the sway Wayland compositor with a scrolling layout like PaperWM or niri (stable version)
 
 %prep
-%autosetup -p1
+%autosetup -n scroll-%{version} -p1
 
 %build
 %meson
@@ -36,3 +36,4 @@ test -s %{name}.files
 %changelog
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.12.17-1
 - Initial openEuler RISC-V package from the full package inventory.
+- Use the upstream archive's actual top-level directory.
