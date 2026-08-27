@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           milton
 Version:        1.9.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        An infinite-canvas paint program
 License:        GPL-3.0-or-later
 URL:            https://github.com/serge-rgb/milton
@@ -43,6 +43,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9.1-6
+- Regenerate the intrinsic-header patch with strict GNU patch context.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9.1-5
 - Include the unused SSE intrinsic headers only when compiling for x86.
 

@@ -18,15 +18,9 @@ Upstream-Status: Not Submitted (automated upstream writes forbidden)
 diff --git a/src/system_includes.h b/src/system_includes.h
 --- a/src/system_includes.h
 +++ b/src/system_includes.h
-@@ -41,7 +41,9 @@
- #include <string.h>
- #include <inttypes.h>
- 
+@@ -43,0 +44 @@
 +#if defined(__i386__) || defined(__x86_64__) || defined(_M_IX86) || defined(_M_X64)
- #include <xmmintrin.h>
- #include <emmintrin.h>
+@@ -45,0 +47 @@
 +#endif
- 
- #if defined(_WIN32)
 -- 
 2.50.1
