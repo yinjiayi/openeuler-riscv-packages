@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           shaula
 Version:        0.1.8
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Capture, annotate, save, and copy screenshots on Wayland
 License:        MIT
 URL:            https://github.com/fgonzalezurriola/shaula
@@ -12,6 +12,7 @@ BuildRequires:  meson
 BuildRequires:  ninja-build
 BuildRequires:  glib2-devel
 BuildRequires:  gtk4-devel
+BuildRequires:  json-glib-devel
 
 %description
 Capture, annotate, save, and copy screenshots on Wayland
@@ -36,6 +37,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.8-4
+- Add the JSON-GLib development dependency required by Meson.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.8-3
 - Add the GTK 4 development dependency required by Meson.
 
