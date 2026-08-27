@@ -24,7 +24,7 @@ Autogrid4 is a support software for docking programs such as AutoDock4 and Autod
 
 %install
 %meson_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
