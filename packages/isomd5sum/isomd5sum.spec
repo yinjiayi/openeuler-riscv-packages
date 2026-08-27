@@ -20,7 +20,7 @@ Utilities for working with md5sum implanted in ISO images
 
 %install
 %make_install PREFIX=%{_prefix}
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
