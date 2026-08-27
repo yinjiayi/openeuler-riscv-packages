@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tcplay
 Version:        3.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Free and simple TrueCrypt implementation based on dm-crypt
 License:        BSD-2-Clause
 URL:            https://github.com/bwalex/tc-play
@@ -26,17 +26,22 @@ Free and simple TrueCrypt implementation based on dm-crypt
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) ! -path '%{buildroot}%{_mandir}/*' -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
 ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 %files -f %{name}.files
+%{_mandir}/man3/tcplay.3*
+%{_mandir}/man8/tcplay.8*
 %license LICENSE
 %doc README.md
 %doc CHANGELOG
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.3-2
+- Declare compressed manual pages separately from the pre-compression file list.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.3-1
 - Initial openEuler RISC-V package from the full package inventory.
