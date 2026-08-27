@@ -10,12 +10,13 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  qt5-qtbase-devel
 
 %description
 Qt-based Traybar Application for Syncthing
 
 %prep
-%autosetup -p1
+%autosetup -n QSyncthingTray-%{version} -p1
 
 %build
 %cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
@@ -36,3 +37,5 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %changelog
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.5.8-1
 - Initial openEuler RISC-V package from the full package inventory.
+- Use the upstream archive's actual top-level directory.
+- Add the Qt 5 development files required by CMake.
