@@ -28,6 +28,15 @@
         "license": "GPL-2.0-or-later",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream supports pkg-config fallback or openEuler SDL2 provides the expected CMake targets."
+      },
+      {
+        "file": "patches/0002-cmake-use-pkg-config-for-alsa.patch",
+        "sha256": "5926ae112f4e44805cd91c8c4d4d4acf2f4785de9729eae86f083f8da3dc0f39",
+        "purpose": "Use the official ALSA pkg-config metadata when CMake cannot infer the openEuler lib64 search path.",
+        "source": "Downstream adaptation of raptor 0.8.1 CMakeLists.txt",
+        "license": "GPL-2.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "CMake detects the compiler ABI under the approved RISC-V build route or upstream uses an ALSA imported target."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -73,6 +82,6 @@
   "version": {
     "current": "0.8.1",
     "latest_detected": "0.8.1",
-    "release": "2"
+    "release": "3"
   }
 }

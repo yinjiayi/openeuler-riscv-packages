@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           raptor-cos
 Version:        0.8.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Vertically-scrolling shoot 'em up from 1994
 License:        GPL-2.0-or-later
 URL:            https://github.com/skynettx/raptor
 Source0:        raptor-cos-0.8.1.tar.gz
 Patch0:         0001-cmake-fallback-to-pkg-config-for-sdl2.patch
+Patch1:         0002-cmake-use-pkg-config-for-alsa.patch
 BuildRequires:  alsa-lib-devel
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -40,6 +41,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.1-3
+- Use the official ALSA pkg-config metadata when CMake cannot infer lib64.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.1-2
 - Fall back to the official SDL2 pkg-config metadata on Linux.
 - Install both executables explicitly because upstream has no install rule.
