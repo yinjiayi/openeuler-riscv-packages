@@ -15,10 +15,10 @@ BuildRequires:  make
 UDP over TCP/ICMP/UDP tunnel
 
 %prep
-%autosetup -p1
+%autosetup -n udp2raw-%{version} -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -36,3 +36,5 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %changelog
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 20230206.0-1
 - Initial openEuler RISC-V package from the full package inventory.
+- Use the upstream archive's actual top-level directory.
+- Configure CMake in the build directory consumed by the RPM macros.
