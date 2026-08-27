@@ -21,7 +21,7 @@ Hashing tool supporting md5,sha1,sha256,sha512,whirlpool,jh and hmac versions of
 
 %install
 %make_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
