@@ -6,6 +6,8 @@ Summary:        Vertically-scrolling shoot 'em up from 1994
 License:        GPL-2.0-or-later
 URL:            https://github.com/skynettx/raptor
 Source0:        raptor-cos-0.8.1.tar.gz
+BuildRequires:  SDL2-devel
+BuildRequires:  alsa-lib-devel
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
