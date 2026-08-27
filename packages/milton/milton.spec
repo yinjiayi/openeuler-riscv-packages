@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           milton
 Version:        1.9.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An infinite-canvas paint program
 License:        GPL-3.0-or-later
 URL:            https://github.com/serge-rgb/milton
@@ -15,6 +15,7 @@ BuildRequires:  libX11-devel
 BuildRequires:  libXi-devel
 BuildRequires:  make
 BuildRequires:  mesa-libGL-devel
+BuildRequires:  SDL2-devel
 
 %description
 An infinite-canvas paint program
@@ -39,6 +40,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9.1-3
+- Add the SDL 2 development files required by the build.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9.1-2
 - Keep openEuler format-security compiler checks enabled.
 
