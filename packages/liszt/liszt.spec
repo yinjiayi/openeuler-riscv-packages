@@ -21,7 +21,7 @@ GNU ls reimplementation: byte-identical output, radix sorts, parallel stat
 
 %install
 %make_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
