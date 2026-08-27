@@ -35,7 +35,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-tests-skip-without-netns-capability.patch",
+        "sha256": "1b26b2701a0a68d4d6c2c84ba7b67abd2bcfb2aba3d3307e46f950916525a93b",
+        "purpose": "Report the transparent proxy integration test as skipped when the sandbox forbids network namespaces.",
+        "source": "openEuler RISC-V package CI failure analysis",
+        "license": "BSD-2-Clause",
+        "upstream_status": "downstream-only",
+        "remove_when": "Upstream probes network namespace capability before running the integration test."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "sniproxy.spec"

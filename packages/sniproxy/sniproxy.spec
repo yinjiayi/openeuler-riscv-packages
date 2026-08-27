@@ -6,6 +6,7 @@ Summary:        TLS SNI proxy
 License:        BSD-2-Clause
 URL:            https://github.com/dlundquist/sniproxy
 Source0:        sniproxy-0.7.0.tar.gz
+Patch0:         patches/0001-tests-skip-without-netns-capability.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
@@ -46,3 +47,4 @@ test -s %{name}.files
 - Initial openEuler RISC-V package from the full package inventory.
 - Add the libev and PCRE2 development dependencies required by configure.
 - Add iproute for the network namespace integration test.
+- Skip only the transparent proxy integration test when netns is forbidden.
