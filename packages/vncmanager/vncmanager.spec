@@ -1,11 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           vncmanager
 Version:        1.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Session manager for VNC
 License:        MIT
 URL:            https://github.com/openSUSE/vncmanager
 Source0:        vncmanager-1.0.2.tar.gz
+BuildRequires:  boost-devel
+BuildRequires:  boost-iostreams
+BuildRequires:  boost-program-options
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -34,5 +37,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.2-2
+- Add the Boost headers and libraries required by CMake.
+
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.2-1
 - Initial openEuler RISC-V package from the full package inventory.
