@@ -28,6 +28,15 @@
         "license": "GPL-3.0-or-later",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream no longer disables all format diagnostics on Unix builds."
+      },
+      {
+        "file": "patches/0002-cmake-use-system-sdl2.patch",
+        "sha256": "71a7140d9ab836cffc7b4c3f093bee6c1efd1613bab8190e486bcfe928b436e3",
+        "purpose": "Replace hard-coded bundled x86_64 SDL2 headers and archives with the native system SDL2 pkg-config target.",
+        "source": "Downstream adaptation of Milton 1.9.1 CMakeLists.txt",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream resolves SDL2 portably on Linux instead of linking prebuilt x86_64 archives."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -73,6 +82,6 @@
   "version": {
     "current": "1.9.1",
     "latest_detected": "1.9.1",
-    "release": "3"
+    "release": "4"
   }
 }
