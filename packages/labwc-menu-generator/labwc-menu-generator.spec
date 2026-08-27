@@ -7,6 +7,7 @@ License:        GPL-2.0-or-later
 URL:            https://github.com/labwc/labwc-menu-generator
 Source0:        labwc-menu-generator-0.1.0.tar.gz
 BuildRequires:  gcc
+BuildRequires:  glib2-devel
 BuildRequires:  make
 BuildRequires:  meson
 BuildRequires:  ninja-build
@@ -36,3 +37,4 @@ test -s %{name}.files
 %changelog
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.0-1
 - Initial openEuler RISC-V package from the full package inventory.
+- Add the GLib development dependency required by Meson.
