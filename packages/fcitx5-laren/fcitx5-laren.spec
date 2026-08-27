@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           fcitx5-laren
 Version:        0.3.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Arabizi to Arabic transliteration engine for Fcitx5
 License:        GPL-3.0-or-later
 URL:            https://github.com/mmaher88/laren
@@ -15,7 +15,7 @@ BuildRequires:  make
 Arabizi to Arabic transliteration engine for Fcitx5
 
 %prep
-%autosetup -p1
+%autosetup -n laren-%{version} -p1
 
 %build
 %cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
@@ -34,5 +34,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.5-2
+- Use the upstream laren archive root during source preparation.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.5-1
 - Initial openEuler RISC-V package from the full package inventory.
