@@ -23,7 +23,7 @@ A PAM module that seamlessly unlocks your Gnome Keyring and KDE Wallet using you
 
 %install
 %meson_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
