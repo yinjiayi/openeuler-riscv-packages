@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-exclude-compiler-probes.patch",
+        "sha256": "f885a827138b5ba58b6a65b2ac39c8b3c632d20a67cfee16c832ef1c5dc44bfb",
+        "purpose": "Exclude generated CMake compiler probes from the upstream recursive source glob.",
+        "source": "openEuler RISC-V package CI failure analysis",
+        "license": "MIT",
+        "upstream_status": "downstream-only",
+        "remove_when": "Upstream excludes CMakeFiles or stops using an unbounded recursive source glob."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "objcurses.spec"
