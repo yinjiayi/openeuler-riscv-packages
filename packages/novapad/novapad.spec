@@ -18,7 +18,7 @@ A modern C++23/Qt6 fork of Notepadqq - Native code editor for programmers
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
