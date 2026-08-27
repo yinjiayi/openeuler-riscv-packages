@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-fallback-to-pkg-config-for-sdl2.patch",
+        "sha256": "6c2679546d697a1c9776e6ac77324edc06588b9a89789d2444dd64e989aaafc4",
+        "purpose": "Use the official SDL2 pkg-config metadata when a distribution does not ship an SDL2 CMake config.",
+        "source": "Downstream adaptation of raptor 0.8.1 CMakeLists.txt",
+        "license": "GPL-2.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream supports pkg-config fallback or openEuler SDL2 provides the expected CMake targets."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "raptor-cos.spec"
@@ -63,6 +73,6 @@
   "version": {
     "current": "0.8.1",
     "latest_detected": "0.8.1",
-    "release": "1"
+    "release": "2"
   }
 }
