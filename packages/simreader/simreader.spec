@@ -21,6 +21,7 @@ Unified SIM/USIM card reader tool with complete analysis capabilities
 
 %install
 %make_install PREFIX=%{_prefix}
+rm -rf %{buildroot}%{_docdir}/%{name}
 find %{buildroot} \( -type f -o -type l \) ! -path '%{buildroot}%{_mandir}/*' ! -path '%{buildroot}%{_docdir}/%{name}/*' -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
