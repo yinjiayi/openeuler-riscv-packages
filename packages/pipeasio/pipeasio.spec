@@ -22,7 +22,7 @@ ASIO driver for Wine that talks directly to PipeWire (no libjack dependency)
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
