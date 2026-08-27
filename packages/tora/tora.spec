@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tora
 Version:        3.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        SQL IDE for Oracle, MySQL and PostgreSQL dbs
 License:        GPL-2.0-or-later
 URL:            https://github.com/tora-tool/tora
@@ -12,6 +12,9 @@ BuildRequires:  boost-system
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  qscintilla-qt5-devel
+BuildRequires:  qt5-linguist
+BuildRequires:  qt5-qtbase-devel
 
 %description
 SQL IDE for Oracle, MySQL and PostgreSQL dbs
@@ -20,7 +23,7 @@ SQL IDE for Oracle, MySQL and PostgreSQL dbs
 %autosetup -p1
 
 %build
-%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON -DWANT_INTERNAL_LOKI=ON
 %cmake_build
 
 %install
@@ -42,6 +45,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc ChangeLog
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2-3
+- Use the bundled Loki headers and add the Qt 5 and QScintilla development dependencies.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2-2
 - Add the Boost headers and system library required by CMake.
 
