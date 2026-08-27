@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           raptor-cos
 Version:        0.8.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Vertically-scrolling shoot 'em up from 1994
 License:        GPL-2.0-or-later
 URL:            https://github.com/skynettx/raptor
@@ -24,7 +24,7 @@ sed -i 's/\r$//' CMakeLists.txt
 %autopatch -p1
 
 %build
-%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 %cmake_build
 
 %install
@@ -41,6 +41,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.1-4
+- Compile all bundled static objects as PIC before linking the hardened executable.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.1-3
 - Use the official ALSA pkg-config metadata when CMake cannot infer lib64.
 
