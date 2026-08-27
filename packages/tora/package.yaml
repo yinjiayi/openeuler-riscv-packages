@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-stack-support-riscv-backtrace.patch",
+        "sha256": "d1f29fcbc32cfef21d2983906081633dd4119e8a95e47a3fd186eb5f1be98890",
+        "purpose": "Implement the bundled stack collector on RISC-V using the glibc backtrace interfaces.",
+        "source": "Downstream adaptation of tora 3.2 extlibs/stack/stack.cpp",
+        "license": "BSL-1.0",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream dbg::stack supports RISC-V or replaces the architecture-specific collector."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "tora.spec"
@@ -63,6 +73,6 @@
   "version": {
     "current": "3.2",
     "latest_detected": "3.2",
-    "release": "3"
+    "release": "4"
   }
 }
