@@ -36,6 +36,15 @@
         "license": "GPL-3.0-or-later",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream architecture detection covers RISC-V and probes the generic tuning flag."
+      },
+      {
+        "file": "patches/0002-generic-build-fixes.patch",
+        "sha256": "5c179831a5d4f382f2ea60ef1be5b24bced291b25070612efebcbe28fa53130e",
+        "purpose": "Complete the generic fingerprint interface and remove the duplicate floating-point SIMD trait specialization.",
+        "source": "Downstream adaptation of DIAMOND 2.2.4 generic implementation",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream generic fingerprints expose the same array/load API as SIMD implementations and the duplicate trait is removed."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -81,6 +90,6 @@
   "version": {
     "current": "2.2.4",
     "latest_detected": "2.2.4",
-    "release": "2"
+    "release": "3"
   }
 }
