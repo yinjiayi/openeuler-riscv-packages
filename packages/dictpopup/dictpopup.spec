@@ -9,6 +9,7 @@ Source0:        dictpopup-0.3.2.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gtk3-devel
+BuildRequires:  libnotify-devel
 BuildRequires:  make
 
 %description
@@ -37,3 +38,4 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-1
 - Initial openEuler RISC-V package from the full package inventory.
 - Add the GTK 3 development files required by pkg-config.
+- Add the libnotify development files required by pkg-config.
