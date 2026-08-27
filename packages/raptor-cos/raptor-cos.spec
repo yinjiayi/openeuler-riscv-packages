@@ -14,7 +14,7 @@ BuildRequires:  make
 Vertically-scrolling shoot 'em up from 1994
 
 %prep
-%autosetup -p1
+%autosetup -n raptor-%{version} -p1
 
 %build
 %cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
