@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-do-not-force-native-architecture.patch",
+        "sha256": "a6ce5b02856488261ac160da49718ec3c9316d89adfe2fa842dbdb08755d10b6",
+        "purpose": "Let the openEuler RVA23 compiler flags select the target instead of forcing the QEMU build host's native architecture.",
+        "source": "Downstream adaptation of dictpopup 0.3.2 CMakeLists.txt",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream stops forcing -march=native and -mtune=native in release builds."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "dictpopup.spec"
@@ -63,6 +73,6 @@
   "version": {
     "current": "0.3.2",
     "latest_detected": "0.3.2",
-    "release": "5"
+    "release": "6"
   }
 }

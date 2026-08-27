@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           dictpopup
 Version:        0.3.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A Japanese popup dictionary working on mouse selection with Anki integration
 License:        GPL-3.0-or-later
 URL:            https://github.com/Ajatt-Tools/dictpopup
 Source0:        dictpopup-0.3.2.tar.gz
+Patch0:         0001-cmake-do-not-force-native-architecture.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gperf
@@ -40,6 +41,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-6
+- Preserve the openEuler RVA23 target flags instead of forcing build-host native tuning.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-5
 - Add the gperf generator required during CMake configuration.
 
