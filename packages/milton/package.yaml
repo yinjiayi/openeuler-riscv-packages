@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-keep-format-security-enabled.patch",
+        "sha256": "b8da19f71f942e2a85318a88b92978845d5e5b3f8c922f545d207ffcc5ab88ac",
+        "purpose": "Remove the blanket format-warning suppression that conflicts with openEuler's format-security hardening policy.",
+        "source": "Downstream adaptation of Milton 1.9.1 CMakeLists.txt",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream no longer disables all format diagnostics on Unix builds."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "milton.spec"
@@ -63,6 +73,6 @@
   "version": {
     "current": "1.9.1",
     "latest_detected": "1.9.1",
-    "release": "1"
+    "release": "2"
   }
 }

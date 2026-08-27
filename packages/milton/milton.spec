@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           milton
 Version:        1.9.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An infinite-canvas paint program
 License:        GPL-3.0-or-later
 URL:            https://github.com/serge-rgb/milton
 Source0:        milton-1.9.1.tar.gz
+Patch0:         0001-keep-format-security-enabled.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -38,5 +39,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9.1-2
+- Keep openEuler format-security compiler checks enabled.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9.1-1
 - Initial openEuler RISC-V package from the full package inventory.
