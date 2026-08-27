@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nmail
 Version:        5.14.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Terminal-based email client
 License:        MIT
 URL:            https://github.com/d99kris/nmail
@@ -10,6 +10,7 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  ncurses-devel
 
 %description
 Terminal-based email client
@@ -34,5 +35,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.14.12-2
+- Add the ncurses development dependency required by CMake.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.14.12-1
 - Initial openEuler RISC-V package from the full package inventory.
