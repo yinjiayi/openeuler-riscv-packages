@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           dreamchess
 Version:        0.3.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An open source chess game. It comes with its own engine called Dreamer
 License:        GPL-3.0-or-later
 URL:            https://github.com/dreamchess/dreamchess
 Source0:        dreamchess-0.3.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  bison
+BuildRequires:  flex
 BuildRequires:  gcc
 BuildRequires:  make
 
@@ -35,6 +36,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc NEWS.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.0-3
+- Add the Flex build dependency required by the generated scanner.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.0-2
 - Add the Bison build dependency required by the generated parser.
 
