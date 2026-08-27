@@ -10,6 +10,10 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  qt6-qtbase-devel
+BuildRequires:  qt6-qttools-devel
+BuildRequires:  taglib-devel
+BuildRequires:  uchardet-devel
 
 %description
 An Audio File Encoder. Extracts audio tracks from an audio CD image to separate tracks.
@@ -36,3 +40,4 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %changelog
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 13.0.2-1
 - Initial openEuler RISC-V package from the full package inventory.
+- Add the Qt 6, TagLib, and uchardet development files required by CMake.
