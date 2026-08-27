@@ -18,7 +18,7 @@ Open GATE - numerical simulations in medical imaging and radiotherapy
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
