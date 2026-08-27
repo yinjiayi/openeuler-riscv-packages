@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           milton
 Version:        1.9.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        An infinite-canvas paint program
 License:        GPL-3.0-or-later
 URL:            https://github.com/serge-rgb/milton
 Source0:        milton-1.9.1.tar.gz
 Patch0:         0001-keep-format-security-enabled.patch
 Patch1:         0002-cmake-use-system-sdl2.patch
+Patch2:         0003-guard-x86-intrinsics.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -42,6 +43,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9.1-5
+- Include the unused SSE intrinsic headers only when compiling for x86.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9.1-4
 - Replace the bundled x86_64 SDL2 paths with the native system SDL2 package.
 

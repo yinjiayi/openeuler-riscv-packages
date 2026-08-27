@@ -37,6 +37,15 @@
         "license": "GPL-3.0-or-later",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream resolves SDL2 portably on Linux instead of linking prebuilt x86_64 archives."
+      },
+      {
+        "file": "patches/0003-guard-x86-intrinsics.patch",
+        "sha256": "0ea712ccc1939db212060bca52e176993e24db573349eed37f92ac3a365a27a0",
+        "purpose": "Avoid including x86-only intrinsic headers on RISC-V when the source does not use their APIs.",
+        "source": "Downstream adaptation of Milton 1.9.1 src/system_includes.h",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream guards or removes the unused x86 intrinsic includes."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -82,6 +91,6 @@
   "version": {
     "current": "1.9.1",
     "latest_detected": "1.9.1",
-    "release": "4"
+    "release": "5"
   }
 }
