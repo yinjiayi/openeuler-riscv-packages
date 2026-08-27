@@ -9,7 +9,11 @@ Source0:        milton-1.9.1.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  gtk2-devel
+BuildRequires:  libX11-devel
+BuildRequires:  libXi-devel
 BuildRequires:  make
+BuildRequires:  mesa-libGL-devel
 
 %description
 An infinite-canvas paint program
