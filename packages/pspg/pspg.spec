@@ -28,7 +28,7 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-%make_build check
+./pspg --version
 
 %files -f %{name}.files
 %license LICENSE
@@ -38,3 +38,4 @@ test -s %{name}.files
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.8.16-1
 - Initial openEuler RISC-V package from the full package inventory.
 - Add terminal, readline, and PostgreSQL development dependencies.
+- Run the upstream executable check because this release has no check target.
