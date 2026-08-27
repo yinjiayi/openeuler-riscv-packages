@@ -31,7 +31,7 @@
       },
       {
         "file": "patches/0002-cmake-use-pkg-config-for-alsa.patch",
-        "sha256": "5926ae112f4e44805cd91c8c4d4d4acf2f4785de9729eae86f083f8da3dc0f39",
+        "sha256": "2863a4bebb5080bb1c76c6aa3c80c34609a86cf52771007bd265da7ba4e51fd0",
         "purpose": "Use the official ALSA pkg-config metadata when CMake cannot infer the openEuler lib64 search path.",
         "source": "Downstream adaptation of raptor 0.8.1 CMakeLists.txt",
         "license": "GPL-2.0-or-later",
@@ -82,6 +82,6 @@
   "version": {
     "current": "0.8.1",
     "latest_detected": "0.8.1",
-    "release": "4"
+    "release": "5"
   }
 }
