@@ -9,6 +9,7 @@ Source0:        sniproxy-0.7.0.tar.gz
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
+BuildRequires:  iproute
 BuildRequires:  libtool
 BuildRequires:  libev-devel
 BuildRequires:  make
@@ -44,3 +45,4 @@ test -s %{name}.files
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.7.0-1
 - Initial openEuler RISC-V package from the full package inventory.
 - Add the libev and PCRE2 development dependencies required by configure.
+- Add iproute for the network namespace integration test.
