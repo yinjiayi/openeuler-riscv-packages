@@ -18,7 +18,7 @@ Modern IPTV player with Xtream Codes and M3U support, built with Qt6 and libmpv
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
