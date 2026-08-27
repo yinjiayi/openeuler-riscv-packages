@@ -23,7 +23,7 @@ An OBS plugin that lets your viewers redeem videos or sounds on stream via chann
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
