@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           texel
 Version:        1.12
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Free UCI compliant open source chess engine developed by Peter Österlund
 License:        GPL-3.0-or-later
 URL:            https://github.com/peterosterlund2/texel
@@ -28,13 +28,19 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-ctest --test-dir %{_vpath_builddir} --output-on-failure
+# These upstream tests hard-code the author's private tablebase paths under
+# /home/petero/chess. Run every self-contained test shipped in the archive.
+ctest --test-dir %{_vpath_builddir} --output-on-failure \
+  --exclude-regex '^(SearchTest[.]testTBSearch|TBGenTest[.]testGenerate|TBTest[.](dtmTest|kpkTest|rtbTest|tbTest|testTbSearch|testMissingTables))$'
 
 %files -f %{name}.files
 %license COPYING
 
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.12-3
+- Run all self-contained tests while excluding tests that require the upstream author's private tablebases.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.12-2
 - Install the primary Texel engine executable when upstream provides no install target.
 
