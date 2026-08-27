@@ -18,7 +18,7 @@ Small program that computes and plots spectrograms, either in a live window or t
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
