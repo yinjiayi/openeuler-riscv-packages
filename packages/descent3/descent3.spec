@@ -10,12 +10,15 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  SDL2-devel
+BuildRequires:  gtest-devel
+BuildRequires:  zlib-devel
 
 %description
 Descent 3 by Outrage Entertainment
 
 %prep
-%autosetup -p1
+%autosetup -n Descent3-%{version} -p1
 
 %build
 %cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
@@ -36,3 +39,5 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %changelog
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.0-1
 - Initial openEuler RISC-V package from the full package inventory.
+- Use the upstream archive's actual top-level directory.
+- Add the SDL 2, GoogleTest, and zlib development files required by CMake.
