@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           dictpopup
 Version:        0.3.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A Japanese popup dictionary working on mouse selection with Anki integration
 License:        GPL-3.0-or-later
 URL:            https://github.com/Ajatt-Tools/dictpopup
@@ -14,6 +14,7 @@ BuildRequires:  lmdb-devel
 BuildRequires:  libnotify-devel
 BuildRequires:  libzip-devel
 BuildRequires:  make
+BuildRequires:  mecab-devel
 
 %description
 A Japanese popup dictionary working on mouse selection with Anki integration
@@ -38,6 +39,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-4
+- Add the MeCab development files required by CMake.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-3
 - Add the LMDB development files required by CMake.
 
