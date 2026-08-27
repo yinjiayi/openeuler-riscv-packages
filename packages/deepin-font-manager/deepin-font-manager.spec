@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           deepin-font-manager
 Version:        6.5.16
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A font management tool for Deepin desktop
 License:        GPL-3.0-or-later
 URL:            https://github.com/linuxdeepin/deepin-font-manager
@@ -10,6 +10,7 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  qt6-qtbase-devel
 
 %description
 A font management tool for Deepin desktop
@@ -34,5 +35,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 6.5.16-2
+- Add the Qt 6 base development files required by CMake.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 6.5.16-1
 - Initial openEuler RISC-V package from the full package inventory.
