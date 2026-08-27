@@ -23,7 +23,7 @@ RGB keyboard lighting controller for Lenovo LOQ, Legion, and IdeaPad Gaming lapt
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
