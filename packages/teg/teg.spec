@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           teg
 Version:        0.13.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tenes Empanadas Graciela (TEG) is a clone of a 'Plan Tactico y Estrategico de la Guerra' board game, a pseudo-clone of Risk, a multiplayer turn-based strate
 License:        GPL-2.0-or-later
 URL:            https://github.com/wfx/teg
@@ -11,6 +11,7 @@ BuildRequires:  automake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  gettext-devel
+BuildRequires:  glib2-devel
 BuildRequires:  libtool
 BuildRequires:  make
 
@@ -40,6 +41,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.13.0-3
+- Add the GLib development macros required by autoreconf.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.13.0-2
 - Add the gettext development tools required by autoreconf.
 
