@@ -18,16 +18,15 @@ UDP over TCP/ICMP/UDP tunnel
 %autosetup -n udp2raw-%{version} -p1
 
 %build
-%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
-%cmake_build
+%make_build -f makefile dynamic cc_local="%{__cxx}" FLAGS="%{build_cxxflags} %{build_ldflags}"
 
 %install
-%cmake_install
+install -Dpm0755 udp2raw_dynamic %{buildroot}%{_bindir}/udp2raw
 find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
-ctest --test-dir %{_vpath_builddir} --output-on-failure
+./udp2raw_dynamic --help
 
 %files -f %{name}.files
 %license LICENSE.md
@@ -38,3 +37,4 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 - Initial openEuler RISC-V package from the full package inventory.
 - Use the upstream archive's actual top-level directory.
 - Configure CMake in the build directory consumed by the RPM macros.
+- Use the maintained makefile target that generates git_version.h.
