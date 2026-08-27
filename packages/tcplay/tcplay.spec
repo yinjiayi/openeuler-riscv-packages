@@ -8,13 +8,17 @@ URL:            https://github.com/bwalex/tc-play
 Source0:        tcplay-3.3.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
+BuildRequires:  libgcrypt-devel
+BuildRequires:  lvm2-devel
 BuildRequires:  make
+BuildRequires:  pkgconf
+BuildRequires:  uuid-devel
 
 %description
 Free and simple TrueCrypt implementation based on dm-crypt
 
 %prep
-%autosetup -p1
+%autosetup -n tc-play-%{version} -p1
 
 %build
 %cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
