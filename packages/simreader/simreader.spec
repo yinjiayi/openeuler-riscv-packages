@@ -17,11 +17,11 @@ Unified SIM/USIM card reader tool with complete analysis capabilities
 %autosetup -p1
 
 %build
-%make_build
+%make_build CFLAGS="%{build_cflags} -Wall -Wextra -std=c99" LDFLAGS="%{build_ldflags} -lpcsclite"
 
 %install
 %make_install PREFIX=%{_prefix}
-find %{buildroot} \( -type f -o -type l \) ! -path '%{buildroot}%{_mandir}/*' -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) ! -path '%{buildroot}%{_mandir}/*' ! -path '%{buildroot}%{_docdir}/%{name}/*' -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
@@ -37,3 +37,4 @@ test -s %{name}.files
 - Initial openEuler RISC-V package from the full package inventory.
 - Add the PC/SC headers and library required by the build.
 - Keep compressed manual pages out of the pre-compression file manifest.
+- Preserve distribution debug and linker flags and avoid duplicate doc entries.
