@@ -18,7 +18,7 @@ A Wayland overlay that displays an animated virtual pet reacting to keyboard inp
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
