@@ -20,7 +20,7 @@ mem-c is a simple memory allocator using a heap data structure with the mmap Lin
 
 %install
 %make_install PREFIX=%{_prefix}
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
