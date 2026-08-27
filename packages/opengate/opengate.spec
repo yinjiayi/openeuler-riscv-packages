@@ -15,7 +15,7 @@ BuildRequires:  make
 Open GATE - numerical simulations in medical imaging and radiotherapy
 
 %prep
-%autosetup -p1
+%autosetup -n Gate-%{version} -p1
 
 %build
 %cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
