@@ -20,7 +20,7 @@ A faithful recreation of the Windows 7 Minesweeper
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
