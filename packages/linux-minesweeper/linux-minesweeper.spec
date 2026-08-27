@@ -10,6 +10,8 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  qt6-qtbase-devel
+BuildRequires:  qt6-qtmultimedia-devel
 
 %description
 A faithful recreation of the Windows 7 Minesweeper
@@ -36,3 +38,4 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %changelog
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.1-1
 - Initial openEuler RISC-V package from the full package inventory.
+- Add the Qt 6 development dependencies required by CMake.
