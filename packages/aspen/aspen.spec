@@ -21,7 +21,7 @@ Fast, byte-compatible reimplementation of tree(1) in C (GNU tree 2.3.2)
 
 %install
 %make_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
