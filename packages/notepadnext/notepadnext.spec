@@ -9,13 +9,16 @@ Source0:        notepadnext-0.14.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  git
 BuildRequires:  make
+BuildRequires:  qt6-qt5compat-devel
+BuildRequires:  qt6-qtbase-devel
 
 %description
 Cross-platform reimplementation of Notepad++
 
 %prep
-%autosetup -p1
+%autosetup -n NotepadNext-%{version} -p1
 
 %build
 %cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
