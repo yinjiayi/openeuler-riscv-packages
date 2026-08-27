@@ -21,7 +21,7 @@ From-scratch C reimplementation of GNU wc(1); byte-identical, faster on every me
 
 %install
 %make_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
