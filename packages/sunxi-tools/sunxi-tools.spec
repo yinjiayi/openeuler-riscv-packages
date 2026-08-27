@@ -20,7 +20,7 @@ A collection of command line tools for ARM devices with Allwinner SoCs
 
 %install
 %make_install PREFIX=%{_prefix}
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
