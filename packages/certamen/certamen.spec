@@ -18,7 +18,7 @@ TUI quiz game engine with SSH multiplayer support written in CPP with FTXUI
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
