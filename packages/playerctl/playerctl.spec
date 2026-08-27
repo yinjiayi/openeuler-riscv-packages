@@ -23,7 +23,7 @@ mpris media player controller and lib for spotify, vlc, audacious, bmp, xmms2, a
 
 %install
 %meson_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
