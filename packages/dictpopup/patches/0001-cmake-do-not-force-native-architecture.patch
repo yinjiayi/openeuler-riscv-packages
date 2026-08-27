@@ -19,13 +19,8 @@ Upstream-Status: Not Submitted (automated upstream writes forbidden)
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -84,6 +84,6 @@ set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}
- set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -fsanitize=address")
- #set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -pg -g -O0 -Wall")
- 
+@@ -87 +87 @@
 -set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Ofast -flto -march=native -mtune=native -g -fno-omit-frame-pointer")
 +set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Ofast -flto -g -fno-omit-frame-pointer")
- 
- message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 -- 
 2.50.1
