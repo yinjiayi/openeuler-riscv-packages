@@ -8,6 +8,7 @@ URL:            https://github.com/TheOnlyMango/simreader
 Source0:        simreader-1.0.1.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
+BuildRequires:  pcsc-lite-devel
 
 %description
 Unified SIM/USIM card reader tool with complete analysis capabilities
@@ -33,3 +34,4 @@ test -s %{name}.files
 %changelog
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.1-1
 - Initial openEuler RISC-V package from the full package inventory.
+- Add the PC/SC headers and library required by the build.
