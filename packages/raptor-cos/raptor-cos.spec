@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           raptor-cos
 Version:        0.8.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Vertically-scrolling shoot 'em up from 1994
 License:        GPL-2.0-or-later
 URL:            https://github.com/skynettx/raptor
@@ -41,6 +41,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.1-6
+- Supply SDL2 imported targets when CMake's legacy finder returns variables only.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.1-5
 - Load CMake's PkgConfig module before resolving the official ALSA metadata.
 

@@ -22,7 +22,7 @@
     "patches": [
       {
         "file": "patches/0001-cmake-fallback-to-pkg-config-for-sdl2.patch",
-        "sha256": "6c2679546d697a1c9776e6ac77324edc06588b9a89789d2444dd64e989aaafc4",
+        "sha256": "126a7c0d5857c1703c86f53d3364d01d8e4becfea3281c454823224dcba65c20",
         "purpose": "Use the official SDL2 pkg-config metadata when a distribution does not ship an SDL2 CMake config.",
         "source": "Downstream adaptation of raptor 0.8.1 CMakeLists.txt",
         "license": "GPL-2.0-or-later",
@@ -82,6 +82,6 @@
   "version": {
     "current": "0.8.1",
     "latest_detected": "0.8.1",
-    "release": "5"
+    "release": "6"
   }
 }
