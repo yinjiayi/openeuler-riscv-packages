@@ -23,7 +23,7 @@ Collection of human friendly terminal interface for git
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
