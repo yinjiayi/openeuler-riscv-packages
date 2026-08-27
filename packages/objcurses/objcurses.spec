@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           objcurses
 Version:        1.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Minimalistic 3D object viewer for the terminal using ncurses
 License:        MIT
 URL:            https://github.com/admtrv/objcurses
@@ -24,18 +24,20 @@ Minimalistic 3D object viewer for the terminal using ncurses
 %cmake_build
 
 %install
-%cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
-test -s %{name}.files
+install -Dpm 0755 %{_vpath_builddir}/objcurses %{buildroot}%{_bindir}/objcurses
 
 %check
 ctest --test-dir %{_vpath_builddir} --output-on-failure
 
-%files -f %{name}.files
+%files
+%{_bindir}/objcurses
 %license LICENSE.md
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.0-2
+- Install the executable explicitly because upstream has no CMake install rule.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.0-1
 - Initial openEuler RISC-V package from the full package inventory.
 - Add the Curses headers and library required by CMake.
