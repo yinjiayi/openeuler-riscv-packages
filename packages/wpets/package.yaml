@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-riscv-drop-march-native.patch",
+        "sha256": "9d97d5ab72333e306afcc364e9e2877958fff66e318df65c16a6e99467aa5602",
+        "purpose": "Remove the host-native ISA override and retain the distribution RISC-V compiler flags.",
+        "source": "openEuler RISC-V package CI failure analysis",
+        "license": "MIT",
+        "upstream_status": "downstream-only",
+        "remove_when": "Upstream no longer hard-codes -march=native for release builds."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "wpets.spec"
@@ -43,7 +53,7 @@
     "isa": "RVA23",
     "os": "openEuler",
     "release": "24.03-LTS-SP3",
-    "riscv_status": "unknown"
+    "riscv_status": "patched-for-riscv"
   },
   "updates": {
     "enabled": true,
