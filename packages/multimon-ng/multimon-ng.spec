@@ -17,7 +17,7 @@ A fork of multimon that decodes multiple digital transmission modes
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
