@@ -10,6 +10,7 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gtk3-devel
 BuildRequires:  libnotify-devel
+BuildRequires:  libzip-devel
 BuildRequires:  make
 
 %description
