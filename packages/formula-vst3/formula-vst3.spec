@@ -18,7 +18,7 @@ Open-source audio effects as code editor VST3 plugin and standalone application.
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
