@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           formula-vst3
 Version:        1.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Open-source audio effects as code editor VST3 plugin and standalone application.
 License:        BSL-1.0
 URL:            https://github.com/soundspear/formula
@@ -15,7 +15,7 @@ BuildRequires:  make
 Open-source audio effects as code editor VST3 plugin and standalone application.
 
 %prep
-%autosetup -p1
+%autosetup -n formula-%{version} -p1
 
 %build
 %cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
@@ -34,5 +34,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.2-2
+- Use the source archive's actual formula-version root directory.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.2-1
 - Initial openEuler RISC-V package from the full package inventory.
