@@ -23,7 +23,7 @@ C++20 idiomatic APIs for the Apache Arrow Columnar Format
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
