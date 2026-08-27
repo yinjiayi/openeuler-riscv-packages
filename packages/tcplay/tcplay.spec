@@ -12,7 +12,7 @@ BuildRequires:  libgcrypt-devel
 BuildRequires:  lvm2-devel
 BuildRequires:  make
 BuildRequires:  pkgconf
-BuildRequires:  uuid-devel
+BuildRequires:  util-linux-devel
 
 %description
 Free and simple TrueCrypt implementation based on dm-crypt
