@@ -27,7 +27,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-qt65-translation-setup.patch",
+        "sha256": "c2b1a881c311b463d035d367a43139a05b8b5a394863cd40bc7e146b84792b1b",
+        "purpose": "Use the Qt 6.5 translation API while preserving generated language catalogs on openEuler.",
+        "source": "Downstream adaptation of tail-tray 0.2.34 CMakeLists.txt",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "openEuler provides Qt 6.7 or newer."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "tail-tray.spec"
@@ -71,6 +81,6 @@
   "version": {
     "current": "0.2.34",
     "latest_detected": "0.2.34",
-    "release": "2"
+    "release": "3"
   }
 }
