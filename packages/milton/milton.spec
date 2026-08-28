@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           milton
 Version:        1.9.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        An infinite-canvas paint program
 License:        GPL-3.0-or-later
 URL:            https://github.com/serge-rgb/milton
@@ -32,7 +32,9 @@ An infinite-canvas paint program
 %cmake_build
 
 %install
-%cmake_install
+install -Dpm0755 %{_vpath_builddir}/Milton %{buildroot}%{_bindir}/milton
+# Milton resolves this bundled font relative to /proc/self/exe at runtime.
+install -Dpm0644 %{_vpath_builddir}/Carlito.ttf %{buildroot}%{_bindir}/Carlito.ttf
 find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
@@ -41,9 +43,13 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 %files -f %{name}.files
 %license LICENSE.txt
+%license third_party/Carlito.LICENSE
 %doc README.md
 
 %changelog
+* Fri Aug 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9.1-8
+- Install the built executable and its runtime font explicitly.
+
 * Fri Aug 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.9.1-7
 - Keep C++ system headers outside C linkage and use explicit localized-text formats.
 
