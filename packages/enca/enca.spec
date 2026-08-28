@@ -64,4 +64,4 @@ find %{buildroot} -name '*.la' -delete
 %changelog
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.22-1
 - Update Enca for openEuler RISC-V with complete librecode-enabled upstream tests.
-- Select the built librecode backend in the TeX regression test.
+- Select the registered external GNU recode backend in the TeX regression test.
