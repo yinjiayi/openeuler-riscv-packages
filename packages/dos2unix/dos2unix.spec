@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           dos2unix
-Version:        7.5.6
+Version:        7.5.7
 Release:        1%{?dist}
 Summary:        DOS, Unix, and Mac text file format converters
 License:        BSD-3-Clause
 URL:            https://waterlander.net/dos2unix/
-Source0:        dos2unix-%{version}.tar.gz
+Source0:        dos2unix-7.5.7.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  gettext
