@@ -28,6 +28,15 @@
         "license": "BSL-1.0",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream dbg::stack supports RISC-V or replaces the architecture-specific collector."
+      },
+      {
+        "file": "patches/0002-dtl-fix-const-mutator.patch",
+        "sha256": "ab38d90bc05959df3cb46633410a2764c55b13f75020016637154cdc83af84ea",
+        "purpose": "Remove the incorrect const qualifier from the bundled DTL trivial-mode mutator so GCC 14 accepts the assignment.",
+        "source": "Downstream adaptation of tora 3.2 bundled dtl Diff.hpp",
+        "license": "BSD-3-Clause",
+        "upstream_status": "not-submitted",
+        "remove_when": "The bundled DTL no longer declares enableTrivial() as const."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -73,6 +82,6 @@
   "version": {
     "current": "3.2",
     "latest_detected": "3.2",
-    "release": "4"
+    "release": "5"
   }
 }

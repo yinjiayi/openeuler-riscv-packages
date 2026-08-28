@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Fri, 28 Aug 2026 00:00:00 +0000
+Subject: [PATCH] dtl: make the trivial-mode mutator non-const
+
+GCC 14 rejects enableTrivial() because the method is const but assigns to the
+non-mutable trivial member. The method has no callers in tora 3.2, and the
+matching enable/disable methods are mutators, so remove the incorrect const
+qualifier instead of weakening the member's const semantics.
+
+Patch-Source: downstream adaptation of bundled dtl Diff.hpp
+Patch-License: BSD-3-Clause
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Applies-To: tora 3.2 bundled dtl
+Remove-When: the bundled dtl no longer declares enableTrivial() as const
+---
+ extlibs/dtl/dtl/Diff.hpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/extlibs/dtl/dtl/Diff.hpp b/extlibs/dtl/dtl/Diff.hpp
+--- a/extlibs/dtl/dtl/Diff.hpp
++++ b/extlibs/dtl/dtl/Diff.hpp
+@@ -161,11 +161,11 @@ namespace dtl {
+         bool trivialEnabled () const {
+             return trivial;
+         }
+         
+-        void enableTrivial () const {
++        void enableTrivial () {
+             this->trivial = true;
+         }
+         
+         void disableTrivial () {
+             this->trivial = false;
+         }
+-- 
+2.50.1

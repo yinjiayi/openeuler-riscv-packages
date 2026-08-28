@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tora
 Version:        3.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        SQL IDE for Oracle, MySQL and PostgreSQL dbs
 License:        GPL-2.0-or-later
 URL:            https://github.com/tora-tool/tora
 Source0:        tora-3.2.tar.gz
 Patch0:         0001-stack-support-riscv-backtrace.patch
+Patch1:         0002-dtl-fix-const-mutator.patch
 BuildRequires:  cmake
 BuildRequires:  boost-devel
 BuildRequires:  boost-system
@@ -46,6 +47,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc ChangeLog
 
 %changelog
+* Fri Aug 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2-5
+- Fix the bundled DTL const mutator rejected by GCC 14.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2-4
 - Implement RISC-V stack collection with the glibc backtrace interfaces.
 
