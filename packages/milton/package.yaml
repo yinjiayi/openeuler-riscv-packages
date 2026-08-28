@@ -46,6 +46,15 @@
         "license": "GPL-3.0-or-later",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream guards or removes the unused x86 intrinsic includes."
+      },
+      {
+        "file": "patches/0004-fix-gcc14-cxx-errors.patch",
+        "sha256": "63b21deff6646d33a1850b04478188e1901477ba34a9d5b7ad642a7b03baf3cd",
+        "purpose": "Keep C++ platform headers outside C linkage and pass localized UI text through explicit formats for GCC 14.",
+        "source": "Downstream adaptation of Milton 1.9.1 src/platform.h and src/gui.cc",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream keeps C++ headers outside C linkage and uses explicit formats for localized UI text."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -91,6 +100,6 @@
   "version": {
     "current": "1.9.1",
     "latest_detected": "1.9.1",
-    "release": "6"
+    "release": "7"
   }
 }
