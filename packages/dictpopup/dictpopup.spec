@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           dictpopup
 Version:        0.3.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        A Japanese popup dictionary working on mouse selection with Anki integration
 License:        GPL-3.0-or-later
 URL:            https://github.com/Ajatt-Tools/dictpopup
@@ -31,6 +31,7 @@ A Japanese popup dictionary working on mouse selection with Anki integration
 %install
 %cmake_install
 find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+sed -i '\|^%{_mandir}/man1/|d' %{name}.files
 test -s %{name}.files
 
 %check
@@ -39,8 +40,12 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
+%{_mandir}/man1/dictpopup*.1*
 
 %changelog
+* Fri Aug 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-8
+- List man pages after RPM's compression step instead of using stale generated names.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-7
 - Regenerate the architecture-flags patch with strict GNU patch context.
 
