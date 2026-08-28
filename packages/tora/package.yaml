@@ -37,6 +37,15 @@
         "license": "BSD-3-Clause",
         "upstream_status": "not-submitted",
         "remove_when": "The bundled DTL no longer declares enableTrivial() as const."
+      },
+      {
+        "file": "patches/0003-include-qmenu-definition.patch",
+        "sha256": "4751630d99bf18249fffeda366eef7160e13abaeed1f8ed4d932e4f40779c0c2",
+        "purpose": "Include the complete QMenu type before invoking its methods so GCC 14 accepts the editor source.",
+        "source": "Downstream adaptation of tora 3.2 src/editor/tosqltext.cpp",
+        "license": "GPL-2.0-only",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream tosqltext.cpp includes QMenu before using its methods."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -82,6 +91,6 @@
   "version": {
     "current": "3.2",
     "latest_detected": "3.2",
-    "release": "5"
+    "release": "6"
   }
 }

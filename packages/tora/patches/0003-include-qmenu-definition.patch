@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Fri, 28 Aug 2026 00:00:00 +0000
+Subject: [PATCH] editor: include the QMenu definition
+
+Qt's QScintilla header only forward-declares QMenu. GCC 14 therefore rejects
+the calls to addAction() and addSeparator() in toSqlText because their receiver
+is incomplete. Include QMenu where those methods are used.
+
+Patch-Source: downstream adaptation of tora 3.2 src/editor/tosqltext.cpp
+Patch-License: GPL-2.0-only
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Applies-To: tora 3.2
+Remove-When: upstream tosqltext.cpp includes QMenu before using its methods
+---
+ src/editor/tosqltext.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/editor/tosqltext.cpp b/src/editor/tosqltext.cpp
+--- a/src/editor/tosqltext.cpp
++++ b/src/editor/tosqltext.cpp
+@@ -47,6 +47,7 @@
+ #endif
+ 
+ #include <QListWidget>
++#include <QMenu>
+ #include <QVBoxLayout>
+ #include <QApplication>
+ 
+-- 
+2.50.1
