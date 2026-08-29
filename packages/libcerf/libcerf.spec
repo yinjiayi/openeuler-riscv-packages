@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libcerf
-Version:        3.3
+Version:        3.5
 Release:        1%{?dist}
 Summary:        Complex error function library
 License:        MIT
 URL:            https://jugit.fz-juelich.de/mlz/libcerf
-Source0:        libcerf-v%{version}.tar.gz
+Source0:        libcerf-v3.5.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
