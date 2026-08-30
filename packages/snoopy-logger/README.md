@@ -3,4 +3,6 @@
 
 This directory packages upstream `https://github.com/a2o/snoopy` version `2.5.2` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
 
+Packaging release 2 selects the verified `snoopy-snoopy-2.5.2` top-level directory from the pinned upstream archive during source preparation.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
