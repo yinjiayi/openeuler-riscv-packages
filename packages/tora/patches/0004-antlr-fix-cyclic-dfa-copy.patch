@@ -1,0 +1,82 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Sun, 30 Aug 2026 00:00:00 +0000
+Subject: [PATCH] antlr: initialize immutable CyclicDFA members
+
+GCC 14 rejects the bundled ANTLR3 C++ runtime's CyclicDFA copy operations.
+The copy constructor assigns to const members after initialization, while the
+assignment operator cannot preserve those members' intentionally immutable
+semantics at all. Initialize every member in the copy constructor and delete
+assignment. Generated tora parsers construct static DFA instances but never
+assign them.
+
+Patch-Source: downstream adaptation of bundled libantlr3cpp 3.5.3
+Patch-License: BSD-3-Clause
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Applies-To: tora 3.2 bundled libantlr3cpp 3.5.3
+Remove-When: the bundled runtime initializes immutable CyclicDFA copies and
+ disables assignment
+---
+ extlibs/libantlr3cpp-3.5.3/include/antlr3cyclicdfa.hpp |  2 +-
+ extlibs/libantlr3cpp-3.5.3/include/antlr3cyclicdfa.inl | 35 ++++++--------------
+ 2 files changed, 11 insertions(+), 26 deletions(-)
+
+diff --git a/extlibs/libantlr3cpp-3.5.3/include/antlr3cyclicdfa.hpp b/extlibs/libantlr3cpp-3.5.3/include/antlr3cyclicdfa.hpp
+--- a/extlibs/libantlr3cpp-3.5.3/include/antlr3cyclicdfa.hpp
++++ b/extlibs/libantlr3cpp-3.5.3/include/antlr3cyclicdfa.hpp
+@@ -78,6 +78,6 @@ public:
+ 				, const ANTLR_INT32* const *const	transition );
+ 	CyclicDFA( const CyclicDFA& cdfa );
+-    CyclicDFA& operator=( const CyclicDFA& dfa);
++    CyclicDFA& operator=( const CyclicDFA& dfa) = delete;
+ 	
+ 	ANTLR_INT32	specialStateTransition(CtxType * ctx, RecognizerType* recognizer, IntStreamType* is, ANTLR_INT32 s);
+     ANTLR_INT32	specialTransition(CtxType * ctx, RecognizerType* recognizer, IntStreamType* is, ANTLR_INT32 s);
+diff --git a/extlibs/libantlr3cpp-3.5.3/include/antlr3cyclicdfa.inl b/extlibs/libantlr3cpp-3.5.3/include/antlr3cyclicdfa.inl
+--- a/extlibs/libantlr3cpp-3.5.3/include/antlr3cyclicdfa.inl
++++ b/extlibs/libantlr3cpp-3.5.3/include/antlr3cyclicdfa.inl
+@@ -25,32 +25,17 @@ CyclicDFA<ImplTraits, CtxType>::CyclicDFA( ANTLR_INT32	decisionNumber
+ }
+ 
+ template<class ImplTraits, class CtxType>
+-CyclicDFA<ImplTraits, CtxType>::CyclicDFA( const CyclicDFA& dfa )
++CyclicDFA<ImplTraits, CtxType>::CyclicDFA( const CyclicDFA& dfa )
++	: m_decisionNumber(dfa.m_decisionNumber)
++	, m_description(dfa.m_description)
++	, m_eot(dfa.m_eot)
++	, m_eof(dfa.m_eof)
++	, m_min(dfa.m_min)
++	, m_max(dfa.m_max)
++	, m_accept(dfa.m_accept)
++	, m_special(dfa.m_special)
++	, m_transition(dfa.m_transition)
+ {
+-	m_decisionNumber = dfa.m_decisionNumber;
+-	m_description = dfa.m_description;
+-	m_eot = dfa.m_eot;
+-	m_eof = dfa.m_eof;
+-	m_min = dfa.m_min;
+-	m_max = dfa.m_max;
+-	m_accept = dfa.m_accept;
+-	m_special = dfa.m_special;
+-	m_transition = dfa.m_transition;
+-}
+-
+-template<class ImplTraits, class CtxType>
+-CyclicDFA<ImplTraits, CtxType>& CyclicDFA<ImplTraits, CtxType>::operator=( const CyclicDFA& dfa)
+-{
+-	m_decisionNumber = dfa.m_decisionNumber;
+-	m_description = dfa.m_description;
+-	m_eot = dfa.m_eot;
+-	m_eof = dfa.m_eof;
+-	m_min = dfa.m_min;
+-	m_max = dfa.m_max;
+-	m_accept = dfa.m_accept;
+-	m_special = dfa.m_special;
+-	m_transition = dfa.m_transition;
+-	return *this;
+ }
+ 
+ template<class ImplTraits, class CtxType>
+-- 
+2.50.1

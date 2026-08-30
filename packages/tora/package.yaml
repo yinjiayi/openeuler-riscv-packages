@@ -46,6 +46,15 @@
         "license": "GPL-2.0-only",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream tosqltext.cpp includes QMenu before using its methods."
+      },
+      {
+        "file": "patches/0004-antlr-fix-cyclic-dfa-copy.patch",
+        "sha256": "a337d084833e21f1fd82dc184c207eeb4c628dd613302649f35253ab8d282338",
+        "purpose": "Initialize immutable bundled ANTLR3 CyclicDFA copies directly and prohibit impossible assignment so GCC 14 accepts the runtime.",
+        "source": "Downstream adaptation of tora 3.2 bundled libantlr3cpp 3.5.3",
+        "license": "BSD-3-Clause",
+        "upstream_status": "not-submitted",
+        "remove_when": "The bundled runtime initializes immutable CyclicDFA copies and disables assignment."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -91,6 +100,6 @@
   "version": {
     "current": "3.2",
     "latest_detected": "3.2",
-    "release": "6"
+    "release": "7"
   }
 }
