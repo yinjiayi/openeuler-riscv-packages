@@ -148,13 +148,23 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.event.before || inputs.base_sha }}
           HEAD_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           EXPLICIT_PACKAGE: ${{ inputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha }}
+          TOOLING_HEAD_SHA: ${{ github.sha }}
         run: |
           mkdir -p artifacts/scope
           if [[ -n "$EXPLICIT_PACKAGE" ]]; then
-            ci/select-package-scope.py \
-              --package-id "$EXPLICIT_PACKAGE" --head "$HEAD_SHA" \
-              --output artifacts/scope/change-scope.json \
+            scope_args=(
+              --package-id "$EXPLICIT_PACKAGE" --head "$HEAD_SHA"
+              --output artifacts/scope/change-scope.json
               --github-output "$GITHUB_OUTPUT"
+            )
+            if [[ -n "$PACKAGE_COMMIT_SHA" ]]; then
+              scope_args+=(
+                --tooling-head "$TOOLING_HEAD_SHA"
+                --overlay-evidence artifacts/scope/tooling-overlay.json
+              )
+            fi
+            ci/select-package-scope.py "${scope_args[@]}"
           else
             ci/detect-change-scope.py \
               --base "$BASE_SHA" --head "$HEAD_SHA" \
