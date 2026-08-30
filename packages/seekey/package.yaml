@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the archive's case-sensitive Seekey-0.2.1 source root, declares the gettext, pkg-config, GLib, GTK 4, GTK 4 layer-shell, JSON-GLib, libevdev, and ncurses providers used by the Makefile, and runs upstream's check target with the bundled Unity tests. Build, test, and GUI functionality remain enabled, and the source digest is unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
     "status": "active"
   },
   "package_id": "seekey",
@@ -63,6 +63,6 @@
   "version": {
     "current": "0.2.1",
     "latest_detected": "0.2.1",
-    "release": "1"
+    "release": "2"
   }
 }
