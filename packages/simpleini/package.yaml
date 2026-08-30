@@ -52,7 +52,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 uses the matching system GoogleTest package through upstream's supported CMake option and continues to run the registered CTest suite. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "simpleini",
@@ -87,6 +87,6 @@
   "version": {
     "current": "4.26",
     "latest_detected": "4.26",
-    "release": "1"
+    "release": "2"
   }
 }
