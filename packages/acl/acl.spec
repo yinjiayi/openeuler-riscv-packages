@@ -60,6 +60,13 @@ export LD_LIBRARY_PATH="$PWD/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 umask 022
 ./getfacl --version >/dev/null
 ./setfacl --version >/dev/null
+# The protected runner mounts the package topdir below /workspace/work, whose
+# two fixed parent directories may not be traversable by the test identities.
+# Add execute-only traversal there without weakening conventional topdirs such
+# as /root/rpmbuild.
+case "%{_topdir}" in
+  /workspace/work/*) chmod a+x /workspace /workspace/work ;;
+esac
 chmod a+rx "%{_topdir}" "%{_builddir}" "$PWD" "$PWD/.libs" \
   "$PWD/.libs/lt-getfacl" "$PWD/.libs/lt-setfacl"
 runuser -u bin -- "$PWD/getfacl" --version >/dev/null
@@ -92,4 +99,4 @@ runuser -u bin -- "$PWD/setfacl" --version >/dev/null
 %changelog
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.0-1
 - Initial openEuler RISC-V package with the complete upstream test suite.
-- Preserve root tests under parallel libtool execution and hardened device cgroups.
+- Preserve root tests under parallel libtool execution, hardened device cgroups, and the protected runner's fixed workspace mount.
