@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           unshield
 Version:        1.6.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Extracts CAB files from InstallShield installers
 License:        MIT
 URL:            https://github.com/twogood/unshield
@@ -9,6 +9,7 @@ Source0:        unshield-1.6.2.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
+BuildRequires:  zlib-devel
 
 %description
 Extracts CAB files from InstallShield installers
@@ -17,7 +18,7 @@ Extracts CAB files from InstallShield installers
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -34,5 +35,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc ChangeLog
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6.2-2
+- Add the Zlib development files required by CMake.
+- Configure the explicit CMake source and build directories.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6.2-1
 - Initial openEuler RISC-V package from the full package inventory.
