@@ -1,17 +1,22 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simple-mtpfs
 Version:        0.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A FUSE filesystem that supports reading/writing from MTP devices
 License:        GPL-2.0-or-later
 URL:            https://github.com/phatina/simple-mtpfs
 Source0:        simple-mtpfs-0.4.0.tar.gz
 BuildRequires:  autoconf
+BuildRequires:  autoconf-archive
 BuildRequires:  automake
+BuildRequires:  fuse-devel
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  libmtp-devel
 BuildRequires:  libtool
+BuildRequires:  libusbx-devel
 BuildRequires:  make
+BuildRequires:  pkgconf
 
 %description
 A FUSE filesystem that supports reading/writing from MTP devices
@@ -40,5 +45,8 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.0-2
+- Add the Autoconf macro, pkg-config, FUSE, MTP, and USB build dependencies.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.0-1
 - Initial openEuler RISC-V package from the full package inventory.
