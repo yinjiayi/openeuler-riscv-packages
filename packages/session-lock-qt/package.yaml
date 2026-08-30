@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the archive's qt-session-lock-2.1.0 source root, declares the fixed-repository Qt 6 and Wayland development providers, and installs the QML module under the target architecture's library directory. The source digest is unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
     "status": "active"
   },
   "package_id": "session-lock-qt",
@@ -63,6 +63,6 @@
   "version": {
     "current": "2.1.0",
     "latest_detected": "2.1.0",
-    "release": "1"
+    "release": "2"
   }
 }
