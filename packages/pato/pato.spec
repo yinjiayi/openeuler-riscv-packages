@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pato
 Version:        1.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PATO: high PerformAnce TriplexatOr is a high performance tool for the fast and efficient detection of triple helices and triplex features in nucleotide sequ
 License:        MIT
 URL:            https://github.com/UDC-GAC/PATO
@@ -15,7 +15,7 @@ BuildRequires:  make
 PATO: high PerformAnce TriplexatOr is a high performance tool for the fast and efficient detection of triple helices and triplex features in nucleotide sequ
 
 %prep
-%autosetup -p1
+%autosetup -n PATO-%{version} -p1
 
 %build
 %cmake -DBUILD_TESTING=ON
@@ -34,5 +34,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.1-2
+- Match the exact top-level directory in the official source archive.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.1-1
 - Initial openEuler RISC-V package from the full package inventory.
