@@ -127,6 +127,10 @@ class MaterializePackageHeadTests(unittest.TestCase):
         self.assertEqual(workflow.count(checkout), 7)
         self.assertEqual(workflow.count("ci/materialize-package-head.py --repo-root ."), 7)
         self.assertEqual(workflow.count("if: inputs.commit_sha != ''"), 7)
+        self.assertIn('--tooling-head "$TOOLING_HEAD_SHA"', workflow)
+        self.assertIn(
+            "--overlay-evidence artifacts/scope/tooling-overlay.json", workflow
+        )
 
 
 if __name__ == "__main__":

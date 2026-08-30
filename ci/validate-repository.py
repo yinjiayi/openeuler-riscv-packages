@@ -243,6 +243,31 @@ def main() -> int:
         errors.append("package-ci.yml can check out a dispatch head before trusted authorization succeeds")
     if "(github.event_name == 'workflow_call' && inputs.publish_to_repo)" in package_ci:
         errors.append("package-ci.yml permits reusable callers other than the protected RPM backfill to publish")
+    overlay_materializer = root / "ci" / "materialize-package-head.py"
+    overlay_selector = root / "ci" / "select-package-scope.py"
+    if not overlay_materializer.is_file() or not overlay_materializer.stat().st_mode & 0o111:
+        errors.append("protected-main package overlay materializer is missing or not executable")
+    elif not all(marker in overlay_materializer.read_text(encoding="utf-8") for marker in (
+        '"kind": "protected-main-package-overlay"',
+        '"package_tree_sha": tree_sha',
+        '"tooling_commit_sha": tooling_sha',
+    )):
+        errors.append("protected-main package overlay evidence is missing its exact provenance binding")
+    if not overlay_selector.is_file() or not overlay_selector.stat().st_mode & 0o111:
+        errors.append("protected-main package overlay scope selector is missing or not executable")
+    elif not all(marker in overlay_selector.read_text(encoding="utf-8") for marker in (
+        'parser.add_argument("--tooling-head")',
+        'parser.add_argument("--overlay-evidence", type=Path)',
+        'git(root, ["write-tree", f"--prefix={package_path}/"])',
+        'git(root, ["ls-files", "--others", "--", package_path])',
+    )):
+        errors.append("protected-main package selector does not revalidate the exact overlay tree")
+    for marker in (
+        '--tooling-head "$TOOLING_HEAD_SHA"',
+        "--overlay-evidence artifacts/scope/tooling-overlay.json",
+    ):
+        if marker not in package_ci:
+            errors.append(f"package CI scope selection is missing overlay binding: {marker}")
     trusted_dispatch = root / "scripts" / "dispatch-trusted-package-ci"
     if not trusted_dispatch.is_file() or not trusted_dispatch.stat().st_mode & 0o111:
         errors.append("trusted protected-main package dispatcher is missing or not executable")
