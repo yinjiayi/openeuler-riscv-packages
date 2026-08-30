@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 declares the dependencies required by the default MySQL, AIO, and test paths, uses the official target-native LuaJIT and Concurrency Kit libraries, and preserves the distribution RVA23 compiler flags. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "sysbench",
@@ -95,6 +95,6 @@
   "version": {
     "current": "1.0.20",
     "latest_detected": "1.0.20",
-    "release": "1"
+    "release": "2"
   }
 }
