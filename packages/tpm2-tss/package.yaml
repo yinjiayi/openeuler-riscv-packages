@@ -92,7 +92,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 declares the official Autoconf Archive, pkg-config, OpenSSL, JSON-C, libcurl, and UUID development providers required by the default build and enables upstream's cmocka unit tests with the actual --enable-unit configure option. Integration tests remain at their upstream default because they require a TPM simulator and additional integration infrastructure; no library or TCTI feature is disabled, and the source digest is unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
     "status": "active"
   },
   "package_id": "tpm2-tss",
@@ -127,6 +127,6 @@
   "version": {
     "current": "4.1.3",
     "latest_detected": "4.1.3",
-    "release": "1"
+    "release": "2"
   }
 }

@@ -1,16 +1,23 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tpm2-tss
 Version:        4.1.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Implementation of the TCG Trusted Platform Module 2.0 Software Stack (TSS2)
 License:        BSD-2-Clause
 URL:            https://github.com/tpm2-software/tpm2-tss
 Source0:        tpm2-tss-4.1.3.tar.gz
 BuildRequires:  autoconf
+BuildRequires:  autoconf-archive
 BuildRequires:  automake
 BuildRequires:  gcc
+BuildRequires:  json-c-devel
+BuildRequires:  libcmocka-devel
+BuildRequires:  libcurl-devel
 BuildRequires:  libtool
 BuildRequires:  make
+BuildRequires:  openssl-devel
+BuildRequires:  pkgconf-pkg-config
+BuildRequires:  util-linux-devel
 
 %description
 Implementation of the TCG Trusted Platform Module 2.0 Software Stack (TSS2)
@@ -20,7 +27,7 @@ Implementation of the TCG Trusted Platform Module 2.0 Software Stack (TSS2)
 
 %build
 autoreconf -fi
-%configure
+%configure --enable-unit
 %make_build
 
 %install
@@ -36,5 +43,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.1.3-2
+- Declare the Autoconf macros and core crypto, JSON, HTTP, and UUID providers.
+- Enable the upstream cmocka unit tests while leaving integration tests disabled.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.1.3-1
 - Initial openEuler RISC-V package from the full package inventory.
