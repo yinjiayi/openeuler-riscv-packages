@@ -36,7 +36,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the archive's case-sensitive SIROCCO2-2.1.1 source root and declares the GMP and MPFR development providers used directly by the public headers, library, and upstream check programs. The existing build and test behavior remains enabled, and the source digest is unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
     "status": "active"
   },
   "package_id": "sirocco",
@@ -71,6 +71,6 @@
   "version": {
     "current": "2.1.1",
     "latest_detected": "2.1.1",
-    "release": "1"
+    "release": "2"
   }
 }
