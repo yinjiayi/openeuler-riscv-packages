@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Packaging release 2 selects the verified SimpleArchiver-3.5.0 archive root, uses an explicit CMake build directory, sets the deterministic 3.5.0 version string, and directly runs both upstream unit-test executables that are not registered with CTest. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "simplearchiver",
@@ -63,6 +63,6 @@
   "version": {
     "current": "3.5.0",
     "latest_detected": "3.5.0",
-    "release": "1"
+    "release": "2"
   }
 }
