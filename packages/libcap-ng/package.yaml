@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed. Release 2 aligns the bash completion manifest with the upstream-installed /usr/share/bash-completion/completions path observed in the riscv64 canary build.",
     "status": "active"
   },
   "package_id": "libcap-ng",
@@ -63,6 +63,6 @@
   "version": {
     "current": "0.9.3",
     "latest_detected": "0.9.3",
-    "release": "1"
+    "release": "2"
   }
 }

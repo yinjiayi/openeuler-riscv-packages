@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libcap-ng
 Version:        0.9.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Alternate POSIX capabilities library
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later
 URL:            https://github.com/stevegrubb/libcap-ng
@@ -52,7 +52,7 @@ find %{buildroot} -name '*.la' -delete
 %{_bindir}/filecap
 %{_bindir}/netcap
 %{_bindir}/pscap
-%{_sysconfdir}/bash_completion.d/libcap-ng.bash_completion
+%{_datadir}/bash-completion/completions/libcap-ng.bash_completion
 %{_libdir}/libcap-ng.so.0*
 %{_libdir}/libdrop_ambient.so.0*
 %{_mandir}/man7/libdrop_ambient.7*
@@ -70,5 +70,8 @@ find %{buildroot} -name '*.la' -delete
 %{_mandir}/man3/*.3*
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.9.3-2
+- Package the bash completion file from its upstream-installed data directory.
+
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.9.2-1
 - Initial openEuler RISC-V package from Fedora 44 identity and official upstream evidence.
