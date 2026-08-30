@@ -60,6 +60,13 @@ export LD_LIBRARY_PATH="$PWD/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 umask 022
 ./getfacl --version >/dev/null
 ./setfacl --version >/dev/null
+# Runner workspaces can carry inherited named-user ACLs that override the
+# ordinary other-mode bits for the bin identity.  Normalize only this writable
+# package build tree and its test programs before exercising identity changes.
+./setfacl --remove-all "%{_topdir}" "%{_builddir}" "$PWD" "$PWD/.libs" \
+  "$PWD/getfacl" "$PWD/setfacl" \
+  "$PWD/.libs/lt-getfacl" "$PWD/.libs/lt-setfacl"
+./setfacl --remove-default "%{_topdir}" "%{_builddir}" "$PWD" "$PWD/.libs"
 chmod a+rx "%{_topdir}" "%{_builddir}" "$PWD" "$PWD/.libs" \
   "$PWD/getfacl" "$PWD/setfacl" \
   "$PWD/.libs/lt-getfacl" "$PWD/.libs/lt-setfacl"
