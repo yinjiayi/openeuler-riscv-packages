@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nwipe
 Version:        0.42
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A fork of the dwipe command that will securely erase disks using a variety of recognised methods
 License:        GPL-2.0-or-later
 URL:            https://github.com/martijnvanbrummelen/nwipe
@@ -9,8 +9,12 @@ Source0:        nwipe-0.42.tar.gz
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
+BuildRequires:  libconfig-devel
 BuildRequires:  libtool
 BuildRequires:  make
+BuildRequires:  ncurses-devel
+BuildRequires:  parted-devel
+BuildRequires:  pkgconf-pkg-config
 
 %description
 A fork of the dwipe command that will securely erase disks using a variety of recognised methods
@@ -36,5 +40,8 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Sun Aug 30 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.42-2
+- Add the ncurses panel, libconfig, libparted, and pkg-config build dependencies.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.42-1
 - Initial openEuler RISC-V package from the full package inventory.
