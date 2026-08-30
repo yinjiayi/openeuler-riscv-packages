@@ -33,6 +33,7 @@ rm -f %{buildroot}%{_infodir}/dir
 %files -f %{name}.lang
 %license COPYING
 %doc AUTHORS ChangeLog NEWS README.md
+%{_docdir}/%{name}/indent.html
 %{_bindir}/indent
 %{_infodir}/indent.info*
 %{_mandir}/man1/indent.1*
