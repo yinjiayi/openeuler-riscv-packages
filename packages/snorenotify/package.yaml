@@ -36,7 +36,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 declares the required Extra CMake Modules and Qt5 base development packages, retaining the Qt5 desktop, D-Bus, and unit-test components discovered by the upstream build system.",
     "status": "active"
   },
   "package_id": "snorenotify",
@@ -71,6 +71,6 @@
   "version": {
     "current": "0.7.0",
     "latest_detected": "0.7.0",
-    "release": "1"
+    "release": "2"
   }
 }
