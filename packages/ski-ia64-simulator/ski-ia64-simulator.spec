@@ -1,22 +1,29 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ski-ia64-simulator
 Version:        1.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Itanium 2 (ia64) instruction set simulator
 License:        GPL-2.0-or-later
 URL:            https://github.com/trofi/ski
 Source0:        ski-ia64-simulator-1.5.1.tar.gz
 BuildRequires:  autoconf
+BuildRequires:  autoconf-archive
 BuildRequires:  automake
+BuildRequires:  bison
+BuildRequires:  elfutils-libelf-devel
+BuildRequires:  flex
 BuildRequires:  gcc
+BuildRequires:  gperf
 BuildRequires:  libtool
 BuildRequires:  make
+BuildRequires:  ncurses-devel
+BuildRequires:  pkgconf-pkg-config
 
 %description
 Itanium 2 (ia64) instruction set simulator
 
 %prep
-%autosetup -p1
+%autosetup -n ski-1.5.1 -p1
 
 %build
 autoreconf -fi
@@ -39,5 +46,8 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Sun Aug 30 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.1-2
+- Match the official archive root and declare the required generated-code and library dependencies.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.1-1
 - Initial openEuler RISC-V package from the full package inventory.
