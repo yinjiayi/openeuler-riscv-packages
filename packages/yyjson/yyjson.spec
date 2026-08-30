@@ -26,7 +26,10 @@ Headers, CMake metadata, and pkg-config metadata for yyjson.
 %autosetup -p1
 
 %build
-%cmake -DBUILD_SHARED_LIBS=ON -DYYJSON_BUILD_TESTS=ON -DYYJSON_INSTALL=ON
+%cmake -S . -B "%{__cmake_builddir}" \
+  -DBUILD_SHARED_LIBS=ON \
+  -DYYJSON_BUILD_TESTS=ON \
+  -DYYJSON_INSTALL=ON
 %cmake_build
 
 %install
