@@ -52,7 +52,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 regenerates the stale pre-generated configure script from the archived configure.ac and declares the fixed-repository libpcap-devel and pcre2-devel dependencies without disabling packet capture, PCRE2 matching, or tests.",
     "status": "active"
   },
   "package_id": "sipgrep",
@@ -87,6 +87,6 @@
   "version": {
     "current": "2.2.0",
     "latest_detected": "2.2.0",
-    "release": "1"
+    "release": "2"
   }
 }
