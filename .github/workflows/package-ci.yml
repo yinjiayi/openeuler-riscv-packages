@@ -126,12 +126,22 @@ jobs:
       timeout_minutes: ${{ steps.policy.outputs.timeout_minutes }}
       build_user: ${{ steps.policy.outputs.build_user }}
     steps:
-      - name: Check out the exact head
+      - name: Check out protected-main tooling or the exact event head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha != '' && github.sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           fetch-depth: 0
           persist-credentials: false
+      - name: Materialize the exact trusted package head
+        if: inputs.commit_sha != ''
+        env:
+          PACKAGE_ID: ${{ inputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$GITHUB_SHA" \
+            --output artifacts/scope/tooling-overlay.json
       - name: Classify the diff
         id: scope
         env:
@@ -193,11 +203,21 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - name: Check out the exact head
+      - name: Check out protected-main tooling or the exact event head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha != '' && github.sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
+      - name: Materialize the exact trusted package head
+        if: inputs.commit_sha != ''
+        env:
+          PACKAGE_ID: ${{ inputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$GITHUB_SHA" \
+            --output artifacts/metadata/tooling-overlay.json
       - name: Validate metadata and schemas
         env:
           PREPARE_RESULT: ${{ needs.prepare.result }}
@@ -224,11 +244,21 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Check out the exact head
+      - name: Check out protected-main tooling or the exact event head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha != '' && github.sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
+      - name: Materialize the exact trusted package head
+        if: inputs.commit_sha != ''
+        env:
+          PACKAGE_ID: ${{ inputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$GITHUB_SHA" \
+            --output artifacts/patch-policy/tooling-overlay.json
       - name: Enforce patch ownership and application
         env:
           MODE: ${{ needs.prepare.outputs.mode }}
@@ -266,11 +296,21 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - name: Check out the exact head
+      - name: Check out protected-main tooling or the exact event head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha != '' && github.sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
+      - name: Materialize the exact trusted package head
+        if: inputs.commit_sha != ''
+        env:
+          PACKAGE_ID: ${{ inputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$GITHUB_SHA" \
+            --output artifacts/source/tooling-overlay.json
       - name: Record source-stage environment
         run: ci/record-environment.sh artifacts/source/environment.json
       - name: Download and verify official release source
@@ -318,11 +358,21 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Check out repository client at the exact head
+      - name: Check out protected-main tooling or the exact event head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha != '' && github.sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
+      - name: Materialize the exact trusted package head
+        if: inputs.commit_sha != ''
+        env:
+          PACKAGE_ID: ${{ inputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$GITHUB_SHA" \
+            --output artifacts/repository/tooling-overlay.json
       - name: Resolve one immutable supplemental repository generation or official-only fallback
         env:
           MODE: ${{ needs.prepare.outputs.mode }}
@@ -407,11 +457,21 @@ jobs:
     runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
     timeout-minutes: 120
     steps:
-      - name: Check out the exact head
+      - name: Check out protected-main tooling or the exact event head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha != '' && github.sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
+      - name: Materialize the exact trusted package head
+        if: inputs.commit_sha != ''
+        env:
+          PACKAGE_ID: ${{ inputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$GITHUB_SHA" \
+            --output artifacts/build/tooling-overlay.json
       - name: Download verified sources
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
@@ -591,11 +651,21 @@ jobs:
     runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
     timeout-minutes: 30
     steps:
-      - name: Check out the exact head
+      - name: Check out protected-main tooling or the exact event head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ inputs.commit_sha != '' && github.sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
+      - name: Materialize the exact trusted package head
+        if: inputs.commit_sha != ''
+        env:
+          PACKAGE_ID: ${{ inputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$GITHUB_SHA" \
+            --output artifacts/smoke/tooling-overlay.json
       - name: Download RISC-V build products
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
