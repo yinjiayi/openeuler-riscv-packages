@@ -19,7 +19,10 @@ Headers and metadata for libsoxr.
 %prep
 %autosetup -p1 -n soxr-%{version}-Source
 %build
-%cmake -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON -DWITH_OPENMP=OFF
+%cmake -S . -B "%{__cmake_builddir}" \
+  -DBUILD_TESTS=ON \
+  -DBUILD_EXAMPLES=ON \
+  -DWITH_OPENMP=OFF
 %cmake_build
 %install
 %cmake_install
