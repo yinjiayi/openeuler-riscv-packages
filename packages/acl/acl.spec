@@ -53,23 +53,20 @@ rm -rf %{buildroot}%{_docdir}/%{name}*
 %find_lang %{name}
 
 %check
-export LD_LIBRARY_PATH="$PWD/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-# Pre-create libtool's fast-install executables with a world-executable mode.
-# Otherwise a parallel root test with umask 027 can create lt-getfacl as 0750,
-# preventing the test harness's unprivileged bin identity from executing it.
+# The protected root-build workspace is a host bind mount.  Its transport can
+# reject an exec by the test suite's bin identity even after Unix modes and
+# POSIX ACLs are opened.  Exercise the exact built tree from container-local
+# storage so the complete upstream identity-changing tests retain their normal
+# filesystem semantics.
 umask 022
+check_root=$(mktemp -d /var/tmp/acl-check.XXXXXX)
+trap 'rm -rf "$check_root"' EXIT
+cp -R "$PWD" "$check_root/source"
+chmod -R a+rX "$check_root/source"
+cd "$check_root/source"
+export LD_LIBRARY_PATH="$PWD/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 ./getfacl --version >/dev/null
 ./setfacl --version >/dev/null
-# Runner workspaces can carry inherited named-user ACLs that override the
-# ordinary other-mode bits for the bin identity.  Normalize only this writable
-# package build tree and its test programs before exercising identity changes.
-./setfacl --remove-all "%{_topdir}" "%{_builddir}" "$PWD" "$PWD/.libs" \
-  "$PWD/getfacl" "$PWD/setfacl" \
-  "$PWD/.libs/lt-getfacl" "$PWD/.libs/lt-setfacl"
-./setfacl --remove-default "%{_topdir}" "%{_builddir}" "$PWD" "$PWD/.libs"
-chmod a+rx "%{_topdir}" "%{_builddir}" "$PWD" "$PWD/.libs" \
-  "$PWD/getfacl" "$PWD/setfacl" \
-  "$PWD/.libs/lt-getfacl" "$PWD/.libs/lt-setfacl"
 runuser -u bin -- "$PWD/getfacl" --version >/dev/null
 runuser -u bin -- "$PWD/setfacl" --version >/dev/null
 %make_build check
