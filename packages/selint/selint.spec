@@ -1,16 +1,24 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           selint
 Version:        1.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Static code analysis tool for SELinux policy source files
 License:        Apache-2.0
 URL:            https://github.com/SELinuxProject/selint
 Source0:        selint-1.5.1.tar.gz
 BuildRequires:  autoconf
+BuildRequires:  autoconf-archive
 BuildRequires:  automake
+BuildRequires:  bison
+BuildRequires:  check-devel
+BuildRequires:  flex
 BuildRequires:  gcc
+BuildRequires:  help2man
+BuildRequires:  libconfuse-devel
 BuildRequires:  libtool
 BuildRequires:  make
+BuildRequires:  pkgconf-pkg-config
+BuildRequires:  uthash-devel
 
 %description
 Static code analysis tool for SELinux policy source files
@@ -37,5 +45,8 @@ test -s %{name}.files
 %doc CHANGELOG
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.1-2
+- Declare the complete Autotools, parser, library, header, manual, and test dependencies.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.1-1
 - Initial openEuler RISC-V package from the full package inventory.
