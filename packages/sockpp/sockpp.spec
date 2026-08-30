@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sockpp
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Simple, modern, C++ socket library.
 License:        BSD-3-Clause
 URL:            https://github.com/fpagliughi/sockpp
 Source0:        sockpp-1.0.0.tar.gz
+BuildRequires:  catch2-devel
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -18,7 +19,7 @@ Simple, modern, C++ socket library.
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -DSOCKPP_BUILD_TESTS=ON
 %cmake_build
 
 %install
@@ -34,5 +35,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-2
+- Enable the upstream Catch2 unit tests with the project's actual CMake option.
+- Add the Catch2 development files required to configure and build the tests.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-1
 - Initial openEuler RISC-V package from the full package inventory.
