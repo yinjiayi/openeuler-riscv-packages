@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gmime3
 Version:        3.2.15
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A C/C++ MIME creation and parser library with support for S/MIME, PGP, and Unix mbox spools
 License:        LGPL-2.1-or-later
 URL:            https://github.com/jstedfast/gmime
@@ -16,7 +16,7 @@ BuildRequires:  make
 A C/C++ MIME creation and parser library with support for S/MIME, PGP, and Unix mbox spools
 
 %prep
-%autosetup -p1
+%autosetup -n gmime-%{version} -p1
 
 %build
 autoreconf -fi
@@ -39,5 +39,8 @@ test -s %{name}.files
 %doc AUTHORS
 
 %changelog
+* Sun Aug 30 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.15-2
+- Use the verified upstream archive root during source preparation.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.15-1
 - Initial openEuler RISC-V package from the full package inventory.
