@@ -1,15 +1,21 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sysinfoviewer
 Version:        0.3.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A comprehensive system information viewer built with wxWidgets
 License:        MIT
 URL:            https://github.com/Magpiny/sysinfoviewer
 Source0:        sysinfoviewer-0.3.2.tar.gz
-BuildRequires:  cmake
+Patch0:         0001-cmake-support-version-3.27.patch
+BuildRequires:  alsa-lib-devel
+BuildRequires:  cmake >= 3.27
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  libcurl-devel
+BuildRequires:  libdrm-devel
 BuildRequires:  make
+BuildRequires:  pkgconf-pkg-config
+BuildRequires:  wxGTK3-devel
 
 %description
 A comprehensive system information viewer built with wxWidgets
@@ -34,5 +40,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-2
+- Support the CMake 3.27 version shipped by openEuler 24.03 LTS SP3.
+- Add the development dependencies required by the upstream CMake project.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-1
 - Initial openEuler RISC-V package from the full package inventory.
