@@ -60,13 +60,6 @@ export LD_LIBRARY_PATH="$PWD/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 umask 022
 ./getfacl --version >/dev/null
 ./setfacl --version >/dev/null
-# The protected runner mounts the package topdir below /workspace/work, whose
-# two fixed parent directories may not be traversable by the test identities.
-# Add execute-only traversal there without weakening conventional topdirs such
-# as /root/rpmbuild.
-case "%{_topdir}" in
-  /workspace/work/*) chmod a+x /workspace /workspace/work ;;
-esac
 chmod a+rx "%{_topdir}" "%{_builddir}" "$PWD" "$PWD/.libs" \
   "$PWD/.libs/lt-getfacl" "$PWD/.libs/lt-setfacl"
 runuser -u bin -- "$PWD/getfacl" --version >/dev/null
