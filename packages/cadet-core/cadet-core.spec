@@ -7,7 +7,7 @@ License:        AGPL-3.0
 URL:            https://github.com/cadet/cadet-core
 Source0:        cadet-core-5.1.0.tar.gz
 BuildRequires:  cmake
-BuildRequires:  eigen3-devel
+BuildRequires:  eigen3-devel >= 3.4
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
