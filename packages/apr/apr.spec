@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name: apr
 Version: 1.7.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Apache Portable Runtime library
 License: Apache-2.0
 URL: https://apr.apache.org/
@@ -23,7 +23,10 @@ Headers, configuration tool, and build metadata for APR.
 %autosetup -p1
 
 %build
-%configure --disable-static
+%configure \
+  --disable-static \
+  --includedir=%{_includedir}/apr-1 \
+  --with-installbuilddir=%{_libdir}/apr/build-1
 %make_build
 
 %install
@@ -44,8 +47,12 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_libdir}/libapr-1.so
 %{_libdir}/pkgconfig/apr-1.pc
 %{_libdir}/apr.exp
-%{_datadir}/apr-1/
+%dir %{_libdir}/apr
+%{_libdir}/apr/build-1/
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.7.6-2
+- Install versioned APR headers and build metadata in the manifest paths.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.7.6-1
 - Initial openEuler RISC-V package from frozen lineage and official source evidence.
