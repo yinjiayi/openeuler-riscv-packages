@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pcre2
-Version:        10.47
+Version:        10.48
 Release:        1%{?dist}
 Summary:        Perl-compatible regular expression library
 License:        BSD-3-Clause WITH PCRE2-exception AND BSD-2-Clause
 URL:            https://github.com/PCRE2Project/pcre2
-Source0:        pcre2-%{version}.tar.bz2
+Source0:        pcre2-10.48.tar.bz2
 
 BuildRequires:  bzip2-devel
 BuildRequires:  gcc
