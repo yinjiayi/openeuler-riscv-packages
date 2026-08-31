@@ -1,0 +1,21 @@
+{
+  "package_id": "sonic-login-manager",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b02f5ea26bd25480120f0b44c6a3cbb852a12b223a041e6cd5657f2986458a78"
+      },
+      "filename": "sonic-login-manager-6.7.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Sonic-DE/sonic-login-manager/archive/refs/tags/6.7.3.tar.gz",
+      "version": "6.7.3"
+    }
+  ]
+}
