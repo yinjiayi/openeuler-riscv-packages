@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gimp-plugin-resynthesizer
 Version:        3.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Suite of gimp plugins for texture synthesis
 License:        GPL-3.0-or-later
 URL:            https://github.com/bootchk/resynthesizer
@@ -10,6 +10,8 @@ BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  meson
 BuildRequires:  ninja-build
+BuildRequires:  pkgconfig(gimp-3.0)
+BuildRequires:  pkgconfig(glib-2.0)
 
 %description
 Suite of gimp plugins for texture synthesis
@@ -37,5 +39,8 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-2
+- Require the exact GIMP 3 and GLib pkg-config interfaces used by Meson.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-1
 - Initial openEuler RISC-V package from the full package inventory.
