@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simple-password
 Version:        0.1.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A password generator without any unnecessary stuff
 License:        GPL-3.0-or-later
 URL:            https://github.com/ESzPa/spass
 Source0:        simple-password-0.1.1.tar.gz
+BuildRequires:  argparse
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -35,6 +36,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.1-4
+- Add the argparse header provider required by the command-line interface.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.1-3
 - Configure the explicit CMake source and out-of-source build directories.
 
