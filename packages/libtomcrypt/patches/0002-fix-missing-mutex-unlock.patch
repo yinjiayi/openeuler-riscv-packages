@@ -1,0 +1,42 @@
+From ee24a31ae1735c03d58576d2dc43274735c8fbef Mon Sep 17 00:00:00 2001
+From: ycaibb <ycaibb@gmail.com>
+Date: Fri, 10 Sep 2021 19:44:54 +0800
+Subject: [PATCH] fix missing mutex unlock
+
+Fixes a missing mutex unlock on an out of memory error
+in ltc_ecc_fp_save_state().
+
+Originates from: https://github.com/OP-TEE/optee_os/commit/4af447d4084e293800d4e463d65003c016b91f29
+
+Fixes #571
+
+Comment by sj:
+This patch version slightly deviates from the original patch to OP-TEE
+since we don't call `XFREE(NULL)` as there exist implementations of
+`free()` that don't support it.
+
+Signed-off-by: Ryan Cai <ycaibb@gmail.com>
+Reviewed-by: Jens Wiklander <jens.wiklander@linaro.org>
+Modified-by: Steffen Jaeckel <s@jaeckel.eu>
+---
+ src/math/fp/ltc_ecc_fp_mulmod.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/math/fp/ltc_ecc_fp_mulmod.c b/src/math/fp/ltc_ecc_fp_mulmod.c
+index 5827bf3..9be2ebf 100644
+--- a/src/math/fp/ltc_ecc_fp_mulmod.c
++++ b/src/math/fp/ltc_ecc_fp_mulmod.c
+@@ -1429,8 +1429,10 @@ int ltc_ecc_fp_save_state(unsigned char **out, unsigned long *outlen)
+     * and the mu INTEGER
+     */
+    cache_entry = XCALLOC(FP_ENTRIES*(2*(1U<<FP_LUT)+4)+3, sizeof(ltc_asn1_list));
+-   if (cache_entry == NULL)
++   if (cache_entry == NULL) {
++      LTC_MUTEX_UNLOCK(&ltc_ecc_fp_lock);
+       return CRYPT_MEM;
++   }
+    j = 1;   /* handle the zero'th element later */
+
+    LTC_SET_ASN1(cache_entry, j++, LTC_ASN1_SHORT_INTEGER, &fp_entries, 1);
+--
+2.50.1 (Apple Git-155)

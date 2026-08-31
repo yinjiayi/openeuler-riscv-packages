@@ -1,0 +1,94 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libdivsufsort",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdivsufsort",
+        "package_name": "libdivsufsort",
+        "source": "aur",
+        "source_version": "2.0.1-4"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/libdivsufsort",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdivsufsort",
+        "package_name": "libdivsufsort",
+        "source": "debian",
+        "source_version": "2.0.1-6"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libdivsufsort",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdivsufsort",
+        "package_name": "libdivsufsort",
+        "source": "ubuntu",
+        "source_version": "2.0.1-7"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-version-and-libdir.patch",
+        "sha256": "dd73cee2240788171040216af3d6812bc21f03f34f55e17edf89f33e3f456eec",
+        "purpose": "Correct the version embedded by the official tag and install libraries, headers, and pkg-config metadata through GNUInstallDirs.",
+        "source": "Downstream review of the official libdivsufsort 2.0.1 tag",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "An upstream release reports its tag version and honors GNUInstallDirs for all installed development artifacts."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdivsufsort.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official 2.0.1 tag archive was independently downloaded, inspected, and SHA-256 pinned. The openEuler SP3 repository has no libdivsufsort package. Both upstream index-width APIs are enabled; distribution metadata is lineage only and no external recipe was executed.",
+    "status": "active"
+  },
+  "package_id": "libdivsufsort",
+  "rpm": {
+    "license": "MIT",
+    "name": "libdivsufsort",
+    "summary": "Lightweight suffix-array construction library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-y-256-libdivsufsort",
+    "homepage": "https://github.com/y-256/libdivsufsort",
+    "release_api": "https://api.github.com/repos/y-256/libdivsufsort/tags",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/y-256/libdivsufsort",
+    "source_url_template": "https://github.com/y-256/libdivsufsort/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.0.1",
+    "latest_detected": "2.0.1",
+    "release": "1"
+  }
+}
