@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           semver-cpp
 Version:        1.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Semantic versioning for modern C++.
 License:        MIT
 URL:            https://github.com/Neargye/semver
@@ -34,6 +36,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-3
+- Disable the automatic debuginfo subpackage for the header-only payload.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-2
 - Use the verified upstream archive root during source preparation.
 - Configure the explicit CMake build directory and enable the bundled doctest suite.
