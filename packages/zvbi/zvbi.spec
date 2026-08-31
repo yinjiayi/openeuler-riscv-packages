@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           zvbi
 Version:        0.2.45
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Raw VBI, Teletext, and Closed Caption decoding library
 License:        GPL-2.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-2-Clause AND MIT
 URL:            https://github.com/zapping-vbi/zvbi
@@ -32,7 +32,7 @@ Header, unversioned shared-library links, and pkg-config metadata for
 developing applications with ZVBI.
 
 %prep
-%autosetup -n zvbi-5169a428d51c3ae8ff7b0897e8a687d8e05e37b5 -p1
+%autosetup -n zvbi-%{version} -p1
 
 %build
 ./autogen.sh
@@ -73,5 +73,8 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/zvbi-0.2.pc
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.45-2
+- Use the verified 0.2.45 archive root and synchronize update metadata and smoke coverage.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.44-1
 - Initial openEuler RISC-V package from Fedora 44 and frozen cross-distribution evidence.

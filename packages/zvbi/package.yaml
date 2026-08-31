@@ -68,7 +68,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "The signed upstream v0.2.44 tag was resolved to immutable commit 5169a428d51c3ae8ff7b0897e8a687d8e05e37b5 and the official archive is SHA-256 pinned. Tests and examples stay enabled and the complete top-level check target runs. libzvbi.so.0 preserves the target ABI major. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "notes": "The official upstream v0.2.45 tag archive is SHA-256 pinned and extracts to the verified zvbi-0.2.45 root. Tests and examples stay enabled and the complete top-level check target runs. libzvbi.so.0 preserves the target ABI major. AUR was read-only RPC metadata only; no external packaging content was executed.",
     "status": "active"
   },
   "package_id": "zvbi",
@@ -103,6 +103,6 @@
   "version": {
     "current": "0.2.45",
     "latest_detected": "0.2.45",
-    "release": "1"
+    "release": "2"
   }
 }
