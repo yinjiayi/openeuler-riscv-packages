@@ -12,17 +12,35 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - **Reviewed upstream evidence** is a schema-valid mapping from one component in an immutable discovery snapshot to its official stable release page, source repository, release feed/index, exact archive SHA-256, license evidence, and archive-safety inspection. It supplements missing catalog fields; it does not execute or trust distribution recipes. Document-level `reviewed_at` records completion of that overlay revision, while each release's `evidence.verified_at` records when its archive bytes were verified.
 - A **lineage promotion** is a reviewed selector that maps one exact raw lineage row in an immutable snapshot to a canonical official upstream component. It records the frozen component key, distribution source, original name, package base, version, and relationship; it neither rewrites the snapshot nor turns AUR metadata or a functional provider into source evidence.
 - A **build result** is the schema-valid `build-result.json` tied to an exact Git commit SHA. It is evidence, not a self-reported success claim.
+- A **network-enabled target build** is a target-architecture build container with
+  outbound Docker bridge networking. It may retrieve only the declared sources;
+  each source remains bound to its committed SHA-256 and is verified before
+  `rpmbuild` starts. Network availability does not make unpinned source bytes
+  acceptable.
 - A **build-user policy** is the per-package `build.user` choice controlling the identity that executes `rpmbuild` and `%check`. Its compatible default is `root`; `unprivileged` opts into the fixed `rpmbuild` identity with UID/GID `10001:10001`. It does not change the root-only dependency-install stage or grant privileges to installed smoke tests.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
+- A **protected-main package overlay** is the trusted-dispatch workspace formed
+  by checking out CI tooling from the protected `main` workflow commit and
+  replacing exactly one `packages/<id>` tree with that tree from the authorized
+  PR head. Its evidence binds the tooling commit, package commit, and package
+  tree SHA; it does not merge shared tooling into the package PR or authorize
+  any file outside that package tree. Git `HEAD` remains the protected tooling
+  commit. Scope selection accepts the separate package commit only after it
+  validates the overlay evidence and independently matches the committed,
+  staged, and working-copy package trees.
 - A **golden package** is a fixed end-to-end fixture with a pinned source/content digest, expected state, allowed changes, and assertions.
 - A **repository generation** is an immutable binary/source RPM snapshot with a state-bound `repomd.xml` SHA-256. A build resolves the mutable `state.json` pointer once, then uses only that generation URL.
+- A **backfill shard** is one of two deterministic, round-robin partitions of the active QEMU-buildable package list. Each shard stays below GitHub Actions' 256-entry matrix limit; the configured fleet-wide concurrency is divided equally between them, so the two matrices support up to 512 packages without doubling runner usage.
+- An **official-repository-only fallback** is an evidence-recorded dependency mode used only when the fixed supplemental repository cannot be contacted. It disables that project repository and retains the HTTPS/GPG-checked official openEuler repository; it does not waive missing dependencies or convert a failed DNF transaction into success.
+- A **package inventory** is the generated, machine-readable union of managed package directories, reviewed upstream releases, inferred package PRs, and deduplicated discovery names. It is a status index, not an authorization to build every discovered name.
+- A **discovery key** is the stable `package_base`, `name`, or `component_id` fallback used to deduplicate raw catalog records. The immutable discovery snapshot remains the authoritative source for every raw record and lineage row.
 
 ## Safety and trust boundary
 
 - Arch stable `core`/`extra` and AUR are primary discovery indexes. AUR data is untrusted metadata: no workflow executes a `PKGBUILD`.
 - Pure AUR `-bin` entries and entries older than 730 days are excluded by default. VCS/nightly variants are discovery clues only.
 - Supplementary discovery resolves the current stable openSUSE Tumbleweed snapshot, latest Fedora GA, Debian `stable`, and latest Ubuntu GA release in standard support. Rawhide, testing/unstable, staging, multilib, development, and prerelease feeds are excluded.
-- An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. `rpmbuild` runs without network after source verification.
+- An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. Target build containers may retrieve the pinned source over HTTPS and verify that digest again before `rpmbuild` starts.
 - Required native-kernel or hardware validation becomes `needs-native-riscv`. The self-hosted fleet accelerates protected-main QEMU user-mode builds on x86_64 only; it is never treated as native RISC-V validation, and pull-request/merge-queue jobs remain on disposable GitHub-hosted runners.
 - Repair runs only on a maintainer's local Codex through local `gh` authentication or an explicitly authorized process-scoped `GH_TOKEN`. Using that token for local `gh`/Git operations is permitted; persisting or publishing its value in repository content, commits, PR text, logs, artifacts, Actions configuration, or Pages is forbidden. `scripts/github-credential-guard` checks the active token against repository, staged, and publication content without printing it. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`.
 - The only custom Actions secret is `RPM_REPO_SSH_PRIVATE_KEY`. It is a forced-command, write-only `rrsync` deployment identity for `/opt/openeuler-riscv-rpm-repo/incoming`; it cannot run a shell, delete or overwrite remote files, and is never available to build commands. It is not an OpenAI/Codex credential.
@@ -38,7 +56,13 @@ Snapshot `discovery-20260808T165000Z-9a89920c269462cd` records 251,506 raw recor
 
 Strict discovery emits zero directly importable candidates because distribution indexes do not prove the bytes of an official upstream release archive. It retains 181,134 deduplicated rejection/hold decisions: 89,975 unverified upstreams, 46,870 stale entries, 17,752 license blocks, 12,949 VCS-only variants, 12,765 binary-only variants, and 823 prereleases. These are an auditable backlog, not silently discarded packages.
 
-The reviewed overlay currently promotes 100 verified components. Eighty-eight have Arch stable lineage, 68 have AUR metadata lineage, 98 have cross-distribution corroboration, and 44 retain rows from all six configured sources: Arch stable, AUR, Debian, Fedora, openSUSE, and Ubuntu. `bftpd` and `libcap-ng` are explicitly retained with single-distribution raw lineage plus separately verified official upstream bytes. The newest ten promotions use exact frozen-row selectors where the snapshot split a package across component keys; GNU Which additionally marks Debian and Ubuntu `debianutils` rows as functional providers rather than GNU Which source/version evidence. All declared source URLs remain subject to the independent downloader/checksum verifier. No AUR recipe was trusted or executed.
+The reviewed overlay currently promotes 119 verified components. One hundred four have Arch stable lineage, 74 have AUR metadata lineage, 117 have cross-distribution corroboration, and 46 retain rows from all six configured sources: Arch stable, AUR, Debian, Fedora, openSUSE, and Ubuntu. `bftpd` and `libcap-ng` are explicitly retained with single-distribution raw lineage plus separately verified official upstream bytes. The newest promotions use exact frozen-row selectors where the snapshot split a package across component keys; GNU Which additionally marks Debian and Ubuntu `debianutils` rows as functional providers rather than GNU Which source/version evidence. All declared source URLs remain subject to the independent downloader/checksum verifier. No AUR recipe was trusted or executed.
+
+The full package inventory is committed as `catalog/package-index.json.gz`, with a compact readback at `catalog/package-index-summary.json`. The current compressed index contains 151,852 entries: one entry for each of the 151,835 deduplicated discovery keys plus managed-package, reviewed-release, and pull-request records that are not already represented by a discovery key. It records 279 managed packages, 119 reviewed releases, and 439 observed pull requests (82 open and 357 merged at generation time). Its `source_snapshot` field points to the immutable 251,506-record snapshot above, so the index does not replace or silently rewrite raw catalog evidence. The inventory is a status index and onboarding queue input, not authorization to build every discovered name. Regenerate it only from a fresh `gh pr list --state all` JSON input and an explicit protected-main SHA; validate it with `scripts/validate-package-index`.
+
+The GitHub Pages Dashboard presents that full inventory as its primary view and emits the browser-ready list as `inventory.json`. It overlays the committed inventory with managed package metadata from the checked-out `main`, current pull-request facts, and retained CI evidence. An **inventory status** is the strongest currently supported lifecycle fact for one inventory key: discovery/review/PR/managed metadata first, then an exact-head build result, and finally verified publication. `build-succeeded` means a schema-valid successful CI result matches a recorded package or PR commit; it does not mean the RPM repository contains the products. `published` means an RPM upload batch and public-generation verification match the same package, commit, and immutable generation. Only `published` rows receive direct `.../Packages/*.rpm` SRPM and RPM links. A CI run link is labeled as CI evidence and is never presented as a repository package address. Because Actions evidence is retained for seven days, missing historical evidence remains an explicit weaker status rather than a reconstructed or guessed link.
+
+The full table searches package names, aliases, component IDs, and decision labels; status and evidence filters operate over the complete list. Rendering is paginated so the browser creates at most 250 table rows at once even though the JSON contains every inventory entry. `schemas/dashboard.schema.json` covers the summary/managed payload and `schemas/dashboard-inventory.schema.json` covers the full browser list.
 
 ## Repository map
 
@@ -50,7 +74,7 @@ The reviewed overlay currently promotes 100 verified components. Eighty-eight ha
 | `ci/` | Exact openEuler repository config, rootfs-to-OCI build, QEMU/RVA23 checks, and image digest lock |
 | `packages/` | One directory per managed package plus `_template` |
 | `tests/golden/` | Fixed success, repair, and native-only acceptance fixtures |
-| `catalog/` | Discovery source policy, immutable run snapshots, and reviewed official-release evidence |
+| `catalog/` | Discovery source policy, immutable run snapshots, reviewed official-release evidence, and the full package inventory |
 | `dashboard/` | Static Pages application and generated evidence |
 | `ops/rpm-repo-server/` | Idempotent Nginx, restricted rsync, systemd, and atomic `createrepo_c` deployment |
 
@@ -63,6 +87,8 @@ make validate
 make test
 make golden
 make dashboard
+# Read back the generated full inventory and its immutable snapshot link.
+scripts/validate-package-index
 ```
 
 Verify and materialize one package's pinned source without building it:
@@ -76,7 +102,7 @@ scripts/build-rpm \
   --verify-only
 ```
 
-The full build is intentionally run by `package-ci.yml` inside the locked RISC-V OCI, after a separate audited BuildRequires stage, with `--offline` and container networking disabled.
+The full build is intentionally run by `package-ci.yml` inside the locked RISC-V OCI after a separate audited BuildRequires stage. The target build container has network access so it can retrieve declared sources, and `scripts/build-rpm` verifies every pinned SHA-256 before invoking `rpmbuild`.
 
 Resolve and verify the exact supplemental repository generation that would be
 mounted into dependency installation and installed-RPM smoke:
@@ -85,8 +111,14 @@ mounted into dependency installation and installed-RPM smoke:
 ci/rpm-repo-client.py resolve \
   --state-url http://2.27.148.101:38080/state.json \
   --repo-file work/openeuler-riscv-project.repo \
-  --output work/rpm-repository-resolution.json
+  --output work/rpm-repository-resolution.json \
+  --allow-unavailable
 ```
+
+With `--allow-unavailable`, connection, timeout, and transient HTTP service
+failures produce an explicit `unavailable` resolution and a disabled
+supplemental repository file. Redirects, non-transient HTTP responses, JSON,
+URL, generation, and checksum integrity failures still fail closed.
 
 `RPM Repository Backfill` builds every active non-golden package whose policy
 does not require native RISC-V hardware. It runs up to 20 independent package

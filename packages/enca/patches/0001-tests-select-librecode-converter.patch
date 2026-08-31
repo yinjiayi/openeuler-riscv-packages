@@ -1,0 +1,38 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Fri, 14 Aug 2026 00:00:00 +0000
+Subject: [PATCH] tests: use the build-tree external recode wrapper
+
+License: GPL-2.0-only
+Upstream-Status: not-submitted
+Origin: openEuler RISC-V packaging
+
+Enca registers external converter programs under the converter name "extern",
+but the TeX regression requests the program name "recode" as though it were a
+converter name. Select "extern" and pass the complete path to the build-tree
+recode wrapper. The wrapper implements Enca's external-converter calling
+convention; the raw GNU recode binary does not. This also avoids routing TeX
+conversion through librecode's in-process path, which aborts in free() on
+openEuler RISC-V even though the separate librecode regression passes.
+
+The option error was reproduced by run 31761326622 and the in-process abort by
+exact-head run 32696957765. Remove the patch when upstream selects the external
+converter for this TeX round trip.
+
+---
+ test/test-tex.sh | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/test/test-tex.sh b/test/test-tex.sh
+--- a/test/test-tex.sh
++++ b/test/test-tex.sh
+@@ -8,6 +8,8 @@ else
+-  if $ENCA --list converters | grep '^librecode$' >/dev/null; then
++  if $ENCA --list converters | grep '^extern$' >/dev/null \
++     && test -x "$srcdir/../script/recode"; then
++    RECODE_WRAPPER=$(cd "$srcdir/../script" && pwd)/recode
+     TEST_TEXT=$srcdir/cs-s.tex
+-    OPTS="-L cs -C recode"
++    OPTS="-L cs -E $RECODE_WRAPPER -C extern"
+     # File
+     cp $TEST_TEXT $TESTNAME.actual
+     $ENCA $OPTS -x UTF-8 $TESTNAME.actual || DIE=1

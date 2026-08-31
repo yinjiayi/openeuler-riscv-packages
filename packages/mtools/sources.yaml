@@ -1,0 +1,21 @@
+{
+  "package_id": "mtools",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "76dfea98d923dfc9806ce34bd1786aa9b5a39d70f56f26c0670a348c664f1d2a"
+      },
+      "filename": "mtools-4.0.49.tar.lz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/mtools/mtools-4.0.49.tar.lz",
+      "version": "4.0.49"
+    }
+  ]
+}
