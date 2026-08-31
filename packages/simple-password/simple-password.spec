@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simple-password
 Version:        0.1.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A password generator without any unnecessary stuff
 License:        GPL-3.0-or-later
 URL:            https://github.com/ESzPa/spass
@@ -19,7 +19,7 @@ A password generator without any unnecessary stuff
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -35,6 +35,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.1-3
+- Configure the explicit CMake source and out-of-source build directories.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.1-2
 - Add the vim-common provider for the xxd source-generation command.
 
