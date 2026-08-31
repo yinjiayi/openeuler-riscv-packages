@@ -1,0 +1,21 @@
+{
+  "package_id": "libcbor",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a8c1516e741562cf95aa4479c64916c3d4d2623e24fdc35e414e2320e7300aae"
+      },
+      "filename": "libcbor-0.14.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official MIT-licensed release tag is fetched over HTTPS and SHA-256 verified by CI."
+      },
+      "signature": null,
+      "url": "https://github.com/PJK/libcbor/archive/refs/tags/v0.14.0.tar.gz",
+      "version": "0.14.0"
+    }
+  ]
+}

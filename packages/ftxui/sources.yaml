@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "ftxui",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/ArthurSonzogni/FTXUI/archive/refs/tags/v7.0.3.tar.gz",
+      "filename": "ftxui-7.0.3.tar.gz",
+      "version": "7.0.3",
+      "digests": {
+        "sha256": "e7c62ffe19009759821b4f0f8df7f2a6fb83784c3a9f1477d81f56d3ee723c88"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official FTXUI release archive is distributed under the MIT license."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://github.com/google/benchmark/archive/refs/tags/v1.8.2.tar.gz",
+      "filename": "benchmark-1.8.2.tar.gz",
+      "version": "1.8.2",
+      "digests": {
+        "sha256": "2aab2980d0376137f969d92848fbb68216abb07633034534fc8c65cc4e7a0e93"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The Apache-2.0 Google Benchmark release is the exact revision selected by FTXUI and is used only to build its benchmark target offline."
+      }
+    }
+  ]
+}
