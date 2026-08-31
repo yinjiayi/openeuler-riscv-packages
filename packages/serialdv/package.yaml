@@ -52,7 +52,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 records the archive's case-sensitive serialDV-1.1.5 source root without changing upstream source, build features, or tests. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 records the archive's case-sensitive serialDV-1.1.5 source root. Release 3 explicitly configures the build directory consumed by the openEuler CMake RPM macros. Neither packaging correction changes upstream source, build features, or tests. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "serialdv",
@@ -87,6 +87,6 @@
   "version": {
     "current": "1.1.5",
     "latest_detected": "1.1.5",
-    "release": "2"
+    "release": "3"
   }
 }

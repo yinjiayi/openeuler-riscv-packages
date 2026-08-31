@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           serialdv
 Version:        1.1.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        C++ interface to encode/decode audio with AMBE3000 based devices in packet mode
 License:        GPL-3.0-or-later
 URL:            https://github.com/f4exb/serialDV
@@ -18,7 +18,7 @@ C++ interface to encode/decode audio with AMBE3000 based devices in packet mode
 %autosetup -n serialDV-%{version} -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -34,6 +34,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.5-3
+- Configure CMake in the build directory consumed by the RPM macros.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.5-2
 - Use the exact case-sensitive serialDV archive root during source preparation.
 
