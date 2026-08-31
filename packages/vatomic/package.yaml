@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-tests-use-valid-std-atomic-memory-orders.patch",
+        "license": "MIT",
+        "purpose": "Keep the complete upstream C++ comparison suite valid under libstdc++ assertions by mapping operation-specific invalid std::atomic memory orders to relaxed for both mirror and subject.",
+        "remove_when": "An upstream release after 2.4.1 restricts the C++ comparison tests to memory orders valid for each atomic operation.",
+        "sha256": "5b7fac6b6ef062b4c03537834e10bd64e93a210c68c00db8ca269cbc4f7cb3b1",
+        "source": "Downstream analysis of openEuler RISC-V package CI run 33351268802 against the SHA-256-verified upstream 2.4.1 archive.",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "vatomic.spec"
@@ -28,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 enables the upstream VATOMIC_TESTS option, adds the C++ compiler used by those tests, and disables only developer-time template regeneration while packaging the generated headers from the verified release archive. Release 3 explicitly configures the build directory consumed by the openEuler CMake RPM macros without changing upstream source, build features, or tests. Release 4 requires the fixed target repository's libatomic runtime because upstream links its RISC-V 8-bit and 16-bit atomic tests with -latomic; no feature or test is disabled.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 enables the upstream VATOMIC_TESTS option, adds the C++ compiler used by those tests, and disables only developer-time template regeneration while packaging the generated headers from the verified release archive. Release 3 explicitly configures the build directory consumed by the openEuler CMake RPM macros without changing upstream source, build features, or tests. Release 4 requires the fixed target repository's libatomic runtime because upstream links its RISC-V 8-bit and 16-bit atomic tests with -latomic. Release 5 patches the upstream C++ comparison tests to map operation-specific invalid std::atomic memory orders to relaxed for both the mirror and subject; all upstream tests remain enabled.",
     "status": "active"
   },
   "package_id": "vatomic",
@@ -63,6 +73,6 @@
   "version": {
     "current": "2.4.1",
     "latest_detected": "2.4.1",
-    "release": "4"
+    "release": "5"
   }
 }
