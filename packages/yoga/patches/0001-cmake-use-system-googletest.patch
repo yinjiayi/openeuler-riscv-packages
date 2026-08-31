@@ -1,0 +1,38 @@
+From 3da13bbcb7481d57b75f274192d498dd26e65885 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 31 Aug 2026 14:20:00 +0800
+Subject: [PATCH] cmake: use system GoogleTest
+
+The release CMake files download GoogleTest from a tag URL without a content
+digest. Use the target distribution's CMake package instead so the complete
+upstream test suite stays enabled with a repository-managed dependency.
+---
+ tests/CMakeLists.txt | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+index 32d1db0..a1d372b 100644
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -8,7 +8,6 @@ cmake_minimum_required(VERSION 3.13...3.26)
+ project(tests)
+ set(CMAKE_VERBOSE_MAKEFILE on)
+ 
+-include(FetchContent)
+ include(GoogleTest)
+ 
+ set(YOGA_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/..)
+@@ -16,9 +15,5 @@ include(${YOGA_ROOT}/cmake/project-defaults.cmake)
+ 
+-# Fetch GTest
+-FetchContent_Declare(
+-  googletest
+-  URL https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip
+-)
+-FetchContent_MakeAvailable(googletest)
++# Use the target distribution's GoogleTest package.
++find_package(GTest REQUIRED)
+ 
+ add_subdirectory(${YOGA_ROOT}/yoga ${CMAKE_CURRENT_BINARY_DIR}/yoga)
+-- 
+2.51.0
