@@ -58,7 +58,14 @@ done
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y --no-install-recommends \
-  ca-certificates curl docker.io git jq qemu-user qemu-user-binfmt rsync tar xz-utils
+  ca-certificates curl docker.io git iptables jq qemu-user qemu-user-binfmt rsync tar xz-utils
+update-alternatives --auto iptables
+[[ -L /usr/sbin/iptables \
+  && $(readlink -- /usr/sbin/iptables) == /etc/alternatives/iptables \
+  && -x /usr/sbin/iptables ]] \
+  || oe_die 'Docker firewall helper is missing after installation: /usr/sbin/iptables'
+/usr/sbin/iptables --version >/dev/null \
+  || oe_die 'Docker firewall helper does not execute after installation'
 
 if ! getent passwd "$oe_runner_user" >/dev/null; then
   useradd --system --user-group --home-dir /var/lib/oegha --create-home --shell /usr/sbin/nologin "$oe_runner_user"
