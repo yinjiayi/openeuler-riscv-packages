@@ -68,8 +68,8 @@ gh api --method PUT "repos/$repo/actions/permissions/workflow" \
   -F "can_approve_pull_request_reviews=$can_approve_pull_request_reviews" >/dev/null
 
 fork_approval_policy=$(jq -r .actions.fork_pull_request_approval_policy "$settings")
-[[ $fork_approval_policy == all_external_contributors ]] || {
-  printf 'every external fork workflow must require maintainer approval\n' >&2
+[[ $fork_approval_policy == first_time_contributors_new_to_github ]] || {
+  printf 'fork workflow approval policy must allow established contributors to run automatically\n' >&2
   exit 1
 }
 gh api --method PUT "repos/$repo/actions/permissions/fork-pr-contributor-approval" \

@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libdeflate
-Version:        1.25
+Version:        1.26
 Release:        1%{?dist}
 Summary:        Optimized DEFLATE compression and decompression library
 License:        MIT
 URL:            https://github.com/ebiggers/libdeflate
-Source0:        libdeflate-%{version}.tar.gz
+Source0:        libdeflate-1.26.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
