@@ -1,0 +1,106 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/soundtouch/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "soundtouch",
+        "package_name": "soundtouch",
+        "source": "arch-extra",
+        "source_version": "2.4.1-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/lib32-soundtouch",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-soundtouch",
+        "package_name": "lib32-soundtouch",
+        "source": "aur",
+        "source_version": "2.4.1-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/soundtouch",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "soundtouch",
+        "package_name": "soundtouch",
+        "source": "debian",
+        "source_version": "2.4.0+ds-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/soundtouch/soundtouch/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "soundtouch",
+        "package_name": "soundtouch",
+        "source": "fedora",
+        "source_version": "2.4.0-3.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/soundtouch",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "soundtouch",
+        "package_name": "soundtouch",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.4.1-1.2"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/soundtouch",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "soundtouch",
+        "package_name": "soundtouch",
+        "source": "ubuntu",
+        "source_version": "2.4.0+ds-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "soundtouch.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official Codeberg 2.4.1 tag bytes are SHA-256 pinned. The sole archive symlink is internal and non-escaping. Upstream ships no self-contained automated suite; deterministic CLI and C++ API checks are added. libSoundTouch.so.2 ABI continuity with the target's 2.3.1 package is preserved. AUR remained read-only RPC metadata.",
+    "status": "active"
+  },
+  "package_id": "soundtouch",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "soundtouch",
+    "summary": "Audio tempo, pitch, and playback-rate processing library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-codeberg-tags"
+  },
+  "upstream": {
+    "component": "surina.net-soundtouch",
+    "homepage": "https://www.surina.net/soundtouch/",
+    "release_api": "https://codeberg.org/api/v1/repos/soundtouch/soundtouch/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://codeberg.org/soundtouch/soundtouch",
+    "source_url_template": "https://codeberg.org/soundtouch/soundtouch/archive/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.4.1",
+    "latest_detected": "2.4.1",
+    "release": "1"
+  }
+}
