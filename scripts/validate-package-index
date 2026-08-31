@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Validate the generated full package inventory and its immutable source link."""
+
+from __future__ import annotations
+
+import argparse
+import pathlib
+from collections import Counter
+from typing import Any, Mapping
+
+from _lib import SCHEMA_VERSION, ToolError, emit_json, load_json, run_main
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--repo-root", default=".")
+    result.add_argument("--index", default="catalog/package-index.json.gz")
+    result.add_argument("--summary", default="catalog/package-index-summary.json")
+    result.add_argument("--output")
+    return result
+
+
+def main() -> int:
+    args = parser().parse_args()
+    root = pathlib.Path(args.repo_root).resolve()
+    errors: list[str] = []
+    index_path = pathlib.Path(args.index)
+    if not index_path.is_absolute():
+        index_path = root / index_path
+    summary_path = pathlib.Path(args.summary)
+    if not summary_path.is_absolute():
+        summary_path = root / summary_path
+    try:
+        index = load_json(index_path)
+        summary = load_json(summary_path)
+    except ToolError as exc:
+        result = {"schema_version": SCHEMA_VERSION, "kind": "package-inventory-validation", "valid": False, "errors": [str(exc)]}
+        emit_json(result, args.output)
+        return 1
+    if not isinstance(index, Mapping) or not isinstance(summary, Mapping):
+        errors.append("index and summary must be objects")
+        index = index if isinstance(index, Mapping) else {}
+        summary = summary if isinstance(summary, Mapping) else {}
+    if index.get("schema_version") != SCHEMA_VERSION or index.get("kind") != "package-inventory":
+        errors.append("index schema_version/kind is invalid")
+    if summary.get("schema_version") != SCHEMA_VERSION or summary.get("kind") != "package-inventory-summary":
+        errors.append("summary schema_version/kind is invalid")
+    entries = index.get("entries") if isinstance(index.get("entries"), list) else []
+    prs = index.get("pull_requests") if isinstance(index.get("pull_requests"), list) else []
+    keys = [str(item.get("discovery_key")) for item in entries if isinstance(item, Mapping)]
+    if len(keys) != len(set(keys)):
+        errors.append("inventory entries contain duplicate discovery_key values")
+    if len(entries) != summary.get("entry_count"):
+        errors.append("summary entry_count does not match index")
+    if len(prs) != index.get("pull_request_count"):
+        errors.append("index pull_request_count does not match pull_requests")
+    source = index.get("source_snapshot") if isinstance(index.get("source_snapshot"), Mapping) else {}
+    snapshot_path = source.get("path")
+    snapshot_id = source.get("snapshot_id")
+    if not snapshot_path or not snapshot_id:
+        errors.append("source_snapshot must include path and snapshot_id")
+    else:
+        snapshot_file = root / str(snapshot_path)
+        try:
+            snapshot = load_json(snapshot_file)
+            if snapshot.get("snapshot_id") != snapshot_id:
+                errors.append("source snapshot id does not match index")
+            records = (snapshot.get("candidates") if isinstance(snapshot.get("candidates"), list) else []) + (snapshot.get("rejections") if isinstance(snapshot.get("rejections"), list) else [])
+            if source.get("record_count") != len(records):
+                errors.append("source snapshot record_count does not match immutable snapshot")
+        except ToolError as exc:
+            errors.append(str(exc))
+    status_counts = Counter(str(item.get("status")) for item in entries if isinstance(item, Mapping))
+    if dict(sorted(status_counts.items())) != index.get("status_counts"):
+        errors.append("status_counts does not match entries")
+    if index.get("main_ref") != summary.get("main_ref") or index.get("generated_at") != summary.get("generated_at"):
+        errors.append("summary provenance does not match index")
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "package-inventory-validation",
+        "valid": not errors,
+        "errors": errors,
+        "summary": {
+            "entries": len(entries),
+            "pull_requests": len(prs),
+            "source_snapshot_id": snapshot_id,
+        },
+    }
+    emit_json(result, args.output)
+    return 0 if not errors else 1
+
+
+if __name__ == "__main__":
+    run_main(main)

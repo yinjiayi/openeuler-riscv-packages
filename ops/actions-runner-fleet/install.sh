@@ -58,7 +58,15 @@ done
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y --no-install-recommends \
-  ca-certificates curl docker.io git jq qemu-user qemu-user-binfmt rsync tar xz-utils
+  ca-certificates curl docker.io git iptables jq qemu-user qemu-user-binfmt rsync tar xz-utils
+oe_assert_systemctl_integrity
+update-alternatives --auto iptables
+[[ -L /usr/sbin/iptables \
+  && $(readlink -- /usr/sbin/iptables) == /etc/alternatives/iptables \
+  && -x /usr/sbin/iptables ]] \
+  || oe_die 'Docker firewall helper is missing after installation: /usr/sbin/iptables'
+/usr/sbin/iptables --version >/dev/null \
+  || oe_die 'Docker firewall helper does not execute after installation'
 
 if ! getent passwd "$oe_runner_user" >/dev/null; then
   useradd --system --user-group --home-dir /var/lib/oegha --create-home --shell /usr/sbin/nologin "$oe_runner_user"
@@ -71,9 +79,17 @@ getent group docker >/dev/null || oe_die 'docker group was not created by the pa
 usermod --append --groups docker "$oe_runner_user"
 passwd --lock "$oe_runner_user" >/dev/null 2>&1 || true
 
-install -d -o root -g root -m 0755 "$oe_runner_base" "$oe_runner_libexec" "$oe_runner_config"
+if [[ -e $oe_runner_lock_dir || -L $oe_runner_lock_dir ]]; then
+  [[ -d $oe_runner_lock_dir && ! -L $oe_runner_lock_dir ]] \
+    || oe_die 'managed cleanup lock directory is not a real directory'
+fi
+install -d -o root -g root -m 0755 \
+  "$oe_runner_base" "$oe_runner_lock_dir" "$oe_runner_libexec" "$oe_runner_config"
+[[ $(stat -c '%U:%G:%a' "$oe_runner_lock_dir") == root:root:755 ]] \
+  || oe_die 'managed cleanup lock directory ownership/mode is unsafe'
 install -o root -g root -m 0755 \
   "$source_dir/_lib.sh" \
+  "$source_dir/audit.sh" \
   "$source_dir/preflight.sh" \
   "$source_dir/job-guard.sh" \
   "$source_dir/cleanup.sh" \
@@ -141,13 +157,21 @@ fi
 install -d -o "$oe_runner_user" -g "$oe_runner_group" -m 0700 \
   "$runner_dir/_work" "$runner_dir/_diag" "$runner_dir/_state" \
   "$runner_dir/_state/home" "$runner_dir/_state/docker" "$runner_dir/_state/baseline"
+cleanup_lock=$oe_runner_lock_dir/$OE_ARG_NAME.lock
+if [[ -e $cleanup_lock || -L $cleanup_lock ]]; then
+  [[ -f $cleanup_lock && ! -L $cleanup_lock ]] || oe_die 'managed cleanup lock is not a regular file'
+  chown root:"$oe_runner_group" "$cleanup_lock"
+  chmod 0660 "$cleanup_lock"
+else
+  install -o root -g "$oe_runner_group" -m 0660 /dev/null "$cleanup_lock"
+fi
 chown root:root "$runner_dir"
 chmod 0755 "$runner_dir"
 oe_check_no_other_runners "$OE_ARG_NAME"
 
-systemctl daemon-reload
-systemctl enable --now docker.service
-systemctl restart systemd-binfmt.service
+oe_systemctl daemon-reload
+oe_systemctl enable --now docker.service
+oe_systemctl restart systemd-binfmt.service
 runuser --user "$oe_runner_user" -- docker info >/dev/null
 command -v qemu-riscv64 >/dev/null || oe_die 'qemu-riscv64 is missing after installation'
 [[ -r /proc/sys/fs/binfmt_misc/qemu-riscv64 ]] || oe_die 'qemu-riscv64 binfmt registration is absent after installation'

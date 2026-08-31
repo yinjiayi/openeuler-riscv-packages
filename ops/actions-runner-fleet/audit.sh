@@ -34,6 +34,13 @@ service=$(oe_service_name "$OE_ARG_NAME")
   || oe_die 'Runner version differs from lock'
 grep -Fxq "sha256=$RUNNER_SHA256" "$runner_dir/.release" || oe_die 'installed release evidence differs from lock'
 [[ ! -L $runner_dir && $(stat -c '%U:%G:%a' "$runner_dir") == root:root:755 ]] || oe_die 'runner root ownership/mode is unsafe'
+[[ -d $oe_runner_lock_dir && ! -L $oe_runner_lock_dir \
+  && $(stat -c '%U:%G:%a' "$oe_runner_lock_dir") == root:root:755 ]] \
+  || oe_die 'cleanup lock directory ownership/mode is unsafe'
+cleanup_lock=$oe_runner_lock_dir/$OE_ARG_NAME.lock
+[[ -f $cleanup_lock && ! -L $cleanup_lock \
+  && $(stat -c '%U:%G:%a' "$cleanup_lock") == root:"$oe_runner_group":660 ]] \
+  || oe_die 'cleanup lock ownership/mode is unsafe'
 for directory in "$runner_dir/_work" "$runner_dir/_diag" "$runner_dir/_state"; do
   [[ ! -L $directory && $(stat -c '%U:%G:%a' "$directory") == "$oe_runner_user:$oe_runner_group:700" ]] \
     || oe_die "runner-writable directory ownership/mode is unsafe: $directory"
@@ -46,16 +53,16 @@ command -v qemu-riscv64 >/dev/null || oe_die 'qemu-riscv64 is missing'
 registered=false
 [[ -r $runner_dir/.runner && -r $runner_dir/.credentials ]] && registered=true
 active=false
-systemctl is-active --quiet "$service" && active=true
+oe_systemctl --quiet is-active "$service" && active=true
 enabled=false
-systemctl is-enabled --quiet "$service" && enabled=true
+oe_systemctl --quiet is-enabled "$service" && enabled=true
 
 if [[ $OE_POLICY_ENROLLMENT_ENABLED == false && ( $active == true || $enabled == true ) ]]; then
   oe_die 'Runner is active/enabled while policy disables enrollment'
 fi
 if [[ $active == true ]]; then
   [[ $registered == true && $OE_POLICY_ENROLLMENT_ENABLED == true ]] || oe_die 'active Runner lacks registration or enabled policy'
-  "$oe_runner_libexec/preflight.sh" --name "$OE_ARG_NAME"
+  "$oe_runner_libexec/preflight.sh" --name "$OE_ARG_NAME" >&2
 fi
 
 printf '{"schema_version":1,"host":"%s","name":"%s","stage":"%s","runner_version":"%s","registered":%s,"policy_enabled":%s,"service_enabled":%s,"service_active":%s,"docker":true,"qemu_riscv64":true,"binfmt_riscv64":true}\n' \

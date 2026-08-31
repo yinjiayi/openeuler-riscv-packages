@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 240
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/cmark/",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "cmark",
+        "package_name": "cmark",
+        "source": "arch-extra",
+        "source_version": "0.31.2-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/cmark-git",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "cmark-git",
+        "package_name": "cmark-git",
+        "source": "aur",
+        "source_version": "0.31.1.r13.g3460cd80-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/cmark",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "cmark",
+        "package_name": "cmark",
+        "source": "debian",
+        "source_version": "0.30.2-6"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/cmark/cmark/",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "cmark",
+        "package_name": "cmark",
+        "source": "fedora",
+        "source_version": "0.31.1-3.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/cmark",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "cmark",
+        "package_name": "cmark",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.31.1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/cmark",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "cmark",
+        "package_name": "cmark",
+        "source": "ubuntu",
+        "source_version": "0.30.2-6build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260811T123001Z-336db182a16e2370"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "cmark.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official cmark 0.31.2 stable tag archive is independently SHA-256 pinned and Arch stable confirms 0.31.2. Fedora 44, openSUSE Tumbleweed, Debian stable, and Ubuntu GA carried older stable releases, so this is an intentional official-stable forward release. The AUR cmark-git row is VCS-only and was excluded as a source. AUR was queried through RPC only; no AUR recipe or distribution spec was executed. Unlike the frozen Fedora spec, the complete upstream CTest suite, including pathological tests, remains enabled.",
+    "status": "active"
+  },
+  "package_id": "cmark",
+  "rpm": {
+    "license": "BSD-2-Clause AND MIT AND CC-BY-SA-4.0",
+    "name": "cmark",
+    "summary": "CommonMark parsing and rendering library and program"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  },
+  "upstream": {
+    "component": "commonmark.org-cmark",
+    "homepage": "https://github.com/commonmark/cmark",
+    "release_api": "https://api.github.com/repos/commonmark/cmark/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/commonmark/cmark",
+    "source_url_template": "https://github.com/commonmark/cmark/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {"current": "0.31.2", "latest_detected": "0.31.2", "release": "1"}
+}

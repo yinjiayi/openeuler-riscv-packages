@@ -22,7 +22,8 @@ These rules apply to Codex and other automation working in this repository.
 - Bind every build conclusion to the latest commit SHA and schema-valid build result.
 - Classify kernel, eBPF, boot/systemd, privileged syscall, hardware, timing, and performance validation as `needs-native-riscv` when QEMU user mode is insufficient. The protected-main self-hosted pool is x86_64 plus QEMU user mode and never satisfies native RISC-V policy; no native RISC-V runner is enabled.
 - Never route a `pull_request` or `merge_group` job to the repository-level self-hosted pool. Only the heavy QEMU build and install/smoke jobs from a protected `main` push or `workflow_dispatch`, after the GitHub-hosted scope gate selects one non-native package, may use `self-hosted,linux,x64,oe-rva23-qemu`.
-- Verify official source checksums before build; build without network after source acquisition.
+- Verify official source checksums before build. Target builds may retrieve the same
+  pinned source over HTTPS and must verify its full SHA-256 before `rpmbuild` starts.
 
 ## Change discipline
 

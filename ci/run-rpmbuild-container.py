@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0
-"""Run offline rpmbuild under a fail-closed per-package user policy.
+"""Run network-enabled rpmbuild under a fail-closed per-package user policy.
 
 ``root`` preserves the historical build identity for packages whose complete
 upstream checks require root capabilities. ``unprivileged`` first hands the
@@ -73,12 +73,14 @@ def require_exact_child(path: pathlib.Path, parent: pathlib.Path, label: str) ->
     return resolved
 
 
-def docker_limits() -> list[str]:
+def docker_limits(*, network: str) -> list[str]:
+    if network not in {"bridge", "none"}:
+        raise ContractError(f"unsupported build container network: {network}")
     return [
         "--platform",
         "linux/riscv64",
         "--network",
-        "none",
+        network,
         "--memory",
         "6g",
         "--cpus",
@@ -105,6 +107,102 @@ def common_mounts(
     ]
 
 
+def require_real_directory(path: pathlib.Path, label: str) -> pathlib.Path:
+    """Reject symlinked paths before changing their host-side permissions."""
+
+    if path.is_symlink() or not path.is_dir():
+        raise ContractError(f"{label} must be a regular directory: {path}")
+    return path
+
+
+def grant_other_access(path: pathlib.Path, *, readable: bool) -> None:
+    """Set the exact other-mode bits needed for container or host readback."""
+
+    mode = path.lstat().st_mode
+    if stat.S_ISDIR(mode):
+        other_mode = stat.S_IXOTH | (stat.S_IROTH if readable else 0)
+    elif stat.S_ISREG(mode):
+        other_mode = stat.S_IROTH
+        if mode & (stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH):
+            other_mode |= stat.S_IXOTH
+    else:
+        raise ContractError(f"workspace input is not a regular file or directory: {path}")
+    os.chmod(path, (stat.S_IMODE(mode) & ~0o007) | other_mode)
+
+
+def grant_root_workspace_traversal(repo_root: pathlib.Path) -> None:
+    """Let root-build test identities traverse only the fixed mount parents."""
+
+    repository = require_real_directory(repo_root, "repository root")
+    work_parent = require_real_directory(repo_root / "work", "work parent directory")
+    grant_other_access(repository, readable=False)
+    grant_other_access(work_parent, readable=False)
+
+
+def workspace_tree_entries(root: pathlib.Path) -> list[pathlib.Path]:
+    """List a regular input tree without ever following a checkout symlink."""
+
+    def walk_error(error: OSError) -> None:
+        raise ContractError(f"unable to inspect workspace input: {error.filename}") from error
+
+    entries: list[pathlib.Path] = []
+    for current, directories, files in os.walk(
+        root, topdown=True, followlinks=False, onerror=walk_error
+    ):
+        current_path = pathlib.Path(current)
+        current_mode = current_path.lstat().st_mode
+        if not stat.S_ISDIR(current_mode) or stat.S_ISLNK(current_mode):
+            raise ContractError(f"workspace input must not be a symlink: {current_path}")
+        entries.append(current_path)
+        directories.sort()
+        for name in directories:
+            candidate = current_path / name
+            mode = candidate.lstat().st_mode
+            if not stat.S_ISDIR(mode) or stat.S_ISLNK(mode):
+                raise ContractError(f"workspace input must not be a symlink: {candidate}")
+        for name in sorted(files):
+            candidate = current_path / name
+            mode = candidate.lstat().st_mode
+            if stat.S_ISLNK(mode):
+                raise ContractError(f"workspace input must not be a symlink: {candidate}")
+            if not stat.S_ISREG(mode):
+                raise ContractError(
+                    f"workspace input is not a regular file or directory: {candidate}"
+                )
+            entries.append(candidate)
+    return entries
+
+
+def grant_unprivileged_workspace_access(
+    repo_root: pathlib.Path, package_id: str
+) -> None:
+    """Expose only build inputs, never runner state or unrelated package trees."""
+
+    packages_dir = require_real_directory(repo_root / "packages", "packages directory")
+    work_parent = require_real_directory(repo_root / "work", "work parent directory")
+    input_trees = (
+        require_real_directory(repo_root / "ci", "CI scripts directory"),
+        require_real_directory(repo_root / "scripts", "repository scripts directory"),
+        require_real_directory(
+            packages_dir / package_id, "selected package directory"
+        ),
+    )
+    require_real_directory(repo_root, "repository root")
+
+    # Validate every permitted tree before changing a single host-side mode.
+    accessible_entries = [
+        entry for root in input_trees for entry in workspace_tree_entries(root)
+    ]
+
+    # The container needs to address these known children but must not list the
+    # repository root or the complete package inventory.
+    grant_other_access(repo_root, readable=False)
+    grant_other_access(packages_dir, readable=False)
+    grant_other_access(work_parent, readable=False)
+    for entry in accessible_entries:
+        grant_other_access(entry, readable=True)
+
+
 def unprivileged_prepare_command(
     image: str,
     repo_root: pathlib.Path,
@@ -116,7 +214,7 @@ def unprivileged_prepare_command(
         "docker",
         "run",
         "--rm",
-        *docker_limits(),
+        *docker_limits(network="none"),
         "--user",
         "0:0",
         *common_mounts(repo_root, work_dir, package_id),
@@ -163,11 +261,13 @@ def build_command(
         "docker",
         "run",
         "--rm",
-        *docker_limits(),
+        *docker_limits(network="bridge"),
         "--user",
         run_uid_gid,
         "-e",
         "OE_RVA23_PROBE=passed",
+        "-e",
+        "OE_BUILD_NETWORK=enabled",
         *user_environment,
         *common_mounts(repo_root, work_dir, package_id),
         *extra_mounts,
@@ -194,7 +294,6 @@ def build_command(
         f"{result_dir}/rpmbuild-phase-result.json",
         "--commit-sha",
         commit_sha,
-        "--offline",
         "--skip-install-smoke",
         "--expected-arch",
         "riscv64",
@@ -235,6 +334,11 @@ def ownership_entries(root: pathlib.Path) -> list[pathlib.Path]:
 
 def handoff_ownership(path: pathlib.Path) -> int:
     entries = ownership_entries(path)
+    # The service UMask is deliberately 0077. Keep the work tree writable only
+    # by the fixed build UID while allowing the host runner to collect public
+    # build evidence and RPMs after ownership has changed.
+    for entry in entries:
+        grant_other_access(entry, readable=True)
     for entry in entries:
         os.chown(entry, TARGET_UID, TARGET_GID, follow_symlinks=False)
     return len(entries)
@@ -258,6 +362,10 @@ def prepare_mode(args: argparse.Namespace) -> int:
         "target_user": TARGET_USER,
         "target_uid": TARGET_UID,
         "target_gid": TARGET_GID,
+        "host_readback_policy": (
+            "files are other-readable; directories are other-readable and "
+            "searchable; other-write is denied"
+        ),
         "work_entries_before_record": len(ownership_entries(work_dir)),
     }
     write_json(result_dir / "ownership-handoff.json", record)
@@ -315,8 +423,10 @@ def exec_mode(args: argparse.Namespace) -> int:
     result_dir = pathlib.Path(args.result_dir)
     if not args.command or args.command[0] != "scripts/build-rpm":
         raise ContractError("build wrapper may execute only scripts/build-rpm")
-    if "--offline" not in args.command:
-        raise ContractError("rpmbuild invocation must remain offline")
+    if "--offline" in args.command:
+        raise ContractError("rpmbuild invocation must allow verified network source retrieval")
+    if os.environ.get("OE_BUILD_NETWORK") != "enabled":
+        raise ContractError("network-enabled build policy was not reported by the container")
     previous_umask = os.umask(0o022)
     identity = {
         "schema_version": 1,
@@ -329,6 +439,7 @@ def exec_mode(args: argparse.Namespace) -> int:
         "is_root": effective_uid == 0,
         "umask": "0022",
         "previous_umask": f"{previous_umask:04o}",
+        "network_access_policy": "enabled",
         "work_directory": directory_evidence(work_dir, "work directory", expected_owner),
         "result_directory": directory_evidence(
             result_dir, "result directory", expected_owner
@@ -339,14 +450,32 @@ def exec_mode(args: argparse.Namespace) -> int:
     raise AssertionError("os.execv returned unexpectedly")
 
 
-def copy_unprivileged_evidence(result_dir: pathlib.Path, artifact_dir: pathlib.Path) -> None:
+def copy_unprivileged_evidence(
+    result_dir: pathlib.Path,
+    artifact_dir: pathlib.Path,
+    *,
+    require_complete: bool,
+) -> None:
+    missing: list[str] = []
     for name in EVIDENCE_FILES:
         source = result_dir / name
-        if not source.exists():
+        try:
+            mode = source.lstat().st_mode
+        except FileNotFoundError:
+            missing.append(name)
             continue
-        if source.is_symlink() or not stat.S_ISREG(source.lstat().st_mode):
+        except OSError as error:
+            raise ContractError(
+                f"generated build evidence is unreadable: {source}: {error}"
+            ) from error
+        if stat.S_ISLNK(mode) or not stat.S_ISREG(mode):
             raise ContractError(f"generated build evidence is not a regular file: {source}")
         shutil.copyfile(source, artifact_dir / name, follow_symlinks=False)
+    if require_complete and missing:
+        raise ContractError(
+            "successful unprivileged build is missing required evidence: "
+            + ", ".join(missing)
+        )
 
 
 def run_mode(args: argparse.Namespace) -> int:
@@ -375,6 +504,7 @@ def run_mode(args: argparse.Namespace) -> int:
     require_regular_directory(artifact_dir, "artifact directory")
 
     if args.build_user == "unprivileged":
+        grant_unprivileged_workspace_access(repo_root, args.package_id)
         result_dir = work_dir / ".ci-result"
         if result_dir.is_symlink():
             raise ContractError("target result directory must not be a symlink")
@@ -388,9 +518,12 @@ def run_mode(args: argparse.Namespace) -> int:
             check=False,
         )
         if preparation.returncode != 0:
-            copy_unprivileged_evidence(result_dir, artifact_dir)
+            copy_unprivileged_evidence(
+                result_dir, artifact_dir, require_complete=False
+            )
             return preparation.returncode
     else:
+        grant_root_workspace_traversal(repo_root)
         result_dir = artifact_dir
 
     completed = subprocess.run(
@@ -406,7 +539,11 @@ def run_mode(args: argparse.Namespace) -> int:
         check=False,
     )
     if args.build_user == "unprivileged":
-        copy_unprivileged_evidence(result_dir, artifact_dir)
+        copy_unprivileged_evidence(
+            result_dir,
+            artifact_dir,
+            require_complete=completed.returncode == 0,
+        )
     return completed.returncode
 
 

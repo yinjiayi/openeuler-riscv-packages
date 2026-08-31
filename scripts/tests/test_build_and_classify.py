@@ -182,6 +182,47 @@ class BuildAndClassifyTests(unittest.TestCase):
             self.assertEqual(document["classification"]["category"], "riscv-specific")
             self.assertNotIn("failure:infrastructure", document["labels"])
 
+    def test_dependency_timeout_does_not_treat_kmod_package_as_native(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            result = root / "dependency-failure.json"
+            write_json(
+                result,
+                {
+                    "package_id": "gui-demo",
+                    "status": "failed",
+                    "phase": "dependency-prepare",
+                    "exit_code": 124,
+                    "message": "Audited BuildRequires preparation failed; see install.log.",
+                },
+            )
+            install_log = root / "install.log"
+            install_log.write_text(
+                "Install 418 Packages\n"
+                "kmod-libs riscv64 30-11.oe2403sp3 openeuler-rva23 56 k\n"
+                "context canceled\n",
+                encoding="utf-8",
+            )
+            output = root / "classification.json"
+            run_tool(
+                "classify-failure",
+                [
+                    "--input",
+                    str(result),
+                    "--log",
+                    str(install_log),
+                    "--output",
+                    str(output),
+                    "--now",
+                    "2026-08-31T00:00:00Z",
+                ],
+                root,
+            )
+            document = json.loads(output.read_text())
+            self.assertEqual(document["classification"]["category"], "infrastructure")
+            self.assertEqual(document["recommended_state"], "failed")
+            self.assertNotIn("needs-native-riscv", document["labels"])
+
 
 if __name__ == "__main__":
     unittest.main()
