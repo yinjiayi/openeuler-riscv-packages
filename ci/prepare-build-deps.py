@@ -30,6 +30,8 @@ BUILD_USERS = {"root", "unprivileged"}
 TARGET_BUILD_USER = "rpmbuild"
 TARGET_BUILD_UID = 10001
 TARGET_BUILD_GID = 10001
+RUNNER_MANAGED_LABEL = "io.openeuler.actions-runner.managed-builddeps"
+RUNNER_MANAGED_VALUE = "v1"
 SUPPLEMENTAL_STATE_URL = "http://2.27.148.101:38080/state.json"
 SUPPLEMENTAL_REPO_KEYS = {
     "name",
@@ -305,6 +307,7 @@ def main() -> int:
     try:
         run([
             "docker", "create", "--platform", "linux/riscv64", "--name", container,
+            "--label", f"{RUNNER_MANAGED_LABEL}={RUNNER_MANAGED_VALUE}",
             "--memory", "6g", "--cpus", "2", "--pids-limit", "1024",
             "--security-opt", "no-new-privileges",
             "--mount", f"type=bind,src={supplemental_repo},dst=/etc/yum.repos.d/openeuler-riscv-project.repo,readonly",

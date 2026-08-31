@@ -1,0 +1,21 @@
+{
+  "package_id": "pygsl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d35c39eda47754fbd83f47d057ff7f626183e876ff8d4ee9a03b3f659828c848"
+      },
+      "filename": "pygsl-2.6.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/pygsl/pygsl/archive/refs/tags/v2.6.4.tar.gz",
+      "version": "2.6.4"
+    }
+  ]
+}
