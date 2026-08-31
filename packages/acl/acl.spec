@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           acl
 Version:        2.4.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        POSIX access control list utilities
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later
 URL:            https://savannah.nongnu.org/projects/acl
@@ -62,7 +62,10 @@ umask 022
 check_root=$(mktemp -d /var/tmp/acl-check.XXXXXX)
 trap 'rm -rf "$check_root"' EXIT
 chmod a+x "$check_root"
-cp -R "$PWD" "$check_root/source"
+# Preserve the configured tree's timestamps.  A recursive copy that refreshes
+# them makes Automake treat the shipped configure script as stale and attempts
+# to invoke unavailable maintainer-only Autoconf during %check.
+cp -a -- "$PWD" "$check_root/source"
 chmod -R a+rX "$check_root/source"
 cd "$check_root/source"
 export LD_LIBRARY_PATH="$PWD/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
@@ -96,6 +99,9 @@ runuser -u bin -- "$PWD/setfacl" --version >/dev/null
 %{_mandir}/man3/acl_*.3*
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.0-3
+- Preserve configured-tree timestamps in the container-local test copy.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.0-2
 - Allow the unprivileged test identity to traverse the container-local test root.
 
