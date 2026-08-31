@@ -95,6 +95,16 @@ within 30 days of any new release.
 Ubuntu 26.04 supplies static QEMU user binaries through `qemu-user` and binfmt
 registration through `qemu-user-binfmt`; `qemu-user-static` is only a virtual
 compatibility name. The installer also installs Ubuntu's `docker.io` package.
+It explicitly installs the minimal `iptables` frontend while retaining
+`--no-install-recommends`. Docker 29's iptables firewall backend directly
+executes `/usr/sbin/iptables` when it creates bridge endpoints, including when
+the package selects the nft-compatible implementation through alternatives.
+Both installation and service preflight require that exact executable path, so
+a host with incomplete package state remains offline instead of accepting a
+job that cannot start a networked container. The installer also asks Debian
+alternatives to restore the distribution-selected `iptables` master link; this
+is required for an already-installed package whose `/usr/sbin/iptables` link
+was lost, because a no-op `apt-get install` does not recreate it reliably.
 
 ## Credentials
 
@@ -166,6 +176,41 @@ To remove a registered host, obtain a fresh short-lived removal token and pipe
 it to `uninstall.sh`. It stops/disables the service and removes only the managed
 Runner directory; Docker and QEMU packages are retained because they may be
 shared host dependencies.
+
+## Idempotent fleet redeployment
+
+A **reviewed fleet redeployment** is an idempotent rerun of `install.sh` from
+one exact protected-main archive against an already registered host. It
+refreshes the complete managed package and libexec contract—including
+`preflight.sh`, `cleanup.sh`, `docker-cleanup.py`, and `audit.sh`—without
+re-registering the Runner, replacing its locked payload, or resetting an
+enabled policy. Copying one missing helper by hand is not a redeployment and
+can leave the installed files at mutually incompatible revisions.
+
+Redeploy from a freshly verified protected-main archive. Start with one host;
+after that complete canary passes, independent hosts may use disjoint bounded
+batches, while each host keeps the following per-host state machine:
+
+1. Require the exact GitHub Runner to be online with `busy=false`, then stop
+   only its exact systemd unit. Wait for GitHub to report it offline and prove
+   both `Runner.Worker=0` and no running Docker container before changing host
+   packages or managed files.
+2. Read the installed root-owned `identity.conf` and pass `--allow-degraded`
+   only when its existing `ALLOW_DEGRADED=true`; never infer or rewrite that
+   immutable choice from the host's rollout stage.
+3. Run the archive's `install.sh` with the exact `--host` and `--name`. Its
+   existing identity check, pinned Runner verification, and policy-preserving
+   path make this the supported way to repair missing packages and stale or
+   absent installed helpers.
+4. Run `activate.sh --enable-reviewed-policy` with the same identity arguments.
+   Activation performs bounded cleanup and preflight before starting the
+   service. Then require `audit.sh` success, the service active/enabled, the
+   GitHub Runner online with `busy=false`, and an empty Docker container
+   inventory before advancing to the next host.
+
+Stop the rollout on any identity, package, cleanup, audit, or state mismatch.
+Do not update a live/busy Runner and do not deploy individual files outside the
+installer.
 
 ## Per-job cleanup
 

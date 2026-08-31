@@ -122,6 +122,30 @@ class RunnerFleetStaticTests(unittest.TestCase):
         self.assertNotIn("runuser --user \"$oe_runner_user\" --groups", installer)
         self.assertIn('usermod --append --groups docker "$oe_runner_user"', installer)
 
+    def test_installer_provisions_the_docker_iptables_frontend(self) -> None:
+        installer = (OPS / "install.sh").read_text(encoding="utf-8")
+        preflight = (OPS / "preflight.sh").read_text(encoding="utf-8")
+        package_block = installer.split(
+            "apt-get install -y --no-install-recommends", 1
+        )[1].split("\n\n", 1)[0]
+
+        self.assertRegex(package_block, r"(?:^|\s)iptables(?:\s|$)")
+        self.assertNotRegex(package_block, r"(?:^|\s)nftables(?:\s|$)")
+        iptables_probe = "[[ -x /usr/sbin/iptables ]]"
+        alternatives_repair = "update-alternatives --auto iptables"
+        self.assertIn(alternatives_repair, package_block)
+        self.assertIn("readlink -- /usr/sbin/iptables", package_block)
+        self.assertIn("/etc/alternatives/iptables", package_block)
+        self.assertIn(iptables_probe, preflight)
+        self.assertLess(
+            installer.index("apt-get install -y --no-install-recommends"),
+            installer.index(alternatives_repair),
+        )
+        self.assertLess(
+            installer.index(alternatives_repair),
+            installer.index("readlink -- /usr/sbin/iptables"),
+        )
+
     def test_fleet_audit_is_installed_with_machine_only_stdout(self) -> None:
         installer = (OPS / "install.sh").read_text(encoding="utf-8")
         audit = (OPS / "audit.sh").read_text(encoding="utf-8")
