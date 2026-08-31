@@ -3,10 +3,10 @@
 set -euo pipefail
 
 rpm -q -- libpsl libpsl-utils libpsl-devel libpsl-help
-psl --version | grep -F 'psl 0.23.1'
+psl --version | grep -F 'psl 0.23.3'
 test "$(psl --use-builtin-data --is-public-suffix --batch com)" = '1'
 test "$(psl --use-builtin-data --print-reg-domain --batch www.example.com)" = 'example.com'
-pkg-config --modversion libpsl | grep -Fx '0.23.1'
+pkg-config --modversion libpsl | grep -Fx '0.23.3'
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
