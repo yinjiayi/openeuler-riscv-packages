@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sexpect
 Version:        2.3.15
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Expect for shells
 License:        GPL-3.0-or-later
 URL:            https://github.com/clarkwang/sexpect
@@ -24,7 +24,7 @@ Expect for shells
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) ! -path '%{buildroot}%{_mandir}/*' -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
@@ -33,8 +33,12 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
+%{_mandir}/man1/sexpect.1*
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.3.15-4
+- Keep the compressed manual page out of the pre-compression file manifest.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.3.15-3
 - Keep generated test sockets within the Linux sockaddr_un path limit.
 - Add procps-ng for the upstream process-state test.

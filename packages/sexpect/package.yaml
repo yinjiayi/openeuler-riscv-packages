@@ -38,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 passes the source and out-of-source build directories explicitly to CMake, supplies procps-ng for the process-state test, and shortens generated test socket paths to fit Linux sockaddr_un.sun_path while preserving the complete upstream suite and install behavior. The source digest is unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 passes the source and out-of-source build directories explicitly to CMake, supplies procps-ng for the process-state test, and shortens generated test socket paths to fit Linux sockaddr_un.sun_path while preserving the complete upstream suite and install behavior. Release 4 keeps the manual page out of the pre-compression dynamic file manifest and lists its installed compressed form explicitly. The source and patch digests are unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending a successful exact-head CI build.",
     "status": "active"
   },
   "package_id": "sexpect",
@@ -73,6 +73,6 @@
   "version": {
     "current": "2.3.15",
     "latest_detected": "2.3.15",
-    "release": "3"
+    "release": "4"
   }
 }
