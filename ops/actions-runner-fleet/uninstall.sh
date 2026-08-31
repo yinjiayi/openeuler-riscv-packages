@@ -34,7 +34,7 @@ oe_load_identity
 
 runner_dir=$(oe_runner_dir "$OE_ARG_NAME")
 service=$(oe_service_name "$OE_ARG_NAME")
-systemctl disable --now "$service" >/dev/null 2>&1 || true
+oe_systemctl disable --now "$service" >/dev/null 2>&1 || true
 if [[ -r $runner_dir/.runner ]]; then
   [[ -x $runner_dir/config.sh ]] || oe_die 'registered Runner is missing config.sh'
   oe_read_secret OE_RUNNER_REMOVAL_TOKEN 'Short-lived Runner removal token: '
@@ -54,5 +54,5 @@ if [[ -d $runner_dir ]]; then
   rmdir -- "$runner_dir"
 fi
 rm -f -- "$oe_runner_config/identity.conf"
-systemctl daemon-reload
+oe_systemctl daemon-reload
 printf 'Uninstalled %s from %s. Docker/QEMU packages were retained.\n' "$OE_ARG_NAME" "$OE_ARG_HOST"
