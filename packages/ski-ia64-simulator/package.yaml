@@ -46,7 +46,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. The downstream Linux host adapter patch isolates simulated syscall numbers from the host __NR namespace, adds an asm-generic getdents64 compatibility path, and returns ENOSYS for unavailable legacy host syscalls without disabling simulator features or tests.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. The downstream Linux host adapter patch isolates simulated syscall numbers from the host __NR namespace, adds an asm-generic getdents64 compatibility path, and returns ENOSYS for unavailable legacy host syscalls without disabling simulator features or tests. Exact-head CI run 33362442642 compiled and passed all upstream tests, then demonstrated that brp-compress invalidates manual-page paths captured by a pre-compression generated manifest; release 4 declares that tree with a compression-tolerant RPM glob.",
     "status": "active"
   },
   "package_id": "ski-ia64-simulator",
@@ -81,6 +81,6 @@
   "version": {
     "current": "1.5.1",
     "latest_detected": "1.5.1",
-    "release": "3"
+    "release": "4"
   }
 }

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ski-ia64-simulator
 Version:        1.5.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Itanium 2 (ia64) instruction set simulator
 License:        GPL-2.0-or-later
 URL:            https://github.com/trofi/ski
@@ -33,7 +33,7 @@ autoreconf -fi
 
 %install
 %make_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) ! -path '%{buildroot}%{_mandir}/*' -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
@@ -45,8 +45,12 @@ test -s %{name}.files
 %doc NEWS
 %doc AUTHORS
 %doc ChangeLog
+%{_mandir}/man1/*
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.1-4
+- Keep brp-compressed manual pages out of the pre-compression generated file manifest.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.1-3
 - Isolate simulated syscall numbers from the RISC-V host ABI and add safe legacy syscall fallbacks.
 

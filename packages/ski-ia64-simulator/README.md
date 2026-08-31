@@ -11,4 +11,6 @@ The downstream GPL-2.0-or-later patch keeps host calls in the `__NR_*` namespace
 
 All upstream tests remain enabled. This source-level and static validation is not a successful target build: RISC-V status remains `unknown` until the patched exact head completes build and smoke validation in the locked CI environment. In particular, the `getdents64` compatibility path relies on the Linux UAPI layout reviewed above; target CI remains authoritative for its runtime directory iteration behavior.
 
+Exact-head CI run `33362442642` at commit `d8eef81a0a6b711060267a6d424b28eab9378b68` compiled the patched source and passed all upstream tests on the locked RVA23/QEMU environment. Packaging then failed because the generated file manifest captured uncompressed `.1` paths before openEuler's `brp-compress` renamed them. Release 4 excludes the manual-page tree from that generated manifest and owns it with `%{_mandir}/man1/*`, which matches the post-processing names without weakening the test suite. This remains a repair awaiting a fresh exact-head build and installed-RPM smoke result; it is not publication evidence.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
