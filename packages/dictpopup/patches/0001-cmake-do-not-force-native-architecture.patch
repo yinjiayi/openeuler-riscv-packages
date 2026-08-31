@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: do not force the build-host architecture
+
+The release flags unconditionally select -march=native and -mtune=native.
+Besides overriding distribution policy, GCC cannot translate "native" into a
+valid RISC-V ISA string under the approved QEMU user build route. Leave target
+selection to the openEuler RVA23 compiler flags while preserving the remaining
+upstream release options.
+
+Patch-Source: downstream adaptation of dictpopup 0.3.2 CMakeLists.txt
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -87 +87 @@
+-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Ofast -flto -march=native -mtune=native -g -fno-omit-frame-pointer")
++set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Ofast -flto -g -fno-omit-frame-pointer")
+-- 
+2.50.1
