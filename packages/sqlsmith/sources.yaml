@@ -1,0 +1,21 @@
+{
+  "package_id": "sqlsmith",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "828ee3e816b94848627e8132d32ade6339dbcbba5469437dc9a6a8335d4dab23"
+      },
+      "filename": "sqlsmith-1.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/anse1/sqlsmith/archive/refs/tags/v1.5.tar.gz",
+      "version": "1.5"
+    }
+  ]
+}
