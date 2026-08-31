@@ -277,6 +277,9 @@ def main() -> int:
         '"publish_to_repo=false"',
         "TRUSTED_ASSOCIATIONS",
         "download_build_result",
+        "wait_for_terminal_run",
+        '"--run-timeout-seconds"',
+        '"terminal_observation"',
     )):
         errors.append("trusted protected-main package dispatcher is missing required scope or evidence guards")
     for workflow in sorted(workflows.glob("*.yml")):
