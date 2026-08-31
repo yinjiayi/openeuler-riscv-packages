@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tpm2-tss
 Version:        4.1.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Implementation of the TCG Trusted Platform Module 2.0 Software Stack (TSS2)
 License:        BSD-2-Clause
 URL:            https://github.com/tpm2-software/tpm2-tss
@@ -28,7 +28,9 @@ Implementation of the TCG Trusted Platform Module 2.0 Software Stack (TSS2)
 
 %install
 %make_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) \
+    ! -path '%{buildroot}%{_mandir}/*' \
+    -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
@@ -37,8 +39,14 @@ test -s %{name}.files
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
+%{_mandir}/man3/*.3*
+%{_mandir}/man5/*.5*
+%{_mandir}/man7/*.7*
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.1.3-5
+- Keep compressed manual pages out of the pre-compression generated file manifest.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.1.3-4
 - Add the OpenSSL command-line tool required to generate unit-test fixtures.
 
