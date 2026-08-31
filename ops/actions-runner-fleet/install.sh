@@ -59,6 +59,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y --no-install-recommends \
   ca-certificates curl docker.io git iptables jq qemu-user qemu-user-binfmt rsync tar xz-utils
+oe_assert_systemctl_integrity
 update-alternatives --auto iptables
 [[ -L /usr/sbin/iptables \
   && $(readlink -- /usr/sbin/iptables) == /etc/alternatives/iptables \
@@ -168,9 +169,9 @@ chown root:root "$runner_dir"
 chmod 0755 "$runner_dir"
 oe_check_no_other_runners "$OE_ARG_NAME"
 
-systemctl daemon-reload
-systemctl enable --now docker.service
-systemctl restart systemd-binfmt.service
+oe_systemctl daemon-reload
+oe_systemctl enable --now docker.service
+oe_systemctl restart systemd-binfmt.service
 runuser --user "$oe_runner_user" -- docker info >/dev/null
 command -v qemu-riscv64 >/dev/null || oe_die 'qemu-riscv64 is missing after installation'
 [[ -r /proc/sys/fs/binfmt_misc/qemu-riscv64 ]] || oe_die 'qemu-riscv64 binfmt registration is absent after installation'
