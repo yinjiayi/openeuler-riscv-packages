@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nv-monitor
 Version:        1.12.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Local monitoring TUI, CSV logger, and Prometheus exporter for NVIDIA GPU systems
 License:        MIT
 URL:            https://github.com/wentbackward/nv-monitor
@@ -20,18 +20,20 @@ Local monitoring TUI, CSV logger, and Prometheus exporter for NVIDIA GPU systems
 %make_build portable
 
 %install
-%make_install PREFIX=%{_prefix}
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
-test -s %{name}.files
+%{__install} -D -p -m 0755 nv-monitor %{buildroot}%{_bindir}/nv-monitor
 
 %check
 %make_build test
 
-%files -f %{name}.files
+%files
+%{_bindir}/nv-monitor
 %license LICENSE
 %doc README.md
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.12.0-3
+- Install the binary explicitly because the upstream target does not honor DESTDIR.
+
 * Sun Aug 30 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.12.0-2
 - Build the upstream portable target instead of using host-native ISA flags.
 - Add the ncurses development files required by the monitor binary.
