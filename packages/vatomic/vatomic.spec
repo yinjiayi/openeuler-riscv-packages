@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           vatomic
 Version:        2.4.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        VSync atomics - formally-verified atomic operations library
 License:        MIT
 URL:            https://github.com/open-s4c/vatomic
@@ -18,7 +18,7 @@ VSync atomics - formally-verified atomic operations library
 %autosetup -p1
 
 %build
-%cmake \
+%cmake -S . -B %{_vpath_builddir} \
   -DVATOMIC_DEV=OFF \
   -DVATOMIC_TESTS=ON
 %cmake_build
@@ -36,6 +36,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.1-3
+- Configure CMake in the build directory consumed by the RPM macros.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.1-2
 - Use the upstream test options and add the C++ compiler required by the test suite.
 

@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 enables the upstream VATOMIC_TESTS option, adds the C++ compiler used by those tests, and disables only developer-time template regeneration while packaging the generated headers from the verified release archive.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 enables the upstream VATOMIC_TESTS option, adds the C++ compiler used by those tests, and disables only developer-time template regeneration while packaging the generated headers from the verified release archive. Release 3 explicitly configures the build directory consumed by the openEuler CMake RPM macros without changing upstream source, build features, or tests.",
     "status": "active"
   },
   "package_id": "vatomic",
@@ -63,6 +63,6 @@
   "version": {
     "current": "2.4.1",
     "latest_detected": "2.4.1",
-    "release": "2"
+    "release": "3"
   }
 }
