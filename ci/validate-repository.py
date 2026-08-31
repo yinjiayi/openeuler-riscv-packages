@@ -268,6 +268,32 @@ def main() -> int:
     ):
         if marker not in package_ci:
             errors.append(f"package CI scope selection is missing overlay binding: {marker}")
+    protected_tooling_checkout = (
+        "ref: ${{ github.event.pull_request.base.sha || "
+        "github.event.merge_group.base_sha || github.sha }}"
+    )
+    untrusted_tooling_checkout = (
+        "ref: ${{ inputs.commit_sha != '' && github.sha || "
+        "github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}"
+    )
+    if package_ci.count(protected_tooling_checkout) != 7:
+        errors.append(
+            "package-ci.yml must check out immutable protected-base tooling in all seven package jobs"
+        )
+    if untrusted_tooling_checkout in package_ci:
+        errors.append("package-ci.yml must not execute shared tooling from a pull-request head")
+    if package_ci.count("ci/materialize-package-head.py --repo-root .") != 7:
+        errors.append("package-ci.yml must overlay the exact package tree in all seven package jobs")
+    if package_ci.count('--tooling-sha "$TOOLING_COMMIT_SHA"') != 7:
+        errors.append("package-ci.yml package overlays are not bound to the checked-out protected tooling")
+    for marker in (
+        "Classify the exact event delta with protected tooling",
+        "Materialize only the exact package tree",
+        "PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}",
+        "TOOLING_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}",
+    ):
+        if marker not in package_ci:
+            errors.append(f"package CI protected-tooling overlay contract is missing: {marker}")
     trusted_dispatch = root / "scripts" / "dispatch-trusted-package-ci"
     if not trusted_dispatch.is_file() or not trusted_dispatch.stat().st_mode & 0o111:
         errors.append("trusted protected-main package dispatcher is missing or not executable")

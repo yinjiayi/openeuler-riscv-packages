@@ -118,15 +118,33 @@ class MaterializePackageHeadTests(unittest.TestCase):
             self.assertNotEqual(completed.returncode, 0)
             self.assertEqual(package.read_text(encoding="utf-8"), "untouched\n")
 
-    def test_trusted_dispatch_jobs_use_protected_tooling_and_exact_overlay(self) -> None:
+    def test_all_package_jobs_use_protected_tooling_and_exact_overlay(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
-        checkout = (
-            "ref: ${{ inputs.commit_sha != '' && github.sha || "
-            "github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}"
+        protected_checkout = (
+            "ref: ${{ github.event.pull_request.base.sha || "
+            "github.event.merge_group.base_sha || github.sha }}"
         )
-        self.assertEqual(workflow.count(checkout), 7)
+        untrusted_checkout = (
+            "ref: ${{ inputs.commit_sha != '' && github.sha || "
+            "github.event.pull_request.head.sha || "
+            "github.event.merge_group.head_sha || github.sha }}"
+        )
+        exact_package_head = (
+            "${{ inputs.commit_sha || github.event.pull_request.head.sha || "
+            "github.event.merge_group.head_sha || github.sha }}"
+        )
+        self.assertEqual(workflow.count(protected_checkout), 7)
+        self.assertNotIn(untrusted_checkout, workflow)
         self.assertEqual(workflow.count("ci/materialize-package-head.py --repo-root ."), 7)
-        self.assertEqual(workflow.count("if: inputs.commit_sha != ''"), 7)
+        downstream_overlay = (
+            "- name: Materialize only the exact package tree\n"
+            "        if: needs.prepare.outputs.mode == 'package'"
+        )
+        self.assertEqual(workflow.count(downstream_overlay), 6)
+        self.assertGreaterEqual(workflow.count(exact_package_head), 7)
+        self.assertEqual(workflow.count('--tooling-sha "$TOOLING_COMMIT_SHA"'), 7)
+        self.assertIn("Classify the exact event delta with protected tooling", workflow)
+        self.assertIn("Materialize only the exact package tree", workflow)
         self.assertIn('--tooling-head "$TOOLING_HEAD_SHA"', workflow)
         self.assertIn(
             "--overlay-evidence artifacts/scope/tooling-overlay.json", workflow
