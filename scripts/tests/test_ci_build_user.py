@@ -290,6 +290,46 @@ class BuildContainerCommandTests(unittest.TestCase):
             for directory in protected_directories:
                 self.assertEqual(directory.stat().st_mode & 0o007, 0, directory)
 
+    def test_root_build_exposes_only_workspace_parent_traversal(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = pathlib.Path(temporary) / "repo"
+            work = repo / "work" / "demo"
+            artifacts = repo / "artifacts" / "build"
+            package = repo / "packages" / "demo"
+            for directory in (
+                repo,
+                repo / "work",
+                work,
+                repo / "artifacts",
+                artifacts,
+                repo / "packages",
+                package,
+            ):
+                directory.mkdir(parents=True, exist_ok=True)
+                directory.chmod(0o700)
+            (package / "package.yaml").write_text("{}\n")
+
+            arguments = Namespace(
+                image=self.image,
+                package_id="demo",
+                repo_root=str(repo),
+                work_dir=str(work),
+                artifact_dir=str(artifacts),
+                commit_sha=self.commit,
+                build_user="root",
+            )
+            with mock.patch.object(
+                RUNNER_MODULE.subprocess,
+                "run",
+                return_value=subprocess.CompletedProcess([], 1),
+            ):
+                self.assertEqual(RUNNER_MODULE.run_mode(arguments), 1)
+
+            self.assertEqual(repo.stat().st_mode & 0o007, 0o001)
+            self.assertEqual((repo / "work").stat().st_mode & 0o007, 0o001)
+            for directory in (repo / "packages", package, work, artifacts):
+                self.assertEqual(directory.stat().st_mode & 0o007, 0, directory)
+
     def test_handoff_targets_fixed_uid_gid_and_rejects_symlinks(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary) / "work"
