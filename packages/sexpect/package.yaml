@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-shorten-test-socket-paths.patch",
+        "sha256": "66270f438cddb3a4eb02f362f6f2577f1a5a9c9bd36b4bb4c3c5c7a8c8b87603",
+        "purpose": "Keep generated test socket paths within Linux sockaddr_un.sun_path so the complete upstream suite runs without fortification aborts.",
+        "source": "Downstream reconstruction from exact-head openEuler 24.03 LTS SP3 RVA23 CI evidence",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream generates test socket paths that remain within the target sockaddr_un.sun_path limit."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "sexpect.spec"
@@ -28,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 passes the source and out-of-source build directories explicitly to CMake while preserving upstream's enabled test suite and existing install behavior. The source digest is unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 passes the source and out-of-source build directories explicitly to CMake, supplies procps-ng for the process-state test, and shortens generated test socket paths to fit Linux sockaddr_un.sun_path while preserving the complete upstream suite and install behavior. The source digest is unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
     "status": "active"
   },
   "package_id": "sexpect",
@@ -63,6 +73,6 @@
   "version": {
     "current": "2.3.15",
     "latest_detected": "2.3.15",
-    "release": "2"
+    "release": "3"
   }
 }
