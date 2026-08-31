@@ -10,8 +10,8 @@ Patch0:         0001-cmake-use-system-googletest.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
-BuildRequires:  gmock-devel
-BuildRequires:  gtest-devel
+BuildRequires:  pkgconfig(gmock)
+BuildRequires:  pkgconfig(gtest)
 BuildRequires:  make
 
 %description

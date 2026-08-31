@@ -116,7 +116,7 @@ def require_real_directory(path: pathlib.Path, label: str) -> pathlib.Path:
 
 
 def grant_other_access(path: pathlib.Path, *, readable: bool) -> None:
-    """Grant the minimum other-mode bits needed by the fixed container UID."""
+    """Set the exact other-mode bits needed for container or host readback."""
 
     mode = path.lstat().st_mode
     if stat.S_ISDIR(mode):
@@ -128,6 +128,15 @@ def grant_other_access(path: pathlib.Path, *, readable: bool) -> None:
     else:
         raise ContractError(f"workspace input is not a regular file or directory: {path}")
     os.chmod(path, (stat.S_IMODE(mode) & ~0o007) | other_mode)
+
+
+def grant_root_workspace_traversal(repo_root: pathlib.Path) -> None:
+    """Let root-build test identities traverse only the fixed mount parents."""
+
+    repository = require_real_directory(repo_root, "repository root")
+    work_parent = require_real_directory(repo_root / "work", "work parent directory")
+    grant_other_access(repository, readable=False)
+    grant_other_access(work_parent, readable=False)
 
 
 def workspace_tree_entries(root: pathlib.Path) -> list[pathlib.Path]:
@@ -325,6 +334,11 @@ def ownership_entries(root: pathlib.Path) -> list[pathlib.Path]:
 
 def handoff_ownership(path: pathlib.Path) -> int:
     entries = ownership_entries(path)
+    # The service UMask is deliberately 0077. Keep the work tree writable only
+    # by the fixed build UID while allowing the host runner to collect public
+    # build evidence and RPMs after ownership has changed.
+    for entry in entries:
+        grant_other_access(entry, readable=True)
     for entry in entries:
         os.chown(entry, TARGET_UID, TARGET_GID, follow_symlinks=False)
     return len(entries)
@@ -348,6 +362,10 @@ def prepare_mode(args: argparse.Namespace) -> int:
         "target_user": TARGET_USER,
         "target_uid": TARGET_UID,
         "target_gid": TARGET_GID,
+        "host_readback_policy": (
+            "files are other-readable; directories are other-readable and "
+            "searchable; other-write is denied"
+        ),
         "work_entries_before_record": len(ownership_entries(work_dir)),
     }
     write_json(result_dir / "ownership-handoff.json", record)
@@ -432,14 +450,32 @@ def exec_mode(args: argparse.Namespace) -> int:
     raise AssertionError("os.execv returned unexpectedly")
 
 
-def copy_unprivileged_evidence(result_dir: pathlib.Path, artifact_dir: pathlib.Path) -> None:
+def copy_unprivileged_evidence(
+    result_dir: pathlib.Path,
+    artifact_dir: pathlib.Path,
+    *,
+    require_complete: bool,
+) -> None:
+    missing: list[str] = []
     for name in EVIDENCE_FILES:
         source = result_dir / name
-        if not source.exists():
+        try:
+            mode = source.lstat().st_mode
+        except FileNotFoundError:
+            missing.append(name)
             continue
-        if source.is_symlink() or not stat.S_ISREG(source.lstat().st_mode):
+        except OSError as error:
+            raise ContractError(
+                f"generated build evidence is unreadable: {source}: {error}"
+            ) from error
+        if stat.S_ISLNK(mode) or not stat.S_ISREG(mode):
             raise ContractError(f"generated build evidence is not a regular file: {source}")
         shutil.copyfile(source, artifact_dir / name, follow_symlinks=False)
+    if require_complete and missing:
+        raise ContractError(
+            "successful unprivileged build is missing required evidence: "
+            + ", ".join(missing)
+        )
 
 
 def run_mode(args: argparse.Namespace) -> int:
@@ -482,9 +518,12 @@ def run_mode(args: argparse.Namespace) -> int:
             check=False,
         )
         if preparation.returncode != 0:
-            copy_unprivileged_evidence(result_dir, artifact_dir)
+            copy_unprivileged_evidence(
+                result_dir, artifact_dir, require_complete=False
+            )
             return preparation.returncode
     else:
+        grant_root_workspace_traversal(repo_root)
         result_dir = artifact_dir
 
     completed = subprocess.run(
@@ -500,7 +539,11 @@ def run_mode(args: argparse.Namespace) -> int:
         check=False,
     )
     if args.build_user == "unprivileged":
-        copy_unprivileged_evidence(result_dir, artifact_dir)
+        copy_unprivileged_evidence(
+            result_dir,
+            artifact_dir,
+            require_complete=completed.returncode == 0,
+        )
     return completed.returncode
 
 

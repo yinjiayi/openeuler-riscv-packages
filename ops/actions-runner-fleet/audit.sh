@@ -53,16 +53,16 @@ command -v qemu-riscv64 >/dev/null || oe_die 'qemu-riscv64 is missing'
 registered=false
 [[ -r $runner_dir/.runner && -r $runner_dir/.credentials ]] && registered=true
 active=false
-systemctl is-active --quiet "$service" && active=true
+oe_systemctl --quiet is-active "$service" && active=true
 enabled=false
-systemctl is-enabled --quiet "$service" && enabled=true
+oe_systemctl --quiet is-enabled "$service" && enabled=true
 
 if [[ $OE_POLICY_ENROLLMENT_ENABLED == false && ( $active == true || $enabled == true ) ]]; then
   oe_die 'Runner is active/enabled while policy disables enrollment'
 fi
 if [[ $active == true ]]; then
   [[ $registered == true && $OE_POLICY_ENROLLMENT_ENABLED == true ]] || oe_die 'active Runner lacks registration or enabled policy'
-  "$oe_runner_libexec/preflight.sh" --name "$OE_ARG_NAME"
+  "$oe_runner_libexec/preflight.sh" --name "$OE_ARG_NAME" >&2
 fi
 
 printf '{"schema_version":1,"host":"%s","name":"%s","stage":"%s","runner_version":"%s","registered":%s,"policy_enabled":%s,"service_enabled":%s,"service_active":%s,"docker":true,"qemu_riscv64":true,"binfmt_riscv64":true}\n' \
