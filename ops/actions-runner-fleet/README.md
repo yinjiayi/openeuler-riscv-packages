@@ -68,6 +68,28 @@ scripts/dispatch-trusted-package-ci \
   --output /private/tmp/example-pr123-dispatch.json
 ```
 
+`--output` is a file contract, not a directory. The dispatcher atomically
+writes one JSON evidence object after argument/output validation for a
+successful run, a completed workflow failure, or a later local/API error. The
+record binds the PR head and base, protected-main run ID/name/URL, last API
+observation, polling bounds, required-job conclusions, status-update outcome,
+and any tool error. Exit 0 means the required jobs and bound build result
+passed; exit 1 means GitHub reached a verified terminal workflow failure; exit
+2 means the bridge failed closed. A failed workflow therefore remains
+`outcome=workflow-failed` with its real run/job conclusions instead of being
+reported as a polling error. No output can be written when `--output` itself
+names a directory or has a non-directory parent.
+
+The dispatcher does not trust an early return from `gh run watch`. It polls
+the exact Actions run through the API until `status=completed`, requires the
+same run ID and display title, `workflow_dispatch` event, protected `main`
+branch, a terminal conclusion, and a consistent completed job view. The
+default run deadline is three hours; each polling request is capped at 30
+seconds, and up to five consecutive transient API/view errors are tolerated.
+Maintainers may tighten the deadline with `--run-timeout-seconds` and the
+consecutive-error bound with `--max-transient-errors`; identity drift always
+fails immediately rather than being retried.
+
 On 2026-08-24 the repository's fork-workflow approval policy was set to GitHub's
 least restrictive public-repository option,
 `first_time_contributors_new_to_github`, and read back successfully. Established
