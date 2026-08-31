@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libconfuse
-Version:        3.3
+Version:        3.4
 Release:        1%{?dist}
 Summary:        Configuration file parser library
 License:        ISC
 URL:            https://github.com/libconfuse/libconfuse
-Source0:        libconfuse-%{version}.tar.xz
+Source0:        confuse-3.4.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  gettext-devel

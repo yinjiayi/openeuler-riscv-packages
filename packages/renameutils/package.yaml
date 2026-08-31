@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "package_id": "renameutils",
+  "rpm": {
+    "name": "renameutils",
+    "summary": "Utilities for renaming files more efficiently",
+    "license": "GPL-3.0-or-later"
+  },
+  "upstream": {
+    "component": "nongnu.org-renameutils",
+    "homepage": "https://www.nongnu.org/renameutils/",
+    "source_repository": "https://git.savannah.gnu.org/git/renameutils.git",
+    "release_channel": "stable",
+    "release_api": "https://download.savannah.gnu.org/releases/renameutils/",
+    "release_regex": "renameutils-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://download-mirror.savannah.gnu.org/releases/renameutils/renameutils-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.12.0",
+    "release": "1",
+    "latest_detected": "0.12.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "renameutils",
+        "package_base": "renameutils",
+        "source_version": "0.12.0-8",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/renameutils/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "renameutils",
+        "package_base": "renameutils",
+        "source_version": "0.12.0-12",
+        "evidence_url": "https://packages.debian.org/trixie/source/renameutils",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "renameutils",
+        "package_base": "renameutils",
+        "source_version": "0.12.0-31.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/renameutils/renameutils/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "renameutils",
+        "package_base": "renameutils",
+        "source_version": "0.12.0-2.5",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/renameutils",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "renameutils",
+        "package_base": "renameutils",
+        "source_version": "0.12.0-13",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/renameutils",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "renameutils.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-build-fix-bindir-expansion.patch",
+        "sha256": "63404ece79f55674f304ead0ff5e6c8d9f71525649e044d6445313cc6cd7441f",
+        "purpose": "Correct the upstream Automake bindir expansion so DESTDIR installation uses a valid path.",
+        "source": "Upstream 0.12.0 source and openEuler RISC-V package CI run 31768267502",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "An upstream release ships the corrected bindir expansion in Makefile.am and Makefile.in."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official stable Savannah archive reviewed and SHA-pinned; external packaging recipes were not executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

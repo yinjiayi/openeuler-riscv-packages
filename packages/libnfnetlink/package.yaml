@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://netfilter.org/projects/libnfnetlink/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnfnetlink",
+        "package_name": "libnfnetlink",
+        "source": "arch-core",
+        "source_version": "1.0.2-2"
+      },
+      {
+        "evidence_url": "https://netfilter.org/projects/libnfnetlink/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnfnetlink",
+        "package_name": "libnfnetlink",
+        "source": "debian",
+        "source_version": "1.0.2-3"
+      },
+      {
+        "evidence_url": "https://netfilter.org/projects/libnfnetlink/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnfnetlink",
+        "package_name": "libnfnetlink",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.0.2-1.15"
+      },
+      {
+        "evidence_url": "https://netfilter.org/projects/libnfnetlink/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnfnetlink",
+        "package_name": "libnfnetlink",
+        "source": "ubuntu",
+        "source_version": "1.0.2-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libnfnetlink.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libnfnetlink",
+  "rpm": {
+    "license": "GPL-2.0-only",
+    "name": "libnfnetlink",
+    "summary": "Low-level userspace library for Netfilter netlink messages"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "netfilter.org-projects-libnfnetlink",
+    "homepage": "https://netfilter.org/projects/libnfnetlink/",
+    "release_api": "https://netfilter.org/projects/libnfnetlink/downloads.html",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://git.netfilter.org/libnfnetlink/",
+    "source_url_template": "https://www.netfilter.org/projects/libnfnetlink/files/libnfnetlink-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "1.0.2",
+    "latest_detected": "1.0.2",
+    "release": "1"
+  }
+}
