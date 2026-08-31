@@ -76,7 +76,7 @@
   },
   "maintenance": {
     "maintainers": ["yinjiayi"],
-    "notes": "Official GNU sed 4.10 stable release bytes are SHA-256 pinned. This is a stable forward release relative to Fedora 44, Debian stable, and Ubuntu GA. The stale AUR VCS row was excluded by policy; only RPC metadata was recorded, and no AUR packaging content was read or executed. Distribution specs were treated only as untrusted, read-only lineage references and were never executed.",
+    "notes": "Official GNU sed 4.10 stable release bytes are SHA-256 pinned. The localeconv configure cache result is exported so the patched bundled gnulib replacement is selected on openEuler RISC-V. This is a stable forward release relative to Fedora 44, Debian stable, and Ubuntu GA. The stale AUR VCS row was excluded by policy; only RPC metadata was recorded, and no AUR packaging content was read or executed. Distribution specs were treated only as untrusted, read-only lineage references and were never executed.",
     "status": "active"
   },
   "package_id": "sed",
@@ -108,5 +108,5 @@
     "source_repository": "https://git.savannah.gnu.org/git/sed.git",
     "source_url_template": "https://ftp.gnu.org/gnu/sed/sed-{version}.tar.xz"
   },
-  "version": {"current": "4.10", "latest_detected": "4.10", "release": "1"}
+  "version": {"current": "4.10", "latest_detected": "4.10", "release": "2"}
 }

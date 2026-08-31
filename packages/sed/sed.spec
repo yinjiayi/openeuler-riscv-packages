@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sed
 Version:        4.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GNU stream-oriented text editor
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/sed/
@@ -29,7 +29,8 @@ commands supplied on the command line or in a script.
 %autosetup -p1
 
 %build
-gl_cv_func_localeconv_works=no %configure \
+export gl_cv_func_localeconv_works=no
+%configure \
   --disable-silent-rules \
   --with-included-regex
 %make_build
@@ -50,5 +51,8 @@ rm -f %{buildroot}%{_infodir}/dir
 %{_mandir}/man1/sed.1*
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.10-2
+- Export the localeconv cache result so configure selects the patched gnulib replacement.
+
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.10-1
 - Initial openEuler RISC-V package from reviewed Fedora 44 and upstream evidence.
