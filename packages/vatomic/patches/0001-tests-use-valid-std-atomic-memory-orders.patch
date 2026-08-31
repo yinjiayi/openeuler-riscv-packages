@@ -26,7 +26,6 @@ diff --git a/test/atomics_cxx/ut_int_types.cpp b/test/atomics_cxx/ut_int_types.c
 --- a/test/atomics_cxx/ut_int_types.cpp
 +++ b/test/atomics_cxx/ut_int_types.cpp
 @@ -38,11 +38,13 @@ template <typename TT, bool IsVolatile> struct TestAtomics {
-                 // mo_acquire. The compiler typically ignores that, downgrading
                  // the implicit barrier to mo_relaxed. However, if you set
                  // -pedanti, the compiler will complain. So, we perform this
                  // mapping manually.
