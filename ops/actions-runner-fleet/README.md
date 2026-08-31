@@ -128,6 +128,29 @@ alternatives to restore the distribution-selected `iptables` master link; this
 is required for an already-installed package whose `/usr/sbin/iptables` link
 was lost, because a no-op `apt-get install` does not recreate it reliably.
 
+### Host systemd package integrity
+
+The **systemd package integrity gate** is the shared lifecycle check that binds
+`/usr/bin/systemctl` to Ubuntu's installed `systemd` package before any
+`systemctl` operation. It requires a root-owned, mode-0755, non-symlink regular
+executable; the exact dpkg owner; an installed `systemd` package with a valid
+version; and no output from `dpkg-query --verify systemd`. Dpkg can return zero
+while printing a file checksum mismatch, so empty verification output—not the
+return code alone—is the acceptance condition. The installer repeats this
+gate after apt completes, and preflight, audit, registration, activation, and
+uninstall inherit it from the shared platform check. Systemctl itself is then
+called by absolute path with paging disabled.
+
+A **compromised host** is one where package ownership or integrity no longer
+matches that gate, even if a renamed executable can still submit a systemd job
+or the requested unit later appears active. Lifecycle scripts stop without
+executing the untrusted tool. They never move a renamed binary back, reinstall
+a package, delete an indicator, or otherwise attempt in-place recovery.
+Quarantine the host from Runner scheduling and the network, preserve forensic
+evidence, rotate its SSH and Runner credentials, and reimage it from a trusted
+source. Only a clean package-integrity audit plus the ordinary canary gates may
+return a rebuilt host to the fleet.
+
 ## Credentials
 
 Scripts reject `--token`, `--pat`, JIT configuration, and token-like command
@@ -208,6 +231,10 @@ refreshes the complete managed package and libexec contract—including
 re-registering the Runner, replacing its locked payload, or resetting an
 enabled policy. Copying one missing helper by hand is not a redeployment and
 can leave the installed files at mutually incompatible revisions.
+
+Redeployment is for a package-complete, integrity-valid host. It is not an
+incident-response substitute: a systemd package-integrity failure requires
+quarantine, credential rotation, and trusted reimaging rather than this flow.
 
 Redeploy from a freshly verified protected-main archive. Start with one host;
 after that complete canary passes, independent hosts may use disjoint bounded

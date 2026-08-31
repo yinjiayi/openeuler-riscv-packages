@@ -78,10 +78,53 @@ class RunnerFleetStaticTests(unittest.TestCase):
     def test_systemctl_global_options_precede_the_verb(self) -> None:
         for filename in ("activate.sh", "audit.sh", "register.sh"):
             script = (OPS / filename).read_text(encoding="utf-8")
-            self.assertNotRegex(script, r"systemctl is-(?:active|enabled) --quiet")
+            self.assertNotRegex(script, r"oe_systemctl is-(?:active|enabled) --quiet")
         audit = (OPS / "audit.sh").read_text(encoding="utf-8")
-        self.assertIn('systemctl --quiet is-active "$service"', audit)
-        self.assertIn('systemctl --quiet is-enabled "$service"', audit)
+        self.assertIn('oe_systemctl --quiet is-active "$service"', audit)
+        self.assertIn('oe_systemctl --quiet is-enabled "$service"', audit)
+
+    def test_systemctl_package_integrity_precedes_every_lifecycle_call(self) -> None:
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+        installer = (OPS / "install.sh").read_text(encoding="utf-8")
+        preflight = (OPS / "preflight.sh").read_text(encoding="utf-8")
+        audit = (OPS / "audit.sh").read_text(encoding="utf-8")
+
+        integrity = library.split("oe_assert_systemctl_integrity() {", 1)[1].split(
+            "\n}", 1
+        )[0]
+        self.assertIn("[[ -f $oe_systemctl_path && ! -L $oe_systemctl_path", integrity)
+        self.assertIn("root:root:755", integrity)
+        self.assertIn('systemd: /usr/bin/systemctl', integrity)
+        self.assertIn("${binary:Package}\\t${Status}\\t${Version}", integrity)
+        self.assertIn("dpkg-query --verify systemd", integrity)
+        self.assertIn("[[ -z $verification ]]", integrity)
+        self.assertNotIn("mctes", library)
+
+        platform = library.split("oe_assert_platform() {", 1)[1].split("\n}", 1)[0]
+        self.assertLess(
+            platform.index("oe_assert_systemctl_integrity"),
+            platform.index("oe_systemctl is-system-running"),
+        )
+        wrapper = library.split("oe_systemctl() {", 1)[1].split("\n}", 1)[0]
+        self.assertLess(
+            wrapper.index("oe_assert_systemctl_integrity"),
+            wrapper.index('oe_run "$oe_systemctl_path"'),
+        )
+        package_install = installer.index("apt-get install -y --no-install-recommends")
+        post_apt_integrity = installer.index("oe_assert_systemctl_integrity", package_install)
+        self.assertLess(package_install, post_apt_integrity)
+        self.assertLess(post_apt_integrity, installer.index("oe_systemctl daemon-reload"))
+        self.assertIn('oe_assert_platform "$OE_IDENTITY_ALLOW_DEGRADED"', preflight)
+        self.assertIn('oe_assert_platform "$OE_ARG_ALLOW_DEGRADED"', audit)
+
+        for path in sorted(OPS.glob("*.sh")):
+            if path.name == "_lib.sh":
+                continue
+            self.assertNotRegex(
+                path.read_text(encoding="utf-8"),
+                r"(?m)^\s*systemctl(?:\s|$)",
+                path.name,
+            )
 
     def test_policy_has_only_two_main_workflows_and_two_events(self) -> None:
         policy = parse_assignment_file(OPS / "policy.conf")
@@ -283,7 +326,7 @@ class RunnerFleetStaticTests(unittest.TestCase):
         script = (OPS / "activate.sh").read_text(encoding="utf-8")
         self.assertIn("--enable-reviewed-policy", script)
         self.assertIn("rollback_activation", script)
-        self.assertIn("systemctl disable --now", script)
+        self.assertIn("oe_systemctl disable --now", script)
         self.assertIn('OE_RUNNER_ENROLLMENT_ENABLED=false', script)
         self.assertLess(script.index("cleanup.sh"), script.index("policy_changed=false"))
 
