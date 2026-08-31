@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           wpets
 Version:        5.0.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A Wayland overlay that displays an animated virtual pet reacting to keyboard input
 License:        MIT
 URL:            https://github.com/furudbat/wayland-vpets
@@ -23,7 +23,10 @@ A Wayland overlay that displays an animated virtual pet reacting to keyboard inp
 %autosetup -n wayland-vpets-%{version} -p1
 
 %build
-%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON -DCMAKE_C_COMPILER=clang
+%cmake -S . -B %{_vpath_builddir} \
+  -DBUILD_TESTING=ON \
+  -DCMAKE_C_COMPILER=clang \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 %cmake_build
 
 %install
@@ -39,6 +42,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.0.2-3
+- Compile internal static libraries as position-independent code for hardened PIE links.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.0.2-2
 - Use Clang 20 for C23 sources that rely on the standard #embed directive.
 
