@@ -1,0 +1,21 @@
+{
+  "package_id": "raptor-cos",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ef4a46d4cbad25ce19dab0d2ae86bc84f3c8dda6211bfbeeedb26d2d77578e0c"
+      },
+      "filename": "raptor-cos-0.8.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/skynettx/raptor/archive/refs/tags/v0.8.1.tar.gz",
+      "version": "0.8.1"
+    }
+  ]
+}
