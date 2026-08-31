@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official latest 1.2.2 bytes are SHA-256 pinned and archive-safe. Target metadata has no wdiff package or /usr/bin/wdiff provider. The complete four-case Autotest suite remains enabled, including its screen-based pager acceptance case.",
+    "notes": "Official latest 1.2.3 bytes are SHA-256 pinned and archive-safe. Target metadata has no wdiff package or /usr/bin/wdiff provider. The complete four-case Autotest suite remains enabled, including its screen-based pager acceptance case. Installed smoke derives the expected version from RPM metadata so future version updates remain self-consistent.",
     "status": "active"
   },
   "package_id": "wdiff",
@@ -95,6 +95,6 @@
   "version": {
     "current": "1.2.3",
     "latest_detected": "1.2.3",
-    "release": "1"
+    "release": "2"
   }
 }

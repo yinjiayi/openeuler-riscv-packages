@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           wdiff
 Version:        1.2.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Display word differences between text files
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/wdiff/
@@ -49,5 +49,8 @@ rm -f %{buildroot}%{_infodir}/dir
 %{_datadir}/locale/*/LC_MESSAGES/wdiff*.mo
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.3-2
+- Make the installed smoke version check follow the packaged RPM version.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.2-1
 - Initial openEuler RISC-V package with the complete upstream test suite.
