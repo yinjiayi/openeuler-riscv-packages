@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ski-ia64-simulator
 Version:        1.5.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Itanium 2 (ia64) instruction set simulator
 License:        GPL-2.0-or-later
 URL:            https://github.com/trofi/ski
 Source0:        ski-ia64-simulator-1.5.1.tar.gz
+Patch0:         0001-linux-port-host-syscall-translation.patch
 BuildRequires:  autoconf
 BuildRequires:  autoconf-archive
 BuildRequires:  automake
@@ -46,6 +47,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.1-3
+- Isolate simulated syscall numbers from the RISC-V host ABI and add safe legacy syscall fallbacks.
+
 * Sun Aug 30 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.1-2
 - Match the official archive root and declare the required generated-code and library dependencies.
 

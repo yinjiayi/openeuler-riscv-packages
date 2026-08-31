@@ -27,7 +27,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-linux-port-host-syscall-translation.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Keep simulated HP-UX/IA-64 syscall numbers separate from the RISC-V host ABI, use getdents64 when legacy getdents is unavailable, and return ENOSYS for unsupported host legacy syscalls.",
+        "remove_when": "Upstream supports asm-generic Linux hosts without host SYS_* namespace collisions and provides getdents64 and uselib fallbacks.",
+        "sha256": "23e0a4d5a8a5ee91dd0b80bed43438a948d1d312465ef1b9918ec1ac402cfc7e",
+        "source": "Downstream openEuler RISC-V package CI run 33319503264 and Linux asm-generic syscall ABI review.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "ski-ia64-simulator.spec"
@@ -36,7 +46,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. The downstream Linux host adapter patch isolates simulated syscall numbers from the host __NR namespace, adds an asm-generic getdents64 compatibility path, and returns ENOSYS for unavailable legacy host syscalls without disabling simulator features or tests.",
     "status": "active"
   },
   "package_id": "ski-ia64-simulator",
@@ -71,6 +81,6 @@
   "version": {
     "current": "1.5.1",
     "latest_detected": "1.5.1",
-    "release": "2"
+    "release": "3"
   }
 }
