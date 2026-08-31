@@ -1,0 +1,21 @@
+{
+  "package_id": "safu",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2d7ca2881ea1e22c65763fa1ac149920fd15ce7f86c9de023d77fa9b27f20242"
+      },
+      "filename": "safu-0.64.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Elektrobit/safu/archive/refs/tags/safu-0.64.4.tar.gz",
+      "version": "0.64.4"
+    }
+  ]
+}
