@@ -1,0 +1,21 @@
+{
+  "package_id": "vera",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ac8be41aa77912fff9d0e75dfa73b53e8c99d0336f3165ccd94b1cbed331b7c8"
+      },
+      "filename": "vera-1.24.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/vera/vera-1.24.tar.gz",
+      "version": "1.24"
+    }
+  ]
+}

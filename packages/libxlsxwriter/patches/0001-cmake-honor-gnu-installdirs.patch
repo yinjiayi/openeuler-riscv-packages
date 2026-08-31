@@ -1,0 +1,70 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Fri, 14 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: honor GNUInstallDirs in development metadata
+
+The CMake install target places the shared library in CMAKE_INSTALL_LIBDIR,
+but xlsxwriter.pc hard-codes the prefix-relative lib directory.  Generate the
+pkg-config path from GNUInstallDirs so consumers find the RISC-V library in
+the architecture-specific libdir.  Use the same directory abstraction for
+the top-level public header.
+
+Patch-Source: openEuler RISC-V review of the official 1.2.4 tag archive
+Patch-License: BSD-2-Clause
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: Upstream pkg-config and header installation honor GNUInstallDirs.
+---
+ CMakeLists.txt              | 6 +++---
+ dev/release/pkg-config.txt  | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -55,5 +55,6 @@
+ project(${XLSX_PROJECT_NAME} C)
+ enable_testing()
++include(GNUInstallDirs)
+
+ # -------------------
+ # Compilation options
+@@ -280,6 +281,7 @@ endif()
+ # Create the xlsxwriter.pc file
+ # -----------------------------
+ set(PREFIX ${CMAKE_INSTALL_PREFIX})
++set(LIBDIR ${CMAKE_INSTALL_FULL_LIBDIR})
+
+ file(READ "include/xlsxwriter.h" ver)
+ string(REGEX MATCH "LXW_VERSION \"([^\"]+)\"" _ ${ver})
+@@ -553,8 +555,6 @@ endif()
+ # -------------------
+ # Install the library
+ # -------------------
+-include(GNUInstallDirs)
+-
+ install(
+     TARGETS ${PROJECT_NAME}
+     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+@@ -563,7 +563,7 @@ install(
+     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+ )
+
+-install(FILES include/xlsxwriter.h DESTINATION include)
++install(FILES include/xlsxwriter.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+ install(
+     DIRECTORY include/xlsxwriter
+diff --git a/dev/release/pkg-config.txt b/dev/release/pkg-config.txt
+--- a/dev/release/pkg-config.txt
++++ b/dev/release/pkg-config.txt
+@@ -1,7 +1,7 @@
+ prefix=@PREFIX@
+ exec_prefix=${prefix}
+ includedir=${prefix}/include
+-libdir=${exec_prefix}/lib
++libdir=@LIBDIR@
+
+ Name: libxlsxwriter
+ Description: A C library for creating Excel XLSX files
+--
+2.50.1

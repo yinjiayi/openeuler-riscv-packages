@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "argtable3",
+  "rpm": {
+    "name": "argtable3",
+    "summary": "ANSI C command-line parsing library",
+    "license": "BSD-3-Clause AND BSD-2-Clause AND TCL"
+  },
+  "upstream": {
+    "component": "argtable.org",
+    "homepage": "https://argtable.org",
+    "source_repository": "https://github.com/argtable/argtable3",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/argtable/argtable3/releases",
+    "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/argtable/argtable3/releases/download/v{version}/argtable-v{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.3.1",
+    "release": "1",
+    "latest_detected": "3.3.1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "argtable3",
+        "package_base": "argtable3",
+        "source_version": "3.2.2-1",
+        "evidence_url": "https://aur.archlinux.org/packages/argtable3",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "argtable3.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official 3.3.1 release asset and its publisher SHA-256 were independently verified. Frozen AUR metadata is lineage only; no external recipe was executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}

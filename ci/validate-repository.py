@@ -120,6 +120,8 @@ def main() -> int:
             errors.append(f"package-ci.yml does not visibly support {event}")
     if "inputs.base_sha" not in package_ci or "github.sha" not in package_ci:
         errors.append("package-ci.yml cannot validate a trusted bot-created PR head via workflow_dispatch")
+    if "commit_sha:" not in package_ci or "pr_number:" not in package_ci or "run-name: Package CI ${{ inputs.commit_sha" not in package_ci:
+        errors.append("package-ci.yml cannot bind a protected-main trusted dispatch to its exact input commit")
     for marker in (
         "ci/rsync-with-lock-retry.sh -- rsync",
         "RRSYNC_LOCK_JITTER_KEY: ${{ format('{0}:{1}', github.run_id, needs.prepare.outputs.package_id) }}",
@@ -215,6 +217,97 @@ def main() -> int:
             errors.append(f"QEMU runner evidence policy is missing {marker}")
     if "ci/qemu-runner-policy.py" not in package_ci:
         errors.append("package-ci.yml does not emit structured QEMU runner routing evidence")
+    authorization = root / "ci" / "authorize-trusted-package-dispatch.py"
+    if not authorization.is_file() or not authorization.stat().st_mode & 0o111:
+        errors.append("trusted protected-main dispatch authorizer is missing or not executable")
+    elif not all(marker in authorization.read_text(encoding="utf-8") for marker in (
+        "PROTECTED_REF = \"refs/heads/main\"",
+        "TRUSTED_ASSOCIATIONS",
+        "PR changes are not confined",
+        "trusted PR dispatch must disable repository publication",
+    )):
+        errors.append("trusted protected-main dispatch authorizer is missing required scope or publication guards")
+    for marker in (
+        "authorize-trusted-dispatch:",
+        "needs: authorize-trusted-dispatch",
+        "ref: ${{ github.sha }}",
+        "ci/authorize-trusted-package-dispatch.py",
+        "--pr-number \"$PR_NUMBER\"",
+        "--publish-to-repo \"$PUBLISH_TO_REPO\"",
+        "$GITHUB_REPOSITORY/.github/workflows/rpm-repo-backfill.yml@refs/heads/main",
+        "inputs.commit_sha == '' && inputs.publish_to_repo",
+    ):
+        if marker not in package_ci:
+            errors.append("package-ci.yml is missing fixed-main trusted dispatch authorization: %s" % marker)
+    if package_ci.count("if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'") < 7:
+        errors.append("package-ci.yml can check out a dispatch head before trusted authorization succeeds")
+    if "(github.event_name == 'workflow_call' && inputs.publish_to_repo)" in package_ci:
+        errors.append("package-ci.yml permits reusable callers other than the protected RPM backfill to publish")
+    overlay_materializer = root / "ci" / "materialize-package-head.py"
+    overlay_selector = root / "ci" / "select-package-scope.py"
+    if not overlay_materializer.is_file() or not overlay_materializer.stat().st_mode & 0o111:
+        errors.append("protected-main package overlay materializer is missing or not executable")
+    elif not all(marker in overlay_materializer.read_text(encoding="utf-8") for marker in (
+        '"kind": "protected-main-package-overlay"',
+        '"package_tree_sha": tree_sha',
+        '"tooling_commit_sha": tooling_sha',
+    )):
+        errors.append("protected-main package overlay evidence is missing its exact provenance binding")
+    if not overlay_selector.is_file() or not overlay_selector.stat().st_mode & 0o111:
+        errors.append("protected-main package overlay scope selector is missing or not executable")
+    elif not all(marker in overlay_selector.read_text(encoding="utf-8") for marker in (
+        'parser.add_argument("--tooling-head")',
+        'parser.add_argument("--overlay-evidence", type=Path)',
+        'git(root, ["write-tree", f"--prefix={package_path}/"])',
+        'git(root, ["ls-files", "--others", "--", package_path])',
+    )):
+        errors.append("protected-main package selector does not revalidate the exact overlay tree")
+    for marker in (
+        '--tooling-head "$TOOLING_HEAD_SHA"',
+        "--overlay-evidence artifacts/scope/tooling-overlay.json",
+    ):
+        if marker not in package_ci:
+            errors.append(f"package CI scope selection is missing overlay binding: {marker}")
+    protected_tooling_checkout = (
+        "ref: ${{ github.event.pull_request.base.sha || "
+        "github.event.merge_group.base_sha || github.sha }}"
+    )
+    untrusted_tooling_checkout = (
+        "ref: ${{ inputs.commit_sha != '' && github.sha || "
+        "github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}"
+    )
+    if package_ci.count(protected_tooling_checkout) != 7:
+        errors.append(
+            "package-ci.yml must check out immutable protected-base tooling in all seven package jobs"
+        )
+    if untrusted_tooling_checkout in package_ci:
+        errors.append("package-ci.yml must not execute shared tooling from a pull-request head")
+    if package_ci.count("ci/materialize-package-head.py --repo-root .") != 7:
+        errors.append("package-ci.yml must overlay the exact package tree in all seven package jobs")
+    if package_ci.count('--tooling-sha "$TOOLING_COMMIT_SHA"') != 7:
+        errors.append("package-ci.yml package overlays are not bound to the checked-out protected tooling")
+    for marker in (
+        "Classify the exact event delta with protected tooling",
+        "Materialize only the exact package tree",
+        "PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}",
+        "TOOLING_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}",
+    ):
+        if marker not in package_ci:
+            errors.append(f"package CI protected-tooling overlay contract is missing: {marker}")
+    trusted_dispatch = root / "scripts" / "dispatch-trusted-package-ci"
+    if not trusted_dispatch.is_file() or not trusted_dispatch.stat().st_mode & 0o111:
+        errors.append("trusted protected-main package dispatcher is missing or not executable")
+    elif not all(marker in trusted_dispatch.read_text(encoding="utf-8") for marker in (
+        '"--ref",\n                "main"',
+        '"pr_number=%d" % args.pr',
+        '"publish_to_repo=false"',
+        "TRUSTED_ASSOCIATIONS",
+        "download_build_result",
+        "wait_for_terminal_run",
+        '"--run-timeout-seconds"',
+        '"terminal_observation"',
+    )):
+        errors.append("trusted protected-main package dispatcher is missing required scope or evidence guards")
     for workflow in sorted(workflows.glob("*.yml")):
         if workflow.name == "package-ci.yml":
             continue
@@ -241,6 +334,8 @@ def main() -> int:
         'grant_other_access(repo_root, readable=False)',
         'grant_other_access(packages_dir, readable=False)',
         'grant_other_access(work_parent, readable=False)',
+        'successful unprivileged build is missing required evidence',
+        'require_complete=completed.returncode == 0',
     ):
         if marker not in build_runner:
             errors.append(
@@ -264,8 +359,8 @@ def main() -> int:
         errors.append("default GITHUB_TOKEN permissions must remain read-only")
     if actions_settings.get("can_approve_pull_request_reviews") is not True:
         errors.append("Actions cannot create the reviewed digest-lock PR")
-    if actions_settings.get("fork_pull_request_approval_policy") != "all_external_contributors":
-        errors.append("every external fork workflow must require explicit maintainer approval")
+    if actions_settings.get("fork_pull_request_approval_policy") != "first_time_contributors_new_to_github":
+        errors.append("established contributors must be allowed to run fork workflows without repeated approval")
     qemu_runner = actions_settings.get("self_hosted_qemu_runner", {})
     if qemu_runner != {
         "enabled": True,
@@ -276,8 +371,8 @@ def main() -> int:
     github_configurator = (root / "ci" / "configure-github.sh").read_text(encoding="utf-8")
     if "actions/permissions/fork-pr-contributor-approval" not in github_configurator:
         errors.append("GitHub provisioning does not enforce the external fork workflow approval policy")
-    if github_configurator.count("all_external_contributors") < 1:
-        errors.append("GitHub provisioning does not fail closed on the external fork policy")
+    if github_configurator.count("first_time_contributors_new_to_github") < 1:
+        errors.append("GitHub provisioning does not enforce the least restrictive public-repository fork policy")
     if settings.get("allowed_actions_secrets") != ["RPM_REPO_SSH_PRIVATE_KEY"]:
         errors.append("repository settings must allow only the restricted RPM repository deployment key")
     forbidden_secrets = settings.get("forbidden_actions_secrets", [])
@@ -407,7 +502,10 @@ def main() -> int:
     for marker in (
         "ci/list-rpm-repo-packages.py",
         "uses: ./.github/workflows/package-ci.yml",
-        "max-parallel: ${{ fromJSON(vars.RPM_BACKFILL_MAX_CONCURRENCY || '32') }}",
+        "--max-concurrency \"${{ vars.RPM_BACKFILL_MAX_CONCURRENCY || '50' }}\"",
+        "packages_0: ${{ steps.plan.outputs.packages_0 }}",
+        "packages_1: ${{ steps.plan.outputs.packages_1 }}",
+        "max-parallel: ${{ fromJSON(needs.plan.outputs.max_parallel_per_shard) }}",
         "publish_to_repo: true",
         "retention-days: 7",
     ):
