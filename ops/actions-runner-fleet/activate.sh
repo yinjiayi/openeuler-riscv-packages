@@ -103,7 +103,7 @@ fi
 [[ $OE_POLICY_ENROLLMENT_ENABLED == true ]] || oe_die 'activation policy is not enabled'
 "$oe_runner_libexec/preflight.sh" --name "$OE_ARG_NAME"
 systemctl enable --now "$service"
-systemctl is-active --quiet "$service" || oe_die 'Runner service did not become active'
+systemctl --quiet is-active "$service" || oe_die 'Runner service did not become active'
 activation_complete=true
 trap - EXIT
 printf 'Activated %s on %s (%s stage).\n' "$OE_ARG_NAME" "$OE_ARG_HOST" "$stage"

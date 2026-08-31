@@ -60,7 +60,7 @@ PY
   exit 0
 fi
 
-systemctl is-active --quiet "$service" && oe_die 'unconfigured Runner service is unexpectedly active'
+systemctl --quiet is-active "$service" && oe_die 'unconfigured Runner service is unexpectedly active'
 oe_read_secret OE_RUNNER_REGISTRATION_TOKEN 'Short-lived Runner registration token: '
 trap 'oe_wipe_secret; chown root:root "$runner_dir" 2>/dev/null || true' EXIT
 chown "$oe_runner_user:$oe_runner_group" "$runner_dir"

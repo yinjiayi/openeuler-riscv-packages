@@ -179,11 +179,18 @@ Docker-client state; it deliberately preserves the sibling `_actions`,
 cleanup** first leaves the job workspace and then removes all verified Runner
 work/home/Docker-state children. All phases share the same lock.
 
-These hosts are dedicated to exactly one Runner. Cleanup therefore fails
-before any Docker mutation if *any* running container exists; it never guesses
-container ownership. When Docker is idle it removes all stopped/created containers,
-dangling volumes, and unused custom networks, plus only the workflow-defined
-`openeuler-builddeps:*` derived images. The digest-pinned
+These hosts are dedicated to exactly one sequential Runner. A **managed
+dependency container** is the temporary, long-running container created by
+`prepare-build-deps.py` with the fixed recovery label, the bounded
+`openeuler-builddeps-<pid>-<nonce>` name, the digest-pinned target image, and
+the fixed sleep-loop command. At job start, cleanup inventories every running
+container before its first mutation. It recovers the prior job's orphan only
+when every running container exactly matches that complete managed identity;
+one unknown, unlabeled, mutable-image, or command-mismatched container keeps
+the original fail-closed behavior for the whole host. This does not authorize
+a name-only or label-only deletion. When Docker is idle it removes all
+stopped/created containers, dangling volumes, and unused custom networks, plus
+only the workflow-defined `openeuler-builddeps:*` derived images. The digest-pinned
 `ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild` base image and all other image
 caches are retained. The same locked base, with `--pull never`, is used as a
 root cleanup container for root-owned QEMU build outputs in three exact bind
