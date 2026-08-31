@@ -25,7 +25,7 @@
         "license": "MIT",
         "purpose": "Keep the complete upstream C++ comparison suite valid under libstdc++ assertions by mapping operation-specific invalid std::atomic memory orders to relaxed for both mirror and subject.",
         "remove_when": "An upstream release after 2.4.1 restricts the C++ comparison tests to memory orders valid for each atomic operation.",
-        "sha256": "5b7fac6b6ef062b4c03537834e10bd64e93a210c68c00db8ca269cbc4f7cb3b1",
+        "sha256": "cb16f5eed94a7417c2d96b9d8f0142f55ca0d646a73fca6fcc1d9e53950a5c61",
         "source": "Downstream analysis of openEuler RISC-V package CI run 33351268802 against the SHA-256-verified upstream 2.4.1 archive.",
         "upstream_status": "not-submitted"
       }
