@@ -1,0 +1,21 @@
+{
+  "package_id": "acct",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "13c2d18bdfa11ca0200d8c0f9df2e4572113d3fa5f44db219e5c71e04ae3fa03"
+      },
+      "filename": "acct-6.6.4.tar.bz2",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/acct/acct-6.6.4.tar.bz2",
+      "version": "6.6.4"
+    }
+  ]
+}
