@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 11 Aug 2026 00:00:00 +0000
+Subject: [PATCH] tests: allow RISC-V emulation time for TLS reconnect
+
+The blocking-timeout test deliberately blocks Redis for one second, so a
+500 ms command timeout still proves that the command times out.  The upstream
+10 ms margin is too short for the subsequent TLS reconnect handshake under
+RISC-V linux-user emulation, where the same socket timeout is restored by
+redisReconnect().  Increase only the RISC-V test margin; keep the timeout,
+reconnect, TLS handshake, PING, and owned-parameter assertions enabled.
+
+Upstream-Status: Not Submitted (automated upstream writes are forbidden)
+Patch-Source: openEuler RISC-V QEMU CI run 31463568107
+Patch-License: BSD-3-Clause
+---
+ test.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/test.c b/test.c
+index 68d5ea1..02b09d8 100644
+--- a/test.c
++++ b/test.c
+@@ -1353 +1353,5 @@ static void test_blocking_connection_timeouts(struct config config) {
+-    struct timeval tv = {.tv_sec = 0, .tv_usec = 10000};
++#if defined(__riscv)
++    struct timeval tv = {.tv_sec = 0, .tv_usec = 500000};
++#else
++    struct timeval tv = {.tv_sec = 0, .tv_usec = 10000};
++#endif
