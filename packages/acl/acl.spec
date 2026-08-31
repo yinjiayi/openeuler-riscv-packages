@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           acl
 Version:        2.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        POSIX access control list utilities
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later
 URL:            https://savannah.nongnu.org/projects/acl
@@ -61,6 +61,7 @@ rm -rf %{buildroot}%{_docdir}/%{name}*
 umask 022
 check_root=$(mktemp -d /var/tmp/acl-check.XXXXXX)
 trap 'rm -rf "$check_root"' EXIT
+chmod a+x "$check_root"
 cp -R "$PWD" "$check_root/source"
 chmod -R a+rX "$check_root/source"
 cd "$check_root/source"
@@ -95,6 +96,9 @@ runuser -u bin -- "$PWD/setfacl" --version >/dev/null
 %{_mandir}/man3/acl_*.3*
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.0-2
+- Allow the unprivileged test identity to traverse the container-local test root.
+
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.0-1
 - Initial openEuler RISC-V package with the complete upstream test suite.
 - Preserve root tests under parallel libtool execution, hardened device cgroups, and the protected runner's fixed workspace mount.
