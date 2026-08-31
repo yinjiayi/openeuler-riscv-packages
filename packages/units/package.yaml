@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/units/units.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "units",
+        "package_name": "units",
+        "source": "aur",
+        "source_version": "2.27-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/units/units.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "units",
+        "package_name": "units",
+        "source": "debian",
+        "source_version": "2.24-1+deb13u1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/units/units.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "units",
+        "package_name": "units",
+        "source": "fedora",
+        "source_version": "2.25-1.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/units/units.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "units",
+        "package_name": "units",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.27-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "units.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "units",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "units",
+    "summary": "Convert quantities between systems of measurement"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-units-units.html",
+    "homepage": "https://www.gnu.org/software/units/units.html",
+    "release_api": "https://ftp.gnu.org/gnu/units/",
+    "release_channel": "stable",
+    "release_regex": "units-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://git.savannah.gnu.org/cgit/units.git/",
+    "source_url_template": "https://ftp.gnu.org/gnu/units/units-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.27",
+    "latest_detected": "2.27",
+    "release": "1"
+  }
+}
