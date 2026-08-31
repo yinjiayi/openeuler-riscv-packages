@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           stuplot
 Version:        1.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        High-performance C++23 header-only plotting engine based on IA and DE
 License:        MIT
 URL:            https://github.com/Friendships6666/StuPlot
@@ -18,7 +18,7 @@ High-performance C++23 header-only plotting engine based on IA and DE
 %autosetup -n StuPlot-%{version} -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -34,6 +34,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-3
+- Configure the explicit CMake source and out-of-source build directories.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-2
 - Match the exact top-level directory in the official source archive.
 
