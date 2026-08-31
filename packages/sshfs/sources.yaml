@@ -1,0 +1,21 @@
+{
+  "package_id": "sshfs",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "67a3e166a39b07708497ee0aee308547dba386053cf8d816b4ce8a9b3066a6ce"
+      },
+      "filename": "sshfs-3.7.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libfuse/sshfs/archive/refs/tags/sshfs-3.7.6.tar.gz",
+      "version": "3.7.6"
+    }
+  ]
+}
