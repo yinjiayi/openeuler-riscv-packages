@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "package_id": "ftxui",
+  "rpm": {
+    "name": "ftxui",
+    "summary": "Functional terminal user interface library for C++",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "github.com-arthursonzogni-ftxui",
+    "homepage": "https://github.com/ArthurSonzogni/FTXUI",
+    "source_repository": "https://github.com/ArthurSonzogni/FTXUI.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/ArthurSonzogni/FTXUI/releases/latest",
+    "release_regex": "FTXUI-v(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_url_template": "https://github.com/ArthurSonzogni/FTXUI/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "7.0.3",
+    "latest_detected": "7.0.3",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "ftxui",
+        "package_base": "ftxui",
+        "source_version": "7.0.1-1",
+        "evidence_url": "https://aur.archlinux.org/packages/ftxui",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "ftxui",
+        "package_base": "ftxui",
+        "source_version": "7.0.3-1.1",
+        "evidence_url": "https://software.opensuse.org/package/ftxui",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "ftxui",
+        "package_base": "ftxui",
+        "source_version": "6.1.9-2.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/ftxui/ftxui/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "ftxui",
+        "package_base": "ftxui",
+        "source_version": "5.0.0-2",
+        "evidence_url": "https://packages.debian.org/source/stable/ftxui",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "ftxui",
+        "package_base": "ftxui",
+        "source_version": "5.0.0-2build1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/ftxui",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "ftxui.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The shared RPM payload and the static upstream test build use separate CMake trees. Google Benchmark 1.8.2 is pinned only to build FTXUI's upstream benchmark target offline."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}
