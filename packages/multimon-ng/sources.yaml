@@ -1,0 +1,21 @@
+{
+  "package_id": "multimon-ng",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3f3b9e498dcadad992e95ed253f196f2e090506e7074cfd7509122815a165fc0"
+      },
+      "filename": "multimon-ng-1.6.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/EliasOenal/multimon-ng/archive/refs/tags/1.6.0.tar.gz",
+      "version": "1.6.0"
+    }
+  ]
+}
