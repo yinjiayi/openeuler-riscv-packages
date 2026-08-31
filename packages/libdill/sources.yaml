@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdill",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/sustrik/libdill/archive/refs/tags/2.14.tar.gz",
+      "filename": "libdill-2.14.tar.gz",
+      "version": "2.14",
+      "digests": {
+        "sha256": "ebba0e5b433ec123b74a57d49b89dfa673aa258e03e6a452959e556b4c4529b9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "MIT-licensed source is fetched from the official GitHub version tag in CI."
+      }
+    }
+  ]
+}
