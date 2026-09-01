@@ -6,8 +6,9 @@ release archive is SHA-256 pinned and supplies the generated command and API
 manuals expected by its build system. Frozen Arch, Debian, Fedora 44,
 openSUSE, and Ubuntu lineage was cross-checked without executing recipes. The
 complete upstream unit/format suite, including FLAC, the Linux ALSA example,
-and an installed WAVE API smoke are mandatory. All installed manuals have
-explicit RPM ownership, and the spec declares the ALSA development dependency.
+and an installed WAVE API smoke are mandatory. All installed manuals and
+public headers, including `af_vfs.h`, have explicit RPM ownership, and the
+spec declares the ALSA development dependency.
 The build retains the internal static archive needed to link upstream's hidden
 C++ unit-test symbols, then removes that archive from the installed package.
 Apache-2.0 covers packaging.

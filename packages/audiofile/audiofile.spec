@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name: audiofile
 Version: 0.3.6
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: Library for reading and writing audio files
 License: LGPL-2.1-or-later AND GPL-2.0-or-later
 URL: https://github.com/mpruett/audiofile
@@ -50,12 +50,16 @@ rm -f %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/*.a
 
 %files devel
 %{_includedir}/audiofile.h
+%{_includedir}/af_vfs.h
 %{_includedir}/aupvlist.h
 %{_libdir}/libaudiofile.so
 %{_libdir}/pkgconfig/audiofile.pc
 %{_mandir}/man3/*
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.6-5
+- Own the installed public virtual-file header in the development subpackage.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.6-4
 - Build the internal static archive required by the upstream unit-test link.
 - Remove the static archive from the installed package after the test-capable build.
