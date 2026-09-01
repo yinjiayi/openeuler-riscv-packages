@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 180
   },
   "discovery": {
     "lineage": [
@@ -55,7 +55,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Two exact-head QEMU builds installed the full dependency closure in 8-13 minutes and were then cancelled at the former 120-minute job boundary before producing an rpmbuild result, so the bounded package build allowance is 180 minutes. No compiler options, features, or tests are disabled. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "diamond",
