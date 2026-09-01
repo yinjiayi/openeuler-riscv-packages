@@ -130,6 +130,15 @@ def grant_other_access(path: pathlib.Path, *, readable: bool) -> None:
     os.chmod(path, (stat.S_IMODE(mode) & ~0o007) | other_mode)
 
 
+def grant_root_workspace_traversal(repo_root: pathlib.Path) -> None:
+    """Let root-build test identities traverse only the fixed mount parents."""
+
+    repository = require_real_directory(repo_root, "repository root")
+    work_parent = require_real_directory(repo_root / "work", "work parent directory")
+    grant_other_access(repository, readable=False)
+    grant_other_access(work_parent, readable=False)
+
+
 def workspace_tree_entries(root: pathlib.Path) -> list[pathlib.Path]:
     """List a regular input tree without ever following a checkout symlink."""
 
@@ -514,6 +523,7 @@ def run_mode(args: argparse.Namespace) -> int:
             )
             return preparation.returncode
     else:
+        grant_root_workspace_traversal(repo_root)
         result_dir = artifact_dir
 
     completed = subprocess.run(
