@@ -59,7 +59,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-gnulib-normalize-unsigned-char-localeconv-sentinel.patch",
+        "license": "LGPL-2.1-or-later",
+        "purpose": "Normalize the C-locale localeconv unavailable sentinel when an unsigned-char RISC-V libc exposes SCHAR_MAX.",
+        "remove_when": "The bundled gnulib localeconv probe and replacement handle this openEuler RISC-V representation upstream.",
+        "sha256": "6ebbaf8ef8ed8926fdae9c26e07b25fe32f23b7a8aa12173166dd00a17c8d753",
+        "source": "Downstream openEuler RISC-V CI failure in gnulib-tests/test-localeconv on openEuler 24.03 LTS SP3.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "findutils.spec"
@@ -68,7 +78,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official GNU 4.11.0 archive bytes are SHA-256 pinned. Epoch 2 and the findutils-help split preserve the fixed target EVR/layout; locate is fully built and tested but not shipped because fixed-target mlocate owns those paths. SELinux support and the complete serial upstream suite remain enabled. AUR was read-only RPC metadata only.",
+    "notes": "Official GNU 4.11.0 archive bytes are SHA-256 pinned. Epoch 2 and the findutils-help split preserve the fixed target EVR/layout; locate is fully built and tested but not shipped because fixed-target mlocate owns those paths. The localeconv configure cache result is exported so the patched bundled gnulib replacement normalizes the unsigned-char C-locale sentinel. SELinux support and the complete serial upstream suite remain enabled. AUR was read-only RPC metadata only.",
     "status": "active"
   },
   "package_id": "findutils",
@@ -104,6 +114,6 @@
   "version": {
     "current": "4.11.0",
     "latest_detected": "4.11.0",
-    "release": "1"
+    "release": "2"
   }
 }

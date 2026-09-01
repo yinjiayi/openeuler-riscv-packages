@@ -2,11 +2,12 @@
 Name:           findutils
 Epoch:          2
 Version:        4.11.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GNU utilities for finding files
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/findutils/
 Source0:        findutils-%{version}.tar.xz
+Patch0:         0001-gnulib-normalize-unsigned-char-localeconv-sentinel.patch
 
 BuildRequires:  dejagnu
 BuildRequires:  gcc
@@ -27,9 +28,10 @@ BuildArch:      noarch
 Manual pages, Info manuals, documentation, and translations for GNU findutils.
 
 %prep
-%autosetup
+%autosetup -p1
 
 %build
+export gl_cv_func_localeconv_works=no
 %configure \
   --with-packager="openEuler RISC-V" \
   --with-packager-version="%{epoch}:%{version}-%{release}"
@@ -66,5 +68,8 @@ timeout 60m make -j1 check
 %{_mandir}/man1/xargs.1*
 
 %changelog
+* Tue Sep 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2:4.11.0-2
+- Select the patched gnulib localeconv replacement for unsigned-char sentinels.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2:4.11.0-1
 - Initial openEuler RISC-V package with the complete upstream check suite.
