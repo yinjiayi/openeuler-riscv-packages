@@ -17,7 +17,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
     (
         "needs-native-riscv",
         [
-            r"\b(kernel module|kmod|modprobe|insmod|/lib/modules|kernel headers)\b",
+            r"\b(kernel module|modprobe|insmod|/lib/modules|kernel headers)\b",
             r"\b(eBPF|BPF_PROG_LOAD)\b",
             r"\b(real hardware|GPU|NPU|USB device|network device)\b",
             r"\b(systemd boot|requires booted systemd|target kernel behavior)\b",
@@ -41,6 +41,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
     (
         "infrastructure",
         [
+            r"\bexit_code:\s*124\b|\bcontext canceled\b",
             r"no space left on device|disk quota exceeded",
             r"runner (?:lost|disconnected|shutdown)|the operation was canceled",
             r"failed to (?:pull|resolve).*image|manifest unknown|image.*digest",
@@ -129,7 +130,7 @@ def read_input(path: pathlib.Path) -> Tuple[Mapping[str, Any], str]:
     # are context, not failures; scanning them creates false positives such as
     # treating the harmless key ``image_digest`` as a failed image pull.
     parts: List[str] = []
-    for field in ("failure_summary", "error", "message", "stderr"):
+    for field in ("failure_summary", "error", "message", "stderr", "exit_code"):
         value = document.get(field)
         if value is not None:
             parts.append("%s: %s" % (field, value))
