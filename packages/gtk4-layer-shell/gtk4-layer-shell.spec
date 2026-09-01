@@ -1,15 +1,23 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gtk4-layer-shell
 Version:        1.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library to create panels and other desktop components for Wayland
 License:        MIT
 URL:            https://github.com/wmww/gtk4-layer-shell
 Source0:        gtk4-layer-shell-1.3.0.tar.gz
 BuildRequires:  gcc
+BuildRequires:  glib2-devel
+BuildRequires:  gobject-introspection-devel
+BuildRequires:  gtk4-devel
 BuildRequires:  make
 BuildRequires:  meson
 BuildRequires:  ninja-build
+BuildRequires:  python3
+BuildRequires:  python3-gobject
+BuildRequires:  vala
+BuildRequires:  wayland-devel
+BuildRequires:  wayland-protocols-devel
 
 %description
 Library to create panels and other desktop components for Wayland
@@ -18,8 +26,15 @@ Library to create panels and other desktop components for Wayland
 %autosetup -p1
 
 %build
-%meson
+%meson \
+  -Dtests=true
 %meson_build
+# The upstream smoke tests execute these examples, but Meson deliberately
+# excludes them from the default build when examples are not installed.
+meson compile -C %{_vpath_builddir} \
+  gtk4-layer-demo \
+  simple-example-c \
+  session-lock-c
 
 %install
 %meson_install
@@ -34,5 +49,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.0-2
+- Declare the complete GTK4, Wayland, introspection, Vala, and Python test closure.
+- Enable the full upstream test suite and build its smoke-only example targets.
+
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.0-1
 - Initial openEuler RISC-V package from the full package inventory.
