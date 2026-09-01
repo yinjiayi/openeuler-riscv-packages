@@ -19,6 +19,15 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
   acceptable.
 - A **build-user policy** is the per-package `build.user` choice controlling the identity that executes `rpmbuild` and `%check`. Its compatible default is `root`; `unprivileged` opts into the fixed `rpmbuild` identity with UID/GID `10001:10001`. It does not change the root-only dependency-install stage or grant privileges to installed smoke tests.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
+- A **protected-main package overlay** is the trusted-dispatch workspace formed
+  by checking out CI tooling from the protected `main` workflow commit and
+  replacing exactly one `packages/<id>` tree with that tree from the authorized
+  PR head. Its evidence binds the tooling commit, package commit, and package
+  tree SHA; it does not merge shared tooling into the package PR or authorize
+  any file outside that package tree. Git `HEAD` remains the protected tooling
+  commit. Scope selection accepts the separate package commit only after it
+  validates the overlay evidence and independently matches the committed,
+  staged, and working-copy package trees.
 - A **golden package** is a fixed end-to-end fixture with a pinned source/content digest, expected state, allowed changes, and assertions.
 - A **repository generation** is an immutable binary/source RPM snapshot with a state-bound `repomd.xml` SHA-256. A build resolves the mutable `state.json` pointer once, then uses only that generation URL.
 - A **backfill shard** is one of two deterministic, round-robin partitions of the active QEMU-buildable package list. Each shard stays below GitHub Actions' 256-entry matrix limit; the configured fleet-wide concurrency is divided equally between them, so the two matrices support up to 512 packages without doubling runner usage.
