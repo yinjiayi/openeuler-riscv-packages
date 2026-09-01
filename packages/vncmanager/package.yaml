@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-stream-include-cstdint.patch",
+        "sha256": "ef9b0d5f518bb9e2b88f943880b8f0b2130a44c71d395712b3558ebb158465fa",
+        "purpose": "Include the standard header that owns uint8_t instead of relying on transitive includes rejected by GCC 14.",
+        "source": "openEuler RISC-V package CI failure analysis",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "An upstream release includes cstdint in Stream.cpp or otherwise declares uint8_t directly."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "vncmanager.spec"
@@ -28,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The SPEC uses one explicit out-of-source CMake directory for configure, build, install, and the retained CTest check; upstream 1.0.2 defines no test cases. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The SPEC uses one explicit out-of-source CMake directory for configure, build, install, and the retained CTest check; upstream 1.0.2 defines no test cases. A downstream MIT patch explicitly includes cstdint for the uint8_t use exposed by GCC 14. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "vncmanager",
@@ -63,6 +73,6 @@
   "version": {
     "current": "1.0.2",
     "latest_detected": "1.0.2",
-    "release": "4"
+    "release": "5"
   }
 }

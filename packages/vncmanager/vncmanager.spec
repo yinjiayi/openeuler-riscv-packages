@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           vncmanager
 Version:        1.0.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Session manager for VNC
 License:        MIT
 URL:            https://github.com/openSUSE/vncmanager
 Source0:        vncmanager-1.0.2.tar.gz
+Patch0:         patches/0001-stream-include-cstdint.patch
 BuildRequires:  boost-devel
 BuildRequires:  boost-iostreams
 BuildRequires:  boost-program-options
@@ -38,6 +39,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.2-5
+- Include cstdint explicitly for GCC 14.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.2-4
 - Configure the explicit out-of-source directory used by build, install, and check.
 
