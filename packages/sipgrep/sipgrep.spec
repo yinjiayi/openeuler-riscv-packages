@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sipgrep
 Version:        2.2.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A powerful pcap-aware tool command line tool to sniff, capture, display and troubleshoot SIP signaling over IP networks
 License:        GPL-3.0-or-later
 URL:            https://github.com/sipcapture/sipgrep
@@ -39,6 +39,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Tue Sep 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.0-4
+- Encode the inet_pton header patch with strict unified-diff context.
+
 * Tue Sep 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.0-3
 - Include arpa/inet.h so the HEP transport has the inet_pton declaration.
 

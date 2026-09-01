@@ -19,9 +19,6 @@ Remove-When: Upstream transport_hep.c includes arpa/inet.h in a packaged release
 diff --git a/src/transport_hep.c b/src/transport_hep.c
 --- a/src/transport_hep.c
 +++ b/src/transport_hep.c
-@@ -20,4 +20,5 @@
-  *
-  */
-
+@@ -23,1 +23,2 @@
 +#include <arpa/inet.h>
  #include <sys/socket.h>
