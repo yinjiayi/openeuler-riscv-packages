@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libfastjson
-Version:        1.2304.0
+Version:        1.2609.0
 Release:        1%{?dist}
 Summary:        Performance-focused JSON library for C
 License:        MIT
 URL:            https://github.com/rsyslog/libfastjson
-Source0:        libfastjson-1.2304.0.tar.gz
+Source0:        v1.2609.0.tar.gz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
