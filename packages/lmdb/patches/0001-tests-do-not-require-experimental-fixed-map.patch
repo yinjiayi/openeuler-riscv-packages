@@ -1,0 +1,43 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 1 Sep 2026 22:55:00 +0800
+Subject: [PATCH] tests: do not require experimental fixed-address mappings
+
+MDB_FIXEDMAP is documented by LMDB as highly experimental and may fail when
+the operating system cannot reserve the requested virtual address. RISC-V
+QEMU reports EOPNOTSUPP for this optional mapping mode, aborting the test
+sequence before its transaction and cursor checks run.
+
+The mtest programs do not rely on stable pointer addresses. Use the regular
+mapping mode while retaining every transaction, duplicate-key, cursor, and
+split test.
+
+diff --git a/libraries/liblmdb/mtest.c b/libraries/liblmdb/mtest.c
+--- a/libraries/liblmdb/mtest.c
++++ b/libraries/liblmdb/mtest.c
+@@ -50 +50 @@ int main(int argc,char * argv[])
+-		E(mdb_env_open(env, "./testdb", MDB_FIXEDMAP /*|MDB_NOSYNC*/, 0664));
++		E(mdb_env_open(env, "./testdb", 0, 0664));
+diff --git a/libraries/liblmdb/mtest2.c b/libraries/liblmdb/mtest2.c
+--- a/libraries/liblmdb/mtest2.c
++++ b/libraries/liblmdb/mtest2.c
+@@ -53 +53 @@ int main(int argc,char * argv[])
+-	E(mdb_env_open(env, "./testdb", MDB_FIXEDMAP|MDB_NOSYNC, 0664));
++	E(mdb_env_open(env, "./testdb", MDB_NOSYNC, 0664));
+diff --git a/libraries/liblmdb/mtest3.c b/libraries/liblmdb/mtest3.c
+--- a/libraries/liblmdb/mtest3.c
++++ b/libraries/liblmdb/mtest3.c
+@@ -55 +55 @@ int main(int argc,char * argv[])
+-	E(mdb_env_open(env, "./testdb", MDB_FIXEDMAP|MDB_NOSYNC, 0664));
++	E(mdb_env_open(env, "./testdb", MDB_NOSYNC, 0664));
+diff --git a/libraries/liblmdb/mtest4.c b/libraries/liblmdb/mtest4.c
+--- a/libraries/liblmdb/mtest4.c
++++ b/libraries/liblmdb/mtest4.c
+@@ -53 +53 @@ int main(int argc,char * argv[])
+-	E(mdb_env_open(env, "./testdb", MDB_FIXEDMAP|MDB_NOSYNC, 0664));
++	E(mdb_env_open(env, "./testdb", MDB_NOSYNC, 0664));
+diff --git a/libraries/liblmdb/mtest5.c b/libraries/liblmdb/mtest5.c
+--- a/libraries/liblmdb/mtest5.c
++++ b/libraries/liblmdb/mtest5.c
+@@ -55 +55 @@ int main(int argc,char * argv[])
+-	E(mdb_env_open(env, "./testdb", MDB_FIXEDMAP|MDB_NOSYNC, 0664));
++	E(mdb_env_open(env, "./testdb", MDB_NOSYNC, 0664));
