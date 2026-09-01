@@ -1,15 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name: audiofile
 Version: 0.3.6
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Library for reading and writing audio files
 License: LGPL-2.1-or-later AND GPL-2.0-or-later
 URL: https://github.com/mpruett/audiofile
 Source0: audiofile-%{version}.tar.gz
 Patch0: 0001-fix-negative-left-shift.patch
 BuildRequires: alsa-lib-devel
-BuildRequires: autoconf
-BuildRequires: automake
 BuildRequires: flac-devel
 BuildRequires: gcc
 BuildRequires: gcc-c++
@@ -28,10 +26,9 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 Headers, shared-library link, and pkg-config metadata for audiofile.
 
 %prep
-%autosetup -p1 -n audiofile-audiofile-%{version}
+%autosetup -p1 -n audiofile-%{version}
 
 %build
-autoreconf -fiv
 %configure --disable-static --enable-flac
 %make_build
 
@@ -56,8 +53,13 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_includedir}/aupvlist.h
 %{_libdir}/libaudiofile.so
 %{_libdir}/pkgconfig/audiofile.pc
+%{_mandir}/man3/*
 
 %changelog
+* Tue Sep 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.6-3
+- Build from the official release archive with its generated manuals.
+- Package the installed API manual pages in the development subpackage.
+
 * Tue Sep 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.6-2
 - Add the ALSA development dependency required by the upstream Linux example.
 
