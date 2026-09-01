@@ -1,12 +1,12 @@
 {
-  "package_id": "unibilium",
+  "package_id": "tnef",
   "schema_version": 1,
   "sources": [
     {
       "digests": {
-        "sha256": "7360907bcf79ba49f6fc4a504767ff86e93ab9018477026fcc70d5ab77e1f2c1"
+        "sha256": "fa56dd08649f51b173017911cae277dc4b2c98211721c2a60708bf1d28839922"
       },
-      "filename": "v2.1.4.tar.gz",
+      "filename": "tnef-1.4.18.tar.gz",
       "id": "source0",
       "kind": "upstream-release",
       "redistribution": {
@@ -14,8 +14,8 @@
         "reason": "Governed by the declared upstream license; source is fetched in CI."
       },
       "signature": null,
-      "url": "https://github.com/neovim/unibilium/archive/refs/tags/v2.1.4.tar.gz",
-      "version": "2.1.4"
+      "url": "https://github.com/verdammelt/tnef/archive/refs/tags/1.4.18.tar.gz",
+      "version": "1.4.18"
     }
   ]
 }
