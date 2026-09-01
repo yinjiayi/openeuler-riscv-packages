@@ -1,0 +1,21 @@
+{
+  "package_id": "pstack",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "93322a2eac49fc17e16faf44c9e052bfb79fce5395e617602868b678dec94d94"
+      },
+      "filename": "pstack-2.17.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/peadar/pstack/archive/refs/tags/v2.17.tar.gz",
+      "version": "2.17"
+    }
+  ]
+}
