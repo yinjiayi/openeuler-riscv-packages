@@ -43,7 +43,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-include-arpa-inet-for-inet-pton.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Include the standard declaration for the HEP transport inet_pton calls.",
+        "remove_when": "Upstream transport_hep.c includes arpa/inet.h in a packaged release.",
+        "sha256": "e5f5c064df6dad4c2c7107b7151bfced4cba735b74bc1df723e0d62c6aea1319",
+        "source": "openEuler RISC-V package CI failure analysis",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "sipgrep.spec"
@@ -52,7 +62,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 regenerates the stale pre-generated configure script from the archived configure.ac and declares the fixed-repository libpcap-devel and pcre2-devel dependencies without disabling packet capture, PCRE2 matching, or tests.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 regenerates the stale pre-generated configure script from the archived configure.ac and declares the fixed-repository libpcap-devel and pcre2-devel dependencies without disabling packet capture, PCRE2 matching, or tests. Release 3 adds the standard arpa/inet.h declaration required by the existing HEP inet_pton calls without changing HEP behavior or the test phase.",
     "status": "active"
   },
   "package_id": "sipgrep",
@@ -87,6 +97,6 @@
   "version": {
     "current": "2.2.0",
     "latest_detected": "2.2.0",
-    "release": "2"
+    "release": "3"
   }
 }
