@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "The immutable snapshot records stable Arch, Debian, Fedora 44 GA, openSUSE Tumbleweed, and Ubuntu GA tuples and no canonical stable AUR row for dos2unix. No AUR recipe or distribution spec was read or executed. The official project page records 7.5.6 as stable and links the exact SourceForge archive. All upstream Perl tests, including UTF-16, BOM, symlink, stdio, and line-ending cases, remain enabled.",
+    "notes": "The immutable snapshot records stable Arch, Debian, Fedora 44 GA, openSUSE Tumbleweed, and Ubuntu GA tuples and no canonical stable AUR row for dos2unix. No AUR recipe or distribution spec was read or executed. The official project page records 7.5.7 as stable and links the exact SourceForge archive. All upstream Perl tests, including UTF-16, BOM, symlink, stdio, and line-ending cases, remain enabled. Release 2 synchronizes the installed-version smoke assertion and documentation with 7.5.7.",
     "status": "active"
   },
   "package_id": "dos2unix",
@@ -95,6 +95,6 @@
   "version": {
     "current": "7.5.7",
     "latest_detected": "7.5.7",
-    "release": "1"
+    "release": "2"
   }
 }

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           dos2unix
 Version:        7.5.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        DOS, Unix, and Mac text file format converters
 License:        BSD-3-Clause
 URL:            https://waterlander.net/dos2unix/
@@ -42,5 +42,8 @@ with Unicode, byte-order-mark, safe in-place, and standard-stream support.
 %{_mandir}/*/man1/*.1*
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 7.5.7-2
+- Synchronize installed smoke and package documentation with version 7.5.7.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 7.5.6-1
 - Initial openEuler RISC-V package from frozen cross-distribution and upstream evidence.
