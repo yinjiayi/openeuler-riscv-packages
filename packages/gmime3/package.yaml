@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/jstedfast/gmime",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gmime3",
+        "package_name": "gmime3",
+        "source": "arch-extra",
+        "source_version": "3.2.15-2"
+      },
+      {
+        "evidence_url": "https://github.com/jstedfast/gmime",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gmime",
+        "package_name": "gmime",
+        "source": "debian",
+        "source_version": "3.2.15+dfsg-1"
+      },
+      {
+        "evidence_url": "https://github.com/jstedfast/gmime",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gmime30",
+        "package_name": "gmime30",
+        "source": "fedora",
+        "source_version": "3.2.15-4.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/jstedfast/gmime",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gmime",
+        "package_name": "gmime",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.2.15-1.6"
+      },
+      {
+        "evidence_url": "https://github.com/jstedfast/gmime",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gmime",
+        "package_name": "gmime",
+        "source": "ubuntu",
+        "source_version": "3.2.15+dfsg-1build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gmime3.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official GitHub 3.2.15 release asset was independently downloaded, matched against the upstream-published SHA-256, safety-inspected, and confirmed to contain the generated configure script and COPYING license file. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "gmime3",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "gmime3",
+    "summary": "A C/C++ MIME creation and parser library with support for S/MIME, PGP, and Unix mbox spools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-release-assets"
+  },
+  "upstream": {
+    "component": "github.com-jstedfast-gmime",
+    "homepage": "https://github.com/jstedfast/gmime",
+    "release_api": "https://api.github.com/repos/jstedfast/gmime/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/jstedfast/gmime",
+    "source_url_template": "https://github.com/jstedfast/gmime/releases/download/{version}/gmime-{version}.tar.xz"
+  },
+  "version": {
+    "current": "3.2.15",
+    "latest_detected": "3.2.15",
+    "release": "3"
+  }
+}

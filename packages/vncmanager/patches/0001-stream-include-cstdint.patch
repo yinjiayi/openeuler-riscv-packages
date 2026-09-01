@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Wed, 2 Sep 2026 00:00:00 +0000
+Subject: [PATCH] stream: include cstdint for uint8_t
+
+Stream.cpp uses uint8_t directly but only received its declaration through
+transitive includes with older toolchains. Include the standard header that
+owns the fixed-width integer type so GCC 14 can compile the source reliably.
+
+Patch-Source: openEuler RISC-V package CI failure analysis
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+---
+ Stream.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Stream.cpp b/Stream.cpp
+--- a/Stream.cpp
++++ b/Stream.cpp
+@@ -25,6 +25,7 @@
+  */
+ 
+ #include "Stream.h"
++#include <cstdint>
+ 
+ 
+ void Stream::forward_directly(Stream &output, std::size_t len)
+-- 
+2.50.1

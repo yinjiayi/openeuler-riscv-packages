@@ -11,8 +11,8 @@ Patch0:         0001-cmake-drop-redundant-gtest-system-include.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:  gmock-devel
-BuildRequires:  gtest-devel
+BuildRequires:  pkgconfig(gmock)
+BuildRequires:  pkgconfig(gtest)
 BuildRequires:  make
 
 %description
