@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name: speex
 Version: 1.2.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Patent-free speech codec
 License: BSD-3-Clause
 URL: https://www.speex.org/
@@ -29,14 +29,19 @@ rm -f %{buildroot}%{_libdir}/*.la
 %files
 %license COPYING
 %doc AUTHORS ChangeLog NEWS README
+%{_docdir}/%{name}/manual.pdf
 %{_bindir}/speexdec
 %{_bindir}/speexenc
 %{_libdir}/libspeex.so.1*
 %{_mandir}/man1/speex*.1*
 %files devel
 %{_includedir}/speex/
+%{_datadir}/aclocal/speex.m4
 %{_libdir}/libspeex.so
 %{_libdir}/pkgconfig/speex.pc
 %changelog
+* Tue Sep 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.1-2
+- Own the installed manual and Autoconf macro in the RPM manifests.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.1-1
 - Initial package.
