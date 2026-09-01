@@ -476,7 +476,7 @@ jobs:
     # protected-main push or workflow_dispatch after the hosted prepare job
     # has proven that one QEMU-buildable package is in scope.
     runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
-    timeout-minutes: 120
+    timeout-minutes: ${{ fromJSON(needs.prepare.outputs.timeout_minutes || '120') }}
     steps:
       - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
