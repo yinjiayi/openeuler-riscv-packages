@@ -1,17 +1,25 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nmail
 Version:        5.14.12
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Terminal-based email client
 License:        MIT
 URL:            https://github.com/d99kris/nmail
 Source0:        nmail-5.14.12.tar.gz
 BuildRequires:  cmake
+BuildRequires:  cyrus-sasl-devel
+BuildRequires:  expat-devel
+BuildRequires:  file-devel
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  libcurl-devel
 BuildRequires:  make
 BuildRequires:  ncurses-devel
 BuildRequires:  openssl-devel
+BuildRequires:  sqlite-devel
+BuildRequires:  util-linux-devel
+BuildRequires:  xapian-core-devel
+BuildRequires:  zlib-devel
 
 %description
 Terminal-based email client
@@ -36,6 +44,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.14.12-4
+- Declare the complete required nmail and bundled libetpan build dependency closure.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.14.12-3
 - Add the OpenSSL development files required by CMake.
 
