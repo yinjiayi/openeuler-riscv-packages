@@ -10,4 +10,10 @@ downloaded by the upstream harness during `%check`, verified against the SHA-256
 embedded in that harness, and built with fixed-repository tool and sanitizer
 dependencies declared by the SPEC.
 
+Exact-head CI run `33530707443` installed the complete dependency closure and
+then reached the package's former 60-minute job boundary while the target build
+was still running. The artifact contained no compiler, test, or packaging first
+error, so the package metadata now grants the complete upstream test target up
+to 180 minutes under QEMU without changing compiler flags or disabling tests.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
