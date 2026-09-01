@@ -44,7 +44,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 declares every required Meson dependency used by the full default feature set, including D-Bus, GTK 3, GObject introspection, Vala bindings, keyboard layout support, and the StatusNotifier service.",
     "status": "active"
   },
   "package_id": "xapp",
@@ -79,6 +79,6 @@
   "version": {
     "current": "3.2.2",
     "latest_detected": "3.2.2",
-    "release": "1"
+    "release": "2"
   }
 }

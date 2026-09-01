@@ -1,15 +1,32 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xapp
 Version:        3.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Common library for X-Apps project
 License:        LGPL-3.0-or-later
 URL:            https://github.com/linuxmint/xapp
 Source0:        xapp-3.2.2.tar.gz
 BuildRequires:  gcc
+BuildRequires:  gettext
+BuildRequires:  gobject-introspection-devel
 BuildRequires:  make
 BuildRequires:  meson
 BuildRequires:  ninja-build
+BuildRequires:  pkgconfig(cairo)
+BuildRequires:  pkgconfig(cairo-gobject)
+BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  pkgconfig(dbusmenu-gtk3-0.4)
+BuildRequires:  pkgconfig(gdk-pixbuf-2.0)
+BuildRequires:  pkgconfig(gio-2.0)
+BuildRequires:  pkgconfig(gio-unix-2.0)
+BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(gmodule-2.0)
+BuildRequires:  pkgconfig(gtk+-3.0)
+BuildRequires:  pkgconfig(libgnomekbdui)
+BuildRequires:  pkgconfig(pygobject-3.0)
+BuildRequires:  pkgconfig(x11)
+BuildRequires:  python3
+BuildRequires:  vala
 
 %description
 Common library for X-Apps project
@@ -37,5 +54,8 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.2-2
+- Declare the complete required Meson, introspection, and binding build closure.
+
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.2-1
 - Initial openEuler RISC-V package from the full package inventory.
