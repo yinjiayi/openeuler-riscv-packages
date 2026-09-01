@@ -484,6 +484,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
           persist-credentials: false
       - name: Establish the validated package deadline
+        if: needs.prepare.outputs.mode == 'package'
         id: timeout-budget
         env:
           PACKAGE_TIMEOUT_MINUTES: ${{ needs.prepare.outputs.timeout_minutes || '120' }}

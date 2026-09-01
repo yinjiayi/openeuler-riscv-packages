@@ -60,6 +60,10 @@ class BuildUserPolicyTests(unittest.TestCase):
             "ci/rpmbuild-timeout-budget.py start",
             job,
         )
+        deadline_step = job.split(
+            "- name: Establish the validated package deadline", 1
+        )[1].split("- name: Materialize only the exact package tree", 1)[0]
+        self.assertIn("if: needs.prepare.outputs.mode == 'package'", deadline_step)
         self.assertIn(
             "rpmbuild_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining",
             job,

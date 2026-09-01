@@ -200,6 +200,7 @@ def main() -> int:
     if not timeout_budget_path.is_file() or not timeout_budget_path.stat().st_mode & 0o111:
         errors.append("rpmbuild timeout-budget helper is missing or not executable")
     for marker in (
+        "- name: Establish the validated package deadline\n        if: needs.prepare.outputs.mode == 'package'",
         "ci/rpmbuild-timeout-budget.py start",
         "rpmbuild_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining",
         '--timeout-seconds "$rpmbuild_timeout_seconds"',
