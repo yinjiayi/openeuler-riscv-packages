@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/sipcapture/sipgrep",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sipgrep",
+        "package_name": "sipgrep",
+        "source": "aur",
+        "source_version": "2.2.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/sipcapture/sipgrep",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sipgrep",
+        "package_name": "sipgrep",
+        "source": "debian",
+        "source_version": "2.2.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/sipcapture/sipgrep",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sipgrep",
+        "package_name": "sipgrep",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.2.0-2.5"
+      },
+      {
+        "evidence_url": "https://github.com/sipcapture/sipgrep",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sipgrep",
+        "package_name": "sipgrep",
+        "source": "ubuntu",
+        "source_version": "2.2.0-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-include-arpa-inet-for-inet-pton.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Include the standard declaration for the HEP transport inet_pton calls.",
+        "remove_when": "Upstream transport_hep.c includes arpa/inet.h in a packaged release.",
+        "sha256": "8008ea721ff99e82334f537c02c8dcf768ef254de099e6cc24ce1ac6896a40ba",
+        "source": "openEuler RISC-V package CI failure analysis",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "sipgrep.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 regenerates the stale pre-generated configure script from the archived configure.ac and declares the fixed-repository libpcap-devel and pcre2-devel dependencies without disabling packet capture, PCRE2 matching, or tests. Release 4 adds the standard arpa/inet.h declaration required by the existing HEP inet_pton calls without changing HEP behavior or the test phase, using strict unified-diff context accepted by target GNU patch with zero fuzz.",
+    "status": "active"
+  },
+  "package_id": "sipgrep",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "sipgrep",
+    "summary": "A powerful pcap-aware tool command line tool to sniff, capture, display and troubleshoot SIP signaling over IP networks"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-sipcapture-sipgrep",
+    "homepage": "https://github.com/sipcapture/sipgrep",
+    "release_api": "https://api.github.com/repos/sipcapture/sipgrep/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/sipcapture/sipgrep",
+    "source_url_template": "https://github.com/sipcapture/sipgrep/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.2.0",
+    "latest_detected": "2.2.0",
+    "release": "4"
+  }
+}

@@ -60,7 +60,71 @@ class RunnerFleetStaticTests(unittest.TestCase):
         cleanup_script = (OPS / "cleanup.sh").read_text(encoding="utf-8")
         self.assertIn("--pull never", cleanup_script)
         self.assertIn("--network none", cleanup_script)
+        self.assertIn('--managed-image-ref "$CLEANUP_IMAGE_REF"', cleanup_script)
+        self.assertLess(
+            cleanup_script.index("oe_load_cleanup_image_lock"),
+            cleanup_script.index("docker-cleanup.py"),
+        )
         self.assertNotIn("src=$runner_dir", cleanup_script)
+
+    def test_dependency_containers_have_the_recovery_identity_label(self) -> None:
+        prepare = (ROOT / "ci" / "prepare-build-deps.py").read_text(encoding="utf-8")
+        cleanup = (OPS / "docker-cleanup.py").read_text(encoding="utf-8")
+        marker = "io.openeuler.actions-runner.managed-builddeps"
+        self.assertIn(marker, prepare)
+        self.assertIn(marker, cleanup)
+        self.assertIn('"--label", f"{RUNNER_MANAGED_LABEL}={RUNNER_MANAGED_VALUE}"', prepare)
+
+    def test_systemctl_global_options_precede_the_verb(self) -> None:
+        for filename in ("activate.sh", "audit.sh", "register.sh"):
+            script = (OPS / filename).read_text(encoding="utf-8")
+            self.assertNotRegex(script, r"oe_systemctl is-(?:active|enabled) --quiet")
+        audit = (OPS / "audit.sh").read_text(encoding="utf-8")
+        self.assertIn('oe_systemctl --quiet is-active "$service"', audit)
+        self.assertIn('oe_systemctl --quiet is-enabled "$service"', audit)
+
+    def test_systemctl_package_integrity_precedes_every_lifecycle_call(self) -> None:
+        library = (OPS / "_lib.sh").read_text(encoding="utf-8")
+        installer = (OPS / "install.sh").read_text(encoding="utf-8")
+        preflight = (OPS / "preflight.sh").read_text(encoding="utf-8")
+        audit = (OPS / "audit.sh").read_text(encoding="utf-8")
+
+        integrity = library.split("oe_assert_systemctl_integrity() {", 1)[1].split(
+            "\n}", 1
+        )[0]
+        self.assertIn("[[ -f $oe_systemctl_path && ! -L $oe_systemctl_path", integrity)
+        self.assertIn("root:root:755", integrity)
+        self.assertIn('systemd: /usr/bin/systemctl', integrity)
+        self.assertIn("${binary:Package}\\t${Status}\\t${Version}", integrity)
+        self.assertIn("dpkg-query --verify systemd", integrity)
+        self.assertIn("[[ -z $verification ]]", integrity)
+        self.assertNotIn("mctes", library)
+
+        platform = library.split("oe_assert_platform() {", 1)[1].split("\n}", 1)[0]
+        self.assertLess(
+            platform.index("oe_assert_systemctl_integrity"),
+            platform.index("oe_systemctl is-system-running"),
+        )
+        wrapper = library.split("oe_systemctl() {", 1)[1].split("\n}", 1)[0]
+        self.assertLess(
+            wrapper.index("oe_assert_systemctl_integrity"),
+            wrapper.index('oe_run "$oe_systemctl_path"'),
+        )
+        package_install = installer.index("apt-get install -y --no-install-recommends")
+        post_apt_integrity = installer.index("oe_assert_systemctl_integrity", package_install)
+        self.assertLess(package_install, post_apt_integrity)
+        self.assertLess(post_apt_integrity, installer.index("oe_systemctl daemon-reload"))
+        self.assertIn('oe_assert_platform "$OE_IDENTITY_ALLOW_DEGRADED"', preflight)
+        self.assertIn('oe_assert_platform "$OE_ARG_ALLOW_DEGRADED"', audit)
+
+        for path in sorted(OPS.glob("*.sh")):
+            if path.name == "_lib.sh":
+                continue
+            self.assertNotRegex(
+                path.read_text(encoding="utf-8"),
+                r"(?m)^\s*systemctl(?:\s|$)",
+                path.name,
+            )
 
     def test_policy_has_only_two_main_workflows_and_two_events(self) -> None:
         policy = parse_assignment_file(OPS / "policy.conf")
@@ -100,6 +164,30 @@ class RunnerFleetStaticTests(unittest.TestCase):
         )
         self.assertNotIn("runuser --user \"$oe_runner_user\" --groups", installer)
         self.assertIn('usermod --append --groups docker "$oe_runner_user"', installer)
+
+    def test_installer_provisions_the_docker_iptables_frontend(self) -> None:
+        installer = (OPS / "install.sh").read_text(encoding="utf-8")
+        preflight = (OPS / "preflight.sh").read_text(encoding="utf-8")
+        package_block = installer.split(
+            "apt-get install -y --no-install-recommends", 1
+        )[1].split("\n\n", 1)[0]
+
+        self.assertRegex(package_block, r"(?:^|\s)iptables(?:\s|$)")
+        self.assertNotRegex(package_block, r"(?:^|\s)nftables(?:\s|$)")
+        iptables_probe = "[[ -x /usr/sbin/iptables ]]"
+        alternatives_repair = "update-alternatives --auto iptables"
+        self.assertIn(alternatives_repair, package_block)
+        self.assertIn("readlink -- /usr/sbin/iptables", package_block)
+        self.assertIn("/etc/alternatives/iptables", package_block)
+        self.assertIn(iptables_probe, preflight)
+        self.assertLess(
+            installer.index("apt-get install -y --no-install-recommends"),
+            installer.index(alternatives_repair),
+        )
+        self.assertLess(
+            installer.index(alternatives_repair),
+            installer.index("readlink -- /usr/sbin/iptables"),
+        )
 
     def test_fleet_audit_is_installed_with_machine_only_stdout(self) -> None:
         installer = (OPS / "install.sh").read_text(encoding="utf-8")
@@ -238,7 +326,7 @@ class RunnerFleetStaticTests(unittest.TestCase):
         script = (OPS / "activate.sh").read_text(encoding="utf-8")
         self.assertIn("--enable-reviewed-policy", script)
         self.assertIn("rollback_activation", script)
-        self.assertIn("systemctl disable --now", script)
+        self.assertIn("oe_systemctl disable --now", script)
         self.assertIn('OE_RUNNER_ENROLLMENT_ENABLED=false', script)
         self.assertLess(script.index("cleanup.sh"), script.index("policy_changed=false"))
 
@@ -264,6 +352,11 @@ class RunnerFleetStaticTests(unittest.TestCase):
 
 
 class DockerCleanupTests(unittest.TestCase):
+    image = (
+        "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild@sha256:"
+        + "c9d8e675e04cd0ef61c5b2e77d530652db79de51431dc047277cdbd1f63b32b3"
+    )
+
     def make_fake_docker(self, directory: Path) -> tuple[Path, Path]:
         executable = directory / "docker"
         log = directory / "docker.log"
@@ -272,8 +365,20 @@ class DockerCleanupTests(unittest.TestCase):
 set -eu
 printf '%s\\n' "$*" >>"$FAKE_DOCKER_LOG"
 case "$*" in
-  "ps --quiet")
-    [ "${FAKE_RUNNING:-0}" = 0 ] || printf '%s\\n' aaaaaaaaaaaa
+  "ps --no-trunc --quiet")
+    if [ "${FAKE_RUNNING:-0}" != 0 ] && ! grep -q '^rm --force --volumes -- aaaaaaaaaaaa$' "$FAKE_DOCKER_LOG"; then
+      printf '%s\\n' aaaaaaaaaaaa
+      if [ "${FAKE_CHANGED:-0}" = 1 ] && [ "$(grep -c '^ps --no-trunc --quiet$' "$FAKE_DOCKER_LOG")" -gt 1 ]; then
+        printf '%s\\n' dddddddddddd
+      fi
+    fi
+    ;;
+  "inspect --format {{json .}} aaaaaaaaaaaa")
+    if [ "${FAKE_MANAGED:-0}" = 1 ]; then
+      printf '%s\\n' "$FAKE_MANAGED_INSPECT"
+    else
+      printf '%s\\n' '{"Id":"aaaaaaaaaaaa","Name":"/unrelated","Config":{},"HostConfig":{"AutoRemove":false},"State":{"Running":true}}'
+    fi
     ;;
   "ps --all --quiet") printf '%s\\n' bbbbbbbbbbbb ;;
   "image ls --all --format {{.Repository}}:{{.Tag}} --filter reference=openeuler-builddeps:*")
@@ -282,6 +387,7 @@ case "$*" in
   "volume ls --quiet --filter dangling=true") printf '%s\\n' runner-volume ;;
   "network ls --quiet --filter type=custom") printf '%s\\n' cccccccccccc ;;
   "network inspect --format {{len .Containers}} cccccccccccc") printf '0\\n' ;;
+  "rm --force --volumes -- aaaaaaaaaaaa"|\
   "rm --force --volumes -- bbbbbbbbbbbb"|\
   "volume rm --force -- runner-volume"|\
   "network rm -- cccccccccccc"|\
@@ -294,15 +400,43 @@ esac
         executable.chmod(0o755)
         return executable, log
 
-    def run_helper(self, running: bool) -> tuple[subprocess.CompletedProcess[str], list[str]]:
+    def run_helper(
+        self, running: bool, managed: bool = False, changed: bool = False
+    ) -> tuple[subprocess.CompletedProcess[str], list[str]]:
         with tempfile.TemporaryDirectory() as temporary:
             directory = Path(temporary)
             docker, log = self.make_fake_docker(directory)
             environment = dict(os.environ)
             environment["FAKE_DOCKER_LOG"] = str(log)
             environment["FAKE_RUNNING"] = "1" if running else "0"
+            environment["FAKE_MANAGED"] = "1" if managed else "0"
+            environment["FAKE_CHANGED"] = "1" if changed else "0"
+            environment["FAKE_MANAGED_INSPECT"] = json.dumps(
+                {
+                    "Id": "aaaaaaaaaaaa",
+                    "Name": "/openeuler-builddeps-12345-1a2b3c4d",
+                    "Config": {
+                        "Image": self.image,
+                        "Cmd": ["/bin/bash", "-c", "while :; do sleep 3600; done"],
+                        "Labels": {
+                            "io.openeuler.actions-runner.managed-builddeps": "v1"
+                        },
+                    },
+                    "HostConfig": {"AutoRemove": False},
+                    "State": {"Running": True},
+                },
+                separators=(",", ":"),
+            )
             completed = subprocess.run(
-                [str(OPS / "docker-cleanup.py"), "--docker", str(docker), "--max-objects", "8"],
+                [
+                    str(OPS / "docker-cleanup.py"),
+                    "--docker",
+                    str(docker),
+                    "--max-objects",
+                    "8",
+                    "--managed-image-ref",
+                    self.image,
+                ],
                 capture_output=True,
                 text=True,
                 env=environment,
@@ -315,6 +449,7 @@ esac
         completed, commands = self.run_helper(running=False)
         self.assertEqual(completed.returncode, 0, completed.stderr)
         result = json.loads(completed.stdout)
+        self.assertEqual(result["removed_managed_running_containers"], 0)
         self.assertEqual(result["removed_containers"], 1)
         self.assertEqual(result["removed_dangling_volumes"], 1)
         self.assertEqual(result["removed_unused_networks"], 1)
@@ -331,8 +466,24 @@ esac
     def test_running_container_fails_before_every_mutation(self) -> None:
         completed, commands = self.run_helper(running=True)
         self.assertNotEqual(completed.returncode, 0)
-        self.assertIn("running container detected", completed.stderr)
-        self.assertEqual(commands, ["ps --quiet"])
+        self.assertIn("unrecognized running container", completed.stderr)
+        self.assertEqual(
+            commands,
+            ["ps --no-trunc --quiet", "inspect --format {{json .}} aaaaaaaaaaaa"],
+        )
+
+    def test_labeled_managed_running_container_is_recovered(self) -> None:
+        completed, commands = self.run_helper(running=True, managed=True)
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        result = json.loads(completed.stdout)
+        self.assertEqual(result["removed_managed_running_containers"], 1)
+        self.assertIn("rm --force --volumes -- aaaaaaaaaaaa", commands)
+
+    def test_changed_running_inventory_fails_before_mutation(self) -> None:
+        completed, commands = self.run_helper(running=True, managed=True, changed=True)
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("inventory changed during inspection", completed.stderr)
+        self.assertNotIn("rm --force --volumes -- aaaaaaaaaaaa", commands)
 
 
 if __name__ == "__main__":
