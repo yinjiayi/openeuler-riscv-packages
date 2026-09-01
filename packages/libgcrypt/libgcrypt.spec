@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libgcrypt
 Version:        1.12.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        General-purpose cryptographic library
 License:        LGPL-2.1-or-later AND GPL-2.0-or-later AND BSD-3-Clause
 URL:            https://gnupg.org/software/libgcrypt/
@@ -59,7 +59,6 @@ mkdir -p %{buildroot}%{_sysconfdir}/gcrypt
 %files devel
 %{_bindir}/libgcrypt-config
 %{_includedir}/gcrypt.h
-%{_includedir}/gcrypt-module.h
 %{_libdir}/libgcrypt.so
 %{_libdir}/pkgconfig/libgcrypt.pc
 %{_datadir}/aclocal/libgcrypt.m4
@@ -67,5 +66,8 @@ mkdir -p %{buildroot}%{_sysconfdir}/gcrypt
 %{_mandir}/man1/*
 
 %changelog
+* Tue Sep 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.12.2-2
+- Match the development manifest to the single public header installed by upstream 1.12.2.
+
 * Sun Aug 16 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.12.2-1
 - Package libgcrypt with all upstream algorithms and the complete check suite.
