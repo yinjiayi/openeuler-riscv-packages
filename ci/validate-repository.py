@@ -189,6 +189,26 @@ def main() -> int:
         errors.append("package schema does not fail closed on build.user")
     if "build_user: ${{ steps.policy.outputs.build_user }}" not in package_ci:
         errors.append("package-ci.yml does not propagate the validated build-user policy")
+    build_timeout = (
+        "timeout-minutes: ${{ fromJSON(needs.prepare.outputs.timeout_minutes || '120') }}"
+    )
+    if package_ci.count(build_timeout) != 1:
+        errors.append(
+            "package-ci.yml must bind the heavy RPM job to the validated package timeout"
+        )
+    timeout_budget_path = root / "ci" / "rpmbuild-timeout-budget.py"
+    if not timeout_budget_path.is_file() or not timeout_budget_path.stat().st_mode & 0o111:
+        errors.append("rpmbuild timeout-budget helper is missing or not executable")
+    for marker in (
+        "- name: Establish the validated package deadline\n        if: needs.prepare.outputs.mode == 'package'",
+        "ci/rpmbuild-timeout-budget.py start",
+        "rpmbuild_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining",
+        '--timeout-seconds "$rpmbuild_timeout_seconds"',
+    ):
+        if marker not in package_ci:
+            errors.append(f"package-ci.yml is missing the evidence-preserving build budget marker: {marker}")
+    if "--timeout-seconds 6900" in package_ci:
+        errors.append("package-ci.yml still truncates validated package budgets at 6900 seconds")
     if package_ci.count('--build-user "$BUILD_USER"') < 2:
         errors.append("package-ci.yml does not bind dependency and rpmbuild stages to build.user")
     runner_expression = (

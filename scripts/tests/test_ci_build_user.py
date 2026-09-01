@@ -19,6 +19,7 @@ RUNNER = REPO / "ci" / "run-rpmbuild-container.py"
 PREPARE_DEPS = REPO / "ci" / "prepare-build-deps.py"
 PACKAGE_POLICY = REPO / "ci" / "package-policy.py"
 QEMU_RUNNER_POLICY = REPO / "ci" / "qemu-runner-policy.py"
+PACKAGE_WORKFLOW = REPO / ".github" / "workflows" / "package-ci.yml"
 sys.path.insert(0, str(REPO / "scripts"))
 
 
@@ -41,6 +42,38 @@ def option(command: list[str], name: str) -> str:
 
 
 class BuildUserPolicyTests(unittest.TestCase):
+    def test_rpmbuild_job_uses_validated_package_timeout(self) -> None:
+        workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        marker = "  rpmbuild-riscv64:\n"
+        self.assertIn(marker, workflow)
+        job = workflow.split(marker, 1)[1].split("\n  rpm-install-smoke:\n", 1)[0]
+        self.assertIn(
+            "timeout-minutes: ${{ fromJSON(needs.prepare.outputs.timeout_minutes || '120') }}",
+            job,
+        )
+        self.assertNotIn("timeout-minutes: 120", job)
+        self.assertIn(
+            "PACKAGE_TIMEOUT_MINUTES: ${{ needs.prepare.outputs.timeout_minutes || '120' }}",
+            job,
+        )
+        self.assertIn(
+            "ci/rpmbuild-timeout-budget.py start",
+            job,
+        )
+        deadline_step = job.split(
+            "- name: Establish the validated package deadline", 1
+        )[1].split("- name: Materialize only the exact package tree", 1)[0]
+        self.assertIn("if: needs.prepare.outputs.mode == 'package'", deadline_step)
+        self.assertIn(
+            "rpmbuild_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining",
+            job,
+        )
+        self.assertIn(
+            '--max-bytes 52428800 --timeout-seconds "$rpmbuild_timeout_seconds" --',
+            job,
+        )
+        self.assertNotIn("--timeout-seconds 6900", job)
+
     def test_host_build_entrypoints_are_executable(self) -> None:
         for path in (PREPARE_DEPS, RUNNER):
             self.assertTrue(path.is_file(), path)
