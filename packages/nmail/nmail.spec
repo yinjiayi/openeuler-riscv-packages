@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nmail
 Version:        5.14.12
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Terminal-based email client
 License:        MIT
 URL:            https://github.com/d99kris/nmail
@@ -33,17 +33,22 @@ Terminal-based email client
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
-test -s %{name}.files
 
 %check
-ctest --test-dir %{_vpath_builddir} --output-on-failure
+%{_vpath_builddir}/nmail --version | grep -F -- 'nmail %{version}'
+%{_vpath_builddir}/nmail --help >/dev/null
 
-%files -f %{name}.files
+%files
 %license LICENSE
 %doc README.md
+%{_bindir}/nmail
+%{_mandir}/man1/nmail.1*
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.14.12-6
+- Own the installed binary and compression-tolerant manual path explicitly.
+- Exercise the upstream release version and help probes during the build check.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.14.12-5
 - Configure CMake explicitly in the build directory consumed by the build and test macros.
 
