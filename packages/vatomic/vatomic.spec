@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           vatomic
 Version:        2.4.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        VSync atomics - formally-verified atomic operations library
 License:        MIT
 URL:            https://github.com/open-s4c/vatomic
@@ -38,6 +38,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.1-7
+- Use valid compare-exchange failure memory orders in the C++ comparison tests.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.1-6
 - Correct the first patch hunk boundary for strict GNU patch application.
 
