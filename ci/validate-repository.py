@@ -189,6 +189,13 @@ def main() -> int:
         errors.append("package schema does not fail closed on build.user")
     if "build_user: ${{ steps.policy.outputs.build_user }}" not in package_ci:
         errors.append("package-ci.yml does not propagate the validated build-user policy")
+    build_timeout = (
+        "timeout-minutes: ${{ fromJSON(needs.prepare.outputs.timeout_minutes || '120') }}"
+    )
+    if package_ci.count(build_timeout) != 1:
+        errors.append(
+            "package-ci.yml must bind the heavy RPM job to the validated package timeout"
+        )
     if package_ci.count('--build-user "$BUILD_USER"') < 2:
         errors.append("package-ci.yml does not bind dependency and rpmbuild stages to build.user")
     runner_expression = (
