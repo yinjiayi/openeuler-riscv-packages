@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nmail
 Version:        5.14.12
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Terminal-based email client
 License:        MIT
 URL:            https://github.com/d99kris/nmail
@@ -28,7 +28,7 @@ Terminal-based email client
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -44,6 +44,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.14.12-5
+- Configure CMake explicitly in the build directory consumed by the build and test macros.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.14.12-4
 - Declare the complete required nmail and bundled libetpan build dependency closure.
 
