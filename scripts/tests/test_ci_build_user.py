@@ -19,6 +19,7 @@ RUNNER = REPO / "ci" / "run-rpmbuild-container.py"
 PREPARE_DEPS = REPO / "ci" / "prepare-build-deps.py"
 PACKAGE_POLICY = REPO / "ci" / "package-policy.py"
 QEMU_RUNNER_POLICY = REPO / "ci" / "qemu-runner-policy.py"
+PACKAGE_WORKFLOW = REPO / ".github" / "workflows" / "package-ci.yml"
 sys.path.insert(0, str(REPO / "scripts"))
 
 
@@ -41,6 +42,17 @@ def option(command: list[str], name: str) -> str:
 
 
 class BuildUserPolicyTests(unittest.TestCase):
+    def test_rpmbuild_job_uses_validated_package_timeout(self) -> None:
+        workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        marker = "  rpmbuild-riscv64:\n"
+        self.assertIn(marker, workflow)
+        job = workflow.split(marker, 1)[1].split("\n  rpm-install-smoke:\n", 1)[0]
+        self.assertIn(
+            "timeout-minutes: ${{ fromJSON(needs.prepare.outputs.timeout_minutes || '120') }}",
+            job,
+        )
+        self.assertNotIn("timeout-minutes: 120", job)
+
     def test_host_build_entrypoints_are_executable(self) -> None:
         for path in (PREPARE_DEPS, RUNNER):
             self.assertTrue(path.is_file(), path)
@@ -290,18 +302,71 @@ class BuildContainerCommandTests(unittest.TestCase):
             for directory in protected_directories:
                 self.assertEqual(directory.stat().st_mode & 0o007, 0, directory)
 
+    def test_root_build_exposes_only_workspace_parent_traversal(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = pathlib.Path(temporary) / "repo"
+            work = repo / "work" / "demo"
+            artifacts = repo / "artifacts" / "build"
+            package = repo / "packages" / "demo"
+            for directory in (
+                repo,
+                repo / "work",
+                work,
+                repo / "artifacts",
+                artifacts,
+                repo / "packages",
+                package,
+            ):
+                directory.mkdir(parents=True, exist_ok=True)
+                directory.chmod(0o700)
+            (package / "package.yaml").write_text("{}\n")
+
+            arguments = Namespace(
+                image=self.image,
+                package_id="demo",
+                repo_root=str(repo),
+                work_dir=str(work),
+                artifact_dir=str(artifacts),
+                commit_sha=self.commit,
+                build_user="root",
+            )
+            with mock.patch.object(
+                RUNNER_MODULE.subprocess,
+                "run",
+                return_value=subprocess.CompletedProcess([], 1),
+            ):
+                self.assertEqual(RUNNER_MODULE.run_mode(arguments), 1)
+
+            self.assertEqual(repo.stat().st_mode & 0o007, 0o001)
+            self.assertEqual((repo / "work").stat().st_mode & 0o007, 0o001)
+            for directory in (repo / "packages", package, work, artifacts):
+                self.assertEqual(directory.stat().st_mode & 0o007, 0, directory)
+
     def test_handoff_targets_fixed_uid_gid_and_rejects_symlinks(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary) / "work"
             (root / "SOURCES").mkdir(parents=True)
             (root / "SOURCES" / "source.tar.xz").write_bytes(b"source")
+            executable = root / "run-check"
+            executable.write_text("#!/bin/sh\n")
+            root.chmod(0o700)
+            (root / "SOURCES").chmod(0o700)
+            (root / "SOURCES" / "source.tar.xz").chmod(0o600)
+            executable.chmod(0o700)
             with mock.patch.object(RUNNER_MODULE.os, "chown") as chown:
                 count = RUNNER_MODULE.handoff_ownership(root)
-            self.assertEqual(count, 3)
-            self.assertEqual(chown.call_count, 3)
+            self.assertEqual(count, 4)
+            self.assertEqual(chown.call_count, 4)
             for call in chown.call_args_list:
                 self.assertEqual(call.args[1:3], (10001, 10001))
                 self.assertFalse(call.kwargs["follow_symlinks"])
+            self.assertEqual(root.stat().st_mode & 0o007, 0o005)
+            self.assertEqual((root / "SOURCES").stat().st_mode & 0o007, 0o005)
+            self.assertEqual(
+                (root / "SOURCES" / "source.tar.xz").stat().st_mode & 0o007,
+                0o004,
+            )
+            self.assertEqual(executable.stat().st_mode & 0o007, 0o005)
 
             (root / "unsafe").symlink_to("SOURCES")
             with self.assertRaises(RUNNER_MODULE.ContractError):
@@ -395,7 +460,9 @@ class BuildContainerCommandTests(unittest.TestCase):
                 commit_sha=self.commit,
                 build_user="unprivileged",
             )
-            with mock.patch.object(RUNNER_MODULE.subprocess, "run", side_effect=fake_run):
+            with mock.patch.object(
+                RUNNER_MODULE.subprocess, "run", side_effect=fake_run
+            ):
                 self.assertEqual(RUNNER_MODULE.run_mode(arguments), 0)
             self.assertEqual(calls, 2)
             for name in RUNNER_MODULE.EVIDENCE_FILES:
@@ -406,6 +473,54 @@ class BuildContainerCommandTests(unittest.TestCase):
                 ],
                 self.commit,
             )
+
+    def test_successful_unprivileged_run_requires_complete_readback_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = pathlib.Path(temporary) / "repo"
+            work = repo / "work" / "demo"
+            artifacts = repo / "artifacts" / "build"
+            package = repo / "packages" / "demo"
+            for directory in (
+                work,
+                artifacts,
+                package,
+                repo / "ci",
+                repo / "scripts",
+            ):
+                directory.mkdir(parents=True, exist_ok=True)
+            (repo / "ci" / "run-rpmbuild-container.py").write_text(
+                "#!/usr/bin/env python3\n"
+            )
+            (repo / "scripts" / "build-rpm").write_text("#!/usr/bin/env python3\n")
+            (package / "package.yaml").write_text("{}\n")
+
+            calls = 0
+
+            def fake_run(command, *, check):
+                nonlocal calls
+                calls += 1
+                if calls == 1:
+                    (work / ".ci-result" / "ownership-handoff.json").write_text(
+                        '{"kind":"rpmbuild-ownership-handoff"}\n'
+                    )
+                return subprocess.CompletedProcess(command, 0)
+
+            arguments = Namespace(
+                image=self.image,
+                package_id="demo",
+                repo_root=str(repo),
+                work_dir=str(work),
+                artifact_dir=str(artifacts),
+                commit_sha=self.commit,
+                build_user="unprivileged",
+            )
+            with mock.patch.object(RUNNER_MODULE.subprocess, "run", side_effect=fake_run):
+                with self.assertRaisesRegex(
+                    RUNNER_MODULE.ContractError,
+                    "successful unprivileged build is missing required evidence",
+                ):
+                    RUNNER_MODULE.run_mode(arguments)
+            self.assertEqual(calls, 2)
 
     def test_dependency_install_and_user_provisioning_are_explicitly_root(self) -> None:
         self.assertEqual(
