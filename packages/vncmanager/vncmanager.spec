@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           vncmanager
 Version:        1.0.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Session manager for VNC
 License:        MIT
 URL:            https://github.com/openSUSE/vncmanager
@@ -22,7 +22,7 @@ Session manager for VNC
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -38,6 +38,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.2-4
+- Configure the explicit out-of-source directory used by build, install, and check.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.2-3
 - Add the GnuTLS development files required by CMake.
 
