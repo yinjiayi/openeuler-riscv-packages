@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libwslay
 Version:        1.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Lightweight WebSocket protocol library in C
 License:        MIT
 URL:            https://tatsuhiro-t.github.io/wslay/
 Source0:        wslay-release-%{version}.tar.gz
+Source1:        wslay-%{version}.tar.xz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -38,7 +39,11 @@ Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
 The static libwslay library for applications that require static linking.
 
 %prep
-%autosetup -p1 -n wslay-release-%{version}
+%autosetup -p1 -n wslay-release-%{version} -a 1
+# The tag archive retains the complete test sources but not the generated
+# manual pages.  Import only those generated pages from the matching official
+# release asset so the Autotools build remains complete without Sphinx.
+mv wslay-%{version}/doc/man doc/
 
 %build
 autoreconf -fiv
@@ -75,10 +80,14 @@ ctest --test-dir cmake-full-tests --output-on-failure
 %{_includedir}/wslay/
 %{_libdir}/libwslay.so
 %{_libdir}/pkgconfig/libwslay.pc
+%{_mandir}/man3/wslay*.3*
 
 %files static
 %{_libdir}/libwslay.a
 
 %changelog
+* Tue Sep 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.1-2
+- Restore generated manual pages from the matching official release asset.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.1-1
 - Initial openEuler RISC-V package with both complete upstream test harnesses.

@@ -68,7 +68,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "The official release tag is pinned because it contains the complete frame/event/queue/session/stack test set. Autotools files are regenerated from the tag tree and both upstream Automake and CMake/CUnit harnesses run offline. AUR metadata was read only and no external packaging recipe was executed.",
+    "notes": "The official release tag is pinned because it contains the complete frame/event/queue/session/stack test set. The matching official generated release asset is separately pinned and contributes only the manual pages omitted from that tag archive. Autotools files are regenerated from the tag tree and both upstream Automake and CMake/CUnit harnesses run offline. AUR metadata was read only and no external packaging recipe was executed.",
     "status": "active"
   },
   "package_id": "libwslay",
@@ -103,6 +103,6 @@
   "version": {
     "current": "1.1.1",
     "latest_detected": "1.1.1",
-    "release": "1"
+    "release": "2"
   }
 }
