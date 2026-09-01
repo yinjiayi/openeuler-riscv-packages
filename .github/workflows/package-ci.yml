@@ -483,6 +483,16 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
           persist-credentials: false
+      - name: Establish the validated package deadline
+        id: timeout-budget
+        env:
+          PACKAGE_TIMEOUT_MINUTES: ${{ needs.prepare.outputs.timeout_minutes || '120' }}
+        run: |
+          ci/rpmbuild-timeout-budget.py start \
+            --timeout-minutes "$PACKAGE_TIMEOUT_MINUTES" \
+            --reserve-seconds 300 \
+            --output artifacts/build/timeout-budget-start.json \
+            --github-output "$GITHUB_OUTPUT"
       - name: Materialize only the exact package tree
         if: needs.prepare.outputs.mode == 'package'
         env:
@@ -588,11 +598,16 @@ jobs:
           IMAGE_REF: ${{ steps.dependencies.outputs.image }}
           BUILD_USER: ${{ needs.prepare.outputs.build_user }}
           BUILD_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          RPMBUILD_DEADLINE_EPOCH: ${{ steps.timeout-budget.outputs.deadline_epoch }}
         run: |
           mkdir -p artifacts/build
+          rpmbuild_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining \
+            --deadline-epoch "$RPMBUILD_DEADLINE_EPOCH" \
+            --output artifacts/build/timeout-budget-remaining.json \
+            --failure-output artifacts/build/failure.json)
           set +e
           ci/run-capped.sh --log artifacts/build/rpmbuild.log \
-            --max-bytes 52428800 --timeout-seconds 6900 -- \
+            --max-bytes 52428800 --timeout-seconds "$rpmbuild_timeout_seconds" -- \
             ci/run-rpmbuild-container.py run \
               --image "$IMAGE_REF" \
               --package-id "$PACKAGE_ID" \
