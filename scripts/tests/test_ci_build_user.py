@@ -52,6 +52,27 @@ class BuildUserPolicyTests(unittest.TestCase):
             job,
         )
         self.assertNotIn("timeout-minutes: 120", job)
+        self.assertIn(
+            "PACKAGE_TIMEOUT_MINUTES: ${{ needs.prepare.outputs.timeout_minutes || '120' }}",
+            job,
+        )
+        self.assertIn(
+            "ci/rpmbuild-timeout-budget.py start",
+            job,
+        )
+        deadline_step = job.split(
+            "- name: Establish the validated package deadline", 1
+        )[1].split("- name: Materialize only the exact package tree", 1)[0]
+        self.assertIn("if: needs.prepare.outputs.mode == 'package'", deadline_step)
+        self.assertIn(
+            "rpmbuild_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining",
+            job,
+        )
+        self.assertIn(
+            '--max-bytes 52428800 --timeout-seconds "$rpmbuild_timeout_seconds" --',
+            job,
+        )
+        self.assertNotIn("--timeout-seconds 6900", job)
 
     def test_host_build_entrypoints_are_executable(self) -> None:
         for path in (PREPARE_DEPS, RUNNER):
