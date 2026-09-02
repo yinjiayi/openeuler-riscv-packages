@@ -1,0 +1,62 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Wed, 2 Sep 2026 00:00:00 +0000
+Subject: [PATCH] tests: allow scaling integration-test deadlines
+
+The integration harness uses fixed one-second smoke-client and server-shutdown
+deadlines. Under qemu-user, all six smoke tests can exhaust those internal
+deadlines even though the other 53 tests pass.
+
+Add an opt-in multiplier for every harness deadline. Keep the default at one
+so native and upstream behavior is unchanged when the variable is absent. Only
+accept canonical positive ASCII decimal integers so non-finite or ambiguous
+values fail before they reach subprocess timeout handling.
+
+Patch-Source: downstream analysis of exact-head Package CI run 33547667881
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes are prohibited)
+---
+ test/run-integration-test.py          | 13 ++++++++++---
+ test/smoke-tests/smoke_test_common.py |  9 ++++++++-
+ 2 files changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/test/run-integration-test.py b/test/run-integration-test.py
+index d84fd53..7e21c8c 100755
+--- a/test/run-integration-test.py
++++ b/test/run-integration-test.py
+@@ -5,0 +6 @@ import os
++import re
+@@ -21,0 +23,6 @@ class TestError(RuntimeError):
++def scaled_timeout(base_seconds: float) -> float:
++    value = os.environ.get('GTKLS_TEST_TIMEOUT_MULTIPLIER', '1')
++    if re.fullmatch(r'[1-9][0-9]*', value) is None:
++        raise TestError('GTKLS_TEST_TIMEOUT_MULTIPLIER must be a positive decimal integer')
++    return base_seconds * int(value)
++
+@@ -43 +50 @@ def wait_until_appears(p: str):
+-    timeout = 5.0
++    timeout = scaled_timeout(5.0)
+@@ -265 +272 @@ def main() -> None:
+-        client.finish(timeout=60)
++        client.finish(timeout=scaled_timeout(60))
+@@ -271 +278 @@ def main() -> None:
+-        server.finish(timeout=1)
++        server.finish(timeout=scaled_timeout(1))
+diff --git a/test/smoke-tests/smoke_test_common.py b/test/smoke-tests/smoke_test_common.py
+index 061fb1a..f552abc 100644
+--- a/test/smoke-tests/smoke_test_common.py
++++ b/test/smoke-tests/smoke_test_common.py
+@@ -2,0 +3 @@ import os
++import re
+@@ -6 +7,5 @@ from typing import List, Dict
+-timeout = 1
++def scaled_timeout(base_seconds: float) -> float:
++    value = os.environ.get('GTKLS_TEST_TIMEOUT_MULTIPLIER', '1')
++    if re.fullmatch(r'[1-9][0-9]*', value) is None:
++        raise ValueError('GTKLS_TEST_TIMEOUT_MULTIPLIER must be a positive decimal integer')
++    return base_seconds * int(value)
+@@ -7,0 +13,2 @@ timeout = 1
++timeout = scaled_timeout(1)
++
+--
+2.51.0
