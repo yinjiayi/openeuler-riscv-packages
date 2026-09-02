@@ -70,7 +70,6 @@ jobs:
           EVENT_BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
           set -euo pipefail
-          default_branch=$(gh api "repos/$GITHUB_REPOSITORY" --jq .default_branch)
           current=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
           jq -e \
             --arg repo "$GITHUB_REPOSITORY" \
@@ -86,12 +85,20 @@ jobs:
              .head.repo.full_name == $repo and
              .base.repo.full_name == $repo and
              .auto_merge == null' <<<"$current" >/dev/null
-          if [[ "$EVENT_BASE_REF" == "$default_branch" ]]; then
+          repository=$(gh api "repos/$GITHUB_REPOSITORY")
+          jq -e '.default_branch == "main"' <<<"$repository" >/dev/null
+          default_ref=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main")
+          jq -e \
+            '.ref == "refs/heads/main" and
+             .object.type == "commit" and
+             (.object.sha | type == "string" and test("^[0-9a-f]{40}$"))' \
+            <<<"$default_ref" >/dev/null
+          default_head=$(jq -r .object.sha <<<"$default_ref")
+          if [[ "$EVENT_BASE_REF" == main && "$EVENT_BASE_SHA" == "$default_head" ]]; then
             printf 'protected=true\n' >>"$GITHUB_OUTPUT"
           else
             printf 'protected=false\n' >>"$GITHUB_OUTPUT"
-            printf 'PR targets %s rather than default branch %s; Auto-merge remains disarmed.\n' \
-              "$EVENT_BASE_REF" "$default_branch"
+            printf 'PR base is not the current protected main head; Auto-merge remains disarmed.\n'
           fi
       - name: Check out the immutable protected-base policy
         if: steps.protected_base.outputs.protected == 'true'
@@ -213,6 +220,18 @@ jobs:
             --event-base "$EVENT_BASE_SHA" \
             --event-base-ref "$EVENT_BASE_REF" \
             --expected-auto-merge disabled
+          ci/prove-default-branch-head.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --event-base "$EVENT_BASE_SHA" \
+            --event-base-ref "$EVENT_BASE_REF" \
+            >"$RUNNER_TEMP/auto-merge-pre-arm-base-freshness.json"
+          cat "$RUNNER_TEMP/auto-merge-pre-arm-base-freshness.json"
+          ci/prove-required-context-active.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --context configure \
+            --ruleset-config .github/rulesets/main.json \
+            >"$RUNNER_TEMP/auto-merge-pre-arm-activation.json"
+          cat "$RUNNER_TEMP/auto-merge-pre-arm-activation.json"
           gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" \
             --auto --squash --delete-branch
           ci/prove-auto-merge-state.py \

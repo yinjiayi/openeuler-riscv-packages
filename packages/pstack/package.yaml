@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 escapes the find %P format in the SPEC so RPM macro expansion passes the intended format to find. External distribution packaging was not executed, and fresh exact-head RISC-V CI remains required.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 escapes the find %P format in the SPEC so RPM macro expansion passes the intended format to find. Release 3 uses openEuler's out-of-source CMake configuration macro so configure, build, install, and test use the same generated build directory. External distribution packaging was not executed, and fresh exact-head RISC-V CI remains required.",
     "status": "active"
   },
   "package_id": "pstack",
@@ -63,6 +63,6 @@
   "version": {
     "current": "2.17",
     "latest_detected": "2.17",
-    "release": "2"
+    "release": "3"
   }
 }

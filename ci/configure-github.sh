@@ -128,11 +128,11 @@ ruleset_projection='
     name: .name,
     target: .target,
     enforcement: .enforcement,
-    bypass_actors: (.bypass_actors // []),
+    bypass_actors: .bypass_actors,
     conditions: {
       ref_name: {
-        include: (.conditions.ref_name.include // []),
-        exclude: (.conditions.ref_name.exclude // [])
+        include: .conditions.ref_name.include,
+        exclude: .conditions.ref_name.exclude
       }
     },
     rules: [
@@ -155,7 +155,10 @@ ruleset_projection='
           parameters: {
             strict_required_status_checks_policy: .parameters.strict_required_status_checks_policy,
             do_not_enforce_on_create: .parameters.do_not_enforce_on_create,
-            required_status_checks: [.parameters.required_status_checks[] | {context: .context}]
+            required_status_checks: [
+              .parameters.required_status_checks[] |
+              {context: .context, integration_id: .integration_id}
+            ]
           }
         }
       else
@@ -169,13 +172,25 @@ ruleset_write_projection='
     name: .name,
     target: .target,
     enforcement: .enforcement,
-    bypass_actors: (.bypass_actors // []),
+    bypass_actors: .bypass_actors,
     conditions: .conditions,
     rules: .rules
   }
 '
 ruleset_name=$(jq -r .name "$ruleset")
 desired_policy=$(jq -cS "$ruleset_projection" "$ruleset")
+jq -e '
+  has("bypass_actors") and (.bypass_actors | type == "array") and .bypass_actors == [] and
+  (.conditions | type == "object") and
+  (.conditions.ref_name | type == "object") and
+  (.conditions.ref_name.include | type == "array") and
+  (.conditions.ref_name.exclude | type == "array") and
+  (.rules | type == "array")
+' \
+  "$ruleset" >/dev/null || {
+  printf 'configured ruleset must explicitly contain an empty bypass actor list\n' >&2
+  exit 1
+}
 
 # Close the long provisioning interval with a second stable snapshot directly
 # before the protection mutation.
@@ -211,6 +226,9 @@ rollback_ruleset() {
   gh api --method PUT "repos/$repo/rulesets/$ruleset_id" --input - \
     <<<"$previous_ruleset_input" >/dev/null || return 1
   restored=$(gh api "repos/$repo/rulesets/$ruleset_id") || return 1
+  jq -e --argjson id "$ruleset_id" --arg name "$ruleset_name" --arg repo "$repo" \
+    '.id == $id and .name == $name and .source == $repo and .source_type == "Repository"' \
+    <<<"$restored" >/dev/null || return 1
   restored_policy=$(jq -cS "$ruleset_projection" <<<"$restored") || return 1
   [[ $restored_policy == "$previous_ruleset_policy" ]]
 }
@@ -230,6 +248,19 @@ discover_created_ruleset() {
 
 if [[ -n $ruleset_id ]]; then
   previous_ruleset=$(gh api "repos/$repo/rulesets/$ruleset_id")
+  jq -e --argjson id "$ruleset_id" --arg name "$ruleset_name" --arg repo "$repo" '
+    .id == $id and .name == $name and .source == $repo and .source_type == "Repository" and
+    has("bypass_actors") and (.bypass_actors | type == "array") and
+    (.conditions | type == "object") and
+    (.conditions.ref_name | type == "object") and
+    (.conditions.ref_name.include | type == "array") and
+    (.conditions.ref_name.exclude | type == "array") and
+    (.rules | type == "array")
+  ' \
+    <<<"$previous_ruleset" >/dev/null || {
+    printf 'existing ruleset readback identity or policy shape is invalid\n' >&2
+    exit 1
+  }
   previous_ruleset_input=$(jq -cS "$ruleset_write_projection" <<<"$previous_ruleset")
   previous_ruleset_policy=$(jq -cS "$ruleset_projection" <<<"$previous_ruleset")
   if ! gh api --method PUT "repos/$repo/rulesets/$ruleset_id" --input "$ruleset" >/dev/null; then
@@ -265,8 +296,16 @@ if ! applied_full=$(gh api "repos/$repo/rulesets/$ruleset_id"); then
   rollback_ruleset || printf 'ruleset rollback could not be verified; inspect the live policy immediately\n' >&2
   exit 1
 fi
-if ! jq -e --argjson id "$ruleset_id" --arg name "$ruleset_name" \
-    '.id == $id and .name == $name' <<<"$applied_full" >/dev/null; then
+if ! jq -e --argjson id "$ruleset_id" --arg name "$ruleset_name" --arg repo "$repo" \
+    '.id == $id and .name == $name and
+     .source == $repo and .source_type == "Repository" and
+     has("bypass_actors") and (.bypass_actors | type == "array") and
+     (.conditions | type == "object") and
+     (.conditions.ref_name | type == "object") and
+     (.conditions.ref_name.include | type == "array") and
+     (.conditions.ref_name.exclude | type == "array") and
+     (.rules | type == "array")' \
+    <<<"$applied_full" >/dev/null; then
   printf 'ruleset readback identity is invalid; attempting exact policy rollback\n' >&2
   rollback_ruleset || printf 'ruleset rollback could not be verified; inspect the live policy immediately\n' >&2
   exit 1

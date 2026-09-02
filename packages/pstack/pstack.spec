@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pstack
 Version:        2.17
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Print stack traces from running processes, or core files.
 License:        BSD-2-Clause
 URL:            https://github.com/peadar/pstack
@@ -18,7 +18,7 @@ Print stack traces from running processes, or core files.
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake_conf -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -34,6 +34,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.17-3
+- Use openEuler's out-of-source CMake configuration macro so configure, build, install, and test share one build directory.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.17-2
 - Escape the find %P format so RPM macro expansion preserves it for find.
 
