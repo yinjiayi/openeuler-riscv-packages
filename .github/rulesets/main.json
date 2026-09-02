@@ -34,7 +34,8 @@
           {"context": "rpmbuild-riscv64"},
           {"context": "rpm-install-smoke"},
           {"context": "patch-policy"},
-          {"context": "merge-policy"}
+          {"context": "merge-policy"},
+          {"context": "configure"}
         ]
       }
     }

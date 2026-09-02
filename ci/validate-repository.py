@@ -236,13 +236,30 @@ def main() -> int:
 
     package_ci = (workflows / "package-ci.yml").read_text(encoding="utf-8") if (workflows / "package-ci.yml").exists() else ""
     auto_merge = (workflows / "auto-merge.yml").read_text(encoding="utf-8") if (workflows / "auto-merge.yml").exists() else ""
+    ruleset_path = root / ".github" / "rulesets" / "main.json"
+    ruleset = json.loads(ruleset_path.read_text(encoding="utf-8")) if ruleset_path.exists() else {}
     auto_merge_policy_path = root / "ci" / "evaluate-auto-merge.py"
+    auto_merge_state_proof_path = root / "ci" / "prove-auto-merge-state.py"
+    required_context_activation_path = root / "ci" / "prove-required-context-active.py"
     auto_merge_events = (
         "types: [opened, reopened, synchronize, ready_for_review, "
         "converted_to_draft, edited, labeled, unlabeled]"
     )
     if auto_merge_events not in auto_merge:
         errors.append("auto-merge workflow does not re-evaluate converted_to_draft and edited events")
+    if "branches: [main]" in auto_merge:
+        errors.append("auto-merge workflow must receive retarget events so it can disarm non-default-branch PRs")
+    if not re.search(r"(?m)^  configure:\s*\n    if:", auto_merge):
+        errors.append("auto-merge workflow does not preserve the established configure job context")
+    required_contexts: list[str] = []
+    for rule in ruleset.get("rules", []):
+        if rule.get("type") == "required_status_checks":
+            required_contexts.extend(
+                check.get("context", "")
+                for check in rule.get("parameters", {}).get("required_status_checks", [])
+            )
+    if required_contexts.count("configure") != 1:
+        errors.append("main ruleset must require exactly one established Auto Merge Policy configure context")
     if not auto_merge_policy_path.is_file() or not auto_merge_policy_path.stat().st_mode & 0o111:
         errors.append("fail-closed auto-merge scope policy is missing or not executable")
     else:
@@ -256,21 +273,81 @@ def main() -> int:
         ):
             if marker not in auto_merge_policy:
                 errors.append(f"auto-merge scope policy is missing fail-closed marker: {marker}")
+    if (
+        not auto_merge_state_proof_path.is_file()
+        or not auto_merge_state_proof_path.stat().st_mode & 0o111
+    ):
+        errors.append("fail-closed Auto-merge state proof is missing or not executable")
+    else:
+        auto_merge_state_proof = auto_merge_state_proof_path.read_text(encoding="utf-8")
+        for marker in (
+            'pull_request.get("state") != "open"',
+            'pull_request.get("merged") is not False',
+            'pull_request.get("merged_at") is not None',
+            'nested(pull_request, "head", "repo", "full_name") != repository',
+            'nested(pull_request, "base", "repo", "full_name") != repository',
+            'nested(pull_request, "head", "sha") != event_head',
+            'nested(pull_request, "base", "sha") != event_base',
+            'nested(pull_request, "base", "ref") != event_base_ref',
+            'expected_auto_merge == "disabled" and auto_merge is not None',
+            'enabled = mapping(auto_merge, "pull request auto_merge")',
+            'enabled.get("merge_method") != "squash"',
+        ):
+            if marker not in auto_merge_state_proof:
+                errors.append(f"Auto-merge state proof is missing fail-closed marker: {marker}")
+    if (
+        not required_context_activation_path.is_file()
+        or not required_context_activation_path.stat().st_mode & 0o111
+    ):
+        errors.append("live required-context activation proof is missing or not executable")
+    else:
+        required_context_activation = required_context_activation_path.read_text(encoding="utf-8")
+        for marker in (
+            'live.get("enforcement") != "active"',
+            'live.get("target") != "branch"',
+            '"bypass_actors" not in live or "bypass_actors" not in expected',
+            'live_bypass != expected_bypass or live_bypass != []',
+            'includes != ["~DEFAULT_BRANCH"] or excludes != []',
+            'item.get("type") == "required_status_checks"',
+            'return 0 if result["activated"] else 3',
+        ):
+            if marker not in required_context_activation:
+                errors.append(f"live required-context activation proof is missing marker: {marker}")
     for marker in (
         "Disarm GitHub Auto-merge before evaluating the current head",
+        "Bind the current base to the repository default branch",
+        "steps.protected_base.outputs.protected == 'true'",
         "ref: ${{ github.event.pull_request.base.sha }}",
         "if [[ ! -x ci/evaluate-auto-merge.py ]]; then",
         'reasons: ["protected-base policy predates evaluator"]',
         "printf 'eligible=false\\npackage_id=\\n' >>\"$GITHUB_OUTPUT\"",
         "gh api --paginate --slurp",
         "ci/evaluate-auto-merge.py",
-        "if: steps.policy.outputs.eligible == 'true'",
-        'test "$(jq -r \'.auto_merge == null\' <<<"$current")" = true',
+        "ci/prove-auto-merge-state.py",
+        "ci/prove-required-context-active.py",
+        "steps.policy.outputs.eligible == 'true'",
+        ".auto_merge == null",
         "trap 'rollback_unverified_auto_merge $?' EXIT",
-        "Unable to prove that unverified Auto-merge was disarmed",
+        ".state == \"open\"",
+        ".merged == false",
+        ".merged_at == null",
+        ".head.sha == $head",
+        ".base.sha == $base",
+        ".head.repo.full_name == $repo",
+        ".base.repo.full_name == $repo",
+        "Unable to prove the mandatory Auto-merge disarm state",
+        "Unable to prove that the leased open PR remained unmerged and Auto-merge was disarmed",
     ):
         if marker not in auto_merge:
             errors.append(f"auto-merge workflow is missing fail-closed scope gate: {marker}")
+    if auto_merge.count("ci/prove-auto-merge-state.py") != 3:
+        errors.append("post-checkout Auto-merge transaction must use the common state proof exactly three times")
+    if auto_merge.count("--expected-auto-merge disabled") != 2:
+        errors.append("post-checkout Auto-merge transaction must prove two disabled states")
+    if auto_merge.count("--expected-auto-merge enabled") != 1:
+        errors.append("Auto-merge transaction must prove one enabled state")
+    if "steps.activation.outputs.activated == 'true'" not in auto_merge:
+        errors.append("Auto-merge arming is not gated by the live required-context activation proof")
     evaluator_command = "          ci/evaluate-auto-merge.py \\\n"
     auto_merge_order = (
         "--disable-auto",
@@ -282,6 +359,11 @@ def main() -> int:
     auto_merge_positions = [auto_merge.find(marker) for marker in auto_merge_order]
     if -1 not in auto_merge_positions and auto_merge_positions != sorted(auto_merge_positions):
         errors.append("auto-merge workflow does not preserve disarm/base/fallback/evaluate/arm order")
+    disarm_step = auto_merge.find("Disarm GitHub Auto-merge before evaluating the current head")
+    base_gate_step = auto_merge.find("Bind the current base to the repository default branch")
+    checkout_step = auto_merge.find("Check out the immutable protected-base policy")
+    if not 0 <= disarm_step < base_gate_step < checkout_step:
+        errors.append("auto-merge workflow must disarm before default-branch gating and checkout")
     if "github.event.pull_request.head.ref" in auto_merge:
         errors.append("auto-merge workflow must never fall back to pull-request-head policy code")
     rsync_retry_path = root / "ci" / "rsync-with-lock-retry.sh"
@@ -615,6 +697,52 @@ def main() -> int:
         errors.append("GitHub provisioning does not enforce the external fork workflow approval policy")
     if github_configurator.count("first_time_contributors_new_to_github") < 1:
         errors.append("GitHub provisioning does not enforce the least restrictive public-repository fork policy")
+    context_audit_path = root / "ci" / "audit-required-context.py"
+    if not context_audit_path.is_file() or not context_audit_path.stat().st_mode & 0o111:
+        errors.append("required-context migration audit is missing or not executable")
+    else:
+        context_audit = context_audit_path.read_text(encoding="utf-8")
+        for marker in (
+            "pullRequests(first: 100",
+            "contexts(first: 100)",
+            "context-pagination-overflow",
+            "open-pr-exact-head-snapshot-changed",
+            "status-context-not-allowed",
+            "unexpected-provenance",
+            'return 0 if result["passed"] else 1',
+        ):
+            if marker not in context_audit:
+                errors.append(f"required-context migration audit is missing fail-closed contract: {marker}")
+    audit_markers = (
+        "ci/audit-required-context.py",
+        "--context configure",
+        '--expected-workflow "Auto Merge Policy"',
+        "--expected-app github-actions",
+        '--output "$audit_output"',
+    )
+    for marker in audit_markers:
+        if marker not in github_configurator:
+            errors.append(f"GitHub provisioning is missing required-context preflight: {marker}")
+    if all(marker in github_configurator for marker in audit_markers):
+        dry_run = github_configurator.index("if [[ $mode == dry-run ]]")
+        audit_call = github_configurator.index("ci/audit-required-context.py")
+        first_write = github_configurator.index('gh api --method PATCH "repos/$repo"')
+        second_audit = github_configurator.rindex("run_required_context_audit")
+        ruleset_write = github_configurator.index('gh api --method PUT "repos/$repo/rulesets/$ruleset_id"')
+        if not dry_run < audit_call < first_write < second_audit < ruleset_write:
+            errors.append("required-context preflight must follow dry-run exit and precede every remote write")
+    for marker in (
+        'if ! applied_full=$(gh api "repos/$repo/rulesets/$ruleset_id")',
+        "ruleset readback identity is invalid; attempting exact policy rollback",
+        'if ! applied_policy=$(jq -ceS "$ruleset_projection"',
+        '[[ $applied_policy == "$desired_policy" ]]',
+        "ruleset readback does not exactly match the configured protection policy",
+        "rollback_ruleset()",
+        "attempting exact policy rollback",
+        "ruleset rollback could not be verified; inspect the live policy immediately",
+    ):
+        if marker not in github_configurator:
+            errors.append(f"GitHub provisioning does not prove exact ruleset readback: {marker}")
     if settings.get("allowed_actions_secrets") != ["RPM_REPO_SSH_PRIVATE_KEY"]:
         errors.append("repository settings must allow only the restricted RPM repository deployment key")
     forbidden_secrets = settings.get("forbidden_actions_secrets", [])
