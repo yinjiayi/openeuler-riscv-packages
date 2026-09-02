@@ -221,6 +221,22 @@ class AutoMergePolicyTests(unittest.TestCase):
         self.assertLess(workflow.index("--disable-auto"), workflow.index("ci/evaluate-auto-merge.py"))
         self.assertLess(workflow.index("ci/evaluate-auto-merge.py"), workflow.index("--auto --squash"))
 
+    def test_first_deployment_bootstrap_can_only_emit_blocked_policy(self) -> None:
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+        checkout = "ref: ${{ github.event.pull_request.base.sha }}"
+        fallback = "if [[ ! -x ci/evaluate-auto-merge.py ]]; then"
+        blocked = 'reasons: ["protected-base policy predates evaluator"]'
+        false_outputs = "printf 'eligible=false\\npackage_id=\\n' >>\"$GITHUB_OUTPUT\""
+        evaluator = "          ci/evaluate-auto-merge.py \\\n"
+        disarm = "--disable-auto"
+        arm = "--auto --squash"
+        self.assertIn(fallback, workflow)
+        self.assertIn(blocked, workflow)
+        self.assertIn(false_outputs, workflow)
+        self.assertNotIn("github.event.pull_request.head.ref", workflow)
+        ordered = [disarm, checkout, fallback, evaluator, arm]
+        self.assertEqual([workflow.index(item) for item in ordered], sorted(workflow.index(item) for item in ordered))
+
 
 if __name__ == "__main__":
     unittest.main()

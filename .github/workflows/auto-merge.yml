@@ -64,6 +64,24 @@ jobs:
           EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           set -euo pipefail
+          if [[ ! -x ci/evaluate-auto-merge.py ]]; then
+            jq -n \
+              --arg head "$EVENT_HEAD_SHA" \
+              --arg base "$EVENT_BASE_SHA" \
+              '{
+                schema_version: 1,
+                status: "blocked",
+                eligible: false,
+                package_id: "",
+                head_sha: $head,
+                base_sha: $base,
+                changed_files: [],
+                reasons: ["protected-base policy predates evaluator"]
+              }' >"$RUNNER_TEMP/auto-merge-policy.json"
+            printf 'eligible=false\npackage_id=\n' >>"$GITHUB_OUTPUT"
+            jq . "$RUNNER_TEMP/auto-merge-policy.json"
+            exit 0
+          fi
           gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" \
             >"$RUNNER_TEMP/auto-merge-pr.json"
           gh api --paginate --slurp \

@@ -199,6 +199,9 @@ def main() -> int:
     for marker in (
         "Disarm GitHub Auto-merge before evaluating the current head",
         "ref: ${{ github.event.pull_request.base.sha }}",
+        "if [[ ! -x ci/evaluate-auto-merge.py ]]; then",
+        'reasons: ["protected-base policy predates evaluator"]',
+        "printf 'eligible=false\\npackage_id=\\n' >>\"$GITHUB_OUTPUT\"",
         "gh api --paginate --slurp",
         "ci/evaluate-auto-merge.py",
         "if: steps.policy.outputs.eligible == 'true'",
@@ -208,10 +211,19 @@ def main() -> int:
     ):
         if marker not in auto_merge:
             errors.append(f"auto-merge workflow is missing fail-closed scope gate: {marker}")
-    if auto_merge.find("--disable-auto") > auto_merge.find("ci/evaluate-auto-merge.py"):
-        errors.append("auto-merge workflow evaluates policy before disarming a prior request")
-    if auto_merge.find("ci/evaluate-auto-merge.py") > auto_merge.find("--auto --squash"):
-        errors.append("auto-merge workflow arms a PR before exact scope evaluation")
+    evaluator_command = "          ci/evaluate-auto-merge.py \\\n"
+    auto_merge_order = (
+        "--disable-auto",
+        "ref: ${{ github.event.pull_request.base.sha }}",
+        "if [[ ! -x ci/evaluate-auto-merge.py ]]; then",
+        evaluator_command,
+        "--auto --squash",
+    )
+    auto_merge_positions = [auto_merge.find(marker) for marker in auto_merge_order]
+    if -1 not in auto_merge_positions and auto_merge_positions != sorted(auto_merge_positions):
+        errors.append("auto-merge workflow does not preserve disarm/base/fallback/evaluate/arm order")
+    if "github.event.pull_request.head.ref" in auto_merge:
+        errors.append("auto-merge workflow must never fall back to pull-request-head policy code")
     rsync_retry_path = root / "ci" / "rsync-with-lock-retry.sh"
     rsync_retry = rsync_retry_path.read_text(encoding="utf-8") if rsync_retry_path.exists() else ""
     for event in ("opened", "synchronize", "reopened", "merge_group", "workflow_dispatch", "workflow_call", "push"):
