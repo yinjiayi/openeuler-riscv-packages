@@ -239,8 +239,10 @@ class AutoMergePolicyTests(unittest.TestCase):
         self.assertTrue(STATE_PROOF.stat().st_mode & 0o111)
         self.assertTrue(BASE_HEAD_PROOF.stat().st_mode & 0o111)
         self.assertTrue(ACTIVATION_PROOF.stat().st_mode & 0o111)
-        self.assertEqual(workflow.count("ci/prove-default-branch-head.py"), 2)
-        self.assertIn("default-branch-freshness.json", workflow)
+        self.assertEqual(workflow.count("ci/prove-default-branch-head.py"), 1)
+        self.assertIn('repository=$(gh api "repos/$GITHUB_REPOSITORY")', workflow)
+        self.assertIn('default_ref=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main")', workflow)
+        self.assertIn('"$EVENT_BASE_SHA" == "$default_head"', workflow)
         self.assertIn("auto-merge-pre-arm-base-freshness.json", workflow)
         self.assertIn("ci/prove-required-context-active.py", workflow)
         self.assertEqual(workflow.count("ci/prove-required-context-active.py"), 2)
@@ -254,10 +256,10 @@ class AutoMergePolicyTests(unittest.TestCase):
             workflow.index("Bind the current base to the repository default branch"),
             workflow.index("Check out the immutable protected-base policy"),
         )
-        first_freshness = workflow.index("ci/prove-default-branch-head.py")
-        second_freshness = workflow.rindex("ci/prove-default-branch-head.py")
-        self.assertLess(first_freshness, workflow.index("Check out the immutable protected-base policy"))
-        self.assertLess(second_freshness, workflow.index("--auto --squash"))
+        inline_freshness = workflow.index('default_ref=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main")')
+        helper_freshness = workflow.index("ci/prove-default-branch-head.py")
+        self.assertLess(inline_freshness, workflow.index("Check out the immutable protected-base policy"))
+        self.assertLess(helper_freshness, workflow.index("--auto --squash"))
         self.assertLess(workflow.index("--disable-auto"), workflow.index("ci/evaluate-auto-merge.py"))
         self.assertLess(workflow.index("ci/evaluate-auto-merge.py"), workflow.index("--auto --squash"))
 

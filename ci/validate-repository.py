@@ -386,8 +386,17 @@ def main() -> int:
         errors.append("Auto-merge arming is not gated by the live required-context activation proof")
     if auto_merge.count("ci/prove-required-context-active.py") != 2:
         errors.append("Auto-merge must re-prove live activation immediately before arming")
-    if auto_merge.count("ci/prove-default-branch-head.py") != 2:
-        errors.append("Auto-merge must prove default-branch freshness before checkout and arming")
+    if auto_merge.count("ci/prove-default-branch-head.py") != 1:
+        errors.append("Auto-merge must repeat default-branch freshness proof immediately before arming")
+    for marker in (
+        'repository=$(gh api "repos/$GITHUB_REPOSITORY")',
+        '.default_branch == "main"',
+        'default_ref=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main")',
+        '.object.type == "commit"',
+        '"$EVENT_BASE_SHA" == "$default_head"',
+    ):
+        if marker not in auto_merge:
+            errors.append(f"pre-checkout default-branch freshness gate is missing marker: {marker}")
     evaluator_command = "          ci/evaluate-auto-merge.py \\\n"
     auto_merge_order = (
         "--disable-auto",

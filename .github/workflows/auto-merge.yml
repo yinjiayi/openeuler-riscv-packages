@@ -85,18 +85,21 @@ jobs:
              .head.repo.full_name == $repo and
              .base.repo.full_name == $repo and
              .auto_merge == null' <<<"$current" >/dev/null
-          freshness_result=0
-          ci/prove-default-branch-head.py \
-            --repository "$GITHUB_REPOSITORY" \
-            --event-base "$EVENT_BASE_SHA" \
-            --event-base-ref "$EVENT_BASE_REF" \
-            >"$RUNNER_TEMP/default-branch-freshness.json" || freshness_result=$?
-          cat "$RUNNER_TEMP/default-branch-freshness.json"
-          case $freshness_result in
-            0) printf 'protected=true\n' >>"$GITHUB_OUTPUT" ;;
-            3) printf 'protected=false\n' >>"$GITHUB_OUTPUT" ;;
-            *) exit "$freshness_result" ;;
-          esac
+          repository=$(gh api "repos/$GITHUB_REPOSITORY")
+          jq -e '.default_branch == "main"' <<<"$repository" >/dev/null
+          default_ref=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main")
+          jq -e \
+            '.ref == "refs/heads/main" and
+             .object.type == "commit" and
+             (.object.sha | type == "string" and test("^[0-9a-f]{40}$"))' \
+            <<<"$default_ref" >/dev/null
+          default_head=$(jq -r .object.sha <<<"$default_ref")
+          if [[ "$EVENT_BASE_REF" == main && "$EVENT_BASE_SHA" == "$default_head" ]]; then
+            printf 'protected=true\n' >>"$GITHUB_OUTPUT"
+          else
+            printf 'protected=false\n' >>"$GITHUB_OUTPUT"
+            printf 'PR base is not the current protected main head; Auto-merge remains disarmed.\n'
+          fi
       - name: Check out the immutable protected-base policy
         if: steps.protected_base.outputs.protected == 'true'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
