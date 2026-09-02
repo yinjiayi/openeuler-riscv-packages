@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xoreos
 Version:        0.0.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A reimplementation of BioWare's Aurora engine
 License:        GPL-3.0-or-later
 URL:            https://github.com/xoreos/xoreos
@@ -47,6 +47,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.0.6-3
+- Raise the bounded QEMU build timeout to 180 minutes after exact-head CI
+  compiled normally to 44% before the 60-minute package budget expired.
+
 * Fri Aug 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.0.6-2
 - Add the official development packages required by the CMake configuration.
 
