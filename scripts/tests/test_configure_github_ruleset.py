@@ -67,19 +67,28 @@ FAKE_GH = textwrap.dedent(r'''
         if os.environ["FAKE_SCENARIO"] == "readback-invalid" and state["put_count"] == 1:
             print('"malformed-policy-shape"')
             raise SystemExit(0)
+        if os.environ["FAKE_SCENARIO"] == "readback-missing-bypass" and state["put_count"] == 1:
+            item = dict(item)
+            item.pop("bypass_actors", None)
         print(json.dumps(item))
     elif endpoint.startswith(repo + "/rulesets/") and method == "PUT":
         wanted = int(endpoint.rsplit("/", 1)[1])
         document = input_document()
         state["put_count"] += 1
         document["id"] = wanted
+        document["source"] = repo.split("/", 1)[1]
+        document["source_type"] = "Repository"
         if os.environ["FAKE_SCENARIO"] == "update-mismatch" and state["put_count"] == 1:
             document["enforcement"] = "evaluate"
+        if os.environ["FAKE_SCENARIO"] == "update-wrong-integration" and state["put_count"] == 1:
+            document["rules"][-1]["parameters"]["required_status_checks"][0]["integration_id"] = 1
         state["rulesets"] = [document if item["id"] == wanted else item for item in state["rulesets"]]
         save()
     elif endpoint == repo + "/rulesets" and method == "POST":
         document = input_document()
         document["id"] = 777
+        document["source"] = repo.split("/", 1)[1]
+        document["source_type"] = "Repository"
         state["rulesets"].append(document)
         save()
         scenario = os.environ["FAKE_SCENARIO"]
@@ -115,7 +124,13 @@ class ConfigureGithubRulesetTests(unittest.TestCase):
             desired = json.loads((REPO / ".github/rulesets/main.json").read_text())
             previous = json.loads(json.dumps(desired))
             previous["id"] = 20579949
+            previous["source"] = "yinjiayi/openeuler-riscv-packages"
+            previous["source_type"] = "Repository"
             previous["rules"][-1]["parameters"]["required_status_checks"] = previous["rules"][-1]["parameters"]["required_status_checks"][:-1]
+            if scenario == "previous-missing-bypass":
+                previous.pop("bypass_actors")
+            if scenario == "previous-wrong-source":
+                previous["source_type"] = "Organization"
             state_path = root / "state.json"
             state_path.write_text(json.dumps({"rulesets": [previous] if existing else [], "put_count": 0}))
             env = os.environ.copy()
@@ -146,11 +161,13 @@ class ConfigureGithubRulesetTests(unittest.TestCase):
         self.assertEqual(checks[-1]["context"], "configure")
 
     def test_readback_mismatch_restores_the_previous_policy(self) -> None:
-        completed, state = self.run_apply("update-mismatch", existing=True, expected=1)
-        self.assertIn("readback does not exactly match", completed.stderr)
-        checks = state["rulesets"][0]["rules"][-1]["parameters"]["required_status_checks"]
-        self.assertNotIn("configure", [item["context"] for item in checks])
-        self.assertEqual(state["put_count"], 2)
+        for scenario in ("update-mismatch", "update-wrong-integration"):
+            with self.subTest(scenario=scenario):
+                completed, state = self.run_apply(scenario, existing=True, expected=1)
+                self.assertIn("readback does not exactly match", completed.stderr)
+                checks = state["rulesets"][0]["rules"][-1]["parameters"]["required_status_checks"]
+                self.assertNotIn("configure", [item["context"] for item in checks])
+                self.assertEqual(state["put_count"], 2)
 
     def test_malformed_create_response_discovers_deletes_and_lists_absence(self) -> None:
         for scenario in ("create-invalid", "create-raw", "create-scalar"):
@@ -160,11 +177,20 @@ class ConfigureGithubRulesetTests(unittest.TestCase):
                 self.assertEqual(state["rulesets"], [])
 
     def test_malformed_exact_readback_restores_the_previous_policy(self) -> None:
-        completed, state = self.run_apply("readback-invalid", existing=True, expected=1)
-        self.assertIn("readback identity is invalid", completed.stderr)
-        checks = state["rulesets"][0]["rules"][-1]["parameters"]["required_status_checks"]
-        self.assertNotIn("configure", [item["context"] for item in checks])
-        self.assertEqual(state["put_count"], 2)
+        for scenario in ("readback-invalid", "readback-missing-bypass"):
+            with self.subTest(scenario=scenario):
+                completed, state = self.run_apply(scenario, existing=True, expected=1)
+                self.assertIn("readback identity is invalid", completed.stderr)
+                checks = state["rulesets"][0]["rules"][-1]["parameters"]["required_status_checks"]
+                self.assertNotIn("configure", [item["context"] for item in checks])
+                self.assertEqual(state["put_count"], 2)
+
+    def test_missing_previous_bypass_stops_before_ruleset_mutation(self) -> None:
+        for scenario in ("previous-missing-bypass", "previous-wrong-source"):
+            with self.subTest(scenario=scenario):
+                completed, state = self.run_apply(scenario, existing=True, expected=1)
+                self.assertIn("existing ruleset readback identity or policy shape is invalid", completed.stderr)
+                self.assertEqual(state["put_count"], 0)
 
     def test_delete_without_successful_absence_listing_is_unverified(self) -> None:
         completed, state = self.run_apply("create-unverified", existing=False, expected=1)
