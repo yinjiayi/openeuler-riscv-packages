@@ -327,7 +327,7 @@ def main() -> int:
     for marker in (
         "authorize-trusted-dispatch:",
         "needs: authorize-trusted-dispatch",
-        "ref: ${{ github.sha }}",
+        "tooling_sha: ${{ steps.tooling.outputs.tooling_sha }}",
         "ci/authorize-trusted-package-dispatch.py",
         "--pr-number \"$PR_NUMBER\"",
         "--publish-to-repo \"$PUBLISH_TO_REPO\"",
@@ -340,6 +340,17 @@ def main() -> int:
         errors.append("package-ci.yml can check out a dispatch head before trusted authorization succeeds")
     if "(github.event_name == 'workflow_call' && inputs.publish_to_repo)" in package_ci:
         errors.append("package-ci.yml permits reusable callers other than the protected RPM backfill to publish")
+    tooling_resolver = root / "ci" / "resolve-protected-tooling.py"
+    if not tooling_resolver.is_file() or not tooling_resolver.stat().st_mode & 0o111:
+        errors.append("protected-main tooling resolver is missing or not executable")
+    elif not all(marker in tooling_resolver.read_text(encoding="utf-8") for marker in (
+        'WORKFLOW_SHA_EVENTS = {"pull_request", "merge_group"}',
+        'EVENT_SHA_EVENTS = {"push", "workflow_dispatch", "workflow_call"}',
+        'PACKAGE_WORKFLOW = ".github/workflows/package-ci.yml"',
+        'BACKFILL_WORKFLOW = ".github/workflows/rpm-repo-backfill.yml"',
+        'if observed_head != tooling_sha:',
+    )):
+        errors.append("protected-main tooling resolver is missing event or immutable-HEAD guards")
     overlay_materializer = root / "ci" / "materialize-package-head.py"
     overlay_selector = root / "ci" / "select-package-scope.py"
     if not overlay_materializer.is_file() or not overlay_materializer.stat().st_mode & 0o111:
@@ -366,28 +377,43 @@ def main() -> int:
         if marker not in package_ci:
             errors.append(f"package CI scope selection is missing overlay binding: {marker}")
     protected_tooling_checkout = (
-        "ref: ${{ github.event.pull_request.base.sha || "
-        "github.event.merge_group.base_sha || github.sha }}"
+        "ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}"
+    )
+    immutable_tooling_candidate = (
+        "ref: ${{ (github.event_name == 'pull_request' || "
+        "github.event_name == 'merge_group') && github.workflow_sha || github.sha }}"
     )
     untrusted_tooling_checkout = (
         "ref: ${{ inputs.commit_sha != '' && github.sha || "
         "github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}"
     )
-    if package_ci.count(protected_tooling_checkout) != 7:
+    if package_ci.count(immutable_tooling_candidate) != 1:
+        errors.append("package-ci.yml does not select one immutable workflow/event tooling candidate")
+    if package_ci.count(protected_tooling_checkout) != 8:
         errors.append(
-            "package-ci.yml must check out immutable protected-base tooling in all seven package jobs"
+            "package-ci.yml must use one validated tooling output in seven package jobs and CI state"
         )
+    if "github.event.pull_request.base.sha" in package_ci:
+        errors.append("package-ci.yml must not use a stale pull-request payload base as tooling")
     if untrusted_tooling_checkout in package_ci:
         errors.append("package-ci.yml must not execute shared tooling from a pull-request head")
     if package_ci.count("ci/materialize-package-head.py --repo-root .") != 7:
         errors.append("package-ci.yml must overlay the exact package tree in all seven package jobs")
     if package_ci.count('--tooling-sha "$TOOLING_COMMIT_SHA"') != 7:
         errors.append("package-ci.yml package overlays are not bound to the checked-out protected tooling")
+    if package_ci.count(
+        "TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}"
+    ) != 7:
+        errors.append("package-ci.yml overlay jobs do not share the validated tooling output")
     for marker in (
         "Classify the exact event delta with protected tooling",
         "Materialize only the exact package tree",
+        "tooling_sha: ${{ steps.tooling.outputs.tooling_sha }}",
+        "ci/resolve-protected-tooling.py",
         "PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}",
-        "TOOLING_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}",
+        "TOOLING_HEAD_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}",
+        "&& needs.authorize-trusted-dispatch.outputs.tooling_sha || github.event.before || inputs.base_sha }}",
+        "if: always() && github.event_name == 'pull_request' && needs.authorize-trusted-dispatch.outputs.authorized == 'true'",
     ):
         if marker not in package_ci:
             errors.append(f"package CI protected-tooling overlay contract is missing: {marker}")

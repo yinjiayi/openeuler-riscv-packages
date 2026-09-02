@@ -72,16 +72,40 @@ jobs:
     timeout-minutes: 10
     outputs:
       authorized: ${{ steps.authorize.outputs.authorized }}
+      tooling_sha: ${{ steps.tooling.outputs.tooling_sha }}
     steps:
-      # This is deliberately the workflow's protected-main revision, never the
-      # caller-provided PR head. The authorizer runs before any later checkout
-      # accepts inputs.commit_sha.
-      - name: Check out fixed protected-main authorization code
-        if: github.event_name == 'workflow_dispatch' && inputs.commit_sha != ''
+      # GitHub selects pull-request and merge-group workflow files from the
+      # protected branch. Bind that immutable workflow commit, not the event's
+      # potentially stale base.sha and never a PR merge or head commit.
+      - name: Check out the immutable protected tooling candidate
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ (github.event_name == 'pull_request' || github.event_name == 'merge_group') && github.workflow_sha || github.sha }}
           persist-credentials: false
+      - name: Validate the protected tooling identity
+        id: tooling
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SHA: ${{ github.sha }}
+          EVENT_REF: ${{ github.ref }}
+          WORKFLOW_REF: ${{ github.workflow_ref }}
+          WORKFLOW_SHA: ${{ github.workflow_sha }}
+          BASE_REPOSITORY: ${{ github.event.pull_request.base.repo.full_name || github.repository }}
+          BASE_REF: ${{ github.event.pull_request.base.ref || github.event.merge_group.base_ref }}
+        run: |
+          mkdir -p artifacts/authorization
+          ci/resolve-protected-tooling.py \
+            --repo-root . \
+            --event-name "$EVENT_NAME" \
+            --repository "$GITHUB_REPOSITORY" \
+            --workflow-ref "$WORKFLOW_REF" \
+            --workflow-sha "$WORKFLOW_SHA" \
+            --event-sha "$EVENT_SHA" \
+            --event-ref "$EVENT_REF" \
+            --base-repository "$BASE_REPOSITORY" \
+            --base-ref "$BASE_REF" \
+            --output artifacts/authorization/protected-tooling.json \
+            --github-output "$GITHUB_OUTPUT"
       - name: Authorize a trusted package dispatch or normal main build
         id: authorize
         env:
@@ -129,14 +153,14 @@ jobs:
       - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           fetch-depth: 0
           persist-credentials: false
       - name: Classify the exact event delta with protected tooling
         id: candidate_scope
         if: inputs.package_id == ''
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.event.before || inputs.base_sha }}
+          BASE_SHA: ${{ (github.event_name == 'pull_request' || github.event_name == 'merge_group') && needs.authorize-trusted-dispatch.outputs.tooling_sha || github.event.before || inputs.base_sha }}
           HEAD_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
         run: |
           mkdir -p artifacts/scope
@@ -149,7 +173,7 @@ jobs:
         env:
           PACKAGE_ID: ${{ inputs.package_id || steps.candidate_scope.outputs.package_id }}
           PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
-          TOOLING_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
         run: |
           ci/materialize-package-head.py --repo-root . \
             --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
@@ -162,7 +186,7 @@ jobs:
           PACKAGE_ID: ${{ inputs.package_id || steps.candidate_scope.outputs.package_id }}
           CANDIDATE_MODE: ${{ steps.candidate_scope.outputs.mode }}
           CANDIDATE_PACKAGE_ID: ${{ steps.candidate_scope.outputs.package_id }}
-          TOOLING_HEAD_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          TOOLING_HEAD_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
         run: |
           mkdir -p artifacts/scope
           if [[ -n "$PACKAGE_ID" ]]; then
@@ -223,14 +247,14 @@ jobs:
       - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
       - name: Materialize only the exact package tree
         if: needs.prepare.outputs.mode == 'package'
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
-          TOOLING_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
         run: |
           ci/materialize-package-head.py --repo-root . \
             --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
@@ -265,14 +289,14 @@ jobs:
       - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
       - name: Materialize only the exact package tree
         if: needs.prepare.outputs.mode == 'package'
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
-          TOOLING_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
         run: |
           ci/materialize-package-head.py --repo-root . \
             --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
@@ -318,14 +342,14 @@ jobs:
       - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
       - name: Materialize only the exact package tree
         if: needs.prepare.outputs.mode == 'package'
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
-          TOOLING_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
         run: |
           ci/materialize-package-head.py --repo-root . \
             --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
@@ -381,14 +405,14 @@ jobs:
       - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
       - name: Materialize only the exact package tree
         if: needs.prepare.outputs.mode == 'package'
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
-          TOOLING_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
         run: |
           ci/materialize-package-head.py --repo-root . \
             --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
@@ -481,7 +505,7 @@ jobs:
       - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
       - name: Establish the validated package deadline
         if: needs.prepare.outputs.mode == 'package'
@@ -499,7 +523,7 @@ jobs:
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
-          TOOLING_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
         run: |
           ci/materialize-package-head.py --repo-root . \
             --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
@@ -698,14 +722,14 @@ jobs:
       - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
       - name: Materialize only the exact package tree
         if: needs.prepare.outputs.mode == 'package'
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
-          TOOLING_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
         run: |
           ci/materialize-package-head.py --repo-root . \
             --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
@@ -951,8 +975,8 @@ jobs:
 
   ci-state:
     name: record-ci-state
-    needs: [prepare, metadata-validate, source-verify, patch-policy, repository-snapshot, merge-policy, rpmbuild-riscv64, rpm-install-smoke]
-    if: always() && github.event_name == 'pull_request'
+    needs: [authorize-trusted-dispatch, prepare, metadata-validate, source-verify, patch-policy, repository-snapshot, merge-policy, rpmbuild-riscv64, rpm-install-smoke]
+    if: always() && github.event_name == 'pull_request' && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -964,7 +988,7 @@ jobs:
       - name: Check out trusted state-transition code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.base.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
       - name: Download all structured results
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
