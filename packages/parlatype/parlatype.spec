@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           parlatype
 Version:        4.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GNOME audio player for transcription
 License:        GPL-3.0-or-later
 URL:            https://github.com/gkarsay/parlatype
@@ -10,6 +10,7 @@ BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  meson
 BuildRequires:  ninja-build
+BuildRequires:  gtk4-devel
 
 %description
 GNOME audio player for transcription
@@ -35,5 +36,8 @@ test -s %{name}.files
 %doc NEWS
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.3-2
+- Add the GTK 4 development dependency required by Meson.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.3-1
 - Initial openEuler RISC-V package from the full package inventory.
