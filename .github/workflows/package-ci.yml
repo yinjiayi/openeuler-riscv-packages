@@ -483,6 +483,17 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}
           persist-credentials: false
+      - name: Establish the validated package deadline
+        if: needs.prepare.outputs.mode == 'package'
+        id: timeout-budget
+        env:
+          PACKAGE_TIMEOUT_MINUTES: ${{ needs.prepare.outputs.timeout_minutes || '120' }}
+        run: |
+          ci/rpmbuild-timeout-budget.py start \
+            --timeout-minutes "$PACKAGE_TIMEOUT_MINUTES" \
+            --reserve-seconds 300 \
+            --output artifacts/build/timeout-budget-start.json \
+            --github-output "$GITHUB_OUTPUT"
       - name: Materialize only the exact package tree
         if: needs.prepare.outputs.mode == 'package'
         env:
@@ -588,11 +599,21 @@ jobs:
           IMAGE_REF: ${{ steps.dependencies.outputs.image }}
           BUILD_USER: ${{ needs.prepare.outputs.build_user }}
           BUILD_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          RPMBUILD_DEADLINE_EPOCH: ${{ steps.timeout-budget.outputs.deadline_epoch }}
         run: |
           mkdir -p artifacts/build
+          rpmbuild_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining \
+            --deadline-epoch "$RPMBUILD_DEADLINE_EPOCH" \
+            --output artifacts/build/timeout-budget-remaining.json \
+            --failure-output artifacts/build/failure.json)
+          [[ "$rpmbuild_timeout_seconds" =~ ^[1-9][0-9]*$ ]]
+          # Let the inner builder record timeout evidence before the outer
+          # process cap fires, while retaining 240 of the 300 reserved seconds.
+          rpmbuild_outer_timeout_seconds=$((rpmbuild_timeout_seconds + 60))
+          [[ "$rpmbuild_outer_timeout_seconds" =~ ^[1-9][0-9]*$ ]]
           set +e
           ci/run-capped.sh --log artifacts/build/rpmbuild.log \
-            --max-bytes 52428800 --timeout-seconds 6900 -- \
+            --max-bytes 52428800 --timeout-seconds "$rpmbuild_outer_timeout_seconds" -- \
             ci/run-rpmbuild-container.py run \
               --image "$IMAGE_REF" \
               --package-id "$PACKAGE_ID" \
@@ -600,7 +621,8 @@ jobs:
               --work-dir "$GITHUB_WORKSPACE/work/$PACKAGE_ID" \
               --artifact-dir "$GITHUB_WORKSPACE/artifacts/build" \
               --commit-sha "$BUILD_COMMIT_SHA" \
-              --build-user "$BUILD_USER"
+              --build-user "$BUILD_USER" \
+              --build-timeout-seconds "$rpmbuild_timeout_seconds"
           result=$?
           if [[ -f "work/$PACKAGE_ID/logs/rpmbuild.log" ]]; then
             cp -- "work/$PACKAGE_ID/logs/rpmbuild.log" artifacts/build/rpmbuild-internal.log

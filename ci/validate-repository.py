@@ -196,6 +196,34 @@ def main() -> int:
         errors.append(
             "package-ci.yml must bind the heavy RPM job to the validated package timeout"
         )
+    timeout_budget_path = root / "ci" / "rpmbuild-timeout-budget.py"
+    if not timeout_budget_path.is_file() or not timeout_budget_path.stat().st_mode & 0o111:
+        errors.append("rpmbuild timeout-budget helper is missing or not executable")
+    for marker in (
+        "- name: Establish the validated package deadline\n        if: needs.prepare.outputs.mode == 'package'",
+        "ci/rpmbuild-timeout-budget.py start",
+        "rpmbuild_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining",
+        '[[ "$rpmbuild_timeout_seconds" =~ ^[1-9][0-9]*$ ]]',
+        'rpmbuild_outer_timeout_seconds=$((rpmbuild_timeout_seconds + 60))',
+        '[[ "$rpmbuild_outer_timeout_seconds" =~ ^[1-9][0-9]*$ ]]',
+        '--timeout-seconds "$rpmbuild_outer_timeout_seconds"',
+        '--build-timeout-seconds "$rpmbuild_timeout_seconds"',
+    ):
+        if marker not in package_ci:
+            errors.append(f"package-ci.yml is missing the evidence-preserving build budget marker: {marker}")
+    if "--timeout-seconds 6900" in package_ci:
+        errors.append("package-ci.yml still truncates validated package budgets at 6900 seconds")
+    if '--timeout-seconds "$rpmbuild_timeout_seconds"' in package_ci:
+        errors.append("package-ci.yml gives the outer cap no timeout-evidence grace period")
+    reserve_matches = re.findall(r"--reserve-seconds ([0-9]+)", package_ci)
+    grace_matches = re.findall(
+        r"rpmbuild_outer_timeout_seconds=\$\(\(rpmbuild_timeout_seconds \+ ([0-9]+)\)\)",
+        package_ci,
+    )
+    if len(reserve_matches) != 1 or len(grace_matches) != 1:
+        errors.append("package-ci.yml must declare one evidence reserve and one outer-cap grace")
+    elif int(reserve_matches[0]) - int(grace_matches[0]) < 240:
+        errors.append("package-ci.yml must retain at least 240 seconds for timeout evidence")
     if package_ci.count('--build-user "$BUILD_USER"') < 2:
         errors.append("package-ci.yml does not bind dependency and rpmbuild stages to build.user")
     runner_expression = (
@@ -343,6 +371,8 @@ def main() -> int:
         'grant_other_access(work_parent, readable=False)',
         'successful unprivileged build is missing required evidence',
         'require_complete=completed.returncode == 0',
+        'type=positive_seconds',
+        'str(build_timeout_seconds)',
     ):
         if marker not in build_runner:
             errors.append(
