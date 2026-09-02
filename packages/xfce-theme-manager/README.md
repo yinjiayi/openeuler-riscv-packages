@@ -9,4 +9,10 @@ Exact-head Package CI run `33671418692` installed all BuildRequires, but the
 previous default `%autosetup` directory name failed before compilation began.
 No tests are skipped or weakened by this packaging-only repair.
 
+Exact-head Package CI run `33673203229` for commit
+`032fd5487979f050d0ed94fdaf8097f347e83a5c` passed `%prep` and then stopped
+at the next effective configure error because `gtk+-2.0` was unavailable.
+Release 3 adds openEuler's `gtk2-devel`, whose SHA-256-bound target repository
+metadata provides `pkgconfig(gtk+-2.0)`; source and test execution are unchanged.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

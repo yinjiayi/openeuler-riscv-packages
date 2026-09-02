@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xfce-theme-manager
 Version:        0.3.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Integrated theme manager for xfce4
 License:        GPL-3.0-or-later
 URL:            https://github.com/KeithDHedger/Xfce-Theme-Manager
@@ -10,6 +10,7 @@ BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  gtk2-devel
 BuildRequires:  libtool
 BuildRequires:  make
 
@@ -40,6 +41,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.9-3
+- Add gtk2-devel so configure can resolve gtk+-2.0.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.9-2
 - Match %%prep to the case-sensitive top-level directory in the verified archive.
 
