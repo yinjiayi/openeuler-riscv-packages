@@ -25,3 +25,17 @@ Package CI run `33674636862` for exact head
 then stopped at the next effective Meson error because `gtksourceview-4` was
 unavailable. Release 5 adds openEuler's `gtksourceview4-devel`, whose fixed
 target metadata provides `pkgconfig(gtksourceview-4)`.
+
+Package CI run `33675528070` for exact head
+`64219f349f579106306b963df38de05113261264` resolved all earlier interfaces,
+then stopped at the mandatory Meson dependency `libpeas-1.0`. Release 6 adds
+`libpeas-devel`; checksum-verified openEuler 24.03 LTS SP3 EPOL RVA23 metadata
+identifies `libpeas-devel-1.36.0-1.oe2403sp3.riscv64` as the provider of
+`pkgconfig(libpeas-1.0)`. The source, patch set, and complete `%meson_test`
+execution remain unchanged.
+
+The current CI buildroot enables Everything RVA23 and the fixed supplemental
+generation, neither of which contains `libpeas-devel`. This package metadata
+repair is therefore not evidence of a successful RISC-V build: CI must first
+make the official provider visible, then obtain fresh exact-head build and
+smoke evidence. The RISC-V status remains `unknown`.
