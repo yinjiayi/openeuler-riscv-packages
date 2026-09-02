@@ -1,16 +1,25 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           parlatype
-Version:        4.3
-Release:        2%{?dist}
+Version:        4.0
+Release:        3%{?dist}
 Summary:        GNOME audio player for transcription
 License:        GPL-3.0-or-later
 URL:            https://github.com/gkarsay/parlatype
-Source0:        parlatype-4.3.tar.gz
+Source0:        parlatype-4.0.tar.gz
 BuildRequires:  gcc
+BuildRequires:  gettext
+BuildRequires:  glib2-devel
+BuildRequires:  gstreamer1-devel
+BuildRequires:  gstreamer1-plugins-base-devel
+BuildRequires:  gstreamer1-plugins-good
+BuildRequires:  gtk4-devel
+BuildRequires:  iso-codes-devel
 BuildRequires:  make
 BuildRequires:  meson
 BuildRequires:  ninja-build
-BuildRequires:  gtk4-devel
+BuildRequires:  yelp-tools
+Requires:       gstreamer1-plugins-good
+Requires:       iso-codes
 
 %description
 GNOME audio player for transcription
@@ -36,6 +45,10 @@ test -s %{name}.files
 %doc NEWS
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-3
+- Select the newest stable release compatible with the fixed target GTK stack.
+- Declare the direct build, test, help, translation, and runtime providers.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.3-2
 - Add the GTK 4 development dependency required by Meson.
 

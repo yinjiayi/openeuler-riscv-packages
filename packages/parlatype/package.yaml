@@ -44,7 +44,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Package CI run 33671468530 reached Meson and proved that the build requires GTK 4 pkg-config metadata, supplied by openEuler's gtk4-devel package.",
+    "notes": "Selected from the full discovery inventory. Exact-head Package CI run 33672605181 proved that upstream 4.3 requires GTK >= 4.14, while the immutable openEuler 24.03 LTS SP3 repository metadata supplies GTK 4.10.5 and libadwaita 1.3.4. Stable releases 4.1 and 4.2 require libadwaita >= 1.4, so 4.0 is the newest stable release compatible with the fixed target stack: it requires GTK >= 4.0 and GLib >= 2.58 and has no libadwaita dependency. Its official GitHub tag archive was independently downloaded, safety-inspected, verified to contain the GPL-3.0-or-later license and a single parlatype-4.0 source root, and pinned by SHA-256. Release 3 declares every provider used directly by the default build, complete Meson test suite, translations, installed help, and required runtime data/plugins. Optional GIR, gtk-doc, PocketSphinx, and DeepSpeech features retain their upstream-disabled defaults; no test is skipped. Fresh exact-head target CI remains authoritative.",
     "status": "active"
   },
   "package_id": "parlatype",
@@ -77,8 +77,8 @@
     "source_url_template": "https://github.com/gkarsay/parlatype/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "4.3",
+    "current": "4.0",
     "latest_detected": "4.3",
-    "release": "2"
+    "release": "3"
   }
 }
