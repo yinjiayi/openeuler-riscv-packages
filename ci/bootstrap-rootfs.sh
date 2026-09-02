@@ -121,6 +121,7 @@ bootstrap_rpmdb_host=${rootfs}${bootstrap_rpmdb}
 [[ -n $(find "$bootstrap_rpmdb_host" -mindepth 1 -maxdepth 1 -print -quit) ]] \
   || die "bootstrap RPM database directory is empty"
 printf '%s\n' "$bootstrap_rpmdb" > /evidence/bootstrap-rpmdb.path
+rpm --version > /evidence/bootstrap-rpm-version.txt
 
 curl --fail --location --proto '=https' --tlsv1.2 \
   --retry 4 --retry-delay 2 --connect-timeout 20 --max-time 180 \
@@ -148,6 +149,7 @@ install -m 0644 /evidence/repomd.sha256 "$rootfs/usr/share/openeuler-riscv-ci/re
 install -m 0644 /evidence/rpm-manifest.tsv "$rootfs/usr/share/openeuler-riscv-ci/rpm-manifest.tsv"
 install -m 0644 /evidence/rpm-manifest.sha256 "$rootfs/usr/share/openeuler-riscv-ci/rpm-manifest.sha256"
 install -m 0644 /evidence/bootstrap-rpmdb.path "$rootfs/usr/share/openeuler-riscv-ci/bootstrap-rpmdb.path"
+install -m 0644 /evidence/bootstrap-rpm-version.txt "$rootfs/usr/share/openeuler-riscv-ci/bootstrap-rpm-version.txt"
 install -m 0644 /evidence/primary-db.href "$rootfs/usr/share/openeuler-riscv-ci/primary-db.href"
 install -m 0644 /evidence/primary-db.sha256 "$rootfs/usr/share/openeuler-riscv-ci/primary-db.sha256"
 install -m 0644 /evidence/signing-key-rpm.href "$rootfs/usr/share/openeuler-riscv-ci/signing-key-rpm.href"

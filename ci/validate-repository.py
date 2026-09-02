@@ -117,11 +117,27 @@ def main() -> int:
             'cp -a -- "$bootstrap_db/." "$runtime_db/"',
             "validate_db_path 'bootstrap rpmdb path'",
             "validate_db_path 'target runtime rpmdb path'",
+            'diagnostic "bootstrap-dbpath=$bootstrap_db"',
+            'diagnostic "target-dbpath=$runtime_db"',
+            'diagnostic "target-rpm-version=$(rpm --version)"',
+            'probe_db_copy bootstrap "$bootstrap_db"',
+            'probe_query target-default-before "$manifest_helper"',
+            'probe_query target-default-after "$manifest_helper"',
+            "file --brief --",
+            "rpm --dbpath",
         ):
             if marker not in finalizer:
                 errors.append(f"target RPM database finalizer is missing: {marker}")
-        if "ln -s" in finalizer or "/var/lib/rpm" in finalizer or "/usr/lib/sysimage/rpm" in finalizer:
+        if (
+            "ln -s" in finalizer
+            or "/var/lib/rpm" in finalizer
+            or "/usr/lib/sysimage/rpm" in finalizer
+            or "--rebuilddb" in finalizer
+            or "--initdb" in finalizer
+        ):
             errors.append("target RPM database finalizer guesses a distribution path or symlink")
+        if "rpm --version > /evidence/bootstrap-rpm-version.txt" not in bootstrap:
+            errors.append("bootstrap RPM version is not retained for target-side diagnostics")
         for marker in (
             '[[ -s $live_manifest ]]',
             "bash rpm rpm-build gcc gcc-c++ make python3",

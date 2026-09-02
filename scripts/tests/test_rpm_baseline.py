@@ -128,6 +128,26 @@ class RpmBaselineImageContractTests(unittest.TestCase):
         self.assertNotIn("/var/lib/rpm", finalizer)
         self.assertNotIn("/usr/lib/sysimage/rpm", finalizer)
 
+    def test_failed_target_build_emits_read_only_rpmdb_diagnostics(self) -> None:
+        finalizer = FINALIZER.read_text(encoding="utf-8")
+        bootstrap = BOOTSTRAP.read_text(encoding="utf-8")
+        for marker in (
+            'diagnostic "bootstrap-dbpath=$bootstrap_db"',
+            'diagnostic "target-dbpath=$runtime_db"',
+            'diagnostic "target-rpm-version=$(rpm --version)"',
+            'diagnose_db_directory bootstrap "$bootstrap_db"',
+            'probe_db_copy bootstrap "$bootstrap_db"',
+            'probe_query target-default-before "$manifest_helper"',
+            'probe_query target-default-after "$manifest_helper"',
+            "file --brief --",
+            'rpm --dbpath "$copy" -qa',
+        ):
+            self.assertIn(marker, finalizer)
+        self.assertIn("rpm --version > /evidence/bootstrap-rpm-version.txt", bootstrap)
+        self.assertNotIn("--rebuilddb", finalizer)
+        self.assertNotIn("--initdb", finalizer)
+        self.assertNotIn("dnf ", finalizer)
+
     def test_target_finalization_runs_before_exact_target_verification(self) -> None:
         containerfile = CONTAINERFILE.read_text(encoding="utf-8")
         finalizer = containerfile.index("finalize-target-rpmdb.sh")
