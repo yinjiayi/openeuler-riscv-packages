@@ -85,6 +85,68 @@ def main() -> int:
     if missing:
         errors.append("missing workflow(s): " + ", ".join(missing))
 
+    manifest_helper_path = root / "ci" / "rpm-manifest.sh"
+    finalizer_path = root / "ci" / "finalize-target-rpmdb.sh"
+    bootstrap_path = root / "ci" / "bootstrap-rootfs.sh"
+    verify_target_path = root / "ci" / "verify-target.sh"
+    containerfile_path = root / "ci" / "Containerfile.riscv64"
+    image_workflow_path = workflows / "build-ci-image.yml"
+    baseline_files = (
+        manifest_helper_path,
+        finalizer_path,
+        bootstrap_path,
+        verify_target_path,
+        containerfile_path,
+        image_workflow_path,
+    )
+    if any(not path.is_file() for path in baseline_files):
+        errors.append("trusted RPM baseline implementation is incomplete")
+    else:
+        manifest_helper = manifest_helper_path.read_text(encoding="utf-8")
+        finalizer = finalizer_path.read_text(encoding="utf-8")
+        bootstrap = bootstrap_path.read_text(encoding="utf-8")
+        verify_target = verify_target_path.read_text(encoding="utf-8")
+        containerfile = containerfile_path.read_text(encoding="utf-8")
+        image_workflow = image_workflow_path.read_text(encoding="utf-8")
+        if not manifest_helper_path.stat().st_mode & 0o111 or "%{SIGPGP:pgpsig}" not in manifest_helper:
+            errors.append("shared target RPM manifest helper is missing its executable exact query contract")
+        if "rpm --root \"$rootfs\" --eval '%{_dbpath}'" not in bootstrap:
+            errors.append("bootstrap rootfs does not record its RPM-evaluated database path")
+        for marker in (
+            "rpm --eval '%{_dbpath}'",
+            'cp -a -- "$bootstrap_db/." "$runtime_db/"',
+            "validate_db_path 'bootstrap rpmdb path'",
+            "validate_db_path 'target runtime rpmdb path'",
+        ):
+            if marker not in finalizer:
+                errors.append(f"target RPM database finalizer is missing: {marker}")
+        if "ln -s" in finalizer or "/var/lib/rpm" in finalizer or "/usr/lib/sysimage/rpm" in finalizer:
+            errors.append("target RPM database finalizer guesses a distribution path or symlink")
+        for marker in (
+            '[[ -s $live_manifest ]]',
+            "bash rpm rpm-build gcc gcc-c++ make python3",
+            'cmp -s -- "$manifest" "$live_manifest"',
+        ):
+            if marker not in verify_target:
+                errors.append(f"target verification is missing the live RPM baseline gate: {marker}")
+        finalizer_run = "&& /usr/local/libexec/openeuler-riscv-ci/finalize-target-rpmdb.sh"
+        target_verify_run = "&& /usr/local/bin/verify-target"
+        if (
+            finalizer_run not in containerfile
+            or target_verify_run not in containerfile
+            or containerfile.index(finalizer_run) > containerfile.index(target_verify_run)
+        ):
+            errors.append("target RPM database finalization must precede target verification")
+        for name in ("ci/finalize-target-rpmdb.sh", "ci/rpm-manifest.sh"):
+            if image_workflow.count(f"- {name}") < 2 or f"sha256sum {name}" not in image_workflow:
+                errors.append(f"CI image workflow does not trigger on and record {name}")
+        if (
+            "artifacts/image/rpm-manifest-live.tsv" not in image_workflow
+            or "cmp -s artifacts/image/rpm-manifest.tsv artifacts/image/rpm-manifest-live.tsv"
+            not in image_workflow
+        ):
+            errors.append("CI image workflow does not retain and compare the live target RPM manifest")
+
     forbidden = {
         "OPENAI_API_KEY": "Actions must not hold OpenAI credentials",
         "pull_request_target": "write-capable pull_request_target is forbidden",
@@ -485,6 +547,34 @@ def main() -> int:
     ):
         if marker not in builddeps:
             errors.append(f"BuildRequires preparation is missing bounded download resilience: {marker}")
+    for marker in (
+        "BASELINE_ANCHORS",
+        '"--network", "none"',
+        "baseline = rpm_baseline_evidence",
+        'if baseline["status"] != "passed"',
+        '["docker", "network", "connect", "bridge", container]',
+        '"classification": "none" if valid else "failure:infrastructure"',
+        '"network_install_started": False',
+        'baseline["network_install_started"] = True',
+        'write_json_atomic(baseline_path, baseline)',
+    ):
+        if marker not in builddeps:
+            errors.append(f"BuildRequires preparation is missing the live RPM fail-closed gate: {marker}")
+    baseline_order_markers = (
+        '"--network", "none"',
+        "baseline = rpm_baseline_evidence",
+        'if baseline["status"] != "passed"',
+        '["docker", "network", "connect", "bridge", container]',
+        'baseline["network_install_started"] = True',
+        "write_json_atomic(baseline_path, baseline)",
+        "install_attempts = run_with_retries",
+    )
+    if all(marker in builddeps for marker in baseline_order_markers):
+        positions = [builddeps.index(marker) for marker in baseline_order_markers[:-2]]
+        positions.append(builddeps.index(baseline_order_markers[-2], positions[-1]))
+        positions.append(builddeps.index(baseline_order_markers[-1]))
+        if positions != sorted(positions):
+            errors.append("BuildRequires networking begins before the live RPM baseline passes")
 
     install_smoke = (root / "ci" / "install-smoke.sh").read_text(encoding="utf-8")
     if "--enablerepo=openeuler-riscv-project" not in install_smoke:

@@ -7,6 +7,7 @@ from __future__ import annotations
 import argparse
 import configparser
 import datetime as dt
+import hashlib
 import json
 import os
 import pathlib
@@ -27,6 +28,7 @@ DNF_NETWORK_OPTIONS = [
     "--setopt=max_parallel_downloads=1",
 ]
 BUILD_USERS = {"root", "unprivileged"}
+BASELINE_ANCHORS = frozenset({"bash", "rpm", "rpm-build", "gcc", "gcc-c++", "make", "python3"})
 TARGET_BUILD_USER = "rpmbuild"
 TARGET_BUILD_UID = 10001
 TARGET_BUILD_GID = 10001
@@ -128,6 +130,58 @@ def rpm_manifest(container: str) -> list[str]:
         capture=True,
     )
     return sorted(line for line in output.splitlines() if line)
+
+
+def rpm_baseline_evidence(
+    package_id: str,
+    base_image: str,
+    manifest: list[str],
+) -> dict[str, object]:
+    malformed = [entry for entry in manifest if entry.count("\t") != 2]
+    names = {
+        entry.split("\t", 1)[0]
+        for entry in manifest
+        if entry.count("\t") == 2 and entry.split("\t", 1)[0]
+    }
+    missing = sorted(BASELINE_ANCHORS - names)
+    valid = bool(manifest) and not malformed and not missing
+    manifest_bytes = (("\n".join(manifest) + "\n") if manifest else "").encode("utf-8")
+    return {
+        "schema_version": 1,
+        "kind": "dependency-rpm-baseline",
+        "package_id": package_id,
+        "phase": "dependency-prepare",
+        "status": "passed" if valid else "failed",
+        "classification": "none" if valid else "failure:infrastructure",
+        "reason": "validated-live-rpm-baseline" if valid else "base-image-rpm-baseline-invalid",
+        "base_image": base_image,
+        "rpm_manifest_before_count": len(manifest),
+        "rpm_manifest_before_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
+        "required_anchors": sorted(BASELINE_ANCHORS),
+        "missing_anchors": missing,
+        "malformed_entry_count": len(malformed),
+        "network_install_started": False,
+        "network_phase": "disconnected-before-install",
+        "message": (
+            "The locked base image exposes a non-empty live RPM baseline."
+            if valid
+            else "base-image-rpm-baseline-invalid: the locked base image has an empty, "
+                 "malformed, or incomplete live RPM baseline; "
+                 "dependency networking and installation were refused."
+        ),
+    }
+
+
+def write_json_atomic(path: pathlib.Path, payload: dict[str, object]) -> None:
+    temporary = path.with_name(f".{path.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp")
+    try:
+        temporary.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def validate_supplemental_repository(
@@ -260,6 +314,7 @@ def main() -> int:
     work_dir.mkdir(parents=True, exist_ok=True)
     output.parent.mkdir(parents=True, exist_ok=True)
     plan_path = output.parent / "dependency-plan.json"
+    baseline_path = output.parent / "rpm-baseline.json"
 
     # Planning runs with no network. Only the package, trusted shared scripts,
     # and dedicated output/work directories are mounted.  The evidence mount
@@ -308,6 +363,7 @@ def main() -> int:
         run([
             "docker", "create", "--platform", "linux/riscv64", "--name", container,
             "--label", f"{RUNNER_MANAGED_LABEL}={RUNNER_MANAGED_VALUE}",
+            "--network", "none",
             "--memory", "6g", "--cpus", "2", "--pids-limit", "1024",
             "--security-opt", "no-new-privileges",
             "--mount", f"type=bind,src={supplemental_repo},dst=/etc/yum.repos.d/openeuler-riscv-project.repo,readonly",
@@ -321,6 +377,17 @@ def main() -> int:
         if dependency_uid != 0 or dependency_gid != 0:
             raise SystemExit("dependency installation container is not running as root")
         before = rpm_manifest(container)
+        baseline = rpm_baseline_evidence(package_id, args.base_image, before)
+        write_json_atomic(baseline_path, baseline)
+        if baseline["status"] != "passed":
+            raise SystemExit(str(baseline["message"]))
+        # The container is created without a network.  Only a validated live
+        # RPM baseline permits connection to the fixed bridge and the audited
+        # DNF transaction below.
+        run(["docker", "network", "connect", "bridge", container])
+        baseline["network_install_started"] = True
+        baseline["network_phase"] = "connected-before-install"
+        write_json_atomic(baseline_path, baseline)
         enabled_repositories = ["--enablerepo=openeuler-rva23"]
         if supplemental_available:
             enabled_repositories.append("--enablerepo=openeuler-riscv-project")

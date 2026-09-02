@@ -101,15 +101,35 @@ dnf -y \
   --enablerepo=openeuler-rva23 \
   install "${packages[@]}"
 
+# Record the database path actually used by the bootstrap RPM implementation.
+# The target-platform finalization stage independently evaluates the target
+# RPM implementation's path and copies the database only when those evaluated
+# paths differ.  No cross-distribution path or symlink is guessed here.
+bootstrap_rpmdb=$(rpm --root "$rootfs" --eval '%{_dbpath}')
+[[ $bootstrap_rpmdb =~ ^/[A-Za-z0-9._/-]+$ \
+   && $bootstrap_rpmdb != / \
+   && $bootstrap_rpmdb != *//* ]] \
+  || die "bootstrap RPM returned an unsafe database path"
+IFS=/ read -r -a bootstrap_rpmdb_components <<<"$bootstrap_rpmdb"
+for component in "${bootstrap_rpmdb_components[@]}"; do
+  [[ $component != . && $component != .. ]] \
+    || die "bootstrap RPM database path contains a traversal component"
+done
+bootstrap_rpmdb_host=${rootfs}${bootstrap_rpmdb}
+[[ -d $bootstrap_rpmdb_host && ! -L $bootstrap_rpmdb_host ]] \
+  || die "bootstrap RPM database path does not contain a regular directory"
+[[ -n $(find "$bootstrap_rpmdb_host" -mindepth 1 -maxdepth 1 -print -quit) ]] \
+  || die "bootstrap RPM database directory is empty"
+printf '%s\n' "$bootstrap_rpmdb" > /evidence/bootstrap-rpmdb.path
+
 curl --fail --location --proto '=https' --tlsv1.2 \
   --retry 4 --retry-delay 2 --connect-timeout 20 --max-time 180 \
   "${repo_url}repodata/repomd.xml" -o /evidence/repomd.after.xml
 cmp -s /evidence/repomd.before.xml /evidence/repomd.after.xml \
   || die "repository metadata changed during rootfs construction; retry from a clean run"
 
-rpm --root "$rootfs" -qa \
-  --qf '%{NAME}\t%{EPOCHNUM}:%{VERSION}-%{RELEASE}\t%{ARCH}\t%{SIGPGP:pgpsig}\n' \
-  | LC_ALL=C sort > /evidence/rpm-manifest.tsv
+/bootstrap/rpm-manifest.sh "$rootfs" > /evidence/rpm-manifest.tsv
+[[ -s /evidence/rpm-manifest.tsv ]] || die "bootstrap RPM manifest is empty"
 # RPM records imported signing keys as the pseudo-package gpg-pubkey, whose
 # architecture is rendered as "(none)". Allow only that exact pseudo-record;
 # every installed payload package must still be riscv64 or noarch.
@@ -127,6 +147,7 @@ install -m 0644 /evidence/repomd.before.xml "$rootfs/usr/share/openeuler-riscv-c
 install -m 0644 /evidence/repomd.sha256 "$rootfs/usr/share/openeuler-riscv-ci/repomd.sha256"
 install -m 0644 /evidence/rpm-manifest.tsv "$rootfs/usr/share/openeuler-riscv-ci/rpm-manifest.tsv"
 install -m 0644 /evidence/rpm-manifest.sha256 "$rootfs/usr/share/openeuler-riscv-ci/rpm-manifest.sha256"
+install -m 0644 /evidence/bootstrap-rpmdb.path "$rootfs/usr/share/openeuler-riscv-ci/bootstrap-rpmdb.path"
 install -m 0644 /evidence/primary-db.href "$rootfs/usr/share/openeuler-riscv-ci/primary-db.href"
 install -m 0644 /evidence/primary-db.sha256 "$rootfs/usr/share/openeuler-riscv-ci/primary-db.sha256"
 install -m 0644 /evidence/signing-key-rpm.href "$rootfs/usr/share/openeuler-riscv-ci/signing-key-rpm.href"

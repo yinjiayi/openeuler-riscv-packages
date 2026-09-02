@@ -223,6 +223,45 @@ class BuildAndClassifyTests(unittest.TestCase):
             self.assertEqual(document["recommended_state"], "failed")
             self.assertNotIn("needs-native-riscv", document["labels"])
 
+    def test_invalid_locked_image_rpm_baseline_is_infrastructure(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            result = root / "dependency-failure.json"
+            write_json(
+                result,
+                {
+                    "package_id": "demo",
+                    "status": "failed",
+                    "phase": "dependency-prepare",
+                    "exit_code": 1,
+                    "message": "Audited BuildRequires preparation failed; see install.log.",
+                },
+            )
+            install_log = root / "install.log"
+            install_log.write_text(
+                "base-image-rpm-baseline-invalid: dependency networking and installation were refused.\n",
+                encoding="utf-8",
+            )
+            output = root / "classification.json"
+            run_tool(
+                "classify-failure",
+                [
+                    "--input",
+                    str(result),
+                    "--log",
+                    str(install_log),
+                    "--output",
+                    str(output),
+                    "--now",
+                    "2026-09-02T00:00:00Z",
+                ],
+                root,
+            )
+            document = json.loads(output.read_text())
+            self.assertEqual(document["classification"]["category"], "infrastructure")
+            self.assertFalse(document["classification"]["repairable_locally"])
+            self.assertFalse(document["classification"]["source_patch_allowed"])
+
 
 if __name__ == "__main__":
     unittest.main()
