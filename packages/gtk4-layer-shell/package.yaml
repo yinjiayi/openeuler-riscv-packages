@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 90
   },
   "discovery": {
     "lineage": [
@@ -62,7 +62,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 3 retains the complete provider-backed build closure and all 59 upstream tests, adds an MIT-licensed downstream patch whose timeout multiplier defaults to one, and sets the multiplier to ten only for qemu-user %check after exact-head run 33547667881 exposed fixed one-second smoke-test deadlines. External distribution packaging was not executed, and fresh exact-head target CI remains authoritative.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 5 retains the complete provider-backed build closure and all 59 upstream tests, adds an MIT-licensed downstream patch whose internal timeout multiplier defaults to one, and sets both the internal deadlines and Meson's outer per-test timeout multiplier to ten only for qemu-user %check. Exact-head run 33660703308 passed 58 of 59 tests before Meson's unscaled 120-second outer limit terminated lock-test-multiple-monitors. The bounded package budget is 90 minutes so the outer 1200-second limit can be honored without exhausting the enclosing CI deadline; no test is skipped by this repair. External distribution packaging was not executed, and fresh exact-head target CI remains authoritative.",
     "status": "active"
   },
   "package_id": "gtk4-layer-shell",
@@ -97,6 +97,6 @@
   "version": {
     "current": "1.3.0",
     "latest_detected": "1.3.0",
-    "release": "3"
+    "release": "5"
   }
 }

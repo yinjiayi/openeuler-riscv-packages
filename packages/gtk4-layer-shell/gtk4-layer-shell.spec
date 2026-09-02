@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gtk4-layer-shell
 Version:        1.3.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Library to create panels and other desktop components for Wayland
 License:        MIT
 URL:            https://github.com/wmww/gtk4-layer-shell
@@ -44,13 +44,19 @@ test -s %{name}.files
 
 %check
 export GTKLS_TEST_TIMEOUT_MULTIPLIER=10
-%meson_test
+meson test -C %{_vpath_builddir} \
+  --num-processes %{_smp_build_ncpus} \
+  --print-errorlogs \
+  --timeout-multiplier "$GTKLS_TEST_TIMEOUT_MULTIPLIER"
 
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.0-5
+- Scale Meson's outer per-test timeout together with the internal QEMU deadlines.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.0-4
 - Export the QEMU test-timeout multiplier so Meson test children inherit it.
 
