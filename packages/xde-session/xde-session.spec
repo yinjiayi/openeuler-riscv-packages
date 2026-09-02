@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xde-session
 Version:        1.14
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        X Desktop Environment Display and Session Management
 License:        GPL-3.0-or-later
 URL:            https://github.com/bbidulock/xde-session
@@ -10,6 +10,7 @@ BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
 BuildRequires:  libX11-devel
+BuildRequires:  libXdmcp-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXScrnSaver-devel
 BuildRequires:  libtool
@@ -42,6 +43,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.14-5
+- Add libXdmcp-devel so pkg-config can resolve xdmcp during configure.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.14-4
 - Add libXScrnSaver-devel so pkg-config can resolve xscrnsaver during configure.
 

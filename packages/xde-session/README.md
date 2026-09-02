@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 # xde-session
 
-This directory packages upstream `https://github.com/bbidulock/xde-session` version `1.14` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
+This directory packages upstream `https://github.com/bbidulock/xde-session` version `1.14` release `5` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
 
@@ -24,3 +24,13 @@ the next mandatory module, `xscrnsaver`. Release 4 adds openEuler's
 `pkgconfig(xscrnsaver)`. The source, patch set, and complete `%make_build
 check` execution remain unchanged; the RISC-V build status remains unknown
 pending fresh exact-head CI evidence.
+
+Exact-head Package CI run `33676559117` for commit
+`f06fd3b9b863405a83852868cbccdfd46e209901` passed the mandatory `x11`,
+`xext`, `xau`, and `xscrnsaver` checks, then stopped because `pkg-config`
+could not resolve the next mandatory module, `xdmcp`. Release 5 adds
+openEuler's `libXdmcp-devel`; the checksum-verified official openEuler 24.03
+LTS SP3 `riscv64` repository metadata records version
+`1.1.4-2.oe2403sp3` as the provider of `pkgconfig(xdmcp)`. The source, patch
+set, and complete `%make_build check` execution remain unchanged; the RISC-V
+build status remains unknown pending fresh exact-head CI evidence.
