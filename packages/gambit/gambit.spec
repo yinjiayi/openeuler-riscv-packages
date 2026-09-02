@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gambit
 Version:        16.7.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tools for doing computation in game theory
 License:        GPL-2.0-or-later
 URL:            https://github.com/gambitproject/gambit
@@ -41,5 +41,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 16.7.0-2
+- Raise the bounded QEMU build timeout to 180 minutes after exact-head CI
+  compiled normally until the 60-minute package budget expired.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 16.7.0-1
 - Initial openEuler RISC-V package from the full package inventory.
