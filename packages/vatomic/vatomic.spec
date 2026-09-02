@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           vatomic
 Version:        2.4.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        VSync atomics - formally-verified atomic operations library
 License:        MIT
 URL:            https://github.com/open-s4c/vatomic
@@ -42,6 +44,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %{_mandir}/man7/vatomic.7*
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.1-9
+- Disable the empty debuginfo subpackage for this header-only library.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.1-8
 - Package manual pages with compression-compatible globs outside the generated file list.
 
