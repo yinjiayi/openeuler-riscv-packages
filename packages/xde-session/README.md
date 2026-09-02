@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 # xde-session
 
-This directory packages upstream `https://github.com/bbidulock/xde-session` version `1.14` release `8` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
+This directory packages upstream `https://github.com/bbidulock/xde-session` version `1.14` release `9` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
 
@@ -64,3 +64,14 @@ openEuler 24.03 LTS SP3 `riscv64` repository metadata records version
 `2.3.8-1.oe2403sp3` as the provider of `pkgconfig(xft)`. The source, patch
 set, and complete `%make_build check` execution remain unchanged; the RISC-V
 build status remains unknown pending fresh exact-head CI evidence.
+
+Exact-head Package CI run `33685505230` for commit
+`2ee16a28c5a9502c0741d1e5af7a8e58653b00ed` passed the mandatory `x11`,
+`xext`, `xau`, `xscrnsaver`, `xdmcp`, `ice`, `sm`, and `xft` checks, then
+stopped because `pkg-config` could not resolve the next mandatory module,
+`gdk-pixbuf-xlib-2.0`. Release 9 adds openEuler's `gdk-pixbuf-xlib`; the
+checksum-verified official openEuler 24.03 LTS SP3 `riscv64` repository
+metadata records version `2.40.2-2.oe2403sp3` as the provider of
+`pkgconfig(gdk-pixbuf-xlib-2.0)`. The source, patch set, and complete
+`%make_build check` execution remain unchanged; the RISC-V build status
+remains unknown pending fresh exact-head CI evidence.
