@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://gitlab.xfce.org/xfce/libxfce4util",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxfce4util-git",
+        "package_name": "libxfce4util-git",
+        "source": "aur",
+        "source_version": "4.17.2.r22.ge2f2a6e-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libxfce4util.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory and replaced the stale VCS snapshot with the latest official Xfce 4.20 stable release. The exact official archive was independently downloaded, matched against Xfce's published SHA-256, and safety-inspected. Source0 uses the direct HTTPS archive.fr.xfce.org mirror named by Xfce's canonical archive service because the repository downloader requests JSON-capable responses and the canonical endpoint returns mirror-selection metadata for that Accept header instead of archive bytes. Meson builds the complete default library, GObject introspection, and Vala surface using direct providers present in the SHA-256-bound openEuler target metadata. Upstream defines no Meson test cases, so %check retains the upstream Meson test entry point and additionally executes the built xfce4-kiosk-query version path. No target build result or RISC-V success is claimed before exact-head CI.",
+    "status": "active"
+  },
+  "package_id": "libxfce4util",
+  "rpm": {
+    "license": "LGPL-2.0-or-later AND GPL-2.0-or-later",
+    "name": "libxfce4util",
+    "summary": "Utility library for the Xfce desktop environment"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-gitlab-tags"
+  },
+  "upstream": {
+    "component": "gitlab.xfce.org-xfce-libxfce4util",
+    "homepage": "https://docs.xfce.org/xfce/libxfce4util/start",
+    "release_api": "https://gitlab.xfce.org/api/v4/projects/xfce%2Flibxfce4util/repository/tags",
+    "release_channel": "stable",
+    "release_regex": "libxfce4util-(?P<version>[0-9]+\\.(?:[0-9]*[02468])\\.[0-9]+)",
+    "source_repository": "https://gitlab.xfce.org/xfce/libxfce4util",
+    "source_url_template": "https://gitlab.xfce.org/xfce/libxfce4util/-/archive/libxfce4util-{version}/libxfce4util-libxfce4util-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.20.1",
+    "latest_detected": "4.20.1",
+    "release": "1"
+  }
+}
