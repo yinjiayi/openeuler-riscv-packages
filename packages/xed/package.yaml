@@ -44,7 +44,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Package CI run 33671388772 reached Meson and proved that the build requires the libxml2 pkg-config metadata, supplied by openEuler's libxml2-devel package. Exact-head Package CI run 33672386241 then reached the next Meson dependency check and proved that pkgconfig(glib-2.0) is required; openEuler repository metadata binds that interface to glib2-devel, which Release 3 declares. Exact-head run 33673849283 resolved libxml-2.0, glib-2.0, gthread-2.0 and gio-2.0, then proved that pkgconfig(gtk+-3.0) is required; SHA-256-bound target repository metadata identifies gtk3-devel as its provider, which Release 4 declares.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Package CI run 33671388772 reached Meson and proved that the build requires the libxml2 pkg-config metadata, supplied by openEuler's libxml2-devel package. Exact-head Package CI run 33672386241 then reached the next Meson dependency check and proved that pkgconfig(glib-2.0) is required; openEuler repository metadata binds that interface to glib2-devel, which Release 3 declares. Exact-head run 33673849283 resolved libxml-2.0, glib-2.0, gthread-2.0 and gio-2.0, then proved that pkgconfig(gtk+-3.0) is required; SHA-256-bound target repository metadata identifies gtk3-devel as its provider, which Release 4 declares. Exact-head run 33674636862 resolved the earlier interfaces and then proved that pkgconfig(gtksourceview-4) is required; target repository metadata identifies gtksourceview4-devel as the provider, which Release 5 declares.",
     "status": "active"
   },
   "package_id": "xed",
@@ -79,6 +79,6 @@
   "version": {
     "current": "3.8.9",
     "latest_detected": "3.8.9",
-    "release": "4"
+    "release": "5"
   }
 }

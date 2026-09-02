@@ -19,3 +19,9 @@ Package CI run `33673849283` for exact head
 interfaces, then stopped at the next effective Meson error because
 `gtk+-3.0` was unavailable. Release 4 adds openEuler's `gtk3-devel`, whose
 SHA-256-bound target repository metadata provides `pkgconfig(gtk+-3.0)`.
+
+Package CI run `33674636862` for exact head
+`28f03c9bf41266cf03e10b8c50bbeac4acd74363` resolved XML, GLib, GTK 3 and
+then stopped at the next effective Meson error because `gtksourceview-4` was
+unavailable. Release 5 adds openEuler's `gtksourceview4-devel`, whose fixed
+target metadata provides `pkgconfig(gtksourceview-4)`.
