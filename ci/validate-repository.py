@@ -113,9 +113,11 @@ def main() -> int:
         )
         if (
             not manifest_helper_path.stat().st_mode & 0o111
-            or "%{SIGPGP:pgpsig}" not in manifest_helper
             or "%{SHA1HEADER}" not in manifest_helper
             or "%{SHA256HEADER}" not in manifest_helper
+            or "NF != 5" not in manifest_helper
+            or "length($4) != 40" not in manifest_helper
+            or "length($5) != 64" not in manifest_helper
         ):
             errors.append("shared target RPM manifest helper is missing its executable exact query contract")
         if "rpm --root \"$rootfs\" --eval '%{_dbpath}'" not in bootstrap:

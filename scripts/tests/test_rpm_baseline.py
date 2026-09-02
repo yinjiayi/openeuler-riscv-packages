@@ -108,9 +108,11 @@ class RpmBaselineEvidenceTests(unittest.TestCase):
 class RpmBaselineImageContractTests(unittest.TestCase):
     def test_bootstrap_and_target_share_one_query_format_helper(self) -> None:
         helper = MANIFEST_HELPER.read_text(encoding="utf-8")
-        self.assertIn("%{SIGPGP:pgpsig}", helper)
         self.assertIn("%{SHA1HEADER}", helper)
         self.assertIn("%{SHA256HEADER}", helper)
+        self.assertIn("NF != 5", helper)
+        self.assertIn("length($4) != 40", helper)
+        self.assertIn("length($5) != 64", helper)
         self.assertIn("--dbpath", helper)
         self.assertIn("dbpath_components", helper)
         self.assertIn('/bootstrap/rpm-manifest.sh "$rootfs"', BOOTSTRAP.read_text(encoding="utf-8"))
@@ -169,7 +171,7 @@ class RpmBaselineImageContractTests(unittest.TestCase):
         self.assertLess(transaction, export)
         self.assertIn("gpgcheck=1", repository)
         self.assertIn("gpgkey=file://", repository)
-        self.assertIn("%{SIGPGP:pgpsig}", MANIFEST_HELPER.read_text(encoding="utf-8"))
+        self.assertIn("%{SHA256HEADER}", MANIFEST_HELPER.read_text(encoding="utf-8"))
 
     def test_target_finalization_runs_before_exact_target_verification(self) -> None:
         containerfile = CONTAINERFILE.read_text(encoding="utf-8")

@@ -35,5 +35,14 @@ case $# in
 esac
 
 rpm "${rpm_location[@]}" -qa \
-  --qf '%{NAME}\t%{EPOCHNUM}:%{VERSION}-%{RELEASE}\t%{ARCH}\t%{SIGPGP:pgpsig}\t%{SHA1HEADER}\t%{SHA256HEADER}\n' \
-  | LC_ALL=C sort
+  --qf '%{NAME}\t%{EPOCHNUM}:%{VERSION}-%{RELEASE}\t%{ARCH}\t%{SHA1HEADER}\t%{SHA256HEADER}\n' \
+  | LC_ALL=C sort \
+  | LC_ALL=C awk -F '\t' '
+      NF != 5 || $1 == "" || $2 == "" || $3 == "" ||
+      length($4) != 40 || $4 !~ /^[0-9a-f]+$/ ||
+      length($5) != 64 || $5 !~ /^[0-9a-f]+$/ {
+        printf "rpm-manifest: invalid identity or header digest at record %d\n", NR > "/dev/stderr"
+        exit 1
+      }
+      { print }
+    '
