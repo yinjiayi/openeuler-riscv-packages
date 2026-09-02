@@ -174,6 +174,8 @@ Audited BuildRequires are installed as root in a per-run, unpublished derived im
 
 Repository rules require the latest head SHA to pass `metadata-validate`, `source-verify`, `rpmbuild-riscv64`, `rpm-install-smoke`, `patch-policy`, and `merge-policy`. Required approvals are zero. Blocking labels, source/license/checksum failures, `needs-human`, and `needs-native-riscv` prevent merge even if unrelated checks passed.
 
+Automatic merge is armed only for a current, same-repository PR whose complete API file list is confined to exactly one `packages/<package-id>/` directory. The policy first disarms any existing Auto-merge request, evaluates the leased head with the immutable protected-base policy, and only then re-arms an eligible single-package PR. Infrastructure, workflow, CI, script, schema, catalog, Dashboard, documentation, mixed-package, incomplete-file-list, and renamed-from-shared-path changes remain unarmed even when their package check contexts succeed or are skipped.
+
 ## License scope
 
 Original repository code, Skills, workflows, schemas, and documentation are licensed under Apache-2.0; source files use `SPDX-License-Identifier: Apache-2.0` where their syntax permits. This does not relicense upstream sources or imported patches. Each third-party or derived patch must record its source, original license, root cause, applicable versions, upstream status, and removal condition in package metadata and its patch header.
