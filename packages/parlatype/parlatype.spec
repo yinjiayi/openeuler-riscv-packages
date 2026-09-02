@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           parlatype
 Version:        4.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        GNOME audio player for transcription
 License:        GPL-3.0-or-later
 URL:            https://github.com/gkarsay/parlatype
@@ -43,7 +43,10 @@ chmod 0700 .test-runtime
 printf 'pcm.!default { type null }\n' > alsa-null.conf
 export ALSA_CONFIG_PATH="$PWD/alsa-null.conf"
 export XDG_RUNTIME_DIR="$PWD/.test-runtime"
-xvfb-run -a %meson_test
+xvfb-run -a %{__meson} test \
+  -C %{_vpath_builddir} \
+  --num-processes %{_smp_build_ncpus} \
+  --print-errorlogs
 
 %files -f %{name}.files
 %license COPYING
@@ -51,6 +54,9 @@ xvfb-run -a %meson_test
 %doc NEWS
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-5
+- Pass Meson's complete test command explicitly to the Xvfb wrapper.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-4
 - Run the complete Meson suite with a virtual X display and ALSA null device.
 
