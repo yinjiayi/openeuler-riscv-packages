@@ -45,6 +45,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
             r"no space left on device|disk quota exceeded",
             r"runner (?:lost|disconnected|shutdown)|the operation was canceled",
             r"failed to (?:pull|resolve).*image|manifest unknown|image.*digest",
+            r"base-image-rpm-baseline-invalid|target runtime RPM database is (?:empty|missing)",
             r"temporary failure in name resolution|connection (?:reset|timed out)|HTTP (?:429|5\d\d)",
             r"RVA23 representative instruction probe was not reported",
             r"build must run in (?:the riscv64 OCI|openEuler 24\.03)",
