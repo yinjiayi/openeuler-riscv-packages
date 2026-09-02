@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/libpeas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libpeas",
+        "package_name": "libpeas",
+        "source": "debian",
+        "source_version": "1.36.0-3"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libpeas1/libpeas1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libpeas1",
+        "package_name": "libpeas1",
+        "source": "fedora",
+        "source_version": "1.36.0-13.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libpeas.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Frozen Debian and Fedora 1.36 lineage was taken from the repository discovery snapshot. The official GNOME 1.36.0 archive matches GNOME's published SHA-256 and the identical source bytes in openEuler's openEuler-24.03-LTS-SP3 dist-git commit f13e7a350c17d893986ce6ff23e3a33ebd639f8a. The target EPOL RVA23 repository publishes libpeas and libpeas-devel 1.36.0-1.oe2403sp3, with the devel package providing pkgconfig(libpeas-1.0) and pkgconfig(libpeas-gtk-1.0). This package follows that provider-backed feature set and adds the upstream Xvfb test entry point so every registered core, Python, and GTK Meson test remains enabled. No target build or publication result exists yet.",
+    "status": "active"
+  },
+  "package_id": "libpeas",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "libpeas",
+    "summary": "GObject-based plug-in engine"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "wiki.gnome.org-projects-libpeas",
+    "homepage": "https://wiki.gnome.org/Projects/Libpeas",
+    "release_api": "https://download.gnome.org/sources/libpeas/1.36/",
+    "release_channel": "stable",
+    "release_regex": "^libpeas-(?P<version>1\\.36\\.[0-9]+)\\.tar\\.xz$",
+    "source_repository": "https://gitlab.gnome.org/GNOME/libpeas",
+    "source_url_template": "https://download.gnome.org/sources/libpeas/1.36/libpeas-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.36.0",
+    "latest_detected": "1.36.0",
+    "release": "1"
+  }
+}
