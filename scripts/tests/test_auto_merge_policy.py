@@ -137,11 +137,12 @@ class AutoMergePolicyTests(unittest.TestCase):
         self.assertFalse(result["eligible"])
         self.assertTrue(any("file list is incomplete" in item for item in result["reasons"]))
 
-    def test_draft_blocking_label_and_changed_head_each_block(self) -> None:
+    def test_draft_blocking_labels_and_changed_head_each_block(self) -> None:
         paths = ["packages/acl/README.md"]
         cases = (
             (pull_request(paths=paths, draft=True), HEAD, "draft"),
             (pull_request(paths=paths, labels=["needs-human"]), HEAD, "blocking label"),
+            (pull_request(paths=paths, labels=["repair-queued"]), HEAD, "repair queue"),
             (pull_request(paths=paths), "3" * 40, "head changed"),
         )
         for pr, event_head, reason in cases:
