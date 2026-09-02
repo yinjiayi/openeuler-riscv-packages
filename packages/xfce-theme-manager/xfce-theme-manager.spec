@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xfce-theme-manager
 Version:        0.3.9
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Integrated theme manager for xfce4
 License:        GPL-3.0-or-later
 URL:            https://github.com/KeithDHedger/Xfce-Theme-Manager
@@ -13,6 +13,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  gtk2-devel
 BuildRequires:  libtool
 BuildRequires:  make
+BuildRequires:  pkgconfig(libxfconf-0)
 
 %description
 Integrated theme manager for xfce4
@@ -41,6 +42,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.9-4
+- Declare the mandatory libxfconf-0 pkg-config interface.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.9-3
 - Add gtk2-devel so configure can resolve gtk+-2.0.
 
