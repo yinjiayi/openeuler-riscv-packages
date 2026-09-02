@@ -18,6 +18,7 @@ VERIFY = REPO / "ci" / "verify-target.sh"
 BOOTSTRAP = REPO / "ci" / "bootstrap-rootfs.sh"
 CONTAINERFILE = REPO / "ci" / "Containerfile.riscv64"
 IMAGE_WORKFLOW = REPO / ".github" / "workflows" / "build-ci-image.yml"
+BOOTSTRAP_REPOSITORY = REPO / "ci" / "openeuler-rva23.repo"
 
 SPEC = importlib.util.spec_from_file_location("prepare_build_deps_baseline", PREPARE)
 if SPEC is None or SPEC.loader is None:
@@ -108,6 +109,8 @@ class RpmBaselineImageContractTests(unittest.TestCase):
     def test_bootstrap_and_target_share_one_query_format_helper(self) -> None:
         helper = MANIFEST_HELPER.read_text(encoding="utf-8")
         self.assertIn("%{SIGPGP:pgpsig}", helper)
+        self.assertIn("--dbpath", helper)
+        self.assertIn("dbpath_components", helper)
         self.assertIn('/bootstrap/rpm-manifest.sh "$rootfs"', BOOTSTRAP.read_text(encoding="utf-8"))
         self.assertIn('"$manifest_helper" >"$live_manifest"', VERIFY.read_text(encoding="utf-8"))
 
@@ -123,10 +126,49 @@ class RpmBaselineImageContractTests(unittest.TestCase):
         self.assertIn("rpm --root \"$rootfs\" --eval '%{_dbpath}'", bootstrap)
         self.assertIn("rpm --eval '%{_dbpath}'", finalizer)
         self.assertIn("rpmdb paths overlap", finalizer)
-        self.assertIn('cp -a -- "$bootstrap_db/." "$runtime_db/"', finalizer)
+        self.assertIn("the target runtime rpmdb path is unexpectedly nonempty", finalizer)
+        self.assertIn('rmdir "$runtime_db"', finalizer)
+        self.assertIn('mv -- "$staging_db" "$runtime_db"', finalizer)
+        self.assertNotIn('find "$runtime_db" -mindepth 1 -delete', finalizer)
+        self.assertNotIn('cp -a -- "$staging_db/." "$runtime_db/"', finalizer)
         self.assertNotIn("ln -s", finalizer)
         self.assertNotIn("/var/lib/rpm", finalizer)
         self.assertNotIn("/usr/lib/sysimage/rpm", finalizer)
+
+    def test_target_rpm_imports_the_verified_portable_header_stream(self) -> None:
+        finalizer = FINALIZER.read_text(encoding="utf-8")
+        bootstrap = BOOTSTRAP.read_text(encoding="utf-8")
+        for marker in (
+            'rpmdb --root "$rootfs" --verifydb',
+            'rpmdb --root "$rootfs" --exportdb',
+            'rpmdb --dbpath "$roundtrip_db" --importdb',
+            'rpmdb --dbpath "$roundtrip_db" --exportdb',
+            'cmp -s /evidence/rpmdb-header-list.bin /evidence/rpmdb-header-list-roundtrip.bin',
+        ):
+            self.assertIn(marker, bootstrap)
+        for marker in (
+            'rpmdb --dbpath "$staging_db" --importdb',
+            'rpmdb --dbpath "$staging_db" --verifydb',
+            'rpmdb --dbpath "$staging_db" --exportdb',
+            'cmp -s -- "$transport" "$target_export"',
+            '"$manifest_helper" --dbpath "$staging_db"',
+            'cmp -s -- "$baseline_root/rpm-manifest.tsv" "$staging_manifest"',
+            'cmp -s -- "$baseline_root/rpm-manifest.tsv" "$runtime_manifest"',
+            "rpmdb --verifydb",
+        ):
+            self.assertIn(marker, finalizer)
+        for forbidden in ("--initdb", "--justdb", "--nodeps", "--nosignature", "dnf "):
+            self.assertNotIn(forbidden, finalizer)
+
+    def test_transport_originates_after_the_signed_dependency_transaction(self) -> None:
+        bootstrap = BOOTSTRAP.read_text(encoding="utf-8")
+        repository = BOOTSTRAP_REPOSITORY.read_text(encoding="utf-8")
+        transaction = bootstrap.index("dnf -y")
+        export = bootstrap.index('rpmdb --root "$rootfs" --exportdb')
+        self.assertLess(transaction, export)
+        self.assertIn("gpgcheck=1", repository)
+        self.assertIn("gpgkey=file://", repository)
+        self.assertIn("%{SIGPGP:pgpsig}", MANIFEST_HELPER.read_text(encoding="utf-8"))
 
     def test_target_finalization_runs_before_exact_target_verification(self) -> None:
         containerfile = CONTAINERFILE.read_text(encoding="utf-8")

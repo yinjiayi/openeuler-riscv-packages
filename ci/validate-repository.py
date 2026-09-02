@@ -108,20 +108,73 @@ def main() -> int:
         verify_target = verify_target_path.read_text(encoding="utf-8")
         containerfile = containerfile_path.read_text(encoding="utf-8")
         image_workflow = image_workflow_path.read_text(encoding="utf-8")
+        bootstrap_repository = (root / "ci" / "openeuler-rva23.repo").read_text(
+            encoding="utf-8"
+        )
         if not manifest_helper_path.stat().st_mode & 0o111 or "%{SIGPGP:pgpsig}" not in manifest_helper:
             errors.append("shared target RPM manifest helper is missing its executable exact query contract")
         if "rpm --root \"$rootfs\" --eval '%{_dbpath}'" not in bootstrap:
             errors.append("bootstrap rootfs does not record its RPM-evaluated database path")
         for marker in (
+            'rpmdb --root "$rootfs" --verifydb',
+            'rpmdb --root "$rootfs" --exportdb',
+            'rpmdb --dbpath "$roundtrip_db" --importdb',
+            'rpmdb --dbpath "$roundtrip_db" --exportdb',
+            'cmp -s /evidence/rpmdb-header-list.bin /evidence/rpmdb-header-list-roundtrip.bin',
+        ):
+            if marker not in bootstrap:
+                errors.append(f"bootstrap RPM database transport is missing: {marker}")
+        transaction_marker = "dnf -y"
+        export_marker = 'rpmdb --root "$rootfs" --exportdb'
+        if (
+            "gpgcheck=1" not in bootstrap_repository
+            or "gpgkey=file://" not in bootstrap_repository
+            or transaction_marker not in bootstrap
+            or export_marker not in bootstrap
+            or (
+                transaction_marker in bootstrap
+                and export_marker in bootstrap
+                and bootstrap.index(transaction_marker) > bootstrap.index(export_marker)
+            )
+        ):
+            errors.append(
+                "portable RPM database export must follow the gpgchecked dependency-resolved DNF transaction"
+            )
+        for marker in (
             "rpm --eval '%{_dbpath}'",
-            'cp -a -- "$bootstrap_db/." "$runtime_db/"',
+            'sha256sum --check',
+            'rpmdb --dbpath "$staging_db" --importdb',
+            'rpmdb --dbpath "$staging_db" --verifydb',
+            'rpmdb --dbpath "$staging_db" --exportdb',
+            'cmp -s -- "$transport" "$target_export"',
+            "the target runtime rpmdb path is unexpectedly nonempty",
+            'stat -c \'%d\' -- "$staging_db"',
+            'rmdir "$runtime_db"',
+            'mv -- "$staging_db" "$runtime_db"',
+            'cmp -s -- "$baseline_root/rpm-manifest.tsv" "$runtime_manifest"',
+            "rpmdb --verifydb",
             "validate_db_path 'bootstrap rpmdb path'",
             "validate_db_path 'target runtime rpmdb path'",
+            "validate_db_path 'target staging rpmdb path'",
         ):
             if marker not in finalizer:
                 errors.append(f"target RPM database finalizer is missing: {marker}")
-        if "ln -s" in finalizer or "/var/lib/rpm" in finalizer or "/usr/lib/sysimage/rpm" in finalizer:
-            errors.append("target RPM database finalizer guesses a distribution path or symlink")
+        for forbidden_marker in (
+            "ln -s",
+            "/var/lib/rpm",
+            "/usr/lib/sysimage/rpm",
+            "--initdb",
+            "--justdb",
+            "--nodeps",
+            "--nosignature",
+            'find "$runtime_db" -mindepth 1 -delete',
+            'cp -a -- "$staging_db/." "$runtime_db/"',
+        ):
+            if forbidden_marker in finalizer:
+                errors.append(
+                    "target RPM database finalizer guesses a path or bypasses the transport contract: "
+                    + forbidden_marker
+                )
         for marker in (
             '[[ -s $live_manifest ]]',
             "bash rpm rpm-build gcc gcc-c++ make python3",
