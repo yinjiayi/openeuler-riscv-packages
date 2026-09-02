@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 # xde-session
 
-This directory packages upstream `https://github.com/bbidulock/xde-session` version `1.14` release `7` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
+This directory packages upstream `https://github.com/bbidulock/xde-session` version `1.14` release `8` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
 
@@ -54,3 +54,13 @@ SP3 `riscv64` repository metadata records version `1.2.4-1.oe2403sp3` as the
 provider of `pkgconfig(sm)`. The source, patch set, and complete `%make_build
 check` execution remain unchanged; the RISC-V build status remains unknown
 pending fresh exact-head CI evidence.
+
+Exact-head Package CI run `33683303705` for commit
+`efd15ba7c1000d66925e7b670d82f50d5a1b3f01` passed the mandatory `x11`,
+`xext`, `xau`, `xscrnsaver`, `xdmcp`, `ice`, and `sm` checks, then stopped
+because `pkg-config` could not resolve the next mandatory module, `xft`.
+Release 8 adds openEuler's `libXft-devel`; the checksum-verified official
+openEuler 24.03 LTS SP3 `riscv64` repository metadata records version
+`2.3.8-1.oe2403sp3` as the provider of `pkgconfig(xft)`. The source, patch
+set, and complete `%make_build check` execution remain unchanged; the RISC-V
+build status remains unknown pending fresh exact-head CI evidence.
