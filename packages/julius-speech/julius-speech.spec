@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           julius-speech
 Version:        4.6
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A high-performance, two-pass large vocabulary continuous speech recognition decoder software
 License:        BSD-3-Clause
 URL:            https://github.com/julius-speech/julius
@@ -28,13 +28,26 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-%make_build check
+export LC_ALL=C
+./libsent/libsent-config --version | grep -F 'Julius/Julian libsent library rev.4.6'
+./libjulius/libjulius-config --version | grep -F 'Julius/Julian library rev.4.6'
+set +e
+./julius/julius -help > julius-help.log 2>&1
+help_rc=$?
+set -e
+test "$help_rc" -eq 1
+grep -F 'Julius rev.4.6' julius-help.log
+grep -F 'Speech Input:' julius-help.log
 
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.6-7
+- Replace the nonexistent top-level check target with deterministic checks of
+  the built decoder and generated library configuration reporters.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.6-6
 - Import Fedora's downstream DESTDIR support for staged RPM installation.
 

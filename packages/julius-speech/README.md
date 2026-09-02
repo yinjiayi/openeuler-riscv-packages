@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 # julius-speech
 
-This directory packages upstream `https://github.com/julius-speech/julius` version `4.6` release `6` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
+This directory packages upstream `https://github.com/julius-speech/julius` version `4.6` release `7` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
 
 The source root is the top-level directory entered by the RPM `%prep` stage after extracting the verified archive. Downstream release `2` selects the archive's exact `julius-4.6` source root instead of the RPM name-derived `julius-speech-4.6` path. Exact-head CI for release `2` then reached compilation and showed that upstream includes GCC's x86-only `cpuid.h` on RISC-V even though no x86 SIMD implementation is enabled. Release `3` restricts that header to x86 targets, preserving the existing scalar DNN implementation and complete upstream `%make_build check` command. Exact-head run `33676018135` verified the release `3` source and dependencies, then failed first in `%prep` because strict GNU patch could not apply the hand-written hunk. Release `4` regenerates the semantically unchanged hunk with standard three-line unified-diff context; it applies to the verified archive with GNU patch and `--fuzz=0`.
 
@@ -10,3 +10,15 @@ Exact-head run `33678330024` for commit `0b8632e6e2aa97766a139765e86cfac25d6f096
 Exact-head run `33682226324` for commit `a44dc56ad2be5472e59afa62918ed0e6fafb65b4` applied both source fixes and completed the RISC-V compilation. In `%install`, however, every upstream recursive Makefile ignored the supplied `DESTDIR` and installed directly below the build container's `/usr`; the RPM buildroot therefore remained empty and the explicit nonempty file-manifest check failed. Release `6` imports Fedora's Julius 4.6 `DESTDIR` patch verbatim at SHA-256 `28b8484c6241f89439a30b390aaeb8c729d98602fa21ad05c401b0542b22ee30`. It retains the complete upstream install target while staging its libraries, headers, pkg-config files, configuration helpers, and programs beneath the RPM buildroot. Source functionality, OpenMP, scalar DNN behavior, and `%make_build check` remain unchanged; fresh exact-head CI is required to establish the RISC-V build result.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
+
+Exact-head run `33685567655` for commit
+`6ea2085f8ef6a63891fd89405bdfcc597dd4a319` completed compilation and the
+DESTDIR-staged installation, then failed in `%check` because the upstream
+top-level Makefile has no `check` target. Inspection of the checksum-verified
+source found no registered top-level test suite; its only configured
+check-named target is an empty `libjcode` build alias. Release `7` therefore
+executes the built Julius decoder's documented help path, asserts its expected
+exit status and stable identifying output, and checks the generated `libsent`
+and `libjulius` configuration reporters. Source features, patches, OpenMP, and
+scalar RISC-V behavior remain unchanged; fresh exact-head CI is required to
+establish the RISC-V build result.
