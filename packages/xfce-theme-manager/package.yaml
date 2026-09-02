@@ -36,7 +36,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 fixes only the %prep archive-directory selection: exact-head Package CI run 33671418692 successfully installed BuildRequires, then failed because the verified v0.3.9 archive expands as Xfce-Theme-Manager-0.3.9 while the default %autosetup directory was xfce-theme-manager-0.3.9.",
     "status": "active"
   },
   "package_id": "xfce-theme-manager",
@@ -71,6 +71,6 @@
   "version": {
     "current": "0.3.9",
     "latest_detected": "0.3.9",
-    "release": "1"
+    "release": "2"
   }
 }

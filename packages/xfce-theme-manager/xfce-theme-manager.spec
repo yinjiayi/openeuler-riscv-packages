@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xfce-theme-manager
 Version:        0.3.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Integrated theme manager for xfce4
 License:        GPL-3.0-or-later
 URL:            https://github.com/KeithDHedger/Xfce-Theme-Manager
@@ -17,7 +17,7 @@ BuildRequires:  make
 Integrated theme manager for xfce4
 
 %prep
-%autosetup -p1
+%autosetup -n Xfce-Theme-Manager-%{version} -p1
 
 %build
 autoreconf -fi
@@ -40,5 +40,8 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.9-2
+- Match %%prep to the case-sensitive top-level directory in the verified archive.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.9-1
 - Initial openEuler RISC-V package from the full package inventory.
