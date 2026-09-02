@@ -13,7 +13,7 @@ from typing import Any, Dict, List, Mapping, Optional, Tuple
 from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, parse_now, run_main
 
 
-RULES: List[Tuple[str, List[str], str, bool, bool]] = [
+RULES: List[Tuple[str, List[str], str, bool, bool, Optional[str]]] = [
     (
         "needs-native-riscv",
         [
@@ -25,6 +25,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Route to a future native RISC-V runner; keep the PR open and block auto-merge.",
         False,
         False,
+        None,
     ),
     (
         "qemu-limitation",
@@ -37,6 +38,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Confirm the limitation on native RISC-V; do not manufacture a source patch.",
         False,
         False,
+        None,
     ),
     (
         "infrastructure",
@@ -53,6 +55,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Retry or repair the runner, pinned image, QEMU registration, disk, or network infrastructure.",
         False,
         False,
+        None,
     ),
     (
         "dependency",
@@ -66,6 +69,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Correct BuildRequires/Requires using packages available in the pinned openEuler buildroot; do not patch upstream source.",
         True,
         False,
+        None,
     ),
     (
         "riscv-specific",
@@ -79,6 +83,18 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Find a trusted existing RISC-V fix first; otherwise create the smallest local patch and keep it under packages/<id>/patches/.",
         True,
         True,
+        None,
+    ),
+    (
+        "upstream-build",
+        [
+            r"^\s*[0-9]+/[0-9]+[^\n]*\btimeout\b\s+[0-9]+(?:\.[0-9]+)?\s*(?:s|sec(?:ond)?s?)\b[^\n]*$",
+            r"^[^\n]*\btest\b[^\n]*\btimed?\s+out\b(?:\s+\(after|\s+after)\s+[0-9]+(?:\.[0-9]+)?\s+(?:seconds?|minutes?)\)?[^\n]*$",
+        ],
+        "Keep the test enabled and preserve its timeout evidence; diagnose the bounded test deadline and target behavior before changing package policy.",
+        False,
+        False,
+        "high",
     ),
     (
         "spec-packaging",
@@ -92,6 +108,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Fix the SPEC, macros, paths, or file manifest in the current package directory.",
         True,
         False,
+        None,
     ),
     (
         "upstream-build",
@@ -104,6 +121,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Reproduce the upstream build failure and prefer a released or trusted distribution fix before a minimal local patch.",
         True,
         True,
+        None,
     ),
 ]
 
@@ -151,6 +169,35 @@ def safe_log(path: pathlib.Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace")
 
 
+def zero_count_test_summary(text: str, match: re.Match[str]) -> bool:
+    """Return whether a match belongs to a successful zero-count summary."""
+
+    start = text.rfind("\n", 0, match.start()) + 1
+    end = text.find("\n", match.end())
+    if end < 0:
+        end = len(text)
+    line = text[start:end].strip()
+    return bool(
+        re.fullmatch(
+            r"#?\s*(?:(?:expected\s+)?fail|error|timeout):\s*0",
+            line,
+            re.IGNORECASE,
+        )
+        or re.fullmatch(
+            r"(?:[0-9]+%\s+tests passed,\s*)?0\s+tests?\s+failed\s+out\s+of\s+[0-9]+",
+            line,
+            re.IGNORECASE,
+        )
+    )
+
+
+def first_effective_match(pattern: str, text: str) -> Optional[re.Match[str]]:
+    for match in re.finditer(pattern, text, re.I | re.M):
+        if not zero_count_test_summary(text, match):
+            return match
+    return None
+
+
 def metadata_native(package_dir: Optional[str]) -> Tuple[bool, Optional[str]]:
     if not package_dir:
         return False, None
@@ -172,20 +219,21 @@ def classify(text: str, force_native: bool, native_reason: Optional[str]) -> Dic
             "repairable_locally": False,
             "source_patch_allowed": False,
         }
-    for category, patterns, remediation, repairable, patch_allowed in RULES:
-        matches: List[Dict[str, str]] = []
+    for category, patterns, remediation, repairable, patch_allowed, fixed_confidence in RULES:
+        matches: List[Tuple[int, Dict[str, str]]] = []
         for pattern in patterns:
-            match = re.search(pattern, text, re.I | re.M)
+            match = first_effective_match(pattern, text)
             if match:
                 start = max(0, match.start() - 100)
                 end = min(len(text), match.end() + 100)
                 excerpt = " ".join(text[start:end].split())[:500]
-                matches.append({"pattern": pattern, "excerpt": excerpt})
+                matches.append((match.start(), {"pattern": pattern, "excerpt": excerpt}))
         if matches:
+            matches.sort(key=lambda item: item[0])
             return {
                 "category": category,
-                "confidence": "high" if len(matches) > 1 else "medium",
-                "evidence": matches[:5],
+                "confidence": fixed_confidence or ("high" if len(matches) > 1 else "medium"),
+                "evidence": [item[1] for item in matches[:5]],
                 "remediation": remediation,
                 "repairable_locally": repairable,
                 "source_patch_allowed": patch_allowed,
