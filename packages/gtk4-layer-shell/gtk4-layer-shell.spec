@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gtk4-layer-shell
 Version:        1.3.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Library to create panels and other desktop components for Wayland
 License:        MIT
 URL:            https://github.com/wmww/gtk4-layer-shell
 Source0:        gtk4-layer-shell-1.3.0.tar.gz
+Patch0:         0001-tests-allow-timeout-multiplier.patch
 BuildRequires:  gcc
 BuildRequires:  glib2-devel
 BuildRequires:  gobject-introspection-devel
@@ -42,13 +43,16 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-%meson_test
+GTKLS_TEST_TIMEOUT_MULTIPLIER=10 %meson_test
 
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.0-3
+- Scale the upstream integration-test deadlines under qemu-user without skipping tests.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.0-2
 - Declare the complete GTK4, Wayland, introspection, Vala, and Python test closure.
 - Enable the full upstream test suite and build its smoke-only example targets.

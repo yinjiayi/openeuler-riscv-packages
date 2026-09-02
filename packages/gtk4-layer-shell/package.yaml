@@ -43,7 +43,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-tests-allow-timeout-multiplier.patch",
+        "sha256": "8dffb55bc257c380ebb8f065e688cded7259137fa50ec7882ccab0435d23f947",
+        "purpose": "Make the upstream integration-test deadlines configurable so the full suite remains reliable under qemu-user.",
+        "source": "Downstream analysis of exact-head Package CI run 33547667881",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream provides configurable integration-test deadlines or the target build no longer uses qemu-user."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "gtk4-layer-shell.spec"
@@ -52,7 +62,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 declares the complete provider-backed build and test dependency closure, enables all upstream tests, and explicitly builds the three smoke-only example targets without installing the demo. External distribution packaging was not executed, and exact-head target CI remains authoritative.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 3 retains the complete provider-backed build closure and all 59 upstream tests, adds an MIT-licensed downstream patch whose timeout multiplier defaults to one, and sets the multiplier to ten only for qemu-user %check after exact-head run 33547667881 exposed fixed one-second smoke-test deadlines. External distribution packaging was not executed, and fresh exact-head target CI remains authoritative.",
     "status": "active"
   },
   "package_id": "gtk4-layer-shell",
@@ -87,6 +97,6 @@
   "version": {
     "current": "1.3.0",
     "latest_detected": "1.3.0",
-    "release": "2"
+    "release": "3"
   }
 }
