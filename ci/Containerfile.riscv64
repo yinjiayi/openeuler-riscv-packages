@@ -8,6 +8,7 @@ RUN dnf -y install bzip2 ca-certificates cpio curl dnf-plugins-core rpm shadow-u
     && dnf clean all
 COPY ci/openeuler-rva23.repo /bootstrap/openeuler-rva23.repo
 COPY ci/bootstrap-rootfs.sh /bootstrap/bootstrap-rootfs.sh
+COPY ci/rpm-manifest.sh /bootstrap/rpm-manifest.sh
 RUN /bootstrap/bootstrap-rootfs.sh /rootfs /bootstrap/openeuler-rva23.repo
 
 FROM scratch
@@ -28,10 +29,15 @@ LABEL org.opencontainers.image.title="openEuler RISC-V RPM build environment" \
 COPY --from=bootstrap /rootfs /
 COPY ci/rva23-selftest.c /usr/local/src/rva23-selftest.c
 COPY ci/verify-target.sh /usr/local/bin/verify-target
+COPY ci/rpm-manifest.sh /usr/local/libexec/openeuler-riscv-ci/rpm-manifest.sh
+COPY ci/finalize-target-rpmdb.sh /usr/local/libexec/openeuler-riscv-ci/finalize-target-rpmdb.sh
 
 RUN test "${TARGETOS}" = linux \
     && test "${TARGETARCH}" = riscv64 \
     && chmod 0755 /usr/local/bin/verify-target \
+       /usr/local/libexec/openeuler-riscv-ci/rpm-manifest.sh \
+       /usr/local/libexec/openeuler-riscv-ci/finalize-target-rpmdb.sh \
+    && /usr/local/libexec/openeuler-riscv-ci/finalize-target-rpmdb.sh \
     && gcc -O2 -Wall -Wextra -Werror -march=rv64gc_zba_zbb_zbs \
        -o /usr/local/bin/rva23-selftest /usr/local/src/rva23-selftest.c \
     && /usr/local/bin/verify-target
