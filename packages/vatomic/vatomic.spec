@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           vatomic
 Version:        2.4.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        VSync atomics - formally-verified atomic operations library
 License:        MIT
 URL:            https://github.com/open-s4c/vatomic
@@ -27,7 +27,9 @@ VSync atomics - formally-verified atomic operations library
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) \
+  ! -path '%{buildroot}%{_mandir}/*' \
+  -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
@@ -36,8 +38,13 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
+%{_mandir}/man3/vatomic_*.3*
+%{_mandir}/man7/vatomic.7*
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.1-8
+- Package manual pages with compression-compatible globs outside the generated file list.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.4.1-7
 - Use valid compare-exchange failure memory orders in the C++ comparison tests.
 
