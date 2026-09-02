@@ -344,11 +344,15 @@ def main() -> int:
     if not tooling_resolver.is_file() or not tooling_resolver.stat().st_mode & 0o111:
         errors.append("protected-main tooling resolver is missing or not executable")
     elif not all(marker in tooling_resolver.read_text(encoding="utf-8") for marker in (
-        'WORKFLOW_SHA_EVENTS = {"pull_request", "merge_group"}',
         'EVENT_SHA_EVENTS = {"push", "workflow_dispatch", "workflow_call"}',
         'PACKAGE_WORKFLOW = ".github/workflows/package-ci.yml"',
         'BACKFILL_WORKFLOW = ".github/workflows/rpm-repo-backfill.yml"',
-        'if observed_head != tooling_sha:',
+        'f"{repository}/{PACKAGE_WORKFLOW}@refs/pull/{number}/merge"',
+        'if len(parents) != 3 or parents[0] != merge_sha:',
+        'if parents[2] != package_sha:',
+        'tooling_sha = require_sha(parents[1], "pull-request merge first parent")',
+        'require_ancestor(root, tooling_sha, checked_sha)',
+        'require_checked_head(root, checked_sha)',
     )):
         errors.append("protected-main tooling resolver is missing event or immutable-HEAD guards")
     overlay_materializer = root / "ci" / "materialize-package-head.py"
@@ -393,8 +397,8 @@ def main() -> int:
         errors.append(
             "package-ci.yml must use one validated tooling output in seven package jobs and CI state"
         )
-    if "github.event.pull_request.base.sha" in package_ci:
-        errors.append("package-ci.yml must not use a stale pull-request payload base as tooling")
+    if package_ci.count("github.event.pull_request.base.sha") != 1:
+        errors.append("package-ci.yml may pass the pull-request payload base only once for audit evidence")
     if untrusted_tooling_checkout in package_ci:
         errors.append("package-ci.yml must not execute shared tooling from a pull-request head")
     if package_ci.count("ci/materialize-package-head.py --repo-root .") != 7:
@@ -410,6 +414,10 @@ def main() -> int:
         "Materialize only the exact package tree",
         "tooling_sha: ${{ steps.tooling.outputs.tooling_sha }}",
         "ci/resolve-protected-tooling.py",
+        "fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}",
+        '--pr-number "$PR_NUMBER"',
+        '--package-head "$PACKAGE_HEAD"',
+        '--base-sha "$BASE_SHA"',
         "PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}",
         "TOOLING_HEAD_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}",
         "&& needs.authorize-trusted-dispatch.outputs.tooling_sha || github.event.before || inputs.base_sha }}",

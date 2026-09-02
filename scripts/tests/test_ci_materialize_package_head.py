@@ -139,7 +139,14 @@ class MaterializePackageHeadTests(unittest.TestCase):
         self.assertEqual(workflow.count(immutable_candidate), 1)
         self.assertEqual(workflow.count(protected_checkout), 8)
         self.assertNotIn(untrusted_checkout, workflow)
-        self.assertNotIn("github.event.pull_request.base.sha", workflow)
+        self.assertEqual(workflow.count("github.event.pull_request.base.sha"), 1)
+        self.assertIn(
+            "fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}",
+            workflow,
+        )
+        self.assertIn('--pr-number "$PR_NUMBER"', workflow)
+        self.assertIn('--package-head "$PACKAGE_HEAD"', workflow)
+        self.assertIn('--base-sha "$BASE_SHA"', workflow)
         self.assertEqual(workflow.count("ci/materialize-package-head.py --repo-root ."), 7)
         downstream_overlay = (
             "- name: Materialize only the exact package tree\n"

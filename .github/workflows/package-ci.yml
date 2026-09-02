@@ -74,13 +74,14 @@ jobs:
       authorized: ${{ steps.authorize.outputs.authorized }}
       tooling_sha: ${{ steps.tooling.outputs.tooling_sha }}
     steps:
-      # GitHub selects pull-request and merge-group workflow files from the
-      # protected branch. Bind that immutable workflow commit, not the event's
-      # potentially stale base.sha and never a PR merge or head commit.
-      - name: Check out the immutable protected tooling candidate
+      # Pull requests and merge queues execute a synthetic commit. Pull requests
+      # need only the merge commit and its two direct parents; merge queues retain
+      # full history for the explicit protected-base ancestor proof.
+      - name: Check out the exact workflow commit for tooling validation
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ (github.event_name == 'pull_request' || github.event_name == 'merge_group') && github.workflow_sha || github.sha }}
+          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
           persist-credentials: false
       - name: Validate the protected tooling identity
         id: tooling
@@ -92,6 +93,9 @@ jobs:
           WORKFLOW_SHA: ${{ github.workflow_sha }}
           BASE_REPOSITORY: ${{ github.event.pull_request.base.repo.full_name || github.repository }}
           BASE_REF: ${{ github.event.pull_request.base.ref || github.event.merge_group.base_ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PACKAGE_HEAD: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
         run: |
           mkdir -p artifacts/authorization
           ci/resolve-protected-tooling.py \
@@ -104,6 +108,9 @@ jobs:
             --event-ref "$EVENT_REF" \
             --base-repository "$BASE_REPOSITORY" \
             --base-ref "$BASE_REF" \
+            --pr-number "$PR_NUMBER" \
+            --package-head "$PACKAGE_HEAD" \
+            --base-sha "$BASE_SHA" \
             --output artifacts/authorization/protected-tooling.json \
             --github-output "$GITHUB_OUTPUT"
       - name: Authorize a trusted package dispatch or normal main build
