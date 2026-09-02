@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xde-session
 Version:        1.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        X Desktop Environment Display and Session Management
 License:        GPL-3.0-or-later
 URL:            https://github.com/bbidulock/xde-session
@@ -9,6 +9,7 @@ Source0:        xde-session-1.14.tar.gz
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
+BuildRequires:  libX11-devel
 BuildRequires:  libtool
 BuildRequires:  make
 
@@ -39,5 +40,8 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.14-2
+- Add libX11-devel so pkg-config can resolve x11 during configure.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.14-1
 - Initial openEuler RISC-V package from the full package inventory.
