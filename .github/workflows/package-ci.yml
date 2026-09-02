@@ -74,14 +74,14 @@ jobs:
       authorized: ${{ steps.authorize.outputs.authorized }}
       tooling_sha: ${{ steps.tooling.outputs.tooling_sha }}
     steps:
-      # Pull requests and merge queues execute a synthetic commit. Check it out
-      # with history so the resolver can derive and validate protected tooling
-      # without trusting the pull-request payload's potentially stale base.sha.
+      # Pull requests and merge queues execute a synthetic commit. Pull requests
+      # need only the merge commit and its two direct parents; merge queues retain
+      # full history for the explicit protected-base ancestor proof.
       - name: Check out the exact workflow commit for tooling validation
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ (github.event_name == 'pull_request' || github.event_name == 'merge_group') && github.workflow_sha || github.sha }}
-          fetch-depth: 0
+          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
           persist-credentials: false
       - name: Validate the protected tooling identity
         id: tooling

@@ -414,7 +414,7 @@ def main() -> int:
         "Materialize only the exact package tree",
         "tooling_sha: ${{ steps.tooling.outputs.tooling_sha }}",
         "ci/resolve-protected-tooling.py",
-        'fetch-depth: 0',
+        "fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}",
         '--pr-number "$PR_NUMBER"',
         '--package-head "$PACKAGE_HEAD"',
         '--base-sha "$BASE_SHA"',

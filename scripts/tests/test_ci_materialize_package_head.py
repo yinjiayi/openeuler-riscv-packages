@@ -140,7 +140,10 @@ class MaterializePackageHeadTests(unittest.TestCase):
         self.assertEqual(workflow.count(protected_checkout), 8)
         self.assertNotIn(untrusted_checkout, workflow)
         self.assertEqual(workflow.count("github.event.pull_request.base.sha"), 1)
-        self.assertIn('fetch-depth: 0', workflow)
+        self.assertIn(
+            "fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}",
+            workflow,
+        )
         self.assertIn('--pr-number "$PR_NUMBER"', workflow)
         self.assertIn('--package-head "$PACKAGE_HEAD"', workflow)
         self.assertIn('--base-sha "$BASE_SHA"', workflow)
