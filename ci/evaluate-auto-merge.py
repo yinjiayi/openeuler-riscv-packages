@@ -17,6 +17,7 @@ TRUSTED_ASSOCIATIONS = {"OWNER", "MEMBER", "COLLABORATOR"}
 TRUSTED_LOGINS = {"yinjiayi", "github-actions[bot]"}
 BLOCKING_LABELS = {
     "repair-queued",
+    "codex-repairing",
     "needs-native-riscv",
     "qemu-limitation",
     "needs-human",

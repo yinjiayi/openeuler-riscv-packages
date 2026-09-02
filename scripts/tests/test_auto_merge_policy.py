@@ -143,6 +143,7 @@ class AutoMergePolicyTests(unittest.TestCase):
             (pull_request(paths=paths, draft=True), HEAD, "draft"),
             (pull_request(paths=paths, labels=["needs-human"]), HEAD, "blocking label"),
             (pull_request(paths=paths, labels=["repair-queued"]), HEAD, "repair queue"),
+            (pull_request(paths=paths, labels=["codex-repairing"]), HEAD, "active repair"),
             (pull_request(paths=paths), "3" * 40, "head changed"),
         )
         for pr, event_head, reason in cases:
