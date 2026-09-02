@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/nRF24/RF24",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "rf24",
+        "package_name": "rf24",
+        "source": "aur",
+        "source_version": "1.5.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "rf24.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Packaging release 2 selects the verified RF24-1.5.0 archive root, builds the generic Linux SPIDEV driver, and explicitly installs the versioned library, ABI links, and public headers without running ldconfig. Upstream provides no automated test suite, so the package check validates only the real installed payload; radio hardware behavior remains unverified. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "rf24",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "rf24",
+    "summary": "Linux support for RF24 radio modules"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-nrf24-rf24",
+    "homepage": "https://nrf24.github.io/RF24",
+    "release_api": "https://api.github.com/repos/nRF24/RF24/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/nRF24/RF24",
+    "source_url_template": "https://github.com/nRF24/RF24/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.5.0",
+    "latest_detected": "1.5.0",
+    "release": "2"
+  }
+}
