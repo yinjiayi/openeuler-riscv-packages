@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pstack
 Version:        2.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Print stack traces from running processes, or core files.
 License:        BSD-2-Clause
 URL:            https://github.com/peadar/pstack
@@ -34,5 +34,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.17-2
+- Escape the find %P format so RPM macro expansion preserves it for find.
+
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.17-1
 - Initial openEuler RISC-V package from the full package inventory.

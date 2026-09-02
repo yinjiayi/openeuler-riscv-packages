@@ -31,6 +31,7 @@ DERIVED_IMAGE = re.compile(
     r"^openeuler-builddeps:[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$"
 )
 BUILD_USERS = {"root", "unprivileged"}
+POSITIVE_SECONDS = re.compile(r"^[1-9][0-9]*$")
 TARGET_USER = "rpmbuild"
 TARGET_UID = 10001
 TARGET_GID = 10001
@@ -43,6 +44,13 @@ EVIDENCE_FILES = (
 
 class ContractError(RuntimeError):
     """A build-identity or path contract was not satisfied."""
+
+
+def positive_seconds(value: str) -> int:
+    """Parse a canonical positive decimal timeout without accepting signs."""
+    if not POSITIVE_SECONDS.fullmatch(value):
+        raise argparse.ArgumentTypeError("timeout seconds must be a positive decimal integer")
+    return int(value)
 
 
 def write_json(path: pathlib.Path, payload: dict[str, object]) -> None:
@@ -128,6 +136,15 @@ def grant_other_access(path: pathlib.Path, *, readable: bool) -> None:
     else:
         raise ContractError(f"workspace input is not a regular file or directory: {path}")
     os.chmod(path, (stat.S_IMODE(mode) & ~0o007) | other_mode)
+
+
+def grant_root_workspace_traversal(repo_root: pathlib.Path) -> None:
+    """Let root-build test identities traverse only the fixed mount parents."""
+
+    repository = require_real_directory(repo_root, "repository root")
+    work_parent = require_real_directory(repo_root / "work", "work parent directory")
+    grant_other_access(repository, readable=False)
+    grant_other_access(work_parent, readable=False)
 
 
 def workspace_tree_entries(root: pathlib.Path) -> list[pathlib.Path]:
@@ -227,9 +244,16 @@ def build_command(
     package_id: str,
     commit_sha: str,
     build_user: str,
+    build_timeout_seconds: int,
 ) -> list[str]:
     if build_user not in BUILD_USERS:
         raise ContractError(f"unsupported build user policy: {build_user}")
+    if (
+        isinstance(build_timeout_seconds, bool)
+        or not isinstance(build_timeout_seconds, int)
+        or build_timeout_seconds < 1
+    ):
+        raise ContractError("build timeout seconds must be a positive integer")
     container_work = f"/workspace/work/{package_id}"
     if build_user == "root":
         run_uid_gid = "0:0"
@@ -285,6 +309,8 @@ def build_command(
         f"{result_dir}/rpmbuild-phase-result.json",
         "--commit-sha",
         commit_sha,
+        "--timeout",
+        str(build_timeout_seconds),
         "--skip-install-smoke",
         "--expected-arch",
         "riscv64",
@@ -514,6 +540,7 @@ def run_mode(args: argparse.Namespace) -> int:
             )
             return preparation.returncode
     else:
+        grant_root_workspace_traversal(repo_root)
         result_dir = artifact_dir
 
     completed = subprocess.run(
@@ -525,6 +552,7 @@ def run_mode(args: argparse.Namespace) -> int:
             args.package_id,
             args.commit_sha,
             args.build_user,
+            args.build_timeout_seconds,
         ),
         check=False,
     )
@@ -549,6 +577,9 @@ def parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--artifact-dir", required=True)
     run_parser.add_argument("--commit-sha", required=True)
     run_parser.add_argument("--build-user", required=True, choices=sorted(BUILD_USERS))
+    run_parser.add_argument(
+        "--build-timeout-seconds", required=True, type=positive_seconds
+    )
 
     prepare_parser = subparsers.add_parser(
         "prepare", help="hand fresh generated trees from root to the fixed target user"

@@ -1,0 +1,21 @@
+{
+  "package_id": "sysinternalsebpf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f5a33a697d1a77a7f9205218f58c6c0eec8099f62d3ea9875f9f5ce2dd263070"
+      },
+      "filename": "sysinternalsebpf-1.6.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/microsoft/SysinternalsEBPF/archive/refs/tags/1.6.0.tar.gz",
+      "version": "1.6.0"
+    }
+  ]
+}

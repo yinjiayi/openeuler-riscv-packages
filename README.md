@@ -17,8 +17,28 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
   each source remains bound to its committed SHA-256 and is verified before
   `rpmbuild` starts. Network availability does not make unpinned source bytes
   acceptable.
+- A **per-run dependency network** is a uniquely named, session-labelled Docker
+  bridge used by exactly one BuildRequires container. CI first checks the live
+  RPM baseline in a separate one-shot container whose network mode stays
+  `none`; only a passed baseline and non-empty dependency plan permit creation
+  of the externally routed bridge for the audited DNF transaction. Its endpoint
+  is inspected from the network and container sides, then detached and removed
+  by full object ID. It is not a shared runner network and does not weaken
+  source checksum verification.
 - A **build-user policy** is the per-package `build.user` choice controlling the identity that executes `rpmbuild` and `%check`. Its compatible default is `root`; `unprivileged` opts into the fixed `rpmbuild` identity with UID/GID `10001:10001`. It does not change the root-only dependency-install stage or grant privileges to installed smoke tests.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
+- The **Auto-merge policy check** is the existing `configure` job context emitted by the Auto Merge Policy workflow. It remains pending while the workflow disarms, evaluates, arms, and verifies one leased package PR, so GitHub cannot merge that PR before the arming transaction itself succeeds. Reusing this established context lets the protection rollout preserve exact-head coverage for already-open pull requests; any audited coverage gap must be backfilled and verified before the ruleset is applied.
+- A **required-context migration audit** is a read-only preflight that proves every currently open pull request's exact head already has a named GitHub Actions check from the expected workflow and app. It verifies availability and provenance, not a successful conclusion, and it fails rather than treating a legacy commit status, incomplete context page, or changing PR snapshot as coverage.
+- A **live arming activation proof** is the final pre-arm read of the uniquely named repository ruleset. Automatic merge remains disarmed unless that exact active branch ruleset covers the default branch and requires the `configure` context exactly once; an absent or not-yet-active barrier is a successful rollout no-op, while ambiguous or unreadable API state fails closed.
+- A **protected-main package overlay** is the trusted-dispatch workspace formed
+  by checking out CI tooling from the protected `main` workflow commit and
+  replacing exactly one `packages/<id>` tree with that tree from the authorized
+  PR head. Its evidence binds the tooling commit, package commit, and package
+  tree SHA; it does not merge shared tooling into the package PR or authorize
+  any file outside that package tree. Git `HEAD` remains the protected tooling
+  commit. Scope selection accepts the separate package commit only after it
+  validates the overlay evidence and independently matches the committed,
+  staged, and working-copy package trees.
 - A **golden package** is a fixed end-to-end fixture with a pinned source/content digest, expected state, allowed changes, and assertions.
 - A **repository generation** is an immutable binary/source RPM snapshot with a state-bound `repomd.xml` SHA-256. A build resolves the mutable `state.json` pointer once, then uses only that generation URL.
 - A **backfill shard** is one of two deterministic, round-robin partitions of the active QEMU-buildable package list. Each shard stays below GitHub Actions' 256-entry matrix limit; the configured fleet-wide concurrency is divided equally between them, so the two matrices support up to 512 packages without doubling runner usage.
@@ -157,13 +177,30 @@ The build image tag is `ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild:24.03-lts-sp
 https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/
 ```
 
-Package CI reads an immutable digest from `ci/image.lock`; a mutable tag is never accepted as build evidence. Image publication records the `repomd.xml` digest, installed RPM manifest, OCI digest, QEMU version, and RVA23 probe result.
+Package CI reads an immutable digest from `ci/image.lock`; a mutable tag is never accepted as build evidence. Image publication records the `repomd.xml` digest, installed RPM manifest, OCI digest, QEMU version, and RVA23 probe result. The installed RPM manifest is a sorted, checksum-bound record of each package's identity, architecture, and RPM-defined SHA-1/SHA-256 immutable-header digests. Every row and digest is format-validated before use. These digests bind original package metadata across database implementations; they do not replace the gpgchecked DNF transaction or claim a second payload verification.
 
-Audited BuildRequires are installed as root in a per-run, unpublished derived image. Package metadata then selects the `rpmbuild` identity: existing and root-capability suites default to `root`, while packages whose upstream checks require ordinary filesystem permission semantics may explicitly select `unprivileged`. The latter path performs a symlink-refusing ownership handoff for the fresh generated work tree, verifies the exact UID/GID before execution, and preserves regular JSON/log/RPM evidence for the host-side artifact stager. A root-dependent suite must use the compatible root policy or an evidence-backed native route; CI never silently skips it.
+Audited BuildRequires are installed as root in a per-run, unpublished derived image. A separate networkless container first proves the immutable base image's live RPM baseline. A valid baseline and non-empty dependency plan permit creation of the per-run egress bridge; the long-lived dependency container is created directly on that bridge, and DNF starts only after exact exclusive attachment is verified. The bridge is detached and removed before the image is committed. An empty dependency plan creates the long-lived container with network mode `none` and never creates an egress network. Package metadata then selects the `rpmbuild` identity: existing and root-capability suites default to `root`, while packages whose upstream checks require ordinary filesystem permission semantics may explicitly select `unprivileged`. The latter path performs a symlink-refusing ownership handoff for the fresh generated work tree, verifies the exact UID/GID before execution, and preserves regular JSON/log/RPM evidence for the host-side artifact stager. A root-dependent suite must use the compatible root policy or an evidence-backed native route; CI never silently skips it.
 
 ## Auto-merge policy
 
-Repository rules require the latest head SHA to pass `metadata-validate`, `source-verify`, `rpmbuild-riscv64`, `rpm-install-smoke`, `patch-policy`, and `merge-policy`. Required approvals are zero. Blocking labels, source/license/checksum failures, `needs-human`, and `needs-native-riscv` prevent merge even if unrelated checks passed.
+Repository rules require the latest head SHA to pass `metadata-validate`, `source-verify`, `rpmbuild-riscv64`, `rpm-install-smoke`, `patch-policy`, `merge-policy`, and the established Auto Merge Policy `configure` arming barrier. Required approvals are zero. Blocking labels, source/license/checksum failures, `needs-human`, and `needs-native-riscv` prevent automatic merge even if unrelated checks passed; an explicitly authorized manual merge remains a separate maintainer decision. The arming workflow accepts success only while API readback proves the pull request is still open, unmerged, and bound to the event's exact head and base; rollback applies the same state proof and never treats an already merged pull request as successfully disarmed.
+
+Before `ci/configure-github.sh --apply` performs any repository write, it runs the required-context migration audit for the legacy `configure` context from the `Auto Merge Policy` workflow and `github-actions` app. The audit paginates every open pull request, binds each result to its exact head commit, then repeats the complete PR/head scan and requires an unchanged snapshot. Missing contexts, legacy `StatusContext` records, unexpected workflow/app provenance, head mismatches, API failures, and commit heads with more than 100 combined contexts all stop configuration and remain recorded in the requested JSON output. Repeated trusted CheckRuns are retained as evidence but are not a provenance failure. `--dry-run` reads only the committed configuration files and never invokes the audit or contacts GitHub.
+
+The apply path repeats the complete audit immediately before changing the ruleset, after slower repository-setting, label, variable, and Pages reconciliation. A ruleset update snapshots the previous exact accepted policy and restores plus verifies it after an update or readback failure. A newly created ruleset is considered removed only after a successful paginated listing proves its exact numeric ID absent; API failure is never treated as deletion evidence.
+
+Run the same read-only gate directly with an authenticated local `gh` session:
+
+```sh
+ci/audit-required-context.py \
+  --repository yinjiayi/openeuler-riscv-packages \
+  --context configure \
+  --expected-workflow "Auto Merge Policy" \
+  --expected-app github-actions \
+  --output work/github-required-context-audit.json
+```
+
+Automatic merge is armed only for a current, same-repository PR whose complete API file list is confined to exactly one `packages/<package-id>/` directory. Every listed event, including a retarget away from `main`, first disarms any existing Auto-merge request. API readback must then bind the event head, base SHA, and base ref; a non-default-branch target ends as a successful disarmed no-op before checkout. Only the repository default branch is checked out as immutable policy, after which the workflow evaluates the leased package scope and proves live ruleset activation before re-arming. During rollout, package events therefore create the established `configure` check but remain safely disarmed until the ruleset actually requires that barrier. Infrastructure, workflow, CI, script, schema, catalog, Dashboard, documentation, mixed-package, incomplete-file-list, and renamed-from-shared-path changes remain unarmed even when their package check contexts succeed or are skipped.
 
 ## License scope
 
