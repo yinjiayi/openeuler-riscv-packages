@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xed
 Version:        3.8.9
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A small and lightweight text editor
 License:        GPL-2.0-or-later
 URL:            https://github.com/linuxmint/xed
 Source0:        xed-3.8.9.tar.gz
 BuildRequires:  gcc
 BuildRequires:  glib2-devel
+BuildRequires:  gtk3-devel
 BuildRequires:  make
 BuildRequires:  meson
 BuildRequires:  ninja-build
@@ -38,6 +39,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.8.9-4
+- Add the GTK 3 development dependency required by Meson.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.8.9-3
 - Add the GLib development dependency required by Meson.
 

@@ -13,3 +13,9 @@ transaction and the `libxml-2.0` check, then stopped at the next effective
 error because `glib-2.0` pkg-config metadata was unavailable. Release 3 adds
 openEuler's `glib2-devel`, the verified provider of that interface. The source,
 patch set, and test execution remain unchanged.
+
+Package CI run `33673849283` for exact head
+`15596e8e97646b6d2c6947e116a691ab2b39f13a` resolved the earlier XML and GLib
+interfaces, then stopped at the next effective Meson error because
+`gtk+-3.0` was unavailable. Release 4 adds openEuler's `gtk3-devel`, whose
+SHA-256-bound target repository metadata provides `pkgconfig(gtk+-3.0)`.
