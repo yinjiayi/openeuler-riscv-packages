@@ -111,7 +111,12 @@ def main() -> int:
         bootstrap_repository = (root / "ci" / "openeuler-rva23.repo").read_text(
             encoding="utf-8"
         )
-        if not manifest_helper_path.stat().st_mode & 0o111 or "%{SIGPGP:pgpsig}" not in manifest_helper:
+        if (
+            not manifest_helper_path.stat().st_mode & 0o111
+            or "%{SIGPGP:pgpsig}" not in manifest_helper
+            or "%{SHA1HEADER}" not in manifest_helper
+            or "%{SHA256HEADER}" not in manifest_helper
+        ):
             errors.append("shared target RPM manifest helper is missing its executable exact query contract")
         if "rpm --root \"$rootfs\" --eval '%{_dbpath}'" not in bootstrap:
             errors.append("bootstrap rootfs does not record its RPM-evaluated database path")
@@ -145,8 +150,6 @@ def main() -> int:
             'sha256sum --check',
             'rpmdb --dbpath "$staging_db" --importdb',
             'rpmdb --dbpath "$staging_db" --verifydb',
-            'rpmdb --dbpath "$staging_db" --exportdb',
-            'cmp -s -- "$transport" "$target_export"',
             "the target runtime rpmdb path is unexpectedly nonempty",
             'stat -c \'%d\' -- "$staging_db"',
             'rmdir "$runtime_db"',
@@ -159,6 +162,8 @@ def main() -> int:
         ):
             if marker not in finalizer:
                 errors.append(f"target RPM database finalizer is missing: {marker}")
+        if 'cmp -s -- "$transport" "$target_export"' in finalizer:
+            errors.append("target finalizer requires non-canonical cross-version header-stream bytes")
         for forbidden_marker in (
             "ln -s",
             "/var/lib/rpm",

@@ -35,5 +35,5 @@ case $# in
 esac
 
 rpm "${rpm_location[@]}" -qa \
-  --qf '%{NAME}\t%{EPOCHNUM}:%{VERSION}-%{RELEASE}\t%{ARCH}\t%{SIGPGP:pgpsig}\n' \
+  --qf '%{NAME}\t%{EPOCHNUM}:%{VERSION}-%{RELEASE}\t%{ARCH}\t%{SIGPGP:pgpsig}\t%{SHA1HEADER}\t%{SHA256HEADER}\n' \
   | LC_ALL=C sort

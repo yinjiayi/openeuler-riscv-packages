@@ -65,15 +65,11 @@ rpmdb --dbpath "$staging_db" --verifydb
 
 staging_manifest=$(mktemp)
 runtime_manifest=$(mktemp)
-target_export=$(mktemp)
-trap 'rm -f -- "$staging_manifest" "$runtime_manifest" "$target_export"' EXIT
+trap 'rm -f -- "$staging_manifest" "$runtime_manifest"' EXIT
 "$manifest_helper" --dbpath "$staging_db" >"$staging_manifest"
 [[ -s $staging_manifest ]] || fail 'target RPM imported an empty package database'
 cmp -s -- "$baseline_root/rpm-manifest.tsv" "$staging_manifest" \
-  || fail 'target RPM import differs from the signed bootstrap transaction manifest'
-rpmdb --dbpath "$staging_db" --exportdb >"$target_export"
-cmp -s -- "$transport" "$target_export" \
-  || fail 'target RPM did not preserve the complete transported package headers'
+  || fail 'target RPM import differs from the signed bootstrap transaction or header-digest manifest'
 
 runtime_parent=${runtime_db%/*}
 [[ -n $runtime_parent ]] || runtime_parent=/

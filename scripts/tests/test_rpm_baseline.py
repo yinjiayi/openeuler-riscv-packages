@@ -109,6 +109,8 @@ class RpmBaselineImageContractTests(unittest.TestCase):
     def test_bootstrap_and_target_share_one_query_format_helper(self) -> None:
         helper = MANIFEST_HELPER.read_text(encoding="utf-8")
         self.assertIn("%{SIGPGP:pgpsig}", helper)
+        self.assertIn("%{SHA1HEADER}", helper)
+        self.assertIn("%{SHA256HEADER}", helper)
         self.assertIn("--dbpath", helper)
         self.assertIn("dbpath_components", helper)
         self.assertIn('/bootstrap/rpm-manifest.sh "$rootfs"', BOOTSTRAP.read_text(encoding="utf-8"))
@@ -149,14 +151,13 @@ class RpmBaselineImageContractTests(unittest.TestCase):
         for marker in (
             'rpmdb --dbpath "$staging_db" --importdb',
             'rpmdb --dbpath "$staging_db" --verifydb',
-            'rpmdb --dbpath "$staging_db" --exportdb',
-            'cmp -s -- "$transport" "$target_export"',
             '"$manifest_helper" --dbpath "$staging_db"',
             'cmp -s -- "$baseline_root/rpm-manifest.tsv" "$staging_manifest"',
             'cmp -s -- "$baseline_root/rpm-manifest.tsv" "$runtime_manifest"',
             "rpmdb --verifydb",
         ):
             self.assertIn(marker, finalizer)
+        self.assertNotIn('cmp -s -- "$transport" "$target_export"', finalizer)
         for forbidden in ("--initdb", "--justdb", "--nodeps", "--nosignature", "dnf "):
             self.assertNotIn(forbidden, finalizer)
 
