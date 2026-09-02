@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           wlr-sunclock
 Version:        1.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Displays a sunclock desktop widget using the layer shell protocol
 License:        LGPL-3.0-or-later
 URL:            https://github.com/sentriz/wlr-sunclock
@@ -11,6 +11,7 @@ BuildRequires:  make
 BuildRequires:  meson
 BuildRequires:  ninja-build
 BuildRequires:  gtk4-devel
+BuildRequires:  pkgconfig(gtk4-layer-shell-0)
 
 %description
 Displays a sunclock desktop widget using the layer shell protocol
@@ -35,6 +36,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.1-3
+- Declare the gtk4-layer-shell pkg-config interface required by Meson.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.1-2
 - Add the GTK 4 development dependency required by Meson configuration.
 
