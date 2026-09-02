@@ -1,12 +1,12 @@
 {
-  "package_id": "pcre2",
+  "package_id": "xapp",
   "schema_version": 1,
   "sources": [
     {
       "digests": {
-        "sha256": "b6c68fdf6f3ac31388b50aa89ff0fc49c00c987c16e7b5146491d12003f2c8ed"
+        "sha256": "d0ea664053e6f35cc556e060b161905004f03d0695473772d2fb8a37cf445591"
       },
-      "filename": "pcre2-10.48.tar.bz2",
+      "filename": "xapp-3.2.2.tar.gz",
       "id": "source0",
       "kind": "upstream-release",
       "redistribution": {
@@ -14,8 +14,8 @@
         "reason": "Governed by the declared upstream license; source is fetched in CI."
       },
       "signature": null,
-      "url": "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.48/pcre2-10.48.tar.bz2",
-      "version": "10.48"
+      "url": "https://github.com/linuxmint/xapp/archive/refs/tags/3.2.2.tar.gz",
+      "version": "3.2.2"
     }
   ]
 }
