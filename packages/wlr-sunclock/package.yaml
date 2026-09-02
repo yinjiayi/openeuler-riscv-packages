@@ -44,7 +44,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 adds gtk4-devel after exact-head PR CI run 33671450551 reached Meson configuration and reported that the required gtk4 dependency was not found.",
     "status": "active"
   },
   "package_id": "wlr-sunclock",
@@ -79,6 +79,6 @@
   "version": {
     "current": "1.2.1",
     "latest_detected": "1.2.1",
-    "release": "1"
+    "release": "2"
   }
 }
