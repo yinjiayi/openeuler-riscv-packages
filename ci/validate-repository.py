@@ -240,6 +240,7 @@ def main() -> int:
     ruleset = json.loads(ruleset_path.read_text(encoding="utf-8")) if ruleset_path.exists() else {}
     auto_merge_policy_path = root / "ci" / "evaluate-auto-merge.py"
     auto_merge_state_proof_path = root / "ci" / "prove-auto-merge-state.py"
+    default_branch_head_proof_path = root / "ci" / "prove-default-branch-head.py"
     required_context_activation_path = root / "ci" / "prove-required-context-active.py"
     auto_merge_events = (
         "types: [opened, reopened, synchronize, ready_for_review, "
@@ -260,6 +261,19 @@ def main() -> int:
             )
     if required_contexts.count("configure") != 1:
         errors.append("main ruleset must require exactly one established Auto Merge Policy configure context")
+    required_integrations = [
+        check.get("integration_id")
+        for rule in ruleset.get("rules", [])
+        if rule.get("type") == "required_status_checks"
+        for check in rule.get("parameters", {}).get("required_status_checks", [])
+    ]
+    if required_integrations != [15368] * len(required_contexts):
+        errors.append("every required status check must be pinned to the GitHub Actions integration")
+    required_rules = [rule for rule in ruleset.get("rules", []) if rule.get("type") == "required_status_checks"]
+    if len(required_rules) != 1 or required_rules[0].get("parameters", {}).get(
+        "strict_required_status_checks_policy"
+    ) is not True:
+        errors.append("required status checks must keep every pull request up to date with main")
     if not auto_merge_policy_path.is_file() or not auto_merge_policy_path.stat().st_mode & 0o111:
         errors.append("fail-closed auto-merge scope policy is missing or not executable")
     else:
@@ -296,6 +310,22 @@ def main() -> int:
             if marker not in auto_merge_state_proof:
                 errors.append(f"Auto-merge state proof is missing fail-closed marker: {marker}")
     if (
+        not default_branch_head_proof_path.is_file()
+        or not default_branch_head_proof_path.stat().st_mode & 0o111
+    ):
+        errors.append("fail-closed default-branch freshness proof is missing or not executable")
+    else:
+        default_branch_head_proof = default_branch_head_proof_path.read_text(encoding="utf-8")
+        for marker in (
+            'repository_document.get("default_branch")',
+            'ref_object.get("type") != "commit"',
+            'event_base_ref != default_branch',
+            'event_base != default_head',
+            'return 0 if result["fresh"] else 3',
+        ):
+            if marker not in default_branch_head_proof:
+                errors.append(f"default-branch freshness proof is missing marker: {marker}")
+    if (
         not required_context_activation_path.is_file()
         or not required_context_activation_path.stat().st_mode & 0o111
     ):
@@ -305,8 +335,13 @@ def main() -> int:
         for marker in (
             'live.get("enforcement") != "active"',
             'live.get("target") != "branch"',
-            '"bypass_actors" not in live or "bypass_actors" not in expected',
-            'live_bypass != expected_bypass or live_bypass != []',
+            'live.get("source") != repository',
+            'live.get("source_type") != "Repository"',
+            'live.get("current_user_can_bypass")',
+            'current_user_can_bypass != "never"',
+            'live_contexts[0].get("integration_id") != expected_integration_id',
+            '"bypass_actors" in live',
+            'live_bypass != []',
             'includes != ["~DEFAULT_BRANCH"] or excludes != []',
             'item.get("type") == "required_status_checks"',
             'return 0 if result["activated"] else 3',
@@ -324,6 +359,7 @@ def main() -> int:
         "gh api --paginate --slurp",
         "ci/evaluate-auto-merge.py",
         "ci/prove-auto-merge-state.py",
+        "ci/prove-default-branch-head.py",
         "ci/prove-required-context-active.py",
         "steps.policy.outputs.eligible == 'true'",
         ".auto_merge == null",
@@ -348,6 +384,10 @@ def main() -> int:
         errors.append("Auto-merge transaction must prove one enabled state")
     if "steps.activation.outputs.activated == 'true'" not in auto_merge:
         errors.append("Auto-merge arming is not gated by the live required-context activation proof")
+    if auto_merge.count("ci/prove-required-context-active.py") != 2:
+        errors.append("Auto-merge must re-prove live activation immediately before arming")
+    if auto_merge.count("ci/prove-default-branch-head.py") != 2:
+        errors.append("Auto-merge must prove default-branch freshness before checkout and arming")
     evaluator_command = "          ci/evaluate-auto-merge.py \\\n"
     auto_merge_order = (
         "--disable-auto",
@@ -736,6 +776,8 @@ def main() -> int:
         "ruleset readback identity is invalid; attempting exact policy rollback",
         'if ! applied_policy=$(jq -ceS "$ruleset_projection"',
         '[[ $applied_policy == "$desired_policy" ]]',
+        'integration_id: .integration_id',
+        'has("bypass_actors") and (.bypass_actors | type == "array")',
         "ruleset readback does not exactly match the configured protection policy",
         "rollback_ruleset()",
         "attempting exact policy rollback",

@@ -70,7 +70,6 @@ jobs:
           EVENT_BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
           set -euo pipefail
-          default_branch=$(gh api "repos/$GITHUB_REPOSITORY" --jq .default_branch)
           current=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
           jq -e \
             --arg repo "$GITHUB_REPOSITORY" \
@@ -86,13 +85,18 @@ jobs:
              .head.repo.full_name == $repo and
              .base.repo.full_name == $repo and
              .auto_merge == null' <<<"$current" >/dev/null
-          if [[ "$EVENT_BASE_REF" == "$default_branch" ]]; then
-            printf 'protected=true\n' >>"$GITHUB_OUTPUT"
-          else
-            printf 'protected=false\n' >>"$GITHUB_OUTPUT"
-            printf 'PR targets %s rather than default branch %s; Auto-merge remains disarmed.\n' \
-              "$EVENT_BASE_REF" "$default_branch"
-          fi
+          freshness_result=0
+          ci/prove-default-branch-head.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --event-base "$EVENT_BASE_SHA" \
+            --event-base-ref "$EVENT_BASE_REF" \
+            >"$RUNNER_TEMP/default-branch-freshness.json" || freshness_result=$?
+          cat "$RUNNER_TEMP/default-branch-freshness.json"
+          case $freshness_result in
+            0) printf 'protected=true\n' >>"$GITHUB_OUTPUT" ;;
+            3) printf 'protected=false\n' >>"$GITHUB_OUTPUT" ;;
+            *) exit "$freshness_result" ;;
+          esac
       - name: Check out the immutable protected-base policy
         if: steps.protected_base.outputs.protected == 'true'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -213,6 +217,18 @@ jobs:
             --event-base "$EVENT_BASE_SHA" \
             --event-base-ref "$EVENT_BASE_REF" \
             --expected-auto-merge disabled
+          ci/prove-default-branch-head.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --event-base "$EVENT_BASE_SHA" \
+            --event-base-ref "$EVENT_BASE_REF" \
+            >"$RUNNER_TEMP/auto-merge-pre-arm-base-freshness.json"
+          cat "$RUNNER_TEMP/auto-merge-pre-arm-base-freshness.json"
+          ci/prove-required-context-active.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --context configure \
+            --ruleset-config .github/rulesets/main.json \
+            >"$RUNNER_TEMP/auto-merge-pre-arm-activation.json"
+          cat "$RUNNER_TEMP/auto-merge-pre-arm-activation.json"
           gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" \
             --auto --squash --delete-branch
           ci/prove-auto-merge-state.py \

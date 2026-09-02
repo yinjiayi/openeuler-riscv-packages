@@ -12,6 +12,7 @@ REPO = Path(__file__).resolve().parents[2]
 POLICY = REPO / "ci" / "evaluate-auto-merge.py"
 WORKFLOW = REPO / ".github" / "workflows" / "auto-merge.yml"
 STATE_PROOF = REPO / "ci" / "prove-auto-merge-state.py"
+BASE_HEAD_PROOF = REPO / "ci" / "prove-default-branch-head.py"
 ACTIVATION_PROOF = REPO / "ci" / "prove-required-context-active.py"
 RULESET = REPO / ".github" / "rulesets" / "main.json"
 CONFIGURATOR = REPO / "ci" / "configure-github.sh"
@@ -236,8 +237,14 @@ class AutoMergePolicyTests(unittest.TestCase):
         self.assertEqual(workflow.count("--expected-auto-merge disabled"), 2)
         self.assertEqual(workflow.count("--expected-auto-merge enabled"), 1)
         self.assertTrue(STATE_PROOF.stat().st_mode & 0o111)
+        self.assertTrue(BASE_HEAD_PROOF.stat().st_mode & 0o111)
         self.assertTrue(ACTIVATION_PROOF.stat().st_mode & 0o111)
+        self.assertEqual(workflow.count("ci/prove-default-branch-head.py"), 2)
+        self.assertIn("default-branch-freshness.json", workflow)
+        self.assertIn("auto-merge-pre-arm-base-freshness.json", workflow)
         self.assertIn("ci/prove-required-context-active.py", workflow)
+        self.assertEqual(workflow.count("ci/prove-required-context-active.py"), 2)
+        self.assertIn("auto-merge-pre-arm-activation.json", workflow)
         self.assertIn("steps.activation.outputs.activated == 'true'", workflow)
         self.assertLess(
             workflow.index("Disarm GitHub Auto-merge before evaluating the current head"),
@@ -247,6 +254,10 @@ class AutoMergePolicyTests(unittest.TestCase):
             workflow.index("Bind the current base to the repository default branch"),
             workflow.index("Check out the immutable protected-base policy"),
         )
+        first_freshness = workflow.index("ci/prove-default-branch-head.py")
+        second_freshness = workflow.rindex("ci/prove-default-branch-head.py")
+        self.assertLess(first_freshness, workflow.index("Check out the immutable protected-base policy"))
+        self.assertLess(second_freshness, workflow.index("--auto --squash"))
         self.assertLess(workflow.index("--disable-auto"), workflow.index("ci/evaluate-auto-merge.py"))
         self.assertLess(workflow.index("ci/evaluate-auto-merge.py"), workflow.index("--auto --squash"))
 
@@ -269,6 +280,7 @@ class AutoMergePolicyTests(unittest.TestCase):
     def test_stable_auto_merge_context_is_required_and_exactly_read_back(self) -> None:
         ruleset = json.loads(RULESET.read_text(encoding="utf-8"))
         required_rule = next(rule for rule in ruleset["rules"] if rule["type"] == "required_status_checks")
+        self.assertTrue(required_rule["parameters"]["strict_required_status_checks_policy"])
         contexts = [
             check["context"]
             for check in required_rule["parameters"]["required_status_checks"]
@@ -284,6 +296,10 @@ class AutoMergePolicyTests(unittest.TestCase):
                 "merge-policy",
                 "configure",
             ],
+        )
+        self.assertEqual(
+            [check["integration_id"] for check in required_rule["parameters"]["required_status_checks"]],
+            [15368] * 7,
         )
         configurator = CONFIGURATOR.read_text(encoding="utf-8")
         self.assertIn('if ! applied_full=$(gh api "repos/$repo/rulesets/$ruleset_id")', configurator)
@@ -333,6 +349,20 @@ class AutoMergePolicyTests(unittest.TestCase):
         self.assertLess(proof_positions[1], pre_arm)
         self.assertLess(pre_arm, proof_positions[2])
         self.assertLess(proof_positions[2], post_arm)
+
+    def test_pre_arm_revalidation_order_is_inside_the_rollback_transaction(self) -> None:
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+        arm_block = workflow[workflow.index("      - name: Arm GitHub Auto-merge only after"):]
+        merge = arm_block.index("--auto --squash")
+        positions = (
+            arm_block.index("trap 'rollback_unverified_auto_merge $?' EXIT"),
+            arm_block.rindex("--expected-auto-merge disabled", 0, merge),
+            arm_block.rindex("ci/prove-default-branch-head.py", 0, merge),
+            arm_block.rindex("ci/prove-required-context-active.py", 0, merge),
+            merge,
+            arm_block.index("--expected-auto-merge enabled", merge),
+        )
+        self.assertEqual(positions, tuple(sorted(positions)))
 
 
 if __name__ == "__main__":
