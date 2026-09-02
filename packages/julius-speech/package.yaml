@@ -33,8 +33,8 @@
         "license": "BSD-3-Clause",
         "purpose": "Keep GCC's x86-only cpuid.h out of RISC-V builds while preserving Julius's existing scalar DNN implementation.",
         "remove_when": "Upstream restricts cpuid.h to x86 targets in a stable release.",
-        "sha256": "c8b5f872ab64584f4ff17917abc7eea215be09f0df450882fa14edff3a2fccf9",
-        "source": "openEuler RISC-V package CI failure analysis for exact head 6b82e5cf4850d4eeea02929adcffa41bb5ba87fa",
+        "sha256": "afaf95ad12b4855bfc1e9ec31d9bd944f6a608ccc0e342c3038b8c5e8561270a",
+        "source": "openEuler RISC-V package CI runs 33673195508 and 33676018135 against exact heads 6b82e5cf4850d4eeea02929adcffa41bb5ba87fa and db47526640d784318e3406537ba11b6a4bb91680",
         "upstream_status": "not-submitted"
       }
     ],
@@ -46,7 +46,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the SPEC source root to the archive's exact julius-4.6 top-level directory. Exact-head CI run 33673195508 for release 2 reached compilation and failed because upstream includes GCC's x86-only cpuid.h on RISC-V even though no x86 SIMD implementation is enabled. Release 3 restricts that header to x86 targets, preserving the scalar DNN implementation, build features, and complete upstream check command. The RISC-V build status remains unknown pending fresh exact-head CI evidence for this repair.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the SPEC source root to the archive's exact julius-4.6 top-level directory. Exact-head CI run 33673195508 for release 2 reached compilation and failed because upstream includes GCC's x86-only cpuid.h on RISC-V even though no x86 SIMD implementation is enabled. Release 3 restricts that header to x86 targets, preserving the scalar DNN implementation, build features, and complete upstream check command. Exact-head run 33676018135 verified the release 3 source and dependencies, then failed first in %prep because strict GNU patch could not apply the hand-written hunk. Release 4 regenerates the semantically unchanged hunk with standard three-line unified-diff context; it applies to the verified archive with GNU patch and fuzz disabled. The RISC-V build status remains unknown pending fresh exact-head CI evidence for release 4.",
     "status": "active"
   },
   "package_id": "julius-speech",
@@ -81,6 +81,6 @@
   "version": {
     "current": "4.6",
     "latest_detected": "4.6",
-    "release": "3"
+    "release": "4"
   }
 }

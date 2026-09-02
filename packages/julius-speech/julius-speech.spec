@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           julius-speech
 Version:        4.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A high-performance, two-pass large vocabulary continuous speech recognition decoder software
 License:        BSD-3-Clause
 URL:            https://github.com/julius-speech/julius
@@ -33,6 +33,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.6-4
+- Regenerate the CPUID patch hunk with strict GNU patch-compatible context.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.6-3
 - Restrict the x86-only cpuid.h include so RISC-V uses the existing scalar DNN path.
 
