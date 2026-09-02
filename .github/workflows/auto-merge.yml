@@ -31,37 +31,90 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT_BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
           set -euo pipefail
           disable_result=0
           gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --disable-auto \
             >"$RUNNER_TEMP/disable-auto.log" 2>&1 || disable_result=$?
           current=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
-          test "$(jq -r .head.sha <<<"$current")" = "$EVENT_HEAD_SHA"
-          test "$(jq -r .base.sha <<<"$current")" = "$EVENT_BASE_SHA"
-          test "$(jq -r .head.repo.full_name <<<"$current")" = "$GITHUB_REPOSITORY"
-          test "$(jq -r .base.repo.full_name <<<"$current")" = "$GITHUB_REPOSITORY"
-          if [[ $(jq -r '.auto_merge == null' <<<"$current") != true ]]; then
+          if ! jq -e \
+              --arg repo "$GITHUB_REPOSITORY" \
+              --arg head "$EVENT_HEAD_SHA" \
+              --arg base "$EVENT_BASE_SHA" \
+              --arg base_ref "$EVENT_BASE_REF" \
+              '.state == "open" and
+               .merged == false and
+               .merged_at == null and
+               .head.sha == $head and
+               .base.sha == $base and
+               .base.ref == $base_ref and
+               .head.repo.full_name == $repo and
+               .base.repo.full_name == $repo and
+               .auto_merge == null' <<<"$current" >/dev/null; then
             cat "$RUNNER_TEMP/disable-auto.log" >&2
-            printf 'Auto-merge remains armed after the mandatory disarm operation.\n' >&2
+            printf 'Unable to prove the mandatory Auto-merge disarm state.\n' >&2
             exit 1
           fi
           if (( disable_result != 0 )); then
             printf 'Disable command returned %d, but API readback proves auto-merge is off.\n' \
               "$disable_result"
           fi
+      - name: Bind the current base to the repository default branch
+        id: protected_base
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT_BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          set -euo pipefail
+          current=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
+          jq -e \
+            --arg repo "$GITHUB_REPOSITORY" \
+            --arg head "$EVENT_HEAD_SHA" \
+            --arg base "$EVENT_BASE_SHA" \
+            --arg base_ref "$EVENT_BASE_REF" \
+            '.state == "open" and
+             .merged == false and
+             .merged_at == null and
+             .head.sha == $head and
+             .base.sha == $base and
+             .base.ref == $base_ref and
+             .head.repo.full_name == $repo and
+             .base.repo.full_name == $repo and
+             .auto_merge == null' <<<"$current" >/dev/null
+          repository=$(gh api "repos/$GITHUB_REPOSITORY")
+          jq -e '.default_branch == "main"' <<<"$repository" >/dev/null
+          default_ref=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main")
+          jq -e \
+            '.ref == "refs/heads/main" and
+             .object.type == "commit" and
+             (.object.sha | type == "string" and test("^[0-9a-f]{40}$"))' \
+            <<<"$default_ref" >/dev/null
+          default_head=$(jq -r .object.sha <<<"$default_ref")
+          if [[ "$EVENT_BASE_REF" == main && "$EVENT_BASE_SHA" == "$default_head" ]]; then
+            printf 'protected=true\n' >>"$GITHUB_OUTPUT"
+          else
+            printf 'protected=false\n' >>"$GITHUB_OUTPUT"
+            printf 'PR base is not the current protected main head; Auto-merge remains disarmed.\n'
+          fi
       - name: Check out the immutable protected-base policy
+        if: steps.protected_base.outputs.protected == 'true'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           persist-credentials: false
       - name: Evaluate exact current scope from complete API file evidence
         id: policy
+        if: steps.protected_base.outputs.protected == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT_BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
           set -euo pipefail
           if [[ ! -x ci/evaluate-auto-merge.py ]]; then
@@ -96,13 +149,38 @@ jobs:
             --output "$RUNNER_TEMP/auto-merge-policy.json" \
             --github-output "$GITHUB_OUTPUT"
           jq . "$RUNNER_TEMP/auto-merge-policy.json"
-      - name: Arm GitHub Auto-merge only for the leased single-package head
-        if: steps.policy.outputs.eligible == 'true'
+      - name: Prove the live required-context barrier is active
+        id: activation
+        if: >-
+          steps.protected_base.outputs.protected == 'true' &&
+          steps.policy.outputs.eligible == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          result=0
+          ci/prove-required-context-active.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --context configure \
+            --ruleset-config .github/rulesets/main.json \
+            >"$RUNNER_TEMP/auto-merge-activation.json" || result=$?
+          cat "$RUNNER_TEMP/auto-merge-activation.json"
+          case $result in
+            0) printf 'activated=true\n' >>"$GITHUB_OUTPUT" ;;
+            3) printf 'activated=false\n' >>"$GITHUB_OUTPUT" ;;
+            *) exit "$result" ;;
+          esac
+      - name: Arm GitHub Auto-merge only after the live barrier is active
+        if: >-
+          steps.protected_base.outputs.protected == 'true' &&
+          steps.policy.outputs.eligible == 'true' &&
+          steps.activation.outputs.activated == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT_BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
           set -euo pipefail
           armed_verified=false
@@ -114,15 +192,20 @@ jobs:
               gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --disable-auto \
                 >"$RUNNER_TEMP/rollback-auto-merge.log" 2>&1
               disable_result=$?
-              rollback_current=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" \
-                2>"$RUNNER_TEMP/rollback-auto-merge-api.log")
-              read_result=$?
+              ci/prove-auto-merge-state.py \
+                --repo "$GITHUB_REPOSITORY" \
+                --pr-number "$PR_NUMBER" \
+                --event-head "$EVENT_HEAD_SHA" \
+                --event-base "$EVENT_BASE_SHA" \
+                --event-base-ref "$EVENT_BASE_REF" \
+                --expected-auto-merge disabled \
+                >"$RUNNER_TEMP/rollback-auto-merge-proof.log" 2>&1
+              proof_result=$?
               set -e
-              if (( read_result != 0 )) ||
-                 [[ $(jq -r '.auto_merge == null' <<<"$rollback_current") != true ]]; then
+              if (( proof_result != 0 )); then
                 cat "$RUNNER_TEMP/rollback-auto-merge.log" >&2
-                cat "$RUNNER_TEMP/rollback-auto-merge-api.log" >&2
-                printf 'Unable to prove that unverified Auto-merge was disarmed (%d).\n' \
+                cat "$RUNNER_TEMP/rollback-auto-merge-proof.log" >&2
+                printf 'Unable to prove that the leased open PR remained unmerged and Auto-merge was disarmed (%d).\n' \
                   "$disable_result" >&2
                 exit 1
               fi
@@ -130,14 +213,32 @@ jobs:
             exit "$result"
           }
           trap 'rollback_unverified_auto_merge $?' EXIT
-          current=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
-          test "$(jq -r .head.sha <<<"$current")" = "$EVENT_HEAD_SHA"
-          test "$(jq -r .base.sha <<<"$current")" = "$EVENT_BASE_SHA"
-          test "$(jq -r '.auto_merge == null' <<<"$current")" = true
+          ci/prove-auto-merge-state.py \
+            --repo "$GITHUB_REPOSITORY" \
+            --pr-number "$PR_NUMBER" \
+            --event-head "$EVENT_HEAD_SHA" \
+            --event-base "$EVENT_BASE_SHA" \
+            --event-base-ref "$EVENT_BASE_REF" \
+            --expected-auto-merge disabled
+          ci/prove-default-branch-head.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --event-base "$EVENT_BASE_SHA" \
+            --event-base-ref "$EVENT_BASE_REF" \
+            >"$RUNNER_TEMP/auto-merge-pre-arm-base-freshness.json"
+          cat "$RUNNER_TEMP/auto-merge-pre-arm-base-freshness.json"
+          ci/prove-required-context-active.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --context configure \
+            --ruleset-config .github/rulesets/main.json \
+            >"$RUNNER_TEMP/auto-merge-pre-arm-activation.json"
+          cat "$RUNNER_TEMP/auto-merge-pre-arm-activation.json"
           gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" \
             --auto --squash --delete-branch
-          after=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
-          test "$(jq -r .head.sha <<<"$after")" = "$EVENT_HEAD_SHA"
-          test "$(jq -r .base.sha <<<"$after")" = "$EVENT_BASE_SHA"
-          test "$(jq -r '.auto_merge != null' <<<"$after")" = true
+          ci/prove-auto-merge-state.py \
+            --repo "$GITHUB_REPOSITORY" \
+            --pr-number "$PR_NUMBER" \
+            --event-head "$EVENT_HEAD_SHA" \
+            --event-base "$EVENT_BASE_SHA" \
+            --event-base-ref "$EVENT_BASE_REF" \
+            --expected-auto-merge enabled
           armed_verified=true
