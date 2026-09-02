@@ -46,6 +46,27 @@ repository=$(gh api "repos/$repo")
   exit 1
 }
 
+# Requiring a context that is absent from an existing exact PR head would
+# strand that PR. Prove complete, trusted legacy coverage before any write.
+audit_output=${REQUIRED_CONTEXT_AUDIT_OUTPUT:-work/github-required-context-audit.json}
+[[ -x ci/audit-required-context.py ]] || {
+  printf 'required-context audit gate is missing or not executable\n' >&2
+  exit 1
+}
+mkdir -p -- "$(dirname -- "$audit_output")"
+run_required_context_audit() {
+  if ! ci/audit-required-context.py \
+       --repository "$repo" \
+       --context configure \
+       --expected-workflow "Auto Merge Policy" \
+       --expected-app github-actions \
+       --output "$audit_output" >/dev/null; then
+    printf 'required-context audit failed; inspect %s\n' "$audit_output" >&2
+    return 1
+  fi
+}
+run_required_context_audit
+
 gh api --method PATCH "repos/$repo" \
   -F allow_auto_merge=true \
   -F allow_squash_merge=true \
@@ -102,20 +123,6 @@ else
   gh api --method POST "repos/$repo/pages" -f build_type=workflow >/dev/null
 fi
 
-ruleset_name=$(jq -r .name "$ruleset")
-ruleset_id=$(gh api "repos/$repo/rulesets" --paginate \
-  --jq ".[] | select(.name == \"$ruleset_name\") | .id" | head -n 1)
-if [[ -n $ruleset_id ]]; then
-  gh api --method PUT "repos/$repo/rulesets/$ruleset_id" --input "$ruleset" >/dev/null
-else
-  created=$(gh api --method POST "repos/$repo/rulesets" --input "$ruleset")
-  ruleset_id=$(jq -r .id <<<"$created")
-  [[ $ruleset_id =~ ^[0-9]+$ ]] || {
-    printf 'created ruleset did not return a numeric id\n' >&2
-    exit 1
-  }
-fi
-
 ruleset_projection='
   {
     name: .name,
@@ -157,16 +164,126 @@ ruleset_projection='
     ]
   }
 '
-applied_full=$(gh api "repos/$repo/rulesets/$ruleset_id")
+ruleset_write_projection='
+  {
+    name: .name,
+    target: .target,
+    enforcement: .enforcement,
+    bypass_actors: (.bypass_actors // []),
+    conditions: .conditions,
+    rules: .rules
+  }
+'
+ruleset_name=$(jq -r .name "$ruleset")
 desired_policy=$(jq -cS "$ruleset_projection" "$ruleset")
-applied_policy=$(jq -cS "$ruleset_projection" <<<"$applied_full")
+
+# Close the long provisioning interval with a second stable snapshot directly
+# before the protection mutation.
+run_required_context_audit
+rulesets_before=$(gh api "repos/$repo/rulesets" --paginate --slurp)
+[[ $(jq -r 'type == "array" and all(.[]; type == "array")' <<<"$rulesets_before") == true ]] || {
+  printf 'ruleset listing did not return paginated arrays\n' >&2
+  exit 1
+}
+ruleset_matches=$(jq -c --arg name "$ruleset_name" '[.[][] | select(.name == $name)]' \
+  <<<"$rulesets_before")
+ruleset_match_count=$(jq -r length <<<"$ruleset_matches")
+(( ruleset_match_count <= 1 )) || {
+  printf 'configured ruleset name is not unique\n' >&2
+  exit 1
+}
+ruleset_id=$(jq -r '.[0].id // empty' <<<"$ruleset_matches")
+preexisting_ruleset_ids=$(jq -c '[.[][] | .id | select(type == "number")]' <<<"$rulesets_before")
+ruleset_created=false
+previous_ruleset_input=
+previous_ruleset_policy=
+
+rollback_ruleset() {
+  if [[ $ruleset_created == true ]]; then
+    gh api --method DELETE "repos/$repo/rulesets/$ruleset_id" >/dev/null || return 1
+    remaining=$(gh api "repos/$repo/rulesets" --paginate --slurp) || return 1
+    jq -e --argjson id "$ruleset_id" \
+      'type == "array" and all(.[]; type == "array") and all(.[][]; .id != $id)' \
+      <<<"$remaining" >/dev/null
+    return
+  fi
+
+  gh api --method PUT "repos/$repo/rulesets/$ruleset_id" --input - \
+    <<<"$previous_ruleset_input" >/dev/null || return 1
+  restored=$(gh api "repos/$repo/rulesets/$ruleset_id") || return 1
+  restored_policy=$(jq -cS "$ruleset_projection" <<<"$restored") || return 1
+  [[ $restored_policy == "$previous_ruleset_policy" ]]
+}
+
+discover_created_ruleset() {
+  current=$(gh api "repos/$repo/rulesets" --paginate --slurp) || return 1
+  candidates=$(jq -c --arg name "$ruleset_name" --argjson before "$preexisting_ruleset_ids" '
+    [.[][] |
+      select(.name == $name and (.id | type) == "number") |
+      select((.id as $id | $before | index($id)) == null)
+    ]' <<<"$current") || return 1
+  [[ $(jq -r length <<<"$candidates") == 1 ]] || return 1
+  ruleset_id=$(jq -r '.[0].id' <<<"$candidates")
+  [[ $ruleset_id =~ ^[0-9]+$ ]] || return 1
+  ruleset_created=true
+}
+
+if [[ -n $ruleset_id ]]; then
+  previous_ruleset=$(gh api "repos/$repo/rulesets/$ruleset_id")
+  previous_ruleset_input=$(jq -cS "$ruleset_write_projection" <<<"$previous_ruleset")
+  previous_ruleset_policy=$(jq -cS "$ruleset_projection" <<<"$previous_ruleset")
+  if ! gh api --method PUT "repos/$repo/rulesets/$ruleset_id" --input "$ruleset" >/dev/null; then
+    printf 'ruleset update failed with an unknown live result; attempting exact policy rollback\n' >&2
+    rollback_ruleset || printf 'ruleset rollback could not be verified; inspect the live policy immediately\n' >&2
+    exit 1
+  fi
+else
+  if ! created=$(gh api --method POST "repos/$repo/rulesets" --input "$ruleset"); then
+    printf 'ruleset creation failed with an unknown live result; attempting discovered-rule rollback\n' >&2
+    if discover_created_ruleset; then
+      rollback_ruleset || printf 'ruleset rollback could not be verified; inspect the live policy immediately\n' >&2
+    else
+      printf 'created ruleset identity could not be proven; inspect the live policy immediately\n' >&2
+    fi
+    exit 1
+  fi
+  if ! ruleset_id=$(jq -er 'if type == "object" and (.id | type) == "number" then .id else error("missing numeric id") end' \
+      <<<"$created") || [[ ! $ruleset_id =~ ^[0-9]+$ ]]; then
+    printf 'created ruleset did not return a numeric id; attempting discovered-rule rollback\n' >&2
+    if discover_created_ruleset; then
+      rollback_ruleset || printf 'ruleset rollback could not be verified; inspect the live policy immediately\n' >&2
+    else
+      printf 'created ruleset identity could not be proven; inspect the live policy immediately\n' >&2
+    fi
+    exit 1
+  fi
+  ruleset_created=true
+fi
+
+if ! applied_full=$(gh api "repos/$repo/rulesets/$ruleset_id"); then
+  printf 'ruleset readback failed after mutation; attempting exact policy rollback\n' >&2
+  rollback_ruleset || printf 'ruleset rollback could not be verified; inspect the live policy immediately\n' >&2
+  exit 1
+fi
+if ! jq -e --argjson id "$ruleset_id" --arg name "$ruleset_name" \
+    '.id == $id and .name == $name' <<<"$applied_full" >/dev/null; then
+  printf 'ruleset readback identity is invalid; attempting exact policy rollback\n' >&2
+  rollback_ruleset || printf 'ruleset rollback could not be verified; inspect the live policy immediately\n' >&2
+  exit 1
+fi
+if ! applied_policy=$(jq -ceS "$ruleset_projection" <<<"$applied_full"); then
+  printf 'ruleset readback has an invalid policy shape; attempting exact policy rollback\n' >&2
+  rollback_ruleset || printf 'ruleset rollback could not be verified; inspect the live policy immediately\n' >&2
+  exit 1
+fi
 [[ $applied_policy == "$desired_policy" ]] || {
   printf 'ruleset readback does not exactly match the configured protection policy\n' >&2
   diff -u <(jq -S "$ruleset_projection" "$ruleset") \
     <(jq -S "$ruleset_projection" <<<"$applied_full") >&2 || true
+  rollback_ruleset || printf 'ruleset rollback could not be verified; inspect the live policy immediately\n' >&2
   exit 1
 }
-applied=$(jq '{id,name,enforcement}' <<<"$applied_full")
+applied=$(jq -ce '{id,name,enforcement}' <<<"$applied_full")
 applied_fork_policy=$(gh api "repos/$repo/actions/permissions/fork-pr-contributor-approval" \
   --jq .approval_policy)
 [[ $applied_fork_policy == "$fork_approval_policy" ]] || {

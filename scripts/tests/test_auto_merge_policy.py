@@ -11,6 +11,8 @@ import unittest
 REPO = Path(__file__).resolve().parents[2]
 POLICY = REPO / "ci" / "evaluate-auto-merge.py"
 WORKFLOW = REPO / ".github" / "workflows" / "auto-merge.yml"
+STATE_PROOF = REPO / "ci" / "prove-auto-merge-state.py"
+ACTIVATION_PROOF = REPO / "ci" / "prove-required-context-active.py"
 RULESET = REPO / ".github" / "rulesets" / "main.json"
 CONFIGURATOR = REPO / "ci" / "configure-github.sh"
 HEAD = "1" * 40
@@ -214,7 +216,13 @@ class AutoMergePolicyTests(unittest.TestCase):
             workflow,
         )
         self.assertIn("Disarm GitHub Auto-merge before evaluating the current head", workflow)
-        self.assertIn("  configure:\n    name: auto-merge-policy\n", workflow)
+        self.assertNotIn("branches: [main]", workflow)
+        self.assertIn("Bind the current base to the repository default branch", workflow)
+        self.assertGreaterEqual(
+            workflow.count("steps.protected_base.outputs.protected == 'true'"), 3
+        )
+        self.assertIn("  configure:\n    if:", workflow)
+        self.assertNotIn("    name: auto-merge-policy\n", workflow)
         self.assertIn("ref: ${{ github.event.pull_request.base.sha }}", workflow)
         self.assertIn("ci/evaluate-auto-merge.py", workflow)
         self.assertIn("--paginate --slurp", workflow)
@@ -224,9 +232,21 @@ class AutoMergePolicyTests(unittest.TestCase):
             "Unable to prove that the leased open PR remained unmerged and Auto-merge was disarmed",
             workflow,
         )
-        self.assertGreaterEqual(workflow.count('.state == "open"'), 3)
-        self.assertGreaterEqual(workflow.count(".merged == false"), 3)
-        self.assertGreaterEqual(workflow.count(".merged_at == null"), 3)
+        self.assertEqual(workflow.count("ci/prove-auto-merge-state.py"), 3)
+        self.assertEqual(workflow.count("--expected-auto-merge disabled"), 2)
+        self.assertEqual(workflow.count("--expected-auto-merge enabled"), 1)
+        self.assertTrue(STATE_PROOF.stat().st_mode & 0o111)
+        self.assertTrue(ACTIVATION_PROOF.stat().st_mode & 0o111)
+        self.assertIn("ci/prove-required-context-active.py", workflow)
+        self.assertIn("steps.activation.outputs.activated == 'true'", workflow)
+        self.assertLess(
+            workflow.index("Disarm GitHub Auto-merge before evaluating the current head"),
+            workflow.index("Bind the current base to the repository default branch"),
+        )
+        self.assertLess(
+            workflow.index("Bind the current base to the repository default branch"),
+            workflow.index("Check out the immutable protected-base policy"),
+        )
         self.assertLess(workflow.index("--disable-auto"), workflow.index("ci/evaluate-auto-merge.py"))
         self.assertLess(workflow.index("ci/evaluate-auto-merge.py"), workflow.index("--auto --squash"))
 
@@ -262,31 +282,57 @@ class AutoMergePolicyTests(unittest.TestCase):
                 "rpm-install-smoke",
                 "patch-policy",
                 "merge-policy",
-                "auto-merge-policy",
+                "configure",
             ],
         )
         configurator = CONFIGURATOR.read_text(encoding="utf-8")
-        self.assertIn('applied_full=$(gh api "repos/$repo/rulesets/$ruleset_id")', configurator)
+        self.assertIn('if ! applied_full=$(gh api "repos/$repo/rulesets/$ruleset_id")', configurator)
         self.assertIn('[[ $applied_policy == "$desired_policy" ]]', configurator)
         self.assertIn(
             "ruleset readback does not exactly match the configured protection policy",
             configurator,
         )
+        self.assertIn("rollback_ruleset()", configurator)
+        self.assertIn("attempting exact policy rollback", configurator)
 
-    def test_merged_pr_cannot_satisfy_rollback_state_proof(self) -> None:
+    def test_mandatory_disarm_has_a_complete_inline_state_proof(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
-        rollback_start = workflow.index("rollback_unverified_auto_merge()")
-        rollback_end = workflow.index("          trap 'rollback_unverified_auto_merge $?' EXIT")
-        rollback = workflow[rollback_start:rollback_end]
+        start = workflow.index("Disarm GitHub Auto-merge before evaluating the current head")
+        end = workflow.index("Check out the immutable protected-base policy")
+        mandatory = workflow[start:end]
         for marker in (
+            'current=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")',
             '.state == "open"',
             ".merged == false",
             ".merged_at == null",
             ".head.sha == $head",
             ".base.sha == $base",
+            ".head.repo.full_name == $repo",
+            ".base.repo.full_name == $repo",
             ".auto_merge == null",
+            "Unable to prove the mandatory Auto-merge disarm state",
         ):
-            self.assertIn(marker, rollback)
+            self.assertIn(marker, mandatory)
+        self.assertNotIn("ci/prove-auto-merge-state.py", mandatory)
+
+    def test_post_checkout_transaction_phases_use_the_common_state_proof(self) -> None:
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+        rollback = workflow.index("rollback-auto-merge-proof.log")
+        pre_arm = workflow.index("--auto --squash")
+        post_arm = workflow.rindex("--expected-auto-merge enabled")
+        proof_positions = []
+        start = 0
+        while True:
+            position = workflow.find("ci/prove-auto-merge-state.py", start)
+            if position == -1:
+                break
+            proof_positions.append(position)
+            start = position + 1
+        self.assertEqual(len(proof_positions), 3)
+        self.assertLess(proof_positions[0], rollback)
+        self.assertLess(proof_positions[1], pre_arm)
+        self.assertLess(pre_arm, proof_positions[2])
+        self.assertLess(proof_positions[2], post_arm)
 
 
 if __name__ == "__main__":
