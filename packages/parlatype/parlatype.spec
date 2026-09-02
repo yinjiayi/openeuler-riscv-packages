@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           parlatype
 Version:        4.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        GNOME audio player for transcription
 License:        GPL-3.0-or-later
 URL:            https://github.com/gkarsay/parlatype
 Source0:        parlatype-4.0.tar.gz
+BuildRequires:  dbus-x11
 BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  glib2-devel
@@ -54,6 +55,9 @@ xvfb-run -a %{__meson} test \
 %doc NEWS
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-6
+- Add dbus-x11 so GTK tests can acquire their session bus under Xvfb.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-5
 - Pass Meson's complete test command explicitly to the Xvfb wrapper.
 
