@@ -15,3 +15,12 @@ check, then stopped at the next effective error because `pkg-config` could not
 resolve mandatory module `xext`. Release 3 adds openEuler's `libXext-devel`,
 whose target repository metadata provides `pkgconfig(xext)`. The source,
 patch set, and `%check` execution remain unchanged.
+
+Exact-head Package CI run `33674836307` for commit
+`0cf30b59dd429a510dfd91a90127120eecb4a4d0` passed the mandatory `x11`,
+`xext`, and `xau` checks, then stopped because `pkg-config` could not resolve
+the next mandatory module, `xscrnsaver`. Release 4 adds openEuler's
+`libXScrnSaver-devel`, whose target repository metadata provides
+`pkgconfig(xscrnsaver)`. The source, patch set, and complete `%make_build
+check` execution remain unchanged; the RISC-V build status remains unknown
+pending fresh exact-head CI evidence.
