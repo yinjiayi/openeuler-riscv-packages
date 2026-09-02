@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           parlatype
 Version:        4.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GNOME audio player for transcription
 License:        GPL-3.0-or-later
 URL:            https://github.com/gkarsay/parlatype
@@ -17,6 +17,7 @@ BuildRequires:  iso-codes-devel
 BuildRequires:  make
 BuildRequires:  meson
 BuildRequires:  ninja-build
+BuildRequires:  xorg-x11-server-Xvfb
 BuildRequires:  yelp-tools
 Requires:       gstreamer1-plugins-good
 Requires:       iso-codes
@@ -37,7 +38,12 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-%meson_test
+mkdir -p .test-runtime
+chmod 0700 .test-runtime
+printf 'pcm.!default { type null }\n' > alsa-null.conf
+export ALSA_CONFIG_PATH="$PWD/alsa-null.conf"
+export XDG_RUNTIME_DIR="$PWD/.test-runtime"
+xvfb-run -a %meson_test
 
 %files -f %{name}.files
 %license COPYING
@@ -45,6 +51,9 @@ test -s %{name}.files
 %doc NEWS
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-4
+- Run the complete Meson suite with a virtual X display and ALSA null device.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-3
 - Select the newest stable release compatible with the fixed target GTK stack.
 - Declare the direct build, test, help, translation, and runtime providers.
