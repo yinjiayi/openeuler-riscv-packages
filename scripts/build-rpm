@@ -284,7 +284,7 @@ def first_error(log: str) -> Optional[str]:
         r"(?im)^.*\btimed?\s+out\b.*$",
         r"(?im)^\s*[0-9]+/[0-9]+.*\bTIMEOUT\b\s+[0-9]+(?:\.[0-9]+)?\s*(?:s|sec(?:ond)?s?)\b.*$",
         r"(?im)^.*(?:\bkilled\b|\bsegmentation fault\b).*$",
-        r"(?im)^.*\*\*\*.*$",
+        r"(?im)^.*\b(?:g?make)(?:\[[0-9]+\])?:\s+\*\*\*\s+.+$",
     )
     candidates: List[Tuple[int, int, str]] = []
     for priority, pattern in enumerate(patterns):

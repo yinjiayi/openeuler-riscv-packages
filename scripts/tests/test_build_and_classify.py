@@ -122,6 +122,24 @@ class BuildAndClassifyTests(unittest.TestCase):
         )
         self.assertEqual(first_error(log), "FAIL: tests/atexit-1")
 
+    def test_first_error_ignores_benign_asterisk_banner(self) -> None:
+        namespace = runpy.run_path(str(SCRIPTS / "build-rpm"))
+        first_error = namespace["first_error"]
+        log = "\n".join(
+            [
+                "*** Configuration summary ***",
+                "FAIL: tests/atexit-1",
+                "make[1]: *** [Makefile:42: check] Error 1",
+            ]
+        )
+        self.assertEqual(first_error(log), "FAIL: tests/atexit-1")
+
+    def test_first_error_keeps_gnu_make_failure(self) -> None:
+        namespace = runpy.run_path(str(SCRIPTS / "build-rpm"))
+        first_error = namespace["first_error"]
+        make_error = "gmake[2]: *** [Makefile:17: all] Error 2"
+        self.assertEqual(first_error("*** Build summary ***\n" + make_error), make_error)
+
     def test_fixture_source_is_canonical_and_offline_reusable(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
@@ -255,10 +273,15 @@ class BuildAndClassifyTests(unittest.TestCase):
                     "status": "failed",
                     "phase": "rpmbuild",
                     "failure_summary": "rpmbuild failed with exit code 1: error: Bad exit status from /var/tmp/rpm-tmp.abc (%check)",
+                    "failure": {
+                        "first_effective_error": "rpmbuild failed with exit code 1: Fail: 0",
+                        "message": "rpmbuild failed with exit code 1: Fail: 0",
+                    },
                 },
             )
             internal_log = root / "rpmbuild-internal.log"
             internal_log.write_text(
+                "[1/2] cc -o test meson-generated.c.o -Werror\n"
                 "lock-test-multiple-monitors time out (After 120 seconds)\n"
                 "59/59 lock-test-multiple-monitors TIMEOUT 120.11s killed by signal 15 SIGTERM\n"
                 "Ok: 58\n"
@@ -292,6 +315,32 @@ class BuildAndClassifyTests(unittest.TestCase):
             self.assertNotIn("failure:spec-packaging", document["labels"])
             self.assertNotIn("failure:qemu-limitation", document["labels"])
             self.assertIn("time out", classification["evidence"][0]["excerpt"])
+
+    def test_earlier_test_failure_beats_later_test_timeout(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            log = root / "parallel-test-failure.log"
+            log.write_text(
+                "FAIL: tests/assertion-first\n"
+                "59/59 lock-test-multiple-monitors TIMEOUT 120.11s killed by signal 15 SIGTERM\n"
+                "error: Bad exit status from /var/tmp/rpm-tmp.abc (%check)\n",
+                encoding="utf-8",
+            )
+            output = root / "classification.json"
+            run_tool(
+                "classify-failure",
+                ["--input", str(log), "--output", str(output), "--now", "2026-09-03T00:00:00Z"],
+                root,
+            )
+            document = json.loads(output.read_text())
+            classification = document["classification"]
+            self.assertEqual(classification["category"], "upstream-build")
+            self.assertEqual(classification["confidence"], "medium")
+            self.assertTrue(classification["repairable_locally"])
+            self.assertTrue(classification["source_patch_allowed"])
+            self.assertEqual(document["recommended_state"], "repair-queued")
+            self.assertIn("FAIL: tests/assertion-first", classification["evidence"][0]["excerpt"])
+            self.assertIn("FAIL:", classification["evidence"][0]["pattern"])
 
     def test_zero_meson_and_ctest_counts_are_not_failures(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
