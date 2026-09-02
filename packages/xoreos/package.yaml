@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 3 raises the bounded QEMU build timeout to 180 minutes after exact-head CI completed dependency preparation and compiled normally to 44% before exhausting the 60-minute package budget without a compiler or test failure.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 3 raises the bounded QEMU build timeout to 180 minutes after exact-head CI completed dependency preparation and compiled normally to 44% before exhausting the 60-minute package budget without a compiler or test failure. Exact-head CI run 33678267402 at 406fe3b17539ccd3e05737e382da9e0e127a5178 completed compilation and installation without a compiler failure, then direct ctest execution reported all 82 registered tests as Not Run because upstream marks their binaries EXCLUDE_FROM_ALL. Release 4 invokes upstream's check target, which explicitly depends on the excluded test targets and then runs ctest; no test is skipped.",
     "status": "active"
   },
   "package_id": "xoreos",
@@ -63,6 +63,6 @@
   "version": {
     "current": "0.0.6",
     "latest_detected": "0.0.6",
-    "release": "3"
+    "release": "4"
   }
 }
