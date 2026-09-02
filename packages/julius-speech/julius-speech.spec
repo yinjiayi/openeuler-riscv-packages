@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           julius-speech
 Version:        4.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A high-performance, two-pass large vocabulary continuous speech recognition decoder software
 License:        BSD-3-Clause
 URL:            https://github.com/julius-speech/julius
@@ -13,7 +13,7 @@ BuildRequires:  make
 A high-performance, two-pass large vocabulary continuous speech recognition decoder software
 
 %prep
-%autosetup -p1
+%autosetup -n julius-%{version} -p1
 
 %build
 %configure
@@ -32,5 +32,8 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.6-2
+- Match the SPEC source root to the verified archive's julius-4.6 top-level directory.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.6-1
 - Initial openEuler RISC-V package from the full package inventory.
