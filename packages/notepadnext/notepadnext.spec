@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           notepadnext
 Version:        0.14
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform reimplementation of Notepad++
 License:        GPL-3.0-or-later
 URL:            https://github.com/dail8859/NotepadNext
@@ -40,6 +40,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.14-5
+- Raise the bounded QEMU build timeout to 180 minutes after exact-head CI
+  compiled normally to 58% before the 60-minute package budget expired.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.14-4
 - Add the Qt 6 private base headers referenced by the GuiPrivate CMake target.
 

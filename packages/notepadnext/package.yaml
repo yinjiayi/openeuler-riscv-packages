@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 180
   },
   "discovery": {
     "lineage": [
@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Exact-head Package CI run 33671498162 completed dependency preparation in 405 seconds, then compiled normally under QEMU for the remaining 2,895 seconds and reached 58% without a concrete compiler or test failure before the 60-minute package budget expired. Release 5 raises only the bounded package timeout to 180 minutes; the source, build, and complete CTest suite remain unchanged.",
     "status": "active"
   },
   "package_id": "notepadnext",
@@ -63,6 +63,6 @@
   "version": {
     "current": "0.14",
     "latest_detected": "0.14",
-    "release": "4"
+    "release": "5"
   }
 }
