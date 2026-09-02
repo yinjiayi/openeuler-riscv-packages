@@ -27,7 +27,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-libsent-restrict-cpuid-header-to-x86.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Keep GCC's x86-only cpuid.h out of RISC-V builds while preserving Julius's existing scalar DNN implementation.",
+        "remove_when": "Upstream restricts cpuid.h to x86 targets in a stable release.",
+        "sha256": "c8b5f872ab64584f4ff17917abc7eea215be09f0df450882fa14edff3a2fccf9",
+        "source": "openEuler RISC-V package CI failure analysis for exact head 6b82e5cf4850d4eeea02929adcffa41bb5ba87fa",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "julius-speech.spec"
@@ -36,7 +46,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the SPEC source root to the archive's exact julius-4.6 top-level directory; the source, build features, and complete upstream check command remain unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head CI evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the SPEC source root to the archive's exact julius-4.6 top-level directory. Exact-head CI run 33673195508 for release 2 reached compilation and failed because upstream includes GCC's x86-only cpuid.h on RISC-V even though no x86 SIMD implementation is enabled. Release 3 restricts that header to x86 targets, preserving the scalar DNN implementation, build features, and complete upstream check command. The RISC-V build status remains unknown pending fresh exact-head CI evidence for this repair.",
     "status": "active"
   },
   "package_id": "julius-speech",
@@ -71,6 +81,6 @@
   "version": {
     "current": "4.6",
     "latest_detected": "4.6",
-    "release": "2"
+    "release": "3"
   }
 }
