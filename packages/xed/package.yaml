@@ -44,7 +44,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Package CI run 33671388772 reached Meson and proved that the build requires the libxml2 pkg-config metadata, supplied by openEuler's libxml2-devel package.",
     "status": "active"
   },
   "package_id": "xed",
@@ -79,6 +79,6 @@
   "version": {
     "current": "3.8.9",
     "latest_detected": "3.8.9",
-    "release": "1"
+    "release": "2"
   }
 }
