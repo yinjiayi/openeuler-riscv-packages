@@ -27,6 +27,7 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
   source checksum verification.
 - A **build-user policy** is the per-package `build.user` choice controlling the identity that executes `rpmbuild` and `%check`. Its compatible default is `root`; `unprivileged` opts into the fixed `rpmbuild` identity with UID/GID `10001:10001`. It does not change the root-only dependency-install stage or grant privileges to installed smoke tests.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
+- The **Auto-merge policy check** is the stable `auto-merge-policy` job context. It remains pending while the workflow disarms, evaluates, arms, and verifies one leased package PR, so GitHub cannot merge that PR before the arming transaction itself succeeds.
 - A **protected-main package overlay** is the trusted-dispatch workspace formed
   by checking out CI tooling from the protected `main` workflow commit and
   replacing exactly one `packages/<id>` tree with that tree from the authorized
@@ -180,7 +181,7 @@ Audited BuildRequires are installed as root in a per-run, unpublished derived im
 
 ## Auto-merge policy
 
-Repository rules require the latest head SHA to pass `metadata-validate`, `source-verify`, `rpmbuild-riscv64`, `rpm-install-smoke`, `patch-policy`, and `merge-policy`. Required approvals are zero. Blocking labels, source/license/checksum failures, `needs-human`, and `needs-native-riscv` prevent merge even if unrelated checks passed.
+Repository rules require the latest head SHA to pass `metadata-validate`, `source-verify`, `rpmbuild-riscv64`, `rpm-install-smoke`, `patch-policy`, `merge-policy`, and the stable `auto-merge-policy` arming barrier. Required approvals are zero. Blocking labels, source/license/checksum failures, `needs-human`, and `needs-native-riscv` prevent merge even if unrelated checks passed. The arming workflow accepts success only while API readback proves the pull request is still open, unmerged, and bound to the event's exact head and base; rollback applies the same state proof and never treats an already merged pull request as successfully disarmed.
 
 Automatic merge is armed only for a current, same-repository PR whose complete API file list is confined to exactly one `packages/<package-id>/` directory. The policy first disarms any existing Auto-merge request, evaluates the leased head with the immutable protected-base policy, and only then re-arms an eligible single-package PR. Infrastructure, workflow, CI, script, schema, catalog, Dashboard, documentation, mixed-package, incomplete-file-list, and renamed-from-shared-path changes remain unarmed even when their package check contexts succeed or are skipped.
 

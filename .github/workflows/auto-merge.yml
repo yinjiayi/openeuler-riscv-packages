@@ -15,6 +15,7 @@ permissions:
 
 jobs:
   configure:
+    name: auto-merge-policy
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
       (github.event.pull_request.author_association == 'OWNER' ||
@@ -37,6 +38,17 @@ jobs:
           gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --disable-auto \
             >"$RUNNER_TEMP/disable-auto.log" 2>&1 || disable_result=$?
           current=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
+          jq -e \
+            --arg repo "$GITHUB_REPOSITORY" \
+            --arg head "$EVENT_HEAD_SHA" \
+            --arg base "$EVENT_BASE_SHA" \
+            '.state == "open" and
+             .merged == false and
+             .merged_at == null and
+             .head.sha == $head and
+             .base.sha == $base and
+             .head.repo.full_name == $repo and
+             .base.repo.full_name == $repo' <<<"$current" >/dev/null
           test "$(jq -r .head.sha <<<"$current")" = "$EVENT_HEAD_SHA"
           test "$(jq -r .base.sha <<<"$current")" = "$EVENT_BASE_SHA"
           test "$(jq -r .head.repo.full_name <<<"$current")" = "$GITHUB_REPOSITORY"
@@ -118,11 +130,21 @@ jobs:
                 2>"$RUNNER_TEMP/rollback-auto-merge-api.log")
               read_result=$?
               set -e
-              if (( read_result != 0 )) ||
-                 [[ $(jq -r '.auto_merge == null' <<<"$rollback_current") != true ]]; then
+              if (( read_result != 0 )) || ! jq -e \
+                   --arg repo "$GITHUB_REPOSITORY" \
+                   --arg head "$EVENT_HEAD_SHA" \
+                   --arg base "$EVENT_BASE_SHA" \
+                   '.state == "open" and
+                    .merged == false and
+                    .merged_at == null and
+                    .head.sha == $head and
+                    .base.sha == $base and
+                    .head.repo.full_name == $repo and
+                    .base.repo.full_name == $repo and
+                    .auto_merge == null' <<<"$rollback_current" >/dev/null; then
                 cat "$RUNNER_TEMP/rollback-auto-merge.log" >&2
                 cat "$RUNNER_TEMP/rollback-auto-merge-api.log" >&2
-                printf 'Unable to prove that unverified Auto-merge was disarmed (%d).\n' \
+                printf 'Unable to prove that the leased open PR remained unmerged and Auto-merge was disarmed (%d).\n' \
                   "$disable_result" >&2
                 exit 1
               fi
@@ -131,13 +153,31 @@ jobs:
           }
           trap 'rollback_unverified_auto_merge $?' EXIT
           current=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
-          test "$(jq -r .head.sha <<<"$current")" = "$EVENT_HEAD_SHA"
-          test "$(jq -r .base.sha <<<"$current")" = "$EVENT_BASE_SHA"
-          test "$(jq -r '.auto_merge == null' <<<"$current")" = true
+          jq -e \
+            --arg repo "$GITHUB_REPOSITORY" \
+            --arg head "$EVENT_HEAD_SHA" \
+            --arg base "$EVENT_BASE_SHA" \
+            '.state == "open" and
+             .merged == false and
+             .merged_at == null and
+             .head.sha == $head and
+             .base.sha == $base and
+             .head.repo.full_name == $repo and
+             .base.repo.full_name == $repo and
+             .auto_merge == null' <<<"$current" >/dev/null
           gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" \
             --auto --squash --delete-branch
           after=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
-          test "$(jq -r .head.sha <<<"$after")" = "$EVENT_HEAD_SHA"
-          test "$(jq -r .base.sha <<<"$after")" = "$EVENT_BASE_SHA"
-          test "$(jq -r '.auto_merge != null' <<<"$after")" = true
+          jq -e \
+            --arg repo "$GITHUB_REPOSITORY" \
+            --arg head "$EVENT_HEAD_SHA" \
+            --arg base "$EVENT_BASE_SHA" \
+            '.state == "open" and
+             .merged == false and
+             .merged_at == null and
+             .head.sha == $head and
+             .base.sha == $base and
+             .head.repo.full_name == $repo and
+             .base.repo.full_name == $repo and
+             .auto_merge != null' <<<"$after" >/dev/null
           armed_verified=true

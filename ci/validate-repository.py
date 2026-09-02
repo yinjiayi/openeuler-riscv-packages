@@ -236,6 +236,8 @@ def main() -> int:
 
     package_ci = (workflows / "package-ci.yml").read_text(encoding="utf-8") if (workflows / "package-ci.yml").exists() else ""
     auto_merge = (workflows / "auto-merge.yml").read_text(encoding="utf-8") if (workflows / "auto-merge.yml").exists() else ""
+    ruleset_path = root / ".github" / "rulesets" / "main.json"
+    ruleset = json.loads(ruleset_path.read_text(encoding="utf-8")) if ruleset_path.exists() else {}
     auto_merge_policy_path = root / "ci" / "evaluate-auto-merge.py"
     auto_merge_events = (
         "types: [opened, reopened, synchronize, ready_for_review, "
@@ -243,6 +245,17 @@ def main() -> int:
     )
     if auto_merge_events not in auto_merge:
         errors.append("auto-merge workflow does not re-evaluate converted_to_draft and edited events")
+    if not re.search(r"(?m)^  configure:\s*\n    name: auto-merge-policy\s*$", auto_merge):
+        errors.append("auto-merge workflow does not expose the stable auto-merge-policy job context")
+    required_contexts: list[str] = []
+    for rule in ruleset.get("rules", []):
+        if rule.get("type") == "required_status_checks":
+            required_contexts.extend(
+                check.get("context", "")
+                for check in rule.get("parameters", {}).get("required_status_checks", [])
+            )
+    if required_contexts.count("auto-merge-policy") != 1:
+        errors.append("main ruleset must require exactly one stable auto-merge-policy context")
     if not auto_merge_policy_path.is_file() or not auto_merge_policy_path.stat().st_mode & 0o111:
         errors.append("fail-closed auto-merge scope policy is missing or not executable")
     else:
@@ -265,9 +278,12 @@ def main() -> int:
         "gh api --paginate --slurp",
         "ci/evaluate-auto-merge.py",
         "if: steps.policy.outputs.eligible == 'true'",
-        'test "$(jq -r \'.auto_merge == null\' <<<"$current")" = true',
+        ".auto_merge == null",
         "trap 'rollback_unverified_auto_merge $?' EXIT",
-        "Unable to prove that unverified Auto-merge was disarmed",
+        ".state == \"open\"",
+        ".merged == false",
+        ".merged_at == null",
+        "Unable to prove that the leased open PR remained unmerged and Auto-merge was disarmed",
     ):
         if marker not in auto_merge:
             errors.append(f"auto-merge workflow is missing fail-closed scope gate: {marker}")
@@ -615,6 +631,13 @@ def main() -> int:
         errors.append("GitHub provisioning does not enforce the external fork workflow approval policy")
     if github_configurator.count("first_time_contributors_new_to_github") < 1:
         errors.append("GitHub provisioning does not enforce the least restrictive public-repository fork policy")
+    for marker in (
+        'applied_full=$(gh api "repos/$repo/rulesets/$ruleset_id")',
+        '[[ $applied_policy == "$desired_policy" ]]',
+        "ruleset readback does not exactly match the configured protection policy",
+    ):
+        if marker not in github_configurator:
+            errors.append(f"GitHub provisioning does not prove exact ruleset readback: {marker}")
     if settings.get("allowed_actions_secrets") != ["RPM_REPO_SSH_PRIVATE_KEY"]:
         errors.append("repository settings must allow only the restricted RPM repository deployment key")
     forbidden_secrets = settings.get("forbidden_actions_secrets", [])

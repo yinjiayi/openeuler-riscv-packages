@@ -108,11 +108,65 @@ ruleset_id=$(gh api "repos/$repo/rulesets" --paginate \
 if [[ -n $ruleset_id ]]; then
   gh api --method PUT "repos/$repo/rulesets/$ruleset_id" --input "$ruleset" >/dev/null
 else
-  gh api --method POST "repos/$repo/rulesets" --input "$ruleset" >/dev/null
+  created=$(gh api --method POST "repos/$repo/rulesets" --input "$ruleset")
+  ruleset_id=$(jq -r .id <<<"$created")
+  [[ $ruleset_id =~ ^[0-9]+$ ]] || {
+    printf 'created ruleset did not return a numeric id\n' >&2
+    exit 1
+  }
 fi
 
-applied=$(gh api "repos/$repo/rulesets" --paginate \
-  --jq ".[] | select(.name == \"$ruleset_name\") | {id,name,enforcement}")
+ruleset_projection='
+  {
+    name: .name,
+    target: .target,
+    enforcement: .enforcement,
+    bypass_actors: (.bypass_actors // []),
+    conditions: {
+      ref_name: {
+        include: (.conditions.ref_name.include // []),
+        exclude: (.conditions.ref_name.exclude // [])
+      }
+    },
+    rules: [
+      .rules[] |
+      if .type == "pull_request" then
+        {
+          type: .type,
+          parameters: {
+            allowed_merge_methods: .parameters.allowed_merge_methods,
+            dismiss_stale_reviews_on_push: .parameters.dismiss_stale_reviews_on_push,
+            require_code_owner_review: .parameters.require_code_owner_review,
+            require_last_push_approval: .parameters.require_last_push_approval,
+            required_approving_review_count: .parameters.required_approving_review_count,
+            required_review_thread_resolution: .parameters.required_review_thread_resolution
+          }
+        }
+      elif .type == "required_status_checks" then
+        {
+          type: .type,
+          parameters: {
+            strict_required_status_checks_policy: .parameters.strict_required_status_checks_policy,
+            do_not_enforce_on_create: .parameters.do_not_enforce_on_create,
+            required_status_checks: [.parameters.required_status_checks[] | {context: .context}]
+          }
+        }
+      else
+        {type: .type}
+      end
+    ]
+  }
+'
+applied_full=$(gh api "repos/$repo/rulesets/$ruleset_id")
+desired_policy=$(jq -cS "$ruleset_projection" "$ruleset")
+applied_policy=$(jq -cS "$ruleset_projection" <<<"$applied_full")
+[[ $applied_policy == "$desired_policy" ]] || {
+  printf 'ruleset readback does not exactly match the configured protection policy\n' >&2
+  diff -u <(jq -S "$ruleset_projection" "$ruleset") \
+    <(jq -S "$ruleset_projection" <<<"$applied_full") >&2 || true
+  exit 1
+}
+applied=$(jq '{id,name,enforcement}' <<<"$applied_full")
 applied_fork_policy=$(gh api "repos/$repo/actions/permissions/fork-pr-contributor-approval" \
   --jq .approval_policy)
 [[ $applied_fork_policy == "$fork_approval_policy" ]] || {
