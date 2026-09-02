@@ -7,7 +7,9 @@ import inspect
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
+from unittest import mock
 
 
 REPO = Path(__file__).resolve().parents[2]
@@ -31,7 +33,73 @@ def entry(name: str) -> str:
     return f"{name}\t0:1.0-1\triscv64"
 
 
+def network_document(
+    network_id: str,
+    name: str,
+    session: str,
+    *,
+    internal: bool,
+    containers: set[str],
+) -> dict[str, object]:
+    return {
+        "Id": network_id,
+        "Name": name,
+        "Driver": "bridge",
+        "Scope": "local",
+        "Internal": internal,
+        "Attachable": False,
+        "Ingress": False,
+        "Labels": {
+            MODULE.RUNNER_MANAGED_NETWORK_LABEL: MODULE.RUNNER_MANAGED_VALUE,
+            MODULE.RUNNER_SESSION_LABEL: session,
+        },
+        "Containers": {container: {} for container in containers},
+    }
+
+
+def container_document(
+    container_id: str,
+    name: str,
+    session: str,
+    networks: dict[str, str],
+) -> dict[str, object]:
+    return {
+        "Id": container_id,
+        "Name": f"/{name}",
+        "Config": {
+            "Image": "image@sha256:" + "f" * 64,
+            "Labels": {
+                MODULE.RUNNER_MANAGED_LABEL: MODULE.RUNNER_MANAGED_VALUE,
+                MODULE.RUNNER_SESSION_LABEL: session,
+            }
+        },
+        "HostConfig": {"NetworkMode": next(iter(networks.values()), "none")},
+        "State": {"Running": False},
+        "NetworkSettings": {
+            "Networks": {
+                network_name: {"NetworkID": network_id}
+                for network_name, network_id in networks.items()
+            }
+        },
+    }
+
+
 class RpmBaselineEvidenceTests(unittest.TestCase):
+    def test_image_baseline_probe_is_networkless_read_only_and_never_pulls(self) -> None:
+        with mock.patch.object(
+            MODULE,
+            "run",
+            return_value="rpm\t0:4.18-1\triscv64\nbash\t0:5.2-1\triscv64\n",
+        ) as mocked:
+            manifest = MODULE.rpm_manifest_from_image("image@sha256:" + "a" * 64)
+        self.assertEqual(manifest[0].split("\t", 1)[0], "bash")
+        argv = mocked.call_args.args[0]
+        self.assertIn("--pull", argv)
+        self.assertEqual(argv[argv.index("--pull") + 1], "never")
+        self.assertEqual(argv[argv.index("--network") + 1], "none")
+        self.assertIn("--read-only", argv)
+        self.assertTrue(mocked.call_args.kwargs["capture"])
+
     def test_complete_live_baseline_is_checksum_bound(self) -> None:
         manifest = [entry(name) for name in sorted(MODULE.BASELINE_ANCHORS)]
         evidence = MODULE.rpm_baseline_evidence("demo", "image@sha256:" + "a" * 64, manifest)
@@ -49,7 +117,10 @@ class RpmBaselineEvidenceTests(unittest.TestCase):
         self.assertEqual(evidence["reason"], "base-image-rpm-baseline-invalid")
         self.assertEqual(evidence["missing_anchors"], sorted(MODULE.BASELINE_ANCHORS))
         self.assertFalse(evidence["network_install_started"])
-        self.assertEqual(evidence["network_phase"], "disconnected-before-install")
+        self.assertEqual(
+            evidence["network_phase"], "network-absent-before-install"
+        )
+        self.assertFalse(evidence["network_install_completed"])
 
     def test_missing_anchor_and_malformed_entry_fail_closed(self) -> None:
         manifest = [entry(name) for name in sorted(MODULE.BASELINE_ANCHORS - {"rpm-build"})]
@@ -59,23 +130,33 @@ class RpmBaselineEvidenceTests(unittest.TestCase):
         self.assertEqual(evidence["missing_anchors"], ["rpm-build"])
         self.assertEqual(evidence["malformed_entry_count"], 1)
 
-    def test_network_is_absent_until_after_baseline_validation(self) -> None:
+    def test_egress_container_is_created_only_after_networkless_baseline(self) -> None:
         source = PREPARE.read_text(encoding="utf-8")
-        create = source.index('"docker", "create"')
-        network_none = source.index('"--network", "none"', create)
-        baseline = source.index("baseline = rpm_baseline_evidence", network_none)
+        probe = source.index("before = rpm_manifest_from_image")
+        baseline = source.index("baseline = rpm_baseline_evidence", probe)
         rejection = source.index('if baseline["status"] != "passed"', baseline)
-        connect = source.index('["docker", "network", "connect", "bridge", container]', rejection)
-        connected = source.index('baseline["network_install_started"] = True', connect)
+        egress_create = source.index('egress_network_id = run([', rejection)
+        create = source.index('"docker", "create"', egress_create)
+        connected = source.index('baseline["network_install_started"] = True', create)
         persisted = source.index("write_json_atomic(baseline_path, baseline)", connected)
         install = source.index("install_attempts = run_with_retries", persisted)
-        self.assertLess(create, network_none)
-        self.assertLess(network_none, baseline)
+        disconnect = source.index(
+            '["docker", "network", "disconnect", egress_network_id, container_id]',
+            install,
+        )
+        self.assertIn(
+            '"--platform", "linux/riscv64", "--network", "none", "--read-only"',
+            inspect.getsource(MODULE.rpm_manifest_from_image),
+        )
+        self.assertNotIn('"docker", "network", "connect"', source)
+        self.assertLess(probe, baseline)
         self.assertLess(baseline, rejection)
-        self.assertLess(rejection, connect)
-        self.assertLess(connect, connected)
+        self.assertLess(rejection, egress_create)
+        self.assertLess(egress_create, create)
+        self.assertLess(create, connected)
         self.assertLess(connected, persisted)
         self.assertLess(persisted, install)
+        self.assertLess(install, disconnect)
 
     def test_connected_state_is_atomically_persisted_before_install(self) -> None:
         manifest = [entry(name) for name in sorted(MODULE.BASELINE_ANCHORS)]
@@ -85,24 +166,215 @@ class RpmBaselineEvidenceTests(unittest.TestCase):
             MODULE.write_json_atomic(path, evidence)
             initial = json.loads(path.read_text(encoding="utf-8"))
             self.assertFalse(initial["network_install_started"])
-            self.assertEqual(initial["network_phase"], "disconnected-before-install")
+            self.assertEqual(
+                initial["network_phase"], "network-absent-before-install"
+            )
 
             evidence["network_install_started"] = True
-            evidence["network_phase"] = "connected-before-install"
+            evidence["network_phase"] = "exclusive-egress-verified-before-install"
             MODULE.write_json_atomic(path, evidence)
             connected = json.loads(path.read_text(encoding="utf-8"))
             self.assertTrue(connected["network_install_started"])
-            self.assertEqual(connected["network_phase"], "connected-before-install")
+            self.assertEqual(
+                connected["network_phase"], "exclusive-egress-verified-before-install"
+            )
             self.assertEqual(list(path.parent.glob(f".{path.name}.*.tmp")), [])
 
-    def test_connect_failure_cannot_claim_network_started(self) -> None:
+    def test_egress_creation_failure_cannot_claim_network_started(self) -> None:
         source = PREPARE.read_text(encoding="utf-8")
-        connect = source.index('["docker", "network", "connect", "bridge", container]')
-        connected = source.index('baseline["network_install_started"] = True', connect)
+        create = source.index("egress_network_id = run([")
+        connected = source.index('baseline["network_install_started"] = True', create)
         persisted = source.index("write_json_atomic(baseline_path, baseline)", connected)
-        self.assertLess(connect, connected)
+        self.assertLess(create, connected)
         self.assertLess(connected, persisted)
         self.assertIn("check=True", inspect.getsource(MODULE.run))
+
+    def test_managed_network_requires_exact_internal_identity_and_exclusivity(self) -> None:
+        network_id = "a" * 64
+        container_id = "b" * 64
+        session = "c" * 32
+        document = network_document(
+            network_id,
+            "isolated",
+            session,
+            internal=True,
+            containers={container_id},
+        )
+        evidence = MODULE.validate_managed_network(
+            document,
+            expected_id=network_id,
+            expected_name="isolated",
+            expected_internal=True,
+            expected_session=session,
+            expected_containers={container_id},
+        )
+        self.assertTrue(evidence["internal"])
+        self.assertEqual(evidence["exclusive_container_count"], 1)
+
+        for key, value in (("Internal", False), ("Driver", "host"), ("Scope", "swarm")):
+            invalid = dict(document)
+            invalid[key] = value
+            with self.subTest(key=key), self.assertRaises(SystemExit):
+                MODULE.validate_managed_network(
+                    invalid,
+                    expected_id=network_id,
+                    expected_name="isolated",
+                    expected_internal=True,
+                    expected_session=session,
+                    expected_containers={container_id},
+                )
+
+    def test_container_networks_must_match_both_names_and_full_ids(self) -> None:
+        container_id = "a" * 64
+        isolated_id = "b" * 64
+        egress_id = "c" * 64
+        session = "d" * 32
+        document = container_document(
+            container_id,
+            "builddeps",
+            session,
+            {"isolated": isolated_id, "egress": egress_id},
+        )
+        self.assertEqual(
+            MODULE.validate_container_networks(
+                document,
+                expected_id=container_id,
+                expected_name="builddeps",
+                expected_session=session,
+                expected_networks={"isolated": isolated_id, "egress": egress_id},
+            ),
+            container_id,
+        )
+        with self.assertRaisesRegex(SystemExit, "unexpected network endpoints"):
+            MODULE.validate_container_networks(
+                document,
+                expected_id=container_id,
+                expected_name="builddeps",
+                expected_session=session,
+                expected_networks={"egress": egress_id},
+            )
+
+    def test_empty_dependency_container_requires_none_network_mode(self) -> None:
+        container_id = "a" * 64
+        session = "b" * 32
+        document = container_document(container_id, "builddeps", session, {})
+        self.assertEqual(
+            MODULE.validate_container_networks(
+                document,
+                expected_id=container_id,
+                expected_name="builddeps",
+                expected_session=session,
+                expected_networks=None,
+            ),
+            container_id,
+        )
+        document["HostConfig"]["NetworkMode"] = "bridge"
+        with self.assertRaisesRegex(SystemExit, "external endpoint"):
+            MODULE.validate_container_networks(
+                document,
+                expected_id=container_id,
+                expected_name="builddeps",
+                expected_session=session,
+                expected_networks=None,
+            )
+
+    def test_cleanup_attempts_exact_resources_and_reports_failures(self) -> None:
+        first = "a" * 64
+        second = "b" * 64
+        outcomes = [0, 0, 1, 0]
+        with mock.patch.object(
+            MODULE.subprocess,
+            "run",
+            side_effect=[SimpleNamespace(returncode=code) for code in outcomes],
+        ) as mocked:
+            failures = MODULE.cleanup_docker_resources(
+                "c" * 64,
+                container_created=True,
+                started=True,
+                network_ids=[first, second],
+            )
+        self.assertEqual(failures, [f"network-remove:{first}"])
+        commands = [call.args[0] for call in mocked.call_args_list]
+        self.assertEqual(commands[0][:3], ["docker", "stop", "--time"])
+        self.assertEqual(commands[0][-1], "c" * 64)
+        self.assertEqual(commands[1], ["docker", "rm", "--force", "c" * 64])
+        self.assertEqual(commands[2], ["docker", "network", "rm", first])
+        self.assertEqual(commands[3], ["docker", "network", "rm", second])
+
+    def test_malformed_create_output_recovers_exact_labelled_object_ids(self) -> None:
+        network_id = "a" * 64
+        container_id = "b" * 64
+        session = "c" * 32
+        network = network_document(
+            network_id,
+            "egress",
+            session,
+            internal=False,
+            containers=set(),
+        )
+        container = container_document(
+            container_id,
+            "builddeps",
+            session,
+            {"egress": network_id},
+        )
+        with mock.patch.object(MODULE, "inspect_network", return_value=network):
+            self.assertEqual(
+                MODULE.recover_created_network_id(
+                    "warning mixed into stdout",
+                    expected_name="egress",
+                    expected_internal=False,
+                    expected_session=session,
+                ),
+                network_id,
+            )
+        with mock.patch.object(MODULE, "inspect_container", return_value=container):
+            self.assertEqual(
+                MODULE.recover_created_container_id(
+                    "truncated",
+                    expected_name="builddeps",
+                    expected_image="image@sha256:" + "f" * 64,
+                    expected_network_mode=network_id,
+                    expected_network_name="egress",
+                    expected_session=session,
+                ),
+                container_id,
+            )
+
+    def test_create_recovery_refuses_identity_mismatch(self) -> None:
+        network_id = "a" * 64
+        session = "b" * 32
+        network = network_document(
+            network_id,
+            "egress",
+            "wrong-session",
+            internal=False,
+            containers=set(),
+        )
+        with mock.patch.object(MODULE, "inspect_network", return_value=network):
+            with self.assertRaisesRegex(SystemExit, "identity or isolation"):
+                MODULE.recover_created_network_id(
+                    "malformed",
+                    expected_name="egress",
+                    expected_internal=False,
+                    expected_session=session,
+                )
+
+    def test_cleanup_continues_after_command_exception(self) -> None:
+        network_id = "a" * 64
+        with mock.patch.object(
+            MODULE.subprocess,
+            "run",
+            side_effect=[OSError("docker unavailable"), SimpleNamespace(returncode=0)],
+        ) as mocked:
+            failures = MODULE.cleanup_docker_resources(
+                "b" * 64,
+                container_created=False,
+                started=True,
+                network_ids=[network_id],
+            )
+        self.assertEqual(failures, ["container-stop"])
+        self.assertEqual(len(mocked.call_args_list), 2)
 
 
 class RpmBaselineImageContractTests(unittest.TestCase):

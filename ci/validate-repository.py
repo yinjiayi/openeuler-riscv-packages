@@ -692,32 +692,49 @@ def main() -> int:
             errors.append(f"BuildRequires preparation is missing bounded download resilience: {marker}")
     for marker in (
         "BASELINE_ANCHORS",
-        '"--network", "none"',
+        "rpm_manifest_from_image",
+        '"--platform", "linux/riscv64", "--network", "none", "--read-only"',
+        "RUNNER_MANAGED_NETWORK_LABEL",
+        "RUNNER_SESSION_LABEL",
+        "validate_managed_network",
+        "validate_container_networks",
+        "recover_created_network_id",
+        "recover_created_container_id",
         "baseline = rpm_baseline_evidence",
         'if baseline["status"] != "passed"',
-        '["docker", "network", "connect", "bridge", container]',
+        '"--network", dependency_network',
+        '["docker", "network", "disconnect", egress_network_id, container_id]',
         '"classification": "none" if valid else "failure:infrastructure"',
         '"network_install_started": False',
         'baseline["network_install_started"] = True',
+        'baseline["network_install_completed"] = True',
+        "cleanup_docker_resources",
         'write_json_atomic(baseline_path, baseline)',
     ):
         if marker not in builddeps:
             errors.append(f"BuildRequires preparation is missing the live RPM fail-closed gate: {marker}")
+    if '"docker", "network", "connect"' in builddeps:
+        errors.append("BuildRequires preparation must not transition a running container's network")
     baseline_order_markers = (
-        '"--network", "none"',
+        "before = rpm_manifest_from_image",
         "baseline = rpm_baseline_evidence",
         'if baseline["status"] != "passed"',
-        '["docker", "network", "connect", "bridge", container]',
+        "egress_network_id = run([",
+        '"docker", "create"',
         'baseline["network_install_started"] = True',
         "write_json_atomic(baseline_path, baseline)",
         "install_attempts = run_with_retries",
+        '["docker", "network", "disconnect", egress_network_id, container_id]',
+        'baseline["network_install_completed"] = True',
     )
-    if all(marker in builddeps for marker in baseline_order_markers):
-        positions = [builddeps.index(marker) for marker in baseline_order_markers[:-2]]
-        positions.append(builddeps.index(baseline_order_markers[-2], positions[-1]))
-        positions.append(builddeps.index(baseline_order_markers[-1]))
-        if positions != sorted(positions):
-            errors.append("BuildRequires networking begins before the live RPM baseline passes")
+    cursor = 0
+    try:
+        for marker in baseline_order_markers:
+            cursor = builddeps.index(marker, cursor) + len(marker)
+    except ValueError:
+        errors.append(
+            "BuildRequires network lifecycle is not ordered after the live RPM baseline"
+        )
 
     install_smoke = (root / "ci" / "install-smoke.sh").read_text(encoding="utf-8")
     if "--enablerepo=openeuler-riscv-project" not in install_smoke:

@@ -17,6 +17,14 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
   each source remains bound to its committed SHA-256 and is verified before
   `rpmbuild` starts. Network availability does not make unpinned source bytes
   acceptable.
+- A **per-run dependency network** is a uniquely named, session-labelled Docker
+  bridge used by exactly one BuildRequires container. CI first checks the live
+  RPM baseline in a separate one-shot container whose network mode stays
+  `none`; only a passed baseline and non-empty dependency plan permit creation
+  of the externally routed bridge for the audited DNF transaction. Its endpoint
+  is inspected from the network and container sides, then detached and removed
+  by full object ID. It is not a shared runner network and does not weaken
+  source checksum verification.
 - A **build-user policy** is the per-package `build.user` choice controlling the identity that executes `rpmbuild` and `%check`. Its compatible default is `root`; `unprivileged` opts into the fixed `rpmbuild` identity with UID/GID `10001:10001`. It does not change the root-only dependency-install stage or grant privileges to installed smoke tests.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
 - A **protected-main package overlay** is the trusted-dispatch workspace formed
@@ -168,7 +176,7 @@ https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/risc
 
 Package CI reads an immutable digest from `ci/image.lock`; a mutable tag is never accepted as build evidence. Image publication records the `repomd.xml` digest, installed RPM manifest, OCI digest, QEMU version, and RVA23 probe result. The installed RPM manifest is a sorted, checksum-bound record of each package's identity, architecture, and RPM-defined SHA-1/SHA-256 immutable-header digests. Every row and digest is format-validated before use. These digests bind original package metadata across database implementations; they do not replace the gpgchecked DNF transaction or claim a second payload verification.
 
-Audited BuildRequires are installed as root in a per-run, unpublished derived image. Package metadata then selects the `rpmbuild` identity: existing and root-capability suites default to `root`, while packages whose upstream checks require ordinary filesystem permission semantics may explicitly select `unprivileged`. The latter path performs a symlink-refusing ownership handoff for the fresh generated work tree, verifies the exact UID/GID before execution, and preserves regular JSON/log/RPM evidence for the host-side artifact stager. A root-dependent suite must use the compatible root policy or an evidence-backed native route; CI never silently skips it.
+Audited BuildRequires are installed as root in a per-run, unpublished derived image. A separate networkless container first proves the immutable base image's live RPM baseline. A valid baseline and non-empty dependency plan permit creation of the per-run egress bridge; the long-lived dependency container is created directly on that bridge, and DNF starts only after exact exclusive attachment is verified. The bridge is detached and removed before the image is committed. An empty dependency plan creates the long-lived container with network mode `none` and never creates an egress network. Package metadata then selects the `rpmbuild` identity: existing and root-capability suites default to `root`, while packages whose upstream checks require ordinary filesystem permission semantics may explicitly select `unprivileged`. The latter path performs a symlink-refusing ownership handoff for the fresh generated work tree, verifies the exact UID/GID before execution, and preserves regular JSON/log/RPM evidence for the host-side artifact stager. A root-dependent suite must use the compatible root policy or an evidence-backed native route; CI never silently skips it.
 
 ## Auto-merge policy
 
