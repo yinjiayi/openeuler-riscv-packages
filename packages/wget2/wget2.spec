@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           wget2
 Version:        2.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Modern non-interactive network downloader
 License:        GPL-3.0-or-later AND LGPL-3.0-or-later AND GFDL-1.3-or-later
 URL:            https://gitlab.com/gnuwget/wget2
@@ -80,7 +80,10 @@ install -m 0644 docs/man/man3/libwget-*.3 \
 %find_lang %{name}
 
 %check
-timeout 60m make -j1 check
+timeout 60m make -j1 check || {
+  cat tests/test-suite.log
+  exit 1
+}
 
 %files -f %{name}.lang
 %license COPYING
@@ -100,5 +103,8 @@ timeout 60m make -j1 check
 %{_mandir}/man3/libwget-*.3*
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.1-2
+- Preserve the complete test suite and emit its diagnostic log on failure.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.1-1
 - Initial openEuler RISC-V package with the complete upstream check suite.
