@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simple-mtpfs
 Version:        0.4.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A FUSE filesystem that supports reading/writing from MTP devices
 License:        GPL-2.0-or-later
 URL:            https://github.com/phatina/simple-mtpfs
@@ -45,6 +45,11 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.0-3
+- Raise the package timeout to 180 minutes after exact-head CI exhausted the
+  former 60-minute budget while downloading the complete build dependencies.
+- Preserve the full Autotools build, test suite, and FUSE functionality.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.0-2
 - Add the Autoconf macro, pkg-config, FUSE, MTP, and USB build dependencies.
 
