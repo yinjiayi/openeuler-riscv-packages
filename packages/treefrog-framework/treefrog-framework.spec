@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           treefrog-framework
 Version:        2.12.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        High-speed C++ MVC Framework for Web Application
 License:        BSD-3-Clause
 URL:            https://github.com/treefrogframework/treefrog-framework
@@ -33,6 +33,15 @@ High-speed C++ MVC Framework for Web Application
   --datadir=%{_datadir}/treefrog \
   --enable-shared-mongoc
 %make_build -C src
+(
+  cd tools
+  qmake6 -recursive \
+    CONFIG+=release \
+    target.path="%{_bindir}" \
+    header.path="$PWD/../include" \
+    datadir="%{_datadir}/treefrog" \
+    lib.path="$PWD/../src"
+)
 %make_build -C tools
 
 %install
@@ -82,6 +91,9 @@ export LD_LIBRARY_PATH="$PWD/src${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.12.0-7
+- Build the command-line tools against the just-built framework headers and library.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.12.0-6
 - Allow the complete TreeFrog build and test suites 180 minutes under QEMU.
 

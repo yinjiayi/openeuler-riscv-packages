@@ -33,3 +33,9 @@ Packaging release 6 raises the QEMU build timeout from 60 to 180 minutes. The
 preceding exact-head run exhausted its bounded 2800-second build-command budget
 while `src` was still compiling normally, with no compiler or test failure.
 The longer timeout preserves the complete build and test paths.
+
+Packaging release 7 regenerates the `tools` qmake projects with the just-built
+framework headers and shared library as their compile-time paths. The preceding
+exact-head run completed `src`, then showed the tools Makefiles searching the
+final `/usr` installation paths before `%install`; the final installation paths
+remain unchanged for the packaged binaries.
