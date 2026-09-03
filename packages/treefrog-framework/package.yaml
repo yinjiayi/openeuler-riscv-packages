@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 calls TreeFrog's project-specific configure script only with its documented installation-directory options after exact-head RVA23 CI showed the generic RPM configure macro passed unsupported GNU triplet arguments and exited after printing usage. CMake and Qt 6 development tooling used by that configure path are now explicit BuildRequires; the existing build, check, and smoke paths remain enabled. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 calls TreeFrog's project-specific configure script only with its documented installation-directory options after exact-head RVA23 CI showed the generic RPM configure macro passed unsupported GNU triplet arguments and exited after printing usage. CMake and Qt 6 development tooling used by that configure path are explicit BuildRequires. Release 3 additionally declares the Qt 6 declarative development package after exact-head CI reached qmake and reported its required QML module missing. The existing build, check, and smoke paths remain enabled. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "treefrog-framework",
@@ -63,6 +63,6 @@
   "version": {
     "current": "2.12.0",
     "latest_detected": "2.12.0",
-    "release": "2"
+    "release": "3"
   }
 }

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           treefrog-framework
 Version:        2.12.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        High-speed C++ MVC Framework for Web Application
 License:        BSD-3-Clause
 URL:            https://github.com/treefrogframework/treefrog-framework
@@ -11,6 +11,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  cmake
 BuildRequires:  make
 BuildRequires:  qt6-qtbase-devel
+BuildRequires:  qt6-qtdeclarative-devel
 
 %description
 High-speed C++ MVC Framework for Web Application
@@ -41,6 +42,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.12.0-3
+- Add the Qt 6 QML development module required by TreeFrog's qmake project.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.12.0-2
 - Use TreeFrog's supported configure interface and declare its build tools.
 

@@ -11,3 +11,7 @@ RVA23 build showed that the generic RPM configure macro supplied unsupported
 GNU triplet and dependency-tracking arguments, causing the script to print
 usage without generating Makefiles. The build, upstream check target, and
 install smoke test remain enabled.
+
+Packaging release 3 adds the Qt 6 declarative development package required by
+the framework's qmake project after the next exact-head RVA23 build reached
+configuration and reported the QML module missing.
