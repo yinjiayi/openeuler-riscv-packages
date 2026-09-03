@@ -9,6 +9,7 @@ on:
       - catalog/**
       - dashboard/**
       - scripts/generate-dashboard
+      - ci/collect-dashboard-evidence.py
       - ci/collect-github-state.sh
       - .github/workflows/dashboard.yml
   workflow_run:
@@ -50,6 +51,9 @@ jobs:
             gh run download "$latest" --name daily-update-summary \
               --dir artifacts/latest-update || true
           fi
+          python3 ci/collect-dashboard-evidence.py \
+            --output-dir artifacts/build-results \
+            --result artifacts/dashboard/evidence-collection.json
       - name: Generate factual static dashboard
         run: |
           args=(
@@ -57,6 +61,7 @@ jobs:
             --output-dir public
             --github-state artifacts/dashboard/github-state.json
             --build-results artifacts/build-results
+            --package-inventory catalog/package-index.json.gz
             --output artifacts/dashboard/generator-result.json
           )
           if [[ -s artifacts/latest-update/update-summary.json ]]; then
@@ -88,4 +93,3 @@ jobs:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
-

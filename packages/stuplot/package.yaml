@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/Friendships6666/StuPlot",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "stuplot",
+        "package_name": "stuplot",
+        "source": "aur",
+        "source_version": "1.0.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "stuplot.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 matches the SPEC source root to the archive's exact StuPlot-1.0.0 top-level directory and configures explicit CMake source and out-of-source build directories. Release 4 disables the empty debuginfo subpackage because StuPlot installs only headers and CMake metadata; the four upstream examples remain part of the build. No source, feature, or check command is changed. External distribution packaging was not executed, and the RISC-V build status remains unknown pending a successful exact-head CI build.",
+    "status": "active"
+  },
+  "package_id": "stuplot",
+  "rpm": {
+    "license": "MIT",
+    "name": "stuplot",
+    "summary": "High-performance C++23 header-only plotting engine based on IA and DE"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-friendships6666-stuplot",
+    "homepage": "https://github.com/Friendships6666/StuPlot",
+    "release_api": "https://api.github.com/repos/Friendships6666/StuPlot/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/Friendships6666/StuPlot",
+    "source_url_template": "https://github.com/Friendships6666/StuPlot/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.0",
+    "latest_detected": "1.0.0",
+    "release": "4"
+  }
+}

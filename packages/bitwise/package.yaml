@@ -71,7 +71,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-08-21T19:57:04Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
   },
@@ -82,11 +82,11 @@
     "release_channel": "stable",
     "release_regex": null,
     "source_repository": "https://github.com/mellowcandle/bitwise",
-    "source_url_template": "https://github.com/mellowcandle/bitwise/archive/refs/tags/v{version}.tar.gz"
+    "source_url_template": "https://github.com/mellowcandle/bitwise/releases/download/v{version}/bitwise-v{version}.tar.gz"
   },
   "version": {
-    "current": "0.50",
-    "latest_detected": "0.50",
+    "current": "0.60",
+    "latest_detected": "0.60",
     "release": "1"
   }
 }

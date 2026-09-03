@@ -401,17 +401,64 @@ class BackfillPlanTests(unittest.TestCase):
             run([str(LIST_PACKAGES), "--packages-dir", str(packages), "--output", str(output)])
             plan = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(plan["packages"], ["active"])
+            self.assertEqual(plan["shards"], [
+                {"index": 0, "package_count": 1, "packages": ["active"]},
+                {"index": 1, "package_count": 0, "packages": []},
+            ])
+            self.assertEqual(plan["max_parallel_per_shard"], 25)
             self.assertEqual({item["package_id"] for item in plan["skipped"]}, {"native", "retired", "golden-success-hello"})
+
+    def test_more_than_one_matrix_is_split_deterministically(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            packages = root / "packages"
+            expected = [f"pkg-{index:03d}" for index in range(257)]
+            for package_id in expected:
+                directory = packages / package_id
+                directory.mkdir(parents=True)
+                (directory / "package.yaml").write_text(
+                    json.dumps({"build": {"profile": "qemu-user"}, "maintenance": {"status": "active"}}),
+                    encoding="utf-8",
+                )
+            output = root / "plan.json"
+            github_output = root / "github-output"
+            run([
+                str(LIST_PACKAGES),
+                "--packages-dir", str(packages),
+                "--output", str(output),
+                "--github-output", str(github_output),
+                "--max-concurrency", "50",
+            ])
+            plan = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual([shard["package_count"] for shard in plan["shards"]], [129, 128])
+            self.assertEqual(plan["shards"][0]["packages"], expected[0::2])
+            self.assertEqual(plan["shards"][1]["packages"], expected[1::2])
+            self.assertEqual(plan["max_parallel_per_shard"], 25)
+            values = dict(line.split("=", 1) for line in github_output.read_text(encoding="utf-8").splitlines())
+            self.assertEqual(json.loads(values["packages_0"]), expected[0::2])
+            self.assertEqual(json.loads(values["packages_1"]), expected[1::2])
+            self.assertEqual(values["package_count"], "257")
+            self.assertEqual(values["max_parallel_per_shard"], "25")
 
 
 class BackfillWorkflowContractTests(unittest.TestCase):
-    def test_backfill_defaults_to_thirty_two_self_hosted_qemu_workers(self) -> None:
+    def test_backfill_splits_fifty_self_hosted_workers_across_two_matrices(self) -> None:
         workflow = BACKFILL_WORKFLOW.read_text(encoding="utf-8")
         self.assertIn(
-            "max-parallel: ${{ fromJSON(vars.RPM_BACKFILL_MAX_CONCURRENCY || '32') }}",
+            "--max-concurrency \"${{ vars.RPM_BACKFILL_MAX_CONCURRENCY || '50' }}\"",
             workflow,
         )
-        self.assertNotIn("max-parallel: 16", workflow)
+        self.assertEqual(
+            workflow.count("max-parallel: ${{ fromJSON(needs.plan.outputs.max_parallel_per_shard) }}"),
+            2,
+        )
+        self.assertIn("package_id: ${{ fromJSON(needs.plan.outputs.packages_0) }}", workflow)
+        self.assertIn("package_id: ${{ fromJSON(needs.plan.outputs.packages_1) }}", workflow)
+        package_workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn(
+            "$GITHUB_REPOSITORY/.github/workflows/rpm-repo-backfill.yml@refs/heads/main",
+            package_workflow,
+        )
 
     def test_caller_permission_ceiling_covers_reusable_workflow_jobs(self) -> None:
         caller_blocks = permission_blocks(BACKFILL_WORKFLOW)
@@ -443,6 +490,18 @@ class BackfillWorkflowContractTests(unittest.TestCase):
         workflow = GOLDEN_WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("BUILD_USER: ${{ steps.policy.outputs.build_user }}", workflow)
         self.assertIn('--build-user "$BUILD_USER"', workflow)
+
+    def test_heavy_dependency_preparation_has_a_bounded_one_hour_window(self) -> None:
+        for path in (PACKAGE_WORKFLOW, GOLDEN_WORKFLOW):
+            workflow = path.read_text(encoding="utf-8")
+            self.assertIn(
+                "--max-bytes 52428800 --timeout-seconds 3600 --",
+                workflow,
+            )
+            self.assertNotIn(
+                "--max-bytes 52428800 --timeout-seconds 1800 --",
+                workflow,
+            )
 
 
 class RrsyncLockRetryTests(unittest.TestCase):

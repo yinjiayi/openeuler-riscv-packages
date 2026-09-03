@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Fri, 14 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: version shared library and honor GNUInstallDirs
+
+The upstream CMake build creates an unversioned shared object and installs its
+pkg-config file to a literal lib directory.  Give the shared library the
+project version and major-version SONAME, and use CMAKE_INSTALL_LIBDIR so the
+metadata follows the target architecture's lib64 layout.
+
+Patch-Source: openEuler RISC-V review of the official 1.2.9 archive
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: An upstream release versions the shared target and installs the
+ pkg-config file through GNUInstallDirs.
+---
+ CMakeLists.txt | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -46,7 +46,11 @@ target_include_directories(cwalk PUBLIC
+   $<BUILD_INTERFACE:${INCLUDE_DIRECTORY}>
+   $<INSTALL_INTERFACE:include>
+ )
+-set_target_properties(cwalk PROPERTIES PUBLIC_HEADER "${INCLUDE_DIRECTORY}/cwalk.h")
++set_target_properties(cwalk PROPERTIES
++  PUBLIC_HEADER "${INCLUDE_DIRECTORY}/cwalk.h"
++  VERSION ${PROJECT_VERSION}
++  SOVERSION ${PROJECT_VERSION_MAJOR}
++)
+ set_target_properties(cwalk PROPERTIES DEFINE_SYMBOL CWK_EXPORTS)
+
+ # add shared library macro
+@@ -278,7 +282,7 @@ install(FILES
+
+ install(FILES
+   ${PROJECT_BINARY_DIR}/cwalk.pc
+-  DESTINATION lib/pkgconfig/)
++  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/)
+
+ install(EXPORT CwalkTargets
+   FILE CwalkTargets.cmake

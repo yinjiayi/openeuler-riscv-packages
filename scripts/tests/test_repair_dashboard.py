@@ -256,6 +256,50 @@ class RepairDashboardTests(unittest.TestCase):
             self.assertEqual(data["packages"][0]["status"], "repair-queued")
             self.assertEqual(data["coverage_claim"], "observed-managed-packages-only")
             self.assertTrue((output / "index.html").is_file())
+            self.assertTrue((output / "inventory.json").is_file())
+
+    def test_dashboard_publishes_links_only_for_matching_verified_generation(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            (root / "dashboard").mkdir()
+            for name in ("index.html", "app.js", "styles.css"):
+                shutil.copyfile(SCRIPTS.parent / "dashboard" / name, root / "dashboard" / name)
+            package = root / "packages" / "demo"
+            (package / "patches").mkdir(parents=True)
+            (package / "patches" / "series").write_text("", encoding="utf-8")
+            write_json(package / "package.yaml", {"schema_version": 1, "package_id": "demo", "rpm": {"name": "demo", "summary": "demo", "license": "MIT"}, "version": {"current": "1.0", "release": "1"}, "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"}})
+            commit = "a" * 40
+            inventory = root / "package-index.json"
+            write_json(inventory, {"schema_version": 1, "kind": "package-inventory", "generated_at": "2026-08-08T00:00:00Z", "main_ref": "b" * 40, "source_snapshot": {"snapshot_id": "snapshot-1"}, "entries": [{"discovery_key": "demo", "names": ["demo"], "component_ids": ["example.org-demo"], "decisions": {}, "stable_versions": ["1.0"], "upstream_urls": ["https://example.org/demo"], "status": "managed", "managed_package": {"package_id": "demo", "directory": "packages/demo", "version": "1.0", "summary": "demo"}, "reviewed_release": None, "pull_requests": [{"number": 1, "state": "merged", "head_sha": commit, "updated_at": "2026-08-08T00:30:00Z", "url": "https://github.com/yinjiayi/openeuler-riscv-packages/pull/1"}]}]})
+            evidence = root / "evidence"
+            write_json(evidence / "smoke" / "build-result.json", {"schema_version": 1, "package_id": "demo", "commit_sha": commit, "job_id": "12345:1:package-ci", "status": "passed", "checks": {"rpm-install-smoke": {"status": "passed"}}, "classification": "none", "finished_at": "2026-08-08T01:00:00Z"})
+            generation = "20260808T010000Z-demo-aaaaaaaaaaaa-run12345-attempt1"
+            write_json(evidence / "publish" / "upload.json", {"schema_version": 1, "kind": "rpm-repository-upload-batch", "status": "staged", "package_id": "demo", "commit_sha": commit, "generation": generation, "artifacts": [{"kind": "binary", "filename": "demo-1.0-1.riscv64.rpm"}, {"kind": "source", "filename": "demo-1.0-1.src.rpm"}]})
+            verification = evidence / "publish" / "result.json"
+            write_json(verification, {"schema_version": 1, "kind": "rpm-repository-publication-verification", "status": "passed", "package_id": "demo", "commit_sha": commit, "generation": generation, "verified_at": "2026-08-08T01:05:00Z", "state_url": "http://2.27.148.101:38080/generations/%s/state.json" % generation, "repositories": {"riscv64": {"baseurl": "http://2.27.148.101:38080/generations/%s/riscv64/" % generation}, "source": {"baseurl": "http://2.27.148.101:38080/generations/%s/source/" % generation}}})
+            output = root / "public"
+            arguments = ["--repo-root", str(root), "--output-dir", str(output), "--package-inventory", str(inventory), "--build-results", str(evidence), "--now", "2026-08-08T02:00:00Z"]
+            run_tool("generate-dashboard", arguments, root)
+            data = json.loads((output / "data.json").read_text(encoding="utf-8"))
+            full = json.loads((output / "inventory.json").read_text(encoding="utf-8"))
+            schema_errors = runpy.run_path(str(SCRIPTS / "validate-metadata"))["schema_errors"]
+            dashboard_schema = json.loads((SCRIPTS.parent / "schemas" / "dashboard.schema.json").read_text(encoding="utf-8"))
+            inventory_schema = json.loads((SCRIPTS.parent / "schemas" / "dashboard-inventory.schema.json").read_text(encoding="utf-8"))
+            self.assertEqual(schema_errors(data, dashboard_schema, dashboard_schema), [])
+            self.assertEqual(schema_errors(full, inventory_schema, inventory_schema), [])
+            self.assertEqual(data["coverage_claim"], "full-package-inventory")
+            self.assertEqual(data["inventory"]["entry_count"], 1)
+            self.assertEqual(full["entries"][0]["status"], "published")
+            self.assertEqual(full["entries"][0]["links"]["rpm"], ["http://2.27.148.101:38080/generations/%s/riscv64/Packages/demo-1.0-1.riscv64.rpm" % generation])
+            self.assertEqual(full["entries"][0]["links"]["srpm"], ["http://2.27.148.101:38080/generations/%s/source/Packages/demo-1.0-1.src.rpm" % generation])
+            verification.unlink()
+            second_output = root / "public-without-verification"
+            arguments[3] = str(second_output)
+            run_tool("generate-dashboard", arguments, root)
+            second = json.loads((second_output / "inventory.json").read_text(encoding="utf-8"))["entries"][0]
+            self.assertEqual(second["status"], "build-succeeded")
+            self.assertEqual(second.get("links", {}).get("rpm", []), [])
+            self.assertEqual(second.get("links", {}).get("srpm", []), [])
 
 
 if __name__ == "__main__":

@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libpsl
-Version:        0.23.1
+Version:        0.23.3
 Release:        1%{?dist}
 Summary:        C library for the Public Suffix List
 License:        BSD-3-Clause AND MIT AND MPL-2.0
 URL:            https://rockdaboot.github.io/libpsl/
-Source0:        libpsl-%{version}.tar.gz
+Source0:        libpsl-0.23.3.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  libidn2-devel
@@ -76,10 +76,13 @@ Manual pages and upstream release documentation for libpsl.
 
 %files help
 %license COPYING LICENSE src/LICENSE.chromium
-%doc AUTHORS ChangeLog NEWS README
+%doc AUTHORS ChangeLog NEWS README.md
 %{_mandir}/man1/psl.1*
 %{_mandir}/man1/psl-make-dafsa.1*
 
 %changelog
+* Mon Aug 24 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.23.3-1
+- Track the upstream README.md rename in the help package manifest.
+
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.23.1-1
 - Initial openEuler RISC-V package from frozen cross-distribution and upstream evidence.
