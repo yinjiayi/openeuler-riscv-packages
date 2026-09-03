@@ -4,13 +4,13 @@ image: ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild
 tag: 24.03-lts-sp3-rva23
 # Populated only after build-ci-image publishes the public image and verifies an
 # anonymous pull. Package CI intentionally fails closed while this is empty.
-digest: "sha256:df0ed12bc2db3d8256363134ab7120ac09ec09054d67c34516dacefaea1e0654"
+digest: "sha256:c382709bffbe07a2ddcb0052d03e97943a0c7583bec7c3bd572df8906a96b647"
 status: published-public-anonymous-verified
 source_repository: https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/
 repomd_sha256: "1e7269d6fa08e8f837e0ead13ad324e7f4ee5569dde6691378a61a806145bc14"
 rpm_manifest_sha256: "17ea21d32cd1bc3e5d016be53b7b3ba98e7a1271d0c8b912b1c36971dd44f98a"
 containerfile_sha256: "3a97b1913416567b58f6355b91c700fea392e54520f6c221666c870dfb650b21"
-built_at: "2026-09-02T15:30:12Z"
+built_at: "2026-09-03T01:43:35Z"
 qemu_version: "tonistiigi/binfmt:qemu-v9.2.0"
 self_test: passed
 

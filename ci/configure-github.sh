@@ -60,6 +60,7 @@ run_required_context_audit() {
        --context configure \
        --expected-workflow "Auto Merge Policy" \
        --expected-app github-actions \
+       --bridge-policy bot-image-lock-v1 \
        --output "$audit_output" >/dev/null; then
     printf 'required-context audit failed; inspect %s\n' "$audit_output" >&2
     return 1
