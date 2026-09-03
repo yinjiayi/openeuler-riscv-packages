@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sysinfoviewer
 Version:        0.3.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A comprehensive system information viewer built with wxWidgets
 License:        MIT
 URL:            https://github.com/Magpiny/sysinfoviewer
@@ -24,7 +24,7 @@ A comprehensive system information viewer built with wxWidgets
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -40,6 +40,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-4
+- Generate the CMake build tree where the build, install, and check macros expect it.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-3
 - Allow the complete required GUI dependency closure enough time to download.
 
