@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xoreos
 Version:        0.0.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A reimplementation of BioWare's Aurora engine
 License:        GPL-3.0-or-later
 URL:            https://github.com/xoreos/xoreos
@@ -33,7 +33,9 @@ A reimplementation of BioWare's Aurora engine
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) \
+  ! -path '%{buildroot}%{_mandir}/man6/%{name}.6' \
+  -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
@@ -45,8 +47,12 @@ cmake --build %{_vpath_builddir} --target check %{?_smp_mflags} --verbose
 %doc NEWS.md
 %doc AUTHORS
 %doc ChangeLog
+%{_mandir}/man6/%{name}.6*
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.0.6-5
+- Match the man page after RPM's brp-compress processing.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.0.6-4
 - Build and run the upstream check target so excluded test binaries exist.
 

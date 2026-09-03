@@ -13,4 +13,13 @@ as `Not Run` because upstream deliberately marks their binaries
 explicitly depends on every excluded test target before it runs `ctest`; no
 test is disabled or skipped.
 
+Exact-head Package CI run `33694996938` for commit
+`9271abdfc4ef23bf19d5902a2279e15c1fb62a5f` built successfully and passed all
+82 tests. The install step created `/usr/share/man/man6/xoreos.6`, but RPM's
+standard `brp-compress` processing renamed it after the generated file list had
+recorded the uncompressed path, so `%files` could no longer find that entry.
+Release 5 removes the raw man-page path from the generated list and declares it
+with the compression-safe `%{_mandir}/man6/%{name}.6*` RPM convention. RPM
+compression and the complete test suite remain enabled.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
