@@ -63,16 +63,18 @@ exec 9<>"$cleanup_lock"
 flock --exclusive --timeout 60 9 || oe_die 'cleanup lock timed out'
 
 # This is safe only because identity/fleet checks above prove that this is the
-# one dedicated Runner host. Any running container is unexpected, so the
-# helper aborts before mutation instead of guessing ownership.
-"$oe_runner_libexec/docker-cleanup.py" --docker /usr/bin/docker --max-objects 512
+# one dedicated Runner host. The helper can recover only a fully identified
+# dependency container from an interrupted prior job; every other running
+# container makes it abort before mutation instead of guessing ownership.
+oe_load_cleanup_image_lock "$oe_runner_config/cleanup-image.lock"
+"$oe_runner_libexec/docker-cleanup.py" --docker /usr/bin/docker --max-objects 512 \
+  --managed-image-ref "$CLEANUP_IMAGE_REF"
 
 # QEMU builds can leave root-owned files in bind mounts. Use only the already
 # cached, repository digest-locked base image to remove verified directory
 # children as container root. --pull=never prevents cleanup from adding a
 # network fetch. Before the first image pull, these directories are user-owned
 # and the host fallback is sufficient.
-oe_load_cleanup_image_lock "$oe_runner_config/cleanup-image.lock"
 cleanup_work=$work_dir
 if [[ $phase == job-start ]]; then
   cleanup_work=$workspace

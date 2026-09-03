@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: fall back to pkg-config for SDL2
+
+Some distributions, including openEuler 24.03 LTS SP3, provide SDL2 headers,
+libraries, and sdl2.pc without an SDL2 CMake package configuration. Use the
+standard pkg-config metadata when find_package(SDL2) cannot expose an imported
+SDL2 target, including when CMake's legacy FindSDL2 module reports success with
+variables only. Expose every imported target expected by the rest of the build.
+
+The empty SDL2main interface is intentional on Unix, where the main wrapper is
+not required. No bundled SDL copy is fetched.
+
+Patch-Source: downstream adaptation of raptor 0.8.1 CMakeLists.txt
+Patch-License: GPL-2.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+---
+ CMakeLists.txt | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -41,7 +41,15 @@ elseif(WIN32)
+     find_package(SDL2 REQUIRED)
+     include_directories(${SDL2_INCLUDE_DIRS})
+ else()
+-    find_package(SDL2 REQUIRED)
++    find_package(SDL2 QUIET)
++    if(NOT TARGET SDL2::SDL2)
++        find_package(PkgConfig REQUIRED)
++        pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
++        add_library(SDL2::SDL2 ALIAS PkgConfig::SDL2)
++    endif()
++    if(NOT TARGET SDL2::SDL2main)
++        add_library(SDL2::SDL2main INTERFACE IMPORTED)
++    endif()
+     include_directories(${SDL2_INCLUDE_DIRS})
+ endif()
+ 
+-- 
+2.50.1
