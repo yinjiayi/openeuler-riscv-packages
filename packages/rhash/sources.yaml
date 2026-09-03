@@ -1,0 +1,19 @@
+{
+  "package_id": "rhash",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "9f6019cfeeae8ace7067ad22da4e4f857bb2cfa6c2deaa2258f55b2227ec937a"},
+      "filename": "rhash-1.4.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Freely redistributable 0BSD-licensed RHash source is fetched from the official stable tag in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rhash/RHash/archive/refs/tags/v1.4.6.tar.gz",
+      "version": "1.4.6"
+    }
+  ]
+}

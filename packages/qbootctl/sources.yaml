@@ -1,0 +1,21 @@
+{
+  "package_id": "qbootctl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e66b361f86fac413f6a96974b4045a1fbc385f9eb6cee7fa8a26e0ca77c74a51"
+      },
+      "filename": "qbootctl-0.2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linux-msm/qbootctl/archive/refs/tags/0.2.2.tar.gz",
+      "version": "0.2.2"
+    }
+  ]
+}

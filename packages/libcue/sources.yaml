@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libcue",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/lipnitsk/libcue/archive/refs/tags/v2.3.0.tar.gz",
+      "filename": "libcue-2.3.0.tar.gz",
+      "version": "2.3.0",
+      "digests": {
+        "sha256": "cc1b3a65c60bd88b77a1ddd1574042d83cf7cc32b85fe9481c99613359eb7cfe"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The GPL-2.0-only and BSD-2-Clause official release source is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}

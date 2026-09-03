@@ -1,0 +1,106 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libstemmer/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snowball",
+        "package_name": "libstemmer",
+        "source": "arch-extra",
+        "source_version": "3.1.1-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/lib32-libstemmer",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-libstemmer",
+        "package_name": "lib32-libstemmer",
+        "source": "aur",
+        "source_version": "3.0.1-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/snowball",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snowball",
+        "package_name": "snowball",
+        "source": "debian",
+        "source_version": "2.2.0-4"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/snowball/snowball/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snowball",
+        "package_name": "snowball",
+        "source": "fedora",
+        "source_version": "3.0.1-11.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/snowball",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snowball",
+        "package_name": "snowball",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.0.1-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/pystemmer",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pystemmer",
+        "package_name": "pystemmer",
+        "source": "ubuntu",
+        "source_version": "3.0.0-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libstemmer.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official Snowball libstemmer C 3.1.1 bytes are SHA-256 pinned. The release contains no automated suite; deterministic reference-program and public-API checks are added. The target's existing libstemmer.so.0 ABI major is preserved. AUR remained read-only RPC metadata.",
+    "status": "active"
+  },
+  "package_id": "libstemmer",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "libstemmer",
+    "summary": "Stemming library supporting many human languages"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "github.com-shibukawa-snowball_py",
+    "homepage": "https://snowballstem.org/",
+    "release_api": "https://snowballstem.org/download.html",
+    "release_channel": "stable",
+    "release_regex": "libstemmer_c-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/snowballstem/snowball",
+    "source_url_template": "https://snowballstem.org/dist/libstemmer_c-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.1.1",
+    "latest_detected": "3.1.1",
+    "release": "1"
+  }
+}

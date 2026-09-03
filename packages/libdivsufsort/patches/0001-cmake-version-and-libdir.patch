@@ -1,0 +1,124 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Fri, 14 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: fix release version and honor GNUInstallDirs
+
+The official 2.0.1 tag still reports 2.0.0 through VERSION, and the CMake
+install rules hard-code lib and include.  Report the tagged release version
+and use GNUInstallDirs so RISC-V shared libraries and pkg-config metadata land
+in the architecture libdir.
+
+Patch-Source: openEuler RISC-V review of the official 2.0.1 tag archive
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: An upstream release reports its tag version and uses
+ GNUInstallDirs for libraries, headers, and pkg-config metadata.
+---
+ CMakeLists.txt                       |  3 ++-
+ VERSION                              |  2 +-
+ include/CMakeLists.txt               |  4 ++--
+ lib/CMakeLists.txt                   | 12 ++++++------
+ pkgconfig/CMakeLists.txt             |  7 +++++--
+ pkgconfig/libdivsufsort.pc.cmake     |  6 +++---
+ 6 files changed, 19 insertions(+), 15 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -18,8 +18,9 @@
+ ## Project information ##
+ project(libdivsufsort C)
++include(GNUInstallDirs)
+ set(PROJECT_VENDOR "Yuta Mori")
+ set(PROJECT_CONTACT "yuta.256@gmail.com")
+-set(PROJECT_URL "http://libdivsufsort.googlecode.com/")
++set(PROJECT_URL "https://github.com/y-256/libdivsufsort")
+ set(PROJECT_DESCRIPTION "A lightweight suffix sorting library")
+ file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" PROJECT_VERSION_FULL)
+ string(REGEX REPLACE "[\n\r]" "" PROJECT_VERSION_FULL "${PROJECT_VERSION_FULL}")
+diff --git a/VERSION b/VERSION
+--- a/VERSION
++++ b/VERSION
+@@ -1 +1 @@
+-2.0.0
++2.0.1
+diff --git a/include/CMakeLists.txt b/include/CMakeLists.txt
+--- a/include/CMakeLists.txt
++++ b/include/CMakeLists.txt
+@@ -152,11 +152,11 @@ set(SAINT_PRId "${SAINT32_PRId}")
+ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/divsufsort.h.cmake"
+                "${CMAKE_CURRENT_BINARY_DIR}/divsufsort.h" @ONLY)
+-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/divsufsort.h" DESTINATION include)
++install(FILES "${CMAKE_CURRENT_BINARY_DIR}/divsufsort.h" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+ if(BUILD_DIVSUFSORT64)
+   set(W64BIT "64")
+   set(SAINDEX_TYPE "${SAINT64_TYPE}")
+   set(SAINDEX_PRId "${SAINT64_PRId}")
+   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/divsufsort.h.cmake"
+                  "${CMAKE_CURRENT_BINARY_DIR}/divsufsort64.h" @ONLY)
+-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/divsufsort64.h" DESTINATION include)
++  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/divsufsort64.h" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+ endif(BUILD_DIVSUFSORT64)
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -6,9 +6,9 @@ set(divsufsort_SRCS divsufsort.c sssort.c trsort.c utils.c)
+ ## libdivsufsort ##
+ add_library(divsufsort ${divsufsort_SRCS})
+ install(TARGETS divsufsort
+-  RUNTIME DESTINATION bin
+-  LIBRARY DESTINATION lib
+-  ARCHIVE DESTINATION lib)
++  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+ set_target_properties(divsufsort PROPERTIES
+   VERSION   "${LIBRARY_VERSION_FULL}"
+   SOVERSION "${LIBRARY_VERSION_MAJOR}"
+@@ -20,8 +20,8 @@ if(BUILD_DIVSUFSORT64)
+   add_library(divsufsort64 ${divsufsort_SRCS})
+   install(TARGETS divsufsort64
+-    RUNTIME DESTINATION bin
+-    LIBRARY DESTINATION lib
+-    ARCHIVE DESTINATION lib)
++    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+   set_target_properties(divsufsort64 PROPERTIES
+     VERSION   "${LIBRARY_VERSION_FULL}"
+     SOVERSION "${LIBRARY_VERSION_MAJOR}"
+diff --git a/pkgconfig/CMakeLists.txt b/pkgconfig/CMakeLists.txt
+--- a/pkgconfig/CMakeLists.txt
++++ b/pkgconfig/CMakeLists.txt
+@@ -1,10 +1,13 @@
+ ## generate libdivsufsort.pc ##
+ set(prefix "${CMAKE_INSTALL_PREFIX}")
++set(exec_prefix "\${prefix}")
++set(libdir "\${exec_prefix}/${CMAKE_INSTALL_LIBDIR}")
++set(includedir "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
+ set(W64BIT "")
+ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/libdivsufsort.pc.cmake" "${CMAKE_CURRENT_BINARY_DIR}/libdivsufsort.pc" @ONLY)
+-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libdivsufsort.pc" DESTINATION lib/pkgconfig)
++install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libdivsufsort.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+ if(BUILD_DIVSUFSORT64)
+   set(W64BIT "64")
+   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/libdivsufsort.pc.cmake" "${CMAKE_CURRENT_BINARY_DIR}/libdivsufsort64.pc" @ONLY)
+-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libdivsufsort64.pc" DESTINATION lib/pkgconfig)
++  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libdivsufsort64.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+ endif(BUILD_DIVSUFSORT64)
+diff --git a/pkgconfig/libdivsufsort.pc.cmake b/pkgconfig/libdivsufsort.pc.cmake
+--- a/pkgconfig/libdivsufsort.pc.cmake
++++ b/pkgconfig/libdivsufsort.pc.cmake
+@@ -1,7 +1,7 @@
+ prefix=@prefix@
+-exec_prefix=${prefix}
+-libdir=${exec_prefix}/lib
+-includedir=${prefix}/include
++exec_prefix=@exec_prefix@
++libdir=@libdir@
++includedir=@includedir@
+
+ Name: @PROJECT_NAME@@W64BIT@
+ Description: @PROJECT_DESCRIPTION@
+--
+2.50.1

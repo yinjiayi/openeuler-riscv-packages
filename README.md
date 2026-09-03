@@ -17,11 +17,35 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
   each source remains bound to its committed SHA-256 and is verified before
   `rpmbuild` starts. Network availability does not make unpinned source bytes
   acceptable.
+- A **per-run dependency network** is a uniquely named, session-labelled Docker
+  bridge used by exactly one BuildRequires container. CI first checks the live
+  RPM baseline in a separate one-shot container whose network mode stays
+  `none`; only a passed baseline and non-empty dependency plan permit creation
+  of the externally routed bridge for the audited DNF transaction. Its endpoint
+  is inspected from the network and container sides, then detached and removed
+  by full object ID. It is not a shared runner network and does not weaken
+  source checksum verification.
 - A **build-user policy** is the per-package `build.user` choice controlling the identity that executes `rpmbuild` and `%check`. Its compatible default is `root`; `unprivileged` opts into the fixed `rpmbuild` identity with UID/GID `10001:10001`. It does not change the root-only dependency-install stage or grant privileges to installed smoke tests.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
+- The **Auto-merge policy check** is the existing `configure` job context emitted by the Auto Merge Policy workflow. It remains pending while the workflow disarms, evaluates, arms, and verifies one leased package PR, so GitHub cannot merge that PR before the arming transaction itself succeeds. Reusing this established context lets the protection rollout preserve exact-head coverage for already-open pull requests; any audited coverage gap must be backfilled and verified before the ruleset is applied.
+- A **required-context migration audit** is a read-only preflight that proves every currently open pull request's exact head already has a named GitHub Actions check from the expected workflow and app. It verifies availability and provenance, not a successful conclusion, and it fails rather than treating a legacy commit status, incomplete context page, or changing PR snapshot as coverage.
+- A **default-branch freshness proof** compares the pull-request event's base commit with the repository's current default-branch ref. Before checkout, an inline API gate that needs no repository files performs this comparison; after the protected base is checked out, the executable helper repeats it immediately before arming. A PR based on an older `main` commit remains disarmed, because checking out that older base would also execute an older policy; refreshing the branch is required before automatic merge can be reconsidered.
+- A **live arming activation proof** is a caller-relative read of the uniquely named repository ruleset, performed once during evaluation and again immediately before arming. Automatic merge remains disarmed unless that exact repository-owned active branch ruleset covers the default branch, pins every required context to the GitHub Actions integration, requires `configure` exactly once, and reports that the workflow token can never bypass it. If the global bypass-actor list is not returned, the proof records only that observable fact instead of guessing why or claiming the list is empty; the administrator-only apply path separately requires a visible empty list. An absent or not-yet-active barrier is a successful rollout no-op, while ambiguous, drifted, or unreadable API state fails closed.
+- A **protected-main package overlay** is the trusted-dispatch workspace formed
+  by checking out CI tooling from the protected `main` workflow commit and
+  replacing exactly one `packages/<id>` tree with that tree from the authorized
+  PR head. Its evidence binds the tooling commit, package commit, and package
+  tree SHA; it does not merge shared tooling into the package PR or authorize
+  any file outside that package tree. Git `HEAD` remains the protected tooling
+  commit. Scope selection accepts the separate package commit only after it
+  validates the overlay evidence and independently matches the committed,
+  staged, and working-copy package trees.
 - A **golden package** is a fixed end-to-end fixture with a pinned source/content digest, expected state, allowed changes, and assertions.
 - A **repository generation** is an immutable binary/source RPM snapshot with a state-bound `repomd.xml` SHA-256. A build resolves the mutable `state.json` pointer once, then uses only that generation URL.
+- A **backfill shard** is one of two deterministic, round-robin partitions of the active QEMU-buildable package list. Each shard stays below GitHub Actions' 256-entry matrix limit; the configured fleet-wide concurrency is divided equally between them, so the two matrices support up to 512 packages without doubling runner usage.
 - An **official-repository-only fallback** is an evidence-recorded dependency mode used only when the fixed supplemental repository cannot be contacted. It disables that project repository and retains the HTTPS/GPG-checked official openEuler repository; it does not waive missing dependencies or convert a failed DNF transaction into success.
+- A **package inventory** is the generated, machine-readable union of managed package directories, reviewed upstream releases, inferred package PRs, and deduplicated discovery names. It is a status index, not an authorization to build every discovered name.
+- A **discovery key** is the stable `package_base`, `name`, or `component_id` fallback used to deduplicate raw catalog records. The immutable discovery snapshot remains the authoritative source for every raw record and lineage row.
 
 ## Safety and trust boundary
 
@@ -30,7 +54,7 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - Supplementary discovery resolves the current stable openSUSE Tumbleweed snapshot, latest Fedora GA, Debian `stable`, and latest Ubuntu GA release in standard support. Rawhide, testing/unstable, staging, multilib, development, and prerelease feeds are excluded.
 - An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. Target build containers may retrieve the pinned source over HTTPS and verify that digest again before `rpmbuild` starts.
 - Required native-kernel or hardware validation becomes `needs-native-riscv`. The self-hosted fleet accelerates protected-main QEMU user-mode builds on x86_64 only; it is never treated as native RISC-V validation, and pull-request/merge-queue jobs remain on disposable GitHub-hosted runners.
-- Repair runs only on a maintainer's local Codex through local `gh` authentication or an explicitly authorized process-scoped `GH_TOKEN`. Using that token for local `gh`/Git operations is permitted; persisting or publishing its value in repository content, commits, PR text, logs, artifacts, Actions configuration, or Pages is forbidden. `scripts/github-credential-guard` checks the active token against repository, staged, and publication content without printing it. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`.
+- Repair runs only on a maintainer's local Codex through local `gh` authentication or an explicitly authorized process-scoped `GH_TOKEN`. Using that token for local `gh`/Git operations is permitted; persisting or publishing its value in repository content, commits, PR text, logs, artifacts, Actions configuration, or Pages is forbidden. `scripts/github-credential-guard` checks the active token against repository, staged, and publication content without printing it. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`; a claimed lease changes that state to `codex-repairing`. These labels mean the exact head is awaiting or undergoing a maintainer repair, and both block automatic merge until a maintainer verifies the replacement head and explicitly releases the repair state.
 - The only custom Actions secret is `RPM_REPO_SSH_PRIVATE_KEY`. It is a forced-command, write-only `rrsync` deployment identity for `/opt/openeuler-riscv-rpm-repo/incoming`; it cannot run a shell, delete or overwrite remote files, and is never available to build commands. It is not an OpenAI/Codex credential.
 - Successful package output is published only after the exact package build and installed-RPM smoke pass on a protected `main` push (or an explicit trusted backfill call). Pull-request builds never publish RPMs.
 - The supplemental project repository is served from the operator-provided HTTP endpoint `http://2.27.148.101:38080`. Its unsigned project RPMs use `gpgcheck=0`; CI compensates with a pinned SSH host key for publication, per-file upload SHA-256, immutable generations, no HTTP redirects, and a state-bound `repomd.xml` digest. The official openEuler HTTPS/GPG-checked repository remains enabled and authoritative.
@@ -44,7 +68,13 @@ Snapshot `discovery-20260808T165000Z-9a89920c269462cd` records 251,506 raw recor
 
 Strict discovery emits zero directly importable candidates because distribution indexes do not prove the bytes of an official upstream release archive. It retains 181,134 deduplicated rejection/hold decisions: 89,975 unverified upstreams, 46,870 stale entries, 17,752 license blocks, 12,949 VCS-only variants, 12,765 binary-only variants, and 823 prereleases. These are an auditable backlog, not silently discarded packages.
 
-The reviewed overlay currently promotes 100 verified components. Eighty-eight have Arch stable lineage, 68 have AUR metadata lineage, 98 have cross-distribution corroboration, and 44 retain rows from all six configured sources: Arch stable, AUR, Debian, Fedora, openSUSE, and Ubuntu. `bftpd` and `libcap-ng` are explicitly retained with single-distribution raw lineage plus separately verified official upstream bytes. The newest ten promotions use exact frozen-row selectors where the snapshot split a package across component keys; GNU Which additionally marks Debian and Ubuntu `debianutils` rows as functional providers rather than GNU Which source/version evidence. All declared source URLs remain subject to the independent downloader/checksum verifier. No AUR recipe was trusted or executed.
+The reviewed overlay currently promotes 119 verified components. One hundred four have Arch stable lineage, 74 have AUR metadata lineage, 117 have cross-distribution corroboration, and 46 retain rows from all six configured sources: Arch stable, AUR, Debian, Fedora, openSUSE, and Ubuntu. `bftpd` and `libcap-ng` are explicitly retained with single-distribution raw lineage plus separately verified official upstream bytes. The newest promotions use exact frozen-row selectors where the snapshot split a package across component keys; GNU Which additionally marks Debian and Ubuntu `debianutils` rows as functional providers rather than GNU Which source/version evidence. All declared source URLs remain subject to the independent downloader/checksum verifier. No AUR recipe was trusted or executed.
+
+The full package inventory is committed as `catalog/package-index.json.gz`, with a compact readback at `catalog/package-index-summary.json`. The current compressed index contains 151,852 entries: one entry for each of the 151,835 deduplicated discovery keys plus managed-package, reviewed-release, and pull-request records that are not already represented by a discovery key. It records 279 managed packages, 119 reviewed releases, and 439 observed pull requests (82 open and 357 merged at generation time). Its `source_snapshot` field points to the immutable 251,506-record snapshot above, so the index does not replace or silently rewrite raw catalog evidence. The inventory is a status index and onboarding queue input, not authorization to build every discovered name. Regenerate it only from a fresh `gh pr list --state all` JSON input and an explicit protected-main SHA; validate it with `scripts/validate-package-index`.
+
+The GitHub Pages Dashboard presents that full inventory as its primary view and emits the browser-ready list as `inventory.json`. It overlays the committed inventory with managed package metadata from the checked-out `main`, current pull-request facts, and retained CI evidence. An **inventory status** is the strongest currently supported lifecycle fact for one inventory key: discovery/review/PR/managed metadata first, then an exact-head build result, and finally verified publication. `build-succeeded` means a schema-valid successful CI result matches a recorded package or PR commit; it does not mean the RPM repository contains the products. `published` means an RPM upload batch and public-generation verification match the same package, commit, and immutable generation. Only `published` rows receive direct `.../Packages/*.rpm` SRPM and RPM links. A CI run link is labeled as CI evidence and is never presented as a repository package address. Because Actions evidence is retained for seven days, missing historical evidence remains an explicit weaker status rather than a reconstructed or guessed link.
+
+The full table searches package names, aliases, component IDs, and decision labels; status and evidence filters operate over the complete list. Rendering is paginated so the browser creates at most 250 table rows at once even though the JSON contains every inventory entry. `schemas/dashboard.schema.json` covers the summary/managed payload and `schemas/dashboard-inventory.schema.json` covers the full browser list.
 
 ## Repository map
 
@@ -56,7 +86,7 @@ The reviewed overlay currently promotes 100 verified components. Eighty-eight ha
 | `ci/` | Exact openEuler repository config, rootfs-to-OCI build, QEMU/RVA23 checks, and image digest lock |
 | `packages/` | One directory per managed package plus `_template` |
 | `tests/golden/` | Fixed success, repair, and native-only acceptance fixtures |
-| `catalog/` | Discovery source policy, immutable run snapshots, and reviewed official-release evidence |
+| `catalog/` | Discovery source policy, immutable run snapshots, reviewed official-release evidence, and the full package inventory |
 | `dashboard/` | Static Pages application and generated evidence |
 | `ops/rpm-repo-server/` | Idempotent Nginx, restricted rsync, systemd, and atomic `createrepo_c` deployment |
 
@@ -69,6 +99,8 @@ make validate
 make test
 make golden
 make dashboard
+# Read back the generated full inventory and its immutable snapshot link.
+scripts/validate-package-index
 ```
 
 Verify and materialize one package's pinned source without building it:
@@ -146,13 +178,30 @@ The build image tag is `ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild:24.03-lts-sp
 https://repo.openeuler.org/openEuler-24.03-LTS-SP3/everything/riscv64/rva23/riscv64/
 ```
 
-Package CI reads an immutable digest from `ci/image.lock`; a mutable tag is never accepted as build evidence. Image publication records the `repomd.xml` digest, installed RPM manifest, OCI digest, QEMU version, and RVA23 probe result.
+Package CI reads an immutable digest from `ci/image.lock`; a mutable tag is never accepted as build evidence. Image publication records the `repomd.xml` digest, installed RPM manifest, OCI digest, QEMU version, and RVA23 probe result. The installed RPM manifest is a sorted, checksum-bound record of each package's identity, architecture, and RPM-defined SHA-1/SHA-256 immutable-header digests. Every row and digest is format-validated before use. These digests bind original package metadata across database implementations; they do not replace the gpgchecked DNF transaction or claim a second payload verification.
 
-Audited BuildRequires are installed as root in a per-run, unpublished derived image. Package metadata then selects the `rpmbuild` identity: existing and root-capability suites default to `root`, while packages whose upstream checks require ordinary filesystem permission semantics may explicitly select `unprivileged`. The latter path performs a symlink-refusing ownership handoff for the fresh generated work tree, verifies the exact UID/GID before execution, and preserves regular JSON/log/RPM evidence for the host-side artifact stager. A root-dependent suite must use the compatible root policy or an evidence-backed native route; CI never silently skips it.
+Audited BuildRequires are installed as root in a per-run, unpublished derived image. A separate networkless container first proves the immutable base image's live RPM baseline. A valid baseline and non-empty dependency plan permit creation of the per-run egress bridge; the long-lived dependency container is created directly on that bridge, and DNF starts only after exact exclusive attachment is verified. The bridge is detached and removed before the image is committed. An empty dependency plan creates the long-lived container with network mode `none` and never creates an egress network. Package metadata then selects the `rpmbuild` identity: existing and root-capability suites default to `root`, while packages whose upstream checks require ordinary filesystem permission semantics may explicitly select `unprivileged`. The latter path performs a symlink-refusing ownership handoff for the fresh generated work tree, verifies the exact UID/GID before execution, and preserves regular JSON/log/RPM evidence for the host-side artifact stager. A root-dependent suite must use the compatible root policy or an evidence-backed native route; CI never silently skips it.
 
 ## Auto-merge policy
 
-Repository rules require the latest head SHA to pass `metadata-validate`, `source-verify`, `rpmbuild-riscv64`, `rpm-install-smoke`, `patch-policy`, and `merge-policy`. Required approvals are zero. Blocking labels, source/license/checksum failures, `needs-human`, and `needs-native-riscv` prevent merge even if unrelated checks passed.
+Repository rules require the latest head SHA to pass `metadata-validate`, `source-verify`, `rpmbuild-riscv64`, `rpm-install-smoke`, `patch-policy`, `merge-policy`, and the established Auto Merge Policy `configure` arming barrier. Each required check is pinned to GitHub Actions App integration ID `15368`, so a same-named legacy status or another app cannot satisfy it. Strict status checks also require the pull request to remain up to date with `main` at GitHub's final merge decision; if `main` advances after arming, GitHub blocks the merge until a refreshed head runs the checks again. Required approvals are zero. Blocking labels, source/license/checksum failures, `needs-human`, and `needs-native-riscv` prevent automatic merge even if unrelated checks passed; an explicitly authorized manual merge remains a separate maintainer decision. The arming workflow accepts success only while API readback proves the pull request is still open, unmerged, and bound to the event's exact head and base; rollback applies the same state proof and never treats an already merged pull request as successfully disarmed.
+
+Before `ci/configure-github.sh --apply` performs any repository write, it runs the required-context migration audit for the legacy `configure` context from the `Auto Merge Policy` workflow and `github-actions` app. The audit paginates every open pull request, binds each result to its exact head commit, then repeats the complete PR/head scan and requires an unchanged snapshot. Missing contexts, legacy `StatusContext` records, unexpected workflow/app provenance, head mismatches, API failures, and commit heads with more than 100 combined contexts all stop configuration and remain recorded in the requested JSON output. Repeated trusted CheckRuns are retained as evidence but are not a provenance failure. `--dry-run` reads only the committed configuration files and never invokes the audit or contacts GitHub.
+
+The apply path repeats the complete audit immediately before changing the ruleset, after slower repository-setting, label, variable, and Pages reconciliation. Its administrator response must explicitly expose a list-valued `bypass_actors` field and the configured value must be empty; a missing field is never normalized into an empty list. A ruleset update snapshots the previous exact accepted policy, including every required check's integration ID, and restores plus verifies it after an update or readback failure. A newly created ruleset is considered removed only after a successful paginated listing proves its exact numeric ID absent; API failure is never treated as deletion evidence.
+
+Run the same read-only gate directly with an authenticated local `gh` session:
+
+```sh
+ci/audit-required-context.py \
+  --repository yinjiayi/openeuler-riscv-packages \
+  --context configure \
+  --expected-workflow "Auto Merge Policy" \
+  --expected-app github-actions \
+  --output work/github-required-context-audit.json
+```
+
+Automatic merge is armed only for a current, same-repository PR whose complete API file list is confined to exactly one `packages/<package-id>/` directory. Every listed event, including a retarget away from `main`, first disarms any existing Auto-merge request. API readback must then bind the event head, base SHA, and base ref; a non-default-branch or stale-base target ends as a successful disarmed no-op before checkout. Only a pull request whose event base equals the current default-branch head can check out that base as immutable policy. The workflow then evaluates the leased package scope, proves live ruleset activation, proves the leased PR is still disarmed, and repeats both default-branch freshness and activation immediately before the arming command. During rollout, package events therefore create the established `configure` check but remain safely disarmed until the ruleset actually requires that barrier. Infrastructure, workflow, CI, script, schema, catalog, Dashboard, documentation, mixed-package, incomplete-file-list, and renamed-from-shared-path changes remain unarmed even when their package check contexts succeed or are skipped.
 
 ## License scope
 

@@ -1,0 +1,22 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 180},
+  "discovery": {
+    "lineage": [
+      {"evidence_url": "https://archlinux.org/packages/core/x86_64/less/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "less", "package_name": "less", "source": "arch-core", "source_version": "1:704-1"},
+      {"evidence_url": "https://packages.debian.org/trixie/source/less", "observed_at": "2026-08-08T16:50:00Z", "package_base": "less", "package_name": "less", "source": "debian", "source_version": "668-1"},
+      {"evidence_url": "https://packages.fedoraproject.org/pkgs/less/less/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "less", "package_name": "less", "source": "fedora", "source_version": "691-2.fc44"},
+      {"evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/less", "observed_at": "2026-08-08T16:50:00Z", "package_base": "less", "package_name": "less", "source": "opensuse-tumbleweed", "source_version": "704-1.3"},
+      {"evidence_url": "https://packages.ubuntu.com/resolute/source/less", "observed_at": "2026-08-08T16:50:00Z", "package_base": "less", "package_name": "less", "source": "ubuntu", "source_version": "668-1build1"}
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "less.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "The immutable snapshot records stable Arch, Debian, Fedora 44 GA, openSUSE Tumbleweed, and Ubuntu GA tuples and no canonical stable AUR row for less. No AUR recipe or distribution spec was read or executed. The upstream site marks 704 as the current recommended general-use release. Unlike the Fedora secondary lesspipe check that is allowed to fail, this package runs the complete bundled upstream lesstest target as a hard gate.", "status": "active"},
+  "package_id": "less",
+  "rpm": {"license": "(GPL-3.0-only OR BSD-2-Clause) AND GPL-2.0-or-later", "name": "less", "summary": "Terminal file pager"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"},
+  "upstream": {"component": "greenwoodsoftware.com-less", "homepage": "https://www.greenwoodsoftware.com/less/", "release_api": "https://www.greenwoodsoftware.com/less/download.html", "release_channel": "stable", "release_regex": "less-(?P<version>[0-9]+)\\.tar\\.gz", "source_repository": "https://github.com/gwsw/less", "source_url_template": "https://www.greenwoodsoftware.com/less/less-{version}.tar.gz"},
+  "version": {"current": "704", "latest_detected": "704", "release": "1"}
+}

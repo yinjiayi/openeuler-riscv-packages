@@ -1,0 +1,110 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/redis/hiredis",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hiredis",
+        "package_name": "hiredis",
+        "source": "arch-extra",
+        "source_version": "1.3.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/redis/hiredis",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hiredis",
+        "package_name": "hiredis",
+        "source": "debian",
+        "source_version": "1.2.0-6"
+      },
+      {
+        "evidence_url": "https://github.com/redis/hiredis",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hiredis",
+        "package_name": "hiredis",
+        "source": "fedora",
+        "source_version": "1.2.0-8.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/redis/hiredis",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hiredis",
+        "package_name": "hiredis",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.3.0-1.5"
+      },
+      {
+        "evidence_url": "https://github.com/redis/hiredis",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hiredis",
+        "package_name": "hiredis",
+        "source": "ubuntu",
+        "source_version": "1.2.0-6ubuntu4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-tests-use-riscv-qemu-safe-timeout.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Keep the complete SSL reconnect timeout test reliable under RISC-V linux-user emulation without skipping any assertion.",
+        "remove_when": "A native RISC-V runner proves the upstream 10 ms TLS reconnect margin reliable, or upstream adopts an architecture-independent timing margin.",
+        "sha256": "c1a546312983b11c269acfe11893a04cfdec683d213df0da6adfa42bb1cdd599",
+        "source": "Exact-head openEuler RISC-V QEMU CI run 31463568107, cross-checked against upstream v1.4.1/master and Fedora 44 dist-git.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "hiredis.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned; Fedora 44 dist-git was reviewed as packaging lineage only and no distribution recipe was executed.",
+    "status": "active"
+  },
+  "package_id": "hiredis",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "hiredis",
+    "summary": "Minimalistic C client library for Redis"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-redis-hiredis",
+    "homepage": "https://github.com/redis/hiredis",
+    "release_api": "https://api.github.com/repos/redis/hiredis/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/redis/hiredis",
+    "source_url_template": "https://github.com/redis/hiredis/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.4.1",
+    "latest_detected": "1.4.1",
+    "release": "1"
+  }
+}
