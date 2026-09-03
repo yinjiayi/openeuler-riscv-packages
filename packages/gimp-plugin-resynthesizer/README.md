@@ -36,4 +36,14 @@ the loop with a `MESON_INSTALL_DESTDIR_PREFIX`-aware installer. The RISC-V build
 status remains `unknown` pending fresh exact-head build and installed-smoke
 evidence.
 
+Exact-head run `33723518309` confirmed that every custom translation copy now
+stays inside the RPM buildroot, then failed at the non-empty `%check` guard
+because upstream only enters `test/` when its separate `install-test` option is
+enabled. Merely enabling `build-libheal` therefore built the repaired library
+but not `testHealLib`. Release 7 enables those upstream CI/developer targets so
+the functional harness is materialized, then removes the installed harness and
+developer-only GIMP test plugin before generating the runtime file list.
+`%check` executes the build-tree harness and still requires all eight scenario
+markers.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
