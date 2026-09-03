@@ -1,0 +1,93 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 240,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://gnupg.org/software/libgcrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libgcrypt",
+        "package_name": "libgcrypt",
+        "source": "arch-core",
+        "source_version": "1.12.2-1"
+      },
+      {
+        "evidence_url": "https://gnupg.org/software/libgcrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libgcrypt20",
+        "package_name": "libgcrypt20",
+        "source": "debian",
+        "source_version": "1.11.0-7+deb13u1"
+      },
+      {
+        "evidence_url": "https://gnupg.org/software/libgcrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libgcrypt",
+        "package_name": "libgcrypt",
+        "source": "fedora",
+        "source_version": "1.12.1-1.fc44"
+      },
+      {
+        "evidence_url": "https://gnupg.org/software/libgcrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libgcrypt",
+        "package_name": "libgcrypt",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.12.2-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libgcrypt.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed. Exact-head CI run 33362923539 compiled the RISC-V implementation and passed all 39 upstream tests, then proved that upstream 1.12.2 installs gcrypt.h but not the obsolete gcrypt-module.h manifest entry.",
+    "status": "active"
+  },
+  "package_id": "libgcrypt",
+  "rpm": {
+    "license": "LGPL-2.1-or-later AND GPL-2.0-or-later AND BSD-3-Clause",
+    "name": "libgcrypt",
+    "summary": "General-purpose cryptographic library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnupg.org",
+    "homepage": "https://gnupg.org/software/libgcrypt",
+    "release_api": "https://gnupg.org/ftp/gcrypt/libgcrypt/",
+    "release_channel": "stable",
+    "release_regex": "libgcrypt-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+    "source_repository": "https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git",
+    "source_url_template": "https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "1.12.2",
+    "latest_detected": "1.12.2",
+    "release": "2"
+  }
+}
