@@ -54,4 +54,11 @@ Release 8 adds those same six support sources already compiled into upstream's
 full `libresynthesizer` library. The harness remains a real linked executable
 and its eight-scenario runtime gate is unchanged.
 
+Exact-head run `33726379894` stopped in `%prep` because the Release 8 patch's
+hunk header was one line earlier than its first context line. Apple's patch
+accepted that offset during local materialization, while RPM's GNU patch
+correctly rejected it under the repository's exact no-fuzz policy. Release 9
+aligns the hunk with its first unchanged context at line 21 and is materialized
+locally with GNU patch using the same `--fuzz=0` policy before CI.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

@@ -15,8 +15,7 @@ diff --git a/lib/meson.build b/lib/meson.build
 index ea2634d..6882f22 100644
 --- a/lib/meson.build
 +++ b/lib/meson.build
-@@ -19,6 +19,12 @@ libheal_sources = [
-   'engine.c',
+@@ -21,6 +21,12 @@ libheal_sources = [
    'engineParams.c',
    'imageFormat.c',
    'progress.c',
