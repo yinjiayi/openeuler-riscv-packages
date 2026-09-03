@@ -19,5 +19,12 @@ the public pixman API and verifies a real image fill operation. The package's
 RISC-V status remains `unknown` until CI runs it in the pinned openEuler
 RVA23/QEMU environment.
 
+Exact-head run `33723149338` completed the long RISC-V/QEMU build, passed all
+35 upstream Meson tests, and produced four binary RPMs plus one SRPM. Package
+installation then succeeded, but the public-API smoke source failed to compile
+because it used `NULL` without including its standard definition. Release 2
+adds `<stddef.h>` to that smoke source; package code and upstream test coverage
+are unchanged, and installed-smoke status awaits the next exact-head run.
+
 External source licenses remain upstream's. Apache-2.0 covers only this
 repository's original packaging metadata, scripts, and documentation.

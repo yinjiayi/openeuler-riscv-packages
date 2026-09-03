@@ -58,7 +58,7 @@
   },
   "maintenance": {
     "maintainers": ["yinjiayi"],
-    "notes": "Official pixman 0.46.4 stable release bytes are SHA-256 pinned and also match the upstream SHA-512. Arch stable, openSUSE Tumbleweed, and Ubuntu GA corroborate 0.46.4; Fedora 44 and Debian stable provide older reviewed baselines. The committed discovery snapshot's only AUR match was the stale pixman-git VCS entry, so it was excluded by the pre-release and 24-month policies. A supplemental AUR RPC query was metadata-only; no AUR recipe or distribution spec was executed.",
+    "notes": "Official pixman 0.46.4 stable release bytes are SHA-256 pinned and also match the upstream SHA-512. Arch stable, openSUSE Tumbleweed, and Ubuntu GA corroborate 0.46.4; Fedora 44 and Debian stable provide older reviewed baselines. The committed discovery snapshot's only AUR match was the stale pixman-git VCS entry, so it was excluded by the pre-release and 24-month policies. A supplemental AUR RPC query was metadata-only; no AUR recipe or distribution spec was executed. Exact-head run 33723149338 built four binary RPMs and one SRPM and passed all 35 upstream Meson tests, then exposed a smoke-source defect because NULL was used without its standard definition. Release 2 adds the missing stddef.h include without changing the package build or runtime API exercise.",
     "status": "active"
   },
   "package_id": "pixman",
@@ -90,5 +90,5 @@
     "source_repository": "https://gitlab.freedesktop.org/pixman/pixman",
     "source_url_template": "https://cairographics.org/releases/pixman-{version}.tar.xz"
   },
-  "version": {"current": "0.46.4", "latest_detected": "0.46.4", "release": "1"}
+  "version": {"current": "0.46.4", "latest_detected": "0.46.4", "release": "2"}
 }

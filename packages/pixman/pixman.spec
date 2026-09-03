@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pixman
 Version:        0.46.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Pixel manipulation library
 License:        MIT
 URL:            https://www.pixman.org/
@@ -66,5 +66,8 @@ developing applications with pixman.
 %{_libdir}/pkgconfig/pixman-1.pc
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.46.4-2
+- Include the standard NULL definition in the installed public-API smoke test.
+
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.46.4-1
 - Initial openEuler RISC-V package from Fedora 44 and cross-distribution evidence.

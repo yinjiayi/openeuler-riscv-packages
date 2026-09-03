@@ -10,6 +10,7 @@ trap 'rm -rf "$smoke_dir"' EXIT
 
 cat >"$smoke_dir/smoke.c" <<'EOF'
 #include <pixman.h>
+#include <stddef.h>
 #include <stdint.h>
 
 int main(void) {
