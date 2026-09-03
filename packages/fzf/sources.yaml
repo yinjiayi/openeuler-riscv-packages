@@ -1,0 +1,21 @@
+{
+  "package_id": "fzf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5b142217c3068647a7d8faa9c678cffada100b5f11a48609aa79c94ce04b28ef"
+      },
+      "filename": "fzf-0.74.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/junegunn/fzf/archive/refs/tags/v0.74.3.tar.gz",
+      "version": "0.74.3"
+    }
+  ]
+}

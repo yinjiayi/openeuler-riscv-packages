@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "rlwrap",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/hanslub42/rlwrap/releases/download/v0.48/rlwrap-0.48.tar.gz",
+      "filename": "rlwrap-0.48.tar.gz",
+      "version": "0.48",
+      "digests": {
+        "sha256": "cdf69074a216a8284574dddd145dd046c904ad5330a616e0eed53c9043f2ecbc"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The GPL-2.0-or-later upstream source is fetched from the official release URL during CI."
+      }
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- utf8cpp
-grep -Fq 'set(PACKAGE_VERSION "4.1.1")' \
+grep -Fq 'set(PACKAGE_VERSION "4.2.0")' \
   /usr/share/utf8cpp/cmake/utf8cppConfigVersion.cmake
 
 smoke_dir=$(mktemp -d)

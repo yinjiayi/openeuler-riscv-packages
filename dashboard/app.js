@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 'use strict';
 
-const stateOrder = ['discovered', 'pr-open', 'ci-queued', 'building', 'repair-queued', 'codex-repairing', 'failed', 'needs-native-riscv', 'needs-human', 'passed', 'merged'];
+const stateOrder = ['published', 'build-succeeded', 'passed', 'managed', 'reviewed', 'open-pr', 'pr-open', 'ci-queued', 'building', 'repair-queued', 'codex-repairing', 'failed', 'needs-native-riscv', 'needs-human', 'merged-pr', 'merged', 'discovered'];
 let dashboard = null;
+let inventory = null;
+let inventoryPage = 0;
+let searchTimer = null;
 
 function node(tag, text, className) {
   const element = document.createElement(tag);
@@ -11,17 +14,17 @@ function node(tag, text, className) {
   return element;
 }
 
-function safeLink(label, href) {
-  if (!href) return node('span', '—');
+function safeLink(label, href, className) {
+  if (!href) return node('span', label || '—');
   try {
     const url = new URL(href, window.location.href);
-    if (!['https:', 'http:'].includes(url.protocol)) return node('span', '—');
-    const link = node('a', label);
+    if (!['https:', 'http:'].includes(url.protocol)) return node('span', label || '—');
+    const link = node('a', label, className);
     link.href = url.href;
     link.rel = 'noopener noreferrer';
     return link;
   } catch (_) {
-    return node('span', '—');
+    return node('span', label || '—');
   }
 }
 
@@ -31,20 +34,32 @@ function timeText(value) {
   return Number.isNaN(parsed.valueOf()) ? 'unknown' : parsed.toLocaleString();
 }
 
+function compact(value) {
+  return new Intl.NumberFormat(undefined, {notation: 'compact', maximumFractionDigits: 1}).format(value || 0);
+}
+
+function statusSort(a, b) {
+  const left = stateOrder.indexOf(a);
+  const right = stateOrder.indexOf(b);
+  return (left < 0 ? 999 : left) - (right < 0 ? 999 : right) || a.localeCompare(b);
+}
+
 function renderSummary() {
   const container = document.querySelector('#summary');
   container.replaceChildren();
-  const totals = [['Managed', dashboard.packages.length], ['Behind upstream', dashboard.packages.filter(item => item.latest_upstream_version && item.current_version !== item.latest_upstream_version).length], ['With patches', dashboard.packages.filter(item => item.patch_count).length]];
+  const counts = inventory.status_counts || {};
+  const totals = [
+    ['Inventory entries', inventory.entries.length],
+    ['Managed', dashboard.packages.length],
+    ['Published', counts.published || 0],
+    ['Build succeeded', counts['build-succeeded'] || 0],
+    ['Open / repairing', (counts['open-pr'] || 0) + (counts['pr-open'] || 0) + (counts['repair-queued'] || 0) + (counts['codex-repairing'] || 0)],
+    ['Needs native RISC-V', counts['needs-native-riscv'] || 0],
+  ];
   for (const [label, value] of totals) {
     const card = node('article', null, 'card');
-    card.append(node('strong', value), node('span', label));
-    container.append(card);
-  }
-  for (const state of stateOrder) {
-    const value = dashboard.packages.filter(item => item.status === state).length;
-    if (!value) continue;
-    const card = node('article', null, `card state-${state}`);
-    card.append(node('strong', value), node('span', state));
+    card.append(node('strong', compact(value)), node('span', label));
+    card.title = String(value);
     container.append(card);
   }
 }
@@ -60,7 +75,6 @@ function renderHealth() {
     ['Failed shards', health.failed_shards || 0],
     ['Pending backfill', health.due_rechecks || 0],
     ['Completed', timeText(health.last_completed_at)],
-    ['Consecutive missed days', health.consecutive_missed_days || 0],
   ];
   for (const [label, value] of items) {
     const item = node('div', null, 'health-item');
@@ -70,92 +84,148 @@ function renderHealth() {
   container.dataset.complete = String((health.failed_shards || 0) === 0 && (health.due_rechecks || 0) === 0);
 }
 
-function fillFilters() {
-  const statuses = [...new Set(dashboard.packages.map(item => item.status))].sort((a, b) => stateOrder.indexOf(a) - stateOrder.indexOf(b));
-  const failures = [...new Set(dashboard.packages.map(item => item.failure_category).filter(Boolean))].sort();
-  const status = document.querySelector('#status-filter');
-  const failure = document.querySelector('#failure-filter');
-  for (const value of statuses) {
+function fillSelect(selector, values) {
+  const select = document.querySelector(selector);
+  for (const value of values) {
     const option = node('option', value);
     option.value = value;
-    status.append(option);
-  }
-  for (const value of failures) {
-    const option = node('option', value);
-    option.value = value;
-    failure.append(option);
+    select.append(option);
   }
 }
 
-function matches(item) {
-  const status = document.querySelector('#status-filter').value;
-  const source = document.querySelector('#source-filter').value.trim().toLowerCase();
-  const lag = document.querySelector('#lag-filter').value;
-  const patch = document.querySelector('#patch-filter').value;
-  const failure = document.querySelector('#failure-filter').value;
-  const days = Number(document.querySelector('#age-filter').value || 0);
+function fillFilters() {
+  fillSelect('#inventory-status', [...new Set(inventory.entries.map(item => item.status))].sort(statusSort));
+  fillSelect('#managed-status', [...new Set(dashboard.packages.map(item => item.status))].sort(statusSort));
+}
+
+function inventoryMatches(item) {
+  const query = document.querySelector('#inventory-search').value.trim().toLowerCase();
+  const status = document.querySelector('#inventory-status').value;
+  const evidence = document.querySelector('#inventory-evidence').value;
   if (status && item.status !== status) return false;
-  if (source && !(item.sources || []).some(value => value.toLowerCase().includes(source))) return false;
+  if (query) {
+    const haystack = [item.inventory_id, item.package_id, item.name, ...(item.aliases || []), ...(item.component_ids || []), ...(item.decisions || [])].filter(Boolean).join('\n').toLowerCase();
+    if (!haystack.includes(query)) return false;
+  }
+  const links = item.links || {};
+  const published = (links.rpm || []).length > 0 && (links.srpm || []).length > 0;
+  if (evidence === 'published' && !published) return false;
+  if (evidence === 'ci' && (!links.ci || published)) return false;
+  if (evidence === 'none' && (published || links.ci)) return false;
+  return true;
+}
+
+function appendArtifactLinks(cell, item) {
+  const links = item.links || {};
+  const pieces = [];
+  if (links.pr) pieces.push(['PR', links.pr, 'evidence-link']);
+  if (links.ci) pieces.push(['CI', links.ci, 'evidence-link']);
+  for (const [index, href] of (links.rpm || []).entries()) pieces.push([`RPM${(links.rpm || []).length > 1 ? ` ${index + 1}` : ''}`, href, 'artifact-link']);
+  for (const [index, href] of (links.srpm || []).entries()) pieces.push([`SRPM${(links.srpm || []).length > 1 ? ` ${index + 1}` : ''}`, href, 'artifact-link']);
+  if (!pieces.length) {
+    cell.append(node('span', 'inventory metadata only', 'muted'));
+    return;
+  }
+  pieces.forEach(([label, href, className], index) => {
+    if (index) cell.append(document.createTextNode(' · '));
+    cell.append(safeLink(label, href, className));
+  });
+}
+
+function renderInventoryRows() {
+  const body = document.querySelector('#inventory-rows');
+  body.replaceChildren();
+  const filtered = inventory.entries.filter(inventoryMatches);
+  const size = Number(document.querySelector('#inventory-page-size').value || 100);
+  const pageCount = Math.max(1, Math.ceil(filtered.length / size));
+  inventoryPage = Math.min(inventoryPage, pageCount - 1);
+  const start = inventoryPage * size;
+  for (const item of filtered.slice(start, start + size)) {
+    const row = document.createElement('tr');
+    const packageCell = document.createElement('td');
+    packageCell.append(safeLink(item.name, item.links && (item.links.package || item.links.upstream)));
+    if (item.package_id && item.package_id !== item.name) packageCell.append(node('small', item.package_id));
+    const stateCell = document.createElement('td');
+    stateCell.append(node('span', item.status, `badge state-${item.status}`));
+    const componentCell = document.createElement('td');
+    componentCell.append(node('span', (item.component_ids || []).slice(0, 3).join(', ') || '—'));
+    if ((item.decisions || []).length) componentCell.append(node('small', item.decisions.join(', ')));
+    const evidenceCell = document.createElement('td');
+    appendArtifactLinks(evidenceCell, item);
+    [packageCell, stateCell, node('td', item.version), componentCell, node('td', timeText(item.updated_at)), evidenceCell].forEach(cell => row.append(cell));
+    if (item.summary) row.title = item.summary;
+    body.append(row);
+  }
+  const end = Math.min(start + size, filtered.length);
+  document.querySelector('#inventory-result-count').textContent = filtered.length ? `${start + 1}–${end} of ${filtered.length} (page ${inventoryPage + 1}/${pageCount})` : `0 of ${inventory.entries.length}`;
+  document.querySelector('#inventory-empty').hidden = filtered.length !== 0;
+  document.querySelector('#inventory-prev').disabled = inventoryPage === 0;
+  document.querySelector('#inventory-next').disabled = inventoryPage >= pageCount - 1;
+}
+
+function managedMatches(item) {
+  const query = document.querySelector('#managed-search').value.trim().toLowerCase();
+  const status = document.querySelector('#managed-status').value;
+  const lag = document.querySelector('#managed-lag').value;
+  const patch = document.querySelector('#managed-patch').value;
+  if (query && ![item.package_id, item.name, ...(item.sources || [])].join('\n').toLowerCase().includes(query)) return false;
+  if (status && item.status !== status) return false;
   if (lag === 'lag' && (!item.latest_upstream_version || item.current_version === item.latest_upstream_version)) return false;
   if (lag === 'current' && (!item.latest_upstream_version || item.current_version !== item.latest_upstream_version)) return false;
   if (patch === 'yes' && !item.patch_count) return false;
   if (patch === 'no' && item.patch_count) return false;
-  if (failure && item.failure_category !== failure) return false;
-  if (days) {
-    const updated = new Date(item.updated_at || 0).valueOf();
-    if (!updated || Date.now() - updated > days * 86400000) return false;
-  }
   return true;
 }
 
-function renderRows() {
-  const body = document.querySelector('#package-rows');
+function renderManagedRows() {
+  const body = document.querySelector('#managed-rows');
   body.replaceChildren();
-  const filtered = dashboard.packages.filter(matches);
+  const filtered = dashboard.packages.filter(managedMatches);
   for (const item of filtered) {
     const row = document.createElement('tr');
     const packageCell = document.createElement('td');
     packageCell.append(safeLink(item.name, item.links && item.links.package));
     const stateCell = document.createElement('td');
     stateCell.append(node('span', item.status, `badge state-${item.status}`));
-    if (item.failure_category) stateCell.append(node('small', item.failure_category));
-    const evidence = document.createElement('td');
-    if (item.links && item.links.pr) evidence.append(safeLink('PR', item.links.pr));
-    else evidence.append(node('span', 'metadata only'));
-    if (item.links && item.links.logs) evidence.append(document.createTextNode(' · '), safeLink('log', item.links.logs));
-    const values = [
-      packageCell,
-      stateCell,
-      node('td', item.current_version),
-      node('td', item.latest_upstream_version),
-      node('td', (item.sources || []).join(', ') || 'unknown'),
-      node('td', item.riscv_status),
-      node('td', item.patch_count),
-      node('td', timeText(item.updated_at)),
-      evidence,
-    ];
-    values.forEach(cell => row.append(cell));
+    const evidenceCell = document.createElement('td');
+    appendArtifactLinks(evidenceCell, item);
+    [packageCell, stateCell, node('td', item.current_version), node('td', item.latest_upstream_version), node('td', (item.sources || []).join(', ') || 'unknown'), node('td', item.riscv_status), node('td', item.patch_count), evidenceCell].forEach(cell => row.append(cell));
     if (item.last_error) row.title = item.last_error;
     body.append(row);
   }
-  document.querySelector('#result-count').textContent = `${filtered.length} of ${dashboard.packages.length}`;
-  document.querySelector('#empty').hidden = filtered.length !== 0;
+  document.querySelector('#managed-result-count').textContent = `${filtered.length} of ${dashboard.packages.length}`;
+  document.querySelector('#managed-empty').hidden = filtered.length !== 0;
+}
+
+function resetInventoryPage() {
+  inventoryPage = 0;
+  window.clearTimeout(searchTimer);
+  searchTimer = window.setTimeout(renderInventoryRows, 120);
 }
 
 async function start() {
-  const response = await fetch('data.json', {cache: 'no-store'});
-  if (!response.ok) throw new Error(`dashboard data request failed: ${response.status}`);
-  dashboard = await response.json();
-  document.querySelector('#coverage-note').textContent = dashboard.coverage_claim === 'observed-managed-packages-only' ? 'Observed managed packages only; this dashboard does not claim complete ecosystem coverage.' : dashboard.coverage_claim;
-  document.querySelector('#generated-at').textContent = `Generated ${timeText(dashboard.generated_at)}`;
-  document.querySelector('#snapshot-note').textContent = 'Candidates are deduplicated by official upstream stable release component.';
+  const dashboardResponse = await fetch('data.json', {cache: 'no-store'});
+  if (!dashboardResponse.ok) throw new Error(`dashboard data request failed: ${dashboardResponse.status}`);
+  dashboard = await dashboardResponse.json();
+  const inventoryResponse = await fetch((dashboard.inventory && dashboard.inventory.url) || 'inventory.json', {cache: 'no-store'});
+  if (!inventoryResponse.ok) throw new Error(`inventory request failed: ${inventoryResponse.status}`);
+  inventory = await inventoryResponse.json();
+  document.querySelector('#coverage-note').textContent = dashboard.coverage_claim === 'full-package-inventory'
+    ? `${inventory.entries.length.toLocaleString()} inventory entries from the committed snapshot; build and publication states require matching CI evidence.`
+    : 'Only observed managed packages are available; full inventory input was missing.';
+  document.querySelector('#generated-at').textContent = `Dashboard generated ${timeText(dashboard.generated_at)}`;
+  document.querySelector('#snapshot-note').textContent = `Inventory snapshot ${inventory.source.snapshot_id || 'unknown'} · source generated ${timeText(inventory.source.generated_at)}`;
   renderSummary();
   renderHealth();
   fillFilters();
-  renderRows();
-  const form = document.querySelector('#filters');
-  form.addEventListener('input', renderRows);
-  form.addEventListener('reset', () => window.setTimeout(renderRows, 0));
+  renderInventoryRows();
+  renderManagedRows();
+  document.querySelector('#inventory-filters').addEventListener('input', resetInventoryPage);
+  document.querySelector('#inventory-filters').addEventListener('reset', () => window.setTimeout(() => { inventoryPage = 0; renderInventoryRows(); }, 0));
+  document.querySelector('#inventory-prev').addEventListener('click', () => { inventoryPage -= 1; renderInventoryRows(); });
+  document.querySelector('#inventory-next').addEventListener('click', () => { inventoryPage += 1; renderInventoryRows(); });
+  document.querySelector('#managed-filters').addEventListener('input', renderManagedRows);
+  document.querySelector('#managed-filters').addEventListener('reset', () => window.setTimeout(renderManagedRows, 0));
 }
 
 start().catch(error => {

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "the-silver-searcher",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/ggreer/the_silver_searcher/archive/refs/tags/2.2.0.tar.gz",
+      "filename": "the_silver_searcher-2.2.0.tar.gz",
+      "version": "2.2.0",
+      "digests": {
+        "sha256": "6a0a19ca5e73b2bef9481c29a508d2413ca1a0a9a5a6b1bd9bbd695a7626cbf9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The Apache-2.0 and BSD-1-Clause official tag source is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}

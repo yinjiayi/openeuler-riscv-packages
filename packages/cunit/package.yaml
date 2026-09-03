@@ -1,0 +1,67 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/cunit/",
+        "observed_at": "2026-08-08T07:43:58Z",
+        "package_base": "cunit",
+        "package_name": "cunit",
+        "source": "arch-extra",
+        "source_version": "2.1.3-4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T074348Z-31246813686"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "cunit.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "The official SourceForge CUnit 2.1-3 archive was downloaded, SHA-256 pinned, and checked for a single safe root. Distribution packaging metadata was used only as discovery lineage and was not executed.",
+    "status": "active"
+  },
+  "package_id": "cunit",
+  "rpm": {
+    "license": "LGPL-2.0-only",
+    "name": "cunit",
+    "summary": "Unit testing framework for C"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cunit.sourceforge.net",
+    "homepage": "https://cunit.sourceforge.net/",
+    "release_api": "https://sourceforge.net/projects/cunit/files/CUnit/2.1-3/",
+    "release_channel": "stable",
+    "release_regex": "CUnit-([0-9]+-[0-9]+)\\.tar\\.bz2",
+    "source_repository": "https://sourceforge.net/p/cunit/code/",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "2.1.3",
+    "latest_detected": "2.1.3",
+    "release": "1"
+  }
+}
