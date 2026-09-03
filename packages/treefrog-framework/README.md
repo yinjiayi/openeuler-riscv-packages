@@ -21,3 +21,10 @@ and declares `mongo-c-driver-devel`, which is present in the approved official
 RVA23 repository. This retains MongoDB support while avoiding the bundled
 driver build that failed in the following exact-head CI run. The upstream check
 target and install smoke test remain enabled.
+
+Packaging release 5 follows TreeFrog's documented two-project layout by
+building and installing `src` and `tools` separately. This corrects the next
+exact-head failure, where the configured source tree intentionally had no
+top-level Makefile. The check phase now runs the upstream source and `tmake`
+test suites with locally bound Redis and Memcached instances whose exact PIDs
+are verified and cleaned up. The install smoke test remains enabled.
