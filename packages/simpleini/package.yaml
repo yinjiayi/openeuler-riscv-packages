@@ -52,7 +52,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 3 retains the matching system GoogleTest package and full registered CTest suite while raising the package timeout to 180 minutes: exact-head CI resolved the complete 124-package, 170 MB dependency transaction but exhausted the former 60-minute budget during dependency downloads before rpmbuild began. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 3 retains the matching system GoogleTest package and full registered CTest suite while raising the package timeout to 180 minutes. Exact-head run 33712645713 then compiled and passed the complete registered CTest suite, but RPM assembly failed because automatic debuginfo generation produced an empty file list for this header-only package. Release 4 disables only the inapplicable automatic debuginfo subpackage while preserving the complete test suite and library functionality. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head RPM and installed-smoke evidence.",
     "status": "active"
   },
   "package_id": "simpleini",
@@ -87,6 +87,6 @@
   "version": {
     "current": "4.26",
     "latest_detected": "4.26",
-    "release": "3"
+    "release": "4"
   }
 }

@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           simpleini
 Version:        4.26
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform C++ library providing a simple API to read and write INI-style configuration files
 License:        MIT
 URL:            https://github.com/brofield/simpleini
@@ -37,6 +39,11 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.26-4
+- Disable automatic debuginfo subpackages for this header-only library; the
+  installed payload contains no compiled object from which to extract symbols.
+- Preserve the complete upstream GoogleTest/CTest suite.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.26-3
 - Raise the package timeout to 180 minutes after the complete dependency transaction
   exhausted the former 60-minute budget during downloads before rpmbuild began.
