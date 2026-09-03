@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           selint
 Version:        1.5.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Static code analysis tool for SELinux policy source files
 License:        Apache-2.0
 URL:            https://github.com/SELinuxProject/selint
@@ -45,6 +45,9 @@ test -s %{name}.files
 %doc CHANGELOG
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.1-3
+- Allow the audited RISC-V dependency closure enough time to install under QEMU.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.1-2
 - Declare the complete Autotools, parser, library, header, manual, and test dependencies.
 

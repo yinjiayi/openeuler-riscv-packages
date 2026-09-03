@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 180
   },
   "discovery": {
     "lineage": [
@@ -52,7 +52,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 declares the dependencies required by the upstream Autotools configuration, generated parser, installed manual, and enabled Check test suite. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 declares the dependencies required by the upstream Autotools configuration, generated parser, installed manual, and enabled Check test suite. Release 3 raises only the package build timeout to 180 minutes after the audited 216-package RISC-V dependency closure exceeded the former 60-minute QEMU budget; all upstream tests and functionality remain enabled. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "selint",
@@ -87,6 +87,6 @@
   "version": {
     "current": "1.5.1",
     "latest_detected": "1.5.1",
-    "release": "2"
+    "release": "3"
   }
 }
