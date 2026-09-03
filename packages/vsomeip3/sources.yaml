@@ -1,0 +1,21 @@
+{
+  "package_id": "vsomeip3",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1a6873111c326711eb7c9faec8935ff0110de9d4a4bf3d43990da2135ba0528e"
+      },
+      "filename": "vsomeip3-3.5.11.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/COVESA/vsomeip/archive/refs/tags/3.5.11.tar.gz",
+      "version": "3.5.11"
+    }
+  ]
+}

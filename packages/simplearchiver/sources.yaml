@@ -1,0 +1,21 @@
+{
+  "package_id": "simplearchiver",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c2c9ff2d08b1d0168bc0ad2d35b722675ef038745a6b9e4869b1b43708b73123"
+      },
+      "filename": "simplearchiver-3.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Stephen-Seo/SimpleArchiver/archive/refs/tags/3.5.0.tar.gz",
+      "version": "3.5.0"
+    }
+  ]
+}
