@@ -267,7 +267,7 @@ jobs:
             --pr-number "$pr_number" --ref "$BRANCH" \
             --head-sha "$head_sha" --base-sha "$base_sha" \
             --output artifacts/lock/required-checks.json
-          gh pr merge "$pr_url" --auto --squash --delete-branch
+          printf 'Auto-merge is disabled; an explicit maintainer squash merge is required for %s\n' "$pr_url"
       - name: Upload digest-lock orchestration evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
