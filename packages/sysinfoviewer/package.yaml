@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 360
   },
   "discovery": {
     "lineage": [
@@ -38,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 accepts the fixed repository's CMake 3.27 and declares every development dependency required by the upstream CMake project. Upstream registers no CTest tests, so the existing CTest invocation does not establish functional test coverage. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 accepts the fixed repository's CMake 3.27 and declares every development dependency required by the upstream CMake project. Release 3 raises the audited build timeout after the target repository needed more than 60 minutes to download the required wxWidgets GUI dependency closure; it does not change the dependency set or source. Upstream registers no CTest tests, so the existing CTest invocation does not establish functional test coverage. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "sysinfoviewer",
@@ -73,6 +73,6 @@
   "version": {
     "current": "0.3.2",
     "latest_detected": "0.3.2",
-    "release": "2"
+    "release": "3"
   }
 }
