@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simple-password
 Version:        0.1.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A password generator without any unnecessary stuff
 License:        GPL-3.0-or-later
 URL:            https://github.com/ESzPa/spass
@@ -36,6 +36,11 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.1-5
+- Raise the package timeout to 180 minutes after both exact-head CI attempts
+  exhausted the former 60-minute budget during dependency downloads.
+- Keep the complete upstream test and command-line functionality enabled.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.1-4
 - Add the argparse header provider required by the command-line interface.
 

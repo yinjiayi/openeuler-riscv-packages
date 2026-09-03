@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 180
   },
   "discovery": {
     "lineage": [
@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 adds the fixed-repository vim-common provider required by upstream's xxd source-generation command and configures explicit CMake source and out-of-source build directories while preserving the existing test behavior. Release 4 adds the immutable supplemental repository's argparse header provider required by the command-line interface. No source, feature, or test is changed. External distribution packaging was not executed, and the RISC-V build status remains unknown pending a successful exact-head CI build.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 adds the fixed-repository vim-common provider required by upstream's xxd source-generation command and configures explicit CMake source and out-of-source build directories while preserving the existing test behavior. Release 4 adds the immutable supplemental repository's argparse header provider required by the command-line interface. Release 5 raises the package timeout to 180 minutes after both exact-head CI attempts resolved the complete 125-package, 177 MB dependency transaction but exhausted the former 60-minute budget during dependency downloads before rpmbuild began. No source, feature, or test is changed. External distribution packaging was not executed, and the RISC-V build status remains unknown pending a successful exact-head CI build.",
     "status": "active"
   },
   "package_id": "simple-password",
@@ -63,6 +63,6 @@
   "version": {
     "current": "0.1.1",
     "latest_detected": "0.1.1",
-    "release": "4"
+    "release": "5"
   }
 }
