@@ -38,6 +38,8 @@ FAKE_GH = textwrap.dedent(r'''
     if args[:2] == ["auth", "status"]:
         raise SystemExit(0)
     if args[:2] == ["api", "graphql"]:
+        state["audit_calls"] += 1
+        save()
         print(json.dumps({"data": {"repository": {"pullRequests": {
             "totalCount": 0,
             "pageInfo": {"hasNextPage": False, "endCursor": None},
@@ -158,6 +160,7 @@ class ConfigureGithubRulesetTests(unittest.TestCase):
                 },
                 "rulesets": [previous] if existing else [],
                 "put_count": 0,
+                "audit_calls": 0,
             }))
             env = os.environ.copy()
             env.update({
@@ -186,6 +189,12 @@ class ConfigureGithubRulesetTests(unittest.TestCase):
         self.assertEqual(state["rulesets"][0]["enforcement"], "active")
         checks = state["rulesets"][0]["rules"][-1]["parameters"]["required_status_checks"]
         self.assertEqual(checks[-1]["context"], "configure")
+        self.assertEqual(state["audit_calls"], 4)
+
+    def test_both_apply_audits_use_the_explicit_narrow_bridge_policy(self) -> None:
+        configurator = CONFIGURATOR.read_text(encoding="utf-8")
+        self.assertIn("--bridge-policy bot-image-lock-v1", configurator)
+        self.assertEqual(configurator.count("run_required_context_audit"), 3)
 
     def test_readback_mismatch_restores_the_previous_policy(self) -> None:
         for scenario in ("update-mismatch", "update-wrong-integration"):
