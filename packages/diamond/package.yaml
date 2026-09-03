@@ -45,6 +45,15 @@
         "license": "GPL-3.0-or-later",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream generic fingerprints expose the same array/load API as SIMD implementations and the duplicate trait is removed."
+      },
+      {
+        "file": "patches/0003-global-ranking-use-serial-thread-pool-fallback.patch",
+        "sha256": "cd783336ec7ca18c0020a7bb46c77ad2728301298cd6d864bd0fad2ca8879d6c",
+        "purpose": "Provide a per-call serial nested-task pool when global-ranking post-processing extends queries after the ordinary alignment pool has been cleared.",
+        "source": "Package CI run 33634962291 at exact commit 391d242d385814e73b3c3196f37f57f62ebed977 and static review of DIAMOND 2.2.4 global-ranking extension flow.",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream global-ranking extension no longer dereferences an absent alignment ThreadPool and retains safe nested DP task execution."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -55,7 +64,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Two exact-head QEMU builds installed the full dependency closure in 8-13 minutes and were then cancelled at the former 120-minute job boundary before producing an rpmbuild result, so the bounded package build allowance is 180 minutes. No compiler options, features, or tests are disabled. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Two exact-head QEMU builds installed the full dependency closure in 8-13 minutes and were then cancelled at the former 120-minute job boundary before producing an rpmbuild result, so the bounded package build allowance is 180 minutes. Exact-head run 33634962291 then completed 37 of 39 tests and exposed a null ThreadPool dereference in both global-ranking tests; release 5 supplies an isolated serial nested-task fallback for that post-processing path. No compiler options, features, or tests are disabled. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "diamond",
@@ -90,6 +99,6 @@
   "version": {
     "current": "2.2.4",
     "latest_detected": "2.2.4",
-    "release": "4"
+    "release": "5"
   }
 }
