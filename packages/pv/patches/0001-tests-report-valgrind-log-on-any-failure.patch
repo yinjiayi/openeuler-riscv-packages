@@ -1,0 +1,46 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 03 Sep 2026 00:00:00 +0000
+Subject: [PATCH] tests: report Valgrind log on any failure
+
+License: GPL-3.0-or-later
+Upstream-Status: not-submitted
+Origin: openEuler RISC-V packaging
+
+Valgrind writes its diagnostics to a temporary work file which test-env.sh
+deletes when each test exits.  The existing helper copies that file only for
+the configured memory-error exit status 125.  If Valgrind itself cannot start,
+or if the wrapped program returns another nonzero status, the actionable text
+is therefore lost.
+
+Print at most 2,000 lines of the temporary log to the per-test output for every
+nonzero status before cleanup.  Preserve the existing memory-error handling
+and return status, so this change neither skips nor converts a failing test.
+
+This diagnostic gap was observed in exact-head openEuler RISC-V Package CI run
+33707672244 for commit cbaff73805392e1fdc0e5d17e82c99db297bd30c.
+
+---
+ tests/run-valgrind.sh | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/tests/run-valgrind.sh b/tests/run-valgrind.sh
+--- a/tests/run-valgrind.sh
++++ b/tests/run-valgrind.sh
+@@ -74,3 +74,14 @@ runWithValgrind () {
+-	returnValue=$?
+-
+-	if test "${returnValue}" -eq 125; then
++	returnValue=$?
++
++	if test "${returnValue}" -ne 0; then
++		{
++		echo "================================================"
++		echo "Valgrind command failed with status ${returnValue}:"
++		echo "${testSubject} $*"
++		echo
++		sed -n '1,2000p' "${workFile4}"
++		echo "================================================"
++		} 1>&4
++	fi
++
++	if test "${returnValue}" -eq 125; then

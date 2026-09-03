@@ -37,5 +37,18 @@ QEMU/ptrace interaction from a genuine pv memory defect. Release 2 therefore
 keeps all 52 tests and their original failure status, while printing bounded
 per-test and Valgrind diagnostics into the retained rpmbuild log on failure.
 
+Release 2 exact-head Package CI run `33707672244` for commit
+`cbaff73805392e1fdc0e5d17e82c99db297bd30c` reproduced the same five failures
+without a timeout, with 10,279 seconds remaining. The newly retained Automake
+logs contained only exit status 1 and no `valgrind.out`. Upstream's helper
+writes the actual Valgrind diagnostic to a temporary `workFile4`, copies it to
+`valgrind.out` only for the configured memory-error status 125, and otherwise
+lets `test-env.sh` delete it on exit. Therefore this run is not evidence of a
+reported pv memory error, but it still cannot distinguish a Valgrind startup
+failure from another wrapped-command failure. Release 3 adds a downstream
+diagnostic-only patch that emits at most 2,000 lines of `workFile4` for every
+nonzero status before cleanup. It preserves all 52 tests, Valgrind execution,
+the existing status-125 handling, and every real failure status.
+
 External source licenses remain upstream's. Apache-2.0 covers only this
 repository's original packaging metadata, scripts, tests, and documentation.

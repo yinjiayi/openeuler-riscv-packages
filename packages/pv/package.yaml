@@ -51,7 +51,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-tests-report-valgrind-log-on-any-failure.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Emit the temporary Valgrind log for every nonzero wrapper result before upstream test cleanup while preserving the real failure status.",
+        "remove_when": "Upstream preserves the Valgrind work log for every nonzero result or carries an equivalent diagnostic.",
+        "sha256": "fb0e70819ad3b4afd889ba4407d85bc3a9cd5f4cab626ecefbd9542d3ef98ea3",
+        "source": "Downstream diagnostic from exact-head openEuler RISC-V Package CI run 33707672244 and the pinned pv 1.11.0 source.",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "pv.spec"
@@ -60,7 +70,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official Codeberg v1.11.0 tag bytes are SHA-256 pinned. All 52 upstream checks run with valgrind and tmux available; the check HOME prevents user shell configuration from contaminating tmux's detached-width probe. Exact-name AUR RPC returned no result and no external packaging recipe was read or executed. Exact-head Package CI run 33704850223 at 1d6b4f7fb6150570cc16192afae7e3314fed8c82 compiled and installed successfully, had 10,258 seconds of build budget remaining, and passed 47 of 52 checks. The five failures were exactly the five tests that source tests/run-valgrind.sh. The retained artifact proves Valgrind was installed and accepted its required options, but it does not contain the individual test logs or valgrind.out needed to distinguish an emulation/ptrace limitation from a genuine memory error. Release 2 keeps all tests enabled and preserves their failure while emitting bounded per-test and Valgrind diagnostics into the retained rpmbuild log.",
+    "notes": "Official Codeberg v1.11.0 tag bytes are SHA-256 pinned. All 52 upstream checks run with valgrind and tmux available; the check HOME prevents user shell configuration from contaminating tmux's detached-width probe. Exact-name AUR RPC returned no result and no external packaging recipe was read or executed. Exact-head Package CI run 33704850223 at 1d6b4f7fb6150570cc16192afae7e3314fed8c82 compiled and installed successfully, had 10,258 seconds of build budget remaining, and passed 47 of 52 checks. The five failures were exactly the five tests that source tests/run-valgrind.sh. Release 2 run 33707672244 at cbaff73805392e1fdc0e5d17e82c99db297bd30c reproduced those failures with 10,279 seconds remaining. Its retained Automake logs contained only status 1 and no valgrind.out because upstream deletes the temporary workFile4 log for every result other than the configured memory-error status 125. Release 3 keeps all tests and Valgrind enabled and preserves every failure status while a downstream diagnostic-only patch emits at most 2,000 lines of that temporary log for any nonzero result.",
     "status": "active"
   },
   "package_id": "pv",
@@ -95,6 +105,6 @@
   "version": {
     "current": "1.11.0",
     "latest_detected": "1.11.0",
-    "release": "2"
+    "release": "3"
   }
 }
