@@ -51,7 +51,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-libproxy-prefer-explicit-proxy.patch",
+        "license": "LGPL-3.0-or-later",
+        "purpose": "Honor explicit HTTP/HTTPS proxy and no-proxy settings before falling back to libproxy, so local proxy-backed integration tests and user configuration retain precedence.",
+        "remove_when": "Upstream makes explicit libwget proxy vectors take precedence over libproxy discovery.",
+        "sha256": "91ad3a7be59edf53ba5642baeba6d45bf8dd22339b4504f9e7aefef668cded3e",
+        "source": "Package CI run 33707472814 at exact commit 2d4bc5e071fb7e0e78893ba0744443e892f80b17 and static review of GNU Wget2 2.2.1 libwget/http.c.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "wget2.spec"
@@ -60,7 +70,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official GNU 2.2.1 release bytes are SHA-256 pinned; libwget.so.4 is preserved and the complete serial suite remains enabled with local HTTP and TLS test dependencies. Test-suite diagnostics are emitted when that complete suite fails. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "notes": "Official GNU 2.2.1 release bytes are SHA-256 pinned; libwget.so.4 is preserved and the complete serial suite remains enabled with local HTTP and TLS test dependencies. Test-suite diagnostics are emitted when that complete suite fails. Release 3 retains optional libproxy discovery while giving explicit libwget and command-line proxy settings precedence, after exact-head CI showed three IDN tests bypassing their local proxy and attempting DNS resolution. AUR was read-only RPC metadata only; no external packaging content was executed.",
     "status": "active"
   },
   "package_id": "wget2",
@@ -95,6 +105,6 @@
   "version": {
     "current": "2.2.1",
     "latest_detected": "2.2.1",
-    "release": "2"
+    "release": "3"
   }
 }

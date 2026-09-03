@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           wget2
 Version:        2.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Modern non-interactive network downloader
 License:        GPL-3.0-or-later AND LGPL-3.0-or-later AND GFDL-1.3-or-later
 URL:            https://gitlab.com/gnuwget/wget2
 Source0:        wget2-%{version}.tar.gz
+Patch0:         0001-libproxy-prefer-explicit-proxy.patch
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -52,7 +53,7 @@ Headers, the unversioned shared-library link, pkg-config metadata, and API
 manual pages for developing applications with libwget.
 
 %prep
-%autosetup
+%autosetup -p1
 
 %build
 %configure \
@@ -103,6 +104,9 @@ timeout 60m make -j1 check || {
 %{_mandir}/man3/libwget-*.3*
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.1-3
+- Prefer explicit proxy settings while retaining libproxy fallback support.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.1-2
 - Preserve the complete test suite and emit its diagnostic log on failure.
 
