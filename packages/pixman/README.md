@@ -24,7 +24,15 @@ Exact-head run `33723149338` completed the long RISC-V/QEMU build, passed all
 installation then succeeded, but the public-API smoke source failed to compile
 because it used `NULL` without including its standard definition. Release 2
 adds `<stddef.h>` to that smoke source; package code and upstream test coverage
-are unchanged, and installed-smoke status awaits the next exact-head run.
+are unchanged.
+
+Exact-head run `33727184465` then rebuilt the corrected smoke source, but a
+more contended QEMU runner caused the upstream `composite` and `tolerance-test`
+cases to reach the 1,200-second per-test limit. The other 33 tests passed with
+zero failures or skips; those same two cases had passed in 944 and 909 seconds
+in run `33723149338`. Release 3 raises only Meson's timeout multiplier from 10
+to 20, preserving all 35 tests, their inputs, four-way execution, and the
+package-wide 180-minute deadline.
 
 External source licenses remain upstream's. Apache-2.0 covers only this
 repository's original packaging metadata, scripts, and documentation.

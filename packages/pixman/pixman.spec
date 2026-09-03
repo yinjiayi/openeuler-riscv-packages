@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pixman
 Version:        0.46.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Pixel manipulation library
 License:        MIT
 URL:            https://www.pixman.org/
@@ -50,9 +50,9 @@ developing applications with pixman.
 
 %check
 # Pixman's upstream tests use a fixed 120-second timeout. RISC-V execution
-# under QEMU user mode can exceed that budget while still making progress;
+# under QEMU user mode can exceed 20 minutes under shared-runner contention;
 # multiply the timeout without removing or skipping any test.
-%meson_test --timeout-multiplier 10
+%meson_test --timeout-multiplier 20
 
 %files
 %license COPYING
@@ -66,6 +66,10 @@ developing applications with pixman.
 %{_libdir}/pkgconfig/pixman-1.pc
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.46.4-3
+- Allow the complete upstream test suite more time under contended QEMU while
+  retaining every test and the package-wide 180-minute build deadline.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.46.4-2
 - Include the standard NULL definition in the installed public-API smoke test.
 
