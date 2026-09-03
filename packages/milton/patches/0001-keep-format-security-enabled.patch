@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: keep distribution format checks enabled
+
+Milton unconditionally disables all format diagnostics. This conflicts with
+openEuler's -Werror=format-security hardening flag because GCC reports that
+format-security cannot remain enabled after -Wno-format.
+
+Remove the blanket suppression and retain the distribution compiler policy.
+
+Patch-Source: downstream adaptation of Milton 1.9.1 CMakeLists.txt
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+---
+ CMakeLists.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -55,7 +55,6 @@ if(UNIX)
+     -Wno-write-strings
+     -Wno-c++11-compat-deprecated-writable-strings
+     -Wno-null-dereference
+-    -Wno-format
+     -fno-strict-aliasing
+     -fno-omit-frame-pointer
+     -Wno-extern-c-compat
+--
+2.50.1

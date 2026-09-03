@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "cproto",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://invisible-mirror.net/archives/cproto/cproto-4.8a.tgz",
+      "filename": "cproto-4.8a.tgz",
+      "version": "4.8a",
+      "digests": {
+        "sha256": "beb121e08c0d47b5bd719071c32a77edcc31dff992a84e3d9a59c0f7ec9fadd3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The public-domain/MIT upstream source is fetched from the official invisible-mirror archive during CI."
+      }
+    }
+  ]
+}

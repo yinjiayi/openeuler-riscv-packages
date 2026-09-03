@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 name: Package CI
+run-name: Package CI ${{ inputs.commit_sha && (inputs.dispatch_nonce && format('PR {0} {1} {2}', inputs.pr_number, inputs.commit_sha, inputs.dispatch_nonce) || format('PR {0} {1}', inputs.pr_number, inputs.commit_sha)) || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
 
 on:
   push:
@@ -30,8 +31,20 @@ on:
         required: true
   workflow_dispatch:
     inputs:
+      commit_sha:
+        description: Exact trusted same-repository package PR head for a protected-main QEMU dispatch
+        required: false
+        type: string
+      pr_number:
+        description: Open same-repository PR that owns commit_sha for a protected-main QEMU dispatch
+        required: false
+        type: string
       base_sha:
         description: Immutable default-branch base SHA for a trusted bot-created PR
+        required: false
+        type: string
+      dispatch_nonce:
+        description: Unique bot-PR bridge invocation identity bound into the run title
         required: false
         type: string
       package_id:
@@ -45,19 +58,100 @@ on:
         type: boolean
 
 concurrency:
-  group: package-ci-${{ inputs.package_id || github.event.pull_request.number || github.event.merge_group.head_sha || github.sha }}
+  group: package-ci-${{ inputs.package_id || inputs.pr_number || github.event.pull_request.number || github.event.merge_group.head_sha || github.sha }}
   cancel-in-progress: true
 
 permissions:
   contents: read
+  pull-requests: read
 
 env:
   ARTIFACT_RETENTION_DAYS: "7"
   TARGET_PLATFORM: linux/riscv64
 
 jobs:
+  authorize-trusted-dispatch:
+    name: trusted-dispatch-authorization
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.authorize.outputs.authorized }}
+      tooling_sha: ${{ steps.tooling.outputs.tooling_sha }}
+    steps:
+      # Pull requests and merge queues execute a synthetic commit. Pull requests
+      # need only the merge commit and its two direct parents; merge queues retain
+      # full history for the explicit protected-base ancestor proof.
+      - name: Check out the exact workflow commit for tooling validation
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ (github.event_name == 'pull_request' || github.event_name == 'merge_group') && github.workflow_sha || github.sha }}
+          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
+          persist-credentials: false
+      - name: Validate the protected tooling identity
+        id: tooling
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SHA: ${{ github.sha }}
+          EVENT_REF: ${{ github.ref }}
+          WORKFLOW_REF: ${{ github.workflow_ref }}
+          WORKFLOW_SHA: ${{ github.workflow_sha }}
+          BASE_REPOSITORY: ${{ github.event.pull_request.base.repo.full_name || github.repository }}
+          BASE_REF: ${{ github.event.pull_request.base.ref || github.event.merge_group.base_ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PACKAGE_HEAD: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
+        run: |
+          mkdir -p artifacts/authorization
+          ci/resolve-protected-tooling.py \
+            --repo-root . \
+            --event-name "$EVENT_NAME" \
+            --repository "$GITHUB_REPOSITORY" \
+            --workflow-ref "$WORKFLOW_REF" \
+            --workflow-sha "$WORKFLOW_SHA" \
+            --event-sha "$EVENT_SHA" \
+            --event-ref "$EVENT_REF" \
+            --base-repository "$BASE_REPOSITORY" \
+            --base-ref "$BASE_REF" \
+            --pr-number "$PR_NUMBER" \
+            --package-head "$PACKAGE_HEAD" \
+            --base-sha "$BASE_SHA" \
+            --output artifacts/authorization/protected-tooling.json \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Authorize a trusted package dispatch or normal main build
+        id: authorize
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_REF: ${{ github.ref }}
+          CALLER_WORKFLOW_REF: ${{ github.workflow_ref }}
+          PR_NUMBER: ${{ inputs.pr_number }}
+          PACKAGE_ID: ${{ inputs.package_id }}
+          BASE_SHA: ${{ inputs.base_sha }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          PUBLISH_TO_REPO: ${{ inputs.publish_to_repo }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          if [[ "$CALLER_WORKFLOW_REF" == "$GITHUB_REPOSITORY/.github/workflows/rpm-repo-backfill.yml@refs/heads/main" ]]; then
+            printf 'authorized=true\n' >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ "$EVENT_NAME" != workflow_dispatch || -z "$COMMIT_SHA" ]]; then
+            printf 'authorized=true\n' >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
+          ci/authorize-trusted-package-dispatch.py \
+            --repo "$GITHUB_REPOSITORY" \
+            --pr-number "$PR_NUMBER" \
+            --package-id "$PACKAGE_ID" \
+            --base-sha "$BASE_SHA" \
+            --commit-sha "$COMMIT_SHA" \
+            --publish-to-repo "$PUBLISH_TO_REPO" \
+            --event-ref "$EVENT_REF" \
+            --github-output "$GITHUB_OUTPUT"
+
   prepare:
     name: change-scope
+    needs: authorize-trusted-dispatch
+    if: needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     outputs:
@@ -67,30 +161,57 @@ jobs:
       timeout_minutes: ${{ steps.policy.outputs.timeout_minutes }}
       build_user: ${{ steps.policy.outputs.build_user }}
     steps:
-      - name: Check out the exact head
+      - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           fetch-depth: 0
           persist-credentials: false
-      - name: Classify the diff
-        id: scope
+      - name: Classify the exact event delta with protected tooling
+        id: candidate_scope
+        if: inputs.package_id == ''
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.event.before || inputs.base_sha }}
+          BASE_SHA: ${{ (github.event_name == 'pull_request' || github.event_name == 'merge_group') && needs.authorize-trusted-dispatch.outputs.tooling_sha || github.event.before || inputs.base_sha }}
           HEAD_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
-          EXPLICIT_PACKAGE: ${{ inputs.package_id }}
         run: |
           mkdir -p artifacts/scope
-          if [[ -n "$EXPLICIT_PACKAGE" ]]; then
+          ci/detect-change-scope.py \
+            --base "$BASE_SHA" --head "$HEAD_SHA" \
+            --output artifacts/scope/candidate-scope.json \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Materialize only the exact package tree
+        if: inputs.package_id != '' || steps.candidate_scope.outputs.mode == 'package'
+        env:
+          PACKAGE_ID: ${{ inputs.package_id || steps.candidate_scope.outputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$TOOLING_COMMIT_SHA" \
+            --output artifacts/scope/tooling-overlay.json
+      - name: Bind the exact package tree or forward infrastructure scope
+        id: scope
+        env:
+          HEAD_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          PACKAGE_ID: ${{ inputs.package_id || steps.candidate_scope.outputs.package_id }}
+          CANDIDATE_MODE: ${{ steps.candidate_scope.outputs.mode }}
+          CANDIDATE_PACKAGE_ID: ${{ steps.candidate_scope.outputs.package_id }}
+          TOOLING_HEAD_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
+        run: |
+          mkdir -p artifacts/scope
+          if [[ -n "$PACKAGE_ID" ]]; then
             ci/select-package-scope.py \
-              --package-id "$EXPLICIT_PACKAGE" --head "$HEAD_SHA" \
+              --package-id "$PACKAGE_ID" --head "$HEAD_SHA" \
+              --tooling-head "$TOOLING_HEAD_SHA" \
+              --overlay-evidence artifacts/scope/tooling-overlay.json \
               --output artifacts/scope/change-scope.json \
               --github-output "$GITHUB_OUTPUT"
           else
-            ci/detect-change-scope.py \
-              --base "$BASE_SHA" --head "$HEAD_SHA" \
-              --output artifacts/scope/change-scope.json \
-              --github-output "$GITHUB_OUTPUT"
+            test "$CANDIDATE_MODE" = infrastructure
+            test -z "$CANDIDATE_PACKAGE_ID"
+            cp artifacts/scope/candidate-scope.json artifacts/scope/change-scope.json
+            printf 'mode=infrastructure\npackage_id=\n' >>"$GITHUB_OUTPUT"
           fi
       - name: Read canonical package build profile
         id: policy
@@ -129,16 +250,27 @@ jobs:
 
   metadata-validate:
     name: metadata-validate
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - name: Check out the exact head
+      - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
+      - name: Materialize only the exact package tree
+        if: needs.prepare.outputs.mode == 'package'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$TOOLING_COMMIT_SHA" \
+            --output artifacts/metadata/tooling-overlay.json
       - name: Validate metadata and schemas
         env:
           PREPARE_RESULT: ${{ needs.prepare.result }}
@@ -160,16 +292,27 @@ jobs:
 
   patch-policy:
     name: patch-policy
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Check out the exact head
+      - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
+      - name: Materialize only the exact package tree
+        if: needs.prepare.outputs.mode == 'package'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$TOOLING_COMMIT_SHA" \
+            --output artifacts/patch-policy/tooling-overlay.json
       - name: Enforce patch ownership and application
         env:
           MODE: ${{ needs.prepare.outputs.mode }}
@@ -202,16 +345,27 @@ jobs:
 
   source-verify:
     name: source-verify
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - name: Check out the exact head
+      - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
+      - name: Materialize only the exact package tree
+        if: needs.prepare.outputs.mode == 'package'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$TOOLING_COMMIT_SHA" \
+            --output artifacts/source/tooling-overlay.json
       - name: Record source-stage environment
         run: ci/record-environment.sh artifacts/source/environment.json
       - name: Download and verify official release source
@@ -254,16 +408,27 @@ jobs:
 
   repository-snapshot:
     name: repository-snapshot
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Check out repository client at the exact head
+      - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
+      - name: Materialize only the exact package tree
+        if: needs.prepare.outputs.mode == 'package'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$TOOLING_COMMIT_SHA" \
+            --output artifacts/repository/tooling-overlay.json
       - name: Resolve one immutable supplemental repository generation or official-only fallback
         env:
           MODE: ${{ needs.prepare.outputs.mode }}
@@ -293,8 +458,8 @@ jobs:
 
   merge-policy:
     name: merge-policy
-    needs: prepare
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -339,20 +504,42 @@ jobs:
 
   rpmbuild-riscv64:
     name: rpmbuild-riscv64
-    needs: [prepare, metadata-validate, patch-policy, source-verify, repository-snapshot]
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare, metadata-validate, patch-policy, source-verify, repository-snapshot]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     # Public pull-request and merge-queue workflows stay on a disposable
     # GitHub-hosted VM.  The repository-level pool is reachable only from a
     # protected-main push or workflow_dispatch after the hosted prepare job
     # has proven that one QEMU-buildable package is in scope.
     runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
-    timeout-minutes: 120
+    timeout-minutes: ${{ fromJSON(needs.prepare.outputs.timeout_minutes || '120') }}
     steps:
-      - name: Check out the exact head
+      - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
+      - name: Establish the validated package deadline
+        if: needs.prepare.outputs.mode == 'package'
+        id: timeout-budget
+        env:
+          PACKAGE_TIMEOUT_MINUTES: ${{ needs.prepare.outputs.timeout_minutes || '120' }}
+        run: |
+          ci/rpmbuild-timeout-budget.py start \
+            --timeout-minutes "$PACKAGE_TIMEOUT_MINUTES" \
+            --reserve-seconds 300 \
+            --output artifacts/build/timeout-budget-start.json \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Materialize only the exact package tree
+        if: needs.prepare.outputs.mode == 'package'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$TOOLING_COMMIT_SHA" \
+            --output artifacts/build/tooling-overlay.json
       - name: Download verified sources
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
@@ -405,8 +592,9 @@ jobs:
           mkdir -p artifacts/build/dependencies
           derived="openeuler-builddeps:${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           set +e
+          # Large target-native dependency closures can exceed 30 minutes under QEMU.
           ci/run-capped.sh --log artifacts/build/dependencies/install.log \
-            --max-bytes 52428800 --timeout-seconds 1800 -- \
+            --max-bytes 52428800 --timeout-seconds 3600 -- \
             ci/prepare-build-deps.py --base-image "$BASE_IMAGE" \
               --package-dir "packages/$PACKAGE_ID" \
               --work-dir "work/$PACKAGE_ID" \
@@ -446,11 +634,21 @@ jobs:
           IMAGE_REF: ${{ steps.dependencies.outputs.image }}
           BUILD_USER: ${{ needs.prepare.outputs.build_user }}
           BUILD_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          RPMBUILD_DEADLINE_EPOCH: ${{ steps.timeout-budget.outputs.deadline_epoch }}
         run: |
           mkdir -p artifacts/build
+          rpmbuild_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining \
+            --deadline-epoch "$RPMBUILD_DEADLINE_EPOCH" \
+            --output artifacts/build/timeout-budget-remaining.json \
+            --failure-output artifacts/build/failure.json)
+          [[ "$rpmbuild_timeout_seconds" =~ ^[1-9][0-9]*$ ]]
+          # Let the inner builder record timeout evidence before the outer
+          # process cap fires, while retaining 240 of the 300 reserved seconds.
+          rpmbuild_outer_timeout_seconds=$((rpmbuild_timeout_seconds + 60))
+          [[ "$rpmbuild_outer_timeout_seconds" =~ ^[1-9][0-9]*$ ]]
           set +e
           ci/run-capped.sh --log artifacts/build/rpmbuild.log \
-            --max-bytes 52428800 --timeout-seconds 6900 -- \
+            --max-bytes 52428800 --timeout-seconds "$rpmbuild_outer_timeout_seconds" -- \
             ci/run-rpmbuild-container.py run \
               --image "$IMAGE_REF" \
               --package-id "$PACKAGE_ID" \
@@ -458,7 +656,8 @@ jobs:
               --work-dir "$GITHUB_WORKSPACE/work/$PACKAGE_ID" \
               --artifact-dir "$GITHUB_WORKSPACE/artifacts/build" \
               --commit-sha "$BUILD_COMMIT_SHA" \
-              --build-user "$BUILD_USER"
+              --build-user "$BUILD_USER" \
+              --build-timeout-seconds "$rpmbuild_timeout_seconds"
           result=$?
           if [[ -f "work/$PACKAGE_ID/logs/rpmbuild.log" ]]; then
             cp -- "work/$PACKAGE_ID/logs/rpmbuild.log" artifacts/build/rpmbuild-internal.log
@@ -526,16 +725,27 @@ jobs:
 
   rpm-install-smoke:
     name: rpm-install-smoke
-    needs: [prepare, metadata-validate, patch-policy, source-verify, repository-snapshot, rpmbuild-riscv64]
-    if: always()
+    needs: [authorize-trusted-dispatch, prepare, metadata-validate, patch-policy, source-verify, repository-snapshot, rpmbuild-riscv64]
+    if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
     timeout-minutes: 30
     steps:
-      - name: Check out the exact head
+      - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
+      - name: Materialize only the exact package tree
+        if: needs.prepare.outputs.mode == 'package'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          TOOLING_COMMIT_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
+        run: |
+          ci/materialize-package-head.py --repo-root . \
+            --package-id "$PACKAGE_ID" --commit-sha "$PACKAGE_COMMIT_SHA" \
+            --tooling-sha "$TOOLING_COMMIT_SHA" \
+            --output artifacts/smoke/tooling-overlay.json
       - name: Download RISC-V build products
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
@@ -682,7 +892,9 @@ jobs:
       needs.rpm-install-smoke.result == 'success' &&
       needs.prepare.outputs.mode == 'package' &&
       needs.prepare.outputs.needs_native != 'true' &&
-      ((github.event_name == 'push' && github.ref == 'refs/heads/main') || inputs.publish_to_repo)
+      ((github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+       (github.workflow_ref == 'yinjiayi/openeuler-riscv-packages/.github/workflows/rpm-repo-backfill.yml@refs/heads/main' && inputs.publish_to_repo) ||
+       (github.event_name == 'workflow_dispatch' && inputs.commit_sha == '' && inputs.publish_to_repo))
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
@@ -774,8 +986,8 @@ jobs:
 
   ci-state:
     name: record-ci-state
-    needs: [prepare, metadata-validate, source-verify, patch-policy, repository-snapshot, merge-policy, rpmbuild-riscv64, rpm-install-smoke]
-    if: always() && github.event_name == 'pull_request'
+    needs: [authorize-trusted-dispatch, prepare, metadata-validate, source-verify, patch-policy, repository-snapshot, merge-policy, rpmbuild-riscv64, rpm-install-smoke]
+    if: always() && github.event_name == 'pull_request' && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -787,7 +999,7 @@ jobs:
       - name: Check out trusted state-transition code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event.pull_request.base.sha }}
+          ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
       - name: Download all structured results
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1

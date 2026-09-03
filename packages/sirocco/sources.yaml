@@ -1,0 +1,21 @@
+{
+  "package_id": "sirocco",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8fbcf3ba18846c802480c165772e1a853e13673b1cda25cee7b84847e1ad4e07"
+      },
+      "filename": "sirocco-2.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/miguelmarco/SIROCCO2/archive/refs/tags/2.1.1.tar.gz",
+      "version": "2.1.1"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "dos2unix",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "669ee27120ae71589f638fe3a167d6ea54f8633f5ab1b282551bd7a7c9510dfa"
+      },
+      "filename": "dos2unix-7.5.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "BSD-licensed source is fetched through the exact immutable archive linked by the official project page."
+      },
+      "signature": null,
+      "url": "https://downloads.sourceforge.net/project/dos2unix/dos2unix/7.5.7/dos2unix-7.5.7.tar.gz?download=",
+      "version": "7.5.7"
+    }
+  ]
+}

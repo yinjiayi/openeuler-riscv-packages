@@ -1,0 +1,8 @@
+{
+  "package_id": "zimg",
+  "schema_version": 1,
+  "sources": [
+    {"digests": {"sha256": "be89390f13a5c9b2388ce0f44a5e89364a20c1c57ce46d382b1fcc3967057577"}, "filename": "zimg-release-3.0.6.tar.gz", "id": "source0", "kind": "upstream-release", "redistribution": {"allowed": true, "reason": "WTFPL-licensed source is pinned to the official immutable release tag and checksum."}, "signature": null, "url": "https://github.com/sekrit-twc/zimg/archive/refs/tags/release-3.0.6.tar.gz", "version": "3.0.6"},
+    {"digests": {"sha256": "d17b1b83a57b3933565a6d0616fe261107326d47de20288d0949ed038e1c342d"}, "filename": "googletest-703bd9caab50b139428cea1aaff9974ebee5742e.tar.gz", "id": "source1", "kind": "upstream-release", "redistribution": {"allowed": true, "reason": "BSD-licensed GoogleTest source is pinned to the exact immutable gitlink commit recorded by zimg 3.0.6."}, "signature": null, "url": "https://github.com/google/googletest/archive/703bd9caab50b139428cea1aaff9974ebee5742e.tar.gz", "version": "703bd9caab50b139428cea1aaff9974ebee5742e"}
+  ]
+}

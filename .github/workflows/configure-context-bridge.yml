@@ -1,0 +1,60 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Configure Context Bridge
+
+on:
+  workflow_run:
+    workflows: [Auto Merge Policy]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Completed Auto Merge Policy run id to attest
+        required: true
+        type: string
+
+concurrency:
+  group: configure-context-bridge-${{ github.event.workflow_run.id || inputs.source_run_id }}
+  cancel-in-progress: false
+
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  bridge:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the immutable protected-main policy
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Bridge an exact trusted image-lock pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ github.event.workflow_run.id || inputs.source_run_id }}
+          BRIDGE_RUN_ID: ${{ github.run_id }}
+          TRUSTED_MAIN_SHA: ${{ github.sha }}
+          EVIDENCE: ${{ runner.temp }}/configure-context-bridge.json
+        run: |
+          set -euo pipefail
+          test -x ci/bridge-configure-context.py
+          ci/bridge-configure-context.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --source-run-id "$SOURCE_RUN_ID" \
+            --bridge-run-id "$BRIDGE_RUN_ID" \
+            --trusted-main-sha "$TRUSTED_MAIN_SHA" \
+            --output "$EVIDENCE"
+          jq . "$EVIDENCE"
+      - name: Upload configure bridge evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: configure-context-bridge-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/configure-context-bridge.json
+          if-no-files-found: error
+          retention-days: 7

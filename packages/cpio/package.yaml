@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/cpio/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cpio",
+        "package_name": "cpio",
+        "source": "arch-extra",
+        "source_version": "2.15-3"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/cpio/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cpio",
+        "package_name": "cpio",
+        "source": "debian",
+        "source_version": "2.15+dfsg-2"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/cpio/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cpio",
+        "package_name": "cpio",
+        "source": "fedora",
+        "source_version": "2.15-9.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/cpio/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cpio",
+        "package_name": "cpio",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.15-7.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "cpio.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "cpio",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "cpio",
+    "summary": "A tool to copy files into or out of a cpio or tar archive"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-cpio",
+    "homepage": "https://www.gnu.org/software/cpio/",
+    "release_api": "https://ftp.gnu.org/gnu/cpio/",
+    "release_channel": "stable",
+    "release_regex": "cpio-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+    "source_repository": "https://savannah.gnu.org/projects/cpio/",
+    "source_url_template": "https://ftp.gnu.org/gnu/cpio/cpio-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "2.15",
+    "latest_detected": "2.15",
+    "release": "1"
+  }
+}

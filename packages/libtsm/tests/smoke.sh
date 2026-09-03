@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- libtsm libtsm-devel
-pkg-config --modversion libtsm | grep -Fx '4.7.0'
+pkg-config --modversion libtsm | grep -Fx '4.7.1'
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf -- "$smoke_dir"' EXIT

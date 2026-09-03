@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           utf8cpp
-Version:        4.1.1
+Version:        4.2.0
 Release:        1%{?dist}
 Summary:        Portable header-only library for UTF-8 encoded strings
 License:        BSL-1.0
 URL:            https://github.com/nemtrif/utfcpp
-Source0:        utf8cpp-%{version}.tar.gz
+Source0:        v4.2.0.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -29,11 +29,8 @@ validating, and converting UTF-8 encoded strings.
 %install
 %cmake_install
 
-# Tag v4.1.1 still declares 4.1.0 in project(). Fail closed if that known
-# upstream value changes, then correct only the generated install metadata.
+# The generated CMake package metadata must follow the RPM version.
 config_version=%{buildroot}%{_datadir}/utf8cpp/cmake/utf8cppConfigVersion.cmake
-grep -Fq 'set(PACKAGE_VERSION "4.1.0")' "$config_version"
-sed -i 's/set(PACKAGE_VERSION "4.1.0")/set(PACKAGE_VERSION "%{version}")/' "$config_version"
 grep -Fq 'set(PACKAGE_VERSION "%{version}")' "$config_version"
 
 %check
@@ -46,6 +43,9 @@ grep -Fq 'set(PACKAGE_VERSION "%{version}")' "$config_version"
 %{_datadir}/utf8cpp/
 
 %changelog
+* Mon Aug 24 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.2.0-1
+- Update to 4.2.0 and accept its corrected generated CMake package version.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.1.1-1
 - Initial openEuler RISC-V package with all six upstream CTest programs.
 - Correct the generated CMake package version after verifying upstream's known 4.1.0 value.

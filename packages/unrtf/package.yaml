@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/unrtf/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "unrtf",
+        "package_name": "unrtf",
+        "source": "arch-extra",
+        "source_version": "0.21.10-3"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/unrtf/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "unrtf",
+        "package_name": "unrtf",
+        "source": "debian",
+        "source_version": "0.21.10-clean-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/unrtf/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "unrtf",
+        "package_name": "unrtf",
+        "source": "fedora",
+        "source_version": "0.21.10-3.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/unrtf/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "unrtf",
+        "package_name": "unrtf",
+        "source": "ubuntu",
+        "source_version": "0.21.10-clean-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "unrtf.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "unrtf",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "unrtf",
+    "summary": "Command-line program which converts RTF documents to other formats"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-unrtf",
+    "homepage": "https://www.gnu.org/software/unrtf/",
+    "release_api": "https://ftp.gnu.org/gnu/unrtf/",
+    "release_channel": "stable",
+    "release_regex": "unrtf-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/unrtf/",
+    "source_url_template": "https://ftp.gnu.org/gnu/unrtf/unrtf-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.21.10",
+    "latest_detected": "0.21.10",
+    "release": "1"
+  }
+}

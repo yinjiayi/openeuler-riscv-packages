@@ -1,0 +1,21 @@
+{
+  "package_id": "dosfstools",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "64926eebf90092dca21b14259a5301b7b98e7b1943e8a201c7d726084809b527"
+      },
+      "filename": "dosfstools-4.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz",
+      "version": "4.2"
+    }
+  ]
+}
