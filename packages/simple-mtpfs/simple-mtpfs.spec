@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simple-mtpfs
 Version:        0.4.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A FUSE filesystem that supports reading/writing from MTP devices
 License:        GPL-2.0-or-later
 URL:            https://github.com/phatina/simple-mtpfs
@@ -31,13 +31,20 @@ autoreconf -fi
 
 %install
 %make_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
-test -s %{name}.files
+test -x %{buildroot}%{_bindir}/simple-mtpfs
+test -f %{buildroot}%{_mandir}/man1/simple-mtpfs.1
 
 %check
 %make_build check
+./src/simple-mtpfs --version > version.out
+grep -F "simple-mtpfs version %{version}" version.out
+./src/simple-mtpfs --help > help.out 2>&1
+grep -F "usage: simple-mtpfs" help.out
+grep -F "Report bugs to" help.out
 
-%files -f %{name}.files
+%files
+%{_bindir}/simple-mtpfs
+%{_mandir}/man1/simple-mtpfs.1*
 %license COPYING
 %doc README.md
 %doc NEWS
@@ -45,6 +52,11 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.0-4
+- Use compression-safe explicit paths for the executable and manual page.
+- Exercise upstream's version and help behavior because upstream registers no
+  automated test targets, while retaining the no-op upstream check target.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.0-3
 - Raise the package timeout to 180 minutes after exact-head CI exhausted the
   former 60-minute budget while downloading the complete build dependencies.

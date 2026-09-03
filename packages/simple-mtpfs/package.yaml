@@ -36,7 +36,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 declares the fixed-repository Autoconf macro, pkg-config, FUSE, MTP, and USB providers required by configure.ac while preserving the existing Autotools and test behavior. Release 3 raises the package timeout to 180 minutes after exact-head CI exhausted the former 60-minute budget during the complete 241-package dependency download; it preserves the full build, test suite, and FUSE functionality. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 declares the fixed-repository Autoconf macro, pkg-config, FUSE, MTP, and USB providers required by configure.ac while preserving the existing Autotools behavior. Release 3 raises the package timeout to 180 minutes after exact-head CI exhausted the former 60-minute budget during the complete 241-package dependency download. Release 4 replaces a pre-compression generated file manifest with explicit compression-safe executable and manual-page paths; because upstream registers no automated tests, the package and installed smoke checks execute and assert the version and help behavior without requiring MTP hardware. The full FUSE functionality remains enabled. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
     "status": "active"
   },
   "package_id": "simple-mtpfs",
@@ -71,6 +71,6 @@
   "version": {
     "current": "0.4.0",
     "latest_detected": "0.4.0",
-    "release": "3"
+    "release": "4"
   }
 }
