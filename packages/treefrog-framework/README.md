@@ -15,3 +15,9 @@ install smoke test remain enabled.
 Packaging release 3 adds the Qt 6 declarative development package required by
 the framework's qmake project after the next exact-head RVA23 build reached
 configuration and reported the QML module missing.
+
+Packaging release 4 enables TreeFrog's supported shared MongoDB C driver mode
+and declares `mongo-c-driver-devel`, which is present in the approved official
+RVA23 repository. This retains MongoDB support while avoiding the bundled
+driver build that failed in the following exact-head CI run. The upstream check
+target and install smoke test remain enabled.
