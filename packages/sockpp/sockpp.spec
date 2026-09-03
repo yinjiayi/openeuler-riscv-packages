@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sockpp
 Version:        1.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Simple, modern, C++ socket library.
 License:        BSD-3-Clause
 URL:            https://github.com/fpagliughi/sockpp
 Source0:        sockpp-1.0.0.tar.gz
+Patch0:         0001-tests-register-catch2-suite-without-helper.patch
 BuildRequires:  catch2-devel
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -19,7 +20,8 @@ Simple, modern, C++ socket library.
 %autosetup -p1
 
 %build
-%cmake -DSOCKPP_BUILD_TESTS=ON
+%cmake -S . -B %{_vpath_builddir} \
+  -DSOCKPP_BUILD_TESTS=ON
 %cmake_build
 
 %install
@@ -35,6 +37,11 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-4
+- Register the complete Catch2 unit executable directly with CTest because the
+  target catch2-devel package omits the optional Catch.cmake helper module.
+- Configure the explicit out-of-source directory consumed by the RPM macros.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-3
 - Raise the package timeout to 180 minutes after the complete dependency transaction
   exhausted the former 60-minute budget during downloads before rpmbuild began.
