@@ -7,8 +7,8 @@ small deterministic test for the password-generation primitives so packaging
 does not report a green check without executing behavior.
 ---
  CMakeLists.txt            | 10 ++++++++++
- tests/generation_test.cpp | 47 +++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 57 insertions(+)
+ tests/generation_test.cpp | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 59 insertions(+)
  create mode 100644 tests/generation_test.cpp
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
@@ -35,7 +35,7 @@ new file mode 100644
 index 0000000..c6b3818
 --- /dev/null
 +++ b/tests/generation_test.cpp
-@@ -0,0 +1,47 @@
+@@ -0,0 +1,49 @@
 +#include "generation.hpp"
 +
 +#include <array>
@@ -87,4 +87,3 @@ index 0000000..c6b3818
 +}
 -- 
 2.50.1
-

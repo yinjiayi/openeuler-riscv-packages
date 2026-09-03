@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simple-password
 Version:        0.1.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A password generator without any unnecessary stuff
 License:        GPL-3.0-or-later
 URL:            https://github.com/ESzPa/spass
@@ -39,6 +39,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.1-7
+- Correct the downstream test patch hunk length so the test program retains
+  its return statement and closing brace.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.1-6
 - Add deterministic unit coverage for the generation primitives and fail the
   package build when CTest registers no tests.
