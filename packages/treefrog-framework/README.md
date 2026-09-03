@@ -28,3 +28,8 @@ exact-head failure, where the configured source tree intentionally had no
 top-level Makefile. The check phase now runs the upstream source and `tmake`
 test suites with locally bound Redis and Memcached instances whose exact PIDs
 are verified and cleaned up. The install smoke test remains enabled.
+
+Packaging release 6 raises the QEMU build timeout from 60 to 180 minutes. The
+preceding exact-head run exhausted its bounded 2800-second build-command budget
+while `src` was still compiling normally, with no compiler or test failure.
+The longer timeout preserves the complete build and test paths.

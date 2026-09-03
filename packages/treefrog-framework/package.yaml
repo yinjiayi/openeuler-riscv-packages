@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 180
   },
   "discovery": {
     "lineage": [
@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 calls TreeFrog's project-specific configure script only with its documented installation-directory options after exact-head RVA23 CI showed the generic RPM configure macro passed unsupported GNU triplet arguments and exited after printing usage. CMake and Qt 6 development tooling used by that configure path are explicit BuildRequires. Release 3 additionally declares the Qt 6 declarative development package after exact-head CI reached qmake and reported its required QML module missing. Release 4 uses the supported shared MongoDB-driver mode and the official repository's mongo-c-driver-devel package after the following exact-head build failed while compiling the bundled driver. Release 5 follows the upstream build layout by building and installing src and tools separately after exact-head CI proved that configure intentionally creates no top-level Makefile. It runs the upstream source and tmake suites with their Redis and Memcached services explicitly provisioned and bounded by exact PID files. MongoDB support and install smoke remain enabled. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 calls TreeFrog's project-specific configure script only with its documented installation-directory options after exact-head RVA23 CI showed the generic RPM configure macro passed unsupported GNU triplet arguments and exited after printing usage. CMake and Qt 6 development tooling used by that configure path are explicit BuildRequires. Release 3 additionally declares the Qt 6 declarative development package after exact-head CI reached qmake and reported its required QML module missing. Release 4 uses the supported shared MongoDB-driver mode and the official repository's mongo-c-driver-devel package after the following exact-head build failed while compiling the bundled driver. Release 5 follows the upstream build layout by building and installing src and tools separately after exact-head CI proved that configure intentionally creates no top-level Makefile. It runs the upstream source and tmake suites with their Redis and Memcached services explicitly provisioned and bounded by exact PID files. Release 6 raises the package timeout to 180 minutes after exact-head CI reached the bounded 2800-second command budget while src was still compiling normally without a compiler or test failure. MongoDB support, the complete test paths, and install smoke remain enabled. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "treefrog-framework",
@@ -63,6 +63,6 @@
   "version": {
     "current": "2.12.0",
     "latest_detected": "2.12.0",
-    "release": "5"
+    "release": "6"
   }
 }
