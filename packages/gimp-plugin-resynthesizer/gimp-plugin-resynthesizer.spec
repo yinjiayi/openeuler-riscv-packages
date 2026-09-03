@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gimp-plugin-resynthesizer
 Version:        3.0.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Suite of gimp plugins for texture synthesis
 License:        GPL-3.0-or-later
 URL:            https://github.com/bootchk/resynthesizer
 Source0:        gimp-plugin-resynthesizer-3.0.1.tar.gz
+Patch0:         0001-libheal-include-engine-types-before-inline-accessors.patch
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  meson
@@ -42,6 +43,11 @@ test "$(grep -c '^Result:$' testHealLib.log)" -eq 8
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-5
+- Include the engine scalar and coordinate definitions before the inline map
+  accessors when compiling upstream's optional libheal functional-test target.
+- Keep the real eight-scenario testHealLib execution and its strict count gates.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-4
 - Select the actual resynthesizer-3.0.1 directory emitted by the upstream tag
   archive instead of deriving the directory from the downstream package name.

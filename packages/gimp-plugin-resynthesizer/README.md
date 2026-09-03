@@ -18,4 +18,12 @@ register a Meson `test()` target, so the build enables and executes its
 run. The RISC-V build status remains `unknown` pending fresh exact-head build and
 installed-smoke evidence.
 
+Exact-head run `33721116347` confirmed the source-directory fix, then failed
+while compiling the optional `libheal` target because its `imageSynth.c`
+translation unit used the `Pixelel` and `Coordinates` types without including
+their defining headers. Release 5 adds those two direct dependencies in the
+same order already used by upstream `engine.c`; no algorithm or plugin behavior
+is changed. The eight-scenario `testHealLib` execution and count gates remain
+mandatory.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
