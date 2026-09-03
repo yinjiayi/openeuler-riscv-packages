@@ -16,6 +16,8 @@ PACKAGE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 TRUSTED_ASSOCIATIONS = {"OWNER", "MEMBER", "COLLABORATOR"}
 TRUSTED_LOGINS = {"yinjiayi", "github-actions[bot]"}
 BLOCKING_LABELS = {
+    "repair-queued",
+    "codex-repairing",
     "needs-native-riscv",
     "qemu-limitation",
     "needs-human",

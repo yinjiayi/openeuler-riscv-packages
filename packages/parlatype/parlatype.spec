@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           parlatype
 Version:        4.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        GNOME audio player for transcription
 License:        GPL-3.0-or-later
 URL:            https://github.com/gkarsay/parlatype
@@ -35,7 +35,9 @@ GNOME audio player for transcription
 
 %install
 %meson_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | \
+  LC_ALL=C sort | \
+  grep -vFx '%{_mandir}/man1/parlatype.1' > %{name}.files
 test -s %{name}.files
 
 %check
@@ -51,11 +53,15 @@ xvfb-run -a %{__meson} test \
   --print-errorlogs
 
 %files -f %{name}.files
+%{_mandir}/man1/parlatype.1*
 %license COPYING
 %doc README.md
 %doc NEWS
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-8
+- Track the compressed manual page with an RPM-safe glob outside the pre-compression dynamic file list.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.0-7
 - Use GTK's test accessibility backend for the headless test suite.
 
