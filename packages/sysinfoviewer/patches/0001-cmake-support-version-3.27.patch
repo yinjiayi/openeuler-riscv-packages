@@ -1,0 +1,35 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 31 Aug 2026 00:00:00 +0800
+Subject: [PATCH] cmake: support version 3.27
+
+The project does not use CMake 4.2-specific commands or properties.  Accept
+CMake 3.27, the version shipped by openEuler 24.03 LTS SP3, for both build
+entry points while retaining the existing C++23 and dependency requirements.
+
+---
+ CMakeLists.txt       | 2 +-
+ cpack/CMakeLists.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9ae1a4f..81e2381 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 4.2)
++cmake_minimum_required(VERSION 3.27)
+ project(sysinfoviewer VERSION 0.3.1 LANGUAGES CXX)
+ 
+ set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Install path prefix")
+diff --git a/cpack/CMakeLists.txt b/cpack/CMakeLists.txt
+index 56d3a73..cdd637f 100644
+--- a/cpack/CMakeLists.txt
++++ b/cpack/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 4.2.0)
++cmake_minimum_required(VERSION 3.27)
+ project(sysinfoviewer VERSION 0.2.3 LANGUAGES CXX)
+ 
+ set(CMAKE_CXX_STANDARD 23)
+-- 
+2.50.1
