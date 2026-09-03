@@ -13,3 +13,9 @@ but applies explicit HTTP/HTTPS proxy and no-proxy settings first. This fixes
 the three IDN integration tests that otherwise bypassed their local test proxy
 and attempted external DNS resolution when libproxy support was compiled in;
 the complete upstream test suite remains unchanged.
+
+Packaging release 4 accounts for the complete install manifest observed on
+RVA23: it ships the generated Wget2 manual and removes the upstream
+`wget2_noinstall` test helper from the build root. The preceding exact-head CI
+run completed all 83 upstream tests with zero skips before RPM's unpackaged-file
+check identified those two manifest entries.
