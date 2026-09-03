@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 180
   },
   "discovery": {
     "lineage": [
@@ -52,7 +52,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 uses the matching system GoogleTest package through upstream's supported CMake option and continues to run the registered CTest suite. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 3 retains the matching system GoogleTest package and full registered CTest suite while raising the package timeout to 180 minutes: exact-head CI resolved the complete 124-package, 170 MB dependency transaction but exhausted the former 60-minute budget during dependency downloads before rpmbuild began. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
     "status": "active"
   },
   "package_id": "simpleini",
@@ -87,6 +87,6 @@
   "version": {
     "current": "4.26",
     "latest_detected": "4.26",
-    "release": "2"
+    "release": "3"
   }
 }
