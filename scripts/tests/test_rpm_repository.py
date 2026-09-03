@@ -491,6 +491,18 @@ class BackfillWorkflowContractTests(unittest.TestCase):
         self.assertIn("BUILD_USER: ${{ steps.policy.outputs.build_user }}", workflow)
         self.assertIn('--build-user "$BUILD_USER"', workflow)
 
+    def test_heavy_dependency_preparation_has_a_bounded_one_hour_window(self) -> None:
+        for path in (PACKAGE_WORKFLOW, GOLDEN_WORKFLOW):
+            workflow = path.read_text(encoding="utf-8")
+            self.assertIn(
+                "--max-bytes 52428800 --timeout-seconds 3600 --",
+                workflow,
+            )
+            self.assertNotIn(
+                "--max-bytes 52428800 --timeout-seconds 1800 --",
+                workflow,
+            )
+
 
 class RrsyncLockRetryTests(unittest.TestCase):
     def fake_command(self, root: Path) -> tuple[Path, Path]:
