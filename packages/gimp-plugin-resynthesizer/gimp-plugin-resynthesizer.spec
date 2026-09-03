@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gimp-plugin-resynthesizer
 Version:        3.0.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Suite of gimp plugins for texture synthesis
 License:        GPL-3.0-or-later
 URL:            https://github.com/bootchk/resynthesizer
 Source0:        gimp-plugin-resynthesizer-3.0.1.tar.gz
 Patch0:         0001-libheal-include-engine-types-before-inline-accessors.patch
 Patch1:         0002-i18n-install-honor-destdir.patch
+Patch2:         0003-libheal-link-engine-support-sources.patch
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  meson
@@ -46,6 +47,10 @@ test "$(grep -c '^Result:$' testHealLib.log)" -eq 8
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-8
+- Link libheal with the map, coordinate, target-pixel, ordering, bounds, and
+  statistics implementations required by the functional harness.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-7
 - Enable upstream's CI/developer test targets so testHealLib is materialized,
   then exclude both developer-only test programs from the runtime package.

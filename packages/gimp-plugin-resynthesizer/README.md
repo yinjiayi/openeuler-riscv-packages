@@ -46,4 +46,12 @@ developer-only GIMP test plugin before generating the runtime file list.
 `%check` executes the build-tree harness and still requires all eight scenario
 markers.
 
+Exact-head run `33724934486` then materialized `testHealLib` and exposed the
+next upstream build-system defect at its link step: `libheal_sources` omitted
+the existing map, coordinate, target-pixel, target-ordering, bounds, and
+statistics implementation units used by `imageSynth.c` and `engine.c`.
+Release 8 adds those same six support sources already compiled into upstream's
+full `libresynthesizer` library. The harness remains a real linked executable
+and its eight-scenario runtime gate is unchanged.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

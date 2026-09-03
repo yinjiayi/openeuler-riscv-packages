@@ -1,0 +1,33 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 00:00:00 +0800
+Subject: [PATCH] libheal: link the engine support sources
+
+libheal includes imageSynth.c in addition to the core engine, but its Meson
+source list omits the map, coordinate, target-pixel, ordering, bounds, and
+statistics implementations used by those translation units. Add the same
+support sources already used by libresynthesizer so the upstream testHealLib
+functional harness links against complete implementations.
+---
+ lib/meson.build | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/lib/meson.build b/lib/meson.build
+index ea2634d..6882f22 100644
+--- a/lib/meson.build
++++ b/lib/meson.build
+@@ -19,6 +19,12 @@ libheal_sources = [
+   'engine.c',
+   'engineParams.c',
+   'imageFormat.c',
+   'progress.c',
++  'stats.c',
++  'targetPixels.c',
++  'map.c',
++  'targetPointsOrder.c',
++  'coordinates.c',
++  'bounds.c',
+ ]
+ 
+ # libresynthesizer is much more general,
+-- 
+2.51.0
