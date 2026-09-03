@@ -6,7 +6,9 @@ on:
     paths:
       - ci/Containerfile.riscv64
       - ci/bootstrap-rootfs.sh
+      - ci/finalize-target-rpmdb.sh
       - ci/openeuler-rva23.repo
+      - ci/rpm-manifest.sh
       - ci/rva23-selftest.c
       - ci/verify-target.sh
       - ci/build-config.yaml
@@ -16,7 +18,9 @@ on:
     paths:
       - ci/Containerfile.riscv64
       - ci/bootstrap-rootfs.sh
+      - ci/finalize-target-rpmdb.sh
       - ci/openeuler-rva23.repo
+      - ci/rpm-manifest.sh
       - ci/rva23-selftest.c
       - ci/verify-target.sh
       - ci/build-config.yaml
@@ -64,6 +68,8 @@ jobs:
           ci/record-environment.sh artifacts/image/environment.json
           sha256sum ci/Containerfile.riscv64 > artifacts/image/Containerfile.sha256
           sha256sum ci/bootstrap-rootfs.sh > artifacts/image/bootstrap-rootfs.sha256
+          sha256sum ci/finalize-target-rpmdb.sh > artifacts/image/finalize-target-rpmdb.sha256
+          sha256sum ci/rpm-manifest.sh > artifacts/image/rpm-manifest-helper.sha256
       - name: Install RISC-V QEMU/binfmt
         id: qemu
         uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
@@ -108,10 +114,15 @@ jobs:
           container=$(docker create --platform linux/riscv64 openeuler-riscv64-rpmbuild:m0)
           docker cp "$container:/usr/share/openeuler-riscv-ci/." artifacts/image/
           docker rm "$container"
+          docker run --rm --platform linux/riscv64 --memory 1g --cpus 2 --pids-limit 256 \
+            openeuler-riscv64-rpmbuild:m0 \
+            /usr/local/libexec/openeuler-riscv-ci/rpm-manifest.sh \
+            > artifacts/image/rpm-manifest-live.tsv
           test "$(cat artifacts/image/repomd.sha256)" = \
             "$(sha256sum artifacts/image/repomd.xml | awk '{print $1}')"
           test "$(cat artifacts/image/rpm-manifest.sha256)" = \
             "$(sha256sum artifacts/image/rpm-manifest.tsv | awk '{print $1}')"
+          cmp -s artifacts/image/rpm-manifest.tsv artifacts/image/rpm-manifest-live.tsv
       - name: Publish and verify public anonymous digest pull
         id: publish
         if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish)
@@ -256,7 +267,7 @@ jobs:
             --pr-number "$pr_number" --ref "$BRANCH" \
             --head-sha "$head_sha" --base-sha "$base_sha" \
             --output artifacts/lock/required-checks.json
-          gh pr merge "$pr_url" --auto --squash --delete-branch
+          printf 'Auto-merge is disabled; an explicit maintainer squash merge is required for %s\n' "$pr_url"
       - name: Upload digest-lock orchestration evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

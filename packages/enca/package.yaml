@@ -1,0 +1,118 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/enca/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "enca",
+        "package_name": "enca",
+        "source": "arch-extra",
+        "source_version": "1.22-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/mingw-w64-enca",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-enca",
+        "package_name": "mingw-w64-enca",
+        "source": "aur",
+        "source_version": "1.22-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/enca",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "enca",
+        "package_name": "enca",
+        "source": "debian",
+        "source_version": "1.19-3"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/enca/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "enca",
+        "package_name": "enca",
+        "source": "fedora",
+        "source_version": "1.19-19.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/enca",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "enca",
+        "package_name": "enca",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.19-2.14"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/enca",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "enca",
+        "package_name": "enca",
+        "source": "ubuntu",
+        "source_version": "1.21-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-tests-select-librecode-converter.patch",
+        "license": "GPL-2.0-only",
+        "purpose": "Make the TeX round-trip regression select the registered external converter and its complete build-tree GNU recode wrapper path.",
+        "remove_when": "An upstream release selects the external converter for the TeX round trip.",
+        "sha256": "9de5abd766f76ee230574801b12ecc1af4601a1e0db9ef1fcb2d02a5ed5dedee",
+        "source": "Downstream diagnosis from exact-head openEuler RISC-V CI runs 31761326622, 32696957765, 33187771273, and the pinned Enca 1.22 source.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "enca.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official Project-OSS-Revival 1.22 release asset and publisher SHA-256 agree. CI fetches the pinned source with networking enabled. The suite schedules all 21 upstream checks; the TeX path selects the registered external converter, passes the complete build-tree recode wrapper path, and still performs both round trips and the byte comparison, while the dedicated librecode regression separately exercises the in-process backend. The iconv-only check follows upstream's explicit skip when configure rejects the target iconv implementation. The libenca.so.0 ABI major matches the target's existing Enca package. AUR is metadata-only; no external packaging recipe was read or executed.",
+    "status": "active"
+  },
+  "package_id": "enca",
+  "rpm": {
+    "license": "GPL-2.0-only AND LicenseRef-Public-Domain",
+    "name": "enca",
+    "summary": "Charset analyzer and converter"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "github.com-Project-OSS-Revival-enca",
+    "homepage": "https://cihar.com/software/enca/",
+    "release_api": "https://api.github.com/repos/Project-OSS-Revival/enca/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/Project-OSS-Revival/enca",
+    "source_url_template": "https://github.com/Project-OSS-Revival/enca/releases/download/{version}/enca-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.22",
+    "latest_detected": "1.22",
+    "release": "1"
+  }
+}
