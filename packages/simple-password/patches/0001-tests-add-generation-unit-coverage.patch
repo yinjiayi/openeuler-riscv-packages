@@ -1,0 +1,90 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 13:40:00 +0800
+Subject: [PATCH] tests: add generation unit coverage
+
+Upstream 0.1.1 accepts BUILD_TESTING but does not register any tests.  Add a
+small deterministic test for the password-generation primitives so packaging
+does not report a green check without executing behavior.
+---
+ CMakeLists.txt            | 10 ++++++++++
+ tests/generation_test.cpp | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
+ create mode 100644 tests/generation_test.cpp
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3f00fe1..ea4f46f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -35,4 +35,14 @@ add_executable(${bin} ${CXX_SOURCES})
+ 
+ target_include_directories(${bin} PRIVATE ${CMAKE_SOURCE_DIR}/include ${GEN_DIR})
+ 
++include(CTest)
++if(BUILD_TESTING)
++  add_executable(simple-password-generation-test tests/generation_test.cpp
++                                                    src/generation.cpp)
++  target_include_directories(simple-password-generation-test
++                             PRIVATE ${CMAKE_SOURCE_DIR}/include)
++  add_test(NAME simple-password-generation
++           COMMAND simple-password-generation-test)
++endif()
++
+ install(TARGETS ${bin} DESTINATION bin)
+diff --git a/tests/generation_test.cpp b/tests/generation_test.cpp
+new file mode 100644
+index 0000000..c6b3818
+--- /dev/null
++++ b/tests/generation_test.cpp
+@@ -0,0 +1,47 @@
++#include "generation.hpp"
++
++#include <array>
++#include <iostream>
++#include <span>
++#include <string>
++#include <string_view>
++
++namespace {
++
++bool require(bool condition, std::string_view message) {
++    if(!condition) {
++        std::cerr << message << '\n';
++    }
++    return condition;
++}
++
++} // namespace
++
++int main() {
++    bool passed = true;
++
++    const std::span<const std::string_view> no_characters;
++    passed &= require(GEN::generate_password_charlist(12, no_characters).empty(),
++                      "an empty character set must produce an empty password");
++
++    const std::array<std::string_view, 1> fixed_character{{"x"}};
++    const auto fixed_password = GEN::generate_password_charlist(32, fixed_character);
++    passed &= require(fixed_password == std::string(32, 'x'),
++                      "a one-character set must produce deterministic output");
++    passed &= require(GEN::generate_password_charlist(0, fixed_character).empty(),
++                      "a zero length must produce an empty password");
++
++    const std::array<std::string_view, 1> fixed_word{{"alpha"}};
++    passed &= require(GEN::generate_password_wordlist(3, ":", fixed_word) ==
++                          "Alpha:Alpha:Alpha",
++                      "a fixed word list must honor count and separator");
++    passed &= require(GEN::generate_password_wordlist(2, "", fixed_word) ==
++                          "AlphaAlpha",
++                      "an empty separator must concatenate words");
++
++    const std::span<const std::string_view> no_words;
++    passed &= require(GEN::generate_password_wordlist(2, "-", no_words).empty(),
++                      "an empty word list must produce an empty passphrase");
++    passed &= require(GEN::generate_password_wordlist(0, "-", fixed_word).empty(),
++                      "a zero count must produce an empty passphrase");
++
++    return passed ? 0 : 1;
++}
+-- 
+2.50.1
+

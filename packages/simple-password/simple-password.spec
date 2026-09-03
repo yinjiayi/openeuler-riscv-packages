@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simple-password
 Version:        0.1.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A password generator without any unnecessary stuff
 License:        GPL-3.0-or-later
 URL:            https://github.com/ESzPa/spass
 Source0:        simple-password-0.1.1.tar.gz
+Patch0:         0001-tests-add-generation-unit-coverage.patch
 BuildRequires:  argparse
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -29,6 +30,8 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
+test_count="$(ctest --test-dir %{_vpath_builddir} -N | awk '/^Total Tests:/ { print $3 }')"
+test "${test_count:-0}" -gt 0
 ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 %files -f %{name}.files
@@ -36,6 +39,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.1-6
+- Add deterministic unit coverage for the generation primitives and fail the
+  package build when CTest registers no tests.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.1-5
 - Raise the package timeout to 180 minutes after both exact-head CI attempts
   exhausted the former 60-minute budget during dependency downloads.

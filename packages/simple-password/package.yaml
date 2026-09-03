@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-tests-add-generation-unit-coverage.patch",
+        "license": "Apache-2.0",
+        "purpose": "Register deterministic unit coverage for password-generation primitives so the package cannot pass without running behavior tests.",
+        "remove_when": "Upstream registers equivalent generation tests with CTest.",
+        "sha256": "cb6baa6c98dc65072e2def5e90b0c39aee68b970407e82591b28a83b3be28d7f",
+        "source": "Downstream openEuler CI review of exact-head Package CI run 33718705146 and upstream simple-password 0.1.1 sources.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "simple-password.spec"
@@ -28,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 adds the fixed-repository vim-common provider required by upstream's xxd source-generation command and configures explicit CMake source and out-of-source build directories while preserving the existing test behavior. Release 4 adds the immutable supplemental repository's argparse header provider required by the command-line interface. Release 5 raises the package timeout to 180 minutes after both exact-head CI attempts resolved the complete 125-package, 177 MB dependency transaction but exhausted the former 60-minute budget during dependency downloads before rpmbuild began. No source, feature, or test is changed. External distribution packaging was not executed, and the RISC-V build status remains unknown pending a successful exact-head CI build.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 adds the fixed-repository vim-common provider required by upstream's xxd source-generation command and configures explicit CMake source and out-of-source build directories. Release 4 adds the immutable supplemental repository's argparse header provider required by the command-line interface. Release 5 raises the package timeout to 180 minutes after both exact-head CI attempts resolved the complete 125-package, 177 MB dependency transaction but exhausted the former 60-minute budget during dependency downloads before rpmbuild began. Release 6 adds deterministic unit coverage for the generation primitives after exact-head artifact review showed that upstream registered zero CTest tests. The package check now fails closed if no tests are registered. External distribution packaging was not executed, and the RISC-V build status remains unknown pending a successful exact-head CI build.",
     "status": "active"
   },
   "package_id": "simple-password",
@@ -63,6 +73,6 @@
   "version": {
     "current": "0.1.1",
     "latest_detected": "0.1.1",
-    "release": "5"
+    "release": "6"
   }
 }
