@@ -576,6 +576,9 @@ def main() -> int:
         "PROTECTED_REF = \"refs/heads/main\"",
         "TRUSTED_ASSOCIATIONS",
         "PR changes are not confined",
+        "PR is not an allowed bot infrastructure shape",
+        "IMAGE_LOCK_BRANCH_RE",
+        "CATALOG_BRANCH_RE",
         "trusted PR dispatch must disable repository publication",
     )):
         errors.append("trusted protected-main dispatch authorizer is missing required scope or publication guards")
@@ -785,6 +788,10 @@ def main() -> int:
             "open-pr-exact-head-snapshot-changed",
             "status-context-not-allowed",
             "unexpected-provenance",
+            "configure-bridge-v1",
+            "bot-image-lock-v1",
+            "bridge_attestation_stable",
+            "changed_base_pr_count",
             'return 0 if result["passed"] else 1',
         ):
             if marker not in context_audit:
@@ -794,6 +801,7 @@ def main() -> int:
         "--context configure",
         '--expected-workflow "Auto Merge Policy"',
         "--expected-app github-actions",
+        "--bridge-policy bot-image-lock-v1",
         '--output "$audit_output"',
     )
     for marker in audit_markers:
@@ -840,6 +848,62 @@ def main() -> int:
     check_bridge = root / "ci" / "dispatch-required-checks.sh"
     if not check_bridge.is_file() or not check_bridge.stat().st_mode & 0o111:
         errors.append("bot-created PR check bridge is missing or not executable")
+    else:
+        check_bridge_text = check_bridge.read_text(encoding="utf-8")
+        for marker in (
+            'gh workflow run package-ci.yml --repo "$repo" --ref main',
+            'expected_name="Package CI PR $pr_number $head_sha $dispatch_nonce"',
+            '.displayTitle == $name and .headSha == $base',
+            '-f "dispatch_nonce=$dispatch_nonce"',
+            '.conclusion == "success"',
+        ):
+            if marker not in check_bridge_text:
+                errors.append(
+                    "bot-created PR check bridge is missing protected-main dispatch binding: %s"
+                    % marker
+                )
+    if "inputs.package_id || inputs.pr_number" not in package_ci:
+        errors.append("trusted bot PR dispatches do not have PR-isolated concurrency")
+    if "inputs.dispatch_nonce" not in package_ci or "inputs.commit_sha, inputs.dispatch_nonce" not in package_ci:
+        errors.append("trusted bot PR dispatch run identity does not include a unique nonce")
+
+    configure_bridge_path = workflows / "configure-context-bridge.yml"
+    configure_bridge = configure_bridge_path.read_text(encoding="utf-8") if configure_bridge_path.exists() else ""
+    for marker in (
+        "workflows: [Auto Merge Policy]",
+        "workflow_dispatch:",
+        "if: github.ref == 'refs/heads/main'",
+        "checks: write",
+        "actions: read",
+        "ci/bridge-configure-context.py",
+        "if: always()",
+        "retention-days: 7",
+        "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+    ):
+        if marker not in configure_bridge:
+            errors.append("configure CheckRun bridge is missing protected-main evidence contract: %s" % marker)
+    for forbidden in ("pull_request_target", "statuses: write", "github.event.pull_request.head"):
+        if forbidden in configure_bridge:
+            errors.append("configure CheckRun bridge contains forbidden candidate/status mechanism: %s" % forbidden)
+    configure_bridge_helper = root / "ci" / "bridge-configure-context.py"
+    if not configure_bridge_helper.is_file() or not configure_bridge_helper.stat().st_mode & 0o111:
+        errors.append("configure CheckRun bridge helper is missing or not executable")
+    else:
+        helper_text = configure_bridge_helper.read_text(encoding="utf-8")
+        for marker in (
+            'SOURCE_PATH = ".github/workflows/auto-merge.yml"',
+            'BRIDGE_PATH = ".github/workflows/configure-context-bridge.yml"',
+            'CHECK_APP_ID = 15368',
+            'IMAGE_BRANCH = re.compile',
+            'published-public-anonymous-verified',
+            'image-lock branch does not match the candidate digest prefix',
+            'a forbidden configure StatusContext already exists',
+            'status": "in_progress"',
+            'prove_check(args.repository, check_id, head, eid, details, "completed", "success")',
+            'fail_created_check',
+        ):
+            if marker not in helper_text:
+                errors.append("configure CheckRun bridge helper is missing fail-closed attestation: %s" % marker)
 
     credential_guard = root / "scripts" / "github-credential-guard"
     if not credential_guard.is_file() or not credential_guard.stat().st_mode & 0o111:
