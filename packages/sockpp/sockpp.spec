@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sockpp
 Version:        1.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Simple, modern, C++ socket library.
 License:        BSD-3-Clause
 URL:            https://github.com/fpagliughi/sockpp
@@ -30,13 +30,20 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-ctest --test-dir %{_vpath_builddir} --output-on-failure
+test "$(ctest --test-dir %{_vpath_builddir} --show-only | awk '/^Total Tests:/ { print $3 }')" -gt 0
+ctest --test-dir %{_vpath_builddir} --verbose --output-on-failure
 
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-5
+- Enable CTest at the top-level build directory so its generated test index
+  traverses the unit-test subdirectory instead of reporting zero tests.
+- Fail the build when CTest discovers no tests and retain the complete verbose
+  Catch2 suite execution.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-4
 - Register the complete Catch2 unit executable directly with CTest because the
   target catch2-devel package omits the optional Catch.cmake helper module.

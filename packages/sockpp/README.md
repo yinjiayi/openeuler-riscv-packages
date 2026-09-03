@@ -9,9 +9,15 @@ Downstream release `4` configures the explicit out-of-source build directory
 used by the RPM macros and registers the upstream `unit_tests` executable
 directly with CTest. Exact-head CI proved that the target `catch2-devel`
 package provides Catch2 3.15.3 and its CMake targets but not the optional
-`Catch.cmake` discovery helper. A direct CTest registration still runs every
-Catch2 test case in the executable; no test or library feature is disabled.
-The RISC-V build status remains `unknown` pending successful RPM and installed
-smoke evidence.
+`Catch.cmake` discovery helper. It also exposed that enabling CTest only inside
+the unit-test subdirectory made a top-level `ctest` invocation report zero
+tests despite a successful build and installation smoke test.
+
+Downstream release `5` enables CTest before the top-level project adds its
+unit-test subdirectory. The RPM `%check` gate first asserts that CTest discovers
+at least one test and then runs the registered executable verbosely, preserving
+the complete Catch2 suite and making an empty test run a build failure. No test
+or library feature is disabled. The RISC-V build status remains `unknown`
+pending fresh exact-head RPM, test, and installed-smoke evidence.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
