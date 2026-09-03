@@ -1,14 +1,16 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           treefrog-framework
 Version:        2.12.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        High-speed C++ MVC Framework for Web Application
 License:        BSD-3-Clause
 URL:            https://github.com/treefrogframework/treefrog-framework
 Source0:        treefrog-framework-2.12.0.tar.gz
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  cmake
 BuildRequires:  make
+BuildRequires:  qt6-qtbase-devel
 
 %description
 High-speed C++ MVC Framework for Web Application
@@ -17,7 +19,13 @@ High-speed C++ MVC Framework for Web Application
 %autosetup -p1
 
 %build
-%configure
+%set_build_flags
+./configure \
+  --prefix=%{_prefix} \
+  --bindir=%{_bindir} \
+  --libdir=%{_libdir} \
+  --includedir=%{_includedir}/treefrog \
+  --datadir=%{_datadir}/treefrog
 %make_build
 
 %install
@@ -33,5 +41,8 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.12.0-2
+- Use TreeFrog's supported configure interface and declare its build tools.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.12.0-1
 - Initial openEuler RISC-V package from the full package inventory.
