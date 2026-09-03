@@ -13,11 +13,14 @@ from typing import Any, Dict, List, Mapping, Optional, Tuple
 from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, parse_now, run_main
 
 
-RULES: List[Tuple[str, List[str], str, bool, bool]] = [
+RPM_WRAPPER_PATTERN = r"bad exit status from /var/tmp/rpm-tmp"
+
+
+RULES: List[Tuple[str, List[str], str, bool, bool, Optional[str]]] = [
     (
         "needs-native-riscv",
         [
-            r"\b(kernel module|kmod|modprobe|insmod|/lib/modules|kernel headers)\b",
+            r"\b(kernel module|modprobe|insmod|/lib/modules|kernel headers)\b",
             r"\b(eBPF|BPF_PROG_LOAD)\b",
             r"\b(real hardware|GPU|NPU|USB device|network device)\b",
             r"\b(systemd boot|requires booted systemd|target kernel behavior)\b",
@@ -25,6 +28,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Route to a future native RISC-V runner; keep the PR open and block auto-merge.",
         False,
         False,
+        None,
     ),
     (
         "qemu-limitation",
@@ -37,13 +41,16 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Confirm the limitation on native RISC-V; do not manufacture a source patch.",
         False,
         False,
+        None,
     ),
     (
         "infrastructure",
         [
+            r"\bexit_code:\s*124\b|\bcontext canceled\b",
             r"no space left on device|disk quota exceeded",
             r"runner (?:lost|disconnected|shutdown)|the operation was canceled",
             r"failed to (?:pull|resolve).*image|manifest unknown|image.*digest",
+            r"base-image-rpm-baseline-invalid|target runtime RPM database is (?:empty|missing)",
             r"temporary failure in name resolution|connection (?:reset|timed out)|HTTP (?:429|5\d\d)",
             r"RVA23 representative instruction probe was not reported",
             r"build must run in (?:the riscv64 OCI|openEuler 24\.03)",
@@ -51,6 +58,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Retry or repair the runner, pinned image, QEMU registration, disk, or network infrastructure.",
         False,
         False,
+        None,
     ),
     (
         "dependency",
@@ -64,6 +72,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Correct BuildRequires/Requires using packages available in the pinned openEuler buildroot; do not patch upstream source.",
         True,
         False,
+        None,
     ),
     (
         "riscv-specific",
@@ -77,11 +86,23 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Find a trusted existing RISC-V fix first; otherwise create the smallest local patch and keep it under packages/<id>/patches/.",
         True,
         True,
+        None,
+    ),
+    (
+        "upstream-build",
+        [
+            r"^\s*[0-9]+/[0-9]+[^\n]*\btimeout\b\s+[0-9]+(?:\.[0-9]+)?\s*(?:s|sec(?:ond)?s?)\b[^\n]*$",
+            r"^[^\n]*\btest\b[^\n]*\btimed?\s+out\b(?:\s+\(after|\s+after)\s+[0-9]+(?:\.[0-9]+)?\s+(?:seconds?|minutes?)\)?[^\n]*$",
+        ],
+        "Keep the test enabled and preserve its timeout evidence; diagnose the bounded test deadline and target behavior before changing package policy.",
+        False,
+        False,
+        "high",
     ),
     (
         "spec-packaging",
         [
-            r"bad exit status from /var/tmp/rpm-tmp",
+            RPM_WRAPPER_PATTERN,
             r"Installed \(but unpackaged\) file\(s\) found",
             r"File not found: .+BUILDROOT",
             r"Unknown tag:|Macro %.+ has empty body|line \d+: (?:Dependency tokens must begin|Unknown tag)",
@@ -90,11 +111,12 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Fix the SPEC, macros, paths, or file manifest in the current package directory.",
         True,
         False,
+        None,
     ),
     (
         "upstream-build",
         [
-            r"(?:compiler|linker|make|ninja|meson).*error",
+            r"\b(?:compiler|linker|g?make|ninja|meson)(?:\[[0-9]+\])?(?:\.build)?(?::[0-9]+(?::[0-9]+)?)?:\s+[^\n]*\berror\b",
             r"undefined reference to|multiple definition of",
             r"fatal error:|error:.*(?:expected|undeclared|incompatible|cannot convert)",
             r"tests? failed|FAIL:",
@@ -102,8 +124,15 @@ RULES: List[Tuple[str, List[str], str, bool, bool]] = [
         "Reproduce the upstream build failure and prefer a released or trusted distribution fix before a minimal local patch.",
         True,
         True,
+        None,
     ),
 ]
+
+# Policy-significant target, environment, dependency, and architecture evidence
+# remains deliberately precedence ordered. Once those rules do not match,
+# ordinary build and packaging failures are selected by their first effective
+# position in the log, even when different rules assign different dispositions.
+CHRONOLOGICAL_FAILURE_CATEGORIES = {"spec-packaging", "upstream-build"}
 
 
 def parser() -> argparse.ArgumentParser:
@@ -129,7 +158,7 @@ def read_input(path: pathlib.Path) -> Tuple[Mapping[str, Any], str]:
     # are context, not failures; scanning them creates false positives such as
     # treating the harmless key ``image_digest`` as a failed image pull.
     parts: List[str] = []
-    for field in ("failure_summary", "error", "message", "stderr"):
+    for field in ("failure_summary", "error", "message", "stderr", "exit_code"):
         value = document.get(field)
         if value is not None:
             parts.append("%s: %s" % (field, value))
@@ -147,6 +176,43 @@ def safe_log(path: pathlib.Path) -> str:
     if path.stat().st_size > 100 * 1024 * 1024:
         raise ToolError("log is larger than the 100 MiB classifier limit")
     return path.read_text(encoding="utf-8", errors="replace")
+
+
+def zero_count_test_summary(text: str, match: re.Match[str]) -> bool:
+    """Return whether a match belongs to a successful zero-count summary."""
+
+    start = text.rfind("\n", 0, match.start()) + 1
+    end = text.find("\n", match.end())
+    if end < 0:
+        end = len(text)
+    line = text[start:end].strip()
+    if re.fullmatch(r"(?:tests? failed|fail:)", match.group(0), re.IGNORECASE):
+        # Build-result summaries can prefix the zero counter with wrapper text,
+        # for example ``rpmbuild failed with exit code 1: Fail: 0``.  The
+        # matched ``Fail:`` token is still a zero-valued test counter, not the
+        # effective package failure.
+        remainder = text[match.end():end]
+        if re.match(r"\s*0\b", remainder):
+            return True
+    return bool(
+        re.fullmatch(
+            r"#?\s*(?:(?:expected\s+)?fail|error|timeout):\s*0",
+            line,
+            re.IGNORECASE,
+        )
+        or re.fullmatch(
+            r"(?:[0-9]+%\s+tests passed,\s*)?0\s+tests?\s+failed\s+out\s+of\s+[0-9]+",
+            line,
+            re.IGNORECASE,
+        )
+    )
+
+
+def first_effective_match(pattern: str, text: str) -> Optional[re.Match[str]]:
+    for match in re.finditer(pattern, text, re.I | re.M):
+        if not zero_count_test_summary(text, match):
+            return match
+    return None
 
 
 def metadata_native(package_dir: Optional[str]) -> Tuple[bool, Optional[str]]:
@@ -170,24 +236,49 @@ def classify(text: str, force_native: bool, native_reason: Optional[str]) -> Dic
             "repairable_locally": False,
             "source_patch_allowed": False,
         }
-    for category, patterns, remediation, repairable, patch_allowed in RULES:
-        matches: List[Dict[str, str]] = []
+    chronological_matches: List[Tuple[int, int, int, Dict[str, Any]]] = []
+    for rule_priority, rule in enumerate(RULES):
+        category, patterns, remediation, repairable, patch_allowed, fixed_confidence = rule
+        matches: List[Tuple[int, Dict[str, str]]] = []
         for pattern in patterns:
-            match = re.search(pattern, text, re.I | re.M)
+            match = first_effective_match(pattern, text)
             if match:
                 start = max(0, match.start() - 100)
                 end = min(len(text), match.end() + 100)
                 excerpt = " ".join(text[start:end].split())[:500]
-                matches.append({"pattern": pattern, "excerpt": excerpt})
+                matches.append((match.start(), {"pattern": pattern, "excerpt": excerpt}))
         if matches:
-            return {
+            matches.sort(key=lambda item: item[0])
+            effective_matches = matches
+            wrapper_fallback = 0
+            if category == "spec-packaging":
+                non_wrapper_matches = [
+                    item for item in matches if item[1]["pattern"] != RPM_WRAPPER_PATTERN
+                ]
+                wrapper_fallback = int(not non_wrapper_matches)
+                if non_wrapper_matches:
+                    effective_matches = non_wrapper_matches
+            classification = {
                 "category": category,
-                "confidence": "high" if len(matches) > 1 else "medium",
-                "evidence": matches[:5],
+                "confidence": fixed_confidence or ("high" if len(effective_matches) > 1 else "medium"),
+                "evidence": [item[1] for item in effective_matches[:5]],
                 "remediation": remediation,
                 "repairable_locally": repairable,
                 "source_patch_allowed": patch_allowed,
             }
+            if category not in CHRONOLOGICAL_FAILURE_CATEGORIES:
+                return classification
+            chronological_matches.append(
+                (wrapper_fallback, effective_matches[0][0], rule_priority, classification)
+            )
+    if chronological_matches:
+        # A generic RPM bad-exit wrapper is fallback evidence because structured
+        # result fields are prepended before the detailed log. Among real
+        # package failures, select the first effective log occurrence.
+        return min(
+            chronological_matches,
+            key=lambda item: (item[0], item[1], item[2]),
+        )[3]
     return {
         "category": "unknown",
         "confidence": "low",
