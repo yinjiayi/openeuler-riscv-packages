@@ -26,4 +26,14 @@ same order already used by upstream `engine.c`; no algorithm or plugin behavior
 is changed. The eight-scenario `testHealLib` execution and count gates remain
 mandatory.
 
+Exact-head run `33722153814` compiled all 34 targets, including the repaired
+`libheal`, then failed in `%install` because upstream v3.0.1's custom i18n copy
+commands used absolute `/usr` paths and ignored RPM's `DESTDIR`. Release 6
+prefixes the generated catalog source and every bundled per-plugin translation
+destination with `DESTDIR`. This is the minimal stable-release equivalent of
+upstream commit `f38a155f9168a29460380642b4f1cbcc81a5186b`, which later replaced
+the loop with a `MESON_INSTALL_DESTDIR_PREFIX`-aware installer. The RISC-V build
+status remains `unknown` pending fresh exact-head build and installed-smoke
+evidence.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

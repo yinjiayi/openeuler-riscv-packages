@@ -44,6 +44,15 @@
         "sha256": "a617d34024141389ac449a4c8ce1b918014aefac04b84619517b80296d81bd5f",
         "source": "Downstream openEuler RISC-V repair after exact-head run 33721116347 exposed the optional upstream target's missing direct type-header dependencies; the include order matches upstream engine.c.",
         "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0002-i18n-install-honor-destdir.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Keep the stable release's custom translation fan-out inside RPM's DESTDIR instead of reading from and writing to the build host's /usr tree.",
+        "remove_when": "A release containing upstream commit f38a155f9168a29460380642b4f1cbcc81a5186b or an equivalent MESON_INSTALL_DESTDIR_PREFIX-aware installer is packaged.",
+        "sha256": "ecd2faeac5ee6b9b00125df6176991d994db8435fbc78b576896d3008f872cbf",
+        "source": "Downstream minimal stable-release equivalent of upstream commit f38a155f9168a29460380642b4f1cbcc81a5186b after exact-head run 33722153814 proved that v3.0.1's absolute custom-copy paths ignore RPM's DESTDIR.",
+        "upstream_status": "accepted"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -54,7 +63,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The declared build requirements include the GIMP 3 and GLib development interfaces required by the upstream Meson build. Exact-head run 33362605060 resolved the complete 328-package dependency transaction, but the former 60-minute budget expired during downloads at package 114 before rpmbuild began. Release 3 raised the package timeout to 180 minutes. Exact-head run 33719340367 then completed that dependency transaction and exposed a deterministic prep failure because the upstream tag archive uses resynthesizer-3.0.1 rather than the downstream package name as its top-level directory. Release 4 selected that verified directory and enabled the upstream testHealLib harness. Exact-head run 33721116347 reached the build and exposed missing Pixelel and Coordinates definitions in upstream's optional libheal translation unit. Release 5 adds those direct type-header dependencies in the same order already used by upstream engine.c, executes testHealLib explicitly, and requires all eight reachable scenarios to run. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head build and installed-smoke evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The declared build requirements include the GIMP 3 and GLib development interfaces required by the upstream Meson build. Exact-head run 33362605060 resolved the complete 328-package dependency transaction, but the former 60-minute budget expired during downloads at package 114 before rpmbuild began. Release 3 raised the package timeout to 180 minutes. Exact-head run 33719340367 then completed that dependency transaction and exposed a deterministic prep failure because the upstream tag archive uses resynthesizer-3.0.1 rather than the downstream package name as its top-level directory. Release 4 selected that verified directory and enabled the upstream testHealLib harness. Exact-head run 33721116347 reached the build and exposed missing Pixelel and Coordinates definitions in upstream's optional libheal translation unit. Release 5 adds those direct type-header dependencies in the same order already used by upstream engine.c, executes testHealLib explicitly, and requires all eight reachable scenarios to run. Exact-head run 33722153814 compiled all 34 targets and then proved that v3.0.1's custom translation copy ignored RPM's DESTDIR. Release 6 keeps both the generated catalog source and every per-plugin destination inside the buildroot, equivalent to the target-root handling added later by upstream commit f38a155f9168a29460380642b4f1cbcc81a5186b. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head build and installed-smoke evidence.",
     "status": "active"
   },
   "package_id": "gimp-plugin-resynthesizer",
@@ -89,6 +98,6 @@
   "version": {
     "current": "3.0.1",
     "latest_detected": "3.0.1",
-    "release": "5"
+    "release": "6"
   }
 }

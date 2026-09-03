@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gimp-plugin-resynthesizer
 Version:        3.0.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Suite of gimp plugins for texture synthesis
 License:        GPL-3.0-or-later
 URL:            https://github.com/bootchk/resynthesizer
 Source0:        gimp-plugin-resynthesizer-3.0.1.tar.gz
 Patch0:         0001-libheal-include-engine-types-before-inline-accessors.patch
+Patch1:         0002-i18n-install-honor-destdir.patch
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  meson
@@ -43,6 +44,10 @@ test "$(grep -c '^Result:$' testHealLib.log)" -eq 8
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-6
+- Keep custom translation installation inside RPM's DESTDIR for both generated
+  catalog sources and the per-plugin bundled catalog destinations.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-5
 - Include the engine scalar and coordinate definitions before the inline map
   accessors when compiling upstream's optional libheal functional-test target.
