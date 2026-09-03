@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           cadet-core
 Version:        5.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Modeling and simulation framework for biotechnology processes – simulation backend
 License:        AGPL-3.0 AND MPL-2.0
 URL:            https://github.com/cadet/cadet-core
@@ -10,6 +10,8 @@ Source1:        eigen-3.4.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  hdf5-devel
+BuildRequires:  lapack-devel
 BuildRequires:  make
 
 %description
@@ -43,6 +45,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.rst
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.1.0-3
+- Add the LAPACK and HDF5 development dependencies required to create the
+  libcadet targets used by the complete upstream test suite.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.1.0-2
 - Build against the pinned upstream Eigen 3.4.0 headers because the target
   repositories do not provide the required eigen3-devel version.
