@@ -1,0 +1,31 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 01 Sep 2026 00:00:00 +0000
+Subject: [PATCH] gnulib: normalize unsigned-char localeconv sentinel
+
+License: LGPL-2.1-or-later
+Upstream-Status: downstream-only
+Origin: openEuler RISC-V package CI
+
+On openEuler's RISC-V build, the C locale's unavailable monetary fields can
+be exposed as SCHAR_MAX because the ABI uses an unsigned plain char while the
+locale data uses the signed-char sentinel representation.  The SPEC forces
+the bundled gnulib replacement through its configure cache; this patch makes
+that replacement normalize both negative values and SCHAR_MAX to CHAR_MAX.
+This preserves the full test suite and the specified CHAR_MAX interface
+without changing findutils application code.
+
+The same correction is already validated by the Sed package's complete
+gnulib-based test suite on the fixed openEuler RISC-V target.  Remove this
+patch when an upstream gnulib release carries equivalent handling for
+unsigned-char localeconv sentinels.
+
+---
+ gl/lib/localeconv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gl/lib/localeconv.c b/gl/lib/localeconv.c
+--- a/gl/lib/localeconv.c
++++ b/gl/lib/localeconv.c
+@@ -26 +26 @@
+-# define FIX_CHAR_VALUE(x) ((x) >= 0 ? (x) : CHAR_MAX)
++# define FIX_CHAR_VALUE(x) ((x) < 0 || (x) == SCHAR_MAX ? CHAR_MAX : (x))
