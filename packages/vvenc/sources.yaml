@@ -1,0 +1,21 @@
+{
+  "package_id": "vvenc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "dd43d061d59dbc0d9b9ae5b99cb40672877dd811646228938f065798939ee174"
+      },
+      "filename": "vvenc-1.14.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fraunhoferhhi/vvenc/archive/refs/tags/v1.14.0.tar.gz",
+      "version": "1.14.0"
+    }
+  ]
+}

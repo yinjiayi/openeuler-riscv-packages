@@ -1,0 +1,21 @@
+{
+  "package_id": "xapp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d0ea664053e6f35cc556e060b161905004f03d0695473772d2fb8a37cf445591"
+      },
+      "filename": "xapp-3.2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxmint/xapp/archive/refs/tags/3.2.2.tar.gz",
+      "version": "3.2.2"
+    }
+  ]
+}

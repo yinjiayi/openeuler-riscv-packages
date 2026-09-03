@@ -1,0 +1,21 @@
+{
+  "package_id": "rf24",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fd66d5f4fa0b8153231b4863f4c9747aad4484e61461076919cb8dbaabfc8a36"
+      },
+      "filename": "rf24-1.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nRF24/RF24/archive/refs/tags/v1.5.0.tar.gz",
+      "version": "1.5.0"
+    }
+  ]
+}
