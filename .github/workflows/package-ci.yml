@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 name: Package CI
-run-name: Package CI ${{ inputs.commit_sha && format('PR {0} {1}', inputs.pr_number, inputs.commit_sha) || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+run-name: Package CI ${{ inputs.commit_sha && (inputs.dispatch_nonce && format('PR {0} {1} {2}', inputs.pr_number, inputs.commit_sha, inputs.dispatch_nonce) || format('PR {0} {1}', inputs.pr_number, inputs.commit_sha)) || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
 
 on:
   push:
@@ -43,6 +43,10 @@ on:
         description: Immutable default-branch base SHA for a trusted bot-created PR
         required: false
         type: string
+      dispatch_nonce:
+        description: Unique bot-PR bridge invocation identity bound into the run title
+        required: false
+        type: string
       package_id:
         description: Optional existing package to rebuild at the selected main commit
         required: false
@@ -54,7 +58,7 @@ on:
         type: boolean
 
 concurrency:
-  group: package-ci-${{ inputs.package_id || github.event.pull_request.number || github.event.merge_group.head_sha || github.sha }}
+  group: package-ci-${{ inputs.package_id || inputs.pr_number || github.event.pull_request.number || github.event.merge_group.head_sha || github.sha }}
   cancel-in-progress: true
 
 permissions:

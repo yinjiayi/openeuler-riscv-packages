@@ -4,7 +4,9 @@ from __future__ import annotations
 import importlib.machinery
 import importlib.util
 import json
+import os
 import pathlib
+import subprocess
 import tempfile
 import types
 import unittest
@@ -14,6 +16,8 @@ from unittest import mock
 REPO = pathlib.Path(__file__).resolve().parents[2]
 SCRIPT = REPO / "scripts" / "dispatch-trusted-package-ci"
 AUTHORIZER = REPO / "ci" / "authorize-trusted-package-dispatch.py"
+BRIDGE = REPO / "ci" / "dispatch-required-checks.sh"
+PACKAGE_WORKFLOW = REPO / ".github" / "workflows" / "package-ci.yml"
 LOADER = importlib.machinery.SourceFileLoader("trusted_package_dispatch", str(SCRIPT))
 SPEC = importlib.util.spec_from_loader(LOADER.name, LOADER)
 assert SPEC is not None
@@ -24,6 +28,77 @@ AUTHORIZER_SPEC = importlib.util.spec_from_loader(AUTHORIZER_LOADER.name, AUTHOR
 assert AUTHORIZER_SPEC is not None
 AUTHORIZER_MODULE = importlib.util.module_from_spec(AUTHORIZER_SPEC)
 AUTHORIZER_LOADER.exec_module(AUTHORIZER_MODULE)
+
+
+FAKE_BRIDGE_GH = r'''#!/usr/bin/env python3
+import json
+import os
+import pathlib
+import sys
+
+args = sys.argv[1:]
+root = pathlib.Path(os.environ["FAKE_BRIDGE_ROOT"])
+statuses = root / "statuses.jsonl"
+repo = "yinjiayi/openeuler-riscv-packages"
+head = "a" * 40
+base = "b" * 40
+pr = "2011"
+nonce = "900-1-2011"
+title = "Package CI PR %s %s %s" % (pr, head, nonce)
+scenario = os.environ.get("FAKE_BRIDGE_SCENARIO", "success")
+
+if args[:1] == ["api"]:
+    if "--method" in args:
+        record = {
+            "context": next(value[8:] for value in args if value.startswith("context=")),
+            "state": next(value[6:] for value in args if value.startswith("state=")),
+        }
+        with statuses.open("a", encoding="utf-8") as stream:
+            stream.write(json.dumps(record) + "\n")
+        print("{}")
+        raise SystemExit(0)
+    path = args[1]
+    if path.endswith("/pulls/2011"):
+        print(json.dumps({
+            "state": "open", "merged": False, "auto_merge": None,
+            "head": {"repo": {"full_name": repo}, "ref": "infra/ci-image-c382709bffbe", "sha": head},
+            "base": {"ref": "main", "sha": base},
+        }))
+        raise SystemExit(0)
+    if path.endswith("/actions/runs/77"):
+        print(json.dumps({
+            "id": 77, "status": "completed", "conclusion": scenario,
+            "display_title": title, "event": "workflow_dispatch", "head_branch": "main",
+            "head_sha": base, "path": ".github/workflows/package-ci.yml",
+        }))
+        raise SystemExit(0)
+if args[:2] == ["workflow", "run"]:
+    raise SystemExit(0)
+if args[:2] == ["run", "list"]:
+    counter = root / "lists"
+    count = int(counter.read_text(encoding="utf-8")) if counter.exists() else 0
+    counter.write_text(str(count + 1), encoding="utf-8")
+    if count == 0:
+        print("[]")
+    else:
+        print(json.dumps([{"databaseId": 77, "displayTitle": title, "headSha": base,
+                           "status": "completed", "conclusion": scenario,
+                           "url": "https://github.com/%s/actions/runs/77" % repo}]))
+    raise SystemExit(0)
+if args[:2] == ["run", "watch"]:
+    raise SystemExit(0 if scenario == "success" else 1)
+if args[:2] == ["run", "view"]:
+    jobs = [{"name": name, "status": "completed", "conclusion": "success"} for name in (
+        "metadata-validate", "source-verify", "rpmbuild-riscv64",
+        "rpm-install-smoke", "patch-policy", "merge-policy",
+    )]
+    print(json.dumps({"status": "completed", "conclusion": scenario, "displayTitle": title,
+                      "headSha": base, "jobs": jobs,
+                      "url": "https://github.com/%s/actions/runs/77" % repo}))
+    raise SystemExit(0)
+print("unexpected fake gh invocation: " + repr(args), file=sys.stderr)
+raise SystemExit(90)
+'''
 
 
 class TrustedPackageDispatchTests(unittest.TestCase):
@@ -398,6 +473,151 @@ class TrustedPackageDispatchAuthorizerTests(unittest.TestCase):
                 publish_to_repo="false",
                 event_ref="refs/heads/main",
             )
+
+    def test_accepts_only_exact_bot_infrastructure_shapes(self):
+        values = {
+            "repo": "yinjiayi/openeuler-riscv-packages",
+            "package_id": "",
+            "base_sha": "b" * 40,
+            "head_sha": "a" * 40,
+            "publish_to_repo": "false",
+            "event_ref": "refs/heads/main",
+        }
+        image = self.pr(
+            changed_files=1,
+            user={"login": "github-actions[bot]"},
+            author_association="CONTRIBUTOR",
+        )
+        image["head"] = dict(image["head"], ref="infra/ci-image-c382709bffbe")
+        AUTHORIZER_MODULE.authorize(
+            image,
+            [{"filename": "ci/image.lock", "status": "modified"}],
+            **values,
+        )
+
+        snapshot_id = "discovery-20260903T014000Z-33704490322"
+        catalog = self.pr(
+            changed_files=1,
+            user={"login": "github-actions[bot]"},
+            author_association="CONTRIBUTOR",
+        )
+        catalog["head"] = dict(catalog["head"], ref="catalog/" + snapshot_id)
+        AUTHORIZER_MODULE.authorize(
+            catalog,
+            [{"filename": "catalog/snapshots/%s.json.gz" % snapshot_id, "status": "added"}],
+            **values,
+        )
+
+        rejected = (
+            (image, [{"filename": "ci/image.lock", "status": "added"}]),
+            (
+                dict(image, user={"login": "yinjiayi"}),
+                [{"filename": "ci/image.lock", "status": "modified"}],
+            ),
+            (
+                dict(image, head=dict(image["head"], ref="infra/unreviewed")),
+                [{"filename": "ci/image.lock", "status": "modified"}],
+            ),
+            (
+                catalog,
+                [{"filename": "catalog/snapshots/other.json.gz", "status": "added"}],
+            ),
+            (
+                catalog,
+                [{
+                    "filename": "catalog/snapshots/%s.json.gz" % snapshot_id,
+                    "status": "renamed",
+                    "previous_filename": "catalog/snapshots/old.json.gz",
+                }],
+            ),
+        )
+        for pr, files in rejected:
+            with self.subTest(ref=pr["head"]["ref"], files=files):
+                with self.assertRaisesRegex(
+                    AUTHORIZER_MODULE.AuthorizationError,
+                    "allowed bot infrastructure shape",
+                ):
+                    AUTHORIZER_MODULE.authorize(pr, files, **values)
+
+    def test_bot_pr_bridge_dispatches_only_from_main_and_isolates_concurrency(self):
+        bridge = BRIDGE.read_text(encoding="utf-8")
+        workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn('gh workflow run package-ci.yml --repo "$repo" --ref main', bridge)
+        self.assertIn('expected_name="Package CI PR $pr_number $head_sha $dispatch_nonce"', bridge)
+        self.assertIn(".displayTitle == $name and .headSha == $base", bridge)
+        self.assertIn('-f "dispatch_nonce=$dispatch_nonce"', bridge)
+        self.assertIn('.conclusion == "success"', bridge)
+        self.assertNotIn(
+            'gh workflow run package-ci.yml --repo "$repo" --ref "$ref"',
+            bridge,
+        )
+        self.assertIn("inputs.package_id || inputs.pr_number", workflow)
+
+
+class BotRequiredCheckBridgeTests(unittest.TestCase):
+    def run_bridge(self, scenario: str) -> tuple[subprocess.CompletedProcess[str], list[dict[str, str]]]:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            binary = root / "bin"
+            binary.mkdir()
+            fake = binary / "gh"
+            fake.write_text(FAKE_BRIDGE_GH, encoding="utf-8")
+            fake.chmod(0o755)
+            output = root / "evidence.json"
+            env = dict(os.environ)
+            env.update({
+                "PATH": str(binary) + os.pathsep + env.get("PATH", ""),
+                "FAKE_BRIDGE_ROOT": str(root),
+                "FAKE_BRIDGE_SCENARIO": scenario,
+                "GITHUB_RUN_ID": "900",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_REF": "refs/heads/main",
+                "GITHUB_WORKFLOW_REF": (
+                    "yinjiayi/openeuler-riscv-packages/"
+                    ".github/workflows/build-ci-image.yml@refs/heads/main"
+                ),
+            })
+            completed = subprocess.run(
+                [
+                    str(BRIDGE),
+                    "--repo", "yinjiayi/openeuler-riscv-packages",
+                    "--pr-number", "2011",
+                    "--ref", "infra/ci-image-c382709bffbe",
+                    "--head-sha", "a" * 40,
+                    "--base-sha", "b" * 40,
+                    "--output", str(output),
+                ],
+                cwd=REPO,
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False,
+            )
+            status_path = root / "statuses.jsonl"
+            statuses = [json.loads(line) for line in status_path.read_text(encoding="utf-8").splitlines()]
+            if scenario == "success":
+                document = json.loads(output.read_text(encoding="utf-8"))
+                self.assertEqual(document["dispatch_nonce"], "900-1-2011")
+                self.assertEqual(len(document["checks"]), 6)
+                self.assertTrue(document["success"])
+            else:
+                self.assertFalse(output.exists())
+            return completed, statuses
+
+    def test_success_posts_all_six_only_after_exact_terminal_success(self):
+        completed, statuses = self.run_bridge("success")
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual([item["state"] for item in statuses[:6]], ["pending"] * 6)
+        self.assertEqual([item["state"] for item in statuses[6:]], ["success"] * 6)
+        self.assertNotIn("configure", [item["context"] for item in statuses])
+
+    def test_overall_failure_overwrites_every_context_with_error(self):
+        completed, statuses = self.run_bridge("failure")
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertEqual([item["state"] for item in statuses[:6]], ["pending"] * 6)
+        self.assertEqual([item["state"] for item in statuses[6:]], ["error"] * 6)
+        self.assertFalse(any(item["state"] == "success" for item in statuses))
 
 
 if __name__ == "__main__":
