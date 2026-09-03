@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 360
   },
   "discovery": {
     "lineage": [
@@ -36,7 +36,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive and the required Eigen 3.4.0 header dependency were independently downloaded, safety-inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive and the required Eigen 3.4.0 header dependency were independently downloaded, safety-inspected, and pinned by SHA-256. The complete upstream test build reached 58% under QEMU before the former 60-minute package deadline expired, so this compute-heavy numerical package uses the schema's 360-minute budget without disabling any build target or test. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "cadet-core",
