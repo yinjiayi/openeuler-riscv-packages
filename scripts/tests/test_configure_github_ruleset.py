@@ -54,7 +54,21 @@ FAKE_GH = textwrap.dedent(r'''
     repo = "repos/yinjiayi/openeuler-riscv-packages"
 
     if endpoint == repo and method == "GET":
-        print(json.dumps({"visibility": "public", "default_branch": "main"}))
+        print(json.dumps(state["repository"]))
+    elif endpoint == repo and method == "PATCH":
+        for index, argument in enumerate(args):
+            if argument != "-F" or index + 1 >= len(args):
+                continue
+            key, value = args[index + 1].split("=", 1)
+            if key in {
+                "allow_auto_merge",
+                "allow_squash_merge",
+                "allow_merge_commit",
+                "allow_rebase_merge",
+                "delete_branch_on_merge",
+            }:
+                state["repository"][key] = value == "true"
+        save()
     elif endpoint == repo + "/rulesets" and method == "GET":
         if os.environ["FAKE_SCENARIO"] == "create-unverified" and state.get("deleted"):
             raise SystemExit(19)
@@ -132,7 +146,19 @@ class ConfigureGithubRulesetTests(unittest.TestCase):
             if scenario == "previous-wrong-source":
                 previous["source_type"] = "Organization"
             state_path = root / "state.json"
-            state_path.write_text(json.dumps({"rulesets": [previous] if existing else [], "put_count": 0}))
+            state_path.write_text(json.dumps({
+                "repository": {
+                    "visibility": "public",
+                    "default_branch": "main",
+                    "allow_auto_merge": True,
+                    "allow_squash_merge": True,
+                    "allow_merge_commit": False,
+                    "allow_rebase_merge": False,
+                    "delete_branch_on_merge": True,
+                },
+                "rulesets": [previous] if existing else [],
+                "put_count": 0,
+            }))
             env = os.environ.copy()
             env.update({
                 "PATH": str(root) + os.pathsep + env["PATH"],
@@ -156,6 +182,7 @@ class ConfigureGithubRulesetTests(unittest.TestCase):
     def test_successful_update_exactly_applies_desired_ruleset(self) -> None:
         completed, state = self.run_apply("success", existing=True, expected=0)
         self.assertTrue(json.loads(completed.stdout)["writes_performed"])
+        self.assertIs(state["repository"]["allow_auto_merge"], False)
         self.assertEqual(state["rulesets"][0]["enforcement"], "active")
         checks = state["rulesets"][0]["rules"][-1]["parameters"]["required_status_checks"]
         self.assertEqual(checks[-1]["context"], "configure")
