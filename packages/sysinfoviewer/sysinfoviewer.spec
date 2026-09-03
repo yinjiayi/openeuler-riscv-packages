@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sysinfoviewer
 Version:        0.3.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A comprehensive system information viewer built with wxWidgets
 License:        MIT
 URL:            https://github.com/Magpiny/sysinfoviewer
 Source0:        sysinfoviewer-0.3.2.tar.gz
 Patch0:         0001-cmake-support-version-3.27.patch
+Patch1:         0002-wxarraystring-compat.patch
 BuildRequires:  alsa-lib-devel
 BuildRequires:  cmake >= 3.27
 BuildRequires:  gcc
@@ -40,6 +41,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-5
+- Build with the wxArrayString API provided by the target wxWidgets 3.2.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.2-4
 - Generate the CMake build tree where the build, install, and check macros expect it.
 

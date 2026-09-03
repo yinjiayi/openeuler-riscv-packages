@@ -28,6 +28,15 @@
         "sha256": "f5749facff92e3138b40f4bb02937cb91af68132001a490c513aad8311581bd0",
         "source": "Static review of the exact upstream 0.3.2 archive against the fixed openEuler 24.03 LTS SP3 RVA23 repository metadata.",
         "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0002-wxarraystring-compat.patch",
+        "license": "MIT",
+        "purpose": "Populate the application column labels through wxArrayString::Add so the source compiles with the target wxWidgets 3.2 API without changing the labels or their order.",
+        "remove_when": "Upstream replaces the initializer-list conversion or the target wxWidgets provides it compatibly.",
+        "sha256": "c99f72845f63ebc3fdc3c3d2a194e9dfeebede26809116455fa802aedb5c4bf0",
+        "source": "Package CI run 33704367867 at exact commit 05b3e80dfe35605f2592a4242a6c13b8f2acc8bb against openEuler 24.03 LTS SP3 wxWidgets 3.2.2.",
+        "upstream_status": "downstream-only"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -38,7 +47,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 accepts the fixed repository's CMake 3.27 and declares every development dependency required by the upstream CMake project. Release 3 raises the audited build timeout after the target repository needed more than 60 minutes to download the required wxWidgets GUI dependency closure; it does not change the dependency set or source. Release 4 explicitly generates the out-of-source CMake build tree used by the build, install, and check macros. Upstream registers no CTest tests, so the existing CTest invocation does not establish functional test coverage. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 accepts the fixed repository's CMake 3.27 and declares every development dependency required by the upstream CMake project. Release 3 raises the audited build timeout after the target repository needed more than 60 minutes to download the required wxWidgets GUI dependency closure; it does not change the dependency set or source. Release 4 explicitly generates the out-of-source CMake build tree used by the build, install, and check macros. Release 5 uses wxArrayString::Add after exact-head Package CI showed that the target wxWidgets 3.2.2 does not accept upstream's initializer-list conversion. Upstream registers no CTest tests, so the existing CTest invocation does not establish functional test coverage. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "sysinfoviewer",
@@ -73,6 +82,6 @@
   "version": {
     "current": "0.3.2",
     "latest_detected": "0.3.2",
-    "release": "4"
+    "release": "5"
   }
 }
