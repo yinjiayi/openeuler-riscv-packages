@@ -36,7 +36,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 declares the required Extra CMake Modules and Qt5 base development packages, retaining the Qt5 desktop, D-Bus, and unit-test components discovered by the upstream build system. Release 3 raises the audited build timeout after the fixed target repository needed more than 60 minutes to download the required Qt5 dependency closure; it does not change the dependency set or source. Exact-head Package CI run 33702491882 configured successfully in the source directory, then %cmake_build failed because the expected riscv64-openEuler-linux-gnu build directory did not exist. Release 4 uses the repository-standard %cmake_conf macro so configure, build, install, and the complete CTest suite share the same out-of-source build directory; dependencies, source, timeout, and tests remain unchanged.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 declares the required Extra CMake Modules and Qt5 base development packages, retaining the Qt5 desktop, D-Bus, and unit-test components discovered by the upstream build system. Release 3 raises the audited build timeout after the fixed target repository needed more than 60 minutes to download the required Qt5 dependency closure; it does not change the dependency set or source. Exact-head Package CI run 33702491882 configured successfully in the source directory, then %cmake_build failed because the expected riscv64-openEuler-linux-gnu build directory did not exist. Release 4 uses the repository-standard %cmake_conf macro so configure, build, install, and the complete CTest suite share the same out-of-source build directory; dependencies, source, timeout, and tests remain unchanged. Exact-head Package CI run 33704408704 then completed configuration, compilation, and installation before both Qt QTEST_MAIN executables aborted immediately in the headless %check environment. Release 5 sets QT_QPA_PLATFORM=offscreen only for CTest so both upstream tests continue to run without requiring a display server; dependencies, source, timeout, and test selection remain unchanged.",
     "status": "active"
   },
   "package_id": "snorenotify",
@@ -71,6 +71,6 @@
   "version": {
     "current": "0.7.0",
     "latest_detected": "0.7.0",
-    "release": "4"
+    "release": "5"
   }
 }

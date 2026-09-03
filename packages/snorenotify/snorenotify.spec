@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           snorenotify
 Version:        0.7.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Multi-platform Qt5 notification framework
 License:        LGPL-3.0-or-later
 URL:            https://github.com/KDE/snorenotify
@@ -29,13 +29,16 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-ctest --test-dir %{_vpath_builddir} --output-on-failure
+QT_QPA_PLATFORM=offscreen ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 %files -f %{name}.files
 %license COPYING.LGPL-3
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.7.0-5
+- Run the complete Qt test suite with the offscreen platform on headless CI.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.7.0-4
 - Configure in the build directory consumed by the openEuler CMake macros.
 
