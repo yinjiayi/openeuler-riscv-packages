@@ -359,11 +359,9 @@ def main() -> int:
         "gh api --paginate --slurp",
         "ci/evaluate-auto-merge.py",
         "ci/prove-auto-merge-state.py",
-        "ci/prove-default-branch-head.py",
-        "ci/prove-required-context-active.py",
-        "steps.policy.outputs.eligible == 'true'",
+        "POLICY_ELIGIBLE: ${{ steps.policy.outputs.eligible }}",
+        "Auto-merge remains disabled; explicit maintainer squash merge is required",
         ".auto_merge == null",
-        "trap 'rollback_unverified_auto_merge $?' EXIT",
         ".state == \"open\"",
         ".merged == false",
         ".merged_at == null",
@@ -372,22 +370,39 @@ def main() -> int:
         ".head.repo.full_name == $repo",
         ".base.repo.full_name == $repo",
         "Unable to prove the mandatory Auto-merge disarm state",
-        "Unable to prove that the leased open PR remained unmerged and Auto-merge was disarmed",
     ):
         if marker not in auto_merge:
             errors.append(f"auto-merge workflow is missing fail-closed scope gate: {marker}")
-    if auto_merge.count("ci/prove-auto-merge-state.py") != 3:
-        errors.append("post-checkout Auto-merge transaction must use the common state proof exactly three times")
-    if auto_merge.count("--expected-auto-merge disabled") != 2:
-        errors.append("post-checkout Auto-merge transaction must prove two disabled states")
-    if auto_merge.count("--expected-auto-merge enabled") != 1:
-        errors.append("Auto-merge transaction must prove one enabled state")
-    if "steps.activation.outputs.activated == 'true'" not in auto_merge:
-        errors.append("Auto-merge arming is not gated by the live required-context activation proof")
-    if auto_merge.count("ci/prove-required-context-active.py") != 2:
-        errors.append("Auto-merge must re-prove live activation immediately before arming")
-    if auto_merge.count("ci/prove-default-branch-head.py") != 1:
-        errors.append("Auto-merge must repeat default-branch freshness proof immediately before arming")
+    if auto_merge.count("ci/prove-auto-merge-state.py") != 1:
+        errors.append("post-checkout policy evaluation must prove the leased PR remains disarmed exactly once")
+    if auto_merge.count("--expected-auto-merge disabled") != 1:
+        errors.append("post-checkout policy evaluation must prove exactly one disabled state")
+    for forbidden in (
+        "--auto --squash",
+        "--expected-auto-merge enabled",
+        "Arm GitHub Auto-merge",
+        "trap 'rollback_unverified_auto_merge $?' EXIT",
+        "ci/prove-default-branch-head.py",
+        "ci/prove-required-context-active.py",
+    ):
+        if forbidden in auto_merge:
+            errors.append(f"evaluation-only Auto Merge Policy must not arm or prepare to arm: {forbidden}")
+    if "contents: write" in auto_merge:
+        errors.append("evaluation-only Auto Merge Policy must not retain contents write permission")
+    auto_merge_command = re.compile(r"gh\s+pr\s+merge[^\n]*--auto[^\n]*--squash")
+    for automation_root in (workflows, root / "ci", root / "scripts"):
+        if not automation_root.is_dir():
+            continue
+        for automation_path in sorted(automation_root.rglob("*")):
+            if not automation_path.is_file() or "tests" in automation_path.parts:
+                continue
+            try:
+                automation_text = automation_path.read_text(encoding="utf-8")
+            except UnicodeDecodeError:
+                continue
+            if auto_merge_command.search(automation_text):
+                relative_path = automation_path.relative_to(root)
+                errors.append(f"{relative_path}: repository automation must not arm GitHub Auto-merge")
     for marker in (
         'repository=$(gh api "repos/$GITHUB_REPOSITORY")',
         '.default_branch == "main"',
@@ -403,11 +418,11 @@ def main() -> int:
         "ref: ${{ github.event.pull_request.base.sha }}",
         "if [[ ! -x ci/evaluate-auto-merge.py ]]; then",
         evaluator_command,
-        "--auto --squash",
+        "ci/prove-auto-merge-state.py",
     )
     auto_merge_positions = [auto_merge.find(marker) for marker in auto_merge_order]
     if -1 not in auto_merge_positions and auto_merge_positions != sorted(auto_merge_positions):
-        errors.append("auto-merge workflow does not preserve disarm/base/fallback/evaluate/arm order")
+        errors.append("auto-merge workflow does not preserve disarm/base/fallback/evaluate/final-proof order")
     disarm_step = auto_merge.find("Disarm GitHub Auto-merge before evaluating the current head")
     base_gate_step = auto_merge.find("Bind the current base to the repository default branch")
     checkout_step = auto_merge.find("Check out the immutable protected-base policy")
@@ -720,6 +735,8 @@ def main() -> int:
         errors.append("build-ci-image.yml must verify public GHCR state, not attempt a user-level visibility mutation")
     if "ci/dispatch-required-checks.sh" not in image_workflow or "statuses: write" not in image_workflow:
         errors.append("digest-lock PR creation does not bridge actual required jobs onto the bot-created PR head")
+    if "Auto-merge is disabled; an explicit maintainer squash merge is required" not in image_workflow:
+        errors.append("digest-lock PR creation does not report the explicit maintainer merge boundary")
     if "git ls-remote --exit-code --heads" not in image_workflow or "test \"$changed\" = ci/image.lock" not in image_workflow:
         errors.append("digest-lock retry does not safely verify and reuse an existing lock branch")
     if "git merge --no-edit origin/main" not in image_workflow:
@@ -727,6 +744,9 @@ def main() -> int:
 
     settings_path = root / ".github" / "repository-settings.json"
     settings = json.loads(settings_path.read_text(encoding="utf-8")) if settings_path.exists() else {}
+    merge_settings = settings.get("merge", {})
+    if merge_settings.get("allow_auto_merge") is not False:
+        errors.append("repository settings must disable GitHub Auto-merge")
     actions_settings = settings.get("actions", {})
     if actions_settings.get("default_workflow_permissions") != "read":
         errors.append("default GITHUB_TOKEN permissions must remain read-only")
@@ -742,6 +762,13 @@ def main() -> int:
     }:
         errors.append("repository settings do not record the protected-main QEMU runner boundary")
     github_configurator = (root / "ci" / "configure-github.sh").read_text(encoding="utf-8")
+    for marker in (
+        "-F allow_auto_merge=false",
+        ".allow_auto_merge == false",
+        "repository merge-setting readback mismatch",
+    ):
+        if marker not in github_configurator:
+            errors.append(f"GitHub provisioning does not enforce disabled Auto-merge: {marker}")
     if "actions/permissions/fork-pr-contributor-approval" not in github_configurator:
         errors.append("GitHub provisioning does not enforce the external fork workflow approval policy")
     if github_configurator.count("first_time_contributors_new_to_github") < 1:
@@ -807,6 +834,8 @@ def main() -> int:
         errors.append("discover-packages must not consume raw distribution databases or indexes directly")
     if "ci/dispatch-required-checks.sh" not in discovery or "statuses: write" not in discovery:
         errors.append("catalog snapshot PRs cannot satisfy protected checks after GITHUB_TOKEN event suppression")
+    if "Auto-merge is disabled; an explicit maintainer squash merge is required" not in discovery:
+        errors.append("catalog snapshot PR creation does not report the explicit maintainer merge boundary")
 
     check_bridge = root / "ci" / "dispatch-required-checks.sh"
     if not check_bridge.is_file() or not check_bridge.stat().st_mode & 0o111:
@@ -829,6 +858,11 @@ def main() -> int:
     daily = (workflows / "daily-update-check.yml").read_text(encoding="utf-8") if (workflows / "daily-update-check.yml").exists() else ""
     if "--state-output artifacts/state/update-state.json" not in daily:
         errors.append("daily update aggregation does not persist per-package success timestamps")
+    update_applier = (root / "ci" / "apply-update-batch.sh").read_text(encoding="utf-8")
+    if "--auto --squash" in update_applier:
+        errors.append("daily update application must not arm GitHub Auto-merge")
+    if "Auto-merge is disabled; an explicit maintainer squash merge is required" not in update_applier:
+        errors.append("daily update application does not report the explicit maintainer merge boundary")
 
     golden = (workflows / "golden-evaluation.yml").read_text(encoding="utf-8") if (workflows / "golden-evaluation.yml").exists() else ""
     for package_id in ("golden-success-hello", "golden-riscv-inline-asm", "golden-needs-native-kmod"):
