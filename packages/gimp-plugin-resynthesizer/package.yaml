@@ -44,7 +44,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The declared build requirements include the GIMP 3 and GLib development interfaces required by the upstream Meson build. Exact-head run 33362605060 resolved the complete 328-package dependency transaction, but the former 60-minute budget expired during downloads at package 114 before rpmbuild began. Release 3 raises only the package timeout to 180 minutes; the full upstream Meson test suite and plugin functionality remain enabled. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head build and installed-smoke evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The declared build requirements include the GIMP 3 and GLib development interfaces required by the upstream Meson build. Exact-head run 33362605060 resolved the complete 328-package dependency transaction, but the former 60-minute budget expired during downloads at package 114 before rpmbuild began. Release 3 raised the package timeout to 180 minutes. Exact-head run 33719340367 then completed that dependency transaction and exposed a deterministic prep failure because the upstream tag archive uses resynthesizer-3.0.1 rather than the downstream package name as its top-level directory. Release 4 selects that verified directory, enables the upstream testHealLib functional harness, executes it explicitly, and requires all eight scenarios to run. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head build and installed-smoke evidence.",
     "status": "active"
   },
   "package_id": "gimp-plugin-resynthesizer",
@@ -79,6 +79,6 @@
   "version": {
     "current": "3.0.1",
     "latest_detected": "3.0.1",
-    "release": "3"
+    "release": "4"
   }
 }

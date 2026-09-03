@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gimp-plugin-resynthesizer
 Version:        3.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Suite of gimp plugins for texture synthesis
 License:        GPL-3.0-or-later
 URL:            https://github.com/bootchk/resynthesizer
@@ -17,10 +17,10 @@ BuildRequires:  pkgconfig(glib-2.0)
 Suite of gimp plugins for texture synthesis
 
 %prep
-%autosetup -p1
+%autosetup -n resynthesizer-%{version} -p1
 
 %build
-%meson
+%meson -Dbuild-libheal=true
 %meson_build
 
 %install
@@ -29,7 +29,10 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-%meson_test
+test -x %{_vpath_builddir}/test/testHealLib
+%{_vpath_builddir}/test/testHealLib | tee testHealLib.log
+test "$(grep -c '^Expect:$' testHealLib.log)" -eq 8
+test "$(grep -c '^Result:$' testHealLib.log)" -eq 8
 
 %files -f %{name}.files
 %license COPYING
@@ -39,6 +42,12 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-4
+- Select the actual resynthesizer-3.0.1 directory emitted by the upstream tag
+  archive instead of deriving the directory from the downstream package name.
+- Build and execute the upstream testHealLib functional harness and assert that
+  all eight exercised scenarios ran, avoiding an empty Meson test invocation.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-3
 - Raise the package timeout to 180 minutes after the complete 328-package GIMP
   dependency transaction exhausted the former 60-minute budget during downloads.
