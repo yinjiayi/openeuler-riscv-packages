@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official Codeberg v1.11.0 tag bytes are SHA-256 pinned. All 52 upstream checks run with valgrind and tmux available; the check HOME prevents user shell configuration from contaminating tmux's detached-width probe. Exact-name AUR RPC returned no result and no external packaging recipe was read or executed.",
+    "notes": "Official Codeberg v1.11.0 tag bytes are SHA-256 pinned. All 52 upstream checks run with valgrind and tmux available; the check HOME prevents user shell configuration from contaminating tmux's detached-width probe. Exact-name AUR RPC returned no result and no external packaging recipe was read or executed. Exact-head Package CI run 33704850223 at 1d6b4f7fb6150570cc16192afae7e3314fed8c82 compiled and installed successfully, had 10,258 seconds of build budget remaining, and passed 47 of 52 checks. The five failures were exactly the five tests that source tests/run-valgrind.sh. The retained artifact proves Valgrind was installed and accepted its required options, but it does not contain the individual test logs or valgrind.out needed to distinguish an emulation/ptrace limitation from a genuine memory error. Release 2 keeps all tests enabled and preserves their failure while emitting bounded per-test and Valgrind diagnostics into the retained rpmbuild log.",
     "status": "active"
   },
   "package_id": "pv",
@@ -95,6 +95,6 @@
   "version": {
     "current": "1.11.0",
     "latest_detected": "1.11.0",
-    "release": "1"
+    "release": "2"
   }
 }

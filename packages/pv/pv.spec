@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pv
 Version:        1.11.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Monitor data through a pipe
 License:        GPL-3.0-or-later
 URL:            https://www.ivarch.com/programs/pv.shtml
@@ -41,7 +41,18 @@ printf '%s\n' \
   'set-option -g default-shell /bin/sh' \
   'set-option -g default-command "sleep 300"' \
   >"$pv_check_home/.tmux.conf"
+set +e
 HOME="$pv_check_home" SHELL=/bin/sh TERM=xterm %make_build check
+pv_check_status=$?
+set -e
+if [ "$pv_check_status" -ne 0 ]; then
+  for pv_check_log in test-suite.log tests/*.log valgrind.out; do
+    [ -f "$pv_check_log" ] || continue
+    printf '\n===== %s =====\n' "$pv_check_log"
+    sed -n '1,2000p' "$pv_check_log"
+  done
+fi
+exit "$pv_check_status"
 
 %files -f %{name}.lang
 %license docs/COPYING
@@ -50,5 +61,9 @@ HOME="$pv_check_home" SHELL=/bin/sh TERM=xterm %make_build check
 %{_mandir}/man1/pv.1*
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.11.0-2
+- Preserve every upstream check and emit bounded per-test and Valgrind logs when
+  the suite fails, so the five QEMU memory-safety failures can be diagnosed.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.11.0-1
 - Update pv for openEuler RISC-V with all upstream terminal and valgrind checks.

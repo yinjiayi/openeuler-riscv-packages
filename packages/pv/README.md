@@ -25,5 +25,17 @@ transfer and numeric completion output. The fixed target provides pv
 present. Target RPM, install, and smoke status remains unknown until
 exact-head QEMU CI completes.
 
+Exact-head Package CI run `33704850223` for commit
+`1d6b4f7fb6150570cc16192afae7e3314fed8c82` compiled and installed
+successfully and retained 10,258 seconds of its build budget. Of the 52
+upstream checks, 47 passed and the five failures were exactly the five tests
+that source `tests/run-valgrind.sh`. The retained log proves that Valgrind was
+installed and accepted the required command-line options; it records neither a
+timeout nor a sanitizer diagnostic. However, the individual Automake test logs
+and `valgrind.out` were not included, so this evidence cannot distinguish a
+QEMU/ptrace interaction from a genuine pv memory defect. Release 2 therefore
+keeps all 52 tests and their original failure status, while printing bounded
+per-test and Valgrind diagnostics into the retained rpmbuild log on failure.
+
 External source licenses remain upstream's. Apache-2.0 covers only this
 repository's original packaging metadata, scripts, tests, and documentation.
