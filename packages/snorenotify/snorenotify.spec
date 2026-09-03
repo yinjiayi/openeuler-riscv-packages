@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           snorenotify
 Version:        0.7.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Multi-platform Qt5 notification framework
 License:        LGPL-3.0-or-later
 URL:            https://github.com/KDE/snorenotify
 Source0:        snorenotify-0.7.0.tar.gz
+Patch0:         0001-tests-link-display-test-to-qt-widgets.patch
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
 BuildRequires:  gcc
@@ -36,6 +37,9 @@ QT_QPA_PLATFORM=offscreen ctest --test-dir %{_vpath_builddir} --output-on-failur
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.7.0-6
+- Link display_test to Qt Widgets so QTEST_MAIN creates QApplication.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.7.0-5
 - Run the complete Qt test suite with the offscreen platform on headless CI.
 
