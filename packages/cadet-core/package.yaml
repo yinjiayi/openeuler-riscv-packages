@@ -36,12 +36,12 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive and the required Eigen 3.4.0 header dependency were independently downloaded, safety-inspected, and pinned by SHA-256. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "cadet-core",
   "rpm": {
-    "license": "AGPL-3.0",
+    "license": "AGPL-3.0 AND MPL-2.0",
     "name": "cadet-core",
     "summary": "Modeling and simulation framework for biotechnology processes \u2013 simulation backend"
   },
@@ -71,6 +71,6 @@
   "version": {
     "current": "5.1.0",
     "latest_detected": "5.1.0",
-    "release": "1"
+    "release": "2"
   }
 }
