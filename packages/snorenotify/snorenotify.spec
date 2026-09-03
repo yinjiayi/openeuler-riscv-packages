@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           snorenotify
 Version:        0.7.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Multi-platform Qt5 notification framework
 License:        LGPL-3.0-or-later
 URL:            https://github.com/KDE/snorenotify
@@ -20,7 +20,7 @@ Multi-platform Qt5 notification framework
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake_conf -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -36,6 +36,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.7.0-4
+- Configure in the build directory consumed by the openEuler CMake macros.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.7.0-3
 - Allow the complete required Qt5 dependency closure enough time to download.
 
