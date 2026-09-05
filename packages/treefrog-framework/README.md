@@ -39,3 +39,9 @@ framework headers and shared library as their compile-time paths. The preceding
 exact-head run completed `src`, then showed the tools Makefiles searching the
 final `/usr` installation paths before `%install`; the final installation paths
 remain unchanged for the packaged binaries.
+
+Packaging release 8 supplies both build-tree header roots to the tools qmake
+projects. The release 7 exact-head RVA23 build proved the core library compiled,
+then failed because `tfcore.h` and `turingserver.h` live in `src` while the
+public `T*` wrapper headers live in `include`; both directories are therefore
+required until `%install` stages the complete header set.
