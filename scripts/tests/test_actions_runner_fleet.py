@@ -96,7 +96,8 @@ class RunnerFleetStaticTests(unittest.TestCase):
         self.assertIn("root:root:755", integrity)
         self.assertIn('systemd: /usr/bin/systemctl', integrity)
         self.assertIn("${binary:Package}\\t${Status}\\t${Version}", integrity)
-        self.assertIn("dpkg-query --verify systemd", integrity)
+        self.assertIn("dpkg --verify systemd", integrity)
+        self.assertNotIn("dpkg-query --verify systemd", integrity)
         self.assertIn("[[ -z $verification ]]", integrity)
         self.assertNotIn("mctes", library)
 
