@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/dail8859/NotepadNext",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "notepadnext",
+        "package_name": "notepadnext",
+        "source": "aur",
+        "source_version": "0.14-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "notepadnext.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Exact-head Package CI run 33671498162 completed dependency preparation in 405 seconds, then compiled normally under QEMU for the remaining 2,895 seconds and reached 58% without a concrete compiler or test failure before the 60-minute package budget expired. Release 5 raises only the bounded package timeout to 180 minutes; the source, build, and complete CTest suite remain unchanged. Exact-head run 33678031158 at 9857bb9f7d7bc7d15a34619edf62361736f0f833 completed source verification, all declared dependencies, the 9,986-second build, installation, and CTest, then produced four RPM/SRPM artifacts. RPM installation alone failed because the executable required the bundled but uninstalled libeditorconfig-core-qt.so. The target %cmake macro had enabled BUILD_SHARED_LIBS, while the pinned dependency declares an untyped add_library target and no install rule. Release 6 overrides BUILD_SHARED_LIBS=OFF so that bundled targets are linked statically and do not create an unsatisfied runtime provider; no test is skipped. Fresh exact-head target CI remains authoritative.",
+    "status": "active"
+  },
+  "package_id": "notepadnext",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "notepadnext",
+    "summary": "Cross-platform reimplementation of Notepad++"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-dail8859-notepadnext",
+    "homepage": "https://github.com/dail8859/NotepadNext",
+    "release_api": "https://api.github.com/repos/dail8859/NotepadNext/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/dail8859/NotepadNext",
+    "source_url_template": "https://github.com/dail8859/NotepadNext/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.14",
+    "latest_detected": "0.14",
+    "release": "6"
+  }
+}
