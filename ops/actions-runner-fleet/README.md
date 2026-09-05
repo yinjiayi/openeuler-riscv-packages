@@ -134,7 +134,7 @@ The **systemd package integrity gate** is the shared lifecycle check that binds
 `/usr/bin/systemctl` to Ubuntu's installed `systemd` package before any
 `systemctl` operation. It requires a root-owned, mode-0755, non-symlink regular
 executable; the exact dpkg owner; an installed `systemd` package with a valid
-version; and no output from `dpkg-query --verify systemd`. Dpkg can return zero
+version; and no output from `dpkg --verify systemd`. Dpkg can return zero
 while printing a file checksum mismatch, so empty verification output—not the
 return code alone—is the acceptance condition. The installer repeats this
 gate after apt completes, and preflight, audit, registration, activation, and
