@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libgcrypt
-Version:        1.12.2
-Release:        2%{?dist}
+Version:        1.12.3
+Release:        1%{?dist}
 Summary:        General-purpose cryptographic library
 License:        LGPL-2.1-or-later AND GPL-2.0-or-later AND BSD-3-Clause
 URL:            https://gnupg.org/software/libgcrypt/
-Source0:        libgcrypt-1.12.2.tar.bz2
+Source0:        libgcrypt-1.12.3.tar.bz2
 
 BuildRequires:  gawk
 BuildRequires:  gcc
