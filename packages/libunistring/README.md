@@ -19,9 +19,14 @@ preserved as `GPL-2.0-or-later OR LGPL-3.0-or-later`.
 The fixed target repodata contains every declared BuildRequires. `%check`
 runs the complete upstream Unicode test target without omissions. The
 installed smoke test compiles and links against the public API, then validates
-the character length of a two-code-point UTF-8 string. No downstream or
-RISC-V patch is currently required. RISC-V build status remains `unknown`
-until the locked QEMU CI image runs the RPM build.
+the character length of a two-code-point UTF-8 string. Exact-head Package CI
+run `33722565386` at commit
+`416bceb39289eb8fe98a568a59876e55a7ce2bcd` entered `rpmbuild` with 3,087
+seconds remaining, compiled normally without an error, and then exhausted the
+former 60-minute package budget. Release 2 raises only the bounded QEMU timeout
+to 180 minutes; it does not change the source or omit `%check`. No downstream
+or RISC-V patch is currently required, and RISC-V build status remains
+`unknown` pending fresh exact-head RPM and installed-smoke evidence.
 
 External source licenses remain those of upstream. Apache-2.0 covers only the
 original packaging metadata, test, and documentation in this directory.

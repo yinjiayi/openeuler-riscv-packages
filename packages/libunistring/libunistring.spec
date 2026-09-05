@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libunistring
 Version:        1.4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Unicode string manipulation library for C
 License:        GPL-2.0-or-later OR LGPL-3.0-or-later
 URL:            https://www.gnu.org/software/libunistring/
@@ -52,5 +52,9 @@ rm -rf %{buildroot}%{_datadir}/doc/%{name}
 %{_libdir}/libunistring.so
 
 %changelog
+* Sat Sep 05 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.2-2
+- Raise the bounded QEMU package timeout after normal compilation exhausted the
+  former 60-minute budget; keep the complete upstream test suite enabled.
+
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.2-1
 - Initial openEuler RISC-V package with the complete upstream test suite.

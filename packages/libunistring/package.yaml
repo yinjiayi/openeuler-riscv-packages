@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": false,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 180
   },
   "discovery": {
     "lineage": [
@@ -68,7 +68,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official 1.4.2 archive independently pinned from the immutable discovery snapshot. Fedora dist-git and AUR metadata were reviewed as untrusted text only and were not executed.",
+    "notes": "Official 1.4.2 archive independently pinned from the immutable discovery snapshot. Fedora dist-git and AUR metadata were reviewed as untrusted text only and were not executed. Release 2 raises only the bounded QEMU package timeout to 180 minutes after exact-head Package CI run 33722565386 at 416bceb39289eb8fe98a568a59876e55a7ce2bcd exhausted the former 60-minute budget while compiling normally, without a compiler or test failure. The full upstream test suite remains enabled.",
     "status": "active"
   },
   "package_id": "libunistring",
@@ -103,6 +103,6 @@
   "version": {
     "current": "1.4.2",
     "latest_detected": "1.4.2",
-    "release": "1"
+    "release": "2"
   }
 }
