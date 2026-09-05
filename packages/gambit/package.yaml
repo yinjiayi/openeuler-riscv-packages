@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/gambitproject/gambit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gambit",
+        "package_name": "gambit",
+        "source": "aur",
+        "source_version": "16.7.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/gambitproject/gambit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gambit",
+        "package_name": "python-pygambit",
+        "source": "aur",
+        "source_version": "16.7.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gambit.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 raises the bounded QEMU build timeout to 180 minutes after exact-head CI completed dependency preparation and logged 61 distinct C++ object compilation commands before exhausting the 60-minute package budget without a compiler or test failure.",
+    "status": "active"
+  },
+  "package_id": "gambit",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "gambit",
+    "summary": "Tools for doing computation in game theory"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-gambitproject-gambit",
+    "homepage": "https://www.gambit-project.org",
+    "release_api": "https://api.github.com/repos/gambitproject/gambit/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/gambitproject/gambit",
+    "source_url_template": "https://github.com/gambitproject/gambit/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "16.7.0",
+    "latest_detected": "16.7.0",
+    "release": "2"
+  }
+}
