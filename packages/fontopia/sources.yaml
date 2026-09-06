@@ -1,0 +1,21 @@
+{
+  "package_id": "fontopia",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4f0a46c218aed46c2ff89d5366b9a5eade6b5058065a24562600cd54887719a7"
+      },
+      "filename": "fontopia-1.8.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/fontopia/fontopia-1.8.4.tar.gz",
+      "version": "1.8.4"
+    }
+  ]
+}
