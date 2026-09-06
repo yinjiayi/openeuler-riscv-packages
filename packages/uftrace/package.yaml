@@ -43,7 +43,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-symbol-fix-elf-comment-iterator.patch",
+        "sha256": "7aaab1c3a3d4ac78b5eacbcc00dafcba0e3cd4bafe4c5a40dd6ccc3312d7bd37",
+        "purpose": "Fix the raw ELF comment iterator's strcmp call so uftrace builds when libelf is unavailable.",
+        "source": "Upstream commit 498d3c6cb974f778dea76c27eb770a4821e1a5da",
+        "license": "GPL-2.0-or-later",
+        "upstream_status": "accepted",
+        "remove_when": "Updating past upstream commit 498d3c6cb974f778dea76c27eb770a4821e1a5da."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "uftrace.spec"
@@ -87,6 +97,6 @@
   "version": {
     "current": "0.19",
     "latest_detected": "0.19",
-    "release": "1"
+    "release": "2"
   }
 }
