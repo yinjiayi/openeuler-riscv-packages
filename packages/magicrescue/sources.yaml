@@ -1,0 +1,21 @@
+{
+  "package_id": "magicrescue",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "060c77be3e86a328a4f90f45d2da41b2b78cb74f13d44f69e29909cf68e98cad"
+      },
+      "filename": "magicrescue-1.1.10.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jbj/magicrescue/archive/refs/tags/v1.1.10.tar.gz",
+      "version": "1.1.10"
+    }
+  ]
+}
