@@ -1,0 +1,21 @@
+{
+  "package_id": "ocaml-spawn",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "07c7aaae69c910af584e963c4a15323bd6988741843dfd3c8d11994b3e27ce59"
+      },
+      "filename": "ocaml-spawn-0.17.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/janestreet/spawn/archive/refs/tags/v0.17.0.tar.gz",
+      "version": "0.17.0"
+    }
+  ]
+}
