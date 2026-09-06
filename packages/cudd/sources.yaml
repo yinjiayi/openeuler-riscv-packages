@@ -1,0 +1,21 @@
+{
+  "package_id": "cudd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5fe145041c594689e6e7cf4cd623d5f2b7c36261708be8c9a72aed72cf67acce"
+      },
+      "filename": "cudd-3.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ivmai/cudd/archive/refs/tags/cudd-3.0.0.tar.gz",
+      "version": "3.0.0"
+    }
+  ]
+}
