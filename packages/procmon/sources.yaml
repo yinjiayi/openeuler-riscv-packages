@@ -1,0 +1,21 @@
+{
+  "package_id": "procmon",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7e596d473bcfcb26cad1e04dd8ffc08a32d41a848d10b694b86124a496e7df69"
+      },
+      "filename": "procmon-2.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/microsoft/ProcMon-for-Linux/archive/refs/tags/2.2.1.tar.gz",
+      "version": "2.2.1"
+    }
+  ]
+}
