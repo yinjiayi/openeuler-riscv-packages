@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/realh/roxterm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "roxterm",
+        "package_name": "roxterm",
+        "source": "aur",
+        "source_version": "3.15.3-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "roxterm.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "roxterm",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "roxterm",
+    "summary": "Tabbed, VTE-based terminal emulator"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-realh-roxterm",
+    "homepage": "https://github.com/realh/roxterm",
+    "release_api": "https://api.github.com/repos/realh/roxterm/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/realh/roxterm",
+    "source_url_template": "https://github.com/realh/roxterm/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.15.3",
+    "latest_detected": "3.15.3",
+    "release": "1"
+  }
+}

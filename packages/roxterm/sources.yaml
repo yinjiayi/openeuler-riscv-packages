@@ -1,0 +1,21 @@
+{
+  "package_id": "roxterm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ec3f7f8c6e088a8b73355da8bb70f6641a000ba681b4f49e25f74c97bad0367a"
+      },
+      "filename": "roxterm-3.15.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/realh/roxterm/archive/refs/tags/3.15.3.tar.gz",
+      "version": "3.15.3"
+    }
+  ]
+}
