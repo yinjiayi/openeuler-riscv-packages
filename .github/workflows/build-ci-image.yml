@@ -6,6 +6,7 @@ on:
     paths:
       - ci/Containerfile.riscv64
       - ci/bootstrap-rootfs.sh
+      - ci/run-dnf-transaction
       - ci/finalize-target-rpmdb.sh
       - ci/openeuler-rva23.repo
       - ci/rpm-manifest.sh
@@ -18,6 +19,7 @@ on:
     paths:
       - ci/Containerfile.riscv64
       - ci/bootstrap-rootfs.sh
+      - ci/run-dnf-transaction
       - ci/finalize-target-rpmdb.sh
       - ci/openeuler-rva23.repo
       - ci/rpm-manifest.sh
@@ -68,6 +70,7 @@ jobs:
           ci/record-environment.sh artifacts/image/environment.json
           sha256sum ci/Containerfile.riscv64 > artifacts/image/Containerfile.sha256
           sha256sum ci/bootstrap-rootfs.sh > artifacts/image/bootstrap-rootfs.sha256
+          sha256sum ci/run-dnf-transaction > artifacts/image/dnf-transaction-runner.sha256
           sha256sum ci/finalize-target-rpmdb.sh > artifacts/image/finalize-target-rpmdb.sha256
           sha256sum ci/rpm-manifest.sh > artifacts/image/rpm-manifest-helper.sha256
       - name: Install RISC-V QEMU/binfmt
