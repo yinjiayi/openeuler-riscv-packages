@@ -1,0 +1,21 @@
+{
+  "package_id": "gnome-mplayer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "07e11bc42834dae14ad66f887e6045f2bea94eae7f797b624c9a099f806b5cde"
+      },
+      "filename": "gnome-mplayer-1.0.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kdekorte/gnome-mplayer/archive/refs/tags/v1.0.9.tar.gz",
+      "version": "1.0.9"
+    }
+  ]
+}
