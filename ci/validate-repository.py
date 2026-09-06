@@ -131,6 +131,39 @@ def main() -> int:
         ):
             if marker not in bootstrap:
                 errors.append(f"bootstrap RPM database transport is missing: {marker}")
+        for marker in (
+            "download_verified_resumable()",
+            "--continue-at -",
+            "for attempt in 1 2 3 4 5",
+            'rm -f -- "$output" "$partial"',
+            'mv -f -- "$partial" "$output"',
+            '"${repo_url}${primary_href}" "$primary_checksum"',
+            '"${repo_url}${key_href}" "$key_checksum"',
+        ):
+            if marker not in bootstrap:
+                errors.append(f"authenticated bootstrap download is missing: {marker}")
+        for marker in (
+            "/bootstrap/run-dnf-transaction",
+            "--evidence /evidence/bootstrap-dnf-transaction.json",
+            "--budget-seconds 7300",
+            "--attempt-timeouts-seconds 4200,3000",
+            "--setopt keepcache=True",
+        ):
+            if marker not in bootstrap:
+                errors.append(
+                    "bootstrap payload download is missing its bounded "
+                    f"single-stream policy: {marker}"
+                )
+        if "--setopt keepcache=False" in bootstrap:
+            errors.append(
+                "bootstrap payload downloads must retain completed RPMs during the transaction"
+            )
+        if "COPY ci/run-dnf-transaction /bootstrap/run-dnf-transaction" not in containerfile:
+            errors.append("bootstrap image does not copy the bounded DNF transaction runner")
+        if image_workflow.count("- ci/run-dnf-transaction") < 2:
+            errors.append("Build CI Image does not rebuild when the DNF transaction runner changes")
+        if "sha256sum ci/run-dnf-transaction" not in image_workflow:
+            errors.append("Build CI Image does not record the DNF transaction runner checksum")
         transaction_marker = "dnf -y"
         export_marker = 'rpmdb --root "$rootfs" --exportdb'
         if (
@@ -959,14 +992,41 @@ def main() -> int:
         if marker not in builddeps:
             errors.append(f"BuildRequires preparation is missing supplemental repository control: {marker}")
     for marker in (
-        "run_with_retries",
-        "--setopt=retries=20",
-        "--setopt=minrate=1",
-        "--setopt=max_parallel_downloads=1",
+        "DNF_TRANSACTION_CONTAINER_PATH",
+        '"--budget-seconds", str(DNF_TRANSACTION_BUDGET_SECONDS)',
+        '"--attempt-timeouts-seconds", DNF_ATTEMPT_TIMEOUTS_SECONDS',
+        '"--kill-after-seconds", str(DNF_KILL_AFTER_SECONDS)',
+        'dst=/evidence',
         '"dependency_install_attempts"',
+        '"dependency_install_transaction"',
     ):
         if marker not in builddeps:
             errors.append(f"BuildRequires preparation is missing bounded download resilience: {marker}")
+    dnf_transaction_path = root / "ci" / "run-dnf-transaction"
+    dnf_transaction = (
+        dnf_transaction_path.read_text(encoding="utf-8")
+        if dnf_transaction_path.exists()
+        else ""
+    )
+    for marker in (
+        "--setopt=retries=20",
+        "--setopt=timeout=60",
+        "--setopt=minrate=1000",
+        "--setopt=max_parallel_downloads=1",
+        "PROTECTED_NETWORK_OPTIONS",
+        "cannot override protected DNF option",
+        "start_new_session=True",
+        "os.killpg(process.pid, signal.SIGTERM)",
+        "os.killpg(process.pid, signal.SIGKILL)",
+        '"attempts": []',
+        '"elapsed_seconds"',
+        '"exit_code"',
+        "worst_case_seconds > args.budget_seconds",
+    ):
+        if marker not in dnf_transaction:
+            errors.append(f"bounded DNF transaction runner is missing its fail-closed contract: {marker}")
+    if "--setopt=minrate=1\"" in dnf_transaction:
+        errors.append("bounded DNF transaction runner must not permit the obsolete 1 B/s low-speed threshold")
     for marker in (
         "BASELINE_ANCHORS",
         "rpm_manifest_from_image",
@@ -1000,7 +1060,8 @@ def main() -> int:
         '"docker", "create"',
         'baseline["network_install_started"] = True',
         "write_json_atomic(baseline_path, baseline)",
-        "install_attempts = run_with_retries",
+        "run(root_exec(",
+        'transaction_record.get("status") != "passed"',
         '["docker", "network", "disconnect", egress_network_id, container_id]',
         'baseline["network_install_completed"] = True',
     )
@@ -1019,6 +1080,16 @@ def main() -> int:
     for marker in ("repository_evidence", "endpoint-unavailable", "enabled_repositories"):
         if marker not in install_smoke:
             errors.append(f"installed-RPM smoke is missing repository outage control: {marker}")
+    for marker in (
+        "ci/run-dnf-transaction",
+        "--budget-seconds 3300",
+        "--attempt-timeouts-seconds 2100,1100",
+        "--retry-delay-seconds 5",
+        "--kill-after-seconds 10",
+        "bounded RPM installation DNF transaction failed",
+    ):
+        if marker not in install_smoke:
+            errors.append(f"installed-RPM smoke is missing bounded download resilience: {marker}")
 
     rpm_client = root / "ci" / "rpm-repo-client.py"
     if not rpm_client.is_file() or "http://2.27.148.101:38080" not in rpm_client.read_text(encoding="utf-8"):
