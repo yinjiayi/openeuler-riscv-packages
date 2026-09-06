@@ -1,0 +1,21 @@
+{
+  "package_id": "perceptualdiff",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0dea51046601e4d23dc45a3ec342f1a305baf3bf3328e9ccdae115fe1942f041"
+      },
+      "filename": "perceptualdiff-2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/myint/perceptualdiff/archive/refs/tags/v2.1.tar.gz",
+      "version": "2.1"
+    }
+  ]
+}
