@@ -1,0 +1,21 @@
+{
+  "package_id": "ez4connect",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b187c6331278496c4fe64c6681415191f31f7999e3dbdf7aa5cbe1521d571977"
+      },
+      "filename": "ez4connect-1.8.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/chenx-dust/EZ4Connect/archive/refs/tags/v1.8.1.tar.gz",
+      "version": "1.8.1"
+    }
+  ]
+}
