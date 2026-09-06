@@ -1,0 +1,116 @@
+{
+  "build": {
+    "native_reason": "Acceptance depends on timing and performance behavior that QEMU user mode cannot validate as native RISC-V behavior.",
+    "network_during_build": false,
+    "profile": "needs-native-riscv",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/google/benchmark",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "benchmark",
+        "package_name": "benchmark",
+        "source": "arch-extra",
+        "source_version": "1.9.5-2"
+      },
+      {
+        "evidence_url": "https://github.com/google/benchmark",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "benchmark-git",
+        "package_name": "benchmark-git",
+        "source": "aur",
+        "source_version": "1.9.1-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/benchmark",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-benchmark",
+        "package_name": "lib32-benchmark",
+        "source": "aur",
+        "source_version": "1.9.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/benchmark",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "benchmark",
+        "package_name": "benchmark",
+        "source": "debian",
+        "source_version": "1.9.1-1"
+      },
+      {
+        "evidence_url": "https://github.com/google/benchmark",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "google-benchmark",
+        "package_name": "google-benchmark",
+        "source": "fedora",
+        "source_version": "1.9.5-1.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/google/benchmark",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "benchmark",
+        "package_name": "benchmark",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.9.5-2.3"
+      },
+      {
+        "evidence_url": "https://github.com/google/benchmark",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "benchmark",
+        "package_name": "benchmark",
+        "source": "ubuntu",
+        "source_version": "1.9.1-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "benchmark.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed. Keep unmerged until the complete suite runs on an approved native RISC-V runner.",
+    "status": "active"
+  },
+  "package_id": "benchmark",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "benchmark",
+    "summary": "Microbenchmark support library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-google-benchmark",
+    "homepage": "https://github.com/google/benchmark",
+    "release_api": "https://api.github.com/repos/google/benchmark/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/google/benchmark",
+    "source_url_template": "https://github.com/google/benchmark/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.9.5",
+    "latest_detected": "1.9.5",
+    "release": "1"
+  }
+}
