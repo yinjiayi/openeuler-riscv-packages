@@ -29,5 +29,14 @@ it resolves `SDL2-devel` 2.30.0, `freetype-devel` 2.13.2, and
 `harfbuzz-devel` 8.3.0 for `riscv64`. RISC-V status remains unknown until the
 pinned CI build and installed-RPM smoke test complete.
 
+Exact-head Package CI run `34004026840` for commit
+`ae23554395a982144d5e8a2e6f232dcb95f6d35a` completed the audited dependency
+transaction and reached `rpmbuild`. Upstream CMake installed both development
+linker names, but Release 1 omitted `/usr/lib64/libSDL2_ttf-2.0.so` from the
+development file list, so RPM rejected the otherwise completed install as an
+unpackaged file. Release 2 assigns that upstream-installed symlink to
+`SDL2_ttf-devel`; source, build features, `%check`, and installed smoke coverage
+remain unchanged. A fresh exact-head target build is still required.
+
 External source files remain under upstream's Zlib license. Apache-2.0 covers
 only this repository's original packaging metadata, tests, and documentation.

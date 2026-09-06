@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full package inventory to provide SDL2_ttf and SDL2_ttf-devel. The official SDL 2.24.0 release asset is SHA-256 pinned and its detached-signature issuer is recorded for advisory evidence. System SDL2, FreeType, and HarfBuzz dependencies are used; vendored copies and samples are disabled. No distribution recipe was executed.",
+    "notes": "Selected from the full package inventory to provide SDL2_ttf and SDL2_ttf-devel. The official SDL 2.24.0 release asset is SHA-256 pinned and its detached-signature issuer is recorded for advisory evidence. System SDL2, FreeType, and HarfBuzz dependencies are used; vendored copies and samples are disabled. Exact-head Package CI run 34004026840 completed the audited dependency transaction and reached rpmbuild, which installed the additional development linker name libSDL2_ttf-2.0.so but rejected it as unpackaged. Release 2 adds that upstream-installed symlink to the development file list without changing source, features, or tests. No distribution recipe was executed.",
     "status": "active"
   },
   "package_id": "libsdl2-ttf",
@@ -63,6 +63,6 @@
   "version": {
     "current": "2.24.0",
     "latest_detected": "2.24.0",
-    "release": "1"
+    "release": "2"
   }
 }

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           SDL2_ttf
 Version:        2.24.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        TrueType font rendering library for SDL2
 License:        Zlib
 URL:            https://github.com/libsdl-org/SDL_ttf
@@ -105,10 +105,14 @@ EOF
 %files devel
 %{_includedir}/SDL2/SDL_ttf.h
 %{_libdir}/cmake/SDL2_ttf/
+%{_libdir}/libSDL2_ttf-2.0.so
 %{_libdir}/libSDL2_ttf.so
 %{_libdir}/pkgconfig/SDL2_ttf.pc
 
 %changelog
+* Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.24.0-2
+- Package the alternate development linker name installed by upstream CMake.
+
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.24.0-1
 - Initial openEuler RISC-V package from the full package inventory.
 - Build the shared SDL2 library with system FreeType and HarfBuzz dependencies.
