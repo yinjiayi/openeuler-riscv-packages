@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-wloutput-daemon",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2e10b9c2ad8d12802dd43375809d75f3f83a996be46c87665837f7b10b20d10c"
+      },
+      "filename": "deepin-wloutput-daemon-2.0.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dde-wloutput-daemon/archive/refs/tags/2.0.4.tar.gz",
+      "version": "2.0.4"
+    }
+  ]
+}
