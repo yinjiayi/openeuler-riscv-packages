@@ -1,0 +1,21 @@
+{
+  "package_id": "moordyn",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8ccf9d1d01c9c177e98bb605e08e7a42cf6ade8d0b4bb7aff34ea93963d30ab9"
+      },
+      "filename": "moordyn-2.6.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/FloatingArrayDesign/MoorDyn/archive/refs/tags/v2.6.1.tar.gz",
+      "version": "2.6.1"
+    }
+  ]
+}
