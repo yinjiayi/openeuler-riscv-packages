@@ -1,0 +1,21 @@
+{
+  "package_id": "ndstool",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5918dd3462d141bccba2412c06309bd7bca45a891067d455e97fdb8c9c1dd790"
+      },
+      "filename": "ndstool-2.3.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/devkitPro/ndstool/archive/refs/tags/v2.3.1.tar.gz",
+      "version": "2.3.1"
+    }
+  ]
+}
