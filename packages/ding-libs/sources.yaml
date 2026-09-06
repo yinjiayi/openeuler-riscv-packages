@@ -1,0 +1,21 @@
+{
+  "package_id": "ding-libs",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "21ebba447cf1cf6f1adac6a97d0389a2c44d6fda52fc29cbfa50392d1f11c026"
+      },
+      "filename": "ding-libs-0.7.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/SSSD/ding-libs/archive/refs/tags/0.7.0.tar.gz",
+      "version": "0.7.0"
+    }
+  ]
+}
