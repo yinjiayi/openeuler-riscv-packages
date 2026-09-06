@@ -1,0 +1,21 @@
+{
+  "package_id": "tuned-switcher",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "718d101127adca41595f14dbb18d61a3f12ce8a08e58781e7d2f2ca998adc4ea"
+      },
+      "filename": "tuned-switcher-0.9.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/xvitaly/tuned-switcher/archive/refs/tags/v0.9.4.tar.gz",
+      "version": "0.9.4"
+    }
+  ]
+}
