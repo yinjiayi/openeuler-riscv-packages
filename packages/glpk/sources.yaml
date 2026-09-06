@@ -1,0 +1,21 @@
+{
+  "package_id": "glpk",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4a1013eebb50f728fc601bdd833b0b2870333c3b3e5a816eeba921d95bec6f15"
+      },
+      "filename": "glpk-5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/glpk/glpk-5.0.tar.gz",
+      "version": "5.0"
+    }
+  ]
+}

@@ -68,15 +68,37 @@ scripts/dispatch-trusted-package-ci \
   --output /private/tmp/example-pr123-dispatch.json
 ```
 
-On 2026-08-12 the repository security baseline was also verified remotely:
-the repository is public, `yinjiayi` is the only collaborator and has admin
-access, and zero self-hosted runners existed. The fork-workflow approval policy
-was changed from `first_time_contributors` to `all_external_contributors` and
-read back successfully. The operation used repository Actions-settings read and
-update API categories; no credential value was placed in a command, record, or
-log. Roll back that setting to `first_time_contributors` if the policy change
-must be reversed. This approval policy is defense in depth; it is not a
-substitute for the Runner's protected-main event/workflow gate.
+`--output` is a file contract, not a directory. The dispatcher atomically
+writes one JSON evidence object after argument/output validation for a
+successful run, a completed workflow failure, or a later local/API error. The
+record binds the PR head and base, protected-main run ID/name/URL, last API
+observation, polling bounds, required-job conclusions, status-update outcome,
+and any tool error. Exit 0 means the required jobs and bound build result
+passed; exit 1 means GitHub reached a verified terminal workflow failure; exit
+2 means the bridge failed closed. A failed workflow therefore remains
+`outcome=workflow-failed` with its real run/job conclusions instead of being
+reported as a polling error. No output can be written when `--output` itself
+names a directory or has a non-directory parent.
+
+The dispatcher does not trust an early return from `gh run watch`. It polls
+the exact Actions run through the API until `status=completed`, requires the
+same run ID and display title, `workflow_dispatch` event, protected `main`
+branch, a terminal conclusion, and a consistent completed job view. The
+default run deadline is three hours; each polling request is capped at 30
+seconds, and up to five consecutive transient API/view errors are tolerated.
+Maintainers may tighten the deadline with `--run-timeout-seconds` and the
+consecutive-error bound with `--max-transient-errors`; identity drift always
+fails immediately rather than being retried.
+
+On 2026-08-24 the repository's fork-workflow approval policy was set to GitHub's
+least restrictive public-repository option,
+`first_time_contributors_new_to_github`, and read back successfully. Established
+contributors and the repository's approved automation can therefore run PR
+workflows without repeated maintainer approval. GitHub still requires approval
+for contributors whose accounts are new to GitHub; the public-repository API
+does not offer a fully disabled approval policy. This setting does not replace
+the Runner's protected-main event/workflow gate, and fork PR workflows remain
+read-only and isolated from repository secrets.
 
 ## Fixed software
 
@@ -95,6 +117,39 @@ within 30 days of any new release.
 Ubuntu 26.04 supplies static QEMU user binaries through `qemu-user` and binfmt
 registration through `qemu-user-binfmt`; `qemu-user-static` is only a virtual
 compatibility name. The installer also installs Ubuntu's `docker.io` package.
+It explicitly installs the minimal `iptables` frontend while retaining
+`--no-install-recommends`. Docker 29's iptables firewall backend directly
+executes `/usr/sbin/iptables` when it creates bridge endpoints, including when
+the package selects the nft-compatible implementation through alternatives.
+Both installation and service preflight require that exact executable path, so
+a host with incomplete package state remains offline instead of accepting a
+job that cannot start a networked container. The installer also asks Debian
+alternatives to restore the distribution-selected `iptables` master link; this
+is required for an already-installed package whose `/usr/sbin/iptables` link
+was lost, because a no-op `apt-get install` does not recreate it reliably.
+
+### Host systemd package integrity
+
+The **systemd package integrity gate** is the shared lifecycle check that binds
+`/usr/bin/systemctl` to Ubuntu's installed `systemd` package before any
+`systemctl` operation. It requires a root-owned, mode-0755, non-symlink regular
+executable; the exact dpkg owner; an installed `systemd` package with a valid
+version; and no output from `dpkg --verify systemd`. Dpkg can return zero
+while printing a file checksum mismatch, so empty verification output—not the
+return code alone—is the acceptance condition. The installer repeats this
+gate after apt completes, and preflight, audit, registration, activation, and
+uninstall inherit it from the shared platform check. Systemctl itself is then
+called by absolute path with paging disabled.
+
+A **compromised host** is one where package ownership or integrity no longer
+matches that gate, even if a renamed executable can still submit a systemd job
+or the requested unit later appears active. Lifecycle scripts stop without
+executing the untrusted tool. They never move a renamed binary back, reinstall
+a package, delete an indicator, or otherwise attempt in-place recovery.
+Quarantine the host from Runner scheduling and the network, preserve forensic
+evidence, rotate its SSH and Runner credentials, and reimage it from a trusted
+source. Only a clean package-integrity audit plus the ordinary canary gates may
+return a rebuilt host to the fleet.
 
 ## Credentials
 
@@ -167,6 +222,45 @@ it to `uninstall.sh`. It stops/disables the service and removes only the managed
 Runner directory; Docker and QEMU packages are retained because they may be
 shared host dependencies.
 
+## Idempotent fleet redeployment
+
+A **reviewed fleet redeployment** is an idempotent rerun of `install.sh` from
+one exact protected-main archive against an already registered host. It
+refreshes the complete managed package and libexec contract—including
+`preflight.sh`, `cleanup.sh`, `docker-cleanup.py`, and `audit.sh`—without
+re-registering the Runner, replacing its locked payload, or resetting an
+enabled policy. Copying one missing helper by hand is not a redeployment and
+can leave the installed files at mutually incompatible revisions.
+
+Redeployment is for a package-complete, integrity-valid host. It is not an
+incident-response substitute: a systemd package-integrity failure requires
+quarantine, credential rotation, and trusted reimaging rather than this flow.
+
+Redeploy from a freshly verified protected-main archive. Start with one host;
+after that complete canary passes, independent hosts may use disjoint bounded
+batches, while each host keeps the following per-host state machine:
+
+1. Require the exact GitHub Runner to be online with `busy=false`, then stop
+   only its exact systemd unit. Wait for GitHub to report it offline and prove
+   both `Runner.Worker=0` and no running Docker container before changing host
+   packages or managed files.
+2. Read the installed root-owned `identity.conf` and pass `--allow-degraded`
+   only when its existing `ALLOW_DEGRADED=true`; never infer or rewrite that
+   immutable choice from the host's rollout stage.
+3. Run the archive's `install.sh` with the exact `--host` and `--name`. Its
+   existing identity check, pinned Runner verification, and policy-preserving
+   path make this the supported way to repair missing packages and stale or
+   absent installed helpers.
+4. Run `activate.sh --enable-reviewed-policy` with the same identity arguments.
+   Activation performs bounded cleanup and preflight before starting the
+   service. Then require `audit.sh` success, the service active/enabled, the
+   GitHub Runner online with `busy=false`, and an empty Docker container
+   inventory before advancing to the next host.
+
+Stop the rollout on any identity, package, cleanup, audit, or state mismatch.
+Do not update a live/busy Runner and do not deploy individual files outside the
+installer.
+
 ## Per-job cleanup
 
 GitHub-supported synchronous pre/post hooks run `job-guard.sh` and
@@ -179,11 +273,18 @@ Docker-client state; it deliberately preserves the sibling `_actions`,
 cleanup** first leaves the job workspace and then removes all verified Runner
 work/home/Docker-state children. All phases share the same lock.
 
-These hosts are dedicated to exactly one Runner. Cleanup therefore fails
-before any Docker mutation if *any* running container exists; it never guesses
-container ownership. When Docker is idle it removes all stopped/created containers,
-dangling volumes, and unused custom networks, plus only the workflow-defined
-`openeuler-builddeps:*` derived images. The digest-pinned
+These hosts are dedicated to exactly one sequential Runner. A **managed
+dependency container** is the temporary, long-running container created by
+`prepare-build-deps.py` with the fixed recovery label, the bounded
+`openeuler-builddeps-<pid>-<nonce>` name, the digest-pinned target image, and
+the fixed sleep-loop command. At job start, cleanup inventories every running
+container before its first mutation. It recovers the prior job's orphan only
+when every running container exactly matches that complete managed identity;
+one unknown, unlabeled, mutable-image, or command-mismatched container keeps
+the original fail-closed behavior for the whole host. This does not authorize
+a name-only or label-only deletion. When Docker is idle it removes all
+stopped/created containers, dangling volumes, and unused custom networks, plus
+only the workflow-defined `openeuler-builddeps:*` derived images. The digest-pinned
 `ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild` base image and all other image
 caches are retained. The same locked base, with `--pull never`, is used as a
 root cleanup container for root-owned QEMU build outputs in three exact bind

@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
 rpm -q -- global
-test "$(global -q --version)" = 6.6.15
+test "$(global -q --version)" = 6.7
 d=$(mktemp -d); trap 'rm -rf "$d"' EXIT
 cat >"$d/main.c" <<'EOF'
 static int answer(void) { return 42; }

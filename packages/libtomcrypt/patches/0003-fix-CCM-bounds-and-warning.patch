@@ -1,0 +1,43 @@
+From 349d56e38c802dfeeaff0036639972616311622f Mon Sep 17 00:00:00 2001
+From: Steffen Jaeckel <s@jaeckel.eu>
+Date: Mon, 26 Aug 2024 14:48:53 +0200
+Subject: [PATCH] Fix compiler warning
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Repeated from 97edea362a34cb89b0e83bb503bde9e13ae817ba
+
+```
+src/encauth/ccm/ccm_add_nonce.c: In function ‘ccm_add_nonce’:
+src/encauth/ccm/ccm_add_nonce.c:61:21: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+   61 |       ccm->PAD[x++] = (unsigned char)((len >> 24) & 255);
+      |       ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./src/headers/tomcrypt.h:82,
+                 from ./src/headers/tomcrypt_private.h:4,
+                 from src/encauth/ccm/ccm_add_nonce.c:3:
+./src/headers/tomcrypt_mac.h:410:24: note: at offset 16 into destination object ‘PAD’ of size 16
+  410 |    unsigned char       PAD[16],              /* flags | Nonce N | l(m) */
+```
+
+Signed-off-by: Steffen Jaeckel <s@jaeckel.eu>
+---
+ src/encauth/ccm/ccm_add_nonce.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/encauth/ccm/ccm_add_nonce.c b/src/encauth/ccm/ccm_add_nonce.c
+index a48d48d..a56a43a 100644
+--- a/src/encauth/ccm/ccm_add_nonce.c
++++ b/src/encauth/ccm/ccm_add_nonce.c
+@@ -58,6 +58,9 @@ int ccm_add_nonce(ccm_state *ccm,
+       ccm->PAD[x++] = 0;
+    }
+    for (; y < ccm->L; y++) {
++      if (x >= sizeof(ccm->PAD)) {
++         return CRYPT_INVALID_ARG;
++      }
+       ccm->PAD[x++] = (unsigned char)((len >> 24) & 255);
+       len <<= 8;
+    }
+--
+2.50.1 (Apple Git-155)

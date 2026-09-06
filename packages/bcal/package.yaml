@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/jarun/bcal",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bcal",
+        "package_name": "bcal",
+        "source": "aur",
+        "source_version": "2.5-1"
+      },
+      {
+        "evidence_url": "https://github.com/jarun/bcal",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bcal",
+        "package_name": "bcal",
+        "source": "debian",
+        "source_version": "2.4-2"
+      },
+      {
+        "evidence_url": "https://github.com/jarun/bcal",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bcal",
+        "package_name": "bcal",
+        "source": "fedora",
+        "source_version": "2.5-1.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/jarun/bcal",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bcal",
+        "package_name": "bcal",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.4-2.5"
+      },
+      {
+        "evidence_url": "https://github.com/jarun/bcal",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bcal",
+        "package_name": "bcal",
+        "source": "ubuntu",
+        "source_version": "2.4-2.1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "bcal.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "bcal",
+  "rpm": {
+    "license": "GPL-3.0-only",
+    "name": "bcal",
+    "summary": "Storage conversion and expression calculator"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-jarun-bcal",
+    "homepage": "https://github.com/jarun/bcal",
+    "release_api": "https://api.github.com/repos/jarun/bcal/releases",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/jarun/bcal",
+    "source_url_template": "https://github.com/jarun/bcal/releases/download/v{version}/bcal-v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.5",
+    "latest_detected": "2.5",
+    "release": "1"
+  }
+}

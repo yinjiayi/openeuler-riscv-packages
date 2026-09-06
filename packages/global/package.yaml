@@ -1,1 +1,100 @@
-{"build":{"native_reason":null,"network_during_build":false,"profile":"qemu-user","timeout_minutes":240},"discovery":{"lineage":[{"evidence_url":"https://archlinux.org/packages/extra/x86_64/global/","observed_at":"2026-08-08T16:50:00Z","package_base":"global","package_name":"global","source":"arch-extra","source_version":"6.6.15-1"},{"evidence_url":"https://packages.debian.org/trixie/source/global","observed_at":"2026-08-08T16:50:00Z","package_base":"global","package_name":"global","source":"debian","source_version":"6.6.13-1"},{"evidence_url":"https://packages.fedoraproject.org/pkgs/global/global/","observed_at":"2026-08-08T16:50:00Z","package_base":"global","package_name":"global","source":"fedora","source_version":"6.6.14-1.fc44"},{"evidence_url":"https://build.opensuse.org/package/show/openSUSE%3AFactory/global","observed_at":"2026-08-08T16:50:00Z","package_base":"global","package_name":"global","source":"opensuse-tumbleweed","source_version":"6.6.14-1.4"},{"evidence_url":"https://packages.ubuntu.com/resolute/source/global","observed_at":"2026-08-08T16:50:00Z","package_base":"global","package_name":"global","source":"ubuntu","source_version":"6.6.14-1.1build1"}],"snapshot_id":"discovery-20260808T165000Z-9a89920c269462cd"},"files":{"patches":[],"smoke_test":"tests/smoke.sh","sources":"sources.yaml","spec":"global.spec"},"maintenance":{"maintainers":["yinjiayi"],"notes":"Frozen five-distribution stable lineage and independently pinned GNU 6.6.15 source. No canonical AUR row and no distribution recipe was executed. Included libltdl avoids an external ABI dependency; SQLite, target-provided Exuberant Ctags, full upstream checks, and installed index/query smoke remain enabled.","status":"active"},"package_id":"global","rpm":{"license":"GPL-3.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause AND MIT AND LicenseRef-Fedora-Public-Domain AND blessing AND GFDL-1.2-or-later","name":"global","summary":"Source code tagging system"},"schema_version":1,"target":{"arch":"riscv64","isa":"RVA23","os":"openEuler","release":"24.03-LTS-SP3","riscv_status":"unknown"},"updates":{"enabled":true,"last_checked_at":null,"last_successful_check_at":null,"release_provider":"gnu-ftp-index"},"upstream":{"component":"gnu.org-software-global","homepage":"https://www.gnu.org/software/global/","release_api":"https://ftp.gnu.org/gnu/global/","release_channel":"stable","release_regex":"global-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz","source_repository":"https://git.savannah.gnu.org/git/global.git","source_url_template":"https://ftp.gnu.org/gnu/global/global-{version}.tar.gz"},"version":{"current":"6.6.15","latest_detected":"6.6.15","release":"1"}}
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 240
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/global/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "global",
+        "package_name": "global",
+        "source": "arch-extra",
+        "source_version": "6.6.15-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/global",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "global",
+        "package_name": "global",
+        "source": "debian",
+        "source_version": "6.6.13-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/global/global/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "global",
+        "package_name": "global",
+        "source": "fedora",
+        "source_version": "6.6.14-1.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/global",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "global",
+        "package_name": "global",
+        "source": "opensuse-tumbleweed",
+        "source_version": "6.6.14-1.4"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/global",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "global",
+        "package_name": "global",
+        "source": "ubuntu",
+        "source_version": "6.6.14-1.1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "global.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Frozen five-distribution stable lineage and independently pinned GNU 6.6.15 source. No canonical AUR row and no distribution recipe was executed. Included libltdl avoids an external ABI dependency; SQLite, target-provided Exuberant Ctags, full upstream checks, and installed index/query smoke remain enabled.",
+    "status": "active"
+  },
+  "package_id": "global",
+  "rpm": {
+    "license": "GPL-3.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause AND MIT AND LicenseRef-Fedora-Public-Domain AND blessing AND GFDL-1.2-or-later",
+    "name": "global",
+    "summary": "Source code tagging system"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": "2026-08-14T19:12:03Z",
+    "last_successful_check_at": null,
+    "release_provider": "gnu-ftp-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-global",
+    "homepage": "https://www.gnu.org/software/global/",
+    "release_api": "https://ftp.gnu.org/gnu/global/",
+    "release_channel": "stable",
+    "release_regex": "global-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://git.savannah.gnu.org/git/global.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/global/global-{version}.tar.gz"
+  },
+  "version": {
+    "current": "6.7",
+    "latest_detected": "6.7",
+    "release": "1"
+  }
+}

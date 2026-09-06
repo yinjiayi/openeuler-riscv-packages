@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           global
-Version:        6.6.15
+Version:        6.7
 Release:        1%{?dist}
 Summary:        Source code tagging system
 License:        GPL-3.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause AND MIT AND LicenseRef-Fedora-Public-Domain AND blessing AND GFDL-1.2-or-later
 URL:            https://www.gnu.org/software/global/
-Source0:        global-%{version}.tar.gz
+Source0:        global-6.7.tar.gz
 
 # The release archive ships global.info newer than global.texi; texinfo is
 # only needed when regenerating the release files.
