@@ -1,0 +1,21 @@
+{
+  "package_id": "obs-composite-blur",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fba8258ac74aa871a03be620fd78004b6d6ba319b255b992d35b6548e799b170"
+      },
+      "filename": "obs-composite-blur-1.5.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/FiniteSingularity/obs-composite-blur/archive/refs/tags/v1.5.2.tar.gz",
+      "version": "1.5.2"
+    }
+  ]
+}
