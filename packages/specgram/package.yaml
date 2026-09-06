@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/rimio/specgram",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "specgram",
+        "package_name": "specgram",
+        "source": "aur",
+        "source_version": "0.9.3-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-register-tests-with-googletest.patch",
+        "license": "MIT",
+        "purpose": "Require the test-only GoogleTest and X11 dependencies and load CMake's GoogleTest module before registering the upstream test executable.",
+        "remove_when": "Upstream requires these test dependencies and includes the GoogleTest module when TESTING is enabled.",
+        "sha256": "29706745ca3aa45173e29b62b38f9bfa5da9736243aca2539607545bf971f293",
+        "source": "Downstream review of the pinned specgram 0.9.3 CMake test configuration.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "specgram.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Exact-head Package CI run 33048339152 reached CMake configuration and confirmed that upstream requires SFML 2.5 or newer. Release 2 declares the complete SFML, FFTW, GoogleTest, and X11 development closure, enables upstream tests with the project's TESTING option, and loads CMake's GoogleTest integration before upstream registers those tests; it does not disable or bypass %check. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "specgram",
+  "rpm": {
+    "license": "MIT",
+    "name": "specgram",
+    "summary": "Small program that computes and plots spectrograms, either in a live window or to disk, with support for stdin input."
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-rimio-specgram",
+    "homepage": "https://github.com/rimio/specgram",
+    "release_api": "https://api.github.com/repos/rimio/specgram/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/rimio/specgram",
+    "source_url_template": "https://github.com/rimio/specgram/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.9.3",
+    "latest_detected": "0.9.3",
+    "release": "2"
+  }
+}
