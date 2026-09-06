@@ -188,7 +188,7 @@ jobs:
         with:
           name: ci-image-evidence-${{ github.run_id }}
           path: artifacts/image
-      - name: Update only the reviewed image lock
+      - name: Update the reviewed image and cleanup locks atomically
         id: lock
         env:
           DIGEST: ${{ needs.build-publish.outputs.digest }}
@@ -222,6 +222,17 @@ jobs:
               if count != 1:
                   raise SystemExit(f"image.lock key {key!r} was not unique")
           path.write_text(text, encoding="utf-8")
+          cleanup_path = Path("ops/actions-runner-fleet/cleanup-image.lock")
+          cleanup = cleanup_path.read_text(encoding="utf-8")
+          cleanup_ref = f"{values['image']}@{values['digest']}"
+          cleanup, count = re.subn(
+              r"(?m)^CLEANUP_IMAGE_REF=.*$",
+              f"CLEANUP_IMAGE_REF={cleanup_ref}",
+              cleanup,
+          )
+          if count != 1:
+              raise SystemExit("cleanup-image.lock ref was not unique")
+          cleanup_path.write_text(cleanup, encoding="utf-8")
           PY
           branch="infra/ci-image-${DIGEST#sha256:}"
           branch=${branch:0:27}
@@ -234,23 +245,29 @@ jobs:
         run: |
           git config user.name github-actions\[bot\]
           git config user.email 41898282+github-actions\[bot\]@users.noreply.github.com
+          expected=$'M\tci/image.lock\nM\tops/actions-runner-fleet/cleanup-image.lock'
           if git ls-remote --exit-code --heads origin "refs/heads/$BRANCH" >/dev/null; then
             git fetch --no-tags origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
-            changed=$(git diff --name-only "origin/main...origin/$BRANCH")
-            test "$changed" = ci/image.lock
+            changed=$(git diff --name-status "origin/main...origin/$BRANCH")
+            test "$changed" = "$expected"
             remote_digest=$(git show "origin/$BRANCH:ci/image.lock" \
               | awk -F '"' '$1 ~ /^digest:/ {print $2}')
             test "$remote_digest" = "$DIGEST"
-            git restore -- ci/image.lock
+            remote_cleanup=$(git show "origin/$BRANCH:ops/actions-runner-fleet/cleanup-image.lock" \
+              | awk -F = '$1 == "CLEANUP_IMAGE_REF" {print $2}')
+            test "$remote_cleanup" = "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild@$DIGEST"
+            git restore -- ci/image.lock ops/actions-runner-fleet/cleanup-image.lock
             git switch -c "$BRANCH" --track "origin/$BRANCH"
             git merge --no-edit origin/main
-            test "$(git diff --name-only origin/main...HEAD)" = ci/image.lock
-            git push origin "HEAD:refs/heads/$BRANCH"
+            test "$(git diff --name-status origin/main...HEAD)" = "$expected"
             ci/validate-repository.py --repo-root . --require-published-image
+            git push origin "HEAD:refs/heads/$BRANCH"
           else
             git switch -c "$BRANCH"
-            git add ci/image.lock
+            git add ci/image.lock ops/actions-runner-fleet/cleanup-image.lock
             git commit -m "Lock RISC-V CI image ${DIGEST:0:19}"
+            test "$(git diff --name-status origin/main...HEAD)" = "$expected"
+            ci/validate-repository.py --repo-root . --require-published-image
             git push origin "HEAD:refs/heads/$BRANCH"
           fi
           existing=$(gh pr list --state open --head "$BRANCH" \
