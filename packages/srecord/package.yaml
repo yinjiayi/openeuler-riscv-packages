@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "srecord",
+  "rpm": {
+    "name": "srecord",
+    "summary": "Manipulate EPROM load files",
+    "license": "GPL-3.0-or-later AND LGPL-3.0-or-later"
+  },
+  "upstream": {
+    "component": "srecord.sourceforge.net",
+    "homepage": "https://srecord.sourceforge.net/",
+    "source_repository": "https://github.com/sierrafoxtrot/srecord.git",
+    "release_channel": "stable",
+    "release_api": "https://sourceforge.net/projects/srecord/files/srecord/",
+    "release_regex": "srecord-(?P<version>[0-9]+(?:\\.[0-9]+)+)-Source\\.tar\\.gz",
+    "source_url_template": "https://downloads.sourceforge.net/srecord/srecord-{version}-Source.tar.gz"
+  },
+  "version": {
+    "current": "1.65.0",
+    "release": "1",
+    "latest_detected": "1.65.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "srecord",
+        "package_base": "srecord",
+        "source_version": "1.65.0-2",
+        "evidence_url": "https://aur.archlinux.org/rpc/v5/info/srecord",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "srecord",
+        "package_base": "srecord",
+        "source_version": "1.65.0-7.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/srecord/srecord/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "srecord",
+        "package_base": "srecord",
+        "source_version": "1.65.0-2.6",
+        "evidence_url": "https://software.opensuse.org/package/srecord",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "srecord",
+        "package_base": "srecord",
+        "source_version": "1.64-4.1",
+        "evidence_url": "https://packages.debian.org/source/stable/srecord",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "srecord",
+        "package_base": "srecord",
+        "source_version": "1.64-4.1build2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/srecord",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "srecord.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official latest 1.65.0 bytes are SHA-256 pinned and archive-safe. Target metadata has no srecord package, CLI provider, libsrecord archive, or shared SONAME. The complete 208-case upstream CTest suite remains enabled; the installed devel artifact is static-only and cannot replace a shared ABI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-sourceforge-files"
+  }
+}
