@@ -40,10 +40,19 @@ if args and args[0] == "api" and args[1:2] != ["graphql"] and scenario.startswit
         external = "not-an-attestation"
     if endpoint == f"repos/{repo}/check-runs/2":
         app = {"id": 1, "slug": "github-actions"} if scenario == "bridge-wrong-app" else {"id": 15368, "slug": "github-actions"}
+        details_url = f"https://github.com/{repo}/runs/2"
+        if scenario == "bridge-details-workflow":
+            details_url = f"https://github.com/{repo}/actions/runs/202"
+        elif scenario == "bridge-details-wrong-id":
+            details_url = f"https://github.com/{repo}/runs/3"
+        elif scenario == "bridge-details-wrong-repo":
+            details_url = "https://github.com/attacker/repository/runs/2"
+        elif scenario == "bridge-details-query":
+            details_url += "?source=bridge"
         print(json.dumps({
             "id": 2, "name": "configure", "head_sha": head,
             "status": "completed", "conclusion": "success", "external_id": external,
-            "details_url": f"https://github.com/{repo}/actions/runs/202", "app": app,
+            "details_url": details_url, "app": app,
         }))
     elif endpoint == f"repos/{repo}/actions/runs/102":
         actor = "attacker" if scenario == "bridge-source-actor" else "github-actions[bot]"
@@ -64,16 +73,32 @@ if args and args[0] == "api" and args[1:2] != ["graphql"] and scenario.startswit
             "head_branch": "main", "repository": {"full_name": repo},
         }))
     elif endpoint == f"repos/{repo}/pulls/2":
+        changed_files = 1 if scenario == "bridge-single-file" else 3 if scenario == "bridge-extra-file" else 2
         print(json.dumps({
             "number": 2, "state": "open", "merged": False, "merged_at": None,
             "auto_merge": None, "draft": False, "user": {"login": "github-actions[bot]"},
             "head": {"sha": head, "ref": "infra/ci-image-123456abcdef", "repo": {"full_name": repo}},
             "base": {"sha": base, "ref": "main", "repo": {"full_name": repo}},
-            "changed_files": 1,
+            "changed_files": changed_files,
         }))
     elif endpoint == f"repos/{repo}/pulls/2/files?per_page=100":
-        filename = "README.md" if scenario == "bridge-wrong-file" else "ci/image.lock"
-        print(json.dumps([[{"filename": filename, "status": "modified"}]]))
+        first = "README.md" if scenario == "bridge-wrong-file" else "ci/image.lock"
+        cleanup = {"filename": "ops/actions-runner-fleet/cleanup-image.lock", "status": "modified"}
+        if scenario == "bridge-renamed-file":
+            cleanup.update({"status": "renamed", "previous_filename": "ops/actions-runner-fleet/old.lock"})
+        files = [
+            {"filename": first, "status": "modified"},
+            cleanup,
+        ]
+        if scenario == "bridge-single-file":
+            files = files[:1]
+        elif scenario == "bridge-extra-file":
+            files.append({"filename": "README.md", "status": "modified"})
+        elif scenario == "bridge-duplicate-file":
+            files[1]["filename"] = "ci/image.lock"
+        elif scenario == "bridge-reverse-files":
+            files.reverse()
+        print(json.dumps([files]))
     elif endpoint == f"repos/{repo}":
         print(json.dumps({"full_name": repo, "default_branch": "main"}))
     elif endpoint == f"repos/{repo}/git/ref/heads/main":
@@ -304,6 +329,9 @@ class RequiredContextAuditTests(unittest.TestCase):
         self.assertEqual(result["summary"]["bridge_context_pr_count"], 1)
         self.assertTrue(any("check-runs/2" in part for call in calls for part in call))
 
+        reordered, _ = self.run_audit("bridge-reverse-files", 0, bridge_policy=True)
+        self.assertTrue(reordered["passed"])
+
     def test_bridge_check_is_rejected_without_explicit_policy(self) -> None:
         result, calls = self.run_audit("bridge-success", 1)
         self.assertFalse(result["passed"])
@@ -323,9 +351,17 @@ class RequiredContextAuditTests(unittest.TestCase):
         for scenario in (
             "bridge-bad-external",
             "bridge-wrong-app",
+            "bridge-details-workflow",
+            "bridge-details-wrong-id",
+            "bridge-details-wrong-repo",
+            "bridge-details-query",
             "bridge-source-actor",
             "bridge-bridge-head",
             "bridge-wrong-file",
+            "bridge-single-file",
+            "bridge-extra-file",
+            "bridge-duplicate-file",
+            "bridge-renamed-file",
             "bridge-main-mismatch",
             "bridge-rest-race",
         ):

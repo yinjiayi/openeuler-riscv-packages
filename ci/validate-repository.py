@@ -14,6 +14,9 @@ from pathlib import Path
 ACTION_REF = re.compile(r"(?m)^\s*uses:\s*([^#\s]+)")
 PINNED_ACTION = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@[0-9a-f]{40}$")
 DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
+CLEANUP_IMAGE_REF = re.compile(
+    r"^ghcr\.io/yinjiayi/openeuler-riscv64-rpmbuild@sha256:[0-9a-f]{64}$"
+)
 GITHUB_TOKEN_LITERALS = (
     re.compile(rb"gh[pousr]_[A-Za-z0-9]{20,}"),
     re.compile(rb"github_pat_[A-Za-z0-9_]{20,}"),
@@ -53,6 +56,23 @@ def committed_token_paths(root: Path) -> list[str]:
 def lock_value(text: str, key: str) -> str:
     match = re.search(rf"(?m)^{re.escape(key)}:\s*\"?([^\"\n]*)\"?\s*$", text)
     return match.group(1).strip() if match else ""
+
+
+def cleanup_lock_value(text: str) -> str:
+    assignments: list[str] = []
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if raw_line != line:
+            raise ValueError("cleanup lock assignment must not have surrounding whitespace")
+        assignments.append(line)
+    if len(assignments) != 1 or not assignments[0].startswith("CLEANUP_IMAGE_REF="):
+        raise ValueError("cleanup lock must contain exactly one CLEANUP_IMAGE_REF assignment")
+    image_ref = assignments[0].split("=", 1)[1]
+    if CLEANUP_IMAGE_REF.fullmatch(image_ref) is None:
+        raise ValueError("cleanup lock image reference is not the fixed immutable GHCR image")
+    return image_ref
 
 
 def main() -> int:
@@ -131,6 +151,39 @@ def main() -> int:
         ):
             if marker not in bootstrap:
                 errors.append(f"bootstrap RPM database transport is missing: {marker}")
+        for marker in (
+            "download_verified_resumable()",
+            "--continue-at -",
+            "for attempt in 1 2 3 4 5",
+            'rm -f -- "$output" "$partial"',
+            'mv -f -- "$partial" "$output"',
+            '"${repo_url}${primary_href}" "$primary_checksum"',
+            '"${repo_url}${key_href}" "$key_checksum"',
+        ):
+            if marker not in bootstrap:
+                errors.append(f"authenticated bootstrap download is missing: {marker}")
+        for marker in (
+            "/bootstrap/run-dnf-transaction",
+            "--evidence /evidence/bootstrap-dnf-transaction.json",
+            "--budget-seconds 7300",
+            "--attempt-timeouts-seconds 4200,3000",
+            "--setopt keepcache=True",
+        ):
+            if marker not in bootstrap:
+                errors.append(
+                    "bootstrap payload download is missing its bounded "
+                    f"single-stream policy: {marker}"
+                )
+        if "--setopt keepcache=False" in bootstrap:
+            errors.append(
+                "bootstrap payload downloads must retain completed RPMs during the transaction"
+            )
+        if "COPY ci/run-dnf-transaction /bootstrap/run-dnf-transaction" not in containerfile:
+            errors.append("bootstrap image does not copy the bounded DNF transaction runner")
+        if image_workflow.count("- ci/run-dnf-transaction") < 2:
+            errors.append("Build CI Image does not rebuild when the DNF transaction runner changes")
+        if "sha256sum ci/run-dnf-transaction" not in image_workflow:
+            errors.append("Build CI Image does not record the DNF transaction runner checksum")
         transaction_marker = "dnf -y"
         export_marker = 'rpmdb --root "$rootfs" --exportdb'
         if (
@@ -740,7 +793,16 @@ def main() -> int:
         errors.append("digest-lock PR creation does not bridge actual required jobs onto the bot-created PR head")
     if "Auto-merge is disabled; an explicit maintainer squash merge is required" not in image_workflow:
         errors.append("digest-lock PR creation does not report the explicit maintainer merge boundary")
-    if "git ls-remote --exit-code --heads" not in image_workflow or "test \"$changed\" = ci/image.lock" not in image_workflow:
+    if (
+        "git ls-remote --exit-code --heads" not in image_workflow
+        or "git diff --name-status" not in image_workflow
+        or "test \"$changed\" = \"$expected\"" not in image_workflow
+        or 'cleanup_path = Path("ops/actions-runner-fleet/cleanup-image.lock")' not in image_workflow
+        or "CLEANUP_IMAGE_REF={cleanup_ref}" not in image_workflow
+        or "remote_cleanup=$(git show" not in image_workflow
+        or "git add ci/image.lock ops/actions-runner-fleet/cleanup-image.lock" not in image_workflow
+        or image_workflow.count("ci/validate-repository.py --repo-root . --require-published-image") != 2
+    ):
         errors.append("digest-lock retry does not safely verify and reuse an existing lock branch")
     if "git merge --no-edit origin/main" not in image_workflow:
         errors.append("digest-lock retry does not update the reused branch to the latest protected main")
@@ -790,6 +852,7 @@ def main() -> int:
             "unexpected-provenance",
             "configure-bridge-v1",
             "bot-image-lock-v1",
+            'details_url = f"https://github.com/{repository}/runs/{check_id}"',
             "bridge_attestation_stable",
             "changed_base_pr_count",
             'return 0 if result["passed"] else 1',
@@ -899,7 +962,8 @@ def main() -> int:
             'image-lock branch does not match the candidate digest prefix',
             'a forbidden configure StatusContext already exists',
             'status": "in_progress"',
-            'prove_check(args.repository, check_id, head, eid, details, "completed", "success")',
+            'return f"https://github.com/{repository}/runs/{check_id}"',
+            'prove_check(args.repository, check_id, head, eid, "completed", "success")',
             'fail_created_check',
         ):
             if marker not in helper_text:
@@ -959,14 +1023,41 @@ def main() -> int:
         if marker not in builddeps:
             errors.append(f"BuildRequires preparation is missing supplemental repository control: {marker}")
     for marker in (
-        "run_with_retries",
-        "--setopt=retries=20",
-        "--setopt=minrate=1",
-        "--setopt=max_parallel_downloads=1",
+        "DNF_TRANSACTION_CONTAINER_PATH",
+        '"--budget-seconds", str(DNF_TRANSACTION_BUDGET_SECONDS)',
+        '"--attempt-timeouts-seconds", DNF_ATTEMPT_TIMEOUTS_SECONDS',
+        '"--kill-after-seconds", str(DNF_KILL_AFTER_SECONDS)',
+        'dst=/evidence',
         '"dependency_install_attempts"',
+        '"dependency_install_transaction"',
     ):
         if marker not in builddeps:
             errors.append(f"BuildRequires preparation is missing bounded download resilience: {marker}")
+    dnf_transaction_path = root / "ci" / "run-dnf-transaction"
+    dnf_transaction = (
+        dnf_transaction_path.read_text(encoding="utf-8")
+        if dnf_transaction_path.exists()
+        else ""
+    )
+    for marker in (
+        "--setopt=retries=20",
+        "--setopt=timeout=60",
+        "--setopt=minrate=1000",
+        "--setopt=max_parallel_downloads=1",
+        "PROTECTED_NETWORK_OPTIONS",
+        "cannot override protected DNF option",
+        "start_new_session=True",
+        "os.killpg(process.pid, signal.SIGTERM)",
+        "os.killpg(process.pid, signal.SIGKILL)",
+        '"attempts": []',
+        '"elapsed_seconds"',
+        '"exit_code"',
+        "worst_case_seconds > args.budget_seconds",
+    ):
+        if marker not in dnf_transaction:
+            errors.append(f"bounded DNF transaction runner is missing its fail-closed contract: {marker}")
+    if "--setopt=minrate=1\"" in dnf_transaction:
+        errors.append("bounded DNF transaction runner must not permit the obsolete 1 B/s low-speed threshold")
     for marker in (
         "BASELINE_ANCHORS",
         "rpm_manifest_from_image",
@@ -1000,7 +1091,8 @@ def main() -> int:
         '"docker", "create"',
         'baseline["network_install_started"] = True',
         "write_json_atomic(baseline_path, baseline)",
-        "install_attempts = run_with_retries",
+        "run(root_exec(",
+        'transaction_record.get("status") != "passed"',
         '["docker", "network", "disconnect", egress_network_id, container_id]',
         'baseline["network_install_completed"] = True',
     )
@@ -1019,6 +1111,16 @@ def main() -> int:
     for marker in ("repository_evidence", "endpoint-unavailable", "enabled_repositories"):
         if marker not in install_smoke:
             errors.append(f"installed-RPM smoke is missing repository outage control: {marker}")
+    for marker in (
+        "ci/run-dnf-transaction",
+        "--budget-seconds 3300",
+        "--attempt-timeouts-seconds 2100,1100",
+        "--retry-delay-seconds 5",
+        "--kill-after-seconds 10",
+        "bounded RPM installation DNF transaction failed",
+    ):
+        if marker not in install_smoke:
+            errors.append(f"installed-RPM smoke is missing bounded download resilience: {marker}")
 
     rpm_client = root / "ci" / "rpm-repo-client.py"
     if not rpm_client.is_file() or "http://2.27.148.101:38080" not in rpm_client.read_text(encoding="utf-8"):
@@ -1092,13 +1194,27 @@ def main() -> int:
         errors.append("daily 02:17 Asia/Shanghai schedule (18:17 UTC) is missing")
 
     lock = (root / "ci" / "image.lock").read_text(encoding="utf-8")
+    image = lock_value(lock, "image")
     digest = lock_value(lock, "digest")
-    if not DIGEST.fullmatch(digest):
+    digest_locked = DIGEST.fullmatch(digest) is not None
+    if not digest_locked:
         message = "ci/image.lock has no verified published-image digest; package builds fail closed until build-ci-image completes"
         if args.require_published_image:
             errors.append(message)
         else:
             warnings.append(message)
+    cleanup_path = root / "ops" / "actions-runner-fleet" / "cleanup-image.lock"
+    cleanup_ref = ""
+    if not cleanup_path.is_file() or cleanup_path.is_symlink():
+        errors.append("Runner cleanup image lock is missing or is not a regular file")
+    else:
+        try:
+            cleanup_ref = cleanup_lock_value(cleanup_path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, ValueError) as error:
+            errors.append(f"Runner cleanup image lock is invalid: {error}")
+    locks_match = bool(digest_locked and cleanup_ref == f"{image}@{digest}")
+    if digest_locked and not locks_match:
+        errors.append("Runner cleanup image lock does not match ci/image.lock")
 
     result = {
         "schema_version": 1,
@@ -1106,7 +1222,7 @@ def main() -> int:
         "errors": errors,
         "warnings": warnings,
         "workflow_count": len(present),
-        "published_image_locked": bool(DIGEST.fullmatch(digest)),
+        "published_image_locked": locks_match,
     }
     if args.output:
         output = Path(args.output)
