@@ -1,0 +1,21 @@
+{
+  "package_id": "fabla",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2e3a029d2a40a919f3fcc86da207ae44fd463cc41125243ae0ef8d78c93e48a5"
+      },
+      "filename": "fabla-1.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/openavproductions/openav-fabla/archive/refs/tags/release-1.4.tar.gz",
+      "version": "1.4"
+    }
+  ]
+}
