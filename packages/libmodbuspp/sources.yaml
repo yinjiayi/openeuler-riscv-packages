@@ -1,0 +1,21 @@
+{
+  "package_id": "libmodbuspp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "37c21cae75f01c0b2133167913a59fc45f919ad142a5247f9d0f5c5ad874255d"
+      },
+      "filename": "libmodbuspp-0.2.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/epsilonrt/libmodbuspp/archive/refs/tags/v0.2.3.tar.gz",
+      "version": "0.2.3"
+    }
+  ]
+}
