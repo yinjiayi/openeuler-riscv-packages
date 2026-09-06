@@ -25,7 +25,7 @@
         "license": "LGPL-3.0-or-later",
         "purpose": "Keep all 18 upstream DSP tests meaningful on the fixed single-precision riscv64 build by using precision-derived zero tolerances, exercising channel discovery rather than spectrum-only mode, and checking processed AGC output.",
         "remove_when": "Upstream releases equivalent single-precision zero tolerances, explicit discovery-mode detector tests, and the corrected AGC output assertion.",
-        "sha256": "220c8a76118881eb60a30e67fca4c656c98149dd2044b46fecba715685ef9f43",
+        "sha256": "128c4b26738c15077ecb1c5255b7ae571d8fb68423bcf75cc1988010aac1bc40",
         "source": "Downstream openEuler RISC-V CI repair based on the verified upstream v0.3.0 test sources.",
         "upstream_status": "not-submitted"
       }
@@ -73,6 +73,6 @@
   "version": {
     "current": "0.3.0",
     "latest_detected": "0.3.0",
-    "release": "5"
+    "release": "6"
   }
 }

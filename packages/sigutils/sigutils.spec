@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sigutils
 Version:        0.3.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Small signal processing utility library
 License:        GPL-3.0-or-later
 URL:            https://github.com/BatchDrake/sigutils
@@ -39,6 +39,10 @@ test -s %{name}.files
 %doc AUTHORS
 
 %changelog
+* Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.0-6
+- Express the NCQO zero-residue repair as one context-rich upstream hunk so
+  RPM's strict fuzz-free patch application is deterministic.
+
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.0-5
 - Exercise the channel detector in discovery mode so the synthetic QPSK tests
   validate registered channels instead of querying an intentionally empty

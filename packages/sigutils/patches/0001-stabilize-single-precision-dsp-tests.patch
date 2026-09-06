@@ -73,7 +73,7 @@ These changes retain all 18 upstream tests and their functional assertions.
  
    SU_TEST_ASSERT(
        SUFLOAT_EQUAL(su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE), 2));
-@@ -59,12 +68,15 @@
+@@ -59,34 +68,35 @@
    for (p = 0; p < SU_TEST_SIGNAL_BUFFER_SIZE; ++p)
      buffer[p] = su_ncqo_read_q(&ncqo);
  
@@ -82,18 +82,19 @@ These changes retain all 18 upstream tests and their functional assertions.
        su_test_buffer_mean(buffer, SU_TEST_SIGNAL_BUFFER_SIZE),
 -      0));
 +      0, SU_TEST_MEAN_TOLERANCE));
- 
+-
    SU_TEST_ASSERT(
 -      SUFLOAT_EQUAL(su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE), 0));
+-
+-  /* Modify phase */
 +      sufeq(
 +          su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE),
 +          0,
 +          SU_TEST_ZERO_PP_TOLERANCE));
--
-+
-   /* Modify phase */
++  /* Rotate by pi/2 and repeat the zero and full-amplitude checks. */
    su_ncqo_set_phase(&ncqo, PI / 2);
-@@ -73,20 +85,23 @@
+-
+   /* Test in-phase signal */
    for (p = 0; p < SU_TEST_SIGNAL_BUFFER_SIZE; ++p)
      buffer[p] = su_ncqo_read_i(&ncqo);
  
@@ -102,16 +103,16 @@ These changes retain all 18 upstream tests and their functional assertions.
        su_test_buffer_mean(buffer, SU_TEST_SIGNAL_BUFFER_SIZE),
 -      0));
 +      0, SU_TEST_MEAN_TOLERANCE));
- 
+-
    SU_TEST_ASSERT(
 -      SUFLOAT_EQUAL(su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE), 0));
+-
+-  /* Test quadrature signal */
 +      sufeq(
 +          su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE),
 +          0,
 +          SU_TEST_ZERO_PP_TOLERANCE));
--
-+
-   /* Test quadrature signal */
++  /* The quadrature component must retain full amplitude. */
    for (p = 0; p < SU_TEST_SIGNAL_BUFFER_SIZE; ++p)
      buffer[p] = su_ncqo_read_q(&ncqo);
  
