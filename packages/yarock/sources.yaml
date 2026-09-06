@@ -1,0 +1,21 @@
+{
+  "package_id": "yarock",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b3c341e68a45cdf21bee69811fb7200244ffb1911e11c8f182f3d791fdb50e08"
+      },
+      "filename": "yarock-1.5.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/sebaro/Yarock/archive/refs/tags/1.5.2.tar.gz",
+      "version": "1.5.2"
+    }
+  ]
+}
