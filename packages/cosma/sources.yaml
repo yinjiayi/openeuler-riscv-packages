@@ -1,0 +1,21 @@
+{
+  "package_id": "cosma",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b478cc239a99baf6fdf889d123308a6b01a4521330bdb3f4def457feb0f7dfa0"
+      },
+      "filename": "cosma-2.8.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/eth-cscs/COSMA/archive/refs/tags/v2.8.4.tar.gz",
+      "version": "2.8.4"
+    }
+  ]
+}
