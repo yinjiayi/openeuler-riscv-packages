@@ -1049,8 +1049,8 @@ def main() -> int:
             errors.append(f"installed-RPM smoke is missing repository outage control: {marker}")
     for marker in (
         "ci/run-dnf-transaction",
-        "--budget-seconds 1300",
-        "--attempt-timeouts-seconds 900,300",
+        "--budget-seconds 3300",
+        "--attempt-timeouts-seconds 2100,1100",
         "--retry-delay-seconds 5",
         "--kill-after-seconds 10",
         "bounded RPM installation DNF transaction failed",

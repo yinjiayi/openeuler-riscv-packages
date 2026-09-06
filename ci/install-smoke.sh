@@ -139,8 +139,8 @@ fi
 set +e
 python3 ci/run-dnf-transaction \
   --evidence "$dnf_transaction_file" \
-  --budget-seconds 1300 \
-  --attempt-timeouts-seconds 900,300 \
+  --budget-seconds 3300 \
+  --attempt-timeouts-seconds 2100,1100 \
   --retry-delay-seconds 5 \
   --kill-after-seconds 10 \
   -- dnf -y --setopt=install_weak_deps=False --disablerepo='*' \

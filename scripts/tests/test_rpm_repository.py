@@ -18,6 +18,7 @@ CLIENT_PATH = REPO / "ci" / "rpm-repo-client.py"
 STAGER = REPO / "ci" / "stage-rpm-repository-upload.py"
 LIST_PACKAGES = REPO / "ci" / "list-rpm-repo-packages.py"
 BUILDDEPS_PATH = REPO / "ci" / "prepare-build-deps.py"
+INSTALL_SMOKE = REPO / "ci" / "install-smoke.sh"
 RSYNC_RETRY = REPO / "ci" / "rsync-with-lock-retry.sh"
 PUBLISHER_PATH = REPO / "ops" / "rpm-repo-server" / "rpmrepo_publish.py"
 BACKFILL_WORKFLOW = REPO / ".github" / "workflows" / "rpm-repo-backfill.yml"
@@ -606,6 +607,22 @@ class BuildRequiresRetryTests(unittest.TestCase):
         self.assertIn("dst={DNF_TRANSACTION_CONTAINER_PATH},readonly", source)
         self.assertIn('"dependency_install_transaction"', source)
         self.assertNotIn("run_with_retries", source)
+
+    def test_installed_smoke_allows_one_full_slow_metadata_attempt(self) -> None:
+        source = INSTALL_SMOKE.read_text(encoding="utf-8")
+        self.assertIn("--attempt-timeouts-seconds 2100,1100", source)
+        self.assertIn("--budget-seconds 3300", source)
+        for path in (PACKAGE_WORKFLOW, GOLDEN_WORKFLOW):
+            workflow = path.read_text(encoding="utf-8")
+            self.assertGreaterEqual(
+                workflow.count("--max-bytes 52428800 --timeout-seconds 3600 --"),
+                2,
+            )
+            self.assertNotIn("--timeout-seconds 1500", workflow)
+        package_workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("  rpm-install-smoke:\n    name: rpm-install-smoke", package_workflow)
+        self.assertIn("    timeout-minutes: 70", package_workflow)
+        self.assertNotIn("    timeout-minutes: 30", package_workflow)
 
 
 if __name__ == "__main__":
