@@ -1,0 +1,21 @@
+{
+  "package_id": "shmux",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c9f8863e2550e23e633cf5fc7a9c4c52d287059f424ef78aba6ecd98390fb9ab"
+      },
+      "filename": "shmux-1.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/shmux/shmux/archive/refs/tags/v1.0.3.tar.gz",
+      "version": "1.0.3"
+    }
+  ]
+}
