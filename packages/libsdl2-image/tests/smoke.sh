@@ -28,15 +28,3 @@ EOF
 cc "$smoke_dir/smoke.c" $(pkg-config --cflags --libs SDL2_image) \
   -o "$smoke_dir/pkgconfig-smoke"
 SDL_VIDEODRIVER=dummy "$smoke_dir/pkgconfig-smoke" "$smoke_dir/pixel.png"
-
-cat >"$smoke_dir/CMakeLists.txt" <<'EOF'
-cmake_minimum_required(VERSION 3.16)
-project(SDL2ImageConsumer C)
-find_package(SDL2_image 2.8.8 CONFIG REQUIRED)
-add_executable(cmake-smoke smoke.c)
-target_link_libraries(cmake-smoke PRIVATE SDL2_image::SDL2_image)
-EOF
-
-cmake -S "$smoke_dir" -B "$smoke_dir/build"
-cmake --build "$smoke_dir/build"
-SDL_VIDEODRIVER=dummy "$smoke_dir/build/cmake-smoke" "$smoke_dir/pixel.png"

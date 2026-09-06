@@ -32,8 +32,11 @@ build-only requirement because upstream's registered tests link `SDL2test`; it
 is not exposed as a runtime dependency of either output RPM. Upstream's sample
 programs are compiled, and its complete registered test executable runs
 serially with every shipped fixture under SDL's dummy video driver. The
-installed smoke test exercises both the pkg-config and CMake development
-interfaces and decodes a PNG through the installed shared library.
+installed smoke test compiles and links through the pkg-config development
+interface and decodes a PNG through the installed shared library. The CMake
+configuration remains packaged, while the smoke environment intentionally does
+not add CMake as a runtime dependency of `SDL2_image-devel`; the complete
+upstream CMake-built test suite still runs during `%check`.
 
 Target CI retains outbound network access, but every source byte remains bound
 to the committed SHA-256 before `rpmbuild`. Ubuntu GA metadata supplies the

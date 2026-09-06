@@ -17,7 +17,7 @@
   },
   "version": {
     "current": "2.8.8",
-    "release": "2",
+    "release": "3",
     "latest_detected": "2.8.12"
   },
   "discovery": {
@@ -57,7 +57,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "The inventory-selected official SDL_image 2.8.8 release bytes were downloaded twice from the upstream release asset, matched SHA-256, and passed single-root path/link archive inspection. The current official SDL 2 tag feed also exposes 2.8.12; this onboarding intentionally remains at the task-selected inventory version and leaves that later release visible to the updater. The detached 2.8.8 signature identifies fingerprint 1528635D8053A57F77D1E08630A59377A7763BE6 and is recorded as advisory rather than claimed cryptographically verified. Frozen Ubuntu GA metadata supplies the exact inventory lineage; no distribution recipe was read or executed. The fixed target repository supplies SDL2, SDL2-static for the upstream SDL2test-linked test executable, and JPEG, PNG, TIFF, and WebP development packages, while AVIF and JPEG XL development providers are absent. SDL2-static is build-only and is not propagated to either output RPM. The build therefore keeps every portable built-in backend plus strict system JPEG/PNG/TIFF/WebP support and runs the complete registered upstream test executable with its shipped fixtures."
+    "notes": "The inventory-selected official SDL_image 2.8.8 release bytes were downloaded twice from the upstream release asset, matched SHA-256, and passed single-root path/link archive inspection. The current official SDL 2 tag feed also exposes 2.8.12; this onboarding intentionally remains at the task-selected inventory version and leaves that later release visible to the updater. The detached 2.8.8 signature identifies fingerprint 1528635D8053A57F77D1E08630A59377A7763BE6 and is recorded as advisory rather than claimed cryptographically verified. Frozen Ubuntu GA metadata supplies the exact inventory lineage; no distribution recipe was read or executed. The fixed target repository supplies SDL2, SDL2-static for the upstream SDL2test-linked test executable, and JPEG, PNG, TIFF, and WebP development packages, while AVIF and JPEG XL development providers are absent. SDL2-static is build-only and is not propagated to either output RPM. The build therefore keeps every portable built-in backend plus strict system JPEG/PNG/TIFF/WebP support and runs the complete registered upstream test executable with its shipped fixtures. Release 3 keeps installed smoke within the produced RPM dependency closure: it compiles, links, and runs the installed pkg-config interface and decodes a PNG, while the complete upstream build-time test suite remains unchanged."
   },
   "updates": {
     "enabled": true,
