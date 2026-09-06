@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://gitlab.gnome.org/GNOME/goocanvas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "goocanvas2",
+        "package_name": "goocanvas2",
+        "source": "aur",
+        "source_version": "2.0.4-11"
+      },
+      {
+        "evidence_url": "https://gitlab.gnome.org/GNOME/goocanvas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "goocanvas-2.0",
+        "package_name": "goocanvas-2.0",
+        "source": "debian",
+        "source_version": "2.0.4-1.1"
+      },
+      {
+        "evidence_url": "https://gitlab.gnome.org/GNOME/goocanvas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "goocanvas2",
+        "package_name": "goocanvas2",
+        "source": "fedora",
+        "source_version": "2.0.4-22.fc44"
+      },
+      {
+        "evidence_url": "https://gitlab.gnome.org/GNOME/goocanvas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "goocanvas2",
+        "package_name": "goocanvas2",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.0.4-5.5"
+      },
+      {
+        "evidence_url": "https://gitlab.gnome.org/GNOME/goocanvas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "goocanvas-2.0",
+        "package_name": "goocanvas-2.0",
+        "source": "ubuntu",
+        "source_version": "2.0.4-1.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "goocanvas2.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected as the 2.x compatibility ABI from the full discovery inventory: AUR, Fedora, and openSUSE name it goocanvas2, while Debian and Ubuntu name the same 2.0.4 source goocanvas-2.0. The exact official GNOME archive was independently downloaded, matched the checksum published beside the release, safety-inspected, and confirmed to contain the generated Autotools build, LGPL-2.0 license text, pkg-config metadata, GObject introspection support, and Python override. The build enables the complete 2.x C, introspection, and Python interfaces. Upstream registers no functional automated test suite when gtk-doc generation is disabled, so %check retains the upstream check target and adds a compiled public-ABI type-registration probe. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "goocanvas2",
+  "rpm": {
+    "license": "LGPL-2.0-only",
+    "name": "goocanvas2",
+    "summary": "Cairo canvas widget library for GTK 3"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gitlab.gnome.org-gnome-goocanvas-2",
+    "homepage": "https://gitlab.gnome.org/GNOME/goocanvas",
+    "release_api": "https://download.gnome.org/sources/goocanvas/2.0/",
+    "release_channel": "stable",
+    "release_regex": "goocanvas-(?P<version>2\\.0\\.[0-9]+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.gnome.org/GNOME/goocanvas",
+    "source_url_template": "https://download.gnome.org/sources/goocanvas/2.0/goocanvas-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.0.4",
+    "latest_detected": "2.0.4",
+    "release": "1"
+  }
+}
