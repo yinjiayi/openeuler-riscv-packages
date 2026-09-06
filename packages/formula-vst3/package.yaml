@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/soundspear/formula",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "formula-vst3",
+        "package_name": "formula-vst3",
+        "source": "aur",
+        "source_version": "1.2.2-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "formula-vst3.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "formula-vst3",
+  "rpm": {
+    "license": "BSL-1.0",
+    "name": "formula-vst3",
+    "summary": "Open-source audio effects as code editor VST3 plugin and standalone application."
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-soundspear-formula",
+    "homepage": "https://github.com/soundspear/formula",
+    "release_api": "https://api.github.com/repos/soundspear/formula/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/soundspear/formula",
+    "source_url_template": "https://github.com/soundspear/formula/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.2.2",
+    "latest_detected": "1.2.2",
+    "release": "2"
+  }
+}
