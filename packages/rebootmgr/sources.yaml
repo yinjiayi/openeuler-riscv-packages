@@ -1,0 +1,21 @@
+{
+  "package_id": "rebootmgr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "15855ebb65ba493818da51cc4e5ea11b75c409254e8692548e088ed17a96b1df"
+      },
+      "filename": "rebootmgr-3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/SUSE/rebootmgr/archive/refs/tags/v3.3.tar.gz",
+      "version": "3.3"
+    }
+  ]
+}
