@@ -1,0 +1,21 @@
+{
+  "package_id": "dsd-neo",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1dbe0501332ce4f53dc8f47d9d2a2a7cca7772f3e69ac98aeebee4e864a82c93"
+      },
+      "filename": "dsd-neo-2.5.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/arancormonk/dsd-neo/archive/refs/tags/v2.5.1.tar.gz",
+      "version": "2.5.1"
+    }
+  ]
+}
