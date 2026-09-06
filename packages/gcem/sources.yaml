@@ -1,0 +1,21 @@
+{
+  "package_id": "gcem",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8e71a9f5b62956da6c409dda44b483f98c4a98ae72184f3aa4659ae5b3462e61"
+      },
+      "filename": "gcem-1.18.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kthohr/gcem/archive/refs/tags/v1.18.0.tar.gz",
+      "version": "1.18.0"
+    }
+  ]
+}
