@@ -1,0 +1,21 @@
+{
+  "package_id": "plasma6-runners-nordvpn",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3afb83a60066cdae4246efa70cab2c2a28a04306b70ffc5b50674de7ebeef48a"
+      },
+      "filename": "plasma6-runners-nordvpn-3.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/alex1701c/NordVPNKrunner/archive/refs/tags/3.2.1.tar.gz",
+      "version": "3.2.1"
+    }
+  ]
+}
