@@ -1,0 +1,21 @@
+{
+  "package_id": "tilda",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ff9364244c58507cd4073ac22e580a4cded048d416c682496c1b1788ee8a30df"
+      },
+      "filename": "tilda-2.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/lanoxx/tilda/archive/refs/tags/tilda-2.0.0.tar.gz",
+      "version": "2.0.0"
+    }
+  ]
+}
