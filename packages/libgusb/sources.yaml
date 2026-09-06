@@ -1,0 +1,21 @@
+{
+  "package_id": "libgusb",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "aa1242a308183d4ca6c2e8c9e3f2e345370b94308ef2d4b6e9c10d5ff6d7763e"
+      },
+      "filename": "libgusb-0.4.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/hughsie/libgusb/archive/refs/tags/0.4.9.tar.gz",
+      "version": "0.4.9"
+    }
+  ]
+}
