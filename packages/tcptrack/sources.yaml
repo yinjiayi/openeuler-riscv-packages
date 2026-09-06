@@ -1,0 +1,21 @@
+{
+  "package_id": "tcptrack",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8725205ecbeddc3f891e3345e70f150d87705b099eafd8780f4739ab14f8c862"
+      },
+      "filename": "tcptrack-1.4.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bchretien/tcptrack/archive/refs/tags/v1.4.3.tar.gz",
+      "version": "1.4.3"
+    }
+  ]
+}
