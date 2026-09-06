@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/gnurobots/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gnurobots",
+        "package_name": "gnurobots",
+        "source": "fedora",
+        "source_version": "1.2.0-43.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gnurobots.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "gnurobots",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "gnurobots",
+    "summary": "A robot programming game"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-gnurobots",
+    "homepage": "https://www.gnu.org/software/gnurobots/",
+    "release_api": "https://ftp.gnu.org/gnu/gnurobots/",
+    "release_channel": "stable",
+    "release_regex": "gnurobots-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/gnurobots/",
+    "source_url_template": "https://ftp.gnu.org/gnu/gnurobots/gnurobots-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.2.0",
+    "latest_detected": "1.2.0",
+    "release": "1"
+  }
+}
