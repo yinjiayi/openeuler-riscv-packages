@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The fixed openEuler target repository provides the required sndfile and fftw3f pkg-config capabilities; CMake Threads resolves through the CMake and glibc development closure. Upstream's sutest harness invokes all 18 test entries directly because upstream does not register them with CTest; its real-capture entry retains the upstream self-skip when the optional sample is absent from the release archive. VOLK remains an explicitly optional acceleration path and is not required because the fixed target repository does not provide pkgconfig(volk). External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "sigutils",
@@ -63,6 +63,6 @@
   "version": {
     "current": "0.3.0",
     "latest_detected": "0.3.0",
-    "release": "1"
+    "release": "2"
   }
 }
