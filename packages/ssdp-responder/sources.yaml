@@ -1,0 +1,21 @@
+{
+  "package_id": "ssdp-responder",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "db38f3bc3e475280881395865a5055254091ffccc4caaacdfc4330aa61a0c95e"
+      },
+      "filename": "ssdp-responder-2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/troglobit/ssdp-responder/archive/refs/tags/v2.0.tar.gz",
+      "version": "2.0"
+    }
+  ]
+}
