@@ -1,0 +1,109 @@
+{
+  "build": {
+    "native_reason": "The complete 80-test CTest suite passes tests 1 through 8 under QEMU user mode, then test_expect_u_int_not_in_set traps with SIGILL at test 9 in run 32684368561; validate the unchanged suite on native riscv64.",
+    "network_during_build": true,
+    "profile": "needs-native-riscv",
+    "timeout_minutes": 180,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://cmocka.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cmocka",
+        "package_name": "cmocka",
+        "source": "arch-extra",
+        "source_version": "2.0.2-1"
+      },
+      {
+        "evidence_url": "https://cmocka.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cmocka-git",
+        "package_name": "cmocka-git",
+        "source": "aur",
+        "source_version": "1.1.5.r277.g5912a32-1"
+      },
+      {
+        "evidence_url": "https://cmocka.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cmocka",
+        "package_name": "cmocka",
+        "source": "debian",
+        "source_version": "1.1.7-3"
+      },
+      {
+        "evidence_url": "https://cmocka.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cmocka",
+        "package_name": "cmocka",
+        "source": "fedora",
+        "source_version": "2.0.2-3.fc44"
+      },
+      {
+        "evidence_url": "https://cmocka.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cmocka",
+        "package_name": "cmocka",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.0.2-1.5"
+      },
+      {
+        "evidence_url": "https://cmocka.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cmocka",
+        "package_name": "cmocka",
+        "source": "ubuntu",
+        "source_version": "2.0.2-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "cmocka.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed. The complete 80-test suite remains mandatory and requires native riscv64 validation after a reproducible QEMU-user SIGILL at test 9.",
+    "status": "active"
+  },
+  "package_id": "cmocka",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "cmocka",
+    "summary": "Unit testing framework for C with mock object support"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cmocka.org",
+    "homepage": "https://cmocka.org",
+    "release_api": "https://cmocka.org/files/2.0/",
+    "release_channel": "stable",
+    "release_regex": "cmocka-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.com/cmocka/cmocka",
+    "source_url_template": "https://cmocka.org/files/2.0/cmocka-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.0.2",
+    "latest_detected": "2.0.2",
+    "release": "1"
+  }
+}
