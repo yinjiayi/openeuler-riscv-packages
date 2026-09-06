@@ -1,0 +1,21 @@
+{
+  "package_id": "mmapper",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7e6921af6927cf3fecca2a5979b0e4df4356fa45527b64810da62cf36cb23456"
+      },
+      "filename": "mmapper-25.07.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/MUME/MMapper/archive/refs/tags/v25.07.0.tar.gz",
+      "version": "25.07.0"
+    }
+  ]
+}
