@@ -1,0 +1,21 @@
+{
+  "package_id": "linux-devmgmt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "217d95c60978fb650b9a422f12bb269c74c77e22d106efd758a3525d00b029e5"
+      },
+      "filename": "linux-devmgmt-2.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/actuallyaridan/linux-devmgmt/archive/refs/tags/v2.1.1.tar.gz",
+      "version": "2.1.1"
+    }
+  ]
+}
