@@ -1,0 +1,21 @@
+{
+  "package_id": "admesh",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b832bf055beeaee63edf55ab43a42610287502af13136b9cf0e972d16893bd96"
+      },
+      "filename": "admesh-0.98.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/admesh/admesh/archive/refs/tags/v0.98.5.tar.gz",
+      "version": "0.98.5"
+    }
+  ]
+}
