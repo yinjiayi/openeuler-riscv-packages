@@ -1,0 +1,21 @@
+{
+  "package_id": "libportal",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e1b6913c6d9015bfa918ace86f82c30940982add97aed9c18cc929c5327054fd"
+      },
+      "filename": "libportal-0.10.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/flatpak/libportal/archive/refs/tags/0.10.0.tar.gz",
+      "version": "0.10.0"
+    }
+  ]
+}
