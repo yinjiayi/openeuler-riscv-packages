@@ -1,0 +1,86 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: use the system SDL2 build on Linux
+
+The Linux build hard-codes prebuilt x86_64 SDL2 headers and archives from the
+source tree. Resolve SDL2 through pkg-config so non-x86 distributions compile
+against their native development package.
+
+Patch-Source: downstream adaptation of Milton 1.9.1 CMakeLists.txt
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+---
+ CMakeLists.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -65,61 +65,61 @@
+   endif()
+ 
+   target_compile_options(shadergen PRIVATE
+     ${UnixCFlags})
+   target_compile_options(Milton PRIVATE
+     ${UnixCFlags})
+ endif()
+ 
+ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+ 
+   find_package(OpenGL REQUIRED)
+   find_package(GTK2 2.6 REQUIRED gtk)
+   find_package(X11 REQUIRED)
+   find_library(XINPUT_LIBRARY libXi.so)
+   find_package(Threads REQUIRED)
++  find_package(PkgConfig REQUIRED)
++  pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
+ 
+   if(XINPUT_LIBRARY STREQUAL "XINPUT_LIBRARY-NOTFOUND")
+       message(FATAL_ERROR "Could not find libXi.so")
+   endif()
+ 
+   if(NOT OPENGL_FOUND)
+       message(FATAL_ERROR "Could not find OpenGl libraries")
+   endif()
+ 
+   if(NOT GTK2_FOUND)
+     message(FATAL_ERROR "Could not find GTK2.8 libraries")
+   endif()
+ 
+   if(NOT X11_FOUND)
+     message(FATAL_ERROR "Could not find X11 libraries")
+   endif()
+ 
+   target_include_directories(Milton PRIVATE
+     ${GTK2_INCLUDE_DIRS}
+     ${X11_INCLUDE_DIR}
+-    ${SDL2DIR}/build/linux64/include/SDL2
+     ${OPENGL_INCLUDE_DIR}
+   )
+ 
+   target_link_libraries(Milton
+     ${GTK2_LIBRARIES}
+     ${X11_LIBRARIES}
+     ${OPENGL_LIBRARIES}
+     ${XINPUT_LIBRARY}
+-    ${SDL2DIR}/build/linux64/lib/libSDL2maind.a
+-    ${SDL2DIR}/build/linux64/lib/libSDL2d.a
++    PkgConfig::SDL2
+     ${CMAKE_THREAD_LIBS_INIT}
+     ${CMAKE_DL_LIBS}
+     )
+ 
+ else()
+   add_subdirectory(${SDL2DIR})
+   target_link_libraries(Milton SDL2-static)
+ endif()
+ 
+ if(APPLE)
+   target_link_libraries(Milton
+     "-framework OpenGL"
+   )
+ endif()
+ 
+--
+2.50.1

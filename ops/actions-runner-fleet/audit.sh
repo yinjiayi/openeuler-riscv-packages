@@ -47,15 +47,18 @@ for directory in "$runner_dir/_work" "$runner_dir/_diag" "$runner_dir/_state"; d
 done
 command -v docker >/dev/null || oe_die 'Docker client is missing'
 docker info >/dev/null 2>&1 || oe_die 'Docker is unavailable'
+oe_load_cleanup_image_lock "$oe_runner_config/cleanup-image.lock"
+docker image inspect "$CLEANUP_IMAGE_REF" >/dev/null 2>&1 \
+  || oe_die 'digest-locked cleanup image is not cached'
 command -v qemu-riscv64 >/dev/null || oe_die 'qemu-riscv64 is missing'
 [[ -r /proc/sys/fs/binfmt_misc/qemu-riscv64 ]] || oe_die 'qemu-riscv64 binfmt is missing'
 
 registered=false
 [[ -r $runner_dir/.runner && -r $runner_dir/.credentials ]] && registered=true
 active=false
-systemctl is-active --quiet "$service" && active=true
+oe_systemctl --quiet is-active "$service" && active=true
 enabled=false
-systemctl is-enabled --quiet "$service" && enabled=true
+oe_systemctl --quiet is-enabled "$service" && enabled=true
 
 if [[ $OE_POLICY_ENROLLMENT_ENABLED == false && ( $active == true || $enabled == true ) ]]; then
   oe_die 'Runner is active/enabled while policy disables enrollment'
