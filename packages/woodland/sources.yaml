@@ -1,0 +1,21 @@
+{
+  "package_id": "woodland",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4ca019826f0126a1bded152025a1a5cb2aefac975bcf476aebf334fc7fe3ca36"
+      },
+      "filename": "woodland-2.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/DiogenesN/woodland/archive/refs/tags/v2.1.1.tar.gz",
+      "version": "2.1.1"
+    }
+  ]
+}
