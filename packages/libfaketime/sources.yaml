@@ -1,0 +1,21 @@
+{
+  "package_id": "libfaketime",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4fc32218697c052adcdc5ee395581f2554ca56d086ac817ced2be0d6f1f8a9fa"
+      },
+      "filename": "libfaketime-0.9.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/wolfcw/libfaketime/archive/refs/tags/v0.9.12.tar.gz",
+      "version": "0.9.12"
+    }
+  ]
+}
