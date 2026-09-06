@@ -1,0 +1,21 @@
+{
+  "package_id": "libsecp256k1-abc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2426148e2bb0ddb19110a062561158eede3e4a0e4449ec38e8bcdc4b27af5161"
+      },
+      "filename": "libsecp256k1-abc-0.27.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Bitcoin-ABC/secp256k1/archive/refs/tags/v0.27.1.tar.gz",
+      "version": "0.27.1"
+    }
+  ]
+}
