@@ -1,0 +1,21 @@
+{
+  "package_id": "custom-toolbox",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6a2b17bd49d53f2030396675156035adb2011fbdd8b53ff32c6bfecd0b4958b4"
+      },
+      "filename": "custom-toolbox-26.07.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/MX-Linux/custom-toolbox/archive/refs/tags/26.07.tar.gz",
+      "version": "26.07"
+    }
+  ]
+}
