@@ -1,0 +1,21 @@
+{
+  "package_id": "mpclient",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "03f9f133c13dceae8a5ba7ae4e31f3e6eeb198e8df94df2a3f216a7d433a3adf"
+      },
+      "filename": "mpclient-0.35.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/MusicPlayerDaemon/mpc/archive/refs/tags/v0.35.tar.gz",
+      "version": "0.35"
+    }
+  ]
+}
