@@ -1,0 +1,21 @@
+{
+  "package_id": "mysql-xml-to-csv",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "64f1901645c280aaf0bcf42f60c601c687a3ab8d220d138b8137b41293c8d0d9"
+      },
+      "filename": "mysql-xml-to-csv-1.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/archiecobbs/mysql-xml-to-csv/archive/refs/tags/1.0.3.tar.gz",
+      "version": "1.0.3"
+    }
+  ]
+}
