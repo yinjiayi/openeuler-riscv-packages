@@ -1,0 +1,21 @@
+{
+  "package_id": "webappcontainer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "86b2d5413eeb3b3fbf7e272b5d64ca3e368b7b94438e2bc6eb0d710e1ad91023"
+      },
+      "filename": "webappcontainer-1.4.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/josephcrowell/webappcontainer/archive/refs/tags/1.4.1.tar.gz",
+      "version": "1.4.1"
+    }
+  ]
+}
