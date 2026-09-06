@@ -1,0 +1,21 @@
+{
+  "package_id": "irqbalance",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f37bb2e27c2e9ec609131d0ee3f770185d3845f79ee6ef11477ea0ffb600a561"
+      },
+      "filename": "irqbalance-1.9.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Irqbalance/irqbalance/archive/refs/tags/v1.9.4.tar.gz",
+      "version": "1.9.4"
+    }
+  ]
+}
