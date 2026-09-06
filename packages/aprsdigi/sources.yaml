@@ -1,0 +1,21 @@
+{
+  "package_id": "aprsdigi",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d4e038c3c5df059abd98efe9b9269d6096d854958fa77e110cf78154a5379640"
+      },
+      "filename": "aprsdigi-3.11.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/n2ygk/aprsdigi/archive/refs/tags/v3.11.0.tar.gz",
+      "version": "3.11.0"
+    }
+  ]
+}
