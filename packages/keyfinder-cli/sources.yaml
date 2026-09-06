@@ -1,0 +1,21 @@
+{
+  "package_id": "keyfinder-cli",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "aa69e7fd8991e92898aa660768a448e47995ef25bcca6600474d768cd174d0a9"
+      },
+      "filename": "keyfinder-cli-1.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/evanpurkhiser/keyfinder-cli/archive/refs/tags/v1.2.0.tar.gz",
+      "version": "1.2.0"
+    }
+  ]
+}
