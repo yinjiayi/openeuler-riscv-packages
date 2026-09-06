@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/gnudos/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gnudos",
+        "package_name": "gnudos",
+        "source": "aur",
+        "source_version": "1.11.4-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gnudos.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "gnudos",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "gnudos",
+    "summary": "Library designed to help new users of the GNU system, who are coming from a DOS background, fit into the picture and start using the GNU system with ease"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-gnudos",
+    "homepage": "https://www.gnu.org/software/gnudos/",
+    "release_api": "https://ftp.gnu.org/gnu/gnudos/",
+    "release_channel": "stable",
+    "release_regex": "gnudos-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/gnudos/",
+    "source_url_template": "https://ftp.gnu.org/gnu/gnudos/gnudos-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.0",
+    "latest_detected": "2.0",
+    "release": "1"
+  }
+}
