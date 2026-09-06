@@ -1,0 +1,21 @@
+{
+  "package_id": "shm-format",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e607c0a4ac98d184652c384e795a32df8183da597e100986d9f014dd4f297e22"
+      },
+      "filename": "shm-format-2.1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/SHMModbus/shm_format/archive/refs/tags/v2.1.0.tar.gz",
+      "version": "2.1.0"
+    }
+  ]
+}
