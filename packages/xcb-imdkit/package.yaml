@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/xcb-imdkit/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xcb-imdkit",
+        "package_name": "xcb-imdkit",
+        "source": "arch-extra",
+        "source_version": "1.0.9-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/xcb-imdkit-git",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xcb-imdkit-git",
+        "package_name": "xcb-imdkit-git",
+        "source": "aur",
+        "source_version": "1.0.9.r0.g44f5c82-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/xcb-imdkit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xcb-imdkit",
+        "package_name": "xcb-imdkit",
+        "source": "debian",
+        "source_version": "1.0.9-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/xcb-imdkit/xcb-imdkit/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xcb-imdkit",
+        "package_name": "xcb-imdkit",
+        "source": "fedora",
+        "source_version": "1.0.9-6.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/xcb-imdkit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xcb-imdkit",
+        "package_name": "xcb-imdkit",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.0.9-1.7"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/xcb-imdkit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xcb-imdkit",
+        "package_name": "xcb-imdkit",
+        "source": "ubuntu",
+        "source_version": "1.0.9-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "xcb-imdkit.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full inventory as the missing xcb-imdkit provider required by the fcitx5 dependency chain. The official 1.0.9 GitHub tag archive is pinned by SHA-256; the annotated tag is signed and points to commit 44f5c8219bcae9e6afc2391dc50486efcf0bdf06. System XCB, xcb-util, xcb-util-keysyms, and uthash dependencies are used. The complete registered upstream encoding test remains enabled. External distribution and AUR recipes were not executed.",
+    "status": "active"
+  },
+  "package_id": "xcb-imdkit",
+  "rpm": {
+    "license": "LGPL-2.1-only AND MIT",
+    "name": "xcb-imdkit",
+    "summary": "XIM protocol implementation for XCB"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-fcitx-xcb-imdkit",
+    "homepage": "https://github.com/fcitx/xcb-imdkit",
+    "release_api": "https://api.github.com/repos/fcitx/xcb-imdkit/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/fcitx/xcb-imdkit",
+    "source_url_template": "https://github.com/fcitx/xcb-imdkit/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.9",
+    "latest_detected": "1.0.9",
+    "release": "1"
+  }
+}
