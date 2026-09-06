@@ -1,0 +1,21 @@
+{
+  "package_id": "bkcrack",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bb6a6d0bb1ccbb3c39cf8b3113581b5514b127023bbe0e864992c57e79346053"
+      },
+      "filename": "bkcrack-1.8.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kimci86/bkcrack/archive/refs/tags/v1.8.1.tar.gz",
+      "version": "1.8.1"
+    }
+  ]
+}
