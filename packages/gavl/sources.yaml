@@ -1,0 +1,21 @@
+{
+  "package_id": "gavl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5006f2dbe9f2bf5774b427b4e719475a6b2b0c1e22eb3c25b3315888d12abd70"
+      },
+      "filename": "gavl-2.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bplaum/gavl/archive/refs/tags/v2.0.1.tar.gz",
+      "version": "2.0.1"
+    }
+  ]
+}
