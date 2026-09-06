@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/OpenTTD/grfcodec",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "grfcodec",
+        "package_name": "grfcodec",
+        "source": "aur",
+        "source_version": "6.2.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/OpenTTD/grfcodec",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "grfcodec",
+        "package_name": "grfcodec",
+        "source": "debian",
+        "source_version": "6.1.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/OpenTTD/grfcodec",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "grfcodec",
+        "package_name": "grfcodec",
+        "source": "fedora",
+        "source_version": "6.2.0-2.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/OpenTTD/grfcodec",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "grfcodec",
+        "package_name": "grfcodec",
+        "source": "opensuse-tumbleweed",
+        "source_version": "6.0.6+39-1.20"
+      },
+      {
+        "evidence_url": "https://github.com/OpenTTD/grfcodec",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "grfcodec",
+        "package_name": "grfcodec",
+        "source": "ubuntu",
+        "source_version": "6.1.0-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "grfcodec.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "grfcodec",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "grfcodec",
+    "summary": "A tool to convert a GRF file into graphics files and meta data, and vice versa"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-openttd-grfcodec",
+    "homepage": "https://github.com/OpenTTD/grfcodec",
+    "release_api": "https://api.github.com/repos/OpenTTD/grfcodec/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/OpenTTD/grfcodec",
+    "source_url_template": "https://github.com/OpenTTD/grfcodec/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "6.2.0",
+    "latest_detected": "6.2.0",
+    "release": "1"
+  }
+}
