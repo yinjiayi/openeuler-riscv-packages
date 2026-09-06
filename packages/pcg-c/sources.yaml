@@ -1,0 +1,21 @@
+{
+  "package_id": "pcg-c",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "48f2a55cbfb3b31185a8799571f606767f124aa2cc943e92979d260a5162c986"
+      },
+      "filename": "pcg-c-0.94.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/andy5995/pcg-c/archive/refs/tags/v0.94.2.tar.gz",
+      "version": "0.94.2"
+    }
+  ]
+}
