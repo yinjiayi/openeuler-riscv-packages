@@ -10,8 +10,24 @@ BuildRequires:  cargo
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  gettext
+BuildRequires:  git
+BuildRequires:  golang
+BuildRequires:  libsecret-devel
 BuildRequires:  make
+BuildRequires:  opus-devel
+BuildRequires:  perl
+BuildRequires:  pkgconfig(gio-2.0)
+BuildRequires:  pkgconfig(gstreamer-1.0)
+BuildRequires:  pkgconfig(gstreamer-app-1.0)
+BuildRequires:  pkgconfig(gstreamer-video-1.0)
+BuildRequires:  pkgconfig(xtst)
+BuildRequires:  python3
+BuildRequires:  qt6-qtbase-devel
+BuildRequires:  qt6-qtbase-private-devel
+BuildRequires:  qt6-qtmultimedia-devel
 BuildRequires:  rust
+BuildRequires:  wayland-devel
 
 %description
 Cross-platform Matrix chat client
@@ -20,7 +36,7 @@ Cross-platform Matrix chat client
 %autosetup -p1 -n tesseract-%{version}
 
 %build
-%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON -DTESSERACT_UI=qt6
 %cmake_build
 
 %install
