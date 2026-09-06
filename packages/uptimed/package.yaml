@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/rpodgorny/uptimed",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uptimed",
+        "package_name": "uptimed",
+        "source": "arch-extra",
+        "source_version": "0.4.7-2"
+      },
+      {
+        "evidence_url": "https://github.com/rpodgorny/uptimed",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uptimed",
+        "package_name": "uptimed",
+        "source": "debian",
+        "source_version": "1:0.4.6-3.1"
+      },
+      {
+        "evidence_url": "https://github.com/rpodgorny/uptimed",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uptimed",
+        "package_name": "uptimed",
+        "source": "fedora",
+        "source_version": "0.4.7-4.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/rpodgorny/uptimed",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uptimed",
+        "package_name": "uptimed",
+        "source": "ubuntu",
+        "source_version": "1:0.4.6-3.1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "uptimed.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "uptimed",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "uptimed",
+    "summary": "A system uptime record daemon"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-rpodgorny-uptimed",
+    "homepage": "https://github.com/rpodgorny/uptimed",
+    "release_api": "https://api.github.com/repos/rpodgorny/uptimed/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/rpodgorny/uptimed",
+    "source_url_template": "https://github.com/rpodgorny/uptimed/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.4.7",
+    "latest_detected": "0.4.7",
+    "release": "1"
+  }
+}
