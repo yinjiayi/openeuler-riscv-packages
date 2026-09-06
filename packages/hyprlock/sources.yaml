@@ -1,0 +1,21 @@
+{
+  "package_id": "hyprlock",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7f653b87765bcfff7c1f8e04af326a7e73bbcacd1fb7d4436f6a16624a2247bb"
+      },
+      "filename": "hyprlock-0.9.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/hyprwm/hyprlock/archive/refs/tags/v0.9.6.tar.gz",
+      "version": "0.9.6"
+    }
+  ]
+}
