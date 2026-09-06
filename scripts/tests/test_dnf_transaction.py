@@ -85,7 +85,9 @@ printf '%s\\n' "$*" >>"$args_file"
                 os.environ.pop("DNF_TEST_COUNT", None)
                 os.environ.pop("DNF_TEST_ARGS", None)
             self.assertEqual(completed.returncode, 0, completed.stderr)
-            evidence = json.loads((root / "transaction.json").read_text(encoding="utf-8"))
+            evidence_path = root / "transaction.json"
+            self.assertEqual(evidence_path.stat().st_mode & 0o777, 0o644)
+            evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
             self.assertEqual(evidence["status"], "passed")
             self.assertEqual(evidence["exit_code"], 0)
             self.assertEqual([item["exit_code"] for item in evidence["attempts"]], [92, 0])

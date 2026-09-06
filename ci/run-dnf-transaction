@@ -53,6 +53,12 @@ def write_json_atomic(path: pathlib.Path, document: dict[str, object]) -> None:
             json.dump(document, handle, indent=2, sort_keys=True)
             handle.write("\n")
             handle.flush()
+            # This helper runs as root inside the target container while the
+            # bind-mounted evidence is consumed and uploaded by the hosted
+            # runner account.  mkstemp intentionally starts at 0600, so make
+            # the completed non-secret transaction record readable before the
+            # atomic rename exposes it at the final path.
+            os.fchmod(handle.fileno(), 0o644)
             os.fsync(handle.fileno())
         os.replace(temporary, path)
     finally:

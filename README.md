@@ -30,7 +30,9 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
   and a smaller explicit budget than its surrounding CI step. The shared runner
   terminates the container-local DNF process group on timeout, retains the same
   per-container cache only for a finite retry, and atomically records each
-  attempt's elapsed time, timeout state, and exit code. It does not disable a
+  attempt's elapsed time, timeout state, and exit code. The root-owned target
+  container publishes that non-secret JSON as mode `0644` so the hosted runner
+  can validate and upload it after the transaction. It does not disable a
   repository, accept unresolved dependencies, share cache across runs, or turn
   a failed transaction into success.
 - A **build-user policy** is the per-package `build.user` choice controlling the identity that executes `rpmbuild` and `%check`. Its compatible default is `root`; `unprivileged` opts into the fixed `rpmbuild` identity with UID/GID `10001:10001`. It does not change the root-only dependency-install stage or grant privileges to installed smoke tests.
