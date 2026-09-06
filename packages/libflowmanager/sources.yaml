@@ -1,0 +1,21 @@
+{
+  "package_id": "libflowmanager",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ab60c9c9611488e51c14b6e3870f91a191236dced12f0ed16a58cdd2c08ee74f"
+      },
+      "filename": "libflowmanager-3.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/LibtraceTeam/libflowmanager/archive/refs/tags/v3.0.0.tar.gz",
+      "version": "3.0.0"
+    }
+  ]
+}
