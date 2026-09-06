@@ -10,6 +10,8 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  qt6-qtbase-devel
+BuildRequires:  qt6-qtsvg-devel
 
 %description
 Fast note-taking app with PDF annotation, export, and multi-platform sync
