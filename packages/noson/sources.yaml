@@ -1,0 +1,21 @@
+{
+  "package_id": "noson",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "cbca0691b904dd0883c4ef952860bc7bfb3d0a5ae163f6f2ec560fd404d19725"
+      },
+      "filename": "noson-2.10.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/janbar/noson/archive/refs/tags/2.10.2.tar.gz",
+      "version": "2.10.2"
+    }
+  ]
+}
