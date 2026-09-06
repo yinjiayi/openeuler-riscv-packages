@@ -1,0 +1,21 @@
+{
+  "package_id": "sysextmgr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3587ea69fa9f8d00d74d4b363e2bed07d2b82194a45d391d8902254edd2c53be"
+      },
+      "filename": "sysextmgr-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/thkukuk/sysextmgr/archive/refs/tags/v1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
