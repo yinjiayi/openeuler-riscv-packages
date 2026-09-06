@@ -1,18 +1,27 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+import importlib.util
 import json
 import os
 from pathlib import Path
 import re
+import shutil
 import stat
 import subprocess
+import sys
 import tempfile
+import textwrap
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
 OPS = ROOT / "ops" / "actions-runner-fleet"
+VALIDATOR_PATH = ROOT / "ci" / "validate-repository.py"
+VALIDATOR_SPEC = importlib.util.spec_from_file_location("validate_repository", VALIDATOR_PATH)
+assert VALIDATOR_SPEC and VALIDATOR_SPEC.loader
+VALIDATOR_MODULE = importlib.util.module_from_spec(VALIDATOR_SPEC)
+VALIDATOR_SPEC.loader.exec_module(VALIDATOR_MODULE)
 
 
 def parse_assignment_file(path: Path) -> dict[str, str]:
@@ -67,6 +76,96 @@ class RunnerFleetStaticTests(unittest.TestCase):
         )
         self.assertNotIn("src=$runner_dir", cleanup_script)
 
+    def test_image_workflow_updates_both_digest_locks_atomically(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "build-ci-image.yml").read_text(
+            encoding="utf-8"
+        )
+        cleanup_path = "ops/actions-runner-fleet/cleanup-image.lock"
+        self.assertIn('cleanup_path = Path("%s")' % cleanup_path, workflow)
+        self.assertIn(
+            'cleanup_image = "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild"',
+            workflow,
+        )
+        self.assertIn('CLEANUP_IMAGE_REF={cleanup_ref}', workflow)
+        self.assertIn("expected=$'M\\tci/image.lock\\nM\\t%s'" % cleanup_path, workflow)
+        self.assertIn('test "$changed" = "$expected"', workflow)
+        self.assertIn('git diff --name-status "origin/main...origin/$BRANCH"', workflow)
+        self.assertIn('git diff --name-status origin/main...HEAD', workflow)
+        self.assertIn('remote_cleanup=$(git show "origin/$BRANCH:%s"' % cleanup_path, workflow)
+        self.assertIn("git add ci/image.lock %s" % cleanup_path, workflow)
+        self.assertEqual(
+            workflow.count("ci/validate-repository.py --repo-root . --require-published-image"),
+            2,
+        )
+        self.assertLess(
+            workflow.index("ci/validate-repository.py --repo-root . --require-published-image"),
+            workflow.index('git push origin "HEAD:refs/heads/$BRANCH"'),
+        )
+
+    def test_repository_validator_strictly_parses_the_cleanup_lock(self) -> None:
+        digest = "sha256:" + "a" * 64
+        valid = "# comment\nCLEANUP_IMAGE_REF=ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild@%s\n" % digest
+        self.assertEqual(
+            VALIDATOR_MODULE.cleanup_lock_value(valid),
+            "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild@" + digest,
+        )
+        invalid = (
+            valid + "EXTRA=value\n",
+            valid + valid.splitlines()[-1] + "\n",
+            valid.replace("ghcr.io/yinjiayi", "ghcr.io/attacker"),
+            valid.replace("sha256:", "latest:"),
+            valid.replace("CLEANUP_IMAGE_REF=", " CLEANUP_IMAGE_REF="),
+        )
+        for document in invalid:
+            with self.subTest(document=document):
+                with self.assertRaises(ValueError):
+                    VALIDATOR_MODULE.cleanup_lock_value(document)
+
+    def test_image_workflow_updater_executes_and_writes_matching_locks(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "build-ci-image.yml").read_text(
+            encoding="utf-8"
+        )
+        embedded = workflow.split("<<'PY'\n", 1)[1].split("\n          PY", 1)[0]
+        updater = textwrap.dedent(embedded)
+        digest = "sha256:" + "d" * 64
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "ci").mkdir()
+            (root / "ops" / "actions-runner-fleet").mkdir(parents=True)
+            shutil.copyfile(ROOT / "ci" / "image.lock", root / "ci" / "image.lock")
+            shutil.copyfile(
+                OPS / "cleanup-image.lock",
+                root / "ops" / "actions-runner-fleet" / "cleanup-image.lock",
+            )
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "-",
+                    digest,
+                    "1" * 64,
+                    "2" * 64,
+                    "3" * 64,
+                    "2026-09-06T07:00:00Z",
+                    "tonistiigi/binfmt:qemu-v9.2.0",
+                ],
+                cwd=root,
+                input=updater,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            image_lock = (root / "ci" / "image.lock").read_text(encoding="utf-8")
+            self.assertIn('digest: "%s"' % digest, image_lock)
+            cleanup = parse_assignment_file(
+                root / "ops" / "actions-runner-fleet" / "cleanup-image.lock"
+            )
+            self.assertEqual(
+                cleanup["CLEANUP_IMAGE_REF"],
+                "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild@" + digest,
+            )
+
     def test_dependency_containers_have_the_recovery_identity_label(self) -> None:
         prepare = (ROOT / "ci" / "prepare-build-deps.py").read_text(encoding="utf-8")
         cleanup = (OPS / "docker-cleanup.py").read_text(encoding="utf-8")
@@ -96,7 +195,8 @@ class RunnerFleetStaticTests(unittest.TestCase):
         self.assertIn("root:root:755", integrity)
         self.assertIn('systemd: /usr/bin/systemctl', integrity)
         self.assertIn("${binary:Package}\\t${Status}\\t${Version}", integrity)
-        self.assertIn("dpkg-query --verify systemd", integrity)
+        self.assertIn("dpkg --verify systemd", integrity)
+        self.assertNotIn("dpkg-query --verify systemd", integrity)
         self.assertIn("[[ -z $verification ]]", integrity)
         self.assertNotIn("mctes", library)
 
