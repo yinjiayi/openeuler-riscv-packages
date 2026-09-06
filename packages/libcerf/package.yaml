@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Publisher tag v3.5 and all 18 maintained C and C++ numerical tests were reviewed and pinned; external packaging was metadata-only lineage evidence. Release 2 synchronizes the SPEC archive root with the verified v3.5 GitLab archive used by exact-head CI.",
+    "notes": "Publisher tag v3.6 and all 18 maintained C and C++ numerical tests are pinned for exact-head verification; external packaging remains metadata-only lineage evidence. The SPEC follows the versioned GitLab archive root and retains the complete CTest suite.",
     "status": "active"
   },
   "package_id": "libcerf",
@@ -79,7 +79,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": "2026-08-29T01:44:43Z",
+    "last_checked_at": "2026-09-04T20:44:08Z",
     "last_successful_check_at": null,
     "release_provider": "official-gitlab-tags"
   },
@@ -93,8 +93,8 @@
     "source_url_template": "https://jugit.fz-juelich.de/mlz/libcerf/-/archive/v{version}/libcerf-v{version}.tar.gz"
   },
   "version": {
-    "current": "3.5",
-    "latest_detected": "3.5",
-    "release": "2"
+    "current": "3.6",
+    "latest_detected": "3.6",
+    "release": "1"
   }
 }
