@@ -1,0 +1,21 @@
+{
+  "package_id": "stressapptest",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "91b6eefe49718a8c7c4de6e2bd81144db7b5612aeadb24e00e142d54fe9281cf"
+      },
+      "filename": "stressapptest-1.0.11.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/stressapptest/stressapptest/archive/refs/tags/v1.0.11.tar.gz",
+      "version": "1.0.11"
+    }
+  ]
+}
