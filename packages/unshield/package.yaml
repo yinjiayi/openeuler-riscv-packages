@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Packaging release 2 declares the required Zlib development dependency and configures an explicit CMake build directory. The pinned archive contains no upstream test directory, so no test cases are synthesized. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Packaging release 3 declares the required Zlib development dependency, configures an explicit CMake build directory, and records the manual page with a compression-aware RPM file glob. The pinned archive contains no upstream test directory, so no test cases are synthesized. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "unshield",
@@ -95,6 +95,6 @@
   "version": {
     "current": "1.6.2",
     "latest_detected": "1.6.2",
-    "release": "2"
+    "release": "3"
   }
 }
