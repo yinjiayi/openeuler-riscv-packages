@@ -1,34 +1,100 @@
 {
-  "schema_version": 1,
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/nanomsg/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nanomsg",
+        "package_name": "nanomsg",
+        "source": "arch-extra",
+        "source_version": "1.2.3"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/nanomsg",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nanomsg",
+        "package_name": "nanomsg",
+        "source": "debian",
+        "source_version": "1.2.3"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/nanomsg/nanomsg/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nanomsg",
+        "package_name": "nanomsg",
+        "source": "fedora",
+        "source_version": "1.2.3"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/nanomsg",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nanomsg",
+        "package_name": "nanomsg",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.2.3"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/nanomsg",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nanomsg",
+        "package_name": "nanomsg",
+        "source": "ubuntu",
+        "source_version": "1.1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "nanomsg.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official 1.2.4 tag resolves to immutable commit e6d0b8ddfc780eb89f8f6ef305e92c19e76bed6b. Frozen Arch, Debian, Fedora 44, openSUSE, and Ubuntu evidence corroborates the component at earlier stable versions; no external packaging recipe was read or executed. The target has no provider or consumer collision for the current libnanomsg.so.6 ABI, and all 43 CTests remain enabled.",
+    "status": "active"
+  },
   "package_id": "nanomsg",
-  "rpm": {"name": "nanomsg", "summary": "Socket library implementing scalable messaging protocols", "license": "MIT"},
+  "rpm": {
+    "license": "MIT",
+    "name": "nanomsg",
+    "summary": "Socket library implementing scalable messaging protocols"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": "2026-09-06T21:43:47Z",
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  },
   "upstream": {
     "component": "nanomsg-nanomsg",
     "homepage": "https://nanomsg.org/",
-    "source_repository": "https://github.com/nanomsg/nanomsg.git",
-    "release_channel": "stable",
     "release_api": "https://api.github.com/repos/nanomsg/nanomsg/releases/latest",
+    "release_channel": "stable",
     "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/nanomsg/nanomsg.git",
     "source_url_template": "https://github.com/nanomsg/nanomsg/archive/refs/tags/{version}.tar.gz"
   },
-  "version": {"current": "1.2.4", "release": "1", "latest_detected": "1.2.4"},
-  "discovery": {
-    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
-    "lineage": [
-      {"source": "arch-extra", "package_name": "nanomsg", "package_base": "nanomsg", "source_version": "1.2.3", "evidence_url": "https://archlinux.org/packages/extra/x86_64/nanomsg/", "observed_at": "2026-08-08T16:50:00Z"},
-      {"source": "debian", "package_name": "nanomsg", "package_base": "nanomsg", "source_version": "1.2.3", "evidence_url": "https://packages.debian.org/trixie/source/nanomsg", "observed_at": "2026-08-08T16:50:00Z"},
-      {"source": "fedora", "package_name": "nanomsg", "package_base": "nanomsg", "source_version": "1.2.3", "evidence_url": "https://packages.fedoraproject.org/pkgs/nanomsg/nanomsg/fedora-44.html", "observed_at": "2026-08-08T16:50:00Z"},
-      {"source": "opensuse-tumbleweed", "package_name": "nanomsg", "package_base": "nanomsg", "source_version": "1.2.3", "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/nanomsg", "observed_at": "2026-08-08T16:50:00Z"},
-      {"source": "ubuntu", "package_name": "nanomsg", "package_base": "nanomsg", "source_version": "1.1.5", "evidence_url": "https://packages.ubuntu.com/resolute/source/nanomsg", "observed_at": "2026-08-08T16:50:00Z"}
-    ]
-  },
-  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
-  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
-  "files": {"spec": "nanomsg.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
-  "maintenance": {
-    "status": "active",
-    "maintainers": ["yinjiayi"],
-    "notes": "The official 1.2.4 tag resolves to immutable commit e6d0b8ddfc780eb89f8f6ef305e92c19e76bed6b. Frozen Arch, Debian, Fedora 44, openSUSE, and Ubuntu evidence corroborates the component at earlier stable versions; no external packaging recipe was read or executed. The target has no provider or consumer collision for the current libnanomsg.so.6 ABI, and all 43 CTests remain enabled."
-  },
-  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-releases"}
+  "version": {
+    "current": "1.2.5",
+    "latest_detected": "1.2.5",
+    "release": "1"
+  }
 }
