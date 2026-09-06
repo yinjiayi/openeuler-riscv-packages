@@ -25,7 +25,7 @@
         "license": "LGPL-3.0-or-later",
         "purpose": "Keep all 18 upstream DSP tests meaningful on the fixed single-precision riscv64 build by refreshing NCQO quadrature caches after phase changes, using precision-derived zero tolerances, exercising channel discovery rather than spectrum-only mode, and checking processed AGC output.",
         "remove_when": "Upstream releases equivalent NCQO phase-cache refresh behavior and single-precision zero tolerances, explicit discovery-mode detector tests, and the corrected AGC output assertion.",
-        "sha256": "449295fe74a6a91af9fb30777fa8f1b12f37850e6925d5e827d9e6032d38a36f",
+        "sha256": "3bce2d1379376c2fb664b2aeaad3ed85dfc3d111170a717a6af1cda8191cc868",
         "source": "Downstream openEuler RISC-V CI repair based on the verified upstream v0.3.0 test sources.",
         "upstream_status": "not-submitted"
       }
@@ -73,6 +73,6 @@
   "version": {
     "current": "0.3.0",
     "latest_detected": "0.3.0",
-    "release": "7"
+    "release": "8"
   }
 }

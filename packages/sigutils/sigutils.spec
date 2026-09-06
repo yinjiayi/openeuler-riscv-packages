@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sigutils
 Version:        0.3.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Small signal processing utility library
 License:        GPL-3.0-or-later
 URL:            https://github.com/BatchDrake/sigutils
@@ -39,6 +39,10 @@ test -s %{name}.files
 %doc AUTHORS
 
 %changelog
+* Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.0-8
+- Express the NCQO cache repair with balanced strict context accepted by the
+  target GNU patch implementation at zero fuzz.
+
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.0-7
 - Refresh the NCQO sine and cosine caches when changing phase so the first
   post-change sample represents the requested phase.
