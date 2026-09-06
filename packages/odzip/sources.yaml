@@ -1,0 +1,21 @@
+{
+  "package_id": "odzip",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "90db0c1415344807efa18a4192bf2069f7a16c2d59ead70188ea2232dac811ed"
+      },
+      "filename": "odzip-1.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/odpay/odzip/archive/refs/tags/v1.0.3.tar.gz",
+      "version": "1.0.3"
+    }
+  ]
+}
