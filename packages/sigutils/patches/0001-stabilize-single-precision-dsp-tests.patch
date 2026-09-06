@@ -7,6 +7,10 @@ float. This is much smaller than float precision both after accumulating
 round-off produces a small non-zero peak-to-peak value. Give only those
 zero-valued assertions precision-appropriate tolerances.
 
+The NCQO phase setter changed phi without refreshing its cached quadrature
+values, so the first sample after a phase change still came from the old
+phase. Refresh both cached components as part of the setter.
+
 The synthetic channel tests left the detector in its default spectrum-only
 mode. That mode computes the spectrum but never discovers or registers a
 channel, so both valid-channel lookups necessarily failed. Select discovery
@@ -26,6 +30,24 @@ These changes retain all 18 upstream tests and their functional assertions.
        ctx->params->buffer_size,
        2 * SU_TEST_AGC_WINDOW,
        SU_AGC_RESCALE * 0.9,
+--- a/sigutils/ncqo.c
++++ b/sigutils/ncqo.c
+@@ -96,11 +96,14 @@
+ SU_METHOD(su_ncqo, void, set_phase, SUFLOAT phi)
+ {
+ #ifdef SU_NCQO_USE_PRECALC_BUFFER
+   if (self->pre_c) {
+     SU_ERROR("Cannot set phase on a fixed NCQO\n");
+     return;
+   }
+ #endif /* SU_NCQO_USE_PRECALC_BUFFER */
+-
+   self->phi = phi - 2 * PI * SU_FLOOR(phi / (2 * PI));
++  self->cos_updated = SU_FALSE;
++  self->sin_updated = SU_FALSE;
++  __su_ncqo_assert_cos(self);
++  __su_ncqo_assert_sin(self);
+ }
 --- a/src/tests/detect.c
 +++ b/src/tests/detect.c
 @@ -71,6 +71,7 @@

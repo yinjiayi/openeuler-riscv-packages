@@ -23,9 +23,9 @@
       {
         "file": "patches/0001-stabilize-single-precision-dsp-tests.patch",
         "license": "LGPL-3.0-or-later",
-        "purpose": "Keep all 18 upstream DSP tests meaningful on the fixed single-precision riscv64 build by using precision-derived zero tolerances, exercising channel discovery rather than spectrum-only mode, and checking processed AGC output.",
-        "remove_when": "Upstream releases equivalent single-precision zero tolerances, explicit discovery-mode detector tests, and the corrected AGC output assertion.",
-        "sha256": "128c4b26738c15077ecb1c5255b7ae571d8fb68423bcf75cc1988010aac1bc40",
+        "purpose": "Keep all 18 upstream DSP tests meaningful on the fixed single-precision riscv64 build by refreshing NCQO quadrature caches after phase changes, using precision-derived zero tolerances, exercising channel discovery rather than spectrum-only mode, and checking processed AGC output.",
+        "remove_when": "Upstream releases equivalent NCQO phase-cache refresh behavior and single-precision zero tolerances, explicit discovery-mode detector tests, and the corrected AGC output assertion.",
+        "sha256": "449295fe74a6a91af9fb30777fa8f1b12f37850e6925d5e827d9e6032d38a36f",
         "source": "Downstream openEuler RISC-V CI repair based on the verified upstream v0.3.0 test sources.",
         "upstream_status": "not-submitted"
       }
@@ -38,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The fixed openEuler target repository provides the required sndfile and fftw3f pkg-config capabilities; CMake Threads resolves through the CMake and glibc development closure. Upstream's sutest harness invokes all 18 test entries directly because upstream does not register them with CTest; its real-capture entry retains the upstream self-skip when the optional sample is absent from the release archive. The downstream test patch preserves all entries while binding zero assertions to floating-point precision, selecting discovery mode for channel lookup, and checking processed AGC output. VOLK remains an explicitly optional acceleration path and is not required because the fixed target repository does not provide pkgconfig(volk). External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The fixed openEuler target repository provides the required sndfile and fftw3f pkg-config capabilities; CMake Threads resolves through the CMake and glibc development closure. Upstream's sutest harness invokes all 18 test entries directly because upstream does not register them with CTest; its real-capture entry retains the upstream self-skip when the optional sample is absent from the release archive. The downstream patch preserves all entries while refreshing the NCQO quadrature cache after phase changes, binding zero assertions to floating-point precision, selecting discovery mode for channel lookup, and checking processed AGC output. VOLK remains an explicitly optional acceleration path and is not required because the fixed target repository does not provide pkgconfig(volk). External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "sigutils",
@@ -73,6 +73,6 @@
   "version": {
     "current": "0.3.0",
     "latest_detected": "0.3.0",
-    "release": "6"
+    "release": "7"
   }
 }
