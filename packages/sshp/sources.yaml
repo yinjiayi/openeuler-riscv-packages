@@ -1,0 +1,21 @@
+{
+  "package_id": "sshp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "cabd37f7057e46932ddeea43c913efa5d535aade12396d068b480d66537ad934"
+      },
+      "filename": "sshp-1.1.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bahamas10/sshp/archive/refs/tags/v1.1.4.tar.gz",
+      "version": "1.1.4"
+    }
+  ]
+}
