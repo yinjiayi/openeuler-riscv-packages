@@ -39,9 +39,9 @@
       {
         "file": "patches/0001-cmake-support-gcc-riscv-vector-targets.patch",
         "license": "Apache-2.0",
-        "purpose": "Compile NumKong's base RVV backend with GCC 14 while avoiding optional Zv* backends that this compiler cannot enable with the upstream function-specific target pragmas.",
+        "purpose": "Compile NumKong's base RVV backend with GCC 14, avoid optional Zv* backends that this compiler cannot enable with the upstream function-specific target pragmas, and disable its broken RISC-V IPO path.",
         "remove_when": "An upstream release supports GCC RISC-V function-specific target selection or otherwise applies matching per-backend compiler flags.",
-        "sha256": "08e8e11e3da6f9e4e88479990bff69582b8388f99c33f8e138912402487e4c45",
+        "sha256": "22cbee5072e37827f0ac4df7c9b6a5221cd56e8a1fd3e80a5c09e0673dc41cf8",
         "source": "Downstream review of the official NumKong 7.7.1 archive and exact openEuler GCC 14 RISC-V CI failures",
         "upstream_status": "not-submitted"
       }
