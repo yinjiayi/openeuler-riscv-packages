@@ -1,0 +1,21 @@
+{
+  "package_id": "pcg-cpp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "25bb22f076e8c346fa28c2267ae3564b12122f1f4ab2d2a08ad8909dcd6319fd"
+      },
+      "filename": "pcg-cpp-0.98.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/imneme/pcg-cpp/archive/refs/tags/v0.98.1.tar.gz",
+      "version": "0.98.1"
+    }
+  ]
+}
