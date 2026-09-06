@@ -1,0 +1,21 @@
+{
+  "package_id": "uredir",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4731efa17b0475bb88880a4be12af36154f2188468903ebd1e90310ea942b9bd"
+      },
+      "filename": "uredir-3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/troglobit/uredir/archive/refs/tags/v3.3.tar.gz",
+      "version": "3.3"
+    }
+  ]
+}
