@@ -1,0 +1,21 @@
+{
+  "package_id": "obs-branch-output",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9b306a6358c3a0ba63aa728b20a1ec989f01adde3fce2d4f474fc981aa04137c"
+      },
+      "filename": "obs-branch-output-1.0.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/OPENSPHERE-Inc/branch-output/archive/refs/tags/1.0.9.tar.gz",
+      "version": "1.0.9"
+    }
+  ]
+}
