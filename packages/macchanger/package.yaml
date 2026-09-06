@@ -1,0 +1,128 @@
+{
+  "build": {
+    "native_reason": "Changing and restoring a live network interface MAC address requires privileged networking ioctls on native RISC-V; unprivileged QEMU user mode can prove compilation only.",
+    "network_during_build": false,
+    "profile": "needs-native-riscv",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/alobbs/macchanger",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "macchanger",
+        "package_name": "macchanger",
+        "source": "arch-extra",
+        "source_version": "1.7.0-6"
+      },
+      {
+        "evidence_url": "https://github.com/alobbs/macchanger",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "macchanger",
+        "package_name": "macchanger",
+        "source": "debian",
+        "source_version": "1.7.0-6"
+      },
+      {
+        "evidence_url": "https://github.com/alobbs/macchanger",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "macchanger",
+        "package_name": "macchanger",
+        "source": "fedora",
+        "source_version": "1.7.0-30.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/alobbs/macchanger",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "macchanger",
+        "package_name": "macchanger",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.7.0-2.5"
+      },
+      {
+        "evidence_url": "https://github.com/alobbs/macchanger",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "macchanger",
+        "package_name": "macchanger",
+        "source": "ubuntu",
+        "source_version": "1.7.0-6build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-doc-drop-missing-gpl-texi-input.patch",
+        "sha256": "c014545d63e856c30c2d2e02063c0072de8ffb97cd2fb54cb8b0b8910646003d",
+        "purpose": "Remove an Automake reference to doc/gpl.texi, which is absent from the official 1.7.0 archive and unused by the manual.",
+        "source": "Downstream reconstruction from the official 1.7.0 archive",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "A stable upstream release stops declaring the nonexistent doc/gpl.texi input."
+      },
+      {
+        "file": "patches/0002-prefer-urandom-seed-source.patch",
+        "sha256": "bf1fe0b8b2385e89bb7ce71a1ae0725844f03001ffef8f80575d61f1c190502b",
+        "purpose": "Prefer the nonblocking kernel random source before /dev/random and avoid direct /dev/hwrng seeding.",
+        "source": "Fedora 44 macchanger-1.7.0-30.fc44 source RPM, macchanger-1.7.0-seed-source.diff",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "A stable upstream release uses a suitable nonblocking kernel random source first."
+      },
+      {
+        "file": "patches/0003-check-random-seed-and-fix-size-format.patch",
+        "sha256": "69d36064c99a045ec63a8212dcb96d2d5b22be1617553d29e967af178c9c0684",
+        "purpose": "Require a complete seed read and print strlen()'s size_t value with the portable %zu format.",
+        "source": "Fedora 44 macchanger-1.7.0-30.fc44 source RPM, macchanger-1.7.0-werror.diff",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "A stable upstream release validates the seed read and uses a size_t-compatible diagnostic format."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "macchanger.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "macchanger",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "macchanger",
+    "summary": "Utility for changing network interface MAC addresses"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-alobbs-macchanger",
+    "homepage": "https://github.com/alobbs/macchanger",
+    "release_api": "https://api.github.com/repos/alobbs/macchanger/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/alobbs/macchanger",
+    "source_url_template": "https://github.com/alobbs/macchanger/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.7.0",
+    "latest_detected": "1.7.0",
+    "release": "1"
+  }
+}

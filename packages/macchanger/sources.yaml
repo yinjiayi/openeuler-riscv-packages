@@ -1,0 +1,21 @@
+{
+  "package_id": "macchanger",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1d75c07a626321e07b48a5fe2dbefbdb98c3038bb8230923ba8d32bda5726e4f"
+      },
+      "filename": "macchanger-1.7.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/alobbs/macchanger/archive/refs/tags/1.7.0.tar.gz",
+      "version": "1.7.0"
+    }
+  ]
+}
