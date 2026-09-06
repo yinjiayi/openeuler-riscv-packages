@@ -1,0 +1,21 @@
+{
+  "package_id": "aws-c-s3",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "66acd3bf25bed7009165511bc335f8cf0ab25ad92e6d228c06cf86fee3cd74c4"
+      },
+      "filename": "aws-c-s3-0.13.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/awslabs/aws-c-s3/archive/refs/tags/v0.13.4.tar.gz",
+      "version": "0.13.4"
+    }
+  ]
+}
