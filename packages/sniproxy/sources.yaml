@@ -1,0 +1,21 @@
+{
+  "package_id": "sniproxy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bbe579886c1af60e850b8b5bef850f10b317e6ebe366cb0b5476b1230f2870e4"
+      },
+      "filename": "sniproxy-0.7.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dlundquist/sniproxy/archive/refs/tags/0.7.0.tar.gz",
+      "version": "0.7.0"
+    }
+  ]
+}
