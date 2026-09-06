@@ -7,4 +7,6 @@ The required build closure is expressed through the target repository's `pkgconf
 
 Upstream builds one `sutest` executable containing 18 test entries but does not register it with CTest. The RPM `%check` section therefore runs `sutest` directly so every entry is invoked. The real-capture entry retains upstream's own self-skip when its optional sample file, which is not present in the release archive, is unavailable.
 
+The downstream test patch keeps all 18 entries and their functional assertions. It gives only mathematically zero NCQO results tolerances derived from single-precision arithmetic, including the small peak-to-peak residue produced by evaluating `sin(pi)`. The two synthetic QPSK detector entries now explicitly select discovery mode: the upstream test initialized the detector in its default spectrum-only mode, which computes FFT output but never registers channels and therefore made `lookup_valid_channel` fail deterministically. The patch also checks the AGC's processed output rather than its falling-amplitude input.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
