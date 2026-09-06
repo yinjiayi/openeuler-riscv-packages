@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/praiskup/dnf-plugin-diff",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dnf-plugin-diff",
+        "package_name": "dnf-plugin-diff",
+        "source": "fedora",
+        "source_version": "2.0-5.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "dnf-plugin-diff.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "dnf-plugin-diff",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "dnf-plugin-diff",
+    "summary": "Display local changes in files from installed RPM packages"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-praiskup-dnf-plugin-diff",
+    "homepage": "https://github.com/praiskup/dnf-plugin-diff",
+    "release_api": "https://api.github.com/repos/praiskup/dnf-plugin-diff/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/praiskup/dnf-plugin-diff",
+    "source_url_template": "https://github.com/praiskup/dnf-plugin-diff/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.0",
+    "latest_detected": "2.0",
+    "release": "1"
+  }
+}
