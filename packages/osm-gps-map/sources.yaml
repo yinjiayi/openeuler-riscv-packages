@@ -1,0 +1,21 @@
+{
+  "package_id": "osm-gps-map",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a5d97b96366c876f83a4fb3d9b45ac58b6a2600cfce25043fb6d7a15b8299e65"
+      },
+      "filename": "osm-gps-map-1.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nzjrs/osm-gps-map/archive/refs/tags/1.2.0.tar.gz",
+      "version": "1.2.0"
+    }
+  ]
+}
