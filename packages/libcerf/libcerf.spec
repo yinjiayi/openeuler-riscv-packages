@@ -28,7 +28,7 @@ The C and C++ header, pkg-config and CMake metadata, manual pages, and the
 unversioned shared library links for developing applications with libcerf.
 
 %prep
-%autosetup -n cerf-v%{version}-c5cef03b1d1da25990b433ee1daf7b3a5776df85 -p1
+%autosetup -n cerf-v%{version}-070f3fdcb82efb594f89435382d7a4e647be39e9 -p1
 
 %build
 %cmake_conf \
