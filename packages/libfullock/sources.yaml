@@ -1,0 +1,21 @@
+{
+  "package_id": "libfullock",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5f3e5c7c77a56c26d02626f2d4c055962e1b997c4e7bc22cd1559470470c5357"
+      },
+      "filename": "libfullock-1.0.65.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/yahoojapan/fullock/archive/refs/tags/v1.0.65.tar.gz",
+      "version": "1.0.65"
+    }
+  ]
+}
