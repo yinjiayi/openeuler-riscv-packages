@@ -1,0 +1,21 @@
+{
+  "package_id": "mgard",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "06b1b2839a1794ec006db8f86683189bdd974e0404167ff3fc3705f0af02de4e"
+      },
+      "filename": "mgard-1.6.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/CODARcode/MGARD/archive/refs/tags/1.6.0.tar.gz",
+      "version": "1.6.0"
+    }
+  ]
+}
