@@ -1,0 +1,21 @@
+{
+  "package_id": "pacana",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d4e29cb93bea4578fc64d1384580a4e0f47cff3633b3d73d2a8c02caa46e2201"
+      },
+      "filename": "pacana-0.13.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bbidulock/pacana/archive/refs/tags/0.13.tar.gz",
+      "version": "0.13"
+    }
+  ]
+}
