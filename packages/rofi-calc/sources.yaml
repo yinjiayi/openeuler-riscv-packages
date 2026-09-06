@@ -1,0 +1,21 @@
+{
+  "package_id": "rofi-calc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4ad9b1f06b239363988ab8a82d2718fba6f14d77da5b46ae4f0ce9f2a56faf5b"
+      },
+      "filename": "rofi-calc-2.5.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/svenstaro/rofi-calc/archive/refs/tags/v2.5.1.tar.gz",
+      "version": "2.5.1"
+    }
+  ]
+}
