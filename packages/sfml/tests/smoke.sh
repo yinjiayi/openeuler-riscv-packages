@@ -64,4 +64,5 @@ EOF
 
 cmake -S "$smoke_dir" -B "$smoke_dir/build" -DCMAKE_BUILD_TYPE=Release
 cmake --build "$smoke_dir/build" --parallel
-"$smoke_dir/build/sfml-smoke" "$smoke_dir/image.png" "$smoke_dir/sound.wav"
+ALSOFT_DRIVERS=null "$smoke_dir/build/sfml-smoke" \
+  "$smoke_dir/image.png" "$smoke_dir/sound.wav"
