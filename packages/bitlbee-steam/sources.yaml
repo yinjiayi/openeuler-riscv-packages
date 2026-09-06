@@ -1,0 +1,21 @@
+{
+  "package_id": "bitlbee-steam",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fced6878906e14d96f899d362620de17c41a7fb84c2460068a9c08fc6904de38"
+      },
+      "filename": "bitlbee-steam-1.4.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bitlbee/bitlbee-steam/archive/refs/tags/v1.4.2.tar.gz",
+      "version": "1.4.2"
+    }
+  ]
+}
