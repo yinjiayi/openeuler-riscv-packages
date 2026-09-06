@@ -1,0 +1,21 @@
+{
+  "package_id": "ptl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3275ad8ec2971c89aacb3b922717dc4e774fa4e59fc3f4035053225c802aee52"
+      },
+      "filename": "ptl-2.3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jrmadsen/PTL/archive/refs/tags/v2.3.3.tar.gz",
+      "version": "2.3.3"
+    }
+  ]
+}
