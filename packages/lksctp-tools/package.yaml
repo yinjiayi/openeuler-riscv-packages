@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/sctp/lksctp-tools",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lksctp-tools",
+        "package_name": "lksctp-tools",
+        "source": "arch-extra",
+        "source_version": "1.0.21-1"
+      },
+      {
+        "evidence_url": "https://github.com/sctp/lksctp-tools",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lksctp-tools",
+        "package_name": "lksctp-tools",
+        "source": "debian",
+        "source_version": "1.0.21+dfsg-1"
+      },
+      {
+        "evidence_url": "https://github.com/sctp/lksctp-tools",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lksctp-tools",
+        "package_name": "lksctp-tools",
+        "source": "fedora",
+        "source_version": "1.0.21-3.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/sctp/lksctp-tools",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lksctp-tools",
+        "package_name": "lksctp-tools",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.0.21-1.7"
+      },
+      {
+        "evidence_url": "https://github.com/sctp/lksctp-tools",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lksctp-tools",
+        "package_name": "lksctp-tools",
+        "source": "ubuntu",
+        "source_version": "1.0.21+dfsg-1build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "lksctp-tools.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "lksctp-tools",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "lksctp-tools",
+    "summary": "An implementation of the SCTP protocol"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-sctp-lksctp-tools",
+    "homepage": "https://github.com/sctp/lksctp-tools",
+    "release_api": "https://api.github.com/repos/sctp/lksctp-tools/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/sctp/lksctp-tools",
+    "source_url_template": "https://github.com/sctp/lksctp-tools/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.21",
+    "latest_detected": "1.0.21",
+    "release": "1"
+  }
+}

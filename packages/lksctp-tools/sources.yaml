@@ -1,0 +1,21 @@
+{
+  "package_id": "lksctp-tools",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8738bf17ecffbbe2440a6e2ffaf1cbcebb633fc99d63d88761af35c02a571893"
+      },
+      "filename": "lksctp-tools-1.0.21.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/sctp/lksctp-tools/archive/refs/tags/v1.0.21.tar.gz",
+      "version": "1.0.21"
+    }
+  ]
+}
