@@ -1,0 +1,21 @@
+{
+  "package_id": "libgme",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8531678502451c2cf04248cda45c8b4645e19fcfb63e6a7ec2549641c47bb392"
+      },
+      "filename": "libgme-0.6.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libgme/game-music-emu/archive/refs/tags/0.6.5.tar.gz",
+      "version": "0.6.5"
+    }
+  ]
+}
