@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sigutils
 Version:        0.3.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Small signal processing utility library
 License:        GPL-3.0-or-later
 URL:            https://github.com/BatchDrake/sigutils
@@ -21,7 +21,7 @@ Small signal processing utility library
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -38,6 +38,10 @@ test -s %{name}.files
 %doc AUTHORS
 
 %changelog
+* Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.0-3
+- Configure CMake with the same out-of-source build directory used by the
+  build, install, and test macros.
+
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.0-2
 - Declare the required libsndfile, single-precision FFTW, pkg-config, and
   pthread development closure.
