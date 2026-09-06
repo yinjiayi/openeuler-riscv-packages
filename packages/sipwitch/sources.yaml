@@ -1,0 +1,21 @@
+{
+  "package_id": "sipwitch",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2a7aa86a653f6810b3cd9cce6c37b3f70e937e7d14b09fd5c2a70d70588a9482"
+      },
+      "filename": "sipwitch-1.9.15.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/sipwitch/sipwitch-1.9.15.tar.gz",
+      "version": "1.9.15"
+    }
+  ]
+}
