@@ -1,0 +1,21 @@
+{
+  "package_id": "libi2cd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7301deb354dfab8b25367ba49f863cf157d5291ca878c76f94ebed4211a409d6"
+      },
+      "filename": "libi2cd-1.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/sstallion/libi2cd/archive/refs/tags/v1.0.3.tar.gz",
+      "version": "1.0.3"
+    }
+  ]
+}
