@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           safe-discover
 Version:        0.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Kirigami-based package management GUI for Arch Linux (pacman, AUR, Flatpak, fwupd)
 License:        GPL-3.0-or-later
 URL:            https://github.com/kinncj/Safe-Discover
 Source0:        safe-discover-0.2.1.tar.gz
 BuildRequires:  cmake
+BuildRequires:  extra-cmake-modules
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
@@ -34,6 +35,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.1-3
+- Declare the Extra CMake Modules dependency required by upstream configuration.
+
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.1-2
 - Match %%prep to the case-sensitive upstream release archive root.
 
