@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/pies/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pies",
+        "package_name": "pies",
+        "source": "aur",
+        "source_version": "1.8-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "pies.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "pies",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "pies",
+    "summary": "Program Invocation and Execution Supervisor"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-pies",
+    "homepage": "https://www.gnu.org/software/pies/",
+    "release_api": "https://ftp.gnu.org/gnu/pies/",
+    "release_channel": "stable",
+    "release_regex": "pies-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+    "source_repository": "https://savannah.gnu.org/projects/pies/",
+    "source_url_template": "https://ftp.gnu.org/gnu/pies/pies-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "1.8",
+    "latest_detected": "1.8",
+    "release": "1"
+  }
+}
