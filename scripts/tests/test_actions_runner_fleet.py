@@ -76,6 +76,23 @@ class RunnerFleetStaticTests(unittest.TestCase):
         )
         self.assertNotIn("src=$runner_dir", cleanup_script)
 
+    def test_activation_caches_cleanup_image_before_workspace_cleanup(self) -> None:
+        activate = (OPS / "activate.sh").read_text(encoding="utf-8")
+        audit = (OPS / "audit.sh").read_text(encoding="utf-8")
+        load = 'oe_load_cleanup_image_lock "$oe_runner_config/cleanup-image.lock"'
+        inspect = 'docker image inspect "$CLEANUP_IMAGE_REF"'
+        pull = 'docker pull --quiet "$CLEANUP_IMAGE_REF"'
+
+        self.assertIn(load, activate)
+        self.assertIn(inspect, activate)
+        self.assertIn(pull, activate)
+        self.assertIn("timeout --signal=KILL 20m", activate)
+        self.assertLess(activate.index(load), activate.index(inspect))
+        self.assertLess(activate.index(inspect), activate.index(pull))
+        self.assertLess(activate.index(pull), activate.index('"$oe_runner_libexec/cleanup.sh"'))
+        self.assertIn(load, audit)
+        self.assertIn(inspect, audit)
+
     def test_image_workflow_updates_both_digest_locks_atomically(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "build-ci-image.yml").read_text(
             encoding="utf-8"
