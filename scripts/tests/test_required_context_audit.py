@@ -73,16 +73,32 @@ if args and args[0] == "api" and args[1:2] != ["graphql"] and scenario.startswit
             "head_branch": "main", "repository": {"full_name": repo},
         }))
     elif endpoint == f"repos/{repo}/pulls/2":
+        changed_files = 1 if scenario == "bridge-single-file" else 3 if scenario == "bridge-extra-file" else 2
         print(json.dumps({
             "number": 2, "state": "open", "merged": False, "merged_at": None,
             "auto_merge": None, "draft": False, "user": {"login": "github-actions[bot]"},
             "head": {"sha": head, "ref": "infra/ci-image-123456abcdef", "repo": {"full_name": repo}},
             "base": {"sha": base, "ref": "main", "repo": {"full_name": repo}},
-            "changed_files": 1,
+            "changed_files": changed_files,
         }))
     elif endpoint == f"repos/{repo}/pulls/2/files?per_page=100":
-        filename = "README.md" if scenario == "bridge-wrong-file" else "ci/image.lock"
-        print(json.dumps([[{"filename": filename, "status": "modified"}]]))
+        first = "README.md" if scenario == "bridge-wrong-file" else "ci/image.lock"
+        cleanup = {"filename": "ops/actions-runner-fleet/cleanup-image.lock", "status": "modified"}
+        if scenario == "bridge-renamed-file":
+            cleanup.update({"status": "renamed", "previous_filename": "ops/actions-runner-fleet/old.lock"})
+        files = [
+            {"filename": first, "status": "modified"},
+            cleanup,
+        ]
+        if scenario == "bridge-single-file":
+            files = files[:1]
+        elif scenario == "bridge-extra-file":
+            files.append({"filename": "README.md", "status": "modified"})
+        elif scenario == "bridge-duplicate-file":
+            files[1]["filename"] = "ci/image.lock"
+        elif scenario == "bridge-reverse-files":
+            files.reverse()
+        print(json.dumps([files]))
     elif endpoint == f"repos/{repo}":
         print(json.dumps({"full_name": repo, "default_branch": "main"}))
     elif endpoint == f"repos/{repo}/git/ref/heads/main":
@@ -313,6 +329,9 @@ class RequiredContextAuditTests(unittest.TestCase):
         self.assertEqual(result["summary"]["bridge_context_pr_count"], 1)
         self.assertTrue(any("check-runs/2" in part for call in calls for part in call))
 
+        reordered, _ = self.run_audit("bridge-reverse-files", 0, bridge_policy=True)
+        self.assertTrue(reordered["passed"])
+
     def test_bridge_check_is_rejected_without_explicit_policy(self) -> None:
         result, calls = self.run_audit("bridge-success", 1)
         self.assertFalse(result["passed"])
@@ -339,6 +358,10 @@ class RequiredContextAuditTests(unittest.TestCase):
             "bridge-source-actor",
             "bridge-bridge-head",
             "bridge-wrong-file",
+            "bridge-single-file",
+            "bridge-extra-file",
+            "bridge-duplicate-file",
+            "bridge-renamed-file",
             "bridge-main-mismatch",
             "bridge-rest-race",
         ):

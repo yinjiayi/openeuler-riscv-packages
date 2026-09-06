@@ -142,12 +142,16 @@ def authorize(
         return
 
     exact_file = len(files) == 1 and not files[0].get("previous_filename")
+    exact_image_locks = (
+        len(files) == 2
+        and sorted(paths) == ["ci/image.lock", "ops/actions-runner-fleet/cleanup-image.lock"]
+        and all(item.get("status") == "modified" for item in files)
+        and all(not item.get("previous_filename") for item in files)
+    )
     if (
         login == "github-actions[bot]"
-        and exact_file
+        and exact_image_locks
         and IMAGE_LOCK_BRANCH_RE.fullmatch(head_ref)
-        and paths == ["ci/image.lock"]
-        and files[0].get("status") == "modified"
     ):
         return
     catalog = CATALOG_BRANCH_RE.fullmatch(head_ref)
