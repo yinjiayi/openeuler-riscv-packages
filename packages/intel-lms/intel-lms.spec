@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           intel-lms
 Version:        2625.0.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Allows applications to access the Intel AMT firmware via the Intel MEI
 License:        Apache-2.0
 URL:            https://github.com/intel/lms
@@ -15,7 +15,7 @@ BuildRequires:  make
 Allows applications to access the Intel AMT firmware via the Intel MEI
 
 %prep
-%autosetup -p1
+%autosetup -n lms-%{version} -p1
 
 %build
 %cmake -DBUILD_TESTING=ON
@@ -34,5 +34,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2625.0.0.0-2
+- Enter the verified GitHub tag archive's lms-version root during prep.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2625.0.0.0-1
 - Initial openEuler RISC-V package from the full package inventory.
