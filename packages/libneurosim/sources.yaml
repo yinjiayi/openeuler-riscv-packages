@@ -1,0 +1,21 @@
+{
+  "package_id": "libneurosim",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "372fa0d8fb31950370f1d27bff4865e1200456239f4ea382c267d9a310175f83"
+      },
+      "filename": "libneurosim-1.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/INCF/libneurosim/archive/refs/tags/v1.2.0.tar.gz",
+      "version": "1.2.0"
+    }
+  ]
+}
