@@ -1,0 +1,21 @@
+{
+  "package_id": "tpm2-totp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5ff29164979d21bc0a51afce17aee80929ccce3270d0f4abce996fd36a4469e1"
+      },
+      "filename": "tpm2-totp-0.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/tpm2-software/tpm2-totp/archive/refs/tags/v0.3.0.tar.gz",
+      "version": "0.3.0"
+    }
+  ]
+}
