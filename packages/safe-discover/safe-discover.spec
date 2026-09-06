@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           safe-discover
 Version:        0.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Kirigami-based package management GUI for Arch Linux (pacman, AUR, Flatpak, fwupd)
 License:        GPL-3.0-or-later
 URL:            https://github.com/kinncj/Safe-Discover
@@ -15,7 +15,7 @@ BuildRequires:  make
 Kirigami-based package management GUI for Arch Linux (pacman, AUR, Flatpak, fwupd)
 
 %prep
-%autosetup -p1
+%autosetup -n Safe-Discover-%{version} -p1
 
 %build
 %cmake -DBUILD_TESTING=ON
@@ -34,5 +34,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.1-2
+- Match %%prep to the case-sensitive upstream release archive root.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.1-1
 - Initial openEuler RISC-V package from the full package inventory.
