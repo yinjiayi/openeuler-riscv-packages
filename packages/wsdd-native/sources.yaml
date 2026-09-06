@@ -1,0 +1,21 @@
+{
+  "package_id": "wsdd-native",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "80aae51be2a644d17e230953e77b2114f7ed65b445efa3fba5ad73e63a369504"
+      },
+      "filename": "wsdd-native-1.26.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/gershnik/wsdd-native/archive/refs/tags/v1.26.tar.gz",
+      "version": "1.26"
+    }
+  ]
+}
