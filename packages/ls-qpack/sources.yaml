@@ -1,0 +1,21 @@
+{
+  "package_id": "ls-qpack",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "db1a83102bb7d2d946a910cb11a9d69c1c5b9fd9a40249c22c411fb9c429fe16"
+      },
+      "filename": "ls-qpack-2.6.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/litespeedtech/ls-qpack/archive/refs/tags/v2.6.2.tar.gz",
+      "version": "2.6.2"
+    }
+  ]
+}
