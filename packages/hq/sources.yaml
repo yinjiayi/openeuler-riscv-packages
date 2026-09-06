@@ -1,0 +1,21 @@
+{
+  "package_id": "hq",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7813fe2ccfc529df1d44d1a44dba72c215d82eb5d3cda638bc026cf8493f6235"
+      },
+      "filename": "hq-3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/coderobe/hq/archive/refs/tags/3.2.tar.gz",
+      "version": "3.2"
+    }
+  ]
+}
