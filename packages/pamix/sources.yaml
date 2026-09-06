@@ -1,0 +1,21 @@
+{
+  "package_id": "pamix",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6ef20598f8af4e8dcf99e453d689fa91222fb18865d2ce3ddf9bb0cb245e24bb"
+      },
+      "filename": "pamix-2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/patroclos/PAmix/archive/refs/tags/2.0.tar.gz",
+      "version": "2.0"
+    }
+  ]
+}
