@@ -1,0 +1,21 @@
+{
+  "package_id": "qtextpad",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b43d54625b060fedd14fb6c66056586a3f68beed699bbc90c0bced6e7492dd05"
+      },
+      "filename": "qtextpad-1.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/zrax/qtextpad/archive/refs/tags/1.12.tar.gz",
+      "version": "1.12"
+    }
+  ]
+}
