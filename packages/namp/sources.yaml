@@ -1,0 +1,21 @@
+{
+  "package_id": "namp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "544cbff4ccda6d5ac26ee9c4cdfe457029f5f0e66ecba15d599cb9601e59f045"
+      },
+      "filename": "namp-2.57.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/d99kris/namp/archive/refs/tags/v2.57.tar.gz",
+      "version": "2.57"
+    }
+  ]
+}
