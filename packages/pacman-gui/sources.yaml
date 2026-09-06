@@ -1,0 +1,21 @@
+{
+  "package_id": "pacman-gui",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "65cd0453f7b665ca639912f7deb912f39a144d929c479616cce56e3bf8452794"
+      },
+      "filename": "pacman-gui-1.3.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Coneriys/pacman-gui/archive/refs/tags/v1.3.1.tar.gz",
+      "version": "1.3.1"
+    }
+  ]
+}
