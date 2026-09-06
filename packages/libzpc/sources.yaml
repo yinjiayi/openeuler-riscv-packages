@@ -1,0 +1,21 @@
+{
+  "package_id": "libzpc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "272692bb8324bf3a3a2e63e67fc040a64e4860aeea34353c040a281d70bec9f6"
+      },
+      "filename": "libzpc-1.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/opencryptoki/libzpc/archive/refs/tags/v1.5.0.tar.gz",
+      "version": "1.5.0"
+    }
+  ]
+}
