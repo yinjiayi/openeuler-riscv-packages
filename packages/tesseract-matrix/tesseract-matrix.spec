@@ -15,7 +15,7 @@ BuildRequires:  make
 Cross-platform Matrix chat client
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n tesseract-%{version}
 
 %build
 %cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
