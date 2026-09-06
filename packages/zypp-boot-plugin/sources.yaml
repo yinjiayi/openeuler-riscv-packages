@@ -1,0 +1,21 @@
+{
+  "package_id": "zypp-boot-plugin",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3bd2998c5eb62f8bdb315837b8e739aacccf69d5248b67e65be7c27005a78ad4"
+      },
+      "filename": "zypp-boot-plugin-0.0.13.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/openSUSE/zypp-boot-plugin/archive/refs/tags/v0.0.13.tar.gz",
+      "version": "0.0.13"
+    }
+  ]
+}
