@@ -14,7 +14,7 @@ BuildRequires:  make
 SIMD kernels for mixed-precision BLAS-like numerics.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n NumKong-%{version}
 
 %build
 %cmake -DBUILD_TESTING=ON
