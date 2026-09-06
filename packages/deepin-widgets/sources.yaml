@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-widgets",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "88e8c70208f8b9b17e3be04eac7596d34519fc753915d8a78776fff51deb4786"
+      },
+      "filename": "deepin-widgets-6.0.25.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dde-widgets/archive/refs/tags/6.0.25.tar.gz",
+      "version": "6.0.25"
+    }
+  ]
+}
