@@ -1,0 +1,21 @@
+{
+  "package_id": "minisign",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "796dce1376f9bcb1a19ece729c075c47054364355fe0c0c1ebe5104d508c7db0"
+      },
+      "filename": "minisign-0.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jedisct1/minisign/archive/refs/tags/0.12.tar.gz",
+      "version": "0.12"
+    }
+  ]
+}
