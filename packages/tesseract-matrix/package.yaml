@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-resolve-whole-archive-link-features.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Resolve CMake 3.27's conflicting default and WHOLE_ARCHIVE features while retaining every mutually dependent archive and the complete test target.",
+        "remove_when": "Upstream carries an equivalent link-feature override or removes the conflicting transitive default references.",
+        "sha256": "188a829628f8b5bcbd7467e3897d50a415cd0f1a6b638ad4e257925a13f6ca54",
+        "source": "Target openEuler 24.03 LTS SP3 riscv64 Package CI run 34029883049.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "tesseract-matrix.spec"
