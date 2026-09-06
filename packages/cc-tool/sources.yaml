@@ -1,0 +1,21 @@
+{
+  "package_id": "cc-tool",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1d26be4446c68413a02bf3156e6434d7fe9ce76aa0a169464ca5d7b2a731610d"
+      },
+      "filename": "cc-tool-0.27.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dashesy/cc-tool/archive/refs/tags/v0.27.tar.gz",
+      "version": "0.27"
+    }
+  ]
+}
