@@ -1,0 +1,21 @@
+{
+  "package_id": "nemesis",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "74ca5a4878f5c93060809e09103a00110ab3cc64929f9a2dc82e09dad1b6e2bd"
+      },
+      "filename": "nemesis-1.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libnet/nemesis/archive/refs/tags/v1.8.tar.gz",
+      "version": "1.8"
+    }
+  ]
+}
