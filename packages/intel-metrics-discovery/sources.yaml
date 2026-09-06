@@ -1,0 +1,21 @@
+{
+  "package_id": "intel-metrics-discovery",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4d1875c2061e92fd2136022edc774a838f71b4a6ce507734b826507ca6441c60"
+      },
+      "filename": "intel-metrics-discovery-1.14.186.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/intel/metrics-discovery/archive/refs/tags/1.14.186.tar.gz",
+      "version": "1.14.186"
+    }
+  ]
+}
