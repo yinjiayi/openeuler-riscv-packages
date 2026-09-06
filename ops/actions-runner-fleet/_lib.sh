@@ -19,6 +19,7 @@ oe_runner_repo_url=https://github.com/yinjiayi/openeuler-riscv-packages
 oe_runner_repo_slug=yinjiayi/openeuler-riscv-packages
 oe_runner_libexec=/usr/local/libexec/openeuler-actions-runner
 oe_runner_config=/etc/openeuler-actions-runner
+oe_systemctl_path=/usr/bin/systemctl
 
 oe_run() {
   "$@"
@@ -36,6 +37,36 @@ oe_usage_error() {
 
 oe_require_root() {
   [[ $EUID -eq 0 ]] || oe_die 'this operation must run as root'
+}
+
+oe_assert_systemctl_integrity() {
+  local owner package_record package status version extra verification
+
+  [[ -f $oe_systemctl_path && ! -L $oe_systemctl_path && -x $oe_systemctl_path ]] \
+    || oe_die 'systemctl is missing, linked, or not a regular executable'
+  [[ $(stat -c '%U:%G:%a' "$oe_systemctl_path" 2>/dev/null) == root:root:755 ]] \
+    || oe_die 'systemctl ownership or mode differs from the Ubuntu package contract'
+  owner=$(dpkg-query --search "$oe_systemctl_path" 2>/dev/null) \
+    || oe_die 'systemctl has no dpkg owner'
+  [[ $owner == 'systemd: /usr/bin/systemctl' ]] \
+    || oe_die 'systemctl dpkg ownership differs from the Ubuntu package contract'
+  package_record=$(dpkg-query --show \
+    --showformat='${binary:Package}\t${Status}\t${Version}\n' systemd 2>/dev/null) \
+    || oe_die 'systemd package metadata is unavailable'
+  IFS=$'\t' read -r package status version extra <<<"$package_record"
+  [[ $package == systemd && $status == 'install ok installed' && -z $extra \
+    && $version =~ ^[0-9][0-9A-Za-z.+:~_-]*$ ]] \
+    || oe_die 'systemd package name, status, or version is invalid'
+  if ! verification=$(dpkg --verify systemd 2>&1); then
+    oe_die 'systemd package integrity verification could not complete'
+  fi
+  [[ -z $verification ]] \
+    || oe_die 'systemd package files differ from the installed package database'
+}
+
+oe_systemctl() {
+  oe_assert_systemctl_integrity
+  oe_run "$oe_systemctl_path" --no-pager "$@"
 }
 
 oe_reject_secret_arguments() {
@@ -89,12 +120,13 @@ oe_assert_local_host() {
 oe_assert_platform() {
   local allow_degraded=${1:-false}
   local state
+  oe_assert_systemctl_integrity
   [[ $(uname -m) == x86_64 ]] || oe_die 'runner host must be x86_64'
   # shellcheck disable=SC1091
   source /etc/os-release
   [[ ${ID:-} == ubuntu && ${VERSION_ID:-} == 26.04 ]] \
     || oe_die "runner host must be Ubuntu 26.04; observed ${ID:-unknown} ${VERSION_ID:-unknown}"
-  state=$(oe_run systemctl is-system-running 2>/dev/null || true)
+  state=$(oe_systemctl is-system-running 2>/dev/null || true)
   case $state in
     running) ;;
     degraded)
@@ -347,7 +379,7 @@ oe_check_no_other_runners() {
       ''|openeuler-actions-runner@.service|"$(oe_service_name "$name")") ;;
       *) oe_die "another Actions Runner service already exists: $unit" ;;
     esac
-  done < <(oe_run systemctl list-unit-files --type=service --no-legend --no-pager 'actions.runner*' 'openeuler-actions-runner@*' 2>/dev/null | awk '{print $1}')
+  done < <(oe_systemctl list-unit-files --type=service --no-legend 'actions.runner*' 'openeuler-actions-runner@*' 2>/dev/null | awk '{print $1}')
   if [[ -d $oe_runner_base ]]; then
     while IFS= read -r directory; do
       case $directory in
