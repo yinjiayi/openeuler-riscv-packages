@@ -1,0 +1,21 @@
+{
+  "package_id": "libmaddy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "811b19efbc2fbf1957486ed78aabaf5d164d15f84464f7b4a7033b44591845c5"
+      },
+      "filename": "libmaddy-1.6.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/progsource/maddy/archive/refs/tags/1.6.0.tar.gz",
+      "version": "1.6.0"
+    }
+  ]
+}
