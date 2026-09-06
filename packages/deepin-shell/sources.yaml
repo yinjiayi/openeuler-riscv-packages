@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-shell",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4b75f2009b53afd34c18f3d949b9c2ec0d10a9029635389d95e8af9261abad8e"
+      },
+      "filename": "deepin-shell-2.0.52.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dde-shell/archive/refs/tags/2.0.52.tar.gz",
+      "version": "2.0.52"
+    }
+  ]
+}
