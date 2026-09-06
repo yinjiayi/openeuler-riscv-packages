@@ -1,0 +1,16 @@
+{
+  "package_id": "re2c",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "ffea067c11aa668bcb42885be6e6cd000302000b7747d2bb213299ec66b7864e"},
+      "filename": "re2c-4.5.1.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {"allowed": true, "reason": "The official LICENSE explicitly places re2c in the public domain; the maintainer-uploaded immutable release asset is checksum pinned."},
+      "signature": null,
+      "url": "https://github.com/skvadrik/re2c/releases/download/4.5.1/re2c-4.5.1.tar.xz",
+      "version": "4.5.1"
+    }
+  ]
+}
