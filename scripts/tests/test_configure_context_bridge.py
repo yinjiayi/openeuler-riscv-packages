@@ -192,10 +192,19 @@ if endpoint == f"repos/{repo}/check-runs/303" and method == "PATCH":
     emit({"id": 303, **payload})
 if endpoint == f"repos/{repo}/check-runs/303" and method == "GET":
     app = {"id": 999, "slug": "evil"} if scenario == "wrong-app" else {"id": 15368, "slug": "github-actions"}
+    details_url = f"https://github.com/{repo}/runs/303"
+    if scenario == "details-workflow-url":
+        details_url = state.get("details_url")
+    elif scenario == "details-wrong-id":
+        details_url = f"https://github.com/{repo}/runs/304"
+    elif scenario == "details-wrong-repo":
+        details_url = "https://github.com/attacker/repository/runs/303"
+    elif scenario == "details-query":
+        details_url += "?source=bridge"
     emit({
         "id": 303, "name": "configure", "head_sha": head,
         "status": state["check_status"], "conclusion": state["check_conclusion"],
-        "external_id": state.get("external_id"), "details_url": state.get("details_url"),
+        "external_id": state.get("external_id"), "details_url": details_url,
         "app": app,
     })
 if endpoint == f"repos/{repo}/commits/{head}/check-runs?check_name=configure&per_page=100":
@@ -268,6 +277,10 @@ class ConfigureContextBridgeTests(unittest.TestCase):
         self.assertEqual(payload["name"], "configure")
         self.assertEqual(payload["head_sha"], HEAD)
         self.assertEqual(payload["status"], "in_progress")
+        self.assertEqual(
+            payload["details_url"],
+            f"https://github.com/{REPOSITORY}/actions/runs/{BRIDGE_RUN}",
+        )
         self.assertIn(f":2011:{HEAD}:{BASE}:101:202", payload["external_id"])
         patches = [json.loads(call["stdin"]) for call in calls if "PATCH" in call["args"]]
         self.assertEqual([item["conclusion"] for item in patches], ["success"])
@@ -310,6 +323,20 @@ class ConfigureContextBridgeTests(unittest.TestCase):
         patches = [json.loads(call["stdin"]) for call in calls if "PATCH" in call["args"]]
         self.assertEqual([item["conclusion"] for item in patches], ["failure"])
         self.assertIn("GitHub Actions Checks app", result["errors"][0])
+
+    def test_noncanonical_check_details_urls_cannot_leave_success(self) -> None:
+        for scenario in (
+            "details-workflow-url",
+            "details-wrong-id",
+            "details-wrong-repo",
+            "details-query",
+        ):
+            with self.subTest(scenario=scenario):
+                result, calls = self.run_helper(scenario, 1)
+                self.assertEqual(result["status"], "failed")
+                patches = [json.loads(call["stdin"]) for call in calls if "PATCH" in call["args"]]
+                self.assertEqual([item["conclusion"] for item in patches], ["failure"])
+                self.assertIn("details URL", result["errors"][0])
 
     def test_ambiguous_post_never_infers_success(self) -> None:
         result, calls = self.run_helper("post-error", 1)
