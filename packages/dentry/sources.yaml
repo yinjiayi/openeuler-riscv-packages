@@ -1,0 +1,21 @@
+{
+  "package_id": "dentry",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e822ab77dbb62f3b99e73a595b5824c13a81380b4a9d0c195b249631326b7cee"
+      },
+      "filename": "dentry-2.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Hugo-Fabresse/dentry/archive/refs/tags/v2.0.0.tar.gz",
+      "version": "2.0.0"
+    }
+  ]
+}
