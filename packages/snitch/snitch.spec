@@ -20,7 +20,7 @@ Lightweight C++20 testing framework
 %autosetup -p1 -a 1
 
 %build
-export CXXFLAGS="%{optflags} -ffile-prefix-map=$PWD=/usr/src/snitch"
+export CXXFLAGS="%{optflags} -fmacro-prefix-map=$PWD=/usr/src/snitch"
 %cmake_conf \
   -DSNITCH_DO_TEST=ON \
   -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
