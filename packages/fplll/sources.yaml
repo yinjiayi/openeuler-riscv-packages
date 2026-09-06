@@ -1,0 +1,21 @@
+{
+  "package_id": "fplll",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "806a77355a40bee98179ccac3b5a2d17140311dde766838829c4c9166650f72e"
+      },
+      "filename": "fplll-5.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fplll/fplll/archive/refs/tags/5.5.0.tar.gz",
+      "version": "5.5.0"
+    }
+  ]
+}
