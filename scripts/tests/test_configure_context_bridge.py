@@ -116,6 +116,12 @@ qemu_version: \"tonistiigi/binfmt:qemu-v9.2.0\"
 self_test: passed
 """ % (digest, status, "1" * 64, "2" * 64, "3" * 64, built_at)
 
+def cleanup_lock(digest, image="ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild"):
+    return """# SPDX-License-Identifier: Apache-2.0
+# Must match ci/image.lock. It is used only for root-owned workspace cleanup.
+CLEANUP_IMAGE_REF=%s@%s
+""" % (image, digest)
+
 bridge = {
     "id": 202,
     "name": "Configure Context Bridge",
@@ -135,8 +141,12 @@ pull = {
     "user": {"login": "github-actions[bot]"},
     "head": {"sha": head, "ref": "infra/ci-image-123456abcdef", "repo": {"full_name": repo}},
     "base": {"sha": base, "ref": "main", "repo": {"full_name": repo}},
-    "changed_files": 1,
+    "changed_files": 2,
 }
+if scenario == "missing-file":
+    pull["changed_files"] = 1
+if scenario == "extra-file":
+    pull["changed_files"] = 3
 if scenario == "branch-prefix":
     pull["head"]["ref"] = "infra/ci-image-deadbeefcafe"
 
@@ -156,19 +166,57 @@ if endpoint == f"repos/{repo}/pulls/2011":
         pull["head"]["sha"] = "c" * 40
     emit(pull)
 if endpoint == f"repos/{repo}/pulls/2011/files?per_page=100":
-    filename = "README.md" if scenario == "wrong-file" else "ci/image.lock"
-    emit([[{"filename": filename, "status": "modified"}]])
+    first = "README.md" if scenario == "wrong-file" else "ci/image.lock"
+    cleanup_status = "added" if scenario == "cleanup-added" else "modified"
+    cleanup = {
+        "filename": "ops/actions-runner-fleet/cleanup-image.lock",
+        "status": cleanup_status,
+    }
+    if scenario == "cleanup-renamed":
+        cleanup["status"] = "renamed"
+        cleanup["previous_filename"] = "ops/actions-runner-fleet/old.lock"
+    files = [
+        {"filename": first, "status": "modified"},
+        cleanup,
+    ]
+    if scenario == "missing-file":
+        files = files[:1]
+    elif scenario == "extra-file":
+        files.append({"filename": "README.md", "status": "modified"})
+    elif scenario == "duplicate-file":
+        files[1]["filename"] = "ci/image.lock"
+    elif scenario == "reverse-files":
+        files.reverse()
+    emit([files])
 if endpoint in (
     f"repos/{repo}/contents/ci/image.lock?ref={head}",
     f"repos/{repo}/contents/ci/image.lock?ref={base}",
+    f"repos/{repo}/contents/ops/actions-runner-fleet/cleanup-image.lock?ref={head}",
+    f"repos/{repo}/contents/ops/actions-runner-fleet/cleanup-image.lock?ref={base}",
 ):
     candidate = endpoint.endswith(head)
     digest = "sha256:" + (("123456abcdef" + "0" * 52) if candidate else "f" * 64)
     built_at = "2026-09-03T01:02:03Z" if candidate else "2026-09-02T01:02:03Z"
     status = "published-but-unverified" if scenario == "tampered-lock" and candidate else "published-public-anonymous-verified"
-    raw = image_lock(digest, built_at, status).encode("utf-8")
+    is_cleanup = "/contents/ops/actions-runner-fleet/cleanup-image.lock" in endpoint
+    if is_cleanup and candidate:
+        state["candidate_cleanup_reads"] = state.get("candidate_cleanup_reads", 0) + 1
+    if is_cleanup and scenario == "tampered-cleanup" and candidate:
+        digest = "sha256:" + "e" * 64
+    if is_cleanup and scenario == "tampered-base-cleanup" and not candidate:
+        digest = "sha256:" + "e" * 64
+    if is_cleanup and scenario == "cleanup-post-race" and candidate and state["candidate_cleanup_reads"] >= 3:
+        digest = "sha256:" + "e" * 64
+    cleanup_image = "ghcr.io/attacker/image" if is_cleanup and scenario == "tampered-cleanup-image" and candidate else "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild"
+    raw_text = cleanup_lock(digest, cleanup_image) if is_cleanup else image_lock(digest, built_at, status)
+    if is_cleanup and scenario == "cleanup-duplicate" and candidate:
+        raw_text += "CLEANUP_IMAGE_REF=ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild@%s\n" % digest
+    if is_cleanup and scenario == "cleanup-unknown" and candidate:
+        raw_text += "EXTRA=value\n"
+    raw = raw_text.encode("utf-8")
+    path = "ops/actions-runner-fleet/cleanup-image.lock" if is_cleanup else "ci/image.lock"
     emit({
-        "type": "file", "path": "ci/image.lock", "name": "image.lock",
+        "type": "file", "path": path, "name": "cleanup-image.lock" if is_cleanup else "image.lock",
         "encoding": "base64", "sha": "d" * 40, "size": len(raw),
         "content": b64.b64encode(raw).decode("ascii"),
     })
@@ -192,10 +240,19 @@ if endpoint == f"repos/{repo}/check-runs/303" and method == "PATCH":
     emit({"id": 303, **payload})
 if endpoint == f"repos/{repo}/check-runs/303" and method == "GET":
     app = {"id": 999, "slug": "evil"} if scenario == "wrong-app" else {"id": 15368, "slug": "github-actions"}
+    details_url = f"https://github.com/{repo}/runs/303"
+    if scenario == "details-workflow-url":
+        details_url = state.get("details_url")
+    elif scenario == "details-wrong-id":
+        details_url = f"https://github.com/{repo}/runs/304"
+    elif scenario == "details-wrong-repo":
+        details_url = "https://github.com/attacker/repository/runs/303"
+    elif scenario == "details-query":
+        details_url += "?source=bridge"
     emit({
         "id": 303, "name": "configure", "head_sha": head,
         "status": state["check_status"], "conclusion": state["check_conclusion"],
-        "external_id": state.get("external_id"), "details_url": state.get("details_url"),
+        "external_id": state.get("external_id"), "details_url": details_url,
         "app": app,
     })
 if endpoint == f"repos/{repo}/commits/{head}/check-runs?check_name=configure&per_page=100":
@@ -262,12 +319,23 @@ class ConfigureContextBridgeTests(unittest.TestCase):
         self.assertEqual(result["check_run_id"], 303)
         self.assertEqual(result["image_digest"], "sha256:" + "123456abcdef" + "0" * 52)
         self.assertEqual(result["image_built_at"], "2026-09-03T01:02:03Z")
+        self.assertEqual(
+            result["cleanup_image_ref"],
+            "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild@"
+            + "sha256:"
+            + "123456abcdef"
+            + "0" * 52,
+        )
         posts = [call for call in calls if "-X" in call["args"] and "POST" in call["args"]]
         self.assertEqual(len(posts), 1)
         payload = json.loads(posts[0]["stdin"])
         self.assertEqual(payload["name"], "configure")
         self.assertEqual(payload["head_sha"], HEAD)
         self.assertEqual(payload["status"], "in_progress")
+        self.assertEqual(
+            payload["details_url"],
+            f"https://github.com/{REPOSITORY}/actions/runs/{BRIDGE_RUN}",
+        )
         self.assertIn(f":2011:{HEAD}:{BASE}:101:202", payload["external_id"])
         patches = [json.loads(call["stdin"]) for call in calls if "PATCH" in call["args"]]
         self.assertEqual([item["conclusion"] for item in patches], ["success"])
@@ -280,15 +348,30 @@ class ConfigureContextBridgeTests(unittest.TestCase):
         self.assertFalse(any("check-runs" in arg for call in calls for arg in call["args"]))
         self.assertFalse(any(call["args"][:2] == ["pr", "merge"] for call in calls))
 
+    def test_file_listing_order_does_not_change_the_exact_allowlist(self) -> None:
+        result, calls = self.run_helper("reverse-files", 0)
+        self.assertEqual(result["status"], "passed")
+        self.assertTrue(any("POST" in call["args"] for call in calls))
+
     def test_prewrite_attestation_failures_create_no_context(self) -> None:
         for scenario, fragment in (
             ("wrong-actor", "not initiated"),
             ("wrong-path", "provenance"),
             ("wrong-file", "unexpected path"),
+            ("missing-file", "exactly two changed files"),
+            ("extra-file", "exactly two changed files"),
+            ("duplicate-file", "unexpected path"),
+            ("cleanup-added", "change shape is invalid"),
+            ("cleanup-renamed", "change shape is invalid"),
             ("auto-merge", "auto-merge is armed"),
             ("status-context", "forbidden configure StatusContext"),
             ("existing-check", "configure CheckRun already exists"),
             ("tampered-lock", "publication status is not verified"),
+            ("tampered-cleanup", "cleanup lock does not match"),
+            ("tampered-base-cleanup", "base cleanup lock does not match"),
+            ("tampered-cleanup-image", "image reference is invalid"),
+            ("cleanup-duplicate", "duplicate field"),
+            ("cleanup-unknown", "fields are invalid"),
             ("branch-prefix", "does not match the candidate digest prefix"),
             ("invalid-json", "not valid JSON"),
         ):
@@ -299,10 +382,12 @@ class ConfigureContextBridgeTests(unittest.TestCase):
                 self.assertFalse(any("POST" in call["args"] for call in calls))
 
     def test_post_create_race_marks_check_failed(self) -> None:
-        result, calls = self.run_helper("post-race", 1)
-        self.assertEqual(result["status"], "failed")
-        patches = [json.loads(call["stdin"]) for call in calls if "PATCH" in call["args"]]
-        self.assertEqual([item["conclusion"] for item in patches], ["failure"])
+        for scenario in ("post-race", "cleanup-post-race"):
+            with self.subTest(scenario=scenario):
+                result, calls = self.run_helper(scenario, 1)
+                self.assertEqual(result["status"], "failed")
+                patches = [json.loads(call["stdin"]) for call in calls if "PATCH" in call["args"]]
+                self.assertEqual([item["conclusion"] for item in patches], ["failure"])
 
     def test_wrong_check_app_cannot_leave_successful_attestation(self) -> None:
         result, calls = self.run_helper("wrong-app", 1)
@@ -310,6 +395,20 @@ class ConfigureContextBridgeTests(unittest.TestCase):
         patches = [json.loads(call["stdin"]) for call in calls if "PATCH" in call["args"]]
         self.assertEqual([item["conclusion"] for item in patches], ["failure"])
         self.assertIn("GitHub Actions Checks app", result["errors"][0])
+
+    def test_noncanonical_check_details_urls_cannot_leave_success(self) -> None:
+        for scenario in (
+            "details-workflow-url",
+            "details-wrong-id",
+            "details-wrong-repo",
+            "details-query",
+        ):
+            with self.subTest(scenario=scenario):
+                result, calls = self.run_helper(scenario, 1)
+                self.assertEqual(result["status"], "failed")
+                patches = [json.loads(call["stdin"]) for call in calls if "PATCH" in call["args"]]
+                self.assertEqual([item["conclusion"] for item in patches], ["failure"])
+                self.assertIn("details URL", result["errors"][0])
 
     def test_ambiguous_post_never_infers_success(self) -> None:
         result, calls = self.run_helper("post-error", 1)
