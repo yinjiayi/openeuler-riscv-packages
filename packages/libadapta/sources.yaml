@@ -1,0 +1,21 @@
+{
+  "package_id": "libadapta",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "725daa7433497b3ae541ba72fe7a075ec1a99693c5598a6c56706f0c3a1f26c9"
+      },
+      "filename": "libadapta-1.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/xapp-project/libadapta/archive/refs/tags/1.5.0.tar.gz",
+      "version": "1.5.0"
+    }
+  ]
+}
