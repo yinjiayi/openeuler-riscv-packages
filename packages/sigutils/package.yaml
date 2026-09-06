@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-stabilize-single-precision-dsp-tests.patch",
+        "license": "LGPL-3.0-or-later",
+        "purpose": "Keep all 18 upstream DSP tests meaningful and deterministic on the fixed single-precision riscv64 build.",
+        "remove_when": "Upstream releases equivalent single-precision tolerances, per-test random seeding, and the corrected AGC output assertion.",
+        "sha256": "ee5d8d8cf389c6bfedadcd42a092380699e780c801bc1da21c7b3df06cabb0cd",
+        "source": "Downstream openEuler RISC-V CI repair based on the verified upstream v0.3.0 test sources.",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "sigutils.spec"
@@ -63,6 +73,6 @@
   "version": {
     "current": "0.3.0",
     "latest_detected": "0.3.0",
-    "release": "3"
+    "release": "4"
   }
 }

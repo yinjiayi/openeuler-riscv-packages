@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sigutils
 Version:        0.3.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Small signal processing utility library
 License:        GPL-3.0-or-later
 URL:            https://github.com/BatchDrake/sigutils
 Source0:        sigutils-0.3.0.tar.gz
+Patch0:         0001-stabilize-single-precision-dsp-tests.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  glibc-devel
@@ -38,6 +39,10 @@ test -s %{name}.files
 %doc AUTHORS
 
 %changelog
+* Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.0-4
+- Isolate stochastic DSP tests, use a realistic single-precision mean
+  tolerance, and validate the AGC output rather than its unprocessed input.
+
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.0-3
 - Configure CMake with the same out-of-source build directory used by the
   build, install, and test macros.
