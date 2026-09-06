@@ -1,0 +1,21 @@
+{
+  "package_id": "gd32-dfu-utils",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6312461aab3650b0be8648a7afb9bbf2e63328defe80b25b6c2c85973b39f8f5"
+      },
+      "filename": "gd32-dfu-utils-0.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/riscv-mcu/gd32-dfu-utils/archive/refs/tags/v0.9.tar.gz",
+      "version": "0.9"
+    }
+  ]
+}
