@@ -1,0 +1,21 @@
+{
+  "package_id": "pdal-wrench",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "48a425c5b7b6a9c3862a109c70788c39ce003101bbf1aaf3cb30461cc46f2b9d"
+      },
+      "filename": "pdal-wrench-1.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/PDAL/wrench/archive/refs/tags/v1.4.0.tar.gz",
+      "version": "1.4.0"
+    }
+  ]
+}
