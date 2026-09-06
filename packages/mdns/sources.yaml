@@ -1,0 +1,21 @@
+{
+  "package_id": "mdns",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "be1fd8e35599cb7de179decbd0633c121d11a2dcb9cc193ff5c590bd0d480483"
+      },
+      "filename": "mdns-1.4.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/mjansson/mdns/archive/refs/tags/1.4.3.tar.gz",
+      "version": "1.4.3"
+    }
+  ]
+}
