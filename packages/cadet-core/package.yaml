@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 360
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/cadet/cadet-core",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cadet-core",
+        "package_name": "cadet-core",
+        "source": "aur",
+        "source_version": "5.1.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/cadet/cadet-core",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cadet-core",
+        "package_name": "cadet-core-docs",
+        "source": "aur",
+        "source_version": "5.1.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "cadet-core.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive and the required Eigen 3.4.0 header dependency were independently downloaded, safety-inspected, and pinned by SHA-256. The complete upstream test build reached 58% under QEMU before the former 60-minute package deadline expired, so this compute-heavy numerical package uses the schema's 360-minute budget without disabling any build target or test. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "cadet-core",
+  "rpm": {
+    "license": "AGPL-3.0 AND MPL-2.0",
+    "name": "cadet-core",
+    "summary": "Modeling and simulation framework for biotechnology processes \u2013 simulation backend"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-cadet-cadet-core",
+    "homepage": "https://github.com/cadet/CADET-Core",
+    "release_api": "https://api.github.com/repos/cadet/cadet-core/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/cadet/cadet-core",
+    "source_url_template": "https://github.com/cadet/cadet-core/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "5.1.0",
+    "latest_detected": "5.1.0",
+    "release": "3"
+  }
+}
