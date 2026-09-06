@@ -1,0 +1,21 @@
+{
+  "package_id": "s3fs-fuse",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "28413457cbf923b9b81e546caffabb8edd5c18f263e698ad86f564fd4b5b344d"
+      },
+      "filename": "s3fs-fuse-1.97.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/s3fs-fuse/s3fs-fuse/archive/refs/tags/v1.97.tar.gz",
+      "version": "1.97"
+    }
+  ]
+}
