@@ -1,0 +1,21 @@
+{
+  "package_id": "libzstd-seek",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5a4fb5a9ce53c81c63709804bc647169e74973bdb86978e6a657bea09763f7bc"
+      },
+      "filename": "libzstd-seek-1.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/martinellimarco/libzstd-seek/archive/refs/tags/v1.3.0.tar.gz",
+      "version": "1.3.0"
+    }
+  ]
+}
