@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/i-rinat/libvdpau-va-gl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libvdpau-va-gl",
+        "package_name": "libvdpau-va-gl",
+        "source": "arch-extra",
+        "source_version": "0.4.2-5"
+      },
+      {
+        "evidence_url": "https://github.com/i-rinat/libvdpau-va-gl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libvdpau-va-gl",
+        "package_name": "libvdpau-va-gl",
+        "source": "debian",
+        "source_version": "0.4.2-2"
+      },
+      {
+        "evidence_url": "https://github.com/i-rinat/libvdpau-va-gl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libvdpau-va-gl",
+        "package_name": "libvdpau-va-gl",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.4.2-4.9"
+      },
+      {
+        "evidence_url": "https://github.com/i-rinat/libvdpau-va-gl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libvdpau-va-gl",
+        "package_name": "libvdpau-va-gl",
+        "source": "ubuntu",
+        "source_version": "0.4.2-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libvdpau-va-gl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libvdpau-va-gl",
+  "rpm": {
+    "license": "MIT",
+    "name": "libvdpau-va-gl",
+    "summary": "VDPAU driver with OpenGL/VAAPI backend"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-i-rinat-libvdpau-va-gl",
+    "homepage": "https://github.com/i-rinat/libvdpau-va-gl",
+    "release_api": "https://api.github.com/repos/i-rinat/libvdpau-va-gl/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/i-rinat/libvdpau-va-gl",
+    "source_url_template": "https://github.com/i-rinat/libvdpau-va-gl/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.4.2",
+    "latest_detected": "0.4.2",
+    "release": "1"
+  }
+}
