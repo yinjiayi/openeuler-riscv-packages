@@ -1,0 +1,21 @@
+{
+  "package_id": "clamav-gui",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "40e10d4f352a833e924c63728af3114c424377bc9b2e64599ae50aa39acdb77b"
+      },
+      "filename": "clamav-gui-1.4.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/wusel1007/clamav-gui/archive/refs/tags/v1.4.1.tar.gz",
+      "version": "1.4.1"
+    }
+  ]
+}
