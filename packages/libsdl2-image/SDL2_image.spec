@@ -15,6 +15,7 @@ BuildRequires:  libtiff-devel
 BuildRequires:  libwebp-devel
 BuildRequires:  make
 BuildRequires:  SDL2-devel
+BuildRequires:  SDL2-static
 
 %description
 SDL2_image extends SDL 2 with image-file detection, decoding, and encoding.
