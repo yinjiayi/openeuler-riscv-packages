@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/processone/mqtree",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "erlang-p1-mqtree",
+        "package_name": "erlang-p1-mqtree",
+        "source": "debian",
+        "source_version": "1.0.17-2"
+      },
+      {
+        "evidence_url": "https://github.com/processone/mqtree",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "erlang-mqtree",
+        "package_name": "erlang-mqtree",
+        "source": "fedora",
+        "source_version": "1.0.19-1.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "erlang-mqtree.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "erlang-mqtree",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "erlang-mqtree",
+    "summary": "Index tree for MQTT topic filters"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-processone-mqtree",
+    "homepage": "https://github.com/processone/mqtree",
+    "release_api": "https://api.github.com/repos/processone/mqtree/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/processone/mqtree",
+    "source_url_template": "https://github.com/processone/mqtree/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.19",
+    "latest_detected": "1.0.19",
+    "release": "1"
+  }
+}
