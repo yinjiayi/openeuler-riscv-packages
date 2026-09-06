@@ -25,6 +25,14 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
   is inspected from the network and container sides, then detached and removed
   by full object ID. It is not a shared runner network and does not weaken
   source checksum verification.
+- A **bounded DNF transaction** is a dependency or installed-RPM transaction
+  whose target-container process group has a finite deadline for every attempt
+  and a smaller explicit budget than its surrounding CI step. The shared runner
+  terminates the container-local DNF process group on timeout, retains the same
+  per-container cache only for a finite retry, and atomically records each
+  attempt's elapsed time, timeout state, and exit code. It does not disable a
+  repository, accept unresolved dependencies, share cache across runs, or turn
+  a failed transaction into success.
 - A **build-user policy** is the per-package `build.user` choice controlling the identity that executes `rpmbuild` and `%check`. Its compatible default is `root`; `unprivileged` opts into the fixed `rpmbuild` identity with UID/GID `10001:10001`. It does not change the root-only dependency-install stage or grant privileges to installed smoke tests.
 - A **repair lease** is an expiring, owner-bound claim on one failed PR head SHA. It prevents two local Codex processes from overwriting each other.
 - The **evaluation-only merge policy** is the existing `configure` job context emitted by the Auto Merge Policy workflow. It disarms any stale GitHub Auto-merge request, binds the live pull request to the event's exact head and current protected base, evaluates package eligibility, and proves Auto-merge remains disabled. It never arms or merges a pull request; an explicit maintainer squash merge is a separate operation. Reusing this established context preserves exact-head coverage for already-open pull requests; any audited coverage gap must be backfilled and verified before the ruleset is applied.

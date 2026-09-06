@@ -139,10 +139,11 @@ class RpmBaselineEvidenceTests(unittest.TestCase):
         create = source.index('"docker", "create"', egress_create)
         connected = source.index('baseline["network_install_started"] = True', create)
         persisted = source.index("write_json_atomic(baseline_path, baseline)", connected)
-        install = source.index("install_attempts = run_with_retries", persisted)
+        install = source.index("run(root_exec(", persisted)
+        verified = source.index('transaction_record.get("status") != "passed"', install)
         disconnect = source.index(
             '["docker", "network", "disconnect", egress_network_id, container_id]',
-            install,
+            verified,
         )
         self.assertIn(
             '"--platform", "linux/riscv64", "--network", "none", "--read-only"',
@@ -156,7 +157,8 @@ class RpmBaselineEvidenceTests(unittest.TestCase):
         self.assertLess(create, connected)
         self.assertLess(connected, persisted)
         self.assertLess(persisted, install)
-        self.assertLess(install, disconnect)
+        self.assertLess(install, verified)
+        self.assertLess(verified, disconnect)
 
     def test_connected_state_is_atomically_persisted_before_install(self) -> None:
         manifest = [entry(name) for name in sorted(MODULE.BASELINE_ANCHORS)]

@@ -1,0 +1,218 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Run one bounded, evidence-recorded DNF transaction inside its container."""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import pathlib
+import signal
+import subprocess
+import tempfile
+import time
+
+
+DNF_NETWORK_OPTIONS = (
+    "--setopt=retries=20",
+    "--setopt=timeout=60",
+    # DNF's documented default is 1000 B/s.  Do not lower this to 1 B/s:
+    # near-stalled transfers must yield to the bounded transaction retry.
+    "--setopt=minrate=1000",
+    "--setopt=max_parallel_downloads=1",
+)
+PROTECTED_NETWORK_OPTIONS = {"retries", "timeout", "minrate", "max_parallel_downloads"}
+
+
+def utc_now() -> str:
+    return dt.datetime.now(dt.timezone.utc).isoformat()
+
+
+def parse_attempt_timeouts(value: str) -> list[int]:
+    try:
+        timeouts = [int(item) for item in value.split(",")]
+    except ValueError as error:
+        raise argparse.ArgumentTypeError(
+            "attempt timeouts must be comma-separated integers"
+        ) from error
+    if not timeouts or any(timeout < 1 for timeout in timeouts):
+        raise argparse.ArgumentTypeError("every attempt timeout must be positive")
+    return timeouts
+
+
+def write_json_atomic(path: pathlib.Path, document: dict[str, object]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(
+        dir=path.parent, prefix=f".{path.name}.", suffix=".tmp"
+    )
+    temporary = pathlib.Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            json.dump(document, handle, indent=2, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def terminate_process_group(process: subprocess.Popen[bytes], kill_after_seconds: int) -> int:
+    """Terminate the container-local DNF process group and return its observed status."""
+
+    try:
+        os.killpg(process.pid, signal.SIGTERM)
+    except ProcessLookupError:
+        return process.wait()
+    try:
+        return process.wait(timeout=kill_after_seconds)
+    except subprocess.TimeoutExpired:
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        return process.wait()
+
+
+def normalized_exit_code(returncode: int, *, timed_out: bool) -> int:
+    if timed_out:
+        return 124
+    if returncode < 0:
+        return min(255, 128 + abs(returncode))
+    return min(255, returncode)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--evidence", required=True)
+    parser.add_argument("--budget-seconds", required=True, type=int)
+    parser.add_argument(
+        "--attempt-timeouts-seconds", required=True, type=parse_attempt_timeouts
+    )
+    parser.add_argument("--retry-delay-seconds", required=True, type=int)
+    parser.add_argument("--kill-after-seconds", default=10, type=int)
+    parser.add_argument("command", nargs=argparse.REMAINDER)
+    args = parser.parse_args()
+
+    command = list(args.command)
+    if command[:1] == ["--"]:
+        command = command[1:]
+    if not command or command[0] != "dnf":
+        parser.error("the bounded transaction command must start with dnf")
+    for item in command[1:]:
+        if not item.startswith("--setopt="):
+            continue
+        option = item.removeprefix("--setopt=").split("=", 1)[0]
+        if option in PROTECTED_NETWORK_OPTIONS:
+            parser.error(f"the caller cannot override protected DNF option {option}")
+    if (
+        args.budget_seconds < 1
+        or args.retry_delay_seconds < 0
+        or args.kill_after_seconds < 1
+    ):
+        parser.error("budget, retry delay, or kill grace is invalid")
+
+    attempt_timeouts = args.attempt_timeouts_seconds
+    worst_case_seconds = (
+        sum(attempt_timeouts)
+        + len(attempt_timeouts) * args.kill_after_seconds
+        + (len(attempt_timeouts) - 1) * args.retry_delay_seconds
+    )
+    if worst_case_seconds > args.budget_seconds:
+        parser.error(
+            "attempt deadlines, termination grace, and retry delays exceed the total budget"
+        )
+
+    evidence_path = pathlib.Path(args.evidence)
+    executed_command = [command[0], *DNF_NETWORK_OPTIONS, *command[1:]]
+    started_monotonic = time.monotonic()
+    document: dict[str, object] = {
+        "schema_version": 1,
+        "kind": "dnf-transaction",
+        "status": "running",
+        "command": executed_command,
+        "network_options": list(DNF_NETWORK_OPTIONS),
+        "budget_seconds": args.budget_seconds,
+        "attempt_timeouts_seconds": attempt_timeouts,
+        "retry_delay_seconds": args.retry_delay_seconds,
+        "kill_after_seconds": args.kill_after_seconds,
+        "started_at": utc_now(),
+        "finished_at": None,
+        "elapsed_seconds": 0.0,
+        "exit_code": None,
+        "attempts": [],
+    }
+    write_json_atomic(evidence_path, document)
+
+    attempts = document["attempts"]
+    assert isinstance(attempts, list)
+    last_exit_code = 1
+    for attempt_number, timeout_seconds in enumerate(attempt_timeouts, start=1):
+        print(
+            f"DNF transaction attempt {attempt_number}/{len(attempt_timeouts)} "
+            f"with {timeout_seconds}s deadline",
+            flush=True,
+        )
+        attempt_started = time.monotonic()
+        attempt: dict[str, object] = {
+            "attempt": attempt_number,
+            "timeout_seconds": timeout_seconds,
+            "started_at": utc_now(),
+        }
+        timed_out = False
+        process_returncode: int
+        try:
+            process = subprocess.Popen(executed_command, start_new_session=True)
+        except OSError as error:
+            process_returncode = 127
+            attempt["error"] = str(error)[:1000]
+        else:
+            try:
+                process_returncode = process.wait(timeout=timeout_seconds)
+            except subprocess.TimeoutExpired:
+                timed_out = True
+                process_returncode = terminate_process_group(process, args.kill_after_seconds)
+
+        last_exit_code = normalized_exit_code(process_returncode, timed_out=timed_out)
+        attempt.update(
+            {
+                "finished_at": utc_now(),
+                "elapsed_seconds": round(time.monotonic() - attempt_started, 3),
+                "process_returncode": process_returncode,
+                "exit_code": last_exit_code,
+                "timed_out": timed_out,
+            }
+        )
+        attempts.append(attempt)
+        document["elapsed_seconds"] = round(time.monotonic() - started_monotonic, 3)
+        document["exit_code"] = last_exit_code
+        print(
+            f"DNF transaction attempt {attempt_number}/{len(attempt_timeouts)} "
+            f"finished with exit {last_exit_code} after {attempt['elapsed_seconds']}s",
+            flush=True,
+        )
+        if last_exit_code == 0:
+            document.update({"status": "passed", "finished_at": utc_now()})
+            write_json_atomic(evidence_path, document)
+            return 0
+
+        if attempt_number < len(attempt_timeouts):
+            write_json_atomic(evidence_path, document)
+            time.sleep(args.retry_delay_seconds)
+
+    document.update(
+        {
+            "status": "failed",
+            "finished_at": utc_now(),
+            "elapsed_seconds": round(time.monotonic() - started_monotonic, 3),
+            "exit_code": last_exit_code,
+        }
+    )
+    write_json_atomic(evidence_path, document)
+    return last_exit_code
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
