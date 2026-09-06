@@ -50,6 +50,12 @@ oe_check_no_other_runners "$OE_ARG_NAME"
 runner_dir=$(oe_runner_dir "$OE_ARG_NAME")
 [[ -r $runner_dir/.runner && -r $runner_dir/.credentials ]] || oe_die 'register.sh must complete before activation'
 service=$(oe_service_name "$OE_ARG_NAME")
+oe_load_cleanup_image_lock "$oe_runner_config/cleanup-image.lock"
+if ! oe_run docker image inspect "$CLEANUP_IMAGE_REF" >/dev/null 2>&1; then
+  timeout --signal=KILL 20m docker pull --quiet "$CLEANUP_IMAGE_REF" >/dev/null
+fi
+oe_run docker image inspect "$CLEANUP_IMAGE_REF" >/dev/null 2>&1 \
+  || oe_die 'digest-locked cleanup image is unavailable after activation cache preparation'
 "$oe_runner_libexec/cleanup.sh" --name "$OE_ARG_NAME" --phase before
 
 policy_changed=false
