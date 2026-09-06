@@ -16,6 +16,21 @@
       "signature": null,
       "url": "https://github.com/snitch-org/snitch/archive/refs/tags/v1.3.2.tar.gz",
       "version": "1.3.2"
+    },
+    {
+      "digests": {
+        "sha256": "19b2df757f2f3703a5e63cee553d85596875f06d91a3333acd80a969ef210856"
+      },
+      "filename": "doctest-2.4.9.tar.gz",
+      "id": "source1",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The MIT-licensed upstream doctest release is pinned to the exact version selected by snitch and is used only by its complete test suite."
+      },
+      "signature": null,
+      "url": "https://github.com/doctest/doctest/archive/refs/tags/v2.4.9.tar.gz",
+      "version": "2.4.9"
     }
   ]
 }
