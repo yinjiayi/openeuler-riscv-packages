@@ -14,6 +14,9 @@ from pathlib import Path
 ACTION_REF = re.compile(r"(?m)^\s*uses:\s*([^#\s]+)")
 PINNED_ACTION = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@[0-9a-f]{40}$")
 DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
+CLEANUP_IMAGE_REF = re.compile(
+    r"^ghcr\.io/yinjiayi/openeuler-riscv64-rpmbuild@sha256:[0-9a-f]{64}$"
+)
 GITHUB_TOKEN_LITERALS = (
     re.compile(rb"gh[pousr]_[A-Za-z0-9]{20,}"),
     re.compile(rb"github_pat_[A-Za-z0-9_]{20,}"),
@@ -53,6 +56,23 @@ def committed_token_paths(root: Path) -> list[str]:
 def lock_value(text: str, key: str) -> str:
     match = re.search(rf"(?m)^{re.escape(key)}:\s*\"?([^\"\n]*)\"?\s*$", text)
     return match.group(1).strip() if match else ""
+
+
+def cleanup_lock_value(text: str) -> str:
+    assignments: list[str] = []
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if raw_line != line:
+            raise ValueError("cleanup lock assignment must not have surrounding whitespace")
+        assignments.append(line)
+    if len(assignments) != 1 or not assignments[0].startswith("CLEANUP_IMAGE_REF="):
+        raise ValueError("cleanup lock must contain exactly one CLEANUP_IMAGE_REF assignment")
+    image_ref = assignments[0].split("=", 1)[1]
+    if CLEANUP_IMAGE_REF.fullmatch(image_ref) is None:
+        raise ValueError("cleanup lock image reference is not the fixed immutable GHCR image")
+    return image_ref
 
 
 def main() -> int:
@@ -773,7 +793,16 @@ def main() -> int:
         errors.append("digest-lock PR creation does not bridge actual required jobs onto the bot-created PR head")
     if "Auto-merge is disabled; an explicit maintainer squash merge is required" not in image_workflow:
         errors.append("digest-lock PR creation does not report the explicit maintainer merge boundary")
-    if "git ls-remote --exit-code --heads" not in image_workflow or "test \"$changed\" = ci/image.lock" not in image_workflow:
+    if (
+        "git ls-remote --exit-code --heads" not in image_workflow
+        or "git diff --name-status" not in image_workflow
+        or "test \"$changed\" = \"$expected\"" not in image_workflow
+        or 'cleanup_path = Path("ops/actions-runner-fleet/cleanup-image.lock")' not in image_workflow
+        or "CLEANUP_IMAGE_REF={cleanup_ref}" not in image_workflow
+        or "remote_cleanup=$(git show" not in image_workflow
+        or "git add ci/image.lock ops/actions-runner-fleet/cleanup-image.lock" not in image_workflow
+        or image_workflow.count("ci/validate-repository.py --repo-root . --require-published-image") != 2
+    ):
         errors.append("digest-lock retry does not safely verify and reuse an existing lock branch")
     if "git merge --no-edit origin/main" not in image_workflow:
         errors.append("digest-lock retry does not update the reused branch to the latest protected main")
@@ -823,6 +852,7 @@ def main() -> int:
             "unexpected-provenance",
             "configure-bridge-v1",
             "bot-image-lock-v1",
+            'details_url = f"https://github.com/{repository}/runs/{check_id}"',
             "bridge_attestation_stable",
             "changed_base_pr_count",
             'return 0 if result["passed"] else 1',
@@ -932,7 +962,8 @@ def main() -> int:
             'image-lock branch does not match the candidate digest prefix',
             'a forbidden configure StatusContext already exists',
             'status": "in_progress"',
-            'prove_check(args.repository, check_id, head, eid, details, "completed", "success")',
+            'return f"https://github.com/{repository}/runs/{check_id}"',
+            'prove_check(args.repository, check_id, head, eid, "completed", "success")',
             'fail_created_check',
         ):
             if marker not in helper_text:
@@ -1163,13 +1194,27 @@ def main() -> int:
         errors.append("daily 02:17 Asia/Shanghai schedule (18:17 UTC) is missing")
 
     lock = (root / "ci" / "image.lock").read_text(encoding="utf-8")
+    image = lock_value(lock, "image")
     digest = lock_value(lock, "digest")
-    if not DIGEST.fullmatch(digest):
+    digest_locked = DIGEST.fullmatch(digest) is not None
+    if not digest_locked:
         message = "ci/image.lock has no verified published-image digest; package builds fail closed until build-ci-image completes"
         if args.require_published_image:
             errors.append(message)
         else:
             warnings.append(message)
+    cleanup_path = root / "ops" / "actions-runner-fleet" / "cleanup-image.lock"
+    cleanup_ref = ""
+    if not cleanup_path.is_file() or cleanup_path.is_symlink():
+        errors.append("Runner cleanup image lock is missing or is not a regular file")
+    else:
+        try:
+            cleanup_ref = cleanup_lock_value(cleanup_path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, ValueError) as error:
+            errors.append(f"Runner cleanup image lock is invalid: {error}")
+    locks_match = bool(digest_locked and cleanup_ref == f"{image}@{digest}")
+    if digest_locked and not locks_match:
+        errors.append("Runner cleanup image lock does not match ci/image.lock")
 
     result = {
         "schema_version": 1,
@@ -1177,7 +1222,7 @@ def main() -> int:
         "errors": errors,
         "warnings": warnings,
         "workflow_count": len(present),
-        "published_image_locked": bool(DIGEST.fullmatch(digest)),
+        "published_image_locked": locks_match,
     }
     if args.output:
         output = Path(args.output)
