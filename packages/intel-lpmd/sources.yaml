@@ -1,0 +1,21 @@
+{
+  "package_id": "intel-lpmd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e5de3dd4ec9496430b3e3c31e69830cc8e974f7a0d0e8bf4e3c1d5cf5834f8ed"
+      },
+      "filename": "intel-lpmd-0.1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/intel/intel-lpmd/archive/refs/tags/v0.1.0.tar.gz",
+      "version": "0.1.0"
+    }
+  ]
+}
