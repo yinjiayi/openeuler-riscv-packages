@@ -1,0 +1,21 @@
+{
+  "package_id": "darknet-hankai",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "13445993658afdfc4acfa8b9df6c26fcbf44d3b90db93b858d793c42a0a4915c"
+      },
+      "filename": "darknet-hankai-6.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/hank-ai/darknet/archive/refs/tags/v6.0.tar.gz",
+      "version": "6.0"
+    }
+  ]
+}
