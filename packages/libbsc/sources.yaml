@@ -1,0 +1,21 @@
+{
+  "package_id": "libbsc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3d8eee9351468bdd3fb3bc28dda0e24cfc0332997eb0210ea7bd548d77c3d194"
+      },
+      "filename": "libbsc-3.3.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/IlyaGrebnov/libbsc/archive/refs/tags/v3.3.12.tar.gz",
+      "version": "3.3.12"
+    }
+  ]
+}
