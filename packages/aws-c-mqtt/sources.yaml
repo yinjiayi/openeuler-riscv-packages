@@ -1,0 +1,21 @@
+{
+  "package_id": "aws-c-mqtt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9bc044a9c2f0d80c384ae6a6907c8817e0b40f673f75c4615c83b20f83140374"
+      },
+      "filename": "aws-c-mqtt-0.16.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/awslabs/aws-c-mqtt/archive/refs/tags/v0.16.0.tar.gz",
+      "version": "0.16.0"
+    }
+  ]
+}
