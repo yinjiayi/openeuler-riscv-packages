@@ -1,0 +1,21 @@
+{
+  "package_id": "gcfflasher",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "effc4dc1d49bb4d47ca65dfadb8adf45bed9c82eb74476b93cafd3820b33d6f6"
+      },
+      "filename": "gcfflasher-4.11.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dresden-elektronik/gcfflasher/archive/refs/tags/v4.11.0.tar.gz",
+      "version": "4.11.0"
+    }
+  ]
+}
