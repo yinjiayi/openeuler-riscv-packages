@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           heimer
 Version:        4.5.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform mind map, diagram, and note-taking tool
 License:        GPL-3.0-or-later
 URL:            https://github.com/juzzlin/heimer
@@ -21,7 +21,7 @@ Cross-platform mind map, diagram, and note-taking tool
 %autosetup -n Heimer-%{version} -p1
 
 %build
-%cmake -DBUILD_TESTS=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTS=ON
 %cmake_build
 
 %install
@@ -39,6 +39,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc CHANGELOG
 
 %changelog
+* Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.5.0-3
+- Generate into the build directory consumed by the openEuler CMake macros.
+
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.5.0-2
 - Match the case-preserving GitHub archive root and declare the complete Qt5 build closure.
 - Enable Heimer's actual BUILD_TESTS option so the full upstream suite remains active.
