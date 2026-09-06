@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": "The upstream timestamp_us acceptance test enforces a 5-50 millisecond wall-clock window around two target executions; QEMU user-mode translation exceeded that bound on the exact RISC-V build head, so timing behavior requires native RVA23 validation.",
+    "network_during_build": true,
+    "profile": "needs-native-riscv",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/a2o/snoopy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snoopy-logger",
+        "package_name": "snoopy-logger",
+        "source": "aur",
+        "source_version": "2.5.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/a2o/snoopy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snoopy",
+        "package_name": "snoopy",
+        "source": "debian",
+        "source_version": "2.5.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/a2o/snoopy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snoopy",
+        "package_name": "snoopy",
+        "source": "fedora",
+        "source_version": "2.5.2-4.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/a2o/snoopy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snoopy",
+        "package_name": "snoopy",
+        "source": "ubuntu",
+        "source_version": "2.5.2-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "snoopy-logger.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Packaging release 3 selects the verified snoopy-snoopy-2.5.2 archive root and declares the hostname and process utilities used by the upstream tests. Exact-head CI exposed a timing-sensitive timestamp_us check whose 5-50 millisecond wall-clock window cannot be accepted under QEMU user-mode, so final validation requires native RVA23 hardware. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "snoopy-logger",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "snoopy-logger",
+    "summary": "A small library that logs all program executions"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-a2o-snoopy",
+    "homepage": "https://github.com/a2o/snoopy",
+    "release_api": "https://api.github.com/repos/a2o/snoopy/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^snoopy\\-([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/a2o/snoopy",
+    "source_url_template": "https://github.com/a2o/snoopy/archive/refs/tags/snoopy-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.5.2",
+    "latest_detected": "2.5.2",
+    "release": "3"
+  }
+}

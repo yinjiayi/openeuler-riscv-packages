@@ -1,0 +1,21 @@
+{
+  "package_id": "snoopy-logger",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0e4a2acd07bee39b35871ca029cd9a7dd78efc6407522598d62a22bcb8b2dc5d"
+      },
+      "filename": "snoopy-logger-2.5.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/a2o/snoopy/archive/refs/tags/snoopy-2.5.2.tar.gz",
+      "version": "2.5.2"
+    }
+  ]
+}
