@@ -1,0 +1,21 @@
+{
+  "package_id": "pipectl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8addbcfac652ddfe88fc47ed10855dc5da3ae3cd3421be9d3ad3a5fb9f9227fd"
+      },
+      "filename": "pipectl-0.5.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Ferdi265/pipectl/archive/refs/tags/v0.5.1.tar.gz",
+      "version": "0.5.1"
+    }
+  ]
+}
