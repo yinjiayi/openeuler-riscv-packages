@@ -1,0 +1,21 @@
+{
+  "package_id": "audacious-plugin-fc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bc9dacb227af2d3d8d11c065fcf5c9a5063e77c24ee2035df1175446db0f73f0"
+      },
+      "filename": "audacious-plugin-fc-0.9.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/mschwendt/audacious-plugins-fc/archive/refs/tags/0.9.4.tar.gz",
+      "version": "0.9.4"
+    }
+  ]
+}
