@@ -1,0 +1,105 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/tora-tool/tora",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tora",
+        "package_name": "tora",
+        "source": "aur",
+        "source_version": "3.2-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-stack-support-riscv-backtrace.patch",
+        "sha256": "d1f29fcbc32cfef21d2983906081633dd4119e8a95e47a3fd186eb5f1be98890",
+        "purpose": "Implement the bundled stack collector on RISC-V using the glibc backtrace interfaces.",
+        "source": "Downstream adaptation of tora 3.2 extlibs/stack/stack.cpp",
+        "license": "BSL-1.0",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream dbg::stack supports RISC-V or replaces the architecture-specific collector."
+      },
+      {
+        "file": "patches/0002-dtl-fix-const-mutator.patch",
+        "sha256": "ab38d90bc05959df3cb46633410a2764c55b13f75020016637154cdc83af84ea",
+        "purpose": "Remove the incorrect const qualifier from the bundled DTL trivial-mode mutator so GCC 14 accepts the assignment.",
+        "source": "Downstream adaptation of tora 3.2 bundled dtl Diff.hpp",
+        "license": "BSD-3-Clause",
+        "upstream_status": "not-submitted",
+        "remove_when": "The bundled DTL no longer declares enableTrivial() as const."
+      },
+      {
+        "file": "patches/0003-include-qmenu-definition.patch",
+        "sha256": "4751630d99bf18249fffeda366eef7160e13abaeed1f8ed4d932e4f40779c0c2",
+        "purpose": "Include the complete QMenu type before invoking its methods so GCC 14 accepts the editor source.",
+        "source": "Downstream adaptation of tora 3.2 src/editor/tosqltext.cpp",
+        "license": "GPL-2.0-only",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream tosqltext.cpp includes QMenu before using its methods."
+      },
+      {
+        "file": "patches/0004-antlr-fix-cyclic-dfa-copy.patch",
+        "sha256": "a337d084833e21f1fd82dc184c207eeb4c628dd613302649f35253ab8d282338",
+        "purpose": "Initialize immutable bundled ANTLR3 CyclicDFA copies directly and prohibit impossible assignment so GCC 14 accepts the runtime.",
+        "source": "Downstream adaptation of tora 3.2 bundled libantlr3cpp 3.5.3",
+        "license": "BSD-3-Clause",
+        "upstream_status": "not-submitted",
+        "remove_when": "The bundled runtime initializes immutable CyclicDFA copies and disables assignment."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tora.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "tora",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "tora",
+    "summary": "SQL IDE for Oracle, MySQL and PostgreSQL dbs"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-tora-tool-tora",
+    "homepage": "https://github.com/tora-tool/tora",
+    "release_api": "https://api.github.com/repos/tora-tool/tora/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/tora-tool/tora",
+    "source_url_template": "https://github.com/tora-tool/tora/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.2",
+    "latest_detected": "3.2",
+    "release": "7"
+  }
+}
