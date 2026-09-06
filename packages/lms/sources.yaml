@@ -1,0 +1,21 @@
+{
+  "package_id": "lms",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f3ba2e789c2a00a211b62c099b42199a27459eea85356761d1da237ee9b6cdba"
+      },
+      "filename": "lms-3.69.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/epoupon/lms/archive/refs/tags/v3.69.0.tar.gz",
+      "version": "3.69.0"
+    }
+  ]
+}
