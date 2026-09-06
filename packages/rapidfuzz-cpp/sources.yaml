@@ -1,0 +1,21 @@
+{
+  "package_id": "rapidfuzz-cpp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fa0fbd40110df8134cf05bddbaa4e237dbc4fd915ab9a3029ff481a8d3e8b757"
+      },
+      "filename": "rapidfuzz-cpp-3.3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rapidfuzz/rapidfuzz-cpp/archive/refs/tags/v3.3.3.tar.gz",
+      "version": "3.3.3"
+    }
+  ]
+}
