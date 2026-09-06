@@ -41,7 +41,7 @@
         "license": "Apache-2.0",
         "purpose": "Compile NumKong's base RVV backend with GCC 14 while avoiding optional Zv* backends that this compiler cannot enable with the upstream function-specific target pragmas.",
         "remove_when": "An upstream release supports GCC RISC-V function-specific target selection or otherwise applies matching per-backend compiler flags.",
-        "sha256": "18531994f2ff76f233a806a9f6402000e2dd0c4a0f9a3a237252509a86fdacf7",
+        "sha256": "08e8e11e3da6f9e4e88479990bff69582b8388f99c33f8e138912402487e4c45",
         "source": "Downstream review of the official NumKong 7.7.1 archive and exact openEuler GCC 14 RISC-V CI failures",
         "upstream_status": "not-submitted"
       }
