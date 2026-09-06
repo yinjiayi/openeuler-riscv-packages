@@ -15,7 +15,7 @@ BuildRequires:  make
 Fast note-taking app with PDF annotation, export, and multi-platform sync
 
 %prep
-%autosetup -p1
+%autosetup -n SpeedyNote-%{version} -p1
 
 %build
 %cmake -DBUILD_TESTING=ON
