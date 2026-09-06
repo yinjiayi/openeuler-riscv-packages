@@ -1,0 +1,21 @@
+{
+  "package_id": "flashmq",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "32cdf879edb626a5e7c24c38af24ef84f899a6281f32052fe09d0b9d1aad9fb9"
+      },
+      "filename": "flashmq-1.26.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/halfgaar/FlashMQ/archive/refs/tags/v1.26.2.tar.gz",
+      "version": "1.26.2"
+    }
+  ]
+}
