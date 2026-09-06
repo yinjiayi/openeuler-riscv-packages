@@ -1,0 +1,21 @@
+{
+  "package_id": "cbm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "07f995cebf1eefd78a2f488be56a56c24378270c63c6e5f302d8557922bb4920"
+      },
+      "filename": "cbm-0.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/resurrecting-open-source-projects/cbm/archive/refs/tags/0.4.tar.gz",
+      "version": "0.4"
+    }
+  ]
+}
