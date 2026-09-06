@@ -188,7 +188,7 @@ def verify_bridge_context(
         or bound_base != graph_base
     ):
         raise AuditError("bridge CheckRun external_id does not bind the exact PR snapshot")
-    details_url = f"https://github.com/{repository}/actions/runs/{bridge_id}"
+    details_url = f"https://github.com/{repository}/runs/{check_id}"
     if (
         check.get("id") != check_id
         or check.get("name") != "configure"
