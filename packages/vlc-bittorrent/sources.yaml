@@ -1,0 +1,21 @@
+{
+  "package_id": "vlc-bittorrent",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bbecd1e3900112f6df4f54bd04aa0f834de7061ddb9ad4b81d870fb051bc1ccf"
+      },
+      "filename": "vlc-bittorrent-2.16.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/johang/vlc-bittorrent/archive/refs/tags/v2.16.tar.gz",
+      "version": "2.16"
+    }
+  ]
+}
