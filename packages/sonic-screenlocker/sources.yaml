@@ -1,0 +1,21 @@
+{
+  "package_id": "sonic-screenlocker",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8579de7e9e8a54462fd816259a505291ce69786a58736ad9a217c1d61f659b32"
+      },
+      "filename": "sonic-screenlocker-6.7.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Sonic-DE/sonic-screenlocker/archive/refs/tags/6.7.3.tar.gz",
+      "version": "6.7.3"
+    }
+  ]
+}
