@@ -18,6 +18,7 @@ CLIENT_PATH = REPO / "ci" / "rpm-repo-client.py"
 STAGER = REPO / "ci" / "stage-rpm-repository-upload.py"
 LIST_PACKAGES = REPO / "ci" / "list-rpm-repo-packages.py"
 BUILDDEPS_PATH = REPO / "ci" / "prepare-build-deps.py"
+INSTALL_SMOKE = REPO / "ci" / "install-smoke.sh"
 RSYNC_RETRY = REPO / "ci" / "rsync-with-lock-retry.sh"
 PUBLISHER_PATH = REPO / "ops" / "rpm-repo-server" / "rpmrepo_publish.py"
 BACKFILL_WORKFLOW = REPO / ".github" / "workflows" / "rpm-repo-backfill.yml"
@@ -598,26 +599,30 @@ class RrsyncLockRetryTests(unittest.TestCase):
 
 
 class BuildRequiresRetryTests(unittest.TestCase):
-    def test_retry_preserves_the_transaction_and_stops_after_success(self) -> None:
-        results = [
-            subprocess.CompletedProcess(["dnf"], 1),
-            subprocess.CompletedProcess(["dnf"], 92),
-            subprocess.CompletedProcess(["dnf"], 0),
-        ]
-        with mock.patch.object(builddeps.subprocess, "run", side_effect=results) as invoked:
-            with mock.patch.object(builddeps.time, "sleep") as sleeper:
-                used = builddeps.run_with_retries(["dnf", "install", "gcc"], delays=(0, 0))
-        self.assertEqual(used, 3)
-        self.assertEqual(invoked.call_count, 3)
-        self.assertEqual(sleeper.call_count, 2)
+    def test_buildrequires_uses_the_container_local_bounded_runner(self) -> None:
+        source = BUILDDEPS_PATH.read_text(encoding="utf-8")
+        self.assertIn('DNF_ATTEMPT_TIMEOUTS_SECONDS = "2100,1100"', source)
+        self.assertIn("DNF_TRANSACTION_BUDGET_SECONDS = 3300", source)
+        self.assertIn("DNF_KILL_AFTER_SECONDS = 10", source)
+        self.assertIn("dst={DNF_TRANSACTION_CONTAINER_PATH},readonly", source)
+        self.assertIn('"dependency_install_transaction"', source)
+        self.assertNotIn("run_with_retries", source)
 
-    def test_retry_is_bounded_for_deterministic_failures(self) -> None:
-        result = subprocess.CompletedProcess(["dnf"], 1)
-        with mock.patch.object(builddeps.subprocess, "run", return_value=result) as invoked:
-            with mock.patch.object(builddeps.time, "sleep"):
-                with self.assertRaises(subprocess.CalledProcessError):
-                    builddeps.run_with_retries(["dnf", "install", "missing"], delays=(0, 0))
-        self.assertEqual(invoked.call_count, 3)
+    def test_installed_smoke_allows_one_full_slow_metadata_attempt(self) -> None:
+        source = INSTALL_SMOKE.read_text(encoding="utf-8")
+        self.assertIn("--attempt-timeouts-seconds 2100,1100", source)
+        self.assertIn("--budget-seconds 3300", source)
+        for path in (PACKAGE_WORKFLOW, GOLDEN_WORKFLOW):
+            workflow = path.read_text(encoding="utf-8")
+            self.assertGreaterEqual(
+                workflow.count("--max-bytes 52428800 --timeout-seconds 3600 --"),
+                2,
+            )
+            self.assertNotIn("--timeout-seconds 1500", workflow)
+        package_workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("  rpm-install-smoke:\n    name: rpm-install-smoke", package_workflow)
+        self.assertIn("    timeout-minutes: 70", package_workflow)
+        self.assertNotIn("    timeout-minutes: 30", package_workflow)
 
 
 if __name__ == "__main__":
