@@ -36,7 +36,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 matches the case-preserving Heimer-4.5.0 archive root, declares the official Qt5 Core/Xml/Widgets/Network/Test, SVG, and LinguistTools providers required by upstream CMake, and enables the project's actual BUILD_TESTS option. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "heimer",
@@ -71,6 +71,6 @@
   "version": {
     "current": "4.5.0",
     "latest_detected": "4.5.0",
-    "release": "1"
+    "release": "2"
   }
 }
