@@ -1,0 +1,21 @@
+{
+  "package_id": "libvpd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "557a5ead6d15d4f5a6d0e3d0ac0344cc028e17a162d9174680d41b37c99b1431"
+      },
+      "filename": "libvpd-2.2.11.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/power-ras/libvpd/archive/refs/tags/v2.2.11.tar.gz",
+      "version": "2.2.11"
+    }
+  ]
+}
