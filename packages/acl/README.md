@@ -18,9 +18,15 @@ executed. Fedora 44 dist-git was reviewed only as text.
 The fixed target repodata contains every declared BuildRequires, including
 `libattr-devel` and the `runuser` provider. `%check` runs the complete upstream
 test target without a skip or XFAIL path; the installed smoke test creates and
-reads a real filesystem ACL. Before the parallel tests, the SPEC creates the
-libtool fast-install executables under umask `022` and verifies that the
-unprivileged `bin` identity can execute both wrappers.
+reads a real filesystem ACL. The protected root-build workspace is a host bind
+mount whose transport rejects execution by the suite's unprivileged `bin`
+identity even when the path modes and ACLs permit it. `%check` therefore copies
+the exact built tree to container-local temporary storage while preserving its
+timestamps, grants execute-only traversal on the `mktemp` parent and
+read/traversal on only that copy, verifies both libtool wrappers as `bin`, and
+runs the complete parallel upstream suite there. Preserving timestamps keeps
+the generated `configure` script current, so `%check` does not invoke
+maintainer-only Autoconf merely because the tree was copied.
 
 Exact-head CI run `31472087683` was bound to commit
 `ffac31793c9097ebad4162116842d26763718bab`. Its locally rehashed build artifact
