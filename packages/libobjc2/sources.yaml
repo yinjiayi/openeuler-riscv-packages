@@ -1,0 +1,21 @@
+{
+  "package_id": "libobjc2",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5ead2276b42a534ac40437ce53b2231320b985539dc325453d93874be8d92869"
+      },
+      "filename": "libobjc2-2.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/gnustep/libobjc2/archive/refs/tags/v2.3.tar.gz",
+      "version": "2.3"
+    }
+  ]
+}
