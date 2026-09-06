@@ -1,0 +1,21 @@
+{
+  "package_id": "heapusage",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "36f85ed08170ab5f5953414b27c4369dc8136132f49233084e17185a89f192af"
+      },
+      "filename": "heapusage-2.36.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/d99kris/heapusage/archive/refs/tags/v2.36.tar.gz",
+      "version": "2.36"
+    }
+  ]
+}
