@@ -1,0 +1,21 @@
+{
+  "package_id": "libexsid",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "96b11a0be025928436c8043774e8fbc25eaf90e9d7ad7bd0331ca4eb9c5fba3e"
+      },
+      "filename": "libexsid-2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libsidplayfp/exsid-driver/archive/refs/tags/2.1.tar.gz",
+      "version": "2.1"
+    }
+  ]
+}
