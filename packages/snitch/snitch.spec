@@ -7,6 +7,7 @@ License:        BSL-1.0
 URL:            https://github.com/snitch-org/snitch
 Source0:        snitch-1.3.2.tar.gz
 Source1:        doctest-2.4.9.tar.gz
+Patch0:         0001-tests-accept-release-version.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
