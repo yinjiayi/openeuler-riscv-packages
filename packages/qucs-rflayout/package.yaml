@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/thomaslepoix/Qucs-RFlayout",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "qucs-rflayout",
+        "package_name": "qucs-rflayout",
+        "source": "aur",
+        "source_version": "2.1.2-4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "qucs-rflayout.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the archive's Qucs-RFlayout-2.1.2 source root, declares the fixed-repository Qt 6 and OpenGL development providers, and runs upstream's check target so the excluded unit-test executable is built before CTest. GUI and test functionality remain enabled, and the source digest is unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "status": "active"
+  },
+  "package_id": "qucs-rflayout",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "qucs-rflayout",
+    "summary": "Export Qucs RF schematics to KiCad layouts & OpenEMS scripts"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-thomaslepoix-qucs-rflayout",
+    "homepage": "https://github.com/thomaslepoix/Qucs-RFlayout",
+    "release_api": "https://api.github.com/repos/thomaslepoix/Qucs-RFlayout/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/thomaslepoix/Qucs-RFlayout",
+    "source_url_template": "https://github.com/thomaslepoix/Qucs-RFlayout/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.1.2",
+    "latest_detected": "2.1.2",
+    "release": "2"
+  }
+}
