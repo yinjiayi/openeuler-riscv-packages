@@ -131,6 +131,17 @@ def main() -> int:
         ):
             if marker not in bootstrap:
                 errors.append(f"bootstrap RPM database transport is missing: {marker}")
+        for marker in (
+            "download_verified_resumable()",
+            "--continue-at -",
+            "for attempt in 1 2 3 4 5",
+            'rm -f -- "$output" "$partial"',
+            'mv -f -- "$partial" "$output"',
+            '"${repo_url}${primary_href}" "$primary_checksum"',
+            '"${repo_url}${key_href}" "$key_checksum"',
+        ):
+            if marker not in bootstrap:
+                errors.append(f"authenticated bootstrap download is missing: {marker}")
         transaction_marker = "dnf -y"
         export_marker = 'rpmdb --root "$rootfs" --exportdb'
         if (
