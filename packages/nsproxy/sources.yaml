@@ -1,0 +1,21 @@
+{
+  "package_id": "nsproxy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2526d60c20ae48ccd8b5288d099fc04bd8f61438af142e33938260428122330d"
+      },
+      "filename": "nsproxy-0.5.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nlzy/nsproxy/archive/refs/tags/v0.5.2.tar.gz",
+      "version": "0.5.2"
+    }
+  ]
+}
