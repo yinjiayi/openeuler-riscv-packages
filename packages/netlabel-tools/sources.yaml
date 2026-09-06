@@ -1,0 +1,21 @@
+{
+  "package_id": "netlabel-tools",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8efa6e0aa6cfa2ae831eb8ac2e9c49505400005bec0eec66290180c60095448d"
+      },
+      "filename": "netlabel-tools-0.30.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/netlabel/netlabel_tools/archive/refs/tags/v0.30.0.tar.gz",
+      "version": "0.30.0"
+    }
+  ]
+}
