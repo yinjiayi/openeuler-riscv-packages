@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Sun, 6 Sep 2026 00:00:00 +0000
+Subject: [PATCH] cmake: support GCC RISC-V vector targets
+
+GCC 14 does not support the RISC-V function-specific target pragmas used by
+NumKong.  Compile the GCC RISC-V translation units with the base V extension
+enabled, and do not advertise the optional Zv* backends that cannot be enabled
+independently by this compiler.  This retains the portable RVV backend without
+requiring optional vector extensions on every target system.
+
+Patch-Source: openEuler RISC-V review of the official 7.7.1 archive
+Patch-License: Apache-2.0
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: An upstream release supports GCC RISC-V function-specific target
+ selection or otherwise applies matching per-backend compiler flags.
+---
+ CMakeLists.txt                    | 9 ++++++++-
+ cmake/nk_riscv_isa_probes.cmake | 15 ++++++++++++---
+ 2 files changed, 20 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -260,8 +260,15 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang|AppleClang|IntelLLVM)$")
+         add_compile_options(-march=armv8-a)
+     elseif (NK_IS_64BIT_X86_)
+         add_compile_options(-march=x86-64)
+     elseif (NK_IS_64BIT_RISCV_)
+-        add_compile_options(-march=rv64gc)
++        # GCC does not support RISC-V function-specific target pragmas.  Keep
++        # the base RVV backend available without requiring optional Zv*
++        # extensions globally.
++        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
++            add_compile_options(-march=rv64gcv)
++        else ()
++            add_compile_options(-march=rv64gc)
++        endif ()
+     elseif (NK_IS_64BIT_POWER_)
+         add_compile_options(-mcpu=power8)
+     elseif (NK_IS_64BIT_LOONGARCH_)
+diff --git a/cmake/nk_riscv_isa_probes.cmake b/cmake/nk_riscv_isa_probes.cmake
+--- a/cmake/nk_riscv_isa_probes.cmake
++++ b/cmake/nk_riscv_isa_probes.cmake
+@@ -10,9 +10,18 @@ include(cmake/nk_isa_probe.cmake)
+ nk_isa_probes_begin_()
+ 
+ nk_isa_probe_(nk_target_rvv "" "-march=rv64gcv" "probes/riscv_rvv.c")
+-nk_isa_probe_(nk_target_rvvhalf "" "-march=rv64gcv_zvfh" "probes/riscv_rvv_half.c")
+-nk_isa_probe_(nk_target_rvvbf16 "" "-march=rv64gcv_zvfbfwma" "probes/riscv_rvv_bf16.c")
+-nk_isa_probe_(nk_target_rvvbb "" "-march=rv64gcv_zvbb" "probes/riscv_rvv_bb.c")
++if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
++    set(nk_target_rvvhalf_compiles FALSE)
++    set(nk_target_rvvhalf_native FALSE)
++    set(nk_target_rvvbf16_compiles FALSE)
++    set(nk_target_rvvbf16_native FALSE)
++    set(nk_target_rvvbb_compiles FALSE)
++    set(nk_target_rvvbb_native FALSE)
++else ()
++    nk_isa_probe_(nk_target_rvvhalf "" "-march=rv64gcv_zvfh" "probes/riscv_rvv_half.c")
++    nk_isa_probe_(nk_target_rvvbf16 "" "-march=rv64gcv_zvfbfwma" "probes/riscv_rvv_bf16.c")
++    nk_isa_probe_(nk_target_rvvbb "" "-march=rv64gcv_zvbb" "probes/riscv_rvv_bb.c")
++endif ()
+ 
+ nk_isa_probes_end_()
+ 
+-- 
+2.39.5

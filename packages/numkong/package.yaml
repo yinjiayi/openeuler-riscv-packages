@@ -37,12 +37,12 @@
   "files": {
     "patches": [
       {
-        "file": "patches/0001-riscv-use-serial-u64-saturating-multiply.patch",
+        "file": "patches/0001-cmake-support-gcc-riscv-vector-targets.patch",
         "license": "Apache-2.0",
-        "purpose": "Keep the GCC 14 RISC-V build working by reusing NumKong's portable 64-bit saturating multiply for the two RVV scalar helpers whose vmulhu intrinsic is unavailable, while retaining all other RVV kernels.",
-        "remove_when": "An upstream release provides a GCC-compatible RVV implementation for 64-bit saturating multiplication.",
-        "sha256": "51e669c511ba68f55af2394eeab9c71da27ca1b209d25f8f180a0319f35e3d0a",
-        "source": "Downstream review of the official NumKong 7.7.1 archive and exact openEuler GCC 14 RISC-V CI failure",
+        "purpose": "Compile NumKong's base RVV backend with GCC 14 while avoiding optional Zv* backends that this compiler cannot enable with the upstream function-specific target pragmas.",
+        "remove_when": "An upstream release supports GCC RISC-V function-specific target selection or otherwise applies matching per-backend compiler flags.",
+        "sha256": "18531994f2ff76f233a806a9f6402000e2dd0c4a0f9a3a237252509a86fdacf7",
+        "source": "Downstream review of the official NumKong 7.7.1 archive and exact openEuler GCC 14 RISC-V CI failures",
         "upstream_status": "not-submitted"
       }
     ],
