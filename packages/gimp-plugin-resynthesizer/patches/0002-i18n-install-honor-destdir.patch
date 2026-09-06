@@ -1,0 +1,33 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 00:00:00 +0800
+Subject: [PATCH] i18n: honor DESTDIR in custom install copies
+
+Meson runs custom install scripts with DESTDIR set to the packaging root.
+The paths computed here are absolute installation paths, so prefix both the
+generated catalog source and each bundled plugin destination with DESTDIR.
+Without this, RPM builds look for the catalog below the build host's /usr and
+attempt to install plugin translations outside the buildroot.
+
+Upstream replaced this loop after v3.0.1 with an installer based on
+MESON_INSTALL_DESTDIR_PREFIX (commit f38a155f9168a29460380642b4f1cbcc81a5186b).
+This minimal equivalent preserves the stable release's generated catalogs and
+plugin layout.
+---
+ po/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/po/meson.build b/po/meson.build
+index be35560..0baa37a 100644
+--- a/po/meson.build
++++ b/po/meson.build
+@@ -82,7 +82,7 @@ foreach language_tag : resynthesizer_i18n_languages
+     # cp does not have option to create destination dirs, so create directory first.
+     meson.add_install_script(
+       'sh', '-c',
+-      'mkdir -p "@0@" && cp -f "@1@" "@2@"'.format(dest_dir, source_file, dest_file ))
++      'mkdir -p "$DESTDIR@0@" && cp -f "$DESTDIR@1@" "$DESTDIR@2@"'.format(dest_dir, source_file, dest_file ))
+ 
+   endforeach
+ endforeach
+-- 
+2.51.0
