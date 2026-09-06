@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "package_id": "libsdl2-image",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/libsdl-org/SDL_image/releases/download/release-2.8.8/SDL2_image-2.8.8.tar.gz",
+      "filename": "SDL2_image-2.8.8.tar.gz",
+      "version": "2.8.8",
+      "digests": {
+        "sha256": "2213b56fdaff2220d0e38c8e420cbe1a83c87374190cba8c70af2156097ce30a"
+      },
+      "signature": {
+        "url": "https://github.com/libsdl-org/SDL_image/releases/download/release-2.8.8/SDL2_image-2.8.8.tar.gz.sig",
+        "key_fingerprint": "1528 635D 8053 A57F 77D1 E086 30A5 9377 A776 3BE6",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official SDL_image source release is redistributable under the Zlib license retained in LICENSE.txt."
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "package_id": "libsdl2-image",
+  "rpm": {
+    "name": "SDL2_image",
+    "summary": "Image loading library for SDL 2",
+    "license": "Zlib"
+  },
+  "upstream": {
+    "component": "github.com-libsdl-org-sdl_image",
+    "homepage": "https://github.com/libsdl-org/SDL_image",
+    "source_repository": "https://github.com/libsdl-org/SDL_image.git",
+    "release_channel": "stable",
+    "release_api": "https://github.com/libsdl-org/SDL_image/tags.atom",
+    "release_regex": "release-(?P<version>2\\.[0-9]+\\.[0-9]+)",
+    "source_url_template": "https://github.com/libsdl-org/SDL_image/releases/download/release-{version}/SDL2_image-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.8.8",
+    "release": "1",
+    "latest_detected": "2.8.12"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libsdl2-image",
+        "package_base": "libsdl2-image",
+        "source_version": "2.8.8+dfsg-2",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libsdl2-image",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "SDL2_image.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The inventory-selected official SDL_image 2.8.8 release bytes were downloaded twice from the upstream release asset, matched SHA-256, and passed single-root path/link archive inspection. The current official SDL 2 tag feed also exposes 2.8.12; this onboarding intentionally remains at the task-selected inventory version and leaves that later release visible to the updater. The detached 2.8.8 signature identifies fingerprint 1528635D8053A57F77D1E08630A59377A7763BE6 and is recorded as advisory rather than claimed cryptographically verified. Frozen Ubuntu GA metadata supplies the exact inventory lineage; no distribution recipe was read or executed. The fixed target repository supplies SDL2, JPEG, PNG, TIFF, and WebP development packages, while AVIF and JPEG XL development providers are absent. The build therefore keeps every portable built-in backend plus strict system JPEG/PNG/TIFF/WebP support and runs the complete registered upstream test executable with its shipped fixtures."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}
