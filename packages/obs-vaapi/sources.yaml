@@ -1,0 +1,21 @@
+{
+  "package_id": "obs-vaapi",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4c6a835f3e02511e07bce6ad2e23e6735864aaf43c52697caa2aa24c0f4dbf6d"
+      },
+      "filename": "obs-vaapi-0.4.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fzwoch/obs-vaapi/archive/refs/tags/0.4.2.tar.gz",
+      "version": "0.4.2"
+    }
+  ]
+}
