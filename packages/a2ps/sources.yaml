@@ -1,0 +1,21 @@
+{
+  "package_id": "a2ps",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8d13915a36ebbfa8e7b236b350cc81adc714acb217a18e8d8c60747c0ad353f9"
+      },
+      "filename": "a2ps-4.15.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/a2ps/a2ps-4.15.8.tar.gz",
+      "version": "4.15.8"
+    }
+  ]
+}
