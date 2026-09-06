@@ -1,0 +1,21 @@
+{
+  "package_id": "ryu-kraken",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "331cb0fcbe7340da214291ffd9a7bf7560dcbe15679d419341101e8dcf9fd135"
+      },
+      "filename": "ryu-kraken-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Happilli/Kraken/archive/refs/tags/v1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
