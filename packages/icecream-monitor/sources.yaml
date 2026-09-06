@@ -1,0 +1,21 @@
+{
+  "package_id": "icecream-monitor",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3caf14731313c99967f6e4e11ff261b061e4e3d0c7ef7565e89b12e0307814ca"
+      },
+      "filename": "icecream-monitor-3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/icecc/icemon/archive/refs/tags/v3.3.tar.gz",
+      "version": "3.3"
+    }
+  ]
+}
