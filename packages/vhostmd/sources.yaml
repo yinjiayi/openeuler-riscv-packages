@@ -1,0 +1,21 @@
+{
+  "package_id": "vhostmd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ffedbec1a5acd46632e439d44b47ff725ee1c20d41f9415f98d49ca34f4e270e"
+      },
+      "filename": "vhostmd-1.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/vhostmd/vhostmd/archive/refs/tags/v1.2.tar.gz",
+      "version": "1.2"
+    }
+  ]
+}
