@@ -1,0 +1,21 @@
+{
+  "package_id": "netcalc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "57e40571cea9061f4c42fe500345d6715e9b35fdaa135ef23c42c6ca4a58e3ef"
+      },
+      "filename": "netcalc-2.1.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/troglobit/netcalc/archive/refs/tags/v2.1.7.tar.gz",
+      "version": "2.1.7"
+    }
+  ]
+}
