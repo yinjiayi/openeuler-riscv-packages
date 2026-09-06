@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
+# GCC 14 RISC-V LTO cannot lower NumKong's target-specific RVV builtins.
+%global _lto_cflags %{nil}
+
 Name:           numkong
 Version:        7.7.1
 Release:        1%{?dist}
