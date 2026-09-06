@@ -224,7 +224,8 @@ jobs:
           path.write_text(text, encoding="utf-8")
           cleanup_path = Path("ops/actions-runner-fleet/cleanup-image.lock")
           cleanup = cleanup_path.read_text(encoding="utf-8")
-          cleanup_ref = f"{values['image']}@{values['digest']}"
+          cleanup_image = "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild"
+          cleanup_ref = f"{cleanup_image}@{values['digest']}"
           cleanup, count = re.subn(
               r"(?m)^CLEANUP_IMAGE_REF=.*$",
               f"CLEANUP_IMAGE_REF={cleanup_ref}",

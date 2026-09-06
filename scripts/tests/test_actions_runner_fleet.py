@@ -6,9 +6,12 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import stat
 import subprocess
+import sys
 import tempfile
+import textwrap
 import unittest
 
 
@@ -79,6 +82,10 @@ class RunnerFleetStaticTests(unittest.TestCase):
         )
         cleanup_path = "ops/actions-runner-fleet/cleanup-image.lock"
         self.assertIn('cleanup_path = Path("%s")' % cleanup_path, workflow)
+        self.assertIn(
+            'cleanup_image = "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild"',
+            workflow,
+        )
         self.assertIn('CLEANUP_IMAGE_REF={cleanup_ref}', workflow)
         self.assertIn("expected=$'M\\tci/image.lock\\nM\\t%s'" % cleanup_path, workflow)
         self.assertIn('test "$changed" = "$expected"', workflow)
@@ -113,6 +120,51 @@ class RunnerFleetStaticTests(unittest.TestCase):
             with self.subTest(document=document):
                 with self.assertRaises(ValueError):
                     VALIDATOR_MODULE.cleanup_lock_value(document)
+
+    def test_image_workflow_updater_executes_and_writes_matching_locks(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "build-ci-image.yml").read_text(
+            encoding="utf-8"
+        )
+        embedded = workflow.split("<<'PY'\n", 1)[1].split("\n          PY", 1)[0]
+        updater = textwrap.dedent(embedded)
+        digest = "sha256:" + "d" * 64
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "ci").mkdir()
+            (root / "ops" / "actions-runner-fleet").mkdir(parents=True)
+            shutil.copyfile(ROOT / "ci" / "image.lock", root / "ci" / "image.lock")
+            shutil.copyfile(
+                OPS / "cleanup-image.lock",
+                root / "ops" / "actions-runner-fleet" / "cleanup-image.lock",
+            )
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "-",
+                    digest,
+                    "1" * 64,
+                    "2" * 64,
+                    "3" * 64,
+                    "2026-09-06T07:00:00Z",
+                    "tonistiigi/binfmt:qemu-v9.2.0",
+                ],
+                cwd=root,
+                input=updater,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            image_lock = (root / "ci" / "image.lock").read_text(encoding="utf-8")
+            self.assertIn('digest: "%s"' % digest, image_lock)
+            cleanup = parse_assignment_file(
+                root / "ops" / "actions-runner-fleet" / "cleanup-image.lock"
+            )
+            self.assertEqual(
+                cleanup["CLEANUP_IMAGE_REF"],
+                "ghcr.io/yinjiayi/openeuler-riscv64-rpmbuild@" + digest,
+            )
 
     def test_dependency_containers_have_the_recovery_identity_label(self) -> None:
         prepare = (ROOT / "ci" / "prepare-build-deps.py").read_text(encoding="utf-8")
