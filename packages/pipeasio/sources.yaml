@@ -1,0 +1,21 @@
+{
+  "package_id": "pipeasio",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1dceed8cc7ec2815db402e9baa03014b5d588f6c283a8f61ed50f7f974148445"
+      },
+      "filename": "pipeasio-1.2.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/M0n7y5/pipeasio/archive/refs/tags/v1.2.3.tar.gz",
+      "version": "1.2.3"
+    }
+  ]
+}
