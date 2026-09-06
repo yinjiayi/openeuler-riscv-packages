@@ -1,0 +1,18 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 60},
+  "discovery": {"lineage": [
+    {"evidence_url": "https://archlinux.org/packages/extra/any/flawfinder/", "observed_at": "2026-08-12T08:30:00Z", "package_base": "flawfinder", "package_name": "flawfinder", "source": "arch-extra", "source_version": "2.0.20-1"},
+    {"evidence_url": "https://packages.debian.org/trixie/flawfinder", "observed_at": "2026-08-12T08:30:00Z", "package_base": "flawfinder", "package_name": "flawfinder", "source": "debian", "source_version": "2.0.19-1.1"},
+    {"evidence_url": "https://packages.fedoraproject.org/pkgs/flawfinder/flawfinder/", "observed_at": "2026-08-12T08:30:00Z", "package_base": "flawfinder", "package_name": "flawfinder", "source": "fedora", "source_version": "2.0.11-16.fc44"},
+    {"evidence_url": "https://packages.ubuntu.com/resolute/utils/flawfinder", "observed_at": "2026-08-12T08:30:00Z", "package_base": "flawfinder", "package_name": "flawfinder", "source": "ubuntu", "source_version": "2.0.19-1.1build1"}
+  ], "snapshot_id": "discovery-20260808T074348Z-31246813686"},
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "flawfinder.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "Official stable tag bytes are pinned and all 14 upstream golden-output tests are retained; no distribution or AUR recipe is executed.", "status": "active"},
+  "package_id": "flawfinder",
+  "rpm": {"license": "GPL-2.0-or-later", "name": "flawfinder", "summary": "Lexical scanner for security flaws in C and C++ source"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"},
+  "upstream": {"component": "david-a-wheeler-flawfinder", "homepage": "https://dwheeler.com/flawfinder/", "release_api": "https://api.github.com/repos/david-a-wheeler/flawfinder/tags?per_page=100", "release_channel": "stable", "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$", "source_repository": "https://github.com/david-a-wheeler/flawfinder", "source_url_template": "https://github.com/david-a-wheeler/flawfinder/archive/refs/tags/{version}.tar.gz"},
+  "version": {"current": "2.0.20", "latest_detected": "2.0.20", "release": "1"}
+}
