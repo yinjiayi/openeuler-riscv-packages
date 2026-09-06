@@ -1,0 +1,21 @@
+{
+  "package_id": "metetch",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fa7719f7fe490d238846526bc1a5cae11f8a91dbfaed9fd5d68ce81b1a0eb958"
+      },
+      "filename": "metetch-0.5.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/techoraye/metetch/archive/refs/tags/v0.5.3.tar.gz",
+      "version": "0.5.3"
+    }
+  ]
+}
