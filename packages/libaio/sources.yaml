@@ -1,0 +1,21 @@
+{
+  "package_id": "libaio",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2c44d1c5fd0d43752287c9ae1eb9c023f04ef848ea8d4aafa46e9aedb678200b"
+      },
+      "filename": "libaio-0.3.113.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://releases.pagure.org/libaio/libaio-0.3.113.tar.gz",
+      "version": "0.3.113"
+    }
+  ]
+}

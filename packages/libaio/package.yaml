@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": "The maintained partcheck suite exercises Linux AIO syscalls; QEMU user mode returns ENOSYS for io_setup, so acceptance requires the target RISC-V kernel.",
+    "network_during_build": false,
+    "profile": "needs-native-riscv",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://pagure.io/libaio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libaio",
+        "package_name": "libaio",
+        "source": "arch-core",
+        "source_version": "0.3.113-4"
+      },
+      {
+        "evidence_url": "https://pagure.io/libaio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libaio",
+        "package_name": "libaio",
+        "source": "debian",
+        "source_version": "0.3.113-8"
+      },
+      {
+        "evidence_url": "https://pagure.io/libaio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libaio",
+        "package_name": "libaio",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.3.113-5.5"
+      },
+      {
+        "evidence_url": "https://pagure.io/libaio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libaio",
+        "package_name": "libaio",
+        "source": "ubuntu",
+        "source_version": "0.3.113-8build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libaio.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libaio",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "libaio",
+    "summary": "Linux native asynchronous I/O library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "qemu-limitation"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "pagure.io-libaio",
+    "homepage": "https://pagure.io/libaio",
+    "release_api": "https://releases.pagure.org/libaio/",
+    "release_channel": "stable",
+    "release_regex": "libaio-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://pagure.io/libaio",
+    "source_url_template": "https://releases.pagure.org/libaio/libaio-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.3.113",
+    "latest_detected": "0.3.113",
+    "release": "1"
+  }
+}
