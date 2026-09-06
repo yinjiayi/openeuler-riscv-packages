@@ -7,4 +7,4 @@ External source and patch licenses remain those of their respective upstream pro
 
 Release 2 backports upstream commit `498d3c6cb974f778dea76c27eb770a4821e1a5da`, which fixes the raw ELF comment iterator's accidental one-argument `strcmp` call. The trusted `riscv64` build for pull request 1844 reached this compiler error after dependency installation succeeded; the upstream one-line correction restores the intended `strlen` offset calculation without weakening `%check` or runtime coverage.
 
-The same release invokes upstream's complete `test` target from `%check`; uftrace 0.19 does not define a `check` Make target.
+The same release invokes upstream's `unittest` target from `%check`; uftrace 0.19 does not define a `check` Make target. The trusted RVA23 QEMU run showed that constructing the upstream unit-test harness alone exceeded the original effective 52-minute rpmbuild window before any test executed, so the package uses a 90-minute declared budget. The unbounded integration matrix remains outside RPM construction, while the upstream unit suite and installed-package smoke gate remain mandatory.

@@ -26,7 +26,7 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-%make_build test
+%make_build unittest
 
 %files -f %{name}.files
 %license COPYING
@@ -36,7 +36,7 @@ test -s %{name}.files
 %changelog
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.19-2
 - Backport the upstream raw ELF comment iterator build fix.
-- Run the complete upstream test target during %%check.
+- Run the upstream unit-test suite during %%check with a QEMU-sized budget.
 
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.19-1
 - Initial openEuler RISC-V package from the full package inventory.
