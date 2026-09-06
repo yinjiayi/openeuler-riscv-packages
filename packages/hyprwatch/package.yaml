@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/Farhan291/hyprwatch",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyprwatch",
+        "package_name": "hyprwatch",
+        "source": "aur",
+        "source_version": "0.0.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "hyprwatch.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "hyprwatch",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "hyprwatch",
+    "summary": "A lightweight time tracking daemon and TUI client for Hyprland window manager"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-farhan291-hyprwatch",
+    "homepage": "https://github.com/Farhan291/hyprwatch",
+    "release_api": "https://api.github.com/repos/Farhan291/hyprwatch/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/Farhan291/hyprwatch",
+    "source_url_template": "https://github.com/Farhan291/hyprwatch/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.0.1",
+    "latest_detected": "0.0.1",
+    "release": "1"
+  }
+}
