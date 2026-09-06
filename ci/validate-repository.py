@@ -823,6 +823,7 @@ def main() -> int:
             "unexpected-provenance",
             "configure-bridge-v1",
             "bot-image-lock-v1",
+            'details_url = f"https://github.com/{repository}/runs/{check_id}"',
             "bridge_attestation_stable",
             "changed_base_pr_count",
             'return 0 if result["passed"] else 1',
@@ -932,7 +933,8 @@ def main() -> int:
             'image-lock branch does not match the candidate digest prefix',
             'a forbidden configure StatusContext already exists',
             'status": "in_progress"',
-            'prove_check(args.repository, check_id, head, eid, details, "completed", "success")',
+            'return f"https://github.com/{repository}/runs/{check_id}"',
+            'prove_check(args.repository, check_id, head, eid, "completed", "success")',
             'fail_created_check',
         ):
             if marker not in helper_text:

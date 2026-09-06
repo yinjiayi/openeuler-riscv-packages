@@ -360,6 +360,14 @@ def external_id(repository: str, number: int, head: str, base: str, source_run: 
     return ":".join(("configure-bridge-v1", repository, str(number), head, base, str(source_run), str(bridge_run)))
 
 
+def canonical_details_url(repository: str, check_id: int) -> str:
+    # Checks created with the workflow GITHUB_TOKEN can be normalized by
+    # GitHub from the requested workflow URL to this owning CheckRun URL.
+    # Bridge provenance remains bound separately by the external id and exact
+    # source/bridge workflow readbacks.
+    return f"https://github.com/{repository}/runs/{check_id}"
+
+
 def patch_check(repository: str, check_id: int, conclusion: str, title: str, summary: str) -> Mapping[str, Any]:
     return mapping(api_json(
         ["-X", "PATCH", f"repos/{repository}/check-runs/{check_id}"],
@@ -418,7 +426,6 @@ def prove_check(
     check_id: int,
     head: str,
     eid: str,
-    details_url: str,
     status: str,
     conclusion: str | None,
 ) -> Mapping[str, Any]:
@@ -431,10 +438,11 @@ def prove_check(
         "status": status,
         "conclusion": conclusion,
         "external_id": eid,
-        "details_url": details_url,
     }
     if any(check.get(key) != value for key, value in expected.items()):
         raise BridgeError("check-run readback identity is invalid")
+    if check.get("details_url") != canonical_details_url(repository, check_id):
+        raise BridgeError("check-run readback details URL is invalid")
     if app.get("id") != CHECK_APP_ID or app.get("slug") != CHECK_APP_SLUG:
         raise BridgeError("configure was not created by the GitHub Actions Checks app")
     return check
@@ -508,7 +516,7 @@ def main() -> int:
         result["check_run_id"] = check_id
         # Prove the Checks App provenance while the context is still pending;
         # an unexpected creator must never receive a transient success.
-        prove_check(args.repository, check_id, head, eid, details, "in_progress", None)
+        prove_check(args.repository, check_id, head, eid, "in_progress", None)
         # A third exact lease protects completion from a post-create race.
         current_main(args.repository, args.trusted_main_sha)
         source_final, candidate_final = source_attestation(args.repository, args.source_run_id)
@@ -524,7 +532,7 @@ def main() -> int:
             "Configure bridge attestation passed",
             f"Trusted protected-main bridge validated PR #{number} at exact head {head} and base {base}.",
         )
-        prove_check(args.repository, check_id, head, eid, details, "completed", "success")
+        prove_check(args.repository, check_id, head, eid, "completed", "success")
         # Final lease: a success is invalidated if the candidate changed during
         # the successful-check readback window.
         current_main(args.repository, args.trusted_main_sha)

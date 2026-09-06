@@ -40,10 +40,19 @@ if args and args[0] == "api" and args[1:2] != ["graphql"] and scenario.startswit
         external = "not-an-attestation"
     if endpoint == f"repos/{repo}/check-runs/2":
         app = {"id": 1, "slug": "github-actions"} if scenario == "bridge-wrong-app" else {"id": 15368, "slug": "github-actions"}
+        details_url = f"https://github.com/{repo}/runs/2"
+        if scenario == "bridge-details-workflow":
+            details_url = f"https://github.com/{repo}/actions/runs/202"
+        elif scenario == "bridge-details-wrong-id":
+            details_url = f"https://github.com/{repo}/runs/3"
+        elif scenario == "bridge-details-wrong-repo":
+            details_url = "https://github.com/attacker/repository/runs/2"
+        elif scenario == "bridge-details-query":
+            details_url += "?source=bridge"
         print(json.dumps({
             "id": 2, "name": "configure", "head_sha": head,
             "status": "completed", "conclusion": "success", "external_id": external,
-            "details_url": f"https://github.com/{repo}/actions/runs/202", "app": app,
+            "details_url": details_url, "app": app,
         }))
     elif endpoint == f"repos/{repo}/actions/runs/102":
         actor = "attacker" if scenario == "bridge-source-actor" else "github-actions[bot]"
@@ -323,6 +332,10 @@ class RequiredContextAuditTests(unittest.TestCase):
         for scenario in (
             "bridge-bad-external",
             "bridge-wrong-app",
+            "bridge-details-workflow",
+            "bridge-details-wrong-id",
+            "bridge-details-wrong-repo",
+            "bridge-details-query",
             "bridge-source-actor",
             "bridge-bridge-head",
             "bridge-wrong-file",
