@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nanomsg
-Version:        1.2.4
+Version:        1.2.5
 Release:        1%{?dist}
 %global upstream_commit e6d0b8ddfc780eb89f8f6ef305e92c19e76bed6b
 Summary:        Socket library implementing scalable messaging protocols
 License:        MIT
 URL:            https://nanomsg.org/
-Source0:        nanomsg-%{version}.tar.gz
+Source0:        1.2.5.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
