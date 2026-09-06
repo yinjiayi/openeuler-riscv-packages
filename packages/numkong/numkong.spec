@@ -6,6 +6,7 @@ Summary:        SIMD kernels for mixed-precision BLAS-like numerics.
 License:        Apache-2.0
 URL:            https://github.com/ashvardanian/NumKong
 Source0:        numkong-7.7.1.tar.gz
+Patch0:         0001-riscv-use-serial-u64-saturating-multiply.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make

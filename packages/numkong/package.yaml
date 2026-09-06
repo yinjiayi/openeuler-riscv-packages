@@ -35,7 +35,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-riscv-use-serial-u64-saturating-multiply.patch",
+        "license": "Apache-2.0",
+        "purpose": "Keep the GCC 14 RISC-V build working by reusing NumKong's portable 64-bit saturating multiply for the two RVV scalar helpers whose vmulhu intrinsic is unavailable, while retaining all other RVV kernels.",
+        "remove_when": "An upstream release provides a GCC-compatible RVV implementation for 64-bit saturating multiplication.",
+        "sha256": "51e669c511ba68f55af2394eeab9c71da27ca1b209d25f8f180a0319f35e3d0a",
+        "source": "Downstream review of the official NumKong 7.7.1 archive and exact openEuler GCC 14 RISC-V CI failure",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "numkong.spec"
