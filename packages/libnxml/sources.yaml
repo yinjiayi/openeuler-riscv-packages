@@ -1,0 +1,21 @@
+{
+  "package_id": "libnxml",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "263d6424db3cd5f17a9f6300594548e82449ed22af59e9e5534646fa0dabd6a7"
+      },
+      "filename": "libnxml-0.18.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bakulf/libnxml/archive/refs/tags/0.18.5.tar.gz",
+      "version": "0.18.5"
+    }
+  ]
+}
