@@ -6,10 +6,12 @@ Summary:        Cross-platform Matrix chat client
 License:        GPL-3.0-or-later
 URL:            https://github.com/surakin/tesseract
 Source0:        tesseract-matrix-0.8.16.tar.gz
+BuildRequires:  cargo
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  rust
 
 %description
 Cross-platform Matrix chat client
