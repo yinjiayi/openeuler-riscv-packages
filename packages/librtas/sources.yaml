@@ -1,0 +1,21 @@
+{
+  "package_id": "librtas",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b88ca9ac5acafb924cd0aaf56c89a7f149c84ade0fc6840f3ef8356ab96a1254"
+      },
+      "filename": "librtas-2.0.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ibm-power-utilities/librtas/archive/refs/tags/v2.0.6.tar.gz",
+      "version": "2.0.6"
+    }
+  ]
+}
