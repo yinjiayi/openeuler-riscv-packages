@@ -10,6 +10,7 @@ package_id=$(basename "$package_dir")
 started_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 status=failed
 message=
+dnf_transaction_file=$(dirname "$result_file")/dnf-transaction.json
 
 write_result() {
   RESULT_STATUS=$status RESULT_MESSAGE=$message RESULT_PACKAGE=$package_id \
@@ -135,8 +136,21 @@ enabled_repositories=(--enablerepo=openeuler-rva23)
 if [[ $repository_status = passed ]]; then
   enabled_repositories+=(--enablerepo=openeuler-riscv-project)
 fi
-dnf -y --setopt install_weak_deps=False --disablerepo='*' \
-  "${enabled_repositories[@]}" install "${rpms[@]}"
+set +e
+python3 ci/run-dnf-transaction \
+  --evidence "$dnf_transaction_file" \
+  --budget-seconds 3300 \
+  --attempt-timeouts-seconds 2100,1100 \
+  --retry-delay-seconds 5 \
+  --kill-after-seconds 10 \
+  -- dnf -y --setopt=install_weak_deps=False --disablerepo='*' \
+    "${enabled_repositories[@]}" install -- "${rpms[@]}"
+dnf_status=$?
+set -e
+if ((dnf_status != 0)); then
+  message="bounded RPM installation DNF transaction failed; see dnf-transaction.json"
+  exit "$dnf_status"
+fi
 
 smoke="$package_dir/tests/smoke.sh"
 [[ -f $smoke ]] || { message="tests/smoke.sh is missing"; exit 2; }

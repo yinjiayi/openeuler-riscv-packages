@@ -1,0 +1,105 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/serge-rgb/milton",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "milton",
+        "package_name": "milton",
+        "source": "aur",
+        "source_version": "1.9.1-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-keep-format-security-enabled.patch",
+        "sha256": "b8da19f71f942e2a85318a88b92978845d5e5b3f8c922f545d207ffcc5ab88ac",
+        "purpose": "Remove the blanket format-warning suppression that conflicts with openEuler's format-security hardening policy.",
+        "source": "Downstream adaptation of Milton 1.9.1 CMakeLists.txt",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream no longer disables all format diagnostics on Unix builds."
+      },
+      {
+        "file": "patches/0002-cmake-use-system-sdl2.patch",
+        "sha256": "71a7140d9ab836cffc7b4c3f093bee6c1efd1613bab8190e486bcfe928b436e3",
+        "purpose": "Replace hard-coded bundled x86_64 SDL2 headers and archives with the native system SDL2 pkg-config target.",
+        "source": "Downstream adaptation of Milton 1.9.1 CMakeLists.txt",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream resolves SDL2 portably on Linux instead of linking prebuilt x86_64 archives."
+      },
+      {
+        "file": "patches/0003-guard-x86-intrinsics.patch",
+        "sha256": "8d1329635310a050a33b4e1cacd42893a884d103ca7cdcaa384ce29057d4a1d9",
+        "purpose": "Avoid including x86-only intrinsic headers on RISC-V when the source does not use their APIs.",
+        "source": "Downstream adaptation of Milton 1.9.1 src/system_includes.h",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream guards or removes the unused x86 intrinsic includes."
+      },
+      {
+        "file": "patches/0004-fix-gcc14-cxx-errors.patch",
+        "sha256": "63b21deff6646d33a1850b04478188e1901477ba34a9d5b7ad642a7b03baf3cd",
+        "purpose": "Keep C++ platform headers outside C linkage and pass localized UI text through explicit formats for GCC 14.",
+        "source": "Downstream adaptation of Milton 1.9.1 src/platform.h and src/gui.cc",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream keeps C++ headers outside C linkage and uses explicit formats for localized UI text."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "milton.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "milton",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "milton",
+    "summary": "An infinite-canvas paint program"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-serge-rgb-milton",
+    "homepage": "https://github.com/serge-rgb/milton",
+    "release_api": "https://api.github.com/repos/serge-rgb/milton/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/serge-rgb/milton",
+    "source_url_template": "https://github.com/serge-rgb/milton/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.9.1",
+    "latest_detected": "1.9.1",
+    "release": "8"
+  }
+}
