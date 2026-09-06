@@ -1,0 +1,21 @@
+{
+  "package_id": "clib",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "83d5767e363c3ed4b4271000b9ce63b6e11b6c4740df910e0074f844fb34258e"
+      },
+      "filename": "clib-2.8.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/clibs/clib/archive/refs/tags/2.8.7.tar.gz",
+      "version": "2.8.7"
+    }
+  ]
+}
