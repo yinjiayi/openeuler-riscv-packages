@@ -1,0 +1,23 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 240},
+  "discovery": {
+    "lineage": [
+      {"evidence_url": "https://archlinux.org/packages/core/x86_64/libtool/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libtool", "package_name": "libtool", "source": "arch-core", "source_version": "2.6.2-3"},
+      {"evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libtool", "observed_at": "2026-08-08T16:50:00Z", "package_base": "android-riscv64-libtool", "package_name": "android-riscv64-libtool", "source": "aur", "source_version": "2.6.0-1"},
+      {"evidence_url": "https://packages.debian.org/trixie/source/libtool", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libtool", "package_name": "libtool", "source": "debian", "source_version": "2.5.4-4"},
+      {"evidence_url": "https://packages.fedoraproject.org/pkgs/libtool/libtool/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libtool", "package_name": "libtool", "source": "fedora", "source_version": "2.5.4-10.fc44"},
+      {"evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libtool", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libtool", "package_name": "libtool", "source": "opensuse-tumbleweed", "source_version": "2.6.2-1.2"},
+      {"evidence_url": "https://packages.ubuntu.com/resolute/source/libtool", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libtool", "package_name": "libtool", "source": "ubuntu", "source_version": "2.5.4-9"}
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "libtool.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "The immutable snapshot exactly records all six lineage tuples. The AUR Android riscv64 row is non-native cross-target metadata only; no AUR recipe or distribution spec was read or executed. GNU Libtool 2.6.2 stable bytes were independently pinned. The complete upstream Autotest suite remains enabled with C, C++, and Fortran compilers present. Static libltdl is built because upstream tests require it, then omitted from the installed RPM without removing tests.", "status": "active"},
+  "package_id": "libtool",
+  "rpm": {"license": "GPL-2.0-or-later AND GPL-2.0-or-later WITH Autoconf-exception-generic AND GPL-2.0-or-later WITH Libtool-exception AND LGPL-2.0-or-later WITH Libtool-exception AND GPL-3.0-or-later WITH Autoconf-exception-generic-3.0 AND MIT AND FSFAP AND FSFULLR AND FSFULLRWD AND GFDL-1.3-or-later AND X11", "name": "libtool", "summary": "Generic library support scripts"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "gnu-ftp-index"},
+  "upstream": {"component": "gnu.org-software-libtool", "homepage": "https://www.gnu.org/software/libtool/", "release_api": "https://ftp.gnu.org/gnu/libtool/", "release_channel": "stable", "release_regex": "libtool-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz", "source_repository": "https://git.savannah.gnu.org/git/libtool.git", "source_url_template": "https://ftp.gnu.org/gnu/libtool/libtool-{version}.tar.xz"},
+  "version": {"current": "2.6.2", "latest_detected": "2.6.2", "release": "1"}
+}
