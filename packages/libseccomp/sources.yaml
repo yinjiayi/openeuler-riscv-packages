@@ -1,0 +1,21 @@
+{
+  "package_id": "libseccomp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "501f66c667225d53791b97e1d7cf85ab764c297d04881f60f38f451c4b0ee1be"
+      },
+      "filename": "libseccomp-2.6.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/seccomp/libseccomp/releases/download/v2.6.1/libseccomp-2.6.1.tar.gz",
+      "version": "2.6.1"
+    }
+  ]
+}
