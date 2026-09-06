@@ -17,7 +17,7 @@ SIMD kernels for mixed-precision BLAS-like numerics.
 %autosetup -p1 -n NumKong-%{version}
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake_conf -DNK_BUILD_TEST=ON
 %cmake_build
 
 %install
