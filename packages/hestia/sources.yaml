@@ -1,0 +1,21 @@
+{
+  "package_id": "hestia",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e0888a417330f0a6eaad2508be5ff4c188f3fbae3a31f734faf6a0383b6e9856"
+      },
+      "filename": "hestia-0.2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/vbextreme/hestia/archive/refs/tags/v0.2.2.tar.gz",
+      "version": "0.2.2"
+    }
+  ]
+}
