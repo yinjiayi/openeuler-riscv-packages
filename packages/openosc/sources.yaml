@@ -1,0 +1,21 @@
+{
+  "package_id": "openosc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5cb8701c703b810b75f83e580439a09f2593a1d7cbb57b43753b8da941a09838"
+      },
+      "filename": "openosc-1.0.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cisco/openosc/archive/refs/tags/v1.0.6.tar.gz",
+      "version": "1.0.6"
+    }
+  ]
+}
