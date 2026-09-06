@@ -1,0 +1,21 @@
+{
+  "package_id": "mcds",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ac04f43f62e856cfeb9222d73d6a1d08f9514434f9e396f006d2e5b1543a50e5"
+      },
+      "filename": "mcds-1.10.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/t-brown/mcds/archive/refs/tags/v1.10.tar.gz",
+      "version": "1.10"
+    }
+  ]
+}
