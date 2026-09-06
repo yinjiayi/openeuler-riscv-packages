@@ -1,0 +1,21 @@
+{
+  "package_id": "distro-rack",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "58cf82c12f13c2b506fa9be32e4c3e5a66e2c5b0d149411a5d749b4f0b671c09"
+      },
+      "filename": "distro-rack-0.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/BLumia/distro-rack/archive/refs/tags/0.2.1.tar.gz",
+      "version": "0.2.1"
+    }
+  ]
+}
