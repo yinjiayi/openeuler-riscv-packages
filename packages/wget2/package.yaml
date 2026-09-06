@@ -1,0 +1,110 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/wget2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "wget2",
+        "package_name": "wget2",
+        "source": "aur",
+        "source_version": "2.2.1-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/wget2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "wget2",
+        "package_name": "wget2",
+        "source": "debian",
+        "source_version": "2.2.0+ds-1+deb13u1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/wget2/wget2/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "wget2",
+        "package_name": "wget2",
+        "source": "fedora",
+        "source_version": "2.2.1-2.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/wget2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "wget2",
+        "package_name": "wget2",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.2.1-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/wget2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "wget2",
+        "package_name": "wget2",
+        "source": "ubuntu",
+        "source_version": "2.2.0+ds-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-libproxy-prefer-explicit-proxy.patch",
+        "license": "LGPL-3.0-or-later",
+        "purpose": "Honor explicit HTTP/HTTPS proxy and no-proxy settings before falling back to libproxy, so local proxy-backed integration tests and user configuration retain precedence.",
+        "remove_when": "Upstream makes explicit libwget proxy vectors take precedence over libproxy discovery.",
+        "sha256": "91ad3a7be59edf53ba5642baeba6d45bf8dd22339b4504f9e7aefef668cded3e",
+        "source": "Package CI run 33707472814 at exact commit 2d4bc5e071fb7e0e78893ba0744443e892f80b17 and static review of GNU Wget2 2.2.1 libwget/http.c.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "wget2.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official GNU 2.2.1 release bytes are SHA-256 pinned; libwget.so.4 is preserved and the complete serial suite remains enabled with local HTTP and TLS test dependencies. Test-suite diagnostics are emitted when that complete suite fails. Release 3 retains optional libproxy discovery while giving explicit libwget and command-line proxy settings precedence, after exact-head CI showed three IDN tests bypassing their local proxy and attempting DNS resolution. Release 4 packages the installed Wget2 manual and removes the upstream test-only wget2_noinstall helper from the runtime image after exact-head CI completed all 83 tests but rejected those two unpackaged files. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "wget2",
+  "rpm": {
+    "license": "GPL-3.0-or-later AND LGPL-3.0-or-later AND GFDL-1.3-or-later",
+    "name": "wget2",
+    "summary": "Modern non-interactive network downloader"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-gnu-index"
+  },
+  "upstream": {
+    "component": "gitlab.com-gnuwget-wget2",
+    "homepage": "https://gitlab.com/gnuwget/wget2",
+    "release_api": "https://ftp.gnu.org/gnu/wget/",
+    "release_channel": "stable",
+    "release_regex": "wget2-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://gitlab.com/gnuwget/wget2",
+    "source_url_template": "https://ftp.gnu.org/gnu/wget/wget2-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.2.1",
+    "latest_detected": "2.2.1",
+    "release": "4"
+  }
+}
