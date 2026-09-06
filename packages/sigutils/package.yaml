@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/BatchDrake/sigutils",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sigutils",
+        "package_name": "sigutils",
+        "source": "arch-extra",
+        "source_version": "0.3.0-5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-stabilize-single-precision-dsp-tests.patch",
+        "license": "LGPL-3.0-or-later",
+        "purpose": "Keep all 18 upstream DSP tests meaningful on the fixed single-precision riscv64 build by refreshing NCQO quadrature caches after phase changes, using precision-derived zero tolerances, exercising channel discovery rather than spectrum-only mode, and checking processed AGC output.",
+        "remove_when": "Upstream releases equivalent NCQO phase-cache refresh behavior and single-precision zero tolerances, explicit discovery-mode detector tests, and the corrected AGC output assertion.",
+        "sha256": "3bce2d1379376c2fb664b2aeaad3ed85dfc3d111170a717a6af1cda8191cc868",
+        "source": "Downstream openEuler RISC-V CI repair based on the verified upstream v0.3.0 test sources.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "sigutils.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The fixed openEuler target repository provides the required sndfile and fftw3f pkg-config capabilities; CMake Threads resolves through the CMake and glibc development closure. Upstream's sutest harness invokes all 18 test entries directly because upstream does not register them with CTest; its real-capture entry retains the upstream self-skip when the optional sample is absent from the release archive. The downstream patch preserves all entries while refreshing the NCQO quadrature cache after phase changes, binding zero assertions to floating-point precision, selecting discovery mode for channel lookup, and checking processed AGC output. VOLK remains an explicitly optional acceleration path and is not required because the fixed target repository does not provide pkgconfig(volk). External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "sigutils",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "sigutils",
+    "summary": "Small signal processing utility library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-batchdrake-sigutils",
+    "homepage": "https://batchdrake.github.io/sigutils",
+    "release_api": "https://api.github.com/repos/BatchDrake/sigutils/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/BatchDrake/sigutils",
+    "source_url_template": "https://github.com/BatchDrake/sigutils/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.3.0",
+    "latest_detected": "0.3.0",
+    "release": "8"
+  }
+}
