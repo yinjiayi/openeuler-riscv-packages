@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libpaper
-Version:        2.2.8
+Version:        2.3.0
 Release:        1%{?dist}
 Summary:        Library and utilities for handling paper sizes
 License:        LGPL-2.1-or-later AND GPL-2.0-only AND GPL-3.0-or-later AND MIT AND LicenseRef-Public-Domain
 URL:            https://github.com/rrthomas/libpaper
-Source0:        libpaper-%{version}.tar.gz
+Source0:        libpaper-2.3.0.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  help2man
