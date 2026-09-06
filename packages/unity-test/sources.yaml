@@ -1,0 +1,21 @@
+{
+  "package_id": "unity-test",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b41a66d45a6b99758fb3202ace6178177014d52fc524bf1f72687d93e9867292"
+      },
+      "filename": "unity-test-2.6.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/throwtheswitch/unity/archive/refs/tags/v2.6.1.tar.gz",
+      "version": "2.6.1"
+    }
+  ]
+}
