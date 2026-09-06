@@ -24,17 +24,15 @@ Remove-When: An upstream release supports GCC RISC-V function-specific target
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -233,4 +233,10 @@
- # spare extents and trap (#DE / SIGFPE); see shape_storage_::normalize_spare_.
- include(CheckIPOSupported)
- check_ipo_supported(RESULT NK_IPO_SUPPORTED_ OUTPUT NK_IPO_SUPPORT_OUTPUT_)
+@@ -236 +236,7 @@
+-if (NOT NK_IPO_SUPPORTED_)
 +if (NK_IS_64BIT_RISCV_ AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 +    # GCC 14 can compile the RVV builtins, but its LTO pass cannot lower them.
 +    # Keep base RVV support and disable only interprocedural optimization.
 +    set(NK_IPO_SUPPORTED_ FALSE)
 +    set(NK_IPO_SUPPORT_OUTPUT_ "disabled for GCC RISC-V target-specific builtins")
 +endif ()
- if (NOT NK_IPO_SUPPORTED_)
++if (NOT NK_IPO_SUPPORTED_)
 @@ -263,3 +263,10 @@
      elseif (NK_IS_64BIT_RISCV_)
 -        add_compile_options(-march=rv64gc)
