@@ -142,6 +142,28 @@ def main() -> int:
         ):
             if marker not in bootstrap:
                 errors.append(f"authenticated bootstrap download is missing: {marker}")
+        for marker in (
+            "/bootstrap/run-dnf-transaction",
+            "--evidence /evidence/bootstrap-dnf-transaction.json",
+            "--budget-seconds 7300",
+            "--attempt-timeouts-seconds 4200,3000",
+            "--setopt keepcache=True",
+        ):
+            if marker not in bootstrap:
+                errors.append(
+                    "bootstrap payload download is missing its bounded "
+                    f"single-stream policy: {marker}"
+                )
+        if "--setopt keepcache=False" in bootstrap:
+            errors.append(
+                "bootstrap payload downloads must retain completed RPMs during the transaction"
+            )
+        if "COPY ci/run-dnf-transaction /bootstrap/run-dnf-transaction" not in containerfile:
+            errors.append("bootstrap image does not copy the bounded DNF transaction runner")
+        if image_workflow.count("- ci/run-dnf-transaction") < 2:
+            errors.append("Build CI Image does not rebuild when the DNF transaction runner changes")
+        if "sha256sum ci/run-dnf-transaction" not in image_workflow:
+            errors.append("Build CI Image does not record the DNF transaction runner checksum")
         transaction_marker = "dnf -y"
         export_marker = 'rpmdb --root "$rootfs" --exportdb'
         if (

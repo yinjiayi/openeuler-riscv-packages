@@ -117,15 +117,24 @@ packages=(
   python3 rpm rpm-build sed shadow tar unzip util-linux which xz
 )
 
-dnf -y \
-  --installroot "$rootfs" \
-  --forcearch riscv64 \
-  --setopt reposdir=/bootstrap/repos \
-  --setopt install_weak_deps=False \
-  --setopt keepcache=False \
-  --disablerepo='*' \
-  --enablerepo=openeuler-rva23 \
-  install "${packages[@]}"
+# The official endpoint is bandwidth-constrained and has repeatedly reset
+# concurrent HTTP/2 streams. Serialize payloads and retain completed downloads
+# across two bounded transaction attempts; the disposable cache is removed below.
+/bootstrap/run-dnf-transaction \
+  --evidence /evidence/bootstrap-dnf-transaction.json \
+  --budget-seconds 7300 \
+  --attempt-timeouts-seconds 4200,3000 \
+  --retry-delay-seconds 5 \
+  --kill-after-seconds 30 \
+  -- dnf -y \
+    --installroot "$rootfs" \
+    --forcearch riscv64 \
+    --setopt reposdir=/bootstrap/repos \
+    --setopt install_weak_deps=False \
+    --setopt keepcache=True \
+    --disablerepo='*' \
+    --enablerepo=openeuler-rva23 \
+    install "${packages[@]}"
 
 # Record the database path actually used by the bootstrap RPM implementation.
 # The target stage never copies this backend-specific database. It imports the
@@ -187,6 +196,8 @@ cmp -s /evidence/rpmdb-header-list.bin /evidence/rpmdb-header-list-roundtrip.bin
   || die "portable RPM database header stream is not an exact round trip"
 
 install -d -m 0755 "$rootfs/usr/share/openeuler-riscv-ci" "$rootfs/etc/yum.repos.d"
+install -m 0644 /evidence/bootstrap-dnf-transaction.json \
+  "$rootfs/usr/share/openeuler-riscv-ci/bootstrap-dnf-transaction.json"
 root_key=$(find "$rootfs/etc/pki/rpm-gpg" -type f -name 'RPM-GPG-KEY-openEuler*' -print -quit)
 [[ -n $root_key ]] || die "installed rootfs does not contain the openEuler signing key"
 root_key_path=${root_key#"$rootfs"}

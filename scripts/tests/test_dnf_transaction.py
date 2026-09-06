@@ -69,21 +69,28 @@ class DnfTransactionTests(unittest.TestCase):
                 """
 count_file=${DNF_TEST_COUNT:?}
 args_file=${DNF_TEST_ARGS:?}
+cache_file=${DNF_TEST_CACHE:?}
 count=0
 [[ ! -f $count_file ]] || count=$(cat "$count_file")
 count=$((count + 1))
 printf '%s' "$count" >"$count_file"
 printf '%s\\n' "$*" >>"$args_file"
-((count > 1)) || exit 92
+if ((count == 1)); then
+  printf cached >"$cache_file"
+  exit 92
+fi
+[[ -f $cache_file ]]
 """,
             )
             os.environ["DNF_TEST_COUNT"] = str(root / "count")
             os.environ["DNF_TEST_ARGS"] = str(root / "args")
+            os.environ["DNF_TEST_CACHE"] = str(root / "cache")
             try:
                 completed = invoke(root, timeouts="2,2", budget=6)
             finally:
                 os.environ.pop("DNF_TEST_COUNT", None)
                 os.environ.pop("DNF_TEST_ARGS", None)
+                os.environ.pop("DNF_TEST_CACHE", None)
             self.assertEqual(completed.returncode, 0, completed.stderr)
             evidence_path = root / "transaction.json"
             self.assertEqual(evidence_path.stat().st_mode & 0o777, 0o644)
@@ -101,9 +108,11 @@ printf '%s\\n' "$*" >>"$args_file"
                     "--setopt=max_parallel_downloads=1",
                 ],
             )
-            arguments = (root / "args").read_text(encoding="utf-8")
-            self.assertIn("--setopt=minrate=1000", arguments)
-            self.assertNotIn("--setopt=minrate=1 ", arguments)
+            argument_lines = (root / "args").read_text(encoding="utf-8").splitlines()
+            self.assertEqual(len(argument_lines), 2)
+            self.assertEqual(argument_lines[0], argument_lines[1])
+            self.assertIn("--setopt=minrate=1000", argument_lines[0])
+            self.assertNotIn("--setopt=minrate=1 ", argument_lines[0])
 
     def test_timeout_terminates_the_dnf_process_group_and_fails_closed(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
