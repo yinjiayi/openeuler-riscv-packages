@@ -1,0 +1,21 @@
+{
+  "package_id": "ghostmirror",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6e4ae9685ca4d82e6202336d0ec27387b676473110d453171b194145c5b234cc"
+      },
+      "filename": "ghostmirror-0.18.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/vbextreme/ghostmirror/archive/refs/tags/v0.18.5.tar.gz",
+      "version": "0.18.5"
+    }
+  ]
+}
