@@ -1,0 +1,21 @@
+{
+  "package_id": "pins",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d83d35504b51ada88b5ff968e7bc9bc3fde293caa55c5e840e530eab6c47cdbf"
+      },
+      "filename": "pins-2.4.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fabrialberio/Pins/archive/refs/tags/v2.4.6.tar.gz",
+      "version": "2.4.6"
+    }
+  ]
+}
