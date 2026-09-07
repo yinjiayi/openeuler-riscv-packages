@@ -35,7 +35,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-linux-declare-sendfile-and-sched-affinity.patch",
+        "license": "MIT",
+        "purpose": "Declare the detected Linux sendfile and CPU affinity interfaces without disabling either feature.",
+        "remove_when": "Upstream includes sys/sendfile.h and enables GNU sched_setaffinity declarations before system headers.",
+        "sha256": "31a50e800b1e35103d91b380f58d2514ec7cf8918d1406786dd503e5c5c977eb",
+        "source": "Fedora netperf-c99.patch plus openEuler RISC-V package CI failure analysis.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "netperf.spec"
@@ -79,6 +89,6 @@
   "version": {
     "current": "2.7.0",
     "latest_detected": "2.7.0",
-    "release": "2"
+    "release": "3"
   }
 }

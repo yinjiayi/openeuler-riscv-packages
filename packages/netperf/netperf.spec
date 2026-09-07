@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           netperf
 Version:        2.7.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Benchmarking tool for many different types of networking
 License:        MIT
 URL:            https://github.com/HewlettPackard/netperf
 Source0:        netperf-2.7.0.tar.gz
+Patch0:         patches/0001-linux-declare-sendfile-and-sched-affinity.patch
 BuildRequires:  gcc
 BuildRequires:  make
 
@@ -35,6 +36,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-3
+- Declare the Linux sendfile and CPU affinity interfaces for GCC 14.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-2
 - Use the verified GitHub tag archive's actual top-level source directory.
 
