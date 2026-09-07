@@ -45,6 +45,21 @@ workflow_url="https://github.com/$repo/actions/workflows/package-ci.yml"
 run_url=$workflow_url
 finalized=false
 
+[[ ${GITHUB_RUN_ID:-} =~ ^[1-9][0-9]*$ && ${GITHUB_RUN_ATTEMPT:-} =~ ^[1-9][0-9]*$ ]] || {
+  printf 'dispatch-required-checks: missing workflow run identity\n' >&2
+  exit 2
+}
+[[ ${GITHUB_REF:-} == refs/heads/main ]] || {
+  printf 'dispatch-required-checks: caller is not running from protected main\n' >&2
+  exit 2
+}
+case ${GITHUB_WORKFLOW_REF:-} in
+  "$repo/.github/workflows/build-ci-image.yml@refs/heads/main"|\
+  "$repo/.github/workflows/catalog-discovery.yml@refs/heads/main") ;;
+  *) printf 'dispatch-required-checks: caller workflow is not allowlisted\n' >&2; exit 2 ;;
+esac
+dispatch_nonce="${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${pr_number}"
+
 current_pr() {
   gh api "repos/$repo/pulls/$pr_number"
 }
@@ -53,10 +68,13 @@ verify_head() {
   local current
   current=$(current_pr)
   [[ $(jq -r .state <<<"$current") == open ]]
+  [[ $(jq -r .merged <<<"$current") == false ]]
   [[ $(jq -r .head.repo.full_name <<<"$current") == "$repo" ]]
   [[ $(jq -r .head.ref <<<"$current") == "$ref" ]]
   [[ $(jq -r .head.sha <<<"$current") == "$head_sha" ]]
   [[ $(jq -r .base.sha <<<"$current") == "$base_sha" ]]
+  [[ $(jq -r .base.ref <<<"$current") == main ]]
+  [[ $(jq -r '.auto_merge == null' <<<"$current") == true ]]
 }
 
 post_status() {
@@ -82,17 +100,22 @@ for context in "${required[@]}"; do
   post_status "$context" pending 'Waiting for exact-head Package CI job' "$workflow_url"
 done
 
-before_runs=$(gh run list --repo "$repo" --workflow package-ci.yml --branch "$ref" \
-  --event workflow_dispatch --limit 30 --json databaseId,headSha)
-before_ids=$(jq --arg head "$head_sha" '[.[] | select(.headSha == $head) | .databaseId]' <<<"$before_runs")
-gh workflow run package-ci.yml --repo "$repo" --ref "$ref" -f "base_sha=$base_sha" >/dev/null
+expected_name="Package CI PR $pr_number $head_sha $dispatch_nonce"
+before_runs=$(gh run list --repo "$repo" --workflow package-ci.yml --branch main \
+  --event workflow_dispatch --limit 100 --json databaseId,displayTitle,headSha)
+before_ids=$(jq --arg name "$expected_name" --arg base "$base_sha" \
+  '[.[] | select(.displayTitle == $name and .headSha == $base) | .databaseId]' <<<"$before_runs")
+gh workflow run package-ci.yml --repo "$repo" --ref main \
+  -f "commit_sha=$head_sha" -f "pr_number=$pr_number" \
+  -f "base_sha=$base_sha" -f "dispatch_nonce=$dispatch_nonce" \
+  -f publish_to_repo=false >/dev/null
 
 run_id=
 for _ in {1..30}; do
-  candidates=$(gh run list --repo "$repo" --workflow package-ci.yml --branch "$ref" \
-    --event workflow_dispatch --limit 30 --json databaseId,headSha,status,conclusion,url)
-  run_id=$(jq -r --arg head "$head_sha" --argjson before "$before_ids" \
-    '[.[] | select(.headSha == $head and ((.databaseId as $id | $before | index($id)) == null))][0].databaseId // empty' \
+  candidates=$(gh run list --repo "$repo" --workflow package-ci.yml --branch main \
+    --event workflow_dispatch --limit 100 --json databaseId,displayTitle,headSha,status,conclusion,url)
+  run_id=$(jq -r --arg name "$expected_name" --arg base "$base_sha" --argjson before "$before_ids" \
+    '[.[] | select(.displayTitle == $name and .headSha == $base and ((.databaseId as $id | $before | index($id)) == null))][0].databaseId // empty' \
     <<<"$candidates")
   [[ -n $run_id ]] && break
   sleep 2
@@ -105,32 +128,47 @@ gh run watch "$run_id" --repo "$repo" --exit-status --interval 5
 watch_status=$?
 set -e
 
-run=$(gh run view "$run_id" --repo "$repo" --json status,conclusion,headSha,jobs,url)
-[[ $(jq -r .status <<<"$run") == completed ]]
-[[ $(jq -r .headSha <<<"$run") == "$head_sha" ]]
-verify_head
+run_api=$(gh api "repos/$repo/actions/runs/$run_id")
+jq -e --argjson id "$run_id" --arg name "$expected_name" --arg base "$base_sha" \
+  '.id == $id and .status == "completed" and .conclusion == "success" and
+   .display_title == $name and .event == "workflow_dispatch" and
+   .head_branch == "main" and .head_sha == $base and
+   .path == ".github/workflows/package-ci.yml"' <<<"$run_api" >/dev/null || {
+  printf 'dispatch-required-checks: terminal API run identity or conclusion is invalid\n' >&2
+  exit 1
+}
+run=$(gh run view "$run_id" --repo "$repo" --json status,conclusion,displayTitle,headSha,jobs,url)
+jq -e --arg name "$expected_name" --arg base "$base_sha" \
+  '.status == "completed" and .conclusion == "success" and
+   .displayTitle == $name and .headSha == $base' <<<"$run" >/dev/null || {
+  printf 'dispatch-required-checks: terminal workflow view is inconsistent\n' >&2
+  exit 1
+}
+verify_head || { printf 'dispatch-required-checks: PR lease changed after the run\n' >&2; exit 1; }
 
 all_success=true
 summary='[]'
 for context in "${required[@]}"; do
   match_count=$(jq --arg context "$context" '[.jobs[] | select(.name == $context)] | length' <<<"$run")
   conclusion=$(jq -r --arg context "$context" '[.jobs[] | select(.name == $context)][0].conclusion // "missing"' <<<"$run")
-  if [[ $match_count == 1 && $conclusion == success ]]; then
-    state=success
-  else
-    state=failure
+  if [[ $match_count != 1 || $conclusion != success ]]; then
     all_success=false
   fi
-  post_status "$context" "$state" "Package CI job: $conclusion" "$run_url"
   summary=$(jq --arg name "$context" --arg conclusion "$conclusion" '. + [{name:$name,conclusion:$conclusion}]' <<<"$summary")
 done
-finalized=true
+[[ $all_success == true ]] || {
+  printf 'dispatch-required-checks: one or more required jobs did not succeed exactly once\n' >&2
+  exit 1
+}
+for context in "${required[@]}"; do
+  post_status "$context" success 'Protected-main Package CI job: success' "$run_url"
+done
 
 document=$(jq -n --argjson schema_version 1 --arg kind bot-pr-required-checks \
   --arg repo "$repo" --argjson pr_number "$pr_number" --arg ref "$ref" \
   --arg head_sha "$head_sha" --arg base_sha "$base_sha" --argjson run_id "$run_id" \
-  --arg run_url "$run_url" --argjson checks "$summary" --argjson success "$all_success" \
-  '{schema_version:$schema_version,kind:$kind,repository:$repo,pr_number:$pr_number,ref:$ref,head_sha:$head_sha,base_sha:$base_sha,run_id:$run_id,run_url:$run_url,checks:$checks,success:$success}')
+  --arg run_url "$run_url" --arg nonce "$dispatch_nonce" --argjson checks "$summary" --argjson success "$all_success" \
+  '{schema_version:$schema_version,kind:$kind,repository:$repo,pr_number:$pr_number,ref:$ref,head_sha:$head_sha,base_sha:$base_sha,dispatch_nonce:$nonce,run_id:$run_id,run_url:$run_url,checks:$checks,success:$success}')
 if [[ -n $output ]]; then
   mkdir -p "$(dirname "$output")"
   temporary="${output}.tmp.$$"
@@ -139,5 +177,6 @@ if [[ -n $output ]]; then
 else
   printf '%s\n' "$document"
 fi
+finalized=true
 
-[[ $watch_status == 0 && $all_success == true ]]
+[[ $all_success == true ]]

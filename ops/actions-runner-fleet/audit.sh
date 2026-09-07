@@ -47,6 +47,9 @@ for directory in "$runner_dir/_work" "$runner_dir/_diag" "$runner_dir/_state"; d
 done
 command -v docker >/dev/null || oe_die 'Docker client is missing'
 docker info >/dev/null 2>&1 || oe_die 'Docker is unavailable'
+oe_load_cleanup_image_lock "$oe_runner_config/cleanup-image.lock"
+docker image inspect "$CLEANUP_IMAGE_REF" >/dev/null 2>&1 \
+  || oe_die 'digest-locked cleanup image is not cached'
 command -v qemu-riscv64 >/dev/null || oe_die 'qemu-riscv64 is missing'
 [[ -r /proc/sys/fs/binfmt_misc/qemu-riscv64 ]] || oe_die 'qemu-riscv64 binfmt is missing'
 
