@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           kfr
 Version:        7.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Fast, modern C++ DSP framework, FFT, Sample Rate Conversion, FIR/IIR/Biquad Filters
 License:        GPL-2.0-or-later
 URL:            https://github.com/kfrlib/kfr
 Source0:        kfr-7.0.1.tar.gz
 BuildRequires:  cmake
+BuildRequires:  clang
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
@@ -18,7 +19,14 @@ Fast, modern C++ DSP framework, FFT, Sample Rate Conversion, FIR/IIR/Biquad Filt
 %autosetup -p1
 
 %build
-%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
+export CC=clang
+export CXX=clang++
+export CFLAGS="${CFLAGS} -march=rv64gcv"
+export CXXFLAGS="${CXXFLAGS} -march=rv64gcv"
+%cmake -S . -B %{_vpath_builddir} \
+  -DKFR_ARCH=rvv \
+  -DENABLE_TESTS=ON \
+  -DENABLE_EXAMPLES=OFF
 %cmake_build
 
 %install
@@ -34,5 +42,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 7.0.1-2
+- Build the supported RISC-V Vector backend with Clang and register upstream tests.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 7.0.1-1
 - Initial openEuler RISC-V package from the full package inventory.

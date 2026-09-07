@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 follows upstream's RISC-V contract by using Clang with the RV64GCV target and KFR's RVV backend. The package enables upstream's actual ENABLE_TESTS switch and runs the registered CTest suite. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "kfr",
@@ -63,6 +63,6 @@
   "version": {
     "current": "7.0.1",
     "latest_detected": "7.0.1",
-    "release": "1"
+    "release": "2"
   }
 }
