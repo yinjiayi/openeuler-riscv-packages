@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           contour
 Version:        0.6.3.8249
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Modern C++ Terminal Emulator
 License:        Apache-2.0
 URL:            https://github.com/contour-terminal/contour
@@ -23,6 +23,7 @@ BuildRequires:  make
 BuildRequires:  pkgconf
 BuildRequires:  qt6-qtbase-devel
 BuildRequires:  qt6-qtbase-gui
+BuildRequires:  qt6-qtbase-private-devel
 BuildRequires:  qt6-qtdeclarative-devel
 BuildRequires:  qt6-qtmultimedia-devel
 BuildRequires:  qt6-qtwayland-devel
@@ -51,6 +52,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.6.3.8249-5
+- Add the matching Qt 6 private headers required by the exported Wayland private target.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.6.3.8249-4
 - Load Qt's private Wayland target through the public component exported by openEuler Qt 6.5.
 
