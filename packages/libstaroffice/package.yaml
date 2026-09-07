@@ -78,7 +78,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 3 validates the public header at the upstream-installed, ABI-versioned include path.",
     "status": "active"
   },
   "package_id": "libstaroffice",
@@ -113,6 +113,6 @@
   "version": {
     "current": "0.0.8",
     "latest_detected": "0.0.8",
-    "release": "2"
+    "release": "3"
   }
 }

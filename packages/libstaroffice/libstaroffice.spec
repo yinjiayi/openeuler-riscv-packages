@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libstaroffice
 Version:        0.0.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        filter for old StarOffice documents(.sdc, .sdw, ...) based on librevenge
 License:        LGPL-2.1-or-later
 URL:            https://github.com/fosnola/libstaroffice
@@ -44,6 +44,9 @@ cmp regression/Calc3.1/nimp.sdc.csv nimp.actual.csv
 %doc NEWS
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.0.8-3
+- Validate the installed public header under its versioned include directory.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.0.8-2
 - Accept openEuler Autoconf 2.71 and declare the complete build dependencies.
 - Verify the built spreadsheet converter against the pinned regression fixture.
