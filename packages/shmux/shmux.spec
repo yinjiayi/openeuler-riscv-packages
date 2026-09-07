@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           shmux
 Version:        1.0.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        shmux - executing the same command on many hosts in parallel.
 License:        BSD-3-Clause
 URL:            https://github.com/shmux/shmux
@@ -27,6 +27,7 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
+ulimit -n 1024
 %make_build test
 
 %files -f %{name}.files
@@ -34,6 +35,10 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.3-3
+- Bound the test file-descriptor limit to avoid a QEMU-amplified close loop.
+- Keep all upstream command, analyzer, exit-code, and timer tests enabled.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.3-2
 - Declare terminal and PCRE development dependencies and run the upstream test target.
 
