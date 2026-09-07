@@ -13,4 +13,9 @@ test-only soft file-descriptor limit to 1024. Upstream closes every descriptor
 up to `RLIMIT_NOFILE` for each child process; bounding that limit avoids a
 QEMU-amplified close loop and still exceeds the suite's maximum requirement.
 
+Release 4 keeps that complete test contract and routes it to native `riscv64`.
+The first timer test depends on `SIGALRM` plus staged process-group
+`SIGTERM`/`SIGKILL` handling and did not complete under QEMU user mode before
+the 3165-second package deadline.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

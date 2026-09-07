@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "The complete upstream test suite exercises alarm-driven child process groups and staged SIGTERM/SIGKILL escalation. Under QEMU user mode, the first timer test did not complete before the 3165-second package deadline, so native riscv64 validation is required.",
     "network_during_build": true,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 60
   },
   "discovery": {
@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 declares the terminal and PCRE development dependencies selected by the upstream configure script and invokes the real upstream make test target. Release 3 bounds the test-only file-descriptor limit because upstream closes every descriptor up to RLIMIT_NOFILE in each child; 1024 remains well above the suite's requirement while avoiding a QEMU-amplified close loop. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 declares the terminal and PCRE development dependencies selected by the upstream configure script and invokes the real upstream make test target. Release 3 bounds the test-only file-descriptor limit because upstream closes every descriptor up to RLIMIT_NOFILE in each child; 1024 remains well above the suite's requirement while avoiding a QEMU-amplified close loop. Release 4 preserves all tests and routes validation to native riscv64 after QEMU user mode exhausted the 3165-second deadline in the first signal- and timer-sensitive test. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "shmux",
@@ -43,7 +43,7 @@
     "isa": "RVA23",
     "os": "openEuler",
     "release": "24.03-LTS-SP3",
-    "riscv_status": "unknown"
+    "riscv_status": "qemu-limitation"
   },
   "updates": {
     "enabled": true,
@@ -63,6 +63,6 @@
   "version": {
     "current": "1.0.3",
     "latest_detected": "1.0.3",
-    "release": "3"
+    "release": "4"
   }
 }
