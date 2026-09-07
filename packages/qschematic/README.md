@@ -5,4 +5,6 @@ This directory packages upstream `https://github.com/simulton/QSchematic` versio
 
 Packaging release 2 selects the verified, case-sensitive `QSchematic-3.0.3` source archive root during `%prep`.
 
+Packaging release 3 declares the required Qt 6 development files and uses one explicit CMake build directory for configuration, build, installation, and CTest. Static and shared libraries plus the demo remain enabled.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
