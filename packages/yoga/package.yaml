@@ -38,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The complete upstream CMake test suite uses the distribution GoogleTest package instead of an unverified build-time download. Trusted exact-head run 34120074695 proved that dependencies, source verification, patching, and CMake configuration succeeded, then failed because the RPM build macro consumed an out-of-source directory that the preceding configuration had not created. Release 3 explicitly binds configuration to that same build directory. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The complete upstream CMake test suite uses the distribution GoogleTest package instead of an unverified build-time download. Trusted exact-head run 34121302611 built and installed the static Yoga archive successfully, but RPM rejected its automatically generated empty debuginfo file list; the same run showed that CTest was invoked above the subdirectory where upstream registers the tests. Release 4 disables only the inapplicable debuginfo subpackage for this static-only build and runs CTest from the tests build directory. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "yoga",
@@ -73,6 +73,6 @@
   "version": {
     "current": "3.2.1",
     "latest_detected": "3.2.1",
-    "release": "3"
+    "release": "4"
   }
 }

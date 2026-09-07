@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           yoga
 Version:        3.2.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform layout engine
 License:        MIT
 URL:            https://github.com/facebook/yoga
@@ -29,13 +31,17 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-ctest --test-dir %{_vpath_builddir} --output-on-failure
+ctest --test-dir %{_vpath_builddir}/tests --output-on-failure
 
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.1-4
+- Disable the empty debuginfo subpackage for the installed static archive.
+- Run CTest from the subdirectory where upstream registers the full test suite.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.1-3
 - Configure the explicit out-of-source directory consumed by the RPM CMake build macros.
 

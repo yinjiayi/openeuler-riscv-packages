@@ -5,5 +5,8 @@ This directory packages upstream `https://github.com/facebook/yoga` version `3.2
 
 The upstream CMake test suite remains enabled and uses openEuler's system
 GoogleTest package, avoiding an unverified network download during the build.
+CTest is invoked from the generated tests directory where upstream registers
+the complete suite. The installed Yoga library is a static archive, so the RPM
+does not generate an empty debuginfo subpackage.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
