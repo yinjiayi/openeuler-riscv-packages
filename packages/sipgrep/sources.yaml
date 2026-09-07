@@ -1,0 +1,21 @@
+{
+  "package_id": "sipgrep",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ee16c1efde73c8faa591f8d84b697b629fabf43806fb292893a3ba3f8cc9a290"
+      },
+      "filename": "sipgrep-2.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/sipcapture/sipgrep/archive/refs/tags/2.2.0.tar.gz",
+      "version": "2.2.0"
+    }
+  ]
+}

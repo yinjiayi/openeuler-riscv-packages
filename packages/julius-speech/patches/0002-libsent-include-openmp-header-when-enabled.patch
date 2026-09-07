@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 00:00:00 +0000
+Subject: [PATCH] libsent: include OpenMP declarations whenever enabled
+
+calc_dnn.c calls OpenMP runtime functions whenever the compiler defines
+_OPENMP, including on targets without an enabled SIMD implementation.  The
+omp.h include was incorrectly nested inside the SIMD feature conditional, so
+non-SIMD targets compiled those calls without declarations.  Include omp.h
+whenever OpenMP is enabled while leaving SIMD selection unchanged.
+
+Patch-Source: openEuler RISC-V package CI failure analysis
+Patch-License: BSD-3-Clause
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+Remove-When: Upstream includes omp.h whenever _OPENMP is defined in a stable release.
+---
+ libsent/src/phmm/calc_dnn.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/libsent/src/phmm/calc_dnn.c b/libsent/src/phmm/calc_dnn.c
+--- a/libsent/src/phmm/calc_dnn.c
++++ b/libsent/src/phmm/calc_dnn.c
+@@ -21,11 +21,12 @@
+ #include <sent/hmm.h>
+ #include <sent/hmm_calc.h>
+ 
+-#if defined(HAS_SIMD_FMA) || defined(HAS_SIMD_AVX) || defined(HAS_SIMD_SSE) || defined(HAS_SIMD_NEON) || defined(HAS_SIMD_NEONV2)
+-#define SIMD_ENABLED
+ #ifdef _OPENMP
+ #include <omp.h>
+ #endif /* _OPENMP */
++
++#if defined(HAS_SIMD_FMA) || defined(HAS_SIMD_AVX) || defined(HAS_SIMD_SSE) || defined(HAS_SIMD_NEON) || defined(HAS_SIMD_NEONV2)
++#define SIMD_ENABLED
+ #endif
+ 
+ static int use_simd = USE_SIMD_NONE;
+--
+2.50.1
