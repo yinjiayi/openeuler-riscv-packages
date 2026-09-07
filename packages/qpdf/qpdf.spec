@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           qpdf
 Version:        12.3.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        QPDF: A Content-Preserving PDF Transformation System
 License:        Apache-2.0
 URL:            https://github.com/qpdf/qpdf
@@ -12,6 +12,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  make
 BuildRequires:  openssl-devel
+BuildRequires:  perl
 BuildRequires:  zlib-devel
 
 %description
@@ -21,7 +22,8 @@ QPDF: A Content-Preserving PDF Transformation System
 %autosetup -p1
 
 %build
-%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} \
+  -DBUILD_STATIC_LIBS=OFF
 %cmake_build
 
 %install
@@ -38,5 +40,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc ChangeLog
 
 %changelog
+* Sun Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 12.3.2-2
+- Build only the shared library to avoid compiling libqpdf twice under QEMU.
+- Declare the Perl test runner used by the complete upstream CTest suite.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 12.3.2-1
 - Initial openEuler RISC-V package from the full package inventory.
