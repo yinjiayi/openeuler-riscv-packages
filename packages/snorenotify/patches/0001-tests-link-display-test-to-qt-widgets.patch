@@ -1,0 +1,27 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 00:00:00 +0000
+Subject: [PATCH] tests: link display test to Qt Widgets
+
+License: LGPL-3.0-or-later
+Upstream-Status: downstream-only
+Origin: openEuler RISC-V packaging
+
+Qt's QTEST_MAIN macro creates a QGuiApplication unless the test target is
+compiled with Qt Widgets support.  The display test loads the Trayicon backend,
+which explicitly requires QApplication, but its target currently links only
+Qt Test and libsnore.  Link Qt Widgets to this target so QTEST_MAIN creates the
+application class required by the backend while preserving the complete test.
+
+Remove this patch when upstream links display_test to Qt Widgets or otherwise
+constructs QApplication for the test.
+
+---
+ autotest/CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/autotest/CMakeLists.txt b/autotest/CMakeLists.txt
+--- a/autotest/CMakeLists.txt
++++ b/autotest/CMakeLists.txt
+@@ -15 +15,2 @@
+ ecm_add_tests( snorebenchmark.cpp display_test.cpp LINK_LIBRARIES Snore::Libsnore Qt5::Test)
++target_link_libraries(display_test Qt5::Widgets)

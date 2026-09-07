@@ -121,8 +121,11 @@ class MaterializePackageHeadTests(unittest.TestCase):
     def test_all_package_jobs_use_protected_tooling_and_exact_overlay(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
         protected_checkout = (
-            "ref: ${{ github.event.pull_request.base.sha || "
-            "github.event.merge_group.base_sha || github.sha }}"
+            "ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}"
+        )
+        immutable_candidate = (
+            "ref: ${{ (github.event_name == 'pull_request' || "
+            "github.event_name == 'merge_group') && github.workflow_sha || github.sha }}"
         )
         untrusted_checkout = (
             "ref: ${{ inputs.commit_sha != '' && github.sha || "
@@ -133,8 +136,17 @@ class MaterializePackageHeadTests(unittest.TestCase):
             "${{ inputs.commit_sha || github.event.pull_request.head.sha || "
             "github.event.merge_group.head_sha || github.sha }}"
         )
-        self.assertEqual(workflow.count(protected_checkout), 7)
+        self.assertEqual(workflow.count(immutable_candidate), 1)
+        self.assertEqual(workflow.count(protected_checkout), 8)
         self.assertNotIn(untrusted_checkout, workflow)
+        self.assertEqual(workflow.count("github.event.pull_request.base.sha"), 1)
+        self.assertIn(
+            "fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}",
+            workflow,
+        )
+        self.assertIn('--pr-number "$PR_NUMBER"', workflow)
+        self.assertIn('--package-head "$PACKAGE_HEAD"', workflow)
+        self.assertIn('--base-sha "$BASE_SHA"', workflow)
         self.assertEqual(workflow.count("ci/materialize-package-head.py --repo-root ."), 7)
         downstream_overlay = (
             "- name: Materialize only the exact package tree\n"
@@ -143,11 +155,37 @@ class MaterializePackageHeadTests(unittest.TestCase):
         self.assertEqual(workflow.count(downstream_overlay), 6)
         self.assertGreaterEqual(workflow.count(exact_package_head), 7)
         self.assertEqual(workflow.count('--tooling-sha "$TOOLING_COMMIT_SHA"'), 7)
+        self.assertEqual(
+            workflow.count(
+                "TOOLING_COMMIT_SHA: "
+                "${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}"
+            ),
+            7,
+        )
         self.assertIn("Classify the exact event delta with protected tooling", workflow)
         self.assertIn("Materialize only the exact package tree", workflow)
         self.assertIn('--tooling-head "$TOOLING_HEAD_SHA"', workflow)
         self.assertIn(
+            "TOOLING_HEAD_SHA: "
+            "${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}",
+            workflow,
+        )
+        self.assertIn(
+            "&& needs.authorize-trusted-dispatch.outputs.tooling_sha || "
+            "github.event.before || inputs.base_sha }}",
+            workflow,
+        )
+        self.assertIn(
             "--overlay-evidence artifacts/scope/tooling-overlay.json", workflow
+        )
+        self.assertIn(
+            "tooling_sha: ${{ steps.tooling.outputs.tooling_sha }}", workflow
+        )
+        self.assertIn("ci/resolve-protected-tooling.py", workflow)
+        self.assertIn(
+            "if: always() && github.event_name == 'pull_request' && "
+            "needs.authorize-trusted-dispatch.outputs.authorized == 'true'",
+            workflow,
         )
 
 
