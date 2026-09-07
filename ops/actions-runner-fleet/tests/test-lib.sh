@@ -34,6 +34,58 @@ oe_load_cleanup_image_lock "$source_dir/cleanup-image.lock"
 
 test_root=$(mktemp -d)
 trap 'rm -rf -- "$test_root"' EXIT
+
+fake_systemctl=$test_root/systemctl
+printf '#!/bin/sh\nexit 0\n' >"$fake_systemctl"
+chmod 0755 "$fake_systemctl"
+integrity_probe() (
+  local mismatch=${1:?}
+  oe_systemctl_path=$fake_systemctl
+  stat() {
+    printf '%s\n' root:root:755
+  }
+  dpkg-query() {
+    case ${1-} in
+      --search)
+        printf '%s\n' 'systemd: /usr/bin/systemctl'
+        ;;
+      --show)
+        printf 'systemd\tinstall ok installed\t259.5-0ubuntu3.4\n'
+        ;;
+      *)
+        return 2
+        ;;
+    esac
+  }
+  dpkg() {
+    [[ ${1-} == --verify && ${2-} == systemd && $# -eq 2 ]] || return 2
+    if [[ $mismatch == true ]]; then
+      printf '%s\n' '??5??????   /usr/bin/systemctl'
+    fi
+    return 0
+  }
+  oe_assert_systemctl_integrity
+)
+integrity_probe false
+if integrity_probe true 2>/dev/null; then
+  printf 'systemd verification output with rc=0 was accepted\n' >&2
+  exit 1
+fi
+
+systemctl_marker=$test_root/systemctl-called
+if (
+  oe_assert_systemctl_integrity() { oe_die 'simulated package-integrity failure'; }
+  oe_systemctl() { : >"$systemctl_marker"; }
+  oe_assert_platform false
+) 2>/dev/null; then
+  printf 'platform check accepted failed systemctl integrity\n' >&2
+  exit 1
+fi
+[[ ! -e $systemctl_marker ]] || {
+  printf 'systemctl ran before package integrity passed\n' >&2
+  exit 1
+}
+
 oe_runner_base=$test_root/base
 oe_runner_lock_dir=$oe_runner_base/.locks
 oe_runner_config=$test_root/config
@@ -49,16 +101,12 @@ if (oe_job_workspace "$work_dir" "$work_dir/_actions/pinned-action") 2>/dev/null
   printf 'Runner action cache was accepted as a job workspace\n' >&2
   exit 1
 fi
-oe_run() {
-  if [[ ${1-} == systemctl ]]; then
-    printf '%s\n' openeuler-actions-runner@.service "$(oe_service_name "$runner_name")"
-  else
-    command "$@"
-  fi
+oe_systemctl() {
+  printf '%s\n' openeuler-actions-runner@.service "$(oe_service_name "$runner_name")"
 }
 oe_check_no_other_runners "$runner_name"
 if (
-  oe_run() { printf '%s\n' actions.runner.unexpected.service; }
+  oe_systemctl() { printf '%s\n' actions.runner.unexpected.service; }
   oe_check_no_other_runners "$runner_name"
 ) 2>/dev/null; then
   printf 'another runner service was accepted\n' >&2

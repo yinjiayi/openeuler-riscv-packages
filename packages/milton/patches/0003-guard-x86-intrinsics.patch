@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] includes: guard unused x86 intrinsic headers
+
+system_includes.h unconditionally includes the SSE and SSE2 headers even
+though the Milton 1.9.1 source does not use their types or intrinsics. Those
+headers exist only on x86 targets. Keep them available for x86 builds and do
+not include them on RISC-V or other architectures.
+
+Patch-Source: downstream adaptation of Milton 1.9.1 src/system_includes.h
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+---
+ src/system_includes.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/system_includes.h b/src/system_includes.h
+--- a/src/system_includes.h
++++ b/src/system_includes.h
+@@ -43,0 +44 @@
++#if defined(__i386__) || defined(__x86_64__) || defined(_M_IX86) || defined(_M_X64)
+@@ -45,0 +47 @@
++#endif
+-- 
+2.50.1
