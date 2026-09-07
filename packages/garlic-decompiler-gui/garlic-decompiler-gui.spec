@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           garlic-decompiler-gui
 Version:        1.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Gui for the Garlic Decompiler, supporting APK, DEX, JAR, and CLASS decompilation
 License:        Apache-2.0
 URL:            https://github.com/AgarwalKritik/garlic-gui
@@ -20,7 +20,7 @@ Gui for the Garlic Decompiler, supporting APK, DEX, JAR, and CLASS decompilation
 %autosetup -n garlic-gui-%{version} -p1
 
 %build
-%cmake -DBUILD_TESTING=ON -DGARLIC_STATIC_QT=OFF
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON -DGARLIC_STATIC_QT=OFF
 %cmake_build
 
 %install
@@ -29,6 +29,7 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
+test -x %{_vpath_builddir}/GarlicGUI
 ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 %files -f %{name}.files
@@ -36,6 +37,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.0-3
+- Keep configure, build, install, and checks in one explicit CMake build tree.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.0-2
 - Use the upstream archive root and build against distribution Qt 6.
 

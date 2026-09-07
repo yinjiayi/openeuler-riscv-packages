@@ -2,3 +2,4 @@
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
 rpm -q -- garlic-decompiler-gui
+test -x /usr/bin/GarlicGUI
