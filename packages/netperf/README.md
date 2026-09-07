@@ -11,3 +11,6 @@ combines the project-wide GNU feature-test-macro approach used by Fedora with
 the missing Linux `sys/sendfile.h` include observed by openEuler RISC-V CI.
 The UUID helper also carries the accepted upstream `unistd.h` include so its
 `read` and `close` calls retain proper declarations.
+The build uses Fedora's documented `-fcommon` compatibility workaround for
+the duplicate tentative definitions in the 2.7.0 sources under GCC 10 and
+later.

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           netperf
 Version:        2.7.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Benchmarking tool for many different types of networking
 License:        MIT
 URL:            https://github.com/HewlettPackard/netperf
@@ -18,7 +18,7 @@ Benchmarking tool for many different types of networking
 %autosetup -p1 -n netperf-netperf-2.7.0
 
 %build
-%configure CPPFLAGS="-D_GNU_SOURCE"
+%configure CPPFLAGS="-D_GNU_SOURCE" CFLAGS="%{optflags} -fcommon"
 %make_build
 
 %install
@@ -37,6 +37,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-6
+- Retain GCC common-symbol semantics required by the 2.7.0 sources.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-5
 - Backport the upstream unistd declarations for the UUID helper.
 
