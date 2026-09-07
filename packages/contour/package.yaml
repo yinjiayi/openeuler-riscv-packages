@@ -36,7 +36,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 declares the upstream platform development dependencies, uses openEuler's compatible Freetype provider instead of the unavailable Savannah download, and enables Contour's real CTest suite with CONTOUR_TESTING.",
     "status": "active"
   },
   "package_id": "contour",
@@ -71,6 +71,6 @@
   "version": {
     "current": "0.6.3.8249",
     "latest_detected": "0.6.3.8249",
-    "release": "1"
+    "release": "2"
   }
 }
