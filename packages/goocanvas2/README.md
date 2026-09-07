@@ -18,6 +18,11 @@ and adds a compiled, display-independent public-ABI type-registration probe.
 The installed smoke test checks the RPM split, the exact pkg-config version,
 an installed-header compile/link/run cycle, and Python introspection loading.
 
+Release 3 imports Fedora's one-line GCC 14 compatibility fix for the model
+reference assignment. The cast preserves the existing runtime type contract
+while making the relationship between the public model interface and the
+stored simple-model implementation explicit to contemporary C compilers.
+
 The target dependency plan resolves 139 packages for the complete GTK,
 introspection, and Python feature set. Its first run was cancelled by the
 60-minute package deadline while the slow official-repository download was at
