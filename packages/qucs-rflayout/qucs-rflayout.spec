@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           qucs-rflayout
 Version:        2.1.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Export Qucs RF schematics to KiCad layouts & OpenEMS scripts
 License:        GPL-3.0-or-later
 URL:            https://github.com/thomaslepoix/Qucs-RFlayout
@@ -20,7 +20,7 @@ Export Qucs RF schematics to KiCad layouts & OpenEMS scripts
 %autosetup -n Qucs-RFlayout-%{version} -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -37,6 +37,11 @@ test -s %{name}.files
 %doc CHANGELOG
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.2-3
+- Configure the explicit out-of-tree directory expected by the build, install,
+  and upstream check macros.
+- Exercise the installed command-line version entry point in smoke testing.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.2-2
 - Match the official archive root and add the Qt 6 and OpenGL development files.
 - Run the upstream check target so its excluded unit-test executable is built before CTest.
