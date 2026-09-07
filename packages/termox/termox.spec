@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           termox
 Version:        2.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        C++17 Terminal User Interface(TUI) Library.
 License:        MIT
 URL:            https://github.com/a-n-t-h-o-n-y/TermOx
@@ -39,6 +41,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.0-4
+- Disable the empty debuginfo subpackage for the static-only upstream library.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.0-3
 - Add the ICU development dependency required by the pinned Escape subproject.
 
