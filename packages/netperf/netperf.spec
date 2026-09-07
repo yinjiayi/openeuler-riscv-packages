@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           netperf
 Version:        2.7.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Benchmarking tool for many different types of networking
 License:        MIT
 URL:            https://github.com/HewlettPackard/netperf
@@ -13,7 +13,7 @@ BuildRequires:  make
 Benchmarking tool for many different types of networking
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n netperf-netperf-2.7.0
 
 %build
 %configure
@@ -35,5 +35,8 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-2
+- Use the verified GitHub tag archive's actual top-level source directory.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-1
 - Initial openEuler RISC-V package from the full package inventory.
