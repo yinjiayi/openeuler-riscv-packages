@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           termux-elf-cleaner
 Version:        3.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Utility to remove unused ELF sections causing warnings
 License:        GPL-3.0-or-later
 URL:            https://github.com/termux/termux-elf-cleaner
@@ -17,7 +17,7 @@ Utility to remove unused ELF sections causing warnings
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -33,5 +33,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-2
+- Configure CMake with the build directory used by the RPM macros.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.1-1
 - Initial openEuler RISC-V package from the full package inventory.
