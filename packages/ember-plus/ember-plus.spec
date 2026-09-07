@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ember-plus
 Version:        1.8.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Ember+ control protocol - Slick and free for all!
 License:        BSL-1.0
 URL:            https://github.com/Lawo/ember-plus
@@ -10,6 +10,7 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
+BuildRequires:  qt5-qtbase-devel
 
 %description
 Ember+ control protocol - Slick and free for all!
@@ -34,5 +35,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.8.2.2-2
+- Add the Qt 5 development dependency required by the TinyEmber applications.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.8.2.2-1
 - Initial openEuler RISC-V package from the full package inventory.
