@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-support-cmake-3.27.patch",
+        "license": "LGPL-2.1-or-later",
+        "purpose": "Permit the openEuler 24.03 LTS SP3 CMake 3.27.9 toolchain after auditing the 3.1.0 build scripts for CMake 3.28-only interfaces.",
+        "remove_when": "openEuler 24.03 LTS SP3 supplies CMake 3.28 or newer, or upstream lowers its declared minimum after validating older CMake releases.",
+        "sha256": "4516c0f7ce1de59778d3663aa16ff4fda813d3255b29ee9af5cbb57acf253182",
+        "source": "Downstream openEuler compatibility review of simple-mail 3.1.0 and its upstream v3.0.0-to-v3.1.0 build-system diff.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "simple-mail.spec"
@@ -28,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. CI repair retains the complete Qt 5 library and demo build, makes the upstream-required out-of-tree build explicit, backports CMake 3.27 compatibility for the target's 3.27.9 toolchain, and assigns runtime and development files to separate packages. Upstream provides build-only CI and no test targets, so %check verifies every declared build target and the installed-package smoke test verifies the public library layout instead of claiming a nonexistent upstream test suite.",
     "status": "active"
   },
   "package_id": "simple-mail",
@@ -63,6 +73,6 @@
   "version": {
     "current": "3.1.0",
     "latest_detected": "3.1.0",
-    "release": "1"
+    "release": "2"
   }
 }
