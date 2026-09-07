@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tgbot-cpp
 Version:        1.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        C++ library for Telegram bot API
 License:        MIT
 URL:            https://github.com/reo7sp/tgbot-cpp
@@ -24,7 +24,7 @@ C++ library for Telegram bot API
 %autosetup -p1
 
 %build
-%cmake -DENABLE_TESTS=ON
+%cmake -S . -B %{_vpath_builddir} -DENABLE_TESTS=ON
 %cmake_build
 
 %install
@@ -40,6 +40,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6-3
+- Use one explicit out-of-source CMake directory for configure, build, install, and tests.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6-2
 - Add the dependencies required by the upstream CMake configuration.
 - Enable the upstream test suite with its actual ENABLE_TESTS option.
