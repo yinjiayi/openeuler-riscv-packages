@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libigl
 Version:        2.6.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Simple C++ geometry processing library
 License:        GPL-3.0-or-later
 URL:            https://github.com/libigl/libigl
 Source0:        libigl-2.6.0.tar.gz
 Patch0:         0001-use-system-eigen.patch
+%global debug_package %{nil}
 BuildRequires:  cmake
 BuildRequires:  eigen3-devel
 BuildRequires:  gcc
@@ -70,6 +71,9 @@ printf '%s\n' \
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.6.0-4
+- Disable the empty debuginfo subpackage for this header-only build.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.6.0-3
 - Accept the Eigen 3.3 compatibility series provided by openEuler 24.03.
 
