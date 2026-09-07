@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-target-stable-version-and-qt-6.5.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Report the v5.3.1 stable version and accept openEuler 24.03 LTS SP3's Qt 6.5.2 after upstream converted its QML imports to versionless form.",
+        "remove_when": "The packaged upstream release reports its stable version and supports the target Qt release directly, or openEuler supplies Qt 6.6 or newer.",
+        "sha256": "1dbf475f587b82a75423e68218c873bd5a753b75cebedaf6bfa5f895e246ee8e",
+        "source": "Downstream review of the official v5.3.1 archive and upstream commit 662756df424374c2c0b1a2edced475737ea6e18e.",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "acreetionos-mediawriter.spec"
@@ -28,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for top-level GPL and LGPL license files and supported build system, and pinned by SHA-256. Packaging release 2 selects the verified case-sensitive AcreetionMediaWriter-5.3.1 source root, declares the Qt 6, LibLZMA, and AppStream validation dependencies, records direct runtime tool dependencies used by the Linux helper, reports the stable 5.3.1 version, and retains every upstream Linux component on the target Qt 6.5.2 stack. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "acreetionos-mediawriter",
@@ -63,6 +73,6 @@
   "version": {
     "current": "5.3.1",
     "latest_detected": "5.3.1",
-    "release": "1"
+    "release": "2"
   }
 }
