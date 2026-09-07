@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-find-qt-wayland-private-target-via-public-component.patch",
+        "license": "Apache-2.0",
+        "purpose": "Load the Qt6::WaylandClientPrivate target from openEuler Qt 6.5's public WaylandClient component without disabling Wayland session-lock support.",
+        "remove_when": "Upstream no longer requests WaylandClientPrivate as a separate Qt component, or the target distribution provides a separate Qt6WaylandClientPrivateConfig.cmake.",
+        "sha256": "d482bb234722cbc571e89e9fe22947672f67a84e5703e92c5f15a25bb8ea842b",
+        "source": "Downstream openEuler compatibility patch based on the checksum-verified qt6-qtwayland-devel 6.5.2 provider layout.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "session-lock-qt.spec"
@@ -28,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the archive's qt-session-lock-2.1.0 source root, declares the fixed-repository Qt 6 and Wayland development providers, and installs the QML module under the target architecture's library directory. The source digest is unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the archive's qt-session-lock-2.1.0 source root, declares the fixed-repository Qt 6 and Wayland development providers, and installs the QML module under the target architecture's library directory. Exact-head trusted run 34029100753 proved those providers install and then failed because upstream requests WaylandClientPrivate as a separate Qt component. Contour runs 34117613325 and 34119474592 established that openEuler Qt 6.5 exports Qt6::WaylandClientPrivate through the public WaylandClient component and that its versioned QtCore private headers come from qt6-qtbase-private-devel. Release 3 applies the same compatibility, retains the private target and Wayland functionality, declares libxkbcommon-devel, and checks that the upstream sessionlock-test executable is built. The source digest is unchanged and external distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "session-lock-qt",
@@ -63,6 +73,6 @@
   "version": {
     "current": "2.1.0",
     "latest_detected": "2.1.0",
-    "release": "2"
+    "release": "3"
   }
 }
