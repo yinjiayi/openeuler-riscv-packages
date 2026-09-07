@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           netperf
 Version:        2.7.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Benchmarking tool for many different types of networking
 License:        MIT
 URL:            https://github.com/HewlettPackard/netperf
@@ -23,20 +23,26 @@ Benchmarking tool for many different types of networking
 
 %install
 %make_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
-test -s %{name}.files
 
 %check
 %make_build check
 
-%files -f %{name}.files
+%files
 %license COPYING
 %doc README
 %doc NEWS
 %doc AUTHORS
 %doc ChangeLog
+%{_bindir}/netperf
+%{_bindir}/netserver
+%{_infodir}/netperf.info*
+%{_mandir}/man1/netperf.1*
+%{_mandir}/man1/netserver.1*
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-7
+- List compressed manual and info files with RPM path macros.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-6
 - Retain GCC common-symbol semantics required by the 2.7.0 sources.
 

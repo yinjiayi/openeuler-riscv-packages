@@ -14,3 +14,5 @@ The UUID helper also carries the accepted upstream `unistd.h` include so its
 The build uses Fedora's documented `-fcommon` compatibility workaround for
 the duplicate tentative definitions in the 2.7.0 sources under GCC 10 and
 later.
+The RPM file list uses standard path macros and compression-safe suffixes for
+the installed binaries, manual pages, and info document.
