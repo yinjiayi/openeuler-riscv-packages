@@ -6,6 +6,7 @@ This directory packages upstream `https://github.com/nginx/njs` version `1.0.0` 
 The pinned release archive expands beneath `njs-1.0.0`; the RPM prep stage names
 that source root explicitly. njs uses its own shell configure interface rather
 than Autoconf; the build passes the RPM linker hardening flags through that
-interface.
+interface. The build also installs the PCRE2 development package required by
+njs's configure-time regular-expression checks.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
