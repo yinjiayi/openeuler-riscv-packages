@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tora
 Version:        3.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        SQL IDE for Oracle, MySQL and PostgreSQL dbs
 License:        GPL-2.0-or-later
 URL:            https://github.com/tora-tool/tora
@@ -27,7 +27,7 @@ SQL IDE for Oracle, MySQL and PostgreSQL dbs
 %autosetup -p1
 
 %build
-%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON -DWANT_INTERNAL_LOKI=ON
+%cmake -S . -B %{_vpath_builddir} -DWANT_INTERNAL_LOKI=ON
 %cmake_build
 
 %install
@@ -49,6 +49,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc ChangeLog
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2-8
+- Allow the complete QEMU build to use a 120-minute package budget.
+- Stop passing the unused BUILD_TESTING option; retain the upstream debug test targets and CTest check.
+
 * Sun Aug 30 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2-7
 - Fix immutable CyclicDFA copy operations in the bundled ANTLR3 C++ runtime.
 
