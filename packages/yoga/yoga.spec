@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           yoga
 Version:        3.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross-platform layout engine
 License:        MIT
 URL:            https://github.com/facebook/yoga
@@ -20,7 +20,7 @@ Cross-platform layout engine
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -36,6 +36,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.1-3
+- Configure the explicit out-of-source directory consumed by the RPM CMake build macros.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.1-2
 - Use the distribution GoogleTest package for the complete upstream test suite.
 
