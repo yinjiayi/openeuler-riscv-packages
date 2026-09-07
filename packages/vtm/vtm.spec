@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           vtm
 Version:        2026.07.30
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Terminal multiplexer with window manager and session sharing
 License:        MIT
 URL:            https://github.com/directvt/vtm
@@ -28,11 +28,18 @@ test -s %{name}.files
 
 %check
 ctest --test-dir %{_vpath_builddir} --output-on-failure
+version_output=$(%{_vpath_builddir}/vtm --version 2>&1)
+printf '%%s\n' "$version_output"
+printf '%%s\n' "$version_output" | grep -F -- 'v%{version}'
 
 %files -f %{name}.files
 %license LICENSE
 
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2026.07.30-2
+- Allow 240 minutes for the large single-translation-unit QEMU build.
+- Execute the built binary's version path in addition to upstream CTest discovery.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2026.07.30-1
 - Initial openEuler RISC-V package from the full package inventory.
