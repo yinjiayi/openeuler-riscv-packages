@@ -10,7 +10,9 @@ The build regenerates the Autotools files and therefore declares
 the RPM version before regeneration. The target `intltool` package supplies
 the macro and helper used by `IT_PROG_INTLTOOL`. The build also declares the
 `asciidoc` and `xmlto` tools that `configure.ac` requires to generate the
-installed documentation. The complete upstream `make check` suite remains
-enabled.
+installed documentation. The default-enabled Bugzilla, Python, newt, GTK,
+uReport, journal, Augeas, and archive features retain their target development
+dependencies, and the complete upstream `make check` suite retains its locale
+data.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
