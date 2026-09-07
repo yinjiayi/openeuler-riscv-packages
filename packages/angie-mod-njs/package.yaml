@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 names the archive's njs-1.0.0 top-level directory explicitly during prep.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 names the archive's njs-1.0.0 top-level directory explicitly during prep. Release 3 uses njs's supported shell configure interface and passes the RPM linker hardening flags through its ld-opt option.",
     "status": "active"
   },
   "package_id": "angie-mod-njs",
@@ -63,6 +63,6 @@
   "version": {
     "current": "1.0.0",
     "latest_detected": "1.0.0",
-    "release": "2"
+    "release": "3"
   }
 }

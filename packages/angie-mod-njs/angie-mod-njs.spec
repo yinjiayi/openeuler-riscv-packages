@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           angie-mod-njs
 Version:        1.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        nginScript module for angie
 License:        BSD-2-Clause
 URL:            https://github.com/nginx/njs
@@ -16,7 +16,7 @@ nginScript module for angie
 %autosetup -p1 -n njs-%{version}
 
 %build
-%configure
+./configure --ld-opt="%{build_ldflags}"
 %make_build
 
 %install
@@ -32,6 +32,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-3
+- Use the upstream shell configure interface while retaining RPM linker flags.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-2
 - Enter the njs source archive's actual top-level directory during prep.
 
