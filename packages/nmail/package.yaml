@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/d99kris/nmail",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nmail",
+        "package_name": "nmail",
+        "source": "aur",
+        "source_version": "5.14.12-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "nmail.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 6 declares the fixed-repository development providers required by nmail and its bundled libetpan build, configures CMake explicitly in the build directory consumed by the build macros, owns the installed binary and compression-tolerant manual path explicitly, and exercises the upstream release version and help probes. No features or tests are disabled. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "nmail",
+  "rpm": {
+    "license": "MIT",
+    "name": "nmail",
+    "summary": "Terminal-based email client"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-d99kris-nmail",
+    "homepage": "https://github.com/d99kris/nmail",
+    "release_api": "https://api.github.com/repos/d99kris/nmail/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/d99kris/nmail",
+    "source_url_template": "https://github.com/d99kris/nmail/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "5.14.12",
+    "latest_detected": "5.14.12",
+    "release": "6"
+  }
+}
