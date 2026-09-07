@@ -59,7 +59,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-accept-autoconf-2.71.patch",
+        "license": "LGPL-2.1-or-later",
+        "purpose": "Regenerate the GitHub tag snapshot with the Autoconf 2.71 release provided by openEuler 24.03 LTS SP3.",
+        "remove_when": "Upstream ships a generated configure script or no longer requires Autoconf newer than the target distribution.",
+        "sha256": "865157e9778817cf4f45ee2cc2f11b751b4e123e15da8dba7516da8b3babd385",
+        "source": "Downstream diagnosis from exact-head openEuler RISC-V CI run 34092239071 and the pinned libstaroffice 0.0.8 configure input.",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "libstaroffice.spec"
@@ -103,6 +113,6 @@
   "version": {
     "current": "0.0.8",
     "latest_detected": "0.0.8",
-    "release": "1"
+    "release": "2"
   }
 }
