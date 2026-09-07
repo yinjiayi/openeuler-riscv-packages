@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           goocanvas2
 Version:        2.0.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cairo canvas widget library for GTK 3
 License:        LGPL-2.0-only
 URL:            https://gitlab.gnome.org/GNOME/goocanvas
@@ -98,5 +98,8 @@ EOF
 %{python3_sitearch}/gi/overrides/__pycache__/GooCanvas.*
 
 %changelog
+* Sun Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.4-2
+- Allow the complete GTK dependency transaction and validation to finish under QEMU.
+
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.4-1
 - Initial openEuler RISC-V package for the complete GooCanvas 2 compatibility ABI.

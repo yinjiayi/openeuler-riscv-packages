@@ -18,6 +18,13 @@ and adds a compiled, display-independent public-ABI type-registration probe.
 The installed smoke test checks the RPM split, the exact pkg-config version,
 an installed-header compile/link/run cycle, and Python introspection loading.
 
+The target dependency plan resolves 139 packages for the complete GTK,
+introspection, and Python feature set. Its first run was cancelled by the
+60-minute package deadline while the slow official-repository download was at
+package 118, before `rpmbuild` started and without a missing provider or package
+error. Release 2 uses a 120-minute deadline so that dependency installation,
+the unchanged full build, and all validation have time to complete.
+
 No target RPM build or publication is claimed by this package definition.
 External source licenses remain those of upstream; the repository license only
 covers original packaging metadata and tests.
