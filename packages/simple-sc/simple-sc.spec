@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simple-sc
 Version:        0.1.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A simple PipeWire screen recording utility for Linux
 License:        MIT
 URL:            https://github.com/directmusic/simple-sc
@@ -24,7 +24,7 @@ A simple PipeWire screen recording utility for Linux
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -40,6 +40,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.2-3
+- Configure, build, install, and check one explicit out-of-source CMake directory.
+
 * Mon Aug 31 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.2-2
 - Add the pkg-config, PipeWire, D-Bus, portal, FFmpeg, and zlib build dependencies.
 
