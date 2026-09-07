@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tora
 Version:        3.2
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        SQL IDE for Oracle, MySQL and PostgreSQL dbs
 License:        GPL-2.0-or-later
 URL:            https://github.com/tora-tool/tora
@@ -10,6 +10,7 @@ Patch0:         0001-stack-support-riscv-backtrace.patch
 Patch1:         0002-dtl-fix-const-mutator.patch
 Patch2:         0003-include-qmenu-definition.patch
 Patch3:         0004-antlr-fix-cyclic-dfa-copy.patch
+Patch4:         0005-include-qbuttongroup-definition.patch
 BuildRequires:  cmake
 BuildRequires:  boost-devel
 BuildRequires:  boost-system
@@ -49,6 +50,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc ChangeLog
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2-9
+- Include the complete Qt button-group type before constructing and calling it.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2-8
 - Allow the complete QEMU build to use a 120-minute package budget.
 - Stop passing the unused BUILD_TESTING option; retain the upstream debug test targets and CTest check.

@@ -55,6 +55,15 @@
         "license": "BSD-3-Clause",
         "upstream_status": "not-submitted",
         "remove_when": "The bundled runtime initializes immutable CyclicDFA copies and disables assignment."
+      },
+      {
+        "file": "patches/0005-include-qbuttongroup-definition.patch",
+        "sha256": "c627d3c1631d42e544f34c0fc1b2f40b652391d694884cc885b907c807e4383e",
+        "purpose": "Include the complete QButtonGroup type before constructing it and calling its methods so GCC 14 accepts the browser source.",
+        "source": "Downstream adaptation of tora 3.2 src/tools/tobrowser.cpp",
+        "license": "GPL-2.0-only",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream tobrowser.cpp includes QButtonGroup before using its methods."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -65,7 +74,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The dependency transaction completed and the QEMU build reached 67% without a compiler error before the prior 60-minute package deadline; the 120-minute budget preserves the full debug build, its development test targets, and the CTest check. Upstream does not register CTest tests in this release. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The dependency transaction completed and the QEMU build reached 67% without a compiler error before the prior 60-minute package deadline; the 120-minute budget preserves the full debug build, its development test targets, and the CTest check. Trusted exact-head run 34114949056 then compiled for more than 81 minutes before GCC 14 rejected construction and method calls on the forward-declared QButtonGroup type in tobrowser.cpp. Release 9 includes its complete Qt definition without changing browser functionality. Upstream does not register CTest tests in this release. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "tora",
@@ -100,6 +109,6 @@
   "version": {
     "current": "3.2",
     "latest_detected": "3.2",
-    "release": "8"
+    "release": "9"
   }
 }
