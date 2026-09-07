@@ -25,7 +25,7 @@
         "license": "GPL-3.0-or-later",
         "purpose": "Use the openEuler Eigen development package instead of downloading and reinstalling a private copy during CMake configuration.",
         "remove_when": "Upstream supports selecting an installed Eigen package without a downstream patch.",
-        "sha256": "51826ecc4db46c1fb1922a9c45c8605e38d81b6ef856e5d1f160cf7f47fda6c1",
+        "sha256": "f6fe0caa9bab4429a19ef2b52c8d46d9c36c41f026506c96cbe3e987986ae89b",
         "source": "Downstream diagnosis from exact-head openEuler RISC-V CI run 34092238211 and the pinned libigl 2.6.0 source.",
         "upstream_status": "not-submitted"
       }
@@ -73,6 +73,6 @@
   "version": {
     "current": "2.6.0",
     "latest_detected": "2.6.0",
-    "release": "2"
+    "release": "3"
   }
 }

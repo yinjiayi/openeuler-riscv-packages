@@ -58,6 +58,6 @@ index 75ead06..126994f 100644
 -install(DIRECTORY ${eigen_SOURCE_DIR}/Eigen DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 -install(TARGETS Eigen3_Eigen EXPORT EigenTargets)
 -install(EXPORT EigenTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/eigen NAMESPACE Eigen3::)
-+find_package(Eigen3 3.4 CONFIG REQUIRED NO_MODULE)
++find_package(Eigen3 3.3 CONFIG REQUIRED NO_MODULE)
 -- 
 2.51.0
