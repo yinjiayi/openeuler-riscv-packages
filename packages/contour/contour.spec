@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           contour
 Version:        0.6.3.8249
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Modern C++ Terminal Emulator
 License:        Apache-2.0
 URL:            https://github.com/contour-terminal/contour
@@ -52,6 +52,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.6.3.8249-6
+- Allow the complete QEMU build and test suite to use a 120-minute package budget.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.6.3.8249-5
 - Add the matching Qt 6 private headers required by the exported Wayland private target.
 
