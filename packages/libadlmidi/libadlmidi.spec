@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libadlmidi
 Version:        1.6.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A software MIDI synthesizer library with OPL3 emulation
 License:        LGPL-3.0-or-later
 URL:            https://github.com/Wohlstand/libADLMIDI
@@ -18,7 +18,7 @@ A software MIDI synthesizer library with OPL3 emulation
 %autosetup -p1 -n libADLMIDI-%{version}
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir} -DWITH_UNIT_TESTS=ON
 %cmake_build
 
 %install
@@ -37,6 +37,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc AUTHORS
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6.1-3
+- Use the RPM macro build directory consistently and enable the upstream unit tests.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6.1-2
 - Enter the case-sensitive top-level directory from the pinned upstream archive.
 
