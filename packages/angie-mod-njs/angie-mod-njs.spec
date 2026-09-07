@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           angie-mod-njs
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        nginScript module for angie
 License:        BSD-2-Clause
 URL:            https://github.com/nginx/njs
@@ -13,7 +13,7 @@ BuildRequires:  make
 nginScript module for angie
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n njs-%{version}
 
 %build
 %configure
@@ -32,5 +32,8 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-2
+- Enter the njs source archive's actual top-level directory during prep.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-1
 - Initial openEuler RISC-V package from the full package inventory.
