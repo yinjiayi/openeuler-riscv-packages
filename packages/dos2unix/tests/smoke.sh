@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- dos2unix
-dos2unix --version 2>&1 | head -n 1 | grep -F 'dos2unix 7.5.6'
+dos2unix --version 2>&1 | head -n 1 | grep -F 'dos2unix 7.5.7'
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
