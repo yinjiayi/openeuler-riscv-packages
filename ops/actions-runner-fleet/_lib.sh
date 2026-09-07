@@ -57,7 +57,7 @@ oe_assert_systemctl_integrity() {
   [[ $package == systemd && $status == 'install ok installed' && -z $extra \
     && $version =~ ^[0-9][0-9A-Za-z.+:~_-]*$ ]] \
     || oe_die 'systemd package name, status, or version is invalid'
-  if ! verification=$(dpkg-query --verify systemd 2>&1); then
+  if ! verification=$(dpkg --verify systemd 2>&1); then
     oe_die 'systemd package integrity verification could not complete'
   fi
   [[ -z $verification ]] \

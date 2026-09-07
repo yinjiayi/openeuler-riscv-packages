@@ -2,7 +2,7 @@
 # libcerf
 
 This directory packages upstream
-`https://jugit.fz-juelich.de/mlz/libcerf` version `3.5` for openEuler 24.03
+`https://jugit.fz-juelich.de/mlz/libcerf` version `3.6` for openEuler 24.03
 LTS SP3 on `riscv64`/RVA23.
 
 The frozen discovery snapshot is the immutable metadata capture identified by
@@ -16,9 +16,9 @@ distribution recipe or AUR content was read or executed.
 The complete maintained upstream test gate is CTest with both the C and C++
 interfaces enabled. It runs all 18 registered numerical tests without network
 access. The source is the immutable archive for the publisher's current stable
-`v3.5` tag; no distribution source or mirror was substituted. Exact-head run
+`v3.6` tag; no distribution source or mirror was substituted. Exact-head run
 `33227448843` attempt 2 verified that archive and exposed the stale v3.3 commit
-root in `%prep`; release `2` uses the archive's verified v3.5 root.
+root in `%prep`; the current SPEC follows the archive's versioned root.
 
 External source licenses remain those of upstream. The repository's
 Apache-2.0 license covers only the original packaging metadata, scripts, and
