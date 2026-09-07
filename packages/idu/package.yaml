@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/MkP369/idu",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "idu",
+        "package_name": "idu",
+        "source": "aur",
+        "source_version": "0.1.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "idu.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Exact-head Package CI run 34035013428 configured successfully in the source directory, then %cmake_build failed because the expected riscv64-openEuler-linux-gnu build directory did not exist. Release 2 explicitly binds CMake to source directory . and %{_vpath_builddir}, preserving the existing build and CTest behavior. Exact-head run 34086501401 then compiled idu successfully but proved that upstream defines no CMake install rule, leaving the buildroot empty. Release 3 installs that built executable explicitly without changing source, features, or the retained check. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head CI evidence.",
+    "status": "active"
+  },
+  "package_id": "idu",
+  "rpm": {
+    "license": "MIT",
+    "name": "idu",
+    "summary": "Instant du -sh and a bit more"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-mkp369-idu",
+    "homepage": "https://github.com/MkP369/idu",
+    "release_api": "https://api.github.com/repos/MkP369/idu/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/MkP369/idu",
+    "source_url_template": "https://github.com/MkP369/idu/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.1.0",
+    "latest_detected": "0.1.0",
+    "release": "3"
+  }
+}
