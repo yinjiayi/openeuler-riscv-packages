@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           awf-gtk2
 Version:        4.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Theme preview application for GTK 2
 License:        GPL-3.0-or-later
 URL:            https://github.com/luigifab/awf-extended
@@ -30,7 +30,9 @@ autoreconf -fi
 
 %install
 %make_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) \
+  ! -path '%{buildroot}%{_mandir}/*' \
+  -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
@@ -39,8 +41,13 @@ test -s %{name}.files
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
+%{_mandir}/man1/awf-gtk2.1*
+%lang(fr) %{_mandir}/fr/man1/awf-gtk2.1*
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.2.0-3
+- List the compressed English and French manual pages with RPM path macros.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.2.0-2
 - Match the upstream archive root and configure the GTK 2 variant with its direct build dependencies.
 
