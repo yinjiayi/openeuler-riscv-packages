@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/clarkwang/sexpect",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sexpect",
+        "package_name": "sexpect",
+        "source": "aur",
+        "source_version": "2.3.15-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-shorten-test-socket-paths.patch",
+        "sha256": "66270f438cddb3a4eb02f362f6f2577f1a5a9c9bd36b4bb4c3c5c7a8c8b87603",
+        "purpose": "Keep generated test socket paths within Linux sockaddr_un.sun_path so the complete upstream suite runs without fortification aborts.",
+        "source": "Downstream reconstruction from exact-head openEuler 24.03 LTS SP3 RVA23 CI evidence",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream generates test socket paths that remain within the target sockaddr_un.sun_path limit."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "sexpect.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 passes the source and out-of-source build directories explicitly to CMake, supplies procps-ng for the process-state test, and shortens generated test socket paths to fit Linux sockaddr_un.sun_path while preserving the complete upstream suite and install behavior. Release 4 keeps the manual page out of the pre-compression dynamic file manifest and lists its installed compressed form explicitly. The source and patch digests are unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending a successful exact-head CI build.",
+    "status": "active"
+  },
+  "package_id": "sexpect",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "sexpect",
+    "summary": "Expect for shells"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-clarkwang-sexpect",
+    "homepage": "https://github.com/clarkwang/sexpect",
+    "release_api": "https://api.github.com/repos/clarkwang/sexpect/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/clarkwang/sexpect",
+    "source_url_template": "https://github.com/clarkwang/sexpect/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.3.15",
+    "latest_detected": "2.3.15",
+    "release": "4"
+  }
+}
