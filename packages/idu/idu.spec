@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           idu
 Version:        0.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Instant du -sh and a bit more
 License:        MIT
 URL:            https://github.com/MkP369/idu
@@ -22,7 +22,7 @@ Instant du -sh and a bit more
 %cmake_build
 
 %install
-%cmake_install
+install -Dpm0755 %{_vpath_builddir}/idu %{buildroot}%{_bindir}/idu
 find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
@@ -34,6 +34,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.0-3
+- Install the built executable explicitly because upstream has no install rule.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.0-2
 - Configure explicit CMake source and build directories for the RPM macros.
 
