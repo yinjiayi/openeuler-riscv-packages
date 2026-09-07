@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Packaging release 2 declares the Boost.ProgramOptions, OpenSSL, libgit2, and Git build dependencies required by the upstream CMake project, records the stable version explicitly, and enables its test suite in the shared out-of-source build directory. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Packaging release 2 declares the Boost.ProgramOptions, OpenSSL, libgit2, and Git build dependencies required by the upstream CMake project, records the stable version explicitly, and enables its test suite in the shared out-of-source build directory. Release 3 overrides the distribution CMake shared-library default before the fetched FTXUI project is configured, retains all 54 upstream tests, prevents bundled GoogleTest development artifacts from being installed, and limits runtime ownership to the caps-log executable. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "caps-log",
@@ -63,6 +63,6 @@
   "version": {
     "current": "1.2.1",
     "latest_detected": "1.2.1",
-    "release": "2"
+    "release": "3"
   }
 }
