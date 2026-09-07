@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libcerf
-Version:        3.3
+Version:        3.6
 Release:        1%{?dist}
 Summary:        Complex error function library
 License:        MIT
 URL:            https://jugit.fz-juelich.de/mlz/libcerf
-Source0:        libcerf-v%{version}.tar.gz
+Source0:        libcerf-v3.6.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -28,7 +28,7 @@ The C and C++ header, pkg-config and CMake metadata, manual pages, and the
 unversioned shared library links for developing applications with libcerf.
 
 %prep
-%autosetup -n cerf-v%{version}-7e6b637031b5c6cbc89a5f7220bf4ef07518d035 -p1
+%autosetup -n cerf-v%{version}-070f3fdcb82efb594f89435382d7a4e647be39e9 -p1
 
 %build
 %cmake_conf \
@@ -64,5 +64,11 @@ rm -rf %{buildroot}%{_docdir}/cerf
 %{_mandir}/man3/*.3*
 
 %changelog
+* Sat Sep 05 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.6-1
+- Update to upstream 3.6 and retain the complete C and C++ test suite.
+
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.5-2
+- Synchronize the archive root with the verified upstream v3.5 source.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.3-1
 - Initial openEuler RISC-V package with all 18 upstream C and C++ tests.
