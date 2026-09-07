@@ -52,7 +52,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 adds the openEuler gettext-devel provider for the autopoint program required by autoreconf.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 adds the openEuler gettext-devel provider for the autopoint program required by autoreconf. Release 3 deterministically materializes libreport-version from the RPM version and adds the target intltool provider required to expand IT_PROG_INTLTOOL.",
     "status": "active"
   },
   "package_id": "libreport",
@@ -87,6 +87,6 @@
   "version": {
     "current": "2.17.15",
     "latest_detected": "2.17.15",
-    "release": "2"
+    "release": "3"
   }
 }

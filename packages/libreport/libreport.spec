@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libreport
 Version:        2.17.15
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Generic library for reporting various problems
 License:        GPL-2.0-or-later
 URL:            https://github.com/abrt/libreport
@@ -10,6 +10,7 @@ BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
 BuildRequires:  gettext-devel
+BuildRequires:  intltool
 BuildRequires:  libtool
 BuildRequires:  make
 
@@ -20,6 +21,7 @@ Generic library for reporting various problems
 %autosetup -p1
 
 %build
+printf '%s' '%{version}' > libreport-version
 autoreconf -fi
 %configure
 %make_build
@@ -37,6 +39,10 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.17.15-3
+- Generate the version input required by configure.ac from the RPM version.
+- Add intltool so autoreconf can expand IT_PROG_INTLTOOL.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.17.15-2
 - Add the gettext-devel provider required by autoreconf for autopoint.
 
