@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           mpz
 Version:        2.1.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Music player for the large local collections
 License:        GPL-3.0-or-later
 URL:            https://github.com/olegantonyan/mpz
@@ -40,6 +40,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.2-3
+- Raise the bounded QEMU build timeout to 360 minutes after exact-head CI
+  compiled normally to 94% before the 180-minute package budget expired.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.2-2
 - Raise the bounded QEMU build timeout to 180 minutes after exact-head CI
   compiled normally to 50% before the 60-minute package budget expired.
