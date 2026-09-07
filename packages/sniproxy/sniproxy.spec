@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sniproxy
 Version:        0.7.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        TLS SNI proxy
 License:        BSD-2-Clause
 URL:            https://github.com/dlundquist/sniproxy
 Source0:        sniproxy-0.7.0.tar.gz
 Patch0:         patches/0001-tests-skip-without-netns-capability.patch
+Patch1:         patches/0002-tests-register-child-before-execution.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
@@ -45,6 +46,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Sun Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.7.0-3
+- Prevent the test child-registration race that could hang the test suite.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.7.0-2
 - Declare compressed manual pages separately from the pre-compression file list.
 

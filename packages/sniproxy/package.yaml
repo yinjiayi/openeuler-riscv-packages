@@ -44,6 +44,15 @@
         "license": "BSD-2-Clause",
         "upstream_status": "downstream-only",
         "remove_when": "Upstream probes network namespace capability before running the integration test."
+      },
+      {
+        "file": "patches/0002-tests-register-child-before-execution.patch",
+        "sha256": "775bd2a5a967d4ed8163efee5e2b8c6eb722c1788095af486c0bea3c359b9cff",
+        "purpose": "Ensure a test child cannot exit before its PID is recorded by the SIGCHLD-aware harness.",
+        "source": "openEuler RISC-V package CI failure analysis",
+        "license": "BSD-2-Clause",
+        "upstream_status": "downstream-only",
+        "remove_when": "Upstream synchronizes child execution with PID registration in the test harness."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -54,7 +63,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The complete upstream test suite remains enabled; downstream patches make capability-based skipping explicit and prevent a child-registration race. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "sniproxy",
@@ -89,6 +98,6 @@
   "version": {
     "current": "0.7.0",
     "latest_detected": "0.7.0",
-    "release": "2"
+    "release": "3"
   }
 }
