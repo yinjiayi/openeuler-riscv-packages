@@ -3,7 +3,7 @@
 
 Name:           kfr
 Version:        7.0.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Fast, modern C++ DSP framework, FFT, Sample Rate Conversion, FIR/IIR/Biquad Filters
 License:        GPL-2.0-or-later
 URL:            https://github.com/kfrlib/kfr
@@ -27,7 +27,7 @@ export CFLAGS="${CFLAGS} -march=rv64gcv"
 export CXXFLAGS="${CXXFLAGS} -march=rv64gcv"
 %cmake -S . -B %{_vpath_builddir} \
   -DKFR_ARCH=rvv \
-  -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=%{_vpath_builddir}/bin \
+  -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${PWD}/%{_vpath_builddir}/bin" \
   -DENABLE_TESTS=ON \
   -DENABLE_EXAMPLES=OFF
 %cmake_build
@@ -46,6 +46,9 @@ ctest --test-dir %{_vpath_builddir}/tests --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 7.0.1-5
+- Make the CTest runtime output directory absolute before subdirectory use.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 7.0.1-4
 - Place test executables in the runtime directory referenced by upstream CTest registrations.
 
