@@ -3,4 +3,6 @@
 
 This directory packages upstream `https://github.com/simulton/QSchematic` version `3.0.3` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
 
+Packaging release 2 selects the verified, case-sensitive `QSchematic-3.0.3` source archive root during `%prep`.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
