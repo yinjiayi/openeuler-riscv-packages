@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-use-system-eigen.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Use the openEuler Eigen development package instead of downloading and reinstalling a private copy during CMake configuration.",
+        "remove_when": "Upstream supports selecting an installed Eigen package without a downstream patch.",
+        "sha256": "51826ecc4db46c1fb1922a9c45c8605e38d81b6ef856e5d1f160cf7f47fda6c1",
+        "source": "Downstream diagnosis from exact-head openEuler RISC-V CI run 34092238211 and the pinned libigl 2.6.0 source.",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "libigl.spec"
@@ -63,6 +73,6 @@
   "version": {
     "current": "2.6.0",
     "latest_detected": "2.6.0",
-    "release": "1"
+    "release": "2"
   }
 }
