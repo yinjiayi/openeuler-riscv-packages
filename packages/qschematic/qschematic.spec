@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           qschematic
 Version:        3.0.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A library that allows creating diagrams such as flowcharts or even proper engineering schematics within a Qt application
 License:        MIT
 URL:            https://github.com/simulton/QSchematic
@@ -35,6 +35,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.3-4
+- Allow 90 minutes for QEMU compilation, tests, and RPM finalization.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.0.3-3
 - Add the Qt 6 development dependency and use one explicit CMake build directory.
 
