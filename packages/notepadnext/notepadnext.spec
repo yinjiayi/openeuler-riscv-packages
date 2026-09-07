@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           notepadnext
 Version:        0.14
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Cross-platform reimplementation of Notepad++
 License:        GPL-3.0-or-later
 URL:            https://github.com/dail8859/NotepadNext
@@ -24,7 +24,7 @@ Cross-platform reimplementation of Notepad++
 %autosetup -n NotepadNext-%{version} -p1
 
 %build
-%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=OFF
+%cmake -S . -B %{_vpath_builddir} -DBUILD_SHARED_LIBS=OFF
 %cmake_build
 
 %install
@@ -33,13 +33,17 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-ctest --test-dir %{_vpath_builddir} --output-on-failure
+test "$(QT_QPA_PLATFORM=offscreen timeout 30 %{_vpath_builddir}/src/NotepadNext --version)" = "NotepadNext %{version}"
 
 %files -f %{name}.files
 %license LICENSE
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.14-7
+- Replace the unused CTest request with a bounded invocation of the built
+  application version command; upstream 0.14 registers no CTest tests.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.14-6
 - Statically link bundled libraries that have no independent install target.
 
