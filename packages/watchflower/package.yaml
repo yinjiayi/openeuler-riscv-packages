@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 matches the case-sensitive WatchFlower-5.4 archive root, configures out of source, and declares the complete Qt 6 desktop development dependency set. Upstream 5.4 defines no CTest cases; the check stage remains enabled as a future test-discovery gate, without claiming unit-test coverage. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 3 matches the case-sensitive WatchFlower-5.4 archive root, configures out of source, and declares the Qt 6 desktop development dependencies plus the XKB development provider required by Qt 6 GuiPrivate. Upstream 5.4 defines no CTest cases; the check stage remains enabled as a future test-discovery gate, without claiming unit-test coverage. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "watchflower",
@@ -63,6 +63,6 @@
   "version": {
     "current": "5.4",
     "latest_detected": "5.4",
-    "release": "2"
+    "release": "3"
   }
 }

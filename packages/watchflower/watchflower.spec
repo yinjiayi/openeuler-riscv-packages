@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           watchflower
 Version:        5.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A plant monitoring application that reads and plots data from compatible Bluetooth sensors like Xiaomi 'Flower Care' or Parrot 'Flower Power'
 License:        GPL-3.0-or-later
 URL:            https://github.com/emericg/WatchFlower
@@ -9,6 +9,7 @@ Source0:        watchflower-5.4.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  libxkbcommon-devel
 BuildRequires:  make
 BuildRequires:  qt6-qtbase-devel
 BuildRequires:  qt6-qtbase-private-devel
@@ -41,6 +42,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.4-3
+- Provide the XKB development interface required by Qt 6 GuiPrivate.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.4-2
 - Match the case-sensitive upstream archive root and configure out of source.
 - Declare every Qt 6 development component required by the desktop build.
