@@ -5,7 +5,7 @@ This directory packages upstream `https://github.com/HewlettPackard/netperf` ver
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
 
-The downstream Linux declaration patch keeps the configure-detected
-`sendfile` and CPU-affinity features enabled under GCC 14. It combines the
-GNU feature-test-macro approach used by Fedora with the missing Linux
-`sys/sendfile.h` include observed by openEuler RISC-V CI.
+The downstream Linux declaration fix keeps the configure-detected
+`sendfile`, `splice`, and CPU-affinity features enabled under GCC 14. It
+combines the project-wide GNU feature-test-macro approach used by Fedora with
+the missing Linux `sys/sendfile.h` include observed by openEuler RISC-V CI.

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           netperf
 Version:        2.7.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Benchmarking tool for many different types of networking
 License:        MIT
 URL:            https://github.com/HewlettPackard/netperf
@@ -17,7 +17,7 @@ Benchmarking tool for many different types of networking
 %autosetup -p1 -n netperf-netperf-2.7.0
 
 %build
-%configure
+%configure CPPFLAGS="-D_GNU_SOURCE"
 %make_build
 
 %install
@@ -36,6 +36,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-4
+- Enable GNU declarations consistently for all Linux source files.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-3
 - Declare the Linux sendfile and CPU affinity interfaces for GCC 14.
 
