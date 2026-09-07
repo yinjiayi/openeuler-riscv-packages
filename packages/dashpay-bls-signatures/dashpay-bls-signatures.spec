@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           dashpay-bls-signatures
 Version:        1.3.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Chia Networks BLS Signatures implementation fork for Dashcore
 License:        Apache-2.0
 URL:            https://github.com/dashpay/bls-signatures
@@ -38,6 +40,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.5-4
+- Disable only the empty automatic debuginfo subpackage; retain the tested main library build.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.5-3
 - Configure and build in the same explicit out-of-source directory while retaining the C++ test.
 

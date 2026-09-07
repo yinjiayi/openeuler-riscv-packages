@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Packaging release 3 uses one explicit out-of-source CMake directory for configure, build, install, and the bundled C++ test. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Packaging release 4 uses one explicit out-of-source CMake directory for configure, build, install, and the bundled C++ test, while disabling only the empty automatic debuginfo subpackage observed after the tested main library build. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "dashpay-bls-signatures",
@@ -63,6 +63,6 @@
   "version": {
     "current": "1.3.5",
     "latest_detected": "1.3.5",
-    "release": "3"
+    "release": "4"
   }
 }
