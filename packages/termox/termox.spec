@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           termox
 Version:        2.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        C++17 Terminal User Interface(TUI) Library.
 License:        MIT
 URL:            https://github.com/a-n-t-h-o-n-y/TermOx
@@ -10,6 +10,7 @@ BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  git
+BuildRequires:  libicu-devel
 BuildRequires:  make
 
 %description
@@ -38,7 +39,10 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
-* Sun Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.0-2
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.0-3
+- Add the ICU development dependency required by the pinned Escape subproject.
+
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.0-2
 - Fix the case-sensitive source root and build the upstream unit target.
 
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.0-1
