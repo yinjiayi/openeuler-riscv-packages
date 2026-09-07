@@ -9,3 +9,5 @@ The downstream Linux declaration fix keeps the configure-detected
 `sendfile`, `splice`, and CPU-affinity features enabled under GCC 14. It
 combines the project-wide GNU feature-test-macro approach used by Fedora with
 the missing Linux `sys/sendfile.h` include observed by openEuler RISC-V CI.
+The UUID helper also carries the accepted upstream `unistd.h` include so its
+`read` and `close` calls retain proper declarations.

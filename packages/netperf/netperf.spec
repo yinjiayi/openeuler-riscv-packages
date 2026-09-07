@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           netperf
 Version:        2.7.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Benchmarking tool for many different types of networking
 License:        MIT
 URL:            https://github.com/HewlettPackard/netperf
 Source0:        netperf-2.7.0.tar.gz
 Patch0:         patches/0001-linux-declare-sendfile-and-sched-affinity.patch
+Patch1:         patches/0002-net-uuid-include-unistd.patch
 BuildRequires:  gcc
 BuildRequires:  make
 
@@ -36,6 +37,9 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-5
+- Backport the upstream unistd declarations for the UUID helper.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-4
 - Enable GNU declarations consistently for all Linux source files.
 

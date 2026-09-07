@@ -44,6 +44,15 @@
         "sha256": "31a50e800b1e35103d91b380f58d2514ec7cf8918d1406786dd503e5c5c977eb",
         "source": "Fedora netperf-c99.patch plus openEuler RISC-V package CI failure analysis.",
         "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0002-net-uuid-include-unistd.patch",
+        "license": "MIT",
+        "purpose": "Declare read and close in the UUID helper by including unistd.h when configure found it.",
+        "remove_when": "The package moves to an upstream revision containing commit 0b0cbbef75021134c83be0c3dd21878467e11144.",
+        "sha256": "a6976647f475bf6d1c7d0a8200aa5081d6e52d0a4f06d82d32c76692fd6bdb9c",
+        "source": "Upstream netperf commit https://github.com/HewlettPackard/netperf/commit/0b0cbbef75021134c83be0c3dd21878467e11144",
+        "upstream_status": "accepted"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -89,6 +98,6 @@
   "version": {
     "current": "2.7.0",
     "latest_detected": "2.7.0",
-    "release": "4"
+    "release": "5"
   }
 }
