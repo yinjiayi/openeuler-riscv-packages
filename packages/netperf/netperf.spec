@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           netperf
 Version:        2.7.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Benchmarking tool for many different types of networking
 License:        MIT
 URL:            https://github.com/HewlettPackard/netperf
@@ -23,6 +23,7 @@ Benchmarking tool for many different types of networking
 
 %install
 %make_install
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 %make_build check
@@ -40,6 +41,9 @@ Benchmarking tool for many different types of networking
 %{_mandir}/man1/netserver.1*
 
 %changelog
+* Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-8
+- Remove the generated shared info directory index from the package buildroot.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.7.0-7
 - List compressed manual and info files with RPM path macros.
 

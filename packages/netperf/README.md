@@ -15,4 +15,6 @@ The build uses Fedora's documented `-fcommon` compatibility workaround for
 the duplicate tentative definitions in the 2.7.0 sources under GCC 10 and
 later.
 The RPM file list uses standard path macros and compression-safe suffixes for
-the installed binaries, manual pages, and info document.
+the installed binaries, manual pages, and info document. The shared info
+directory index generated during installation is removed from the buildroot;
+it is owned and maintained by the system rather than by this package.
