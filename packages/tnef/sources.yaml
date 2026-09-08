@@ -1,0 +1,21 @@
+{
+  "package_id": "tnef",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fa56dd08649f51b173017911cae277dc4b2c98211721c2a60708bf1d28839922"
+      },
+      "filename": "tnef-1.4.18.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/verdammelt/tnef/archive/refs/tags/1.4.18.tar.gz",
+      "version": "1.4.18"
+    }
+  ]
+}

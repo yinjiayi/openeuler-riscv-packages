@@ -1,0 +1,21 @@
+{
+  "package_id": "linux-minesweeper",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "22879c0fe92c95ce17ef2c11071026ce99fc5ba803eedd41e33c4344d909a5ab"
+      },
+      "filename": "linux-minesweeper-2.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/actuallyaridan/linux-minesweeper/archive/refs/tags/v2.0.1.tar.gz",
+      "version": "2.0.1"
+    }
+  ]
+}
