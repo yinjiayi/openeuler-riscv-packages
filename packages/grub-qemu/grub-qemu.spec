@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           grub-qemu
 Version:        0.1.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        a lightweight App for Preview full GRUB
 License:        GPL-3.0-or-later
 URL:            https://github.com/VC365/grub-qemu
@@ -18,7 +18,7 @@ a lightweight App for Preview full GRUB
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake_conf -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -34,6 +34,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.3-3
+- Configure in the build directory expected by the openEuler CMake macros.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.3-2
 - Support the locked openEuler CMake release and install the executable.
 
