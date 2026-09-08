@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           procmon
 Version:        2.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Trace syscall activity tool
 License:        MIT
 URL:            https://github.com/microsoft/ProcMon-for-Linux
@@ -14,7 +14,7 @@ BuildRequires:  make
 Trace syscall activity tool
 
 %prep
-%autosetup -p1
+%autosetup -n ProcMon-for-Linux-%{version} -p1
 
 %build
 %cmake -DBUILD_TESTING=ON
@@ -33,5 +33,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.1-2
+- Match the official tag archive's top-level source directory.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.1-1
 - Initial openEuler RISC-V package from the full package inventory.

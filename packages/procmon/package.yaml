@@ -1,8 +1,8 @@
 {
   "build": {
-    "native_reason": null,
+    "native_reason": "Procmon must load and exercise target-kernel eBPF programs while observing privileged syscall activity; QEMU user mode shares the x86_64 host kernel and cannot validate that RISC-V behavior.",
     "network_during_build": true,
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "timeout_minutes": 60
   },
   "discovery": {
@@ -71,6 +71,6 @@
   "version": {
     "current": "2.2.1",
     "latest_detected": "2.2.1",
-    "release": "1"
+    "release": "2"
   }
 }
