@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           qucs-rflayout
 Version:        2.1.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Export Qucs RF schematics to KiCad layouts & OpenEMS scripts
 License:        GPL-3.0-or-later
 URL:            https://github.com/thomaslepoix/Qucs-RFlayout
 Source0:        qucs-rflayout-2.1.2.tar.gz
+Patch0:         0001-cmake-guard-optional-latex-docs.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -37,6 +38,10 @@ test -s %{name}.files
 %doc CHANGELOG
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.2-4
+- Build optional LaTeX diagrams only when XeLaTeX is available, while retaining
+  the complete GUI product and Catch test targets.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.2-3
 - Configure the explicit out-of-tree directory expected by the build, install,
   and upstream check macros.
