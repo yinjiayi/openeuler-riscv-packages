@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           dsd-neo
 Version:        2.5.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Digital Speech Decoder - A modern, modular, and performance enhanced C/C++ decoder for digital voice. DMR, P25, NXDN, YSF, and more.
 License:        GPL-3.0-or-later
 URL:            https://github.com/arancormonk/dsd-neo
@@ -23,7 +23,7 @@ Digital Speech Decoder - A modern, modular, and performance enhanced C/C++ decod
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake_conf -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -40,6 +40,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.1-3
+- Configure in the RPM out-of-source build directory used by later macros.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.1-2
 - Declare the required C++, audio, crypto, terminal, and mbelib build dependencies.
 
