@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ditrigon
 Version:        1.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A popular and easy to use graphical IRC (chat) client
 License:        GPL-2.0-or-later
 URL:            https://github.com/bluewww/ditrigon
 Source0:        ditrigon-1.6.0.tar.gz
 BuildRequires:  dbus-glib-devel
 BuildRequires:  desktop-file-utils
+BuildRequires:  doxygen
 BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  glib2-devel
@@ -59,6 +60,9 @@ test -s %{name}.files
 
 
 %changelog
+* Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6.0-3
+- Declare Doxygen so the enabled API documentation target can be configured.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6.0-2
 - Declare the development dependencies for the GTK 4 client and plugins.
 - Keep TLS, DBus, sound integration, and the default plugin set enabled.
