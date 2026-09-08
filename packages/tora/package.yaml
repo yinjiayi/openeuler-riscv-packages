@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 120
+    "timeout_minutes": 180
   },
   "discovery": {
     "lineage": [
@@ -74,7 +74,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The dependency transaction completed and the QEMU build reached 67% without a compiler error before the prior 60-minute package deadline; the 120-minute budget preserves the full debug build, its development test targets, and the CTest check. Trusted exact-head run 34114949056 then compiled for more than 81 minutes before GCC 14 rejected construction and method calls on the forward-declared QButtonGroup type in tobrowser.cpp. Release 9 includes its complete Qt definition without changing browser functionality. Upstream does not register CTest tests in this release. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Trusted exact-head run 34123431416 installed all declared dependencies in one successful transaction, configured successfully, and compiled continuously to 85% without a compiler, linker, dependency, or QEMU error before the 120-minute package deadline terminated rpmbuild with exit 124. Release 10 raises only the package budget to 180 minutes while retaining the full debug build, its development test targets, and the CTest check. Upstream does not register CTest tests in this release. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "tora",
@@ -109,6 +109,6 @@
   "version": {
     "current": "3.2",
     "latest_detected": "3.2",
-    "release": "9"
+    "release": "10"
   }
 }
