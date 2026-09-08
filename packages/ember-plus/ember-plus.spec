@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ember-plus
 Version:        1.8.2.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Ember+ control protocol - Slick and free for all!
 License:        BSL-1.0
 URL:            https://github.com/Lawo/ember-plus
@@ -19,8 +19,13 @@ Ember+ control protocol - Slick and free for all!
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake -S . -B %{_vpath_builddir}
 %cmake_build
+
+# The aggregate project does not add libember's test programs. Configure
+# libember as a top-level project so all four upstream self-tests are built.
+%cmake -S libember -B %{_vpath_builddir}-libember-tests
+%{__cmake} --build %{_vpath_builddir}-libember-tests %{?_smp_mflags} --verbose
 
 %install
 %cmake_install
@@ -28,13 +33,23 @@ find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{
 test -s %{name}.files
 
 %check
-ctest --test-dir %{_vpath_builddir} --output-on-failure
+for test in \
+  libember-test-streambuffer \
+  libember-test-static_encode_decode \
+  libember-test-dynamic_encode_decode \
+  libember-test-glow_value; do
+  "%{_vpath_builddir}-libember-tests/Tests/${test}"
+done
 
 %files -f %{name}.files
 %license LICENSE.TXT
 %doc README.md
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.8.2.2-3
+- Use the explicit out-of-source directory consumed by the RPM CMake macros.
+- Build and execute all four upstream libember self-test programs.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.8.2.2-2
 - Add the Qt 5 development dependency required by the TinyEmber applications.
 

@@ -2,3 +2,5 @@
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
 rpm -q -- ember-plus
+command -v TinyEmberPlus
+command -v TinyEmberPlusRouter

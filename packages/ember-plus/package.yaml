@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Trusted exact-head run 34124916340 verified the source and complete Qt 5 dependency transaction, then showed that CMake configured in the source directory while the RPM build macro consumed a missing out-of-source directory. Release 3 uses that explicit directory and separately configures libember as a top-level project so all four upstream self-test programs are built and executed rather than relying on the aggregate project's empty CTest registry. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "ember-plus",
@@ -63,6 +63,6 @@
   "version": {
     "current": "1.8.2.2",
     "latest_detected": "1.8.2.2",
-    "release": "2"
+    "release": "3"
   }
 }
