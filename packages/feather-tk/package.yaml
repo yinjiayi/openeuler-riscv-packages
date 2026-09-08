@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-support-openEuler-3.27.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Allow the normal feather-tk build to configure with openEuler 24.03 LTS SP3 CMake 3.27.9 while retaining the upstream policies and complete feature set.",
+        "remove_when": "Upstream lowers the normal build requirement to CMake 3.27 or openEuler provides CMake 3.31 or newer.",
+        "sha256": "ce44c80fdc785c4d9475677c73407daae5fe8b14703eb1954db9da27d3577eca",
+        "source": "Downstream openEuler compatibility review of the official feather-tk 0.9.0 tag.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "feather-tk.spec"
@@ -63,6 +73,6 @@
   "version": {
     "current": "0.9.0",
     "latest_detected": "0.9.0",
-    "release": "1"
+    "release": "2"
   }
 }
