@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           rakarrack-plus
 Version:        1.4.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Guitar Effects Processor
 License:        GPL-2.0-or-later
 URL:            https://github.com/Stazed/rakarrack-plus
@@ -10,6 +10,7 @@ BuildRequires:  cmake
 BuildRequires:  alsa-lib-devel
 BuildRequires:  alsa-utils
 BuildRequires:  fltk-devel
+BuildRequires:  fltk-fluid
 BuildRequires:  fontconfig-devel
 BuildRequires:  freetype-devel
 BuildRequires:  gcc
@@ -36,7 +37,9 @@ Guitar Effects Processor
 %build
 %cmake \
   -DBUILD_TESTING=ON \
+  -DBUILD_RPLUS_STANDALONE=ON \
   -DBUILD_RPLUS_LV2=OFF \
+  -DBUILD_LV2_EFFECTS=ON \
   -DENABLE_ZITA=OFF
 %cmake_build
 
@@ -54,6 +57,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc AUTHORS
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.1-3
+- Add the split FLTK fluid compiler required by CMake's FLTK discovery.
+- Keep the standalone application and RakarrackPlus LV2 effects enabled.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.1-2
 - Declare the full standalone and LV2-effects build dependency set.
 - Use upstream's supported FLTK/libsamplerate configuration where NTK and
