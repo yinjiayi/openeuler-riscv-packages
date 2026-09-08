@@ -1,0 +1,25 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 8 Sep 2026 00:00:00 +0800
+Subject: [PATCH] Keep distribution format-security checks enabled
+
+Do not disable all format diagnostics for the embedded C core. Distribution
+build flags enable -Werror=format-security, which GCC rejects when -Wformat is
+disabled. Keeping format diagnostics enabled also preserves the intended
+security check.
+
+---
+ CMakeLists.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 88da5e4..0973421 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -115,5 +115,4 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unused-function")
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unused-parameter")
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-implicit-function-declaration")
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-incompatible-pointer-types")
+-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-format")
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-sign-compare")
+--
+2.51.0

@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           garlic-decompiler-gui
 Version:        1.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Gui for the Garlic Decompiler, supporting APK, DEX, JAR, and CLASS decompilation
 License:        Apache-2.0
 URL:            https://github.com/AgarwalKritik/garlic-gui
 Source0:        garlic-decompiler-gui-1.1.0.tar.gz
+Patch0:         0001-keep-distribution-format-security-checks-enabled.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -37,6 +38,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.0-4
+- Keep distribution format-security diagnostics enabled for the C core.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.0-3
 - Keep configure, build, install, and checks in one explicit CMake build tree.
 

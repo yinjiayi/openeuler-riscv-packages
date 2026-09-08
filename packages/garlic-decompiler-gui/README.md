@@ -10,4 +10,9 @@ produced the real `GarlicGUI` executable. The installed smoke test verifies the
 RPM and installed executable without attempting to launch a GUI without a
 display server.
 
+Release 4 removes upstream's blanket `-Wno-format` suppression for the embedded
+C core. This keeps openEuler's `-Wformat-security` check active and avoids the
+GCC 14 error caused by combining a disabled prerequisite warning with
+`-Werror=format-security`.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
