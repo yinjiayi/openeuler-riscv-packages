@@ -3,7 +3,7 @@
 
 Name:           yoga
 Version:        3.2.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Cross-platform layout engine
 License:        MIT
 URL:            https://github.com/facebook/yoga
@@ -38,6 +38,9 @@ ctest --test-dir %{_vpath_builddir}/tests --output-on-failure
 %doc README.md
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.1-5
+- Extend the QEMU package budget after the full test binary reached 98 percent compilation.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.1-4
 - Disable the empty debuginfo subpackage for the installed static archive.
 - Run CTest from the subdirectory where upstream registers the full test suite.
