@@ -27,7 +27,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-limit-x86-flags-to-x86.patch",
+        "license": "MIT",
+        "purpose": "Keep upstream SSE and x86 multilib flags off the RISC-V compiler and linker while preserving them for x86 builds.",
+        "remove_when": "Upstream limits -msse, -m32, and -m64 to x86 targets and determines non-x86 word size without x86 processor-name assumptions.",
+        "sha256": "c8d9d442b6321fb6ab352704ef335f7f810db6f996eddf04bf3d3ddbda39a6e1",
+        "source": "Downstream audit of the official 1.14.186 source archive for the openEuler riscv64 target.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "intel-metrics-discovery.spec"
@@ -51,7 +61,7 @@
     "isa": "RVA23",
     "os": "openEuler",
     "release": "24.03-LTS-SP3",
-    "riscv_status": "unknown"
+    "riscv_status": "patched-for-riscv"
   },
   "updates": {
     "enabled": true,
@@ -71,6 +81,6 @@
   "version": {
     "current": "1.14.186",
     "latest_detected": "1.14.186",
-    "release": "1"
+    "release": "2"
   }
 }
