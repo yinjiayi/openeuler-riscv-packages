@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ditrigon
 Version:        1.6.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A popular and easy to use graphical IRC (chat) client
 License:        GPL-2.0-or-later
 URL:            https://github.com/bluewww/ditrigon
@@ -23,6 +23,7 @@ BuildRequires:  ninja-build
 BuildRequires:  openssl-devel
 BuildRequires:  pciutils-devel
 BuildRequires:  perl-devel
+BuildRequires:  python3-cffi
 BuildRequires:  python3-devel
 
 %description
@@ -60,6 +61,9 @@ test -s %{name}.files
 
 
 %changelog
+* Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6.0-4
+- Declare python3-cffi for the enabled Python plugin generator.
+
 * Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6.0-3
 - Declare Doxygen so the enabled API documentation target can be configured.
 
