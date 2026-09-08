@@ -1,0 +1,47 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 8 Sep 2026 00:00:00 +0000
+Subject: [PATCH] session-lock-qt: support the Qt 6.5 shell API
+
+License: GPL-3.0-or-later
+Upstream-Status: downstream-only
+Origin: openEuler RISC-V packaging
+
+QWaylandShellSurface did not gain requestActivateOnShow() until Qt 6.8.
+Keep the exact method but omit the override specifier so it remains compatible
+with Qt 6.5 and still overrides the matching virtual method on Qt 6.8 and
+later. The older requestActivate() hook remains available on every version.
+
+Also use the existing m_peddingSize member in the Qt 6.5 expose path. The
+upstream spelling m_pendingSize names no member and would otherwise fail at
+the next compiler step.
+
+Remove this patch when upstream supports Qt 6.5 or requires Qt 6.8 or later
+and no longer compiles the older expose path.
+
+---
+ src/qwaylandextsessionlocksurface.cpp | 2 +-
+ src/qwaylandextsessionlocksurface.h   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/qwaylandextsessionlocksurface.cpp b/src/qwaylandextsessionlocksurface.cpp
+--- a/src/qwaylandextsessionlocksurface.cpp
++++ b/src/qwaylandextsessionlocksurface.cpp
+@@ -70,6 +70,6 @@ QWaylandExtLockSurface::sendExpose()
+ {
+ #if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
+-    window()->handleExpose(QRect(QPoint(), m_pendingSize));
++    window()->handleExpose(QRect(QPoint(), m_peddingSize));
+ #elif QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
+     window()->sendRecursiveExposeEvent();
+ #else
+diff --git a/src/qwaylandextsessionlocksurface.h b/src/qwaylandextsessionlocksurface.h
+--- a/src/qwaylandextsessionlocksurface.h
++++ b/src/qwaylandextsessionlocksurface.h
+@@ -19,6 +19,6 @@ public:
+     bool isExposed() const override { return m_configured; }
+     void applyConfigure() override;
+     bool requestActivate() override;
+-    bool requestActivateOnShow() override;
++    bool requestActivateOnShow();
+     void setXdgActivationToken(const QString &token) override;
+     void requestXdgActivationToken(quint32 serial) override;
