@@ -3,7 +3,7 @@
 
 Name:           kfr
 Version:        7.0.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Fast, modern C++ DSP framework, FFT, Sample Rate Conversion, FIR/IIR/Biquad Filters
 License:        GPL-2.0-or-later
 URL:            https://github.com/kfrlib/kfr
@@ -46,6 +46,9 @@ ctest --test-dir %{_vpath_builddir}/tests --output-on-failure
 %doc README.md
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 7.0.1-6
+- Allow the complete upstream test suite to finish within the package budget.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 7.0.1-5
 - Make the CTest runtime output directory absolute before subdirectory use.
 
