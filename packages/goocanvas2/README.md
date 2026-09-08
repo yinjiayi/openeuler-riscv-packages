@@ -23,6 +23,11 @@ reference assignment. The cast preserves the existing runtime type contract
 while making the relationship between the public model interface and the
 stored simple-model implementation explicit to contemporary C compilers.
 
+Release 4 packages the complete pre-generated GooCanvas 2 API reference under
+the development package. Target CI confirmed that all 52 previously unowned
+installed files belong to the single `gtk-doc/html/goocanvas2` directory; the
+installed smoke test checks its index alongside the existing ABI checks.
+
 The target dependency plan resolves 139 packages for the complete GTK,
 introspection, and Python feature set. Its first run was cancelled by the
 60-minute package deadline while the slow official-repository download was at

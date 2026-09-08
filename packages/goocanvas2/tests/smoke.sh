@@ -5,6 +5,7 @@ set -euo pipefail
 rpm -q -- goocanvas2 goocanvas2-devel python3-goocanvas2
 rpm -q --whatprovides 'pkgconfig(goocanvas-2.0)'
 test "$(pkg-config --modversion goocanvas-2.0)" = '2.0.4'
+test -f /usr/share/gtk-doc/html/goocanvas2/index.html
 
 tmpdir="$(mktemp -d)"
 trap 'rm -rf -- "$tmpdir"' EXIT

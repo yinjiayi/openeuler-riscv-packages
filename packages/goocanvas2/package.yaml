@@ -70,7 +70,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected as the 2.x compatibility ABI from the full discovery inventory: AUR, Fedora, and openSUSE name it goocanvas2, while Debian and Ubuntu name the same 2.0.4 source goocanvas-2.0. The exact official GNOME archive was independently downloaded, matched the checksum published beside the release, safety-inspected, and confirmed to contain the generated Autotools build, LGPL-2.0 license text, pkg-config metadata, GObject introspection support, and Python override. The build enables the complete 2.x C, introspection, and Python interfaces. Upstream registers no functional automated test suite when gtk-doc generation is disabled, so %check retains the upstream check target and adds a compiled public-ABI type-registration probe. The first target run resolved every direct BuildRequires but the network-limited installation of the 139-package GTK dependency closure reached only package 118 before the 60-minute package deadline; Release 2 allows 120 minutes without weakening the build or test contract. Release 3 imports Fedora dist-git commit 0285935dc7c3b4b39ddd1d5789b3e5ebabd973d7's one-line GCC 14 pointer-type compatibility patch after exact target CI reproduced the same failure.",
+    "notes": "Selected as the 2.x compatibility ABI from the full discovery inventory: AUR, Fedora, and openSUSE name it goocanvas2, while Debian and Ubuntu name the same 2.0.4 source goocanvas-2.0. The exact official GNOME archive was independently downloaded, matched the checksum published beside the release, safety-inspected, and confirmed to contain the generated Autotools build, LGPL-2.0 license text, pkg-config metadata, GObject introspection support, and Python override. The build enables the complete 2.x C, introspection, and Python interfaces. Upstream registers no functional automated test suite when gtk-doc generation is disabled, so %check retains the upstream check target and adds a compiled public-ABI type-registration probe. The first target run resolved every direct BuildRequires but the network-limited installation of the 139-package GTK dependency closure reached only package 118 before the 60-minute package deadline; Release 2 allows 120 minutes without weakening the build or test contract. Release 3 imports Fedora dist-git commit 0285935dc7c3b4b39ddd1d5789b3e5ebabd973d7's one-line GCC 14 pointer-type compatibility patch after exact target CI reproduced the same failure. Exact-head run 34124796531 then completed the build and checks but reported all 52 installed gtk-doc files as unpackaged; Release 4 keeps that generated API documentation and assigns its complete directory to the development package.",
     "status": "active"
   },
   "package_id": "goocanvas2",
@@ -105,6 +105,6 @@
   "version": {
     "current": "2.0.4",
     "latest_detected": "2.0.4",
-    "release": "3"
+    "release": "4"
   }
 }

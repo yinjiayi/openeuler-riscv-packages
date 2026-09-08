@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           goocanvas2
 Version:        2.0.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cairo canvas widget library for GTK 3
 License:        LGPL-2.0-only
 URL:            https://gitlab.gnome.org/GNOME/goocanvas
@@ -93,12 +93,16 @@ EOF
 %{_libdir}/libgoocanvas-2.0.so
 %{_libdir}/pkgconfig/goocanvas-2.0.pc
 %{_datadir}/gir-1.0/GooCanvas-2.0.gir
+%{_datadir}/gtk-doc/html/goocanvas2/
 
 %files -n python3-goocanvas2
 %{python3_sitearch}/gi/overrides/GooCanvas.py
 %{python3_sitearch}/gi/overrides/__pycache__/GooCanvas.*
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.4-4
+- Package the installed GooCanvas 2 API documentation with development files.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.4-3
 - Apply Fedora's GCC 14 pointer-type compatibility fix.
 
