@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           luau
 Version:        0.733
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A fast, small, safe, gradually typed embeddable scripting language derived from Lua
 License:        MIT
 URL:            https://github.com/luau-lang/luau
@@ -49,6 +49,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.733-3
+- Allow the complete CLI, library, and test build to finish under QEMU.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.733-2
 - Configure in the RPM out-of-source build directory, install the CLI tools,
   and execute the upstream test binaries directly.
