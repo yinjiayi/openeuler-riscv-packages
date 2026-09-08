@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           par2cmdline-turbo
 Version:        1.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A faster PAR 2.0 compatible file verification and repair tool, forked from par2cmdline
 License:        GPL-2.0-or-later
 URL:            https://github.com/animetosho/par2cmdline-turbo
@@ -26,13 +26,16 @@ autoreconf -fi
 
 %install
 %make_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
-test -s %{name}.files
 
 %check
 %make_build check
 
-%files -f %{name}.files
+%files
+%{_bindir}/par2
+%{_bindir}/par2create
+%{_bindir}/par2repair
+%{_bindir}/par2verify
+%{_mandir}/man1/par2*.1*
 %license COPYING
 %doc README.md
 %doc NEWS
@@ -40,5 +43,8 @@ test -s %{name}.files
 %doc ChangeLog
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.0-2
+- Use compression-safe static paths for the installed command and manual pages.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.0-1
 - Initial openEuler RISC-V package from the full package inventory.
