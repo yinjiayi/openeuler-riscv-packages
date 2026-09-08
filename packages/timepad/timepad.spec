@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           timepad
 Version:        0.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A minimal Timer App for Linux that has a picture-in-picture mode
 License:        MIT
 URL:            https://github.com/agokule/timepad
@@ -63,6 +63,9 @@ test -x %{_vpath_builddir}/Timepad
 %doc README.md
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.0-3
+- Allow the complete SDL and Timepad build to finish under QEMU.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.0-2
 - Enable the complete SDL X11 backend and install the application resources.
 
