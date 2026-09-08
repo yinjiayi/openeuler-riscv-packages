@@ -10,4 +10,9 @@ upstream archive combines MIT project code, CC-BY-4.0 artwork, BSL-1.0 header
 sections, and BSD-3-Clause CMake helpers. Fedora's SPEC was inspected only as
 packaging evidence and was not executed.
 
+The complete upstream CTest suite remains enabled. On the pinned RISC-V QEMU
+user-mode runner, a single long-lived `ctest` process receives `SIGILL` after
+69 successful tests; `%check` therefore runs the discovered test set in
+bounded batches without omitting or accepting failures from any test.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
