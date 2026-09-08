@@ -1,15 +1,31 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           rakarrack-plus
 Version:        1.4.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Guitar Effects Processor
 License:        GPL-2.0-or-later
 URL:            https://github.com/Stazed/rakarrack-plus
 Source0:        rakarrack-plus-1.4.1.tar.gz
 BuildRequires:  cmake
+BuildRequires:  alsa-lib-devel
+BuildRequires:  alsa-utils
+BuildRequires:  fltk-devel
+BuildRequires:  fontconfig-devel
+BuildRequires:  freetype-devel
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
+BuildRequires:  jack-audio-connection-kit-devel
+BuildRequires:  liblo-devel
+BuildRequires:  libsamplerate-devel
+BuildRequires:  libsndfile-devel
+BuildRequires:  libX11-devel
+BuildRequires:  libXft-devel
+BuildRequires:  libXpm-devel
+BuildRequires:  libXrender-devel
+BuildRequires:  lv2-devel
 BuildRequires:  make
+BuildRequires:  pkgconf-pkg-config
+BuildRequires:  zlib-devel
 
 %description
 Guitar Effects Processor
@@ -18,7 +34,10 @@ Guitar Effects Processor
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake \
+  -DBUILD_TESTING=ON \
+  -DBUILD_RPLUS_LV2=OFF \
+  -DENABLE_ZITA=OFF
 %cmake_build
 
 %install
@@ -35,5 +54,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc AUTHORS
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.1-2
+- Declare the full standalone and LV2-effects build dependency set.
+- Use upstream's supported FLTK/libsamplerate configuration where NTK and
+  zita-resampler are unavailable in the target repositories.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.1-1
 - Initial openEuler RISC-V package from the full package inventory.
