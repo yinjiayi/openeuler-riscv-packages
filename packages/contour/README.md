@@ -5,4 +5,9 @@ This directory packages upstream `https://github.com/contour-terminal/contour` v
 
 Release 6 declares the complete XKB and Qt 6 Wayland development closure exercised by the upstream Linux GUI build and gives the QEMU build a 120-minute package budget. The upstream unit-test targets remain enabled through `CONTOUR_TESTING`, and `%check` runs the generated CTest suite.
 
+Release 7 increases only the package budget to 240 minutes after exact-head
+evidence showed that dependency preparation left 4,852 seconds for an
+error-free build that was still progressing at 65%. GUI, Wayland, and the full
+CTest suite remain enabled without source changes.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
