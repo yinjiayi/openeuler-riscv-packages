@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           yyjson
-Version:        0.12.0
-Release:        2%{?dist}
+Version:        0.13.0
+Release:        1%{?dist}
 Summary:        High-performance JSON library written in C
 License:        MIT
 URL:            https://github.com/ibireme/yyjson
-Source0:        yyjson-%{version}.tar.gz
+Source0:        0.13.0.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
