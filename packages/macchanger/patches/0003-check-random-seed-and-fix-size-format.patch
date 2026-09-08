@@ -1,0 +1,45 @@
+From: Fedora macchanger maintainers <macchanger-maintainers@fedoraproject.org>
+Date: Fri, 4 Jul 2014 00:00:00 +0000
+Subject: [PATCH] warnings: check seed read and print size_t portably
+
+Require a complete random-seed read before accepting it, retain the existing
+time/PID fallback, and use %zu for strlen()'s size_t result. These fixes are
+carried by Fedora 44 for macchanger 1.7.0 and avoid architecture-sensitive
+format diagnostics.
+
+Root cause: upstream 1.7.0 ignores a possibly short read and prints size_t
+through a long-unsigned format that is not portable across data models.
+Patch-Source: Fedora 44 macchanger-1.7.0-30.fc44 source RPM,
+              macchanger-1.7.0-werror.diff
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (existing Fedora downstream patch)
+Removal: remove when a stable upstream release validates the seed read and
+         uses a size_t-compatible diagnostic format.
+
+---
+ src/mac.c  | 2 +-
+ src/main.c | 8 ++++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/src/main.c b/src/main.c
+--- a/src/main.c
++++ b/src/main.c
+@@ -96,0 +97 @@
++	int            have_seed = 0;
+@@ -101 +102 @@
+-		read (fd, &seed, sizeof(seed));
++		have_seed = (read (fd, &seed, sizeof(seed)) == sizeof(seed));
+@@ -103 +104,4 @@
+-	} else {
++	}
++
++	/* Use a predictable non-constant seed as a fallback. */
++	if (!have_seed) {
+diff --git a/src/mac.c b/src/mac.c
+--- a/src/mac.c
++++ b/src/mac.c
+@@ -116 +116 @@
+-		fprintf (stderr, "[ERROR] Incorrect format: MAC length should be 17. %s(%lu)\n", string, strlen(string));
++		fprintf (stderr, "[ERROR] Incorrect format: MAC length should be 17. %s(%zu)\n", string, strlen(string));
+--
+2.50.1
