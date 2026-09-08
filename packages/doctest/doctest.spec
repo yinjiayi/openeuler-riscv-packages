@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           doctest
 Version:        2.5.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Lightweight feature-rich C++ testing framework
 License:        MIT AND CC-BY-4.0 AND BSL-1.0 AND BSD-3-Clause
 URL:            https://github.com/doctest/doctest
@@ -9,6 +9,11 @@ Source0:        doctest-2.5.2.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  make
+
+# doctest installs headers, CMake/pkg-config metadata, and a static archive.
+# The target RPM macros otherwise create an empty debuginfo file list and fail
+# packaging after the complete upstream test suite has passed.
+%global debug_package %{nil}
 
 
 %description
@@ -54,6 +59,9 @@ done
 %{_libdir}/pkgconfig/doctest.pc
 
 %changelog
+* Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.2-4
+- Disable the empty debuginfo subpackage for the header/static-only payload.
+
 * Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.2-3
 - Use shorter CTest batches after a 32-test batch still accumulated QEMU state.
 
