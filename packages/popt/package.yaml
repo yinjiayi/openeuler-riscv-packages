@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/rpm-software-management/popt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "popt",
+        "package_name": "popt",
+        "source": "arch-core",
+        "source_version": "1.19-2"
+      },
+      {
+        "evidence_url": "https://github.com/rpm-software-management/popt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-popt",
+        "package_name": "android-riscv64-popt",
+        "source": "aur",
+        "source_version": "1.19-1"
+      },
+      {
+        "evidence_url": "https://github.com/rpm-software-management/popt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "popt",
+        "package_name": "popt",
+        "source": "debian",
+        "source_version": "1.19+dfsg-2"
+      },
+      {
+        "evidence_url": "https://github.com/rpm-software-management/popt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "popt",
+        "package_name": "popt",
+        "source": "fedora",
+        "source_version": "1.19-10.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/rpm-software-management/popt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "popt",
+        "package_name": "popt",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.19-2.4"
+      },
+      {
+        "evidence_url": "https://github.com/rpm-software-management/popt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "popt",
+        "package_name": "popt",
+        "source": "ubuntu",
+        "source_version": "1.19+dfsg-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "popt.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "popt",
+  "rpm": {
+    "license": "MIT",
+    "name": "popt",
+    "summary": "C library for parsing command-line parameters"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-rpm-software-management-popt",
+    "homepage": "https://github.com/rpm-software-management/popt",
+    "release_api": "https://api.github.com/repos/rpm-software-management/popt/tags",
+    "release_channel": "stable",
+    "release_regex": "\\\"name\\\"\\s*:\\s*\\\"popt-(?P<version>[0-9]+(?:\\.[0-9]+)+)-release\\\"",
+    "source_repository": "https://github.com/rpm-software-management/popt",
+    "source_url_template": "https://github.com/rpm-software-management/popt/archive/refs/tags/popt-{version}-release.tar.gz"
+  },
+  "version": {
+    "current": "1.19",
+    "latest_detected": "1.19",
+    "release": "1"
+  }
+}

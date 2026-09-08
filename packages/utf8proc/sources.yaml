@@ -1,0 +1,51 @@
+{
+  "package_id": "utf8proc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "abfed50b6d4da51345713661370290f4f4747263ee73dc90356299dfc7990c78"
+      },
+      "filename": "utf8proc-2.11.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/JuliaStrings/utf8proc/archive/refs/tags/v2.11.3.tar.gz",
+      "version": "2.11.3"
+    },
+    {
+      "digests": {
+        "sha256": "5019ffd530751a741900c849c0e010332f142a3612234639bd200b82138a87db"
+      },
+      "filename": "NormalizationTest-17.0.0.txt",
+      "id": "unicode-normalization-test",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official Unicode Character Database test data used only for build-time validation."
+      },
+      "signature": null,
+      "url": "https://www.unicode.org/Public/17.0.0/ucd/NormalizationTest.txt",
+      "version": "17.0.0"
+    },
+    {
+      "digests": {
+        "sha256": "e2d134d2c52919bace503ebb6a551c1855fe1a1faec18478c78fff254a1793ec"
+      },
+      "filename": "GraphemeBreakTest-17.0.0.txt",
+      "id": "unicode-grapheme-break-test",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official Unicode Character Database test data used only for build-time validation."
+      },
+      "signature": null,
+      "url": "https://www.unicode.org/Public/17.0.0/ucd/auxiliary/GraphemeBreakTest.txt",
+      "version": "17.0.0"
+    }
+  ]
+}

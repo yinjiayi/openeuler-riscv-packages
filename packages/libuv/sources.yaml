@@ -1,0 +1,21 @@
+{
+  "package_id": "libuv",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "478baf2599bfbc882c355288c9cb6f92e0e7dda435fa04031fa5b607cf3f414c"
+      },
+      "filename": "libuv-1.52.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libuv/libuv/archive/refs/tags/v1.52.1.tar.gz",
+      "version": "1.52.1"
+    }
+  ]
+}

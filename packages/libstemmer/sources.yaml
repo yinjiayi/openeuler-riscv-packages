@@ -1,0 +1,21 @@
+{
+  "package_id": "libstemmer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0e82fb0e29006cad2831b4b25980a1dae85959c6a1faaaf96547f551e352042a"
+      },
+      "filename": "libstemmer_c-3.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "BSD-3-Clause source is fetched from Snowball's official versioned distribution endpoint in CI."
+      },
+      "signature": null,
+      "url": "https://snowballstem.org/dist/libstemmer_c-3.1.1.tar.gz",
+      "version": "3.1.1"
+    }
+  ]
+}

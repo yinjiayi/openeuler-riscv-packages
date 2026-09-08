@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/libedit/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libedit",
+        "package_name": "libedit",
+        "source": "arch-core",
+        "source_version": "20260512_3.1-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/stable/libedit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libedit",
+        "package_name": "libedit",
+        "source": "debian",
+        "source_version": "3.1-20250104-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libedit/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libedit",
+        "package_name": "libedit",
+        "source": "fedora",
+        "source_version": "3.1-58.20251016cvs.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libedit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libedit",
+        "package_name": "libedit",
+        "source": "opensuse-tumbleweed",
+        "source_version": "20250104.3.1-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libedit",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libedit",
+        "package_name": "libedit",
+        "source": "ubuntu",
+        "source_version": "3.1-20251016-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libedit.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 20260512-3.1 archive independently pinned from the immutable discovery snapshot and normalized to RPM Version 20260512.3.1. Fedora packaging was reviewed as text only; no matching AUR component was present.",
+    "status": "active"
+  },
+  "package_id": "libedit",
+  "rpm": {
+    "license": "BSD-3-Clause AND BSD-2-Clause AND ISC",
+    "name": "libedit",
+    "summary": "BSD line-editing, history, and tokenization library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "thrysoee.dk-editline",
+    "homepage": "https://www.thrysoee.dk/editline/",
+    "release_api": "https://www.thrysoee.dk/editline/",
+    "release_channel": "stable",
+    "release_regex": "libedit-(?P<version>[0-9]{8}-3\\.1)\\.tar\\.gz",
+    "source_repository": "https://www.thrysoee.dk/editline/",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "20260512.3.1",
+    "latest_detected": "20260512.3.1",
+    "release": "1"
+  }
+}

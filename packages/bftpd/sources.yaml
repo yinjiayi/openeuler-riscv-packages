@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "bftpd",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://downloads.sourceforge.net/project/bftpd/bftpd/bftpd-6.7/bftpd-6.7.tar.gz",
+      "filename": "bftpd-6.7.tar.gz",
+      "version": "6.7",
+      "digests": {
+        "sha256": "40317957c3667fded7541ff4b0f44328573827ef0315519a44ca1b627f5eafb2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL-2.0-only source is fetched from the official SourceForge release in CI."
+      }
+    }
+  ]
+}

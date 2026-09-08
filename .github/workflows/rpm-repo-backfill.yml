@@ -1,0 +1,87 @@
+# SPDX-License-Identifier: Apache-2.0
+name: RPM Repository Backfill
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/rpm-repo-backfill-trigger.json
+
+concurrency:
+  group: rpm-repository-backfill
+  cancel-in-progress: false
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      packages_0: ${{ steps.plan.outputs.packages_0 }}
+      packages_1: ${{ steps.plan.outputs.packages_1 }}
+      package_count: ${{ steps.plan.outputs.package_count }}
+      max_parallel_per_shard: ${{ steps.plan.outputs.max_parallel_per_shard }}
+    steps:
+      - name: Check out the exact protected-main revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Select every active QEMU-buildable real package
+        id: plan
+        run: |
+          mkdir -p artifacts/rpm-repository-backfill
+          ci/list-rpm-repo-packages.py \
+            --packages-dir packages \
+            --output artifacts/rpm-repository-backfill/plan.json \
+            --max-concurrency "${{ vars.RPM_BACKFILL_MAX_CONCURRENCY || '50' }}" \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Upload the immutable backfill plan
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rpm-repository-backfill-plan-${{ github.run_id }}
+          path: artifacts/rpm-repository-backfill/plan.json
+          if-no-files-found: error
+          retention-days: 7
+
+  build-publish-0:
+    needs: plan
+    strategy:
+      fail-fast: false
+      # The protected-main self-hosted pool currently has fifty isolated
+      # QEMU workers. The plan divides the operator's bounded total concurrency
+      # equally across two deterministic matrices so more than 256 active
+      # packages remain supported without exceeding the fleet-wide limit.
+      max-parallel: ${{ fromJSON(needs.plan.outputs.max_parallel_per_shard) }}
+      matrix:
+        package_id: ${{ fromJSON(needs.plan.outputs.packages_0) }}
+    uses: ./.github/workflows/package-ci.yml
+    with:
+      package_id: ${{ matrix.package_id }}
+      commit_sha: ${{ github.sha }}
+      publish_to_repo: true
+    secrets:
+      RPM_REPO_SSH_PRIVATE_KEY: ${{ secrets.RPM_REPO_SSH_PRIVATE_KEY }}
+
+  build-publish-1:
+    needs: plan
+    if: fromJSON(needs.plan.outputs.package_count) > 1
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(needs.plan.outputs.max_parallel_per_shard) }}
+      matrix:
+        package_id: ${{ fromJSON(needs.plan.outputs.packages_1) }}
+    uses: ./.github/workflows/package-ci.yml
+    with:
+      package_id: ${{ matrix.package_id }}
+      commit_sha: ${{ github.sha }}
+      publish_to_repo: true
+    secrets:
+      RPM_REPO_SSH_PRIVATE_KEY: ${{ secrets.RPM_REPO_SSH_PRIVATE_KEY }}

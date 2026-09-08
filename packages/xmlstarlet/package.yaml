@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "package_id": "xmlstarlet",
+  "rpm": {"name": "xmlstarlet", "summary": "Command-line toolkit for processing XML documents", "license": "MIT"},
+  "upstream": {
+    "component": "sourceforge-xmlstarlet",
+    "homepage": "https://xmlstar.sourceforge.net/",
+    "source_repository": "https://git.code.sf.net/p/xmlstar/code",
+    "release_channel": "stable",
+    "release_api": "https://sourceforge.net/projects/xmlstar/files/xmlstarlet/",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://downloads.sourceforge.net/project/xmlstar/xmlstarlet/{version}/xmlstarlet-{version}.tar.gz"
+  },
+  "version": {"current": "1.6.1", "release": "15", "latest_detected": "1.6.1"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "xmlstarlet", "package_base": "xmlstarlet", "source_version": "1.6.1", "evidence_url": "https://archlinux.org/packages/extra/x86_64/xmlstarlet/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "xmlstarlet", "package_base": "xmlstarlet", "source_version": "1.6.1", "evidence_url": "https://packages.debian.org/trixie/source/xmlstarlet", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "xmlstarlet", "package_base": "xmlstarlet", "source_version": "1.6.1", "evidence_url": "https://packages.fedoraproject.org/pkgs/xmlstarlet/xmlstarlet/fedora-44.html", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "opensuse-tumbleweed", "package_name": "xmlstarlet", "package_base": "xmlstarlet", "source_version": "1.6.1", "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/xmlstarlet", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "xmlstarlet", "package_base": "xmlstarlet", "source_version": "1.6.1", "evidence_url": "https://packages.ubuntu.com/resolute/source/xmlstarlet", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "xmlstarlet.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "This preserves target version 1.6.1 while advancing release 14 to 15 and retaining the xmlstarlet/xmlstarlet-help split. Frozen Arch, Debian, Fedora 44, openSUSE, Ubuntu, and target evidence corroborates the release. The official SourceForge archive is SHA-256 pinned. A native RISC-V compatibility run on libxml2 2.11.9/libxslt 1.1.39 completed all 79 tests with 77 PASS, two canonical XFAIL, and zero FAIL; SP3/RVA23 QEMU CI remains authoritative."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}

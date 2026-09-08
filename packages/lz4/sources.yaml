@@ -1,0 +1,21 @@
+{
+  "package_id": "lz4",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "537512904744b35e232912055ccf8ec66d768639ff3abe5788d90d792ec5f48b"
+      },
+      "filename": "lz4-1.10.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/lz4/lz4/releases/download/v1.10.0/lz4-1.10.0.tar.gz",
+      "version": "1.10.0"
+    }
+  ]
+}

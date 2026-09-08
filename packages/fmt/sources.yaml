@@ -1,0 +1,21 @@
+{
+  "package_id": "fmt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8b852bb5aa6e7d8564f9e81394055395dd1d1936d38dfd3a17792a02bebd7af0"
+      },
+      "filename": "fmt-12.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fmtlib/fmt/archive/refs/tags/12.2.0.tar.gz",
+      "version": "12.2.0"
+    }
+  ]
+}

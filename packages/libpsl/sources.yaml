@@ -1,0 +1,21 @@
+{
+  "package_id": "libpsl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "93941f85a1e7bd593fa94f299233cb5dfc91cd144fd9a78a6ceb75001c5b03be"
+      },
+      "filename": "libpsl-0.23.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Open-source release and bundled Public Suffix List data are fetched from the official versioned asset in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rockdaboot/libpsl/releases/download/0.23.3/libpsl-0.23.3.tar.gz",
+      "version": "0.23.3"
+    }
+  ]
+}

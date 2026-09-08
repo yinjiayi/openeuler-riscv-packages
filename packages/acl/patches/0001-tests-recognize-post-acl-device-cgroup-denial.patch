@@ -1,0 +1,33 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 11 Aug 2026 00:00:00 +0000
+Subject: [PATCH] tests: recognize post-ACL device-cgroup denial
+
+License: GPL-2.0-or-later
+Upstream-Status: downstream-only
+Origin: openEuler RISC-V packaging
+
+The permissions test first proves that user bin receives EACCES before an ACL
+entry grants access to the synthetic block-device inode.  Linux then performs
+the POSIX ACL/DAC check before its device-cgroup permission hook.  A hardened
+container can therefore return EPERM after the ACL succeeds, while an
+unrestricted host continues far enough to return ENXIO for the nonexistent
+device.
+
+Accept exactly those two post-ACL outcomes.  Keep the pre-ACL EACCES assertion
+and every character-device, FIFO, directory, ownership, and CAP_FOWNER check
+unchanged.
+
+Remove this patch when upstream carries an equivalent expectation or the
+locked build container grants read access to the synthetic block device
+major/minor 91:64 and consistently reaches ENXIO.
+
+---
+ test/root/permissions.run | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/root/permissions.run b/test/root/permissions.run
+--- a/test/root/permissions.run
++++ b/test/root/permissions.run
+@@ -246 +246 @@ test if the device exists.
+-	>~ .*hdt: No such device or address$
++	>~ .*hdt: (?:No such device or address|Operation not permitted)$

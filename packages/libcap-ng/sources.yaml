@@ -1,0 +1,21 @@
+{
+  "package_id": "libcap-ng",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a2b4211f59b231d607c61ea2a13e9ecb38f446fe769b44e12da939d5af6d978a"
+      },
+      "filename": "v0.9.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/stevegrubb/libcap-ng/archive/refs/tags/v0.9.5.tar.gz",
+      "version": "0.9.5"
+    }
+  ]
+}

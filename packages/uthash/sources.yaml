@@ -1,0 +1,21 @@
+{
+  "package_id": "uthash",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e10382ab75518bad8319eb922ad04f907cb20cccb451a3aa980c9d005e661acc"
+      },
+      "filename": "uthash-2.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/troydhanson/uthash/archive/refs/tags/v2.3.0.tar.gz",
+      "version": "2.3.0"
+    }
+  ]
+}

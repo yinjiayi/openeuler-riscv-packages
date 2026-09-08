@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 240
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/lcms2/",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "lcms2",
+        "package_name": "lcms2",
+        "source": "arch-extra",
+        "source_version": "2.19.1-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/lcms2-git",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "lcms2-git",
+        "package_name": "lcms2-git",
+        "source": "aur",
+        "source_version": "2.15.r34.gbce906a-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/lcms2",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "lcms2",
+        "package_name": "lcms2",
+        "source": "debian",
+        "source_version": "2.16-2+deb13u2"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/lcms2/lcms2/",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "lcms2",
+        "package_name": "lcms2",
+        "source": "fedora",
+        "source_version": "2.16-7.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/lcms2",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "lcms2",
+        "package_name": "lcms2",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.19.1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/lcms2",
+        "observed_at": "2026-08-11T11:29:57Z",
+        "package_base": "lcms2",
+        "package_name": "lcms2",
+        "source": "ubuntu",
+        "source_version": "2.17-1ubuntu0.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260811T112957Z-13e9ca46e5641a01"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "lcms2.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official Little CMS 2.19.1 release bytes and SHA-256 are corroborated by the upstream GitHub release asset metadata. Arch stable and openSUSE Tumbleweed confirm 2.19.1; Fedora 44, Debian stable, and Ubuntu GA carried older stable lines, so this is an intentional official-stable forward release. The AUR lcms2-git row is VCS-only and older than 730 days, so it was excluded as a source. AUR RPC metadata only was read, and no AUR recipe or distribution spec was executed.",
+    "status": "active"
+  },
+  "package_id": "lcms2",
+  "rpm": {
+    "license": "MIT AND GPL-3.0-or-later",
+    "name": "lcms2",
+    "summary": "Small-footprint color management engine"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  },
+  "upstream": {
+    "component": "littlecms.com-lcms2",
+    "homepage": "https://www.littlecms.com/",
+    "release_api": "https://api.github.com/repos/mm2/Little-CMS/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "lcms2-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/mm2/Little-CMS",
+    "source_url_template": "https://github.com/mm2/Little-CMS/releases/download/lcms{version}/lcms2-{version}.tar.gz"
+  },
+  "version": {"current": "2.19.1", "latest_detected": "2.19.1", "release": "1"}
+}

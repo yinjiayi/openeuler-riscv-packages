@@ -1,0 +1,36 @@
+{
+  "package_id": "iniparser",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "67575ed032a544d5359610e5f697af786371bbc3eb01311218ef8adfd3e5e329"
+      },
+      "filename": "iniparser-4.2.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release is redistributable under the declared MIT license."
+      },
+      "signature": null,
+      "url": "https://gitlab.com/iniparser/iniparser/-/archive/v4.2.6/iniparser-v4.2.6.tar.gz",
+      "version": "4.2.6"
+    },
+    {
+      "digests": {
+        "sha256": "e84eb301ca7967831e68b1728f911e87fa2d345d8ddb64f897bc2f2ee24a321c"
+      },
+      "filename": "unity-2.7.0.tar.gz",
+      "id": "source1",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official Unity test-framework release is MIT-licensed and is used only to run iniparser's offline tests."
+      },
+      "signature": null,
+      "url": "https://github.com/ThrowTheSwitch/Unity/archive/refs/tags/v2.7.0.tar.gz",
+      "version": "2.7.0"
+    }
+  ]
+}

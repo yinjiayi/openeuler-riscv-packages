@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Fri, 14 Aug 2026 00:00:00 +0000
+Subject: [PATCH] build: fix bindir expansion during install
+
+The install-exec-local rule spells the Automake bindir variable as
+"($bindir)".  That text is appended to DESTDIR and passed unquoted to the
+shell, so staged RPM installation fails on the unexpected opening
+parenthesis.  Use the same $(bindir) expansion as the symlink rules below
+it.  Update both the Automake source and the generated input shipped in the
+release archive so the fix works without regenerating the build system.
+
+Patch-Source: openEuler RISC-V package CI run 31768267502
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: An upstream release ships the corrected bindir expansion.
+---
+ src/Makefile.am | 2 +-
+ src/Makefile.in | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -52 +52 @@ install-exec-local:
+-	$(mkdir_p) $(DESTDIR)($bindir)
++	$(mkdir_p) $(DESTDIR)$(bindir)
+diff --git a/src/Makefile.in b/src/Makefile.in
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -1580 +1580 @@ install-exec-local:
+-	$(mkdir_p) $(DESTDIR)($bindir)
++	$(mkdir_p) $(DESTDIR)$(bindir)

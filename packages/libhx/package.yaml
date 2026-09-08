@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "libhx",
+  "rpm": {
+    "name": "libHX",
+    "summary": "Utility library for C and C++ programs",
+    "license": "GPL-3.0-only AND LGPL-2.1-or-later"
+  },
+  "upstream": {
+    "component": "codeberg.org-jengelh-libhx",
+    "homepage": "https://inai.de/projects/libhx/",
+    "source_repository": "https://codeberg.org/jengelh/libhx",
+    "release_channel": "stable",
+    "release_api": "https://inai.de/files/libhx/",
+    "release_regex": "libHX-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.zst",
+    "source_url_template": "https://inai.de/files/libhx/libHX-{version}.tar.zst"
+  },
+  "version": {
+    "current": "5.4",
+    "release": "1",
+    "latest_detected": "5.4"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libhx",
+        "package_base": "libhx",
+        "source_version": "5.4-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libhx/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libhx",
+        "package_base": "libhx",
+        "source_version": "4.26-1",
+        "evidence_url": "https://packages.debian.org/trixie/source/libhx",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libHX",
+        "package_base": "libHX",
+        "source_version": "3.22-26.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libHX/libHX/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libHX",
+        "package_base": "libHX",
+        "source_version": "5.4-1.4",
+        "evidence_url": "https://software.opensuse.org/package/libHX",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libhx",
+        "package_base": "libhx",
+        "source_version": "5.2-1.1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libhx",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libHX.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official current stable 5.4 is SHA-256 pinned and archive-safe. Frozen Arch, Fedora 44, Debian, openSUSE, Ubuntu, and read-only AUR RPC evidence corroborate the component. Target metadata has no prior libHX or libHX.so.43 provider. All 38 upstream check programs build and all seven registered tests pass with no skip or expected failure."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

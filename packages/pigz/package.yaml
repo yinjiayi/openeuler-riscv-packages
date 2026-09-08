@@ -1,0 +1,40 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {"evidence_url": "https://archlinux.org/packages/extra/x86_64/pigz/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "pigz", "package_name": "pigz", "source": "arch-extra", "source_version": "2.8-2"},
+      {"evidence_url": "https://aur.archlinux.org/packages/pigz-replace-gzip-static", "observed_at": "2026-08-08T16:50:00Z", "package_base": "pigz-replace-gzip-static", "package_name": "pigz-replace-gzip-static", "source": "aur", "source_version": "2.8-1"},
+      {"evidence_url": "https://packages.debian.org/trixie/source/pigz", "observed_at": "2026-08-08T16:50:00Z", "package_base": "pigz", "package_name": "pigz", "source": "debian", "source_version": "2.8-1"},
+      {"evidence_url": "https://packages.fedoraproject.org/pkgs/pigz/pigz/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "pigz", "package_name": "pigz", "source": "fedora", "source_version": "2.8-8.fc44"},
+      {"evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/pigz", "observed_at": "2026-08-08T16:50:00Z", "package_base": "pigz", "package_name": "pigz", "source": "opensuse-tumbleweed", "source_version": "2.8-2.9"},
+      {"evidence_url": "https://packages.ubuntu.com/resolute/source/pigz", "observed_at": "2026-08-08T16:50:00Z", "package_base": "pigz", "package_name": "pigz", "source": "ubuntu", "source_version": "2.8-1build1"}
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "pigz.spec"},
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen cross-distribution lineage was deduplicated by the official pigz component. The AUR row is metadata only and was never executed. The official release page identifies 2.8 as current stable and publishes the same SHA-256 as the independently downloaded, safety-inspected archive. The complete upstream test target remains enabled.",
+    "status": "active"
+  },
+  "package_id": "pigz",
+  "rpm": {"license": "Zlib", "name": "pigz", "summary": "Parallel implementation of gzip"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"},
+  "upstream": {
+    "component": "zlib.net-pigz",
+    "homepage": "https://zlib.net/pigz/",
+    "release_api": "https://zlib.net/pigz/",
+    "release_channel": "stable",
+    "release_regex": "pigz-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/madler/pigz",
+    "source_url_template": "https://zlib.net/pigz/pigz-{version}.tar.gz"
+  },
+  "version": {"current": "2.8", "latest_detected": "2.8", "release": "1"}
+}

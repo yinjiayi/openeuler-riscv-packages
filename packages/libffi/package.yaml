@@ -1,0 +1,164 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libffi",
+        "package_name": "libffi",
+        "source": "arch-core",
+        "source_version": "3.7.1-1"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-libffi",
+        "package_name": "android-aarch64-libffi",
+        "source": "aur",
+        "source_version": "3.5.2-1"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-libffi",
+        "package_name": "android-armv7a-eabi-libffi",
+        "source": "aur",
+        "source_version": "3.5.2-1"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libffi",
+        "package_name": "android-riscv64-libffi",
+        "source": "aur",
+        "source_version": "3.5.2-1"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-libffi",
+        "package_name": "android-x86-64-libffi",
+        "source": "aur",
+        "source_version": "3.5.2-1"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-libffi",
+        "package_name": "android-x86-libffi",
+        "source": "aur",
+        "source_version": "3.5.2-1"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libffi-static",
+        "package_name": "libffi-static",
+        "source": "aur",
+        "source_version": "3.5.2-1"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libffi7",
+        "package_name": "libffi7",
+        "source": "aur",
+        "source_version": "3.3-3"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-libffi",
+        "package_name": "mingw-w64-libffi",
+        "source": "aur",
+        "source_version": "3.7.1-1"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libffi",
+        "package_name": "libffi",
+        "source": "debian",
+        "source_version": "3.4.8-2"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libffi",
+        "package_name": "libffi",
+        "source": "fedora",
+        "source_version": "3.5.2-2.fc44"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-libffi",
+        "package_name": "mingw-libffi",
+        "source": "fedora",
+        "source_version": "3.5.2-2.fc44"
+      },
+      {
+        "evidence_url": "https://sourceware.org/libffi/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libffi",
+        "package_name": "libffi",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.5.2-2.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libffi.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libffi",
+  "rpm": {
+    "license": "MIT",
+    "name": "libffi",
+    "summary": "Portable foreign function interface library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "sourceware.org-libffi",
+    "homepage": "https://sourceware.org/libffi/",
+    "release_api": "https://api.github.com/repos/libffi/libffi/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/libffi/libffi",
+    "source_url_template": "https://github.com/libffi/libffi/releases/download/v{version}/libffi-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.8.0",
+    "latest_detected": "3.8.0",
+    "release": "1"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "package_id": "optional-lite",
+  "rpm": {
+    "name": "optional-lite",
+    "summary": "C++ optional for C++98, C++11 and later",
+    "license": "BSL-1.0"
+  },
+  "upstream": {
+    "component": "github.com-martinmoene-optional-lite",
+    "homepage": "https://github.com/nonstd-lite/optional-lite",
+    "source_repository": "https://github.com/nonstd-lite/optional-lite",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/nonstd-lite/optional-lite/tags",
+    "release_regex": null,
+    "source_url_template": "https://github.com/nonstd-lite/optional-lite/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.6.0",
+    "release": "1",
+    "latest_detected": "3.6.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "fedora",
+        "package_name": "optional-lite",
+        "package_base": "optional-lite",
+        "source_version": "3.6.0-7.fc44",
+        "evidence_url": "https://github.com/martinmoene/optional-lite",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "optional-lite",
+        "package_base": "optional-lite",
+        "source_version": "3.6.0-1.6",
+        "evidence_url": "https://github.com/martinmoene/optional-lite",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": true,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "optional-lite.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official v3.6.0 release archive independently downloaded, checksum-pinned, and archive-audited; external distribution packaging was not executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}

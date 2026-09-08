@@ -27,6 +27,9 @@ def main() -> int:
     profile = build.get("profile")
     if profile not in {"qemu-user", "needs-native-riscv"}:
         raise SystemExit("unknown build.profile")
+    build_user = build.get("user", "root")
+    if build_user not in {"root", "unprivileged"}:
+        raise SystemExit("unknown build.user")
     timeout = build.get("timeout_minutes")
     if not isinstance(timeout, int) or not 5 <= timeout <= 360:
         raise SystemExit("invalid build.timeout_minutes")
@@ -34,6 +37,7 @@ def main() -> int:
         "schema_version": 1,
         "package_id": package_id,
         "build_profile": profile,
+        "build_user": build_user,
         "needs_native": profile == "needs-native-riscv",
         "native_reason": build.get("native_reason"),
         "timeout_minutes": timeout,
@@ -45,9 +49,9 @@ def main() -> int:
         with open(args.github_output, "a", encoding="utf-8") as handle:
             handle.write(f"needs_native={'true' if result['needs_native'] else 'false'}\n")
             handle.write(f"timeout_minutes={timeout}\n")
+            handle.write(f"build_user={build_user}\n")
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

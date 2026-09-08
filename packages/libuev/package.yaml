@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libuev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libuev",
+        "package_name": "libuev",
+        "source": "aur",
+        "source_version": "2.4.1-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libuev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libuev",
+        "package_name": "libuev",
+        "source": "debian",
+        "source_version": "2.4.1-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libuev/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libuev",
+        "package_name": "libuev",
+        "source": "fedora",
+        "source_version": "2.4.1-5.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libuev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libuev",
+        "package_name": "libuev",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.4.1-2.9"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libuev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libuev",
+        "package_name": "libuev",
+        "source": "ubuntu",
+        "source_version": "2.4.1-1build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libuev.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Publisher release 2.4.1 and all seven maintained upstream event-loop tests were reviewed and pinned; external packaging was metadata-only lineage evidence.",
+    "status": "active"
+  },
+  "package_id": "libuev",
+  "rpm": {
+    "license": "MIT",
+    "name": "libuev",
+    "summary": "Small Linux event loop library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "github.com-troglobit-libuev",
+    "homepage": "https://github.com/troglobit/libuev",
+    "release_api": "https://api.github.com/repos/troglobit/libuev/releases/latest",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/troglobit/libuev",
+    "source_url_template": "https://github.com/troglobit/libuev/releases/download/v{version}/libuev-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.4.1",
+    "latest_detected": "2.4.1",
+    "release": "1"
+  }
+}

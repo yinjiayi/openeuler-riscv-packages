@@ -1,0 +1,109 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/gdbm/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gdbm",
+        "package_name": "gdbm",
+        "source": "arch-core",
+        "source_version": "1.26-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-gdbm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-gdbm",
+        "package_name": "android-riscv64-gdbm",
+        "source": "aur",
+        "source_version": "1.26-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/stable/gdbm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gdbm",
+        "package_name": "gdbm",
+        "source": "debian",
+        "source_version": "1.24-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/gdbm/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gdbm",
+        "package_name": "gdbm",
+        "source": "fedora",
+        "source_version": "1:1.23-11.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/gdbm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gdbm",
+        "package_name": "gdbm",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.26-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/gdbm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gdbm",
+        "package_name": "gdbm",
+        "source": "ubuntu",
+        "source_version": "1.26-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gdbm.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 1.26 archive independently pinned from the immutable discovery snapshot. Fedora dist-git and AUR metadata were reviewed as untrusted text only and were not executed.",
+    "status": "active"
+  },
+  "package_id": "gdbm",
+  "rpm": {
+    "epoch": 1,
+    "license": "GPL-3.0-or-later",
+    "name": "gdbm",
+    "summary": "GNU database library and command-line tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-gdbm",
+    "homepage": "https://www.gnu.org/software/gdbm/",
+    "release_api": "https://ftp.gnu.org/gnu/gdbm/",
+    "release_channel": "stable",
+    "release_regex": "gdbm-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://git.gnu.org.ua/gdbm.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/gdbm/gdbm-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.26",
+    "latest_detected": "1.26",
+    "release": "1"
+  }
+}

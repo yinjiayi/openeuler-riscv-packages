@@ -1,0 +1,93 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://cabextract.org.uk/libmspack",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmspack",
+        "package_name": "libmspack",
+        "source": "debian",
+        "source_version": "0.11-1.1"
+      },
+      {
+        "evidence_url": "https://cabextract.org.uk/libmspack",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmspack",
+        "package_name": "libmspack",
+        "source": "fedora",
+        "source_version": "0.10.1-0.16.alpha.fc44"
+      },
+      {
+        "evidence_url": "https://cabextract.org.uk/libmspack",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmspack",
+        "package_name": "libmspack",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.11-2.9"
+      },
+      {
+        "evidence_url": "https://cabextract.org.uk/libmspack",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmspack",
+        "package_name": "libmspack",
+        "source": "ubuntu",
+        "source_version": "0.11-1.1build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libmspack.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libmspack",
+  "rpm": {
+    "license": "LGPL-2.1-only",
+    "name": "libmspack",
+    "summary": "Library for Microsoft compression formats"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cabextract.org.uk-libmspack",
+    "homepage": "https://cabextract.org.uk/libmspack",
+    "release_api": "https://www.cabextract.org.uk/libmspack/",
+    "release_channel": "stable",
+    "release_regex": "libmspack-(?P<version>[0-9]+(?:\\.[0-9]+)+(?:alpha)?)\\.tar\\.gz",
+    "source_repository": "https://github.com/kyz/libmspack",
+    "source_url_template": "https://www.cabextract.org.uk/libmspack/libmspack-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.11alpha",
+    "latest_detected": "0.11alpha",
+    "release": "1"
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtasn1",
+        "package_name": "libtasn1",
+        "source": "arch-core",
+        "source_version": "4.21.0-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-libtasn1",
+        "package_name": "android-aarch64-libtasn1",
+        "source": "aur",
+        "source_version": "4.21.0-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-libtasn1",
+        "package_name": "android-armv7a-eabi-libtasn1",
+        "source": "aur",
+        "source_version": "4.21.0-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libtasn1",
+        "package_name": "android-riscv64-libtasn1",
+        "source": "aur",
+        "source_version": "4.21.0-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-libtasn1",
+        "package_name": "android-x86-64-libtasn1",
+        "source": "aur",
+        "source_version": "4.21.0-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-libtasn1",
+        "package_name": "android-x86-libtasn1",
+        "source": "aur",
+        "source_version": "4.21.0-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-libtasn1",
+        "package_name": "mingw-w64-libtasn1",
+        "source": "aur",
+        "source_version": "4.19.0-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtasn1-6",
+        "package_name": "libtasn1-6",
+        "source": "debian",
+        "source_version": "4.20.0-2+deb13u1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtasn1",
+        "package_name": "libtasn1",
+        "source": "fedora",
+        "source_version": "4.21.0-1.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-libtasn1",
+        "package_name": "mingw-libtasn1",
+        "source": "fedora",
+        "source_version": "4.21.0-2.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/libtasn1/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtasn1",
+        "package_name": "libtasn1",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.21.0-1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtasn1.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libtasn1",
+  "rpm": {
+    "license": "GPL-3.0-or-later AND LGPL-2.1-or-later AND GFDL-1.3-or-later",
+    "name": "libtasn1",
+    "summary": "ASN.1 library used by GnuTLS"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-libtasn1",
+    "homepage": "https://www.gnu.org/software/libtasn1/",
+    "release_api": "https://ftp.gnu.org/gnu/libtasn1/",
+    "release_channel": "stable",
+    "release_regex": "libtasn1-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://gitlab.com/gnutls/libtasn1",
+    "source_url_template": "https://ftp.gnu.org/gnu/libtasn1/libtasn1-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.21.0",
+    "latest_detected": "4.21.0",
+    "release": "1"
+  }
+}

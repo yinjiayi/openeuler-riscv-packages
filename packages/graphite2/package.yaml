@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/graphite/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "graphite",
+        "package_name": "graphite",
+        "source": "arch-extra",
+        "source_version": "1:1.3.15-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/lib32-graphite",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-graphite",
+        "package_name": "lib32-graphite",
+        "source": "aur",
+        "source_version": "1.3.15-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/graphite2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "graphite2",
+        "package_name": "graphite2",
+        "source": "debian",
+        "source_version": "1.3.14-2+deb13u1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/graphite2/graphite2/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "graphite2",
+        "package_name": "graphite2",
+        "source": "fedora",
+        "source_version": "1.3.14-20.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/graphite2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "graphite2",
+        "package_name": "graphite2",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.3.15-1.3"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/graphite2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "graphite2",
+        "package_name": "graphite2",
+        "source": "ubuntu",
+        "source_version": "1.3.14-11ubuntu1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "graphite2.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 1.3.15 release bytes are SHA-256 pinned; the complete CTest suite, file-face API, and tracing support remain enabled. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "graphite2",
+  "rpm": {
+    "license": "LGPL-2.1-or-later OR MPL-2.0 OR GPL-2.0-or-later",
+    "name": "graphite2",
+    "summary": "Smart font rendering engine"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "graphite.sil.org",
+    "homepage": "https://graphite.sil.org/",
+    "release_api": "https://api.github.com/repos/silnrsi/graphite/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "graphite2-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz",
+    "source_repository": "https://github.com/silnrsi/graphite",
+    "source_url_template": "https://github.com/silnrsi/graphite/releases/download/{version}/graphite2-{version}.tgz"
+  },
+  "version": {
+    "current": "1.3.15",
+    "latest_detected": "1.3.15",
+    "release": "1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "gtest",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6e3191c1455468b3fc35a417fb565c1c5071aee1b7e7f85e30cf48a98d37d8b5"
+      },
+      "filename": "v1.18.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/google/googletest/archive/refs/tags/v1.18.0.tar.gz",
+      "version": "1.18.0"
+    }
+  ]
+}

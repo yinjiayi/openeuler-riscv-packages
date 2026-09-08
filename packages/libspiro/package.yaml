@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/fontforge/libspiro",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspiro",
+        "package_name": "libspiro",
+        "source": "arch-extra",
+        "source_version": "1:20240903-1"
+      },
+      {
+        "evidence_url": "https://github.com/fontforge/libspiro",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-libspiro",
+        "package_name": "lib32-libspiro",
+        "source": "aur",
+        "source_version": "20240903-1"
+      },
+      {
+        "evidence_url": "https://github.com/fontforge/libspiro",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspiro",
+        "package_name": "libspiro",
+        "source": "debian",
+        "source_version": "1:20240903-1"
+      },
+      {
+        "evidence_url": "https://github.com/fontforge/libspiro",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspiro",
+        "package_name": "libspiro",
+        "source": "fedora",
+        "source_version": "20240903-4.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/fontforge/libspiro",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspiro",
+        "package_name": "libspiro",
+        "source": "opensuse-tumbleweed",
+        "source_version": "20240903-1.5"
+      },
+      {
+        "evidence_url": "https://github.com/fontforge/libspiro",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspiro",
+        "package_name": "libspiro",
+        "source": "ubuntu",
+        "source_version": "1:20240903-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libspiro.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libspiro",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "libspiro",
+    "summary": "Library for drawing smooth curves from spiro control points"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-fontforge-libspiro",
+    "homepage": "https://github.com/fontforge/libspiro",
+    "release_api": "https://api.github.com/repos/fontforge/libspiro/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/fontforge/libspiro",
+    "source_url_template": "https://github.com/fontforge/libspiro/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "20240903",
+    "latest_detected": "20240903",
+    "release": "1"
+  }
+}

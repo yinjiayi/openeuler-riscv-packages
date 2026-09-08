@@ -1,0 +1,140 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://lz4.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lz4",
+        "package_name": "lz4",
+        "source": "arch-core",
+        "source_version": "1:1.10.0-2"
+      },
+      {
+        "evidence_url": "https://lz4.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-lz4",
+        "package_name": "android-aarch64-lz4",
+        "source": "aur",
+        "source_version": "1.10.0-1"
+      },
+      {
+        "evidence_url": "https://lz4.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-lz4",
+        "package_name": "android-armv7a-eabi-lz4",
+        "source": "aur",
+        "source_version": "1.10.0-1"
+      },
+      {
+        "evidence_url": "https://lz4.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-lz4",
+        "package_name": "android-riscv64-lz4",
+        "source": "aur",
+        "source_version": "1.10.0-1"
+      },
+      {
+        "evidence_url": "https://lz4.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-lz4",
+        "package_name": "android-x86-64-lz4",
+        "source": "aur",
+        "source_version": "1.10.0-1"
+      },
+      {
+        "evidence_url": "https://lz4.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-lz4",
+        "package_name": "android-x86-lz4",
+        "source": "aur",
+        "source_version": "1.10.0-1"
+      },
+      {
+        "evidence_url": "https://lz4.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-lz4",
+        "package_name": "mingw-w64-lz4",
+        "source": "aur",
+        "source_version": "1.10.0-1"
+      },
+      {
+        "evidence_url": "https://lz4.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lz4",
+        "package_name": "lz4",
+        "source": "debian",
+        "source_version": "1.10.0-4"
+      },
+      {
+        "evidence_url": "https://lz4.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lz4",
+        "package_name": "lz4",
+        "source": "fedora",
+        "source_version": "1.10.0-4.fc44"
+      },
+      {
+        "evidence_url": "https://lz4.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lz4",
+        "package_name": "lz4",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.10.0-2.8"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "lz4.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "lz4",
+  "rpm": {
+    "license": "BSD-2-Clause AND GPL-2.0-or-later",
+    "name": "lz4",
+    "summary": "Fast lossless compression algorithm and tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-lz4-lz4",
+    "homepage": "https://lz4.org/",
+    "release_api": "https://api.github.com/repos/lz4/lz4/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/lz4/lz4",
+    "source_url_template": "https://github.com/lz4/lz4/releases/download/v{version}/lz4-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.10.0",
+    "latest_detected": "1.10.0",
+    "release": "1"
+  }
+}

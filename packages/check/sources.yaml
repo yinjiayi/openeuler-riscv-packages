@@ -1,0 +1,21 @@
+{
+  "package_id": "check",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a8de4e0bacfb4d76dd1c618ded263523b53b85d92a146d8835eb1a52932fa20a"
+      },
+      "filename": "check-0.15.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz",
+      "version": "0.15.2"
+    }
+  ]
+}

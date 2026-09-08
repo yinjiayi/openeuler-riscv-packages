@@ -1,0 +1,21 @@
+{
+  "package_id": "ed",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3f33b22135219c39c3c695f7b7171c2567d3e2a17c798c0a90607320cbb268f2"
+      },
+      "filename": "ed-1.22.6.tar.lz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/ed/ed-1.22.6.tar.lz",
+      "version": "1.22.6"
+    }
+  ]
+}

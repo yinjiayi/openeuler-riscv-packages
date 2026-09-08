@@ -1,0 +1,94 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/uchardet/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uchardet",
+        "package_name": "uchardet",
+        "source": "arch-extra",
+        "source_version": "0.0.8-4"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/uchardet",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uchardet",
+        "package_name": "uchardet",
+        "source": "debian",
+        "source_version": "0.0.8-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/uchardet/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uchardet",
+        "package_name": "uchardet",
+        "source": "fedora",
+        "source_version": "0.0.8-10.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/uchardet",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uchardet",
+        "package_name": "uchardet",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.0.8-2.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/uchardet",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uchardet",
+        "package_name": "uchardet",
+        "source": "ubuntu",
+        "source_version": "0.0.8-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "uchardet.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official uchardet 0.0.8 stable release bytes are SHA-256 pinned and match the upstream checksum. Arch stable, Fedora 44, openSUSE Tumbleweed, Debian stable, and Ubuntu GA all corroborate the 0.0.8 release line. The AUR result was uchardet-git, a VCS pre-release lineage, and was not used as stable evidence. AUR was queried through RPC only; no AUR recipe or distribution spec was executed.",
+    "status": "active"
+  },
+  "package_id": "uchardet",
+  "rpm": {
+    "license": "MPL-1.1 OR GPL-2.0-or-later OR LGPL-2.0-or-later",
+    "name": "uchardet",
+    "summary": "Universal character encoding detector"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "freedesktop.org-wiki-software-uchardet",
+    "homepage": "https://www.freedesktop.org/wiki/Software/uchardet/",
+    "release_api": "https://www.freedesktop.org/software/uchardet/releases/",
+    "release_channel": "stable",
+    "release_regex": "uchardet-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.freedesktop.org/uchardet/uchardet",
+    "source_url_template": "https://www.freedesktop.org/software/uchardet/releases/uchardet-{version}.tar.xz"
+  },
+  "version": {"current": "0.0.8", "latest_detected": "0.0.8", "release": "1"}
+}

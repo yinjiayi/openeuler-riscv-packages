@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/DaanDeMeyer/reproc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "reproc",
+        "package_name": "reproc",
+        "source": "debian",
+        "source_version": "14.2.5-2"
+      },
+      {
+        "evidence_url": "https://github.com/DaanDeMeyer/reproc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "reproc",
+        "package_name": "reproc",
+        "source": "fedora",
+        "source_version": "14.2.4-7.20230609git1c07bdb.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/DaanDeMeyer/reproc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "reproc",
+        "package_name": "reproc",
+        "source": "opensuse-tumbleweed",
+        "source_version": "14.2.7-1.4"
+      },
+      {
+        "evidence_url": "https://github.com/DaanDeMeyer/reproc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "reproc",
+        "package_name": "reproc",
+        "source": "ubuntu",
+        "source_version": "14.2.5-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "reproc.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "reproc",
+  "rpm": {
+    "license": "MIT",
+    "name": "reproc",
+    "summary": "Cross-platform C and C++ process execution library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-daandemeyer-reproc",
+    "homepage": "https://github.com/DaanDeMeyer/reproc",
+    "release_api": "https://api.github.com/repos/DaanDeMeyer/reproc/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/DaanDeMeyer/reproc",
+    "source_url_template": "https://github.com/DaanDeMeyer/reproc/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "14.2.7",
+    "latest_detected": "14.2.7",
+    "release": "1"
+  }
+}

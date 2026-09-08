@@ -1,0 +1,53 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 11 Aug 2026 00:00:00 +0000
+Subject: [PATCH] tests: use pinned Unicode data supplied by the build
+
+Distribution builds must not access the network after source verification.
+Require the caller to provide the two official Unicode conformance files and
+pass their absolute paths directly to the test executables.
+
+---
+ CMakeLists.txt | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 77e3fc1..bd3dfbd 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -85,9 +85,19 @@ endif()
+ if(UTF8PROC_ENABLE_TESTING)
+   enable_testing()
+-  file(MAKE_DIRECTORY data)
+-  set(UNICODE_VERSION 17.0.0)
+-  file(DOWNLOAD https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/NormalizationTest.txt ${CMAKE_BINARY_DIR}/data/NormalizationTest.txt SHOW_PROGRESS)
+-  file(DOWNLOAD https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/auxiliary/GraphemeBreakTest.txt ${CMAKE_BINARY_DIR}/data/GraphemeBreakTest.txt SHOW_PROGRESS)
++  set(UTF8PROC_NORMALIZATION_TEST_FILE "" CACHE FILEPATH
++      "Path to the pinned Unicode NormalizationTest.txt")
++  set(UTF8PROC_GRAPHEME_BREAK_TEST_FILE "" CACHE FILEPATH
++      "Path to the pinned Unicode GraphemeBreakTest.txt")
++  if(NOT UTF8PROC_NORMALIZATION_TEST_FILE OR
++     NOT EXISTS "${UTF8PROC_NORMALIZATION_TEST_FILE}")
++    message(FATAL_ERROR
++      "UTF8PROC_NORMALIZATION_TEST_FILE must name an existing pinned test file")
++  endif()
++  if(NOT UTF8PROC_GRAPHEME_BREAK_TEST_FILE OR
++     NOT EXISTS "${UTF8PROC_GRAPHEME_BREAK_TEST_FILE}")
++    message(FATAL_ERROR
++      "UTF8PROC_GRAPHEME_BREAK_TEST_FILE must name an existing pinned test file")
++  endif()
+   add_executable(case test/tests.h test/tests.c utf8proc.h test/case.c)
+   target_link_libraries(case utf8proc)
+   add_executable(custom test/tests.h test/tests.c utf8proc.h test/custom.c)
+@@ -120,8 +130,8 @@ if(UTF8PROC_ENABLE_TESTING)
+   target_link_libraries(graphemetest utf8proc)
+   add_executable(normtest test/tests.h test/tests.c utf8proc.h test/normtest.c)
+   target_link_libraries(normtest utf8proc)
+-  add_test(utf8proc.testgraphemetest graphemetest data/GraphemeBreakTest.txt)
+-  add_test(utf8proc.testnormtest normtest data/NormalizationTest.txt)
++  add_test(utf8proc.testgraphemetest graphemetest "${UTF8PROC_GRAPHEME_BREAK_TEST_FILE}")
++  add_test(utf8proc.testnormtest normtest "${UTF8PROC_NORMALIZATION_TEST_FILE}")
+
+   if(LIB_FUZZING_ENGINE)
+     add_executable(fuzzer utf8proc.h test/fuzzer.c)
+--
+2.50.1

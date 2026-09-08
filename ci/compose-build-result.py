@@ -246,6 +246,8 @@ def main() -> int:
     phase = read_object(args.rpmbuild_phase)
     smoke = read_object(args.smoke_phase)
     failure = read_object(args.failure_classification)
+    if phase and phase.get("commit_sha") != args.commit_sha:
+        raise ValueError("rpmbuild phase result does not match the exact final-envelope commit SHA")
     now = utc_now()
 
     checks = {

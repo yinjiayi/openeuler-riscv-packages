@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/dos2unix/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dos2unix",
+        "package_name": "dos2unix",
+        "source": "arch-extra",
+        "source_version": "7.5.6-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/dos2unix",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dos2unix",
+        "package_name": "dos2unix",
+        "source": "debian",
+        "source_version": "7.5.2-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/dos2unix/dos2unix/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dos2unix",
+        "package_name": "dos2unix",
+        "source": "fedora",
+        "source_version": "7.5.3-3.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/dos2unix",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dos2unix",
+        "package_name": "dos2unix",
+        "source": "opensuse-tumbleweed",
+        "source_version": "7.5.6-1.3"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/dos2unix",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dos2unix",
+        "package_name": "dos2unix",
+        "source": "ubuntu",
+        "source_version": "7.5.4-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "dos2unix.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The immutable snapshot records stable Arch, Debian, Fedora 44 GA, openSUSE Tumbleweed, and Ubuntu GA tuples and no canonical stable AUR row for dos2unix. No AUR recipe or distribution spec was read or executed. The official project page records 7.5.7 as stable and links the exact SourceForge archive. All upstream Perl tests, including UTF-16, BOM, symlink, stdio, and line-ending cases, remain enabled. Release 2 synchronizes the installed-version smoke assertion and documentation with 7.5.7.",
+    "status": "active"
+  },
+  "package_id": "dos2unix",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "dos2unix",
+    "summary": "DOS, Unix, and Mac text file format converters"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": "2026-08-28T02:10:06Z",
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "waterlan.home.xs4all.nl-dos2unix.html",
+    "homepage": "https://waterlander.net/dos2unix/",
+    "release_api": "https://dos2unix.sourceforge.io/",
+    "release_channel": "stable",
+    "release_regex": "Latest version: (?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://sourceforge.net/p/dos2unix/dos2unix/ci/master/tree/",
+    "source_url_template": "https://downloads.sourceforge.net/project/dos2unix/dos2unix/{version}/dos2unix-{version}.tar.gz?download="
+  },
+  "version": {
+    "current": "7.5.7",
+    "latest_detected": "7.5.7",
+    "release": "2"
+  }
+}

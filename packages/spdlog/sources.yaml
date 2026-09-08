@@ -1,0 +1,36 @@
+{
+  "package_id": "spdlog",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d8862955c6d74e5846b3f580b1605d2428b11d97a410d86e2fb13e857cd3a744"
+      },
+      "filename": "spdlog-1.17.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/gabime/spdlog/archive/refs/tags/v1.17.0.tar.gz",
+      "version": "1.17.0"
+    },
+    {
+      "digests": {
+        "sha256": "f6d4f8d78a9b59ec72a81d49f58d18eb317372ac07f8d9432710a079e69fd66a"
+      },
+      "filename": "catch2-3.5.0.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official Catch2 test dependency fetched and verified before the offline build."
+      },
+      "signature": null,
+      "url": "https://github.com/catchorg/Catch2/archive/refs/tags/v3.5.0.tar.gz",
+      "version": "3.5.0"
+    }
+  ]
+}

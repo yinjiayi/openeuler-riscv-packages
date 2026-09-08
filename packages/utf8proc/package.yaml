@@ -1,0 +1,118 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/JuliaStrings/utf8proc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libutf8proc",
+        "package_name": "libutf8proc",
+        "source": "arch-extra",
+        "source_version": "2.11.3-1"
+      },
+      {
+        "evidence_url": "https://github.com/JuliaStrings/utf8proc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libutf8proc-git",
+        "package_name": "libutf8proc-git",
+        "source": "aur",
+        "source_version": "2.11.3.r0.ge5e7992-1"
+      },
+      {
+        "evidence_url": "https://github.com/JuliaStrings/utf8proc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libutf8proc2",
+        "package_name": "libutf8proc2",
+        "source": "aur",
+        "source_version": "2.8.0-2"
+      },
+      {
+        "evidence_url": "https://github.com/JuliaStrings/utf8proc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "utf8proc",
+        "package_name": "utf8proc",
+        "source": "debian",
+        "source_version": "2.9.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/JuliaStrings/utf8proc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "utf8proc",
+        "package_name": "utf8proc",
+        "source": "fedora",
+        "source_version": "2.11.3-2.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/JuliaStrings/utf8proc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "utf8proc",
+        "package_name": "utf8proc",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.11.3-1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-tests-use-pinned-unicode-data.patch",
+        "license": "Apache-2.0",
+        "purpose": "Replace CMake network downloads with checksum-pinned Unicode conformance files supplied by the build.",
+        "remove_when": "Upstream supports caller-supplied offline Unicode conformance data for its test suite.",
+        "sha256": "a2ae4a3d8a5e2220f7b7852ed8d1d8fbe56b68b846726d11aa21a7693c8639a7",
+        "source": "openEuler RISC-V packaging",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "utf8proc.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "utf8proc",
+  "rpm": {
+    "license": "MIT",
+    "name": "utf8proc",
+    "summary": "Unicode normalization and case-folding library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-juliastrings-utf8proc",
+    "homepage": "https://github.com/JuliaStrings/utf8proc",
+    "release_api": "https://api.github.com/repos/JuliaStrings/utf8proc/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/JuliaStrings/utf8proc",
+    "source_url_template": "https://github.com/JuliaStrings/utf8proc/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.11.3",
+    "latest_detected": "2.11.3",
+    "release": "1"
+  }
+}

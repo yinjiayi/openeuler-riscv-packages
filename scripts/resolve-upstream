@@ -32,6 +32,100 @@ from _lib import (
 
 
 SHA256_RE = re.compile(r"^[a-f0-9]{64}$")
+ACCEPTED_REVIEW_METHODS = {
+    "downloaded-official-archive-and-calculated-sha256",
+    "downloaded-official-release-archive-and-calculated-sha256",
+    "downloaded-official-release-asset-and-calculated-sha256",
+    "downloaded-official-tag-archive-and-calculated-sha256",
+    "downloaded-official-archive-and-matched-publisher-sha256sum",
+}
+PROMOTION_RELATIONSHIPS = {"upstream-component", "metadata-clue", "functional-provider"}
+PROMOTION_MATCH_KEYS = ("source", "original_name", "package_base", "source_version")
+LINEAGE_IDENTITY_KEYS = (
+    "source",
+    "repository",
+    "original_name",
+    "package_base",
+    "source_version",
+    "fetched_at",
+)
+
+
+def stable_lineage_version(source: Any, value: Any) -> str:
+    """Remove distribution epoch and package-release decoration for comparison."""
+
+    source_name = str(source or "")
+    text = re.sub(r"^\d+:", "", str(value or "").strip())
+    if source_name in {"arch", "aur"}:
+        match = re.fullmatch(r"(.+)-([0-9]+(?:\.[0-9]+)*)", text)
+        return match.group(1) if match else text
+    if source_name in {"fedora", "opensuse", "debian", "ubuntu"} and "-" in text:
+        text = text.rsplit("-", 1)[0]
+    if source_name in {"fedora", "opensuse", "debian", "ubuntu"}:
+        text = re.sub(
+            r"\+(?:dfsg|ds|really|git|bzr|svn|hg|[0-9]+[.]g|g[0-9a-f]{7,}).*$",
+            "",
+            text,
+            flags=re.IGNORECASE,
+        )
+    return text
+
+
+def lineage_identity(item: Mapping[str, Any]) -> Tuple[str, ...]:
+    """Identify one frozen raw lineage row while ignoring review annotations."""
+
+    return tuple(str(item.get(key) or "") for key in LINEAGE_IDENTITY_KEYS)
+
+
+def promoted_lineage(
+    release: Mapping[str, Any],
+    by_component: Mapping[str, List[Mapping[str, Any]]],
+    canonical_component: str,
+) -> Tuple[List[Mapping[str, Any]], List[Dict[str, Any]]]:
+    """Resolve exact reviewed selectors without rewriting the immutable snapshot."""
+
+    promotions = release.get("lineage_promotions")
+    if promotions is None:
+        return [], []
+    if not isinstance(promotions, list) or not promotions:
+        raise ToolError("lineage_promotions must be a non-empty array for %s" % canonical_component)
+
+    matched_records: List[Mapping[str, Any]] = []
+    selected: List[Dict[str, Any]] = []
+    seen = set()
+    for index, promotion in enumerate(promotions):
+        if not isinstance(promotion, Mapping):
+            raise ToolError("lineage promotion %d must be an object for %s" % (index, canonical_component))
+        snapshot_component = str(promotion.get("snapshot_component_id") or "")
+        relationship = str(promotion.get("relationship") or "")
+        if not snapshot_component or relationship not in PROMOTION_RELATIONSHIPS:
+            raise ToolError("lineage promotion %d has an invalid component or relationship for %s" % (index, canonical_component))
+        if any(not str(promotion.get(key) or "") for key in PROMOTION_MATCH_KEYS):
+            raise ToolError("lineage promotion %d is incomplete for %s" % (index, canonical_component))
+
+        matches: List[Tuple[Mapping[str, Any], Mapping[str, Any]]] = []
+        for record in by_component.get(snapshot_component, []):
+            for item in as_list(record.get("lineage")):
+                if not isinstance(item, Mapping):
+                    continue
+                if all(str(item.get(key) or "") == str(promotion.get(key) or "") for key in PROMOTION_MATCH_KEYS):
+                    matches.append((record, item))
+        if len(matches) != 1:
+            raise ToolError(
+                "lineage promotion %d must match exactly one immutable snapshot row for %s; matched %d"
+                % (index, canonical_component, len(matches))
+            )
+        record, item = matches[0]
+        marker = lineage_identity(item)
+        if marker in seen:
+            raise ToolError("lineage promotions contain a duplicate frozen row for %s" % canonical_component)
+        seen.add(marker)
+        promoted = dict(item)
+        promoted["snapshot_component_id"] = snapshot_component
+        promoted["promotion_relationship"] = relationship
+        matched_records.append(record)
+        selected.append(promoted)
+    return matched_records, selected
 
 
 def has_verified_release_source(record: Mapping[str, Any]) -> bool:
@@ -104,7 +198,9 @@ def reviewed_records(document: Mapping[str, Any], evidence_path: str) -> Tuple[L
         if not component or component in seen:
             raise ToolError("reviewed evidence contains a missing or duplicate component_id: %s" % component)
         seen.add(component)
-        matches = by_component.get(component, [])
+        promotion_records, selected_lineage = promoted_lineage(release, by_component, component)
+        uses_promotions = release.get("lineage_promotions") is not None
+        matches = promotion_records if uses_promotions else by_component.get(component, [])
         if not matches:
             raise ToolError("reviewed component is absent from the discovery snapshot: %s" % component)
         decision_rank = {"eligible": 3, "unverified-upstream": 2}.get
@@ -115,6 +211,9 @@ def reviewed_records(document: Mapping[str, Any], evidence_path: str) -> Tuple[L
                 tuple(version_key(item.get("stable_version") or item.get("version"))),
             ),
         )
+        lineage = selected_lineage if uses_promotions else [
+            dict(item) for item in as_list(base.get("lineage")) if isinstance(item, Mapping)
+        ]
 
         name = str(release.get("canonical_name") or "").strip()
         package_id = package_identifier(release.get("package_id") or name)
@@ -122,7 +221,7 @@ def reviewed_records(document: Mapping[str, Any], evidence_path: str) -> Tuple[L
             raise ToolError("reviewed package_id must be derived from canonical_name for %s" % component)
         lineage_names = {
             package_identifier(item.get("package_base") or item.get("original_name"))
-            for item in base.get("lineage", [])
+            for item in lineage
             if isinstance(item, Mapping) and (item.get("package_base") or item.get("original_name"))
         }
         if lineage_names and package_id not in lineage_names:
@@ -131,7 +230,18 @@ def reviewed_records(document: Mapping[str, Any], evidence_path: str) -> Tuple[L
         version = str(release.get("version") or "").strip()
         if not version or is_prerelease({"version": version}):
             raise ToolError("reviewed release must be a stable version for %s" % component)
-        observed = str(base.get("stable_version") or base.get("version") or "")
+        if uses_promotions:
+            direct_versions = [
+                stable_lineage_version(item.get("source"), item.get("source_version"))
+                for item in lineage
+                if item.get("promotion_relationship") == "upstream-component"
+                and package_identifier(item.get("package_base") or item.get("original_name")) == package_id
+            ]
+            if not direct_versions:
+                raise ToolError("lineage promotions require a direct upstream-component row for %s" % component)
+            observed = max(direct_versions, key=lambda item: tuple(version_key(item)))
+        else:
+            observed = str(base.get("stable_version") or base.get("version") or "")
         if observed and tuple(version_key(version)) < tuple(version_key(observed)):
             raise ToolError("reviewed release regresses the discovered version for %s" % component)
 
@@ -153,7 +263,7 @@ def reviewed_records(document: Mapping[str, Any], evidence_path: str) -> Tuple[L
         checksum = str(source.get("sha256") or "").lower()
         if not SHA256_RE.fullmatch(checksum):
             raise ToolError("reviewed source requires a full lowercase SHA-256 for %s" % component)
-        if review.get("method") != "downloaded-official-archive-and-calculated-sha256":
+        if review.get("method") not in ACCEPTED_REVIEW_METHODS:
             raise ToolError("review method is not accepted for %s" % component)
         unsafe_links = inspection.get("unsafe_links")
         links_safe = inspection.get("symlinks") is False or (
@@ -173,6 +283,7 @@ def reviewed_records(document: Mapping[str, Any], evidence_path: str) -> Tuple[L
                 **dict(base),
                 "name": name,
                 "package_base": name,
+                "lineage": lineage,
                 "version": version,
                 "stable_version": version,
                 "description": release["summary"],
@@ -195,6 +306,11 @@ def reviewed_records(document: Mapping[str, Any], evidence_path: str) -> Tuple[L
                     "official stable release was reviewed independently of distribution packaging",
                     "official HTTPS archive was downloaded and pinned by calculated SHA-256",
                     "archive member paths and links passed the recorded safety inspection",
+                    *(
+                        ["exact immutable-snapshot lineage rows were selected for canonical promotion"]
+                        if uses_promotions
+                        else []
+                    ),
                 ],
                 "reviewed_upstream_evidence": dict(review),
                 "_discovery_decision": "eligible",
@@ -234,7 +350,15 @@ def evidence(record: Mapping[str, Any]) -> Tuple[int, List[Dict[str, Any]]]:
     if license_value not in {"", "unknown", "none", "proprietary"}:
         items.append({"type": "declared-license", "value": record.get("license"), "weight": 1})
     lineage = record.get("lineage", [])
-    sources = sorted({str(item.get("source")) for item in lineage if isinstance(item, Mapping) and item.get("source")})
+    sources = sorted(
+        {
+            str(item.get("source"))
+            for item in lineage
+            if isinstance(item, Mapping)
+            and item.get("source")
+            and item.get("promotion_relationship") != "functional-provider"
+        }
+    )
     if len(sources) > 1:
         items.append({"type": "cross-distribution-corroboration", "value": sources, "weight": 2})
     return sum(int(item["weight"]) for item in items), items
@@ -275,7 +399,7 @@ def merge_component(key: str, records: List[Mapping[str, Any]]) -> Dict[str, Any
         for item in as_list(record.get("lineage")):
             if not isinstance(item, Mapping):
                 continue
-            marker = stable_json(item, pretty=False)
+            marker = lineage_identity(item)
             if marker not in seen_lineage:
                 lineage.append(dict(item))
                 seen_lineage.add(marker)

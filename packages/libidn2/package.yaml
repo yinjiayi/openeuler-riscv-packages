@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/libidn2/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libidn2",
+        "package_name": "libidn2",
+        "source": "arch-core",
+        "source_version": "2.3.8-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libidn2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-libidn2",
+        "package_name": "android-riscv64-libidn2",
+        "source": "aur",
+        "source_version": "2.3.8-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/stable/libidn2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libidn2",
+        "package_name": "libidn2",
+        "source": "debian",
+        "source_version": "2.3.8-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libidn2/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libidn2",
+        "package_name": "libidn2",
+        "source": "fedora",
+        "source_version": "2.3.8-3.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libidn2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libidn2",
+        "package_name": "libidn2",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.3.8-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libidn2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libidn2",
+        "package_name": "libidn2",
+        "source": "ubuntu",
+        "source_version": "2.3.8-4build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libidn2.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 2.3.8 archive independently pinned from the immutable discovery snapshot. The snapshot's libidn/libidn2 over-merge was narrowed to libidn2-only rows; no Fedora or AUR packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "libidn2",
+  "rpm": {
+    "license": "(GPL-2.0-or-later OR LGPL-3.0-or-later) AND GPL-3.0-or-later",
+    "name": "libidn2",
+    "summary": "IDNA2008, Punycode, and TR46 implementation"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-libidn2",
+    "homepage": "https://www.gnu.org/software/libidn/#libidn2",
+    "release_api": "https://ftp.gnu.org/gnu/libidn/",
+    "release_channel": "stable",
+    "release_regex": "libidn2-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://gitlab.com/libidn/libidn2",
+    "source_url_template": "https://ftp.gnu.org/gnu/libidn/libidn2-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.3.8",
+    "latest_detected": "2.3.8",
+    "release": "1"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/hunspell/hyphen",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyphen",
+        "package_name": "hyphen",
+        "source": "arch-extra",
+        "source_version": "2.8.9-1"
+      },
+      {
+        "evidence_url": "https://github.com/hunspell/hyphen",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyphen",
+        "package_name": "hyphen-en",
+        "source": "arch-extra",
+        "source_version": "2.8.9-1"
+      },
+      {
+        "evidence_url": "https://github.com/hunspell/hyphen",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-hyphen",
+        "package_name": "lib32-hyphen",
+        "source": "aur",
+        "source_version": "2.8.8-1"
+      },
+      {
+        "evidence_url": "https://github.com/hunspell/hyphen",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyphen",
+        "package_name": "hyphen",
+        "source": "debian",
+        "source_version": "2.8.8-7"
+      },
+      {
+        "evidence_url": "https://github.com/hunspell/hyphen",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyphen",
+        "package_name": "hyphen",
+        "source": "fedora",
+        "source_version": "2.8.8-28.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/hunspell/hyphen",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyphen",
+        "package_name": "hyphen",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.8.9-1.3"
+      },
+      {
+        "evidence_url": "https://github.com/hunspell/hyphen",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyphen",
+        "package_name": "hyphen",
+        "source": "ubuntu",
+        "source_version": "2.8.8-7build4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "hyphen.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "hyphen",
+  "rpm": {
+    "license": "GPL-2.0-or-later OR LGPL-2.1-or-later OR MPL-1.1",
+    "name": "hyphen",
+    "summary": "Hyphenation library and English hyphenation data"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-hunspell-hyphen",
+    "homepage": "https://github.com/hunspell/hyphen",
+    "release_api": "https://api.github.com/repos/hunspell/hyphen/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/hunspell/hyphen",
+    "source_url_template": "https://github.com/hunspell/hyphen/releases/download/v{version}/hyphen-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.8.9",
+    "latest_detected": "2.8.9",
+    "release": "1"
+  }
+}

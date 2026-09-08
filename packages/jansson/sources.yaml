@@ -1,0 +1,19 @@
+{
+  "package_id": "jansson",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "0c7114dc0b2d22a670724a1f95922029d7077c19dbf79a584cb8084d2f267f2f"},
+      "filename": "jansson-2.15.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "MIT and public-domain-licensed source is fetched from the official GitHub release in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/akheron/jansson/releases/download/v2.15.1/jansson-2.15.1.tar.gz",
+      "version": "2.15.1"
+    }
+  ]
+}

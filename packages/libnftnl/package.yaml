@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/libnftnl/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnftnl",
+        "package_name": "libnftnl",
+        "source": "arch-core",
+        "source_version": "1.3.1-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libnftnl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnftnl",
+        "package_name": "libnftnl",
+        "source": "debian",
+        "source_version": "1.2.9-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libnftnl/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnftnl",
+        "package_name": "libnftnl",
+        "source": "fedora",
+        "source_version": "1.3.1-2.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libnftnl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnftnl",
+        "package_name": "libnftnl",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.3.1-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libnftnl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnftnl",
+        "package_name": "libnftnl",
+        "source": "ubuntu",
+        "source_version": "1.3.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libnftnl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The publisher's stable 1.3.1 archive and SHA-256 were pinned; all 32 maintained tests were run without network access and target SONAME 11 was preserved.",
+    "status": "active"
+  },
+  "package_id": "libnftnl",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "libnftnl",
+    "summary": "Userspace library for nftables netlink messages"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "netfilter.org-libnftnl",
+    "homepage": "https://www.netfilter.org/projects/libnftnl/",
+    "release_api": "https://www.netfilter.org/projects/libnftnl/files/",
+    "release_channel": "stable",
+    "release_regex": "libnftnl-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://git.netfilter.org/libnftnl/",
+    "source_url_template": "https://www.netfilter.org/projects/libnftnl/files/libnftnl-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.3.1",
+    "latest_detected": "1.3.1",
+    "release": "1"
+  }
+}

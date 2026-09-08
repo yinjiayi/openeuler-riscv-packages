@@ -1,0 +1,19 @@
+{
+  "package_id": "which",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "1cb83e4f702e60b8211ab5ec4c2afbab1b1dec80209456a7d2faf7584ed225ea"},
+      "filename": "which-2.25.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL-3.0-or-later source is fetched from the official GNU release directory in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/which/which-2.25.tar.gz",
+      "version": "2.25"
+    }
+  ]
+}

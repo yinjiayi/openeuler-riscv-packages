@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/jcs/xbanish",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xbanish",
+        "package_name": "xbanish",
+        "source": "debian",
+        "source_version": "1.8-1"
+      },
+      {
+        "evidence_url": "https://github.com/jcs/xbanish",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xbanish",
+        "package_name": "xbanish",
+        "source": "fedora",
+        "source_version": "1.8-10.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/jcs/xbanish",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xbanish",
+        "package_name": "xbanish",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.8-1.16"
+      },
+      {
+        "evidence_url": "https://github.com/jcs/xbanish",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xbanish",
+        "package_name": "xbanish",
+        "source": "ubuntu",
+        "source_version": "1.8-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "xbanish.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "xbanish",
+  "rpm": {
+    "license": "ISC",
+    "name": "xbanish",
+    "summary": "Hide the X11 mouse cursor while typing"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-jcs-xbanish",
+    "homepage": "https://github.com/jcs/xbanish",
+    "release_api": "https://api.github.com/repos/jcs/xbanish/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/jcs/xbanish",
+    "source_url_template": "https://github.com/jcs/xbanish/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.8",
+    "latest_detected": "1.8",
+    "release": "1"
+  }
+}

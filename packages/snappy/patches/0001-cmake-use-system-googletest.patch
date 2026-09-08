@@ -1,0 +1,47 @@
+From a0b1d9f22603819f1d46086956ff3802ac971b74 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 10 Aug 2026 18:50:00 +0800
+Subject: [PATCH] cmake: use system GoogleTest
+
+GitHub-generated source archives do not contain the googletest submodule.
+Use the target distribution's GoogleTest and GoogleMock CMake targets so the
+maintained upstream Snappy unit suite remains enabled in an offline build.
+---
+ CMakeLists.txt | 27 +++++----------------------
+ 1 file changed, 5 insertions(+), 22 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8147c7d..4d11df2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -325,6 +324,0 @@
+-
+-  # Prevent overriding the parent project's compiler/linker settings on Windows.
+-  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+-  set(install_gtest OFF)
+-  set(install_gmock OFF)
+-  set(build_gmock ON)
+@@ -332,10 +326,4 @@
+-  # This project is tested using GoogleTest.
+-  add_subdirectory("third_party/googletest")
+-
+-  # GoogleTest triggers a missing field initializers warning.
+-  if(SNAPPY_HAVE_NO_MISSING_FIELD_INITIALIZERS)
+-    set_property(TARGET gtest
+-        APPEND PROPERTY COMPILE_OPTIONS -Wno-missing-field-initializers)
+-    set_property(TARGET gmock
+-        APPEND PROPERTY COMPILE_OPTIONS -Wno-missing-field-initializers)
+-  endif(SNAPPY_HAVE_NO_MISSING_FIELD_INITIALIZERS)
++  find_package(GTest REQUIRED)
++  if(NOT TARGET GTest::gtest OR NOT TARGET GTest::gmock_main)
++    message(FATAL_ERROR "GoogleTest and GoogleMock CMake targets are required")
++  endif()
+@@ -343,5 +330,0 @@
+-  if(SNAPPY_HAVE_NO_IMPLICIT_INT_FLOAT_CONVERSION)
+-    set_property(TARGET gtest
+-        APPEND PROPERTY COMPILE_OPTIONS -Wno-implicit-int-float-conversion)
+-  endif(SNAPPY_HAVE_NO_IMPLICIT_INT_FLOAT_CONVERSION)
+-
+@@ -353 +336 @@
+-  target_link_libraries(snappy_unittest snappy_test_support gmock_main gtest)
++  target_link_libraries(snappy_unittest snappy_test_support GTest::gmock_main GTest::gtest)

@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://facebook.github.io/zstd/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zstd",
+        "package_name": "zstd",
+        "source": "arch-core",
+        "source_version": "1.5.7-3"
+      },
+      {
+        "evidence_url": "https://facebook.github.io/zstd/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-zstd",
+        "package_name": "mingw-w64-zstd",
+        "source": "aur",
+        "source_version": "1.5.7-1"
+      },
+      {
+        "evidence_url": "https://facebook.github.io/zstd/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libzstd",
+        "package_name": "libzstd",
+        "source": "debian",
+        "source_version": "1.5.7+dfsg-1"
+      },
+      {
+        "evidence_url": "https://facebook.github.io/zstd/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-zstd",
+        "package_name": "mingw-zstd",
+        "source": "fedora",
+        "source_version": "1.5.7-3.fc44"
+      },
+      {
+        "evidence_url": "https://facebook.github.io/zstd/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zstd",
+        "package_name": "zstd",
+        "source": "fedora",
+        "source_version": "1.5.7-5.fc44"
+      },
+      {
+        "evidence_url": "https://facebook.github.io/zstd/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zstd",
+        "package_name": "zstd",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.5.7-5.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "zstd.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "zstd",
+  "rpm": {
+    "license": "BSD-3-Clause AND GPL-2.0-only",
+    "name": "zstd",
+    "summary": "Fast real-time compression algorithm and tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-facebook-zstd",
+    "homepage": "https://facebook.github.io/zstd/",
+    "release_api": "https://api.github.com/repos/facebook/zstd/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/facebook/zstd",
+    "source_url_template": "https://github.com/facebook/zstd/releases/download/v{version}/zstd-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.5.7",
+    "latest_detected": "1.5.7",
+    "release": "1"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/yaml/libyaml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libyaml",
+        "package_name": "libyaml",
+        "source": "arch-extra",
+        "source_version": "0.2.5-3"
+      },
+      {
+        "evidence_url": "https://github.com/yaml/libyaml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libyaml",
+        "package_name": "libyaml",
+        "source": "debian",
+        "source_version": "0.2.5-2"
+      },
+      {
+        "evidence_url": "https://github.com/yaml/libyaml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libyaml",
+        "package_name": "libyaml",
+        "source": "fedora",
+        "source_version": "0.2.5-18.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/yaml/libyaml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libyaml",
+        "package_name": "libyaml",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.2.5-2.11"
+      },
+      {
+        "evidence_url": "https://github.com/yaml/libyaml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libyaml",
+        "package_name": "libyaml",
+        "source": "ubuntu",
+        "source_version": "0.2.5-2build3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libyaml.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libyaml",
+  "rpm": {
+    "license": "MIT",
+    "name": "libyaml",
+    "summary": "YAML 1.1 parser and emitter library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-yaml-libyaml",
+    "homepage": "https://github.com/yaml/libyaml",
+    "release_api": "https://api.github.com/repos/yaml/libyaml/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/yaml/libyaml",
+    "source_url_template": "https://github.com/yaml/libyaml/releases/download/{version}/yaml-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2.5",
+    "latest_detected": "0.2.5",
+    "release": "1"
+  }
+}

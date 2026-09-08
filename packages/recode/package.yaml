@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "recode",
+  "rpm": {
+    "name": "recode",
+    "summary": "Character set conversion utility and library",
+    "license": "GPL-3.0-or-later AND LGPL-3.0-or-later AND BSD-2-Clause AND LicenseRef-OFSFDL"
+  },
+  "upstream": {
+    "component": "github.com-rrthomas-recode",
+    "homepage": "https://github.com/rrthomas/recode",
+    "source_repository": "https://github.com/rrthomas/recode.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/rrthomas/recode/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/rrthomas/recode/releases/download/v{version}/recode-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.7.15",
+    "release": "1",
+    "latest_detected": "3.7.15"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260812T115000Z-b27-recode",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "recode",
+        "package_base": "recode",
+        "source_version": "3.7.15-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/recode/",
+        "observed_at": "2026-08-12T11:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "recode",
+        "package_base": "recode",
+        "source_version": "3.7.15-1",
+        "evidence_url": "https://packages.debian.org/trixie/source/recode",
+        "observed_at": "2026-08-12T11:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "recode",
+        "package_base": "recode",
+        "source_version": "3.7.15-3.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/recode/recode/fedora-44.html",
+        "observed_at": "2026-08-12T11:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "recode",
+        "package_base": "recode",
+        "source_version": "3.7.15",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/recode",
+        "observed_at": "2026-08-12T11:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "recode",
+        "package_base": "recode",
+        "source_version": "3.7.15-3",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/recode",
+        "observed_at": "2026-08-12T11:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 240,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "recode.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official v3.7.15 release asset is the current stable upstream source and is pinned by SHA-256. Arch, Fedora 44, Debian, openSUSE, and Ubuntu corroborate the frozen lineage; AUR RPC returned no matching package and no external recipe was executed. Version 3.7.15-1 supersedes target EVR 3.7.14-1 while preserving librecode.so.3, recode-static, and the target main/devel/help splits."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases-latest"
+  }
+}

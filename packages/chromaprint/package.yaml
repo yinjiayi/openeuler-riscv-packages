@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "chromaprint",
+  "rpm": {
+    "name": "chromaprint",
+    "summary": "Audio fingerprinting library and tool",
+    "license": "GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSD-3-Clause"
+  },
+  "upstream": {
+    "component": "acoustid.org-chromaprint",
+    "homepage": "https://acoustid.org/chromaprint",
+    "source_repository": "https://github.com/acoustid/chromaprint.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/acoustid/chromaprint/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/acoustid/chromaprint/releases/download/v{version}/chromaprint-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.6.1",
+    "release": "1",
+    "latest_detected": "1.6.1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "chromaprint",
+        "package_base": "chromaprint",
+        "source_version": "1.6.1-2",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/chromaprint/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "chromaprint",
+        "package_base": "chromaprint",
+        "source_version": "1.6.0-4.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/chromaprint/chromaprint/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "chromaprint",
+        "package_base": "chromaprint",
+        "source_version": "1.6.0-1.8",
+        "evidence_url": "https://software.opensuse.org/package/chromaprint",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "chromaprint",
+        "package_base": "chromaprint",
+        "source_version": "1.5.1-7",
+        "evidence_url": "https://packages.debian.org/source/stable/chromaprint",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "chromaprint",
+        "package_base": "chromaprint",
+        "source_version": "1.6.0-2build1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/chromaprint",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "chromaprint.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official current stable 1.6.1 is SHA-256 pinned and archive-safe. This raises the fixed target's chromaprint source and libchromaprint binary EVR from 1.5.1-1 while retaining libchromaprint.so.1 and every prior public symbol. The target-matching FFTW3 configuration passes all 100 upstream tests with no skips or failures."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases-latest"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "marisa",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "986ed5e2967435e3a3932a8c95980993ae5a196111e377721f0849cad4e807f3"
+      },
+      "filename": "marisa-0.3.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.3.1.tar.gz",
+      "version": "0.3.1"
+    }
+  ]
+}

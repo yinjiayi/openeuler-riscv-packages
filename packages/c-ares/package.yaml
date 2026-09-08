@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://c-ares.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "c-ares",
+        "package_name": "c-ares",
+        "source": "arch-extra",
+        "source_version": "1.34.8-1"
+      },
+      {
+        "evidence_url": "https://c-ares.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "c-ares",
+        "package_name": "c-ares",
+        "source": "debian",
+        "source_version": "1.34.5-1+deb13u1"
+      },
+      {
+        "evidence_url": "https://c-ares.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "c-ares",
+        "package_name": "c-ares",
+        "source": "fedora",
+        "source_version": "1.34.6-3.fc44"
+      },
+      {
+        "evidence_url": "https://c-ares.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "c-ares",
+        "package_name": "c-ares",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.34.6-1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-drop-redundant-gtest-system-include.patch",
+        "sha256": "2aae2952537df3b91f5810f61ec1849a82e38f07307e49bfa0540cbeeb762df3",
+        "purpose": "Remove only the redundant /usr/include imported by GTest so libstdc++ include_next works in the locked RVA23 QEMU buildroot.",
+        "source": "Downstream reconstruction from the observed openEuler 24.03 LTS SP3 RVA23 build",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "The locked openEuler CMake/GTest buildroot no longer exports /usr/include as a redundant imported-target system include."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "c-ares.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "c-ares",
+  "rpm": {
+    "license": "MIT",
+    "name": "c-ares",
+    "summary": "Asynchronous DNS request library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "c-ares.org",
+    "homepage": "https://c-ares.org/",
+    "release_api": "https://api.github.com/repos/c-ares/c-ares/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/c-ares/c-ares",
+    "source_url_template": "https://github.com/c-ares/c-ares/releases/download/v{version}/c-ares-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.34.8",
+    "latest_detected": "1.34.8",
+    "release": "1"
+  }
+}

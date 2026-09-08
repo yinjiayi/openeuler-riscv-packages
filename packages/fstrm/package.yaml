@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/farsightsec/fstrm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fstrm",
+        "package_name": "fstrm",
+        "source": "arch-extra",
+        "source_version": "0.6.1-2"
+      },
+      {
+        "evidence_url": "https://github.com/farsightsec/fstrm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fstrm",
+        "package_name": "fstrm",
+        "source": "debian",
+        "source_version": "0.6.1-1"
+      },
+      {
+        "evidence_url": "https://github.com/farsightsec/fstrm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fstrm",
+        "package_name": "fstrm",
+        "source": "fedora",
+        "source_version": "0.6.1-14.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/farsightsec/fstrm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fstrm",
+        "package_name": "fstrm",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.6.1-1.16"
+      },
+      {
+        "evidence_url": "https://github.com/farsightsec/fstrm",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fstrm",
+        "package_name": "fstrm",
+        "source": "ubuntu",
+        "source_version": "0.6.1-1build5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "fstrm.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "fstrm",
+  "rpm": {
+    "license": "MIT",
+    "name": "fstrm",
+    "summary": "Frame Streams implementation in C"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-farsightsec-fstrm",
+    "homepage": "https://github.com/farsightsec/fstrm",
+    "release_api": "https://api.github.com/repos/farsightsec/fstrm/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/farsightsec/fstrm",
+    "source_url_template": "https://github.com/farsightsec/fstrm/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.6.1",
+    "latest_detected": "0.6.1",
+    "release": "1"
+  }
+}

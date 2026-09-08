@@ -1,0 +1,124 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://ninja-build.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ninja",
+        "package_name": "ninja",
+        "source": "arch-extra",
+        "source_version": "1.13.2-3"
+      },
+      {
+        "evidence_url": "https://ninja-build.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ninja-makeflags",
+        "package_name": "ninja-makeflags",
+        "source": "aur",
+        "source_version": "1-1"
+      },
+      {
+        "evidence_url": "https://ninja-build.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ninja-mem",
+        "package_name": "ninja-mem",
+        "source": "aur",
+        "source_version": "v1.12.1-2"
+      },
+      {
+        "evidence_url": "https://ninja-build.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ninja-noemacs-git",
+        "package_name": "ninja-noemacs-git",
+        "source": "aur",
+        "source_version": "2:1.13.0.r0.g65641253-1"
+      },
+      {
+        "evidence_url": "https://ninja-build.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ninja-build",
+        "package_name": "ninja-build",
+        "source": "debian",
+        "source_version": "1.12.1-1"
+      },
+      {
+        "evidence_url": "https://ninja-build.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ninja-build",
+        "package_name": "ninja-build",
+        "source": "fedora",
+        "source_version": "1.13.2-2.fc44"
+      },
+      {
+        "evidence_url": "https://ninja-build.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ninja",
+        "package_name": "ninja",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.13.2-1.5"
+      },
+      {
+        "evidence_url": "https://ninja-build.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ninja-test",
+        "package_name": "ninja-test",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.13.2-1.3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "ninja-build.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "ninja-build",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "ninja-build",
+    "summary": "Small build system focused on speed"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "ninja-build.org",
+    "homepage": "https://ninja-build.org",
+    "release_api": "https://api.github.com/repos/ninja-build/ninja/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/ninja-build/ninja",
+    "source_url_template": "https://github.com/ninja-build/ninja/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.13.2",
+    "latest_detected": "1.13.2",
+    "release": "1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "libevent",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f7e9383b8c0baa81b687e5b5eecc01beefaf1b19b64151d95ed61647fe7a315c"
+      },
+      "filename": "libevent-2.1.13-stable.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libevent/libevent/releases/download/release-2.1.13-stable/libevent-2.1.13-stable.tar.gz",
+      "version": "2.1.13"
+    }
+  ]
+}

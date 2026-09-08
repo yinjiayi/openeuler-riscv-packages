@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "argtable3",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/argtable/argtable3/releases/download/v3.3.1/argtable-v3.3.1.tar.gz",
+      "filename": "argtable3-3.3.1.tar.gz",
+      "version": "3.3.1",
+      "digests": {
+        "sha256": "c08bca4b88ddb9234726b75455b3b1670d7c864d8daf198eaa7a3b4d41addf2c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official permissively licensed release asset is fetched and SHA-256 verified by CI."
+      }
+    }
+  ]
+}

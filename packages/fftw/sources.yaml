@@ -1,0 +1,21 @@
+{
+  "package_id": "fftw",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5630c24cdeb33b131612f7eb4b1a9934234754f9f388ff8617458d0be6f239a1"
+      },
+      "filename": "fftw-3.3.11.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://fftw.org/fftw-3.3.11.tar.gz",
+      "version": "3.3.11"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libdisplay-info/",
+        "observed_at": "2026-08-13T08:00:00Z",
+        "package_base": "libdisplay-info",
+        "package_name": "libdisplay-info",
+        "source": "arch-extra",
+        "source_version": "0.3.0-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libdisplay-info",
+        "observed_at": "2026-08-13T08:00:00Z",
+        "package_base": "libdisplay-info",
+        "package_name": "libdisplay-info",
+        "source": "debian",
+        "source_version": "0.2.0-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libdisplay-info/tree/f44",
+        "observed_at": "2026-08-13T08:00:00Z",
+        "package_base": "libdisplay-info",
+        "package_name": "libdisplay-info",
+        "source": "fedora",
+        "source_version": "0.3.0-1.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libdisplay-info",
+        "observed_at": "2026-08-13T08:00:00Z",
+        "package_base": "libdisplay-info",
+        "package_name": "libdisplay-info",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.3.0-2.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdisplay-info",
+        "observed_at": "2026-08-13T08:00:00Z",
+        "package_base": "libdisplay-info",
+        "package_name": "libdisplay-info",
+        "source": "ubuntu",
+        "source_version": "0.3.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260813T080000Z-b34-libdisplay-info"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdisplay-info.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 0.4.0 release asset and checksum asset were verified; all 68 registered Meson tests remain mandatory.",
+    "status": "active"
+  },
+  "package_id": "libdisplay-info",
+  "rpm": {
+    "license": "MIT",
+    "name": "libdisplay-info",
+    "summary": "EDID and DisplayID parsing library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-gitlab-releases"
+  },
+  "upstream": {
+    "component": "gitlab.freedesktop.org-emersion-libdisplay-info",
+    "homepage": "https://gitlab.freedesktop.org/emersion/libdisplay-info",
+    "release_api": "https://gitlab.freedesktop.org/api/v4/projects/emersion%2Flibdisplay-info/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://gitlab.freedesktop.org/emersion/libdisplay-info",
+    "source_url_template": "https://gitlab.freedesktop.org/emersion/libdisplay-info/-/releases/{version}/downloads/libdisplay-info-{version}.tar.xz"
+  },
+  "version": {
+    "current": "0.4.0",
+    "latest_detected": "0.4.0",
+    "release": "1"
+  }
+}

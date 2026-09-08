@@ -1,0 +1,21 @@
+{
+  "package_id": "json-c",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "37ad0249902e301bd9052bf712e511fcc6acff4ecaad4b5900aad9ce564e26de"
+      },
+      "filename": "json-c-0.19.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/json-c/json-c/releases/download/json-c-0.19-20260627/json-c-0.19.tar.gz",
+      "version": "0.19"
+    }
+  ]
+}
