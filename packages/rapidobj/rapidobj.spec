@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           rapidobj
 Version:        1.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A fast, header-only, C++17 library for parsing Wavefront .obj files.
 License:        MIT
 URL:            https://github.com/guybrush77/rapidobj
@@ -44,6 +46,9 @@ EOF
 %doc README.md
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1-3
+- Disable empty debuginfo generation for the header-only installed payload.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1-2
 - Use the openEuler out-of-source CMake macro and exercise the parser example.
 
