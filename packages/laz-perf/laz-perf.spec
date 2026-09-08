@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           laz-perf
 Version:        3.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Alternative LAZ implementation for C++ and JavaScript
 License:        Apache-2.0
 URL:            https://github.com/hobu/laz-perf
@@ -18,7 +18,7 @@ Alternative LAZ implementation for C++ and JavaScript
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake_conf -DWITH_TESTS=ON
 %cmake_build
 
 %install
@@ -34,5 +34,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.4.0-2
+- Configure laz-perf in the openEuler CMake build directory and keep upstream tests enabled.
+
 * Thu Aug 27 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.4.0-1
 - Initial openEuler RISC-V package from the full package inventory.
