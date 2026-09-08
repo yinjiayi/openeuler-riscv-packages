@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nvidia-system-monitor-qt
 Version:        1.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Task Manager for Linux for Nvidia graphics cards (QT vesrion)
 License:        MIT
 URL:            https://github.com/congard/nvidia-system-monitor-qt
@@ -19,7 +19,7 @@ Task Manager for Linux for Nvidia graphics cards (QT vesrion)
 %autosetup -p1
 
 %build
-%cmake \
+%cmake_conf \
   -DBUILD_TESTING=ON \
   -DIconPath=%{_datadir}/icons/hicolor/512x512/apps/qnvsm.png \
   -DVersionPrefix=%{release}
@@ -40,6 +40,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6-3
+- Configure the project in the build directory expected by the openEuler CMake macros.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6-2
 - Add the Qt Widgets build dependency and explicitly install upstream artifacts.
 
