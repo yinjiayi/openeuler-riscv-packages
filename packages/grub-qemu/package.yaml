@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-support-openeuler-and-install-binary.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Lower the CMake policy floor to the locked openEuler 3.27 toolchain and add the missing executable install rule.",
+        "remove_when": "Upstream supports CMake 3.27 and installs the grub-qemu executable in a tagged release.",
+        "sha256": "e4055b3d343a8b5565c0e348bb8e54d076bf35f92631a8a6d4cb8988d14b3258",
+        "source": "Downstream review of the official grub-qemu 0.1.3 tag",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "grub-qemu.spec"
@@ -63,6 +73,6 @@
   "version": {
     "current": "0.1.3",
     "latest_detected": "0.1.3",
-    "release": "1"
+    "release": "2"
   }
 }
