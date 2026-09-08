@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           intel-metrics-discovery
 Version:        1.14.186
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        User mode library providing access to Intel GPU performance data (MDAPI)
 License:        MIT
 URL:            https://github.com/intel/metrics-discovery
@@ -20,7 +20,7 @@ User mode library providing access to Intel GPU performance data (MDAPI)
 %autosetup -n metrics-discovery-%{version} -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake_conf -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -36,6 +36,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.14.186-4
+- Configure in the RPM out-of-source build directory used by later macros.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.14.186-3
 - Match the official tag archive's metrics-discovery source directory.
 
