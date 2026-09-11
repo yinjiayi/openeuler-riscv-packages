@@ -2,12 +2,12 @@
 %global debug_package %{nil}
 
 Name:           cpp-httplib
-Version:        0.54.1
-Release:        2%{?dist}
+Version:        0.56.0
+Release:        1%{?dist}
 Summary:        Header-only C++ HTTP and HTTPS library
 License:        MIT
 URL:            https://github.com/yhirose/cpp-httplib
-Source0:        v0.54.1.tar.gz
+Source0:        v0.56.0.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
