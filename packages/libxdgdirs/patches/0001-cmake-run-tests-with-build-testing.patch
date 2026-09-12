@@ -1,0 +1,30 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Sat, 12 Sep 2026 00:00:00 +0000
+Subject: [PATCH] cmake: run tests with BUILD_TESTING
+
+Keep examples tied to the upstream Debug-only policy, but let the test suite use
+CMake's standard BUILD_TESTING option so distribution release builds can test
+the installed implementation.
+---
+ CMakeLists.txt | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 74f9515..ca24e8e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -34,8 +34,10 @@ configure_file(${CMAKE_PROJECT_NAME}.pc.in
+   lib/pkgconfig/${CMAKE_PROJECT_NAME}.pc @ONLY)
+ 
++include(CTest)
++if(BUILD_TESTING)
++  add_subdirectory(tests/)
++endif()
+ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+-  include(CTest)
+-  add_subdirectory(tests/)
+   add_subdirectory(examples/)
+ endif()
+ 
+-- 
+2.51.0
