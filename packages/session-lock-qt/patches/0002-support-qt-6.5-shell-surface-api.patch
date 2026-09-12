@@ -37,8 +37,7 @@ diff --git a/src/qwaylandextsessionlocksurface.cpp b/src/qwaylandextsessionlocks
 diff --git a/src/qwaylandextsessionlocksurface.h b/src/qwaylandextsessionlocksurface.h
 --- a/src/qwaylandextsessionlocksurface.h
 +++ b/src/qwaylandextsessionlocksurface.h
-@@ -19,6 +19,6 @@ public:
-     bool isExposed() const override { return m_configured; }
+@@ -20,5 +20,5 @@ public:
      void applyConfigure() override;
      bool requestActivate() override;
 -    bool requestActivateOnShow() override;

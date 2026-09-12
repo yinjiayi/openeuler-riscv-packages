@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           session-lock-qt
 Version:        2.1.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        session-lock-qt
 License:        GPL-3.0-or-later
 URL:            https://github.com/waycrate/qt-session-lock
@@ -46,6 +46,9 @@ test -x %{_vpath_builddir}/sessionlock-test
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.0-5
+- Use balanced patch context accepted by GNU patch with zero fuzz.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.0-4
 - Keep activation and expose handling compatible with the target Qt 6.5 API.
 
