@@ -1,0 +1,30 @@
+From 498d3c6cb974f778dea76c27eb770a4821e1a5da Mon Sep 17 00:00:00 2001
+From: Jun Yeong Kim <junyeonggim5@gmail.com>
+Date: Fri, 13 Mar 2026 15:52:26 +0900
+Subject: [PATCH] symbol: Fix build error in elf_for_each_comment()
+
+The elf_for_each_comment() macro incorrectly used strcmp() instead
+of strlen() when calculating the next comment offset. This caused
+a compilation error when libelf was not present and the internal
+ELF parser was used.
+
+Fix #2033
+
+Signed-off-by: Jun Yeong Kim <junyeonggim5@gmail.com>
+---
+ utils/symbol-rawelf.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/symbol-rawelf.h b/utils/symbol-rawelf.h
+index 7b40b3a99..346d405ab 100644
+--- a/utils/symbol-rawelf.h
++++ b/utils/symbol-rawelf.h
+@@ -167,7 +167,7 @@ struct uftrace_elf_iter {
+ 	for (elf_get_secdata((elf), (iter)), (iter)->i = 0, (iter)->nr = (iter)->shdr.sh_size,     \
+ 					     (iter)->comment = (iter)->data;                       \
+ 	     (iter)->i < (iter)->nr;                                                               \
+-	     (iter)->i += strcmp((iter)->comment) + 1, (iter)->comment = (iter)->data + (iter)->i)
++	     (iter)->i += strlen((iter)->comment) + 1, (iter)->comment = (iter)->data + (iter)->i)
+ 
+ int elf_init(const char *filename, struct uftrace_elf_data *elf);
+ void elf_finish(struct uftrace_elf_data *elf);
