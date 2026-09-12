@@ -28,6 +28,15 @@
         "sha256": "266251f779f3558a894e782142aafd7e5cfbc56495691dcafb0ca0d82eb44d04",
         "source": "Downstream openEuler packaging review of libXDGdirs 1.1.3.",
         "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0002-tests-export-xdg-data-home.patch",
+        "license": "MIT",
+        "purpose": "Export the XDG_DATA_HOME fixture value so the test child process observes the environment it asserts.",
+        "remove_when": "Upstream exports XDG_DATA_HOME or passes the fixture environment explicitly to the child process.",
+        "sha256": "a71e4777bcacb02e5991f86b2f67989419b9cec6a1ae9094a28c322952f8f079",
+        "source": "Downstream openEuler packaging review of the libXDGdirs 1.1.3 test failure.",
+        "upstream_status": "downstream-only"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -38,7 +47,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package selects the archive's case-sensitive root and carries a minimal patch so the upstream test follows the standard BUILD_TESTING switch in an out-of-source release build. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package selects the archive's case-sensitive root, makes the upstream test follow the standard BUILD_TESTING switch in an out-of-source release build, and exports the test fixture environment to its child process. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "libxdgdirs",
@@ -73,6 +82,6 @@
   "version": {
     "current": "1.1.3",
     "latest_detected": "1.1.3",
-    "release": "2"
+    "release": "3"
   }
 }
