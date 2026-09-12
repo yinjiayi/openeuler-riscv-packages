@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libassert
 Version:        2.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The most over-engineered C++ assertion library
 License:        MIT AND BSD-3-Clause AND BSL-1.0
 URL:            https://github.com/jeremy-rifkin/libassert
@@ -17,12 +17,18 @@ BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
 BuildRequires:  python3
+BuildRequires:  tar
 
 %description
 The most over-engineered C++ assertion library
 
 %prep
-%autosetup -p1 -a 1 -a 2 -a 3 -a 4 -a 5
+%autosetup -p1
+tar -xzf %{SOURCE1}
+tar -xzf %{SOURCE2}
+tar -xzf %{SOURCE3}
+tar -xzf %{SOURCE4}
+tar -xzf %{SOURCE5}
 cp cpptrace-3db8da80111171c219ab5839905771386bee06b3/LICENSE LICENSE.cpptrace
 cp magic_enum-e046b69a3736d314fad813e159b1c192eaef92cd/LICENSE LICENSE.magic_enum
 cp googletest-f8d7d77c06936315286eb55f8de22cd23c188571/LICENSE LICENSE.googletest
@@ -62,6 +68,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure --force-new-ctest-proces
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.1-3
+- Extract each pinned dependency explicitly with the target RPM macro set.
+
 * Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.1-2
 - Use an out-of-source build and run the complete registered upstream test suite.
 - Pin every FetchContent dependency and use cpptrace's addr2line symbol backend.
