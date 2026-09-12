@@ -1,0 +1,25 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] build: accept Autoconf 2.71
+
+The configure input uses no feature that requires Autoconf 2.72.  Accept the
+2.71 release provided by openEuler 24.03 LTS SP3 so the GitHub tag snapshot,
+which does not contain a generated configure script, can be regenerated.
+
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 8136366..ed3f46c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1,6 +1,6 @@
+ # Process this file with autoconf to create configure.
+ 
+-AC_PREREQ([2.72])
++AC_PREREQ([2.71])
+ 
+ # ====================
+ # Version informations
+-- 
+2.51.0
