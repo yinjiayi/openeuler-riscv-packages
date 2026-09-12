@@ -1,12 +1,12 @@
 {
-  "package_id": "libcap-ng",
+  "package_id": "peaclock",
   "schema_version": 1,
   "sources": [
     {
       "digests": {
-        "sha256": "399040138e0ca62fa2bcabd63da9af4431a246ef7a654561a0ca3cb00010a539"
+        "sha256": "3de32486e45ddf6a62c591619b5373d23c8eaf885975441ae581ca7241c48012"
       },
-      "filename": "v0.9.6.tar.gz",
+      "filename": "peaclock-0.4.3.tar.gz",
       "id": "source0",
       "kind": "upstream-release",
       "redistribution": {
@@ -14,8 +14,8 @@
         "reason": "Governed by the declared upstream license; source is fetched in CI."
       },
       "signature": null,
-      "url": "https://github.com/stevegrubb/libcap-ng/archive/refs/tags/v0.9.6.tar.gz",
-      "version": "0.9.6"
+      "url": "https://github.com/octobanana/peaclock/archive/refs/tags/0.4.3.tar.gz",
+      "version": "0.4.3"
     }
   ]
 }

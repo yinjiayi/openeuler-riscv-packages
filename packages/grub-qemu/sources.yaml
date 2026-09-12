@@ -1,12 +1,12 @@
 {
-  "package_id": "libcap-ng",
+  "package_id": "grub-qemu",
   "schema_version": 1,
   "sources": [
     {
       "digests": {
-        "sha256": "399040138e0ca62fa2bcabd63da9af4431a246ef7a654561a0ca3cb00010a539"
+        "sha256": "affcac9169285c29b4dafdd9c9a04877a3197889c8a9ba23952d99d7823689cc"
       },
-      "filename": "v0.9.6.tar.gz",
+      "filename": "grub-qemu-0.1.3.tar.gz",
       "id": "source0",
       "kind": "upstream-release",
       "redistribution": {
@@ -14,8 +14,8 @@
         "reason": "Governed by the declared upstream license; source is fetched in CI."
       },
       "signature": null,
-      "url": "https://github.com/stevegrubb/libcap-ng/archive/refs/tags/v0.9.6.tar.gz",
-      "version": "0.9.6"
+      "url": "https://github.com/VC365/grub-qemu/archive/refs/tags/v0.1.3.tar.gz",
+      "version": "0.1.3"
     }
   ]
 }
