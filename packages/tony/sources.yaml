@@ -1,0 +1,21 @@
+{
+  "package_id": "tony",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3318fb6f98330c74acfd4b00007a195f29155a55e6d5be4baafffe558295d8bf"
+      },
+      "filename": "tony-2.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/sonic-visualiser/tony/archive/refs/tags/v2.1.1.tar.gz",
+      "version": "2.1.1"
+    }
+  ]
+}
