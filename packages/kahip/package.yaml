@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 120
   },
   "discovery": {
     "lineage": [
@@ -63,6 +63,6 @@
   "version": {
     "current": "3.25",
     "latest_detected": "3.25",
-    "release": "2"
+    "release": "3"
   }
 }

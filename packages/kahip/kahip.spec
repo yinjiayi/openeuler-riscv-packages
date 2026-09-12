@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           kahip
 Version:        3.25
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Karlsruhe HIGH Quality Partitioning
 License:        MIT
 URL:            https://github.com/KaHIP/KaHIP
@@ -38,6 +38,9 @@ grep -E '^qap [0-9]+$' interface-test.log
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.25-3
+- Extend the QEMU budget after the full MPI build reached 72% at the deadline.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.25-2
 - Fix the source directory, retain MPI and ParHIP support, and exercise the interface.
 - Disable host-native compiler tuning for the RVA23 package target.
