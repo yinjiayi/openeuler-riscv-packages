@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/treefrogframework/treefrog-framework",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "treefrog-framework",
+        "package_name": "treefrog-framework",
+        "source": "aur",
+        "source_version": "2.12.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "treefrog-framework.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 calls TreeFrog's project-specific configure script only with its documented installation-directory options after exact-head RVA23 CI showed the generic RPM configure macro passed unsupported GNU triplet and dependency-tracking arguments and exited after printing usage. CMake and Qt 6 development tooling used by that configure path are explicit BuildRequires. Release 3 additionally declares the Qt 6 declarative development package after exact-head CI reached qmake and reported its required QML module missing. Release 4 uses the supported shared MongoDB-driver mode and the official repository's mongo-c-driver-devel package after the following exact-head build failed while compiling the bundled driver. Release 5 follows the upstream build layout by building and installing src and tools separately after exact-head CI proved that configure intentionally creates no top-level Makefile. It runs the upstream source and tmake suites with their Redis and Memcached services explicitly provisioned and bounded by exact PID files. Release 6 raises the package timeout to 180 minutes after exact-head CI reached the bounded 2800-second command budget while src was still compiling normally without a compiler or test failure. Release 7 regenerates the tools Makefiles with build-tree include and library paths after exact-head CI completed the core library but showed that the generated tools Makefiles incorrectly searched the final installation paths before installation. Release 8 adds both the public wrapper-header directory and the private source-header directory to the tools' build-tree include search after exact-head CI found tfcore.h and turingserver.h absent from the public wrapper directory. MongoDB support, the complete test paths, and install smoke remain enabled. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "treefrog-framework",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "treefrog-framework",
+    "summary": "High-speed C++ MVC Framework for Web Application"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-treefrogframework-treefrog-framework",
+    "homepage": "https://www.treefrogframework.org",
+    "release_api": "https://api.github.com/repos/treefrogframework/treefrog-framework/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/treefrogframework/treefrog-framework",
+    "source_url_template": "https://github.com/treefrogframework/treefrog-framework/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.12.0",
+    "latest_detected": "2.12.0",
+    "release": "8"
+  }
+}
