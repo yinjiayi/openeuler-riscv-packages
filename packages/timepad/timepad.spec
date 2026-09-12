@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           timepad
 Version:        0.1.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A minimal Timer App for Linux that has a picture-in-picture mode
 License:        MIT
 URL:            https://github.com/agokule/timepad
 Source0:        timepad-0.1.0.tar.gz
+Source1:        SDL-8e37db5e797b6167f3a00d697d816a684bd259c7.tar.gz
+Source2:        imgui-8936b58fe26e8c3da834b8f60b06511d537b4c63.tar.gz
 BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
@@ -21,17 +23,23 @@ BuildRequires:  libXrandr-devel
 BuildRequires:  libXrender-devel
 BuildRequires:  libXtst-devel
 BuildRequires:  make
+BuildRequires:  tar
 
 %description
 A minimal Timer App for Linux that has a picture-in-picture mode
 
 %prep
 %autosetup -p1
+tar -xzf %{SOURCE1}
+tar -xzf %{SOURCE2}
 
 %build
 %cmake -S . -B %{_vpath_builddir} \
   -DBUILD_TESTING=ON \
   -DDISTRIBUTION_MODE=ON \
+  -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
+  -DFETCHCONTENT_SOURCE_DIR_IMGUI="$PWD/imgui-8936b58fe26e8c3da834b8f60b06511d537b4c63" \
+  -DFETCHCONTENT_SOURCE_DIR_SDL3="$PWD/SDL-8e37db5e797b6167f3a00d697d816a684bd259c7" \
   -DSDL_DEPS_SHARED=OFF \
   -DSDL_INSTALL=OFF \
   -DSDL_SHARED=OFF \
@@ -63,6 +71,9 @@ test -x %{_vpath_builddir}/Timepad
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.0-5
+- Pin SDL and Dear ImGui archives and prohibit undeclared FetchContent downloads.
+
 * Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.0-4
 - Quote generated file-list entries to preserve font filenames containing spaces.
 
