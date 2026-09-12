@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           checksec
 Version:        3.2.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Inspect ELF binaries for hardening features
 License:        BSD-3-Clause
 URL:            https://github.com/slimm609/checksec.sh
@@ -46,6 +48,9 @@ go test -count=1 ./...
 %{_mandir}/man1/checksec.1*
 
 %changelog
+* Sun Sep 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.0-4
+- Disable the unusable empty debug package for the Go 1.25 executable.
+
 * Sun Sep 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.0-3
 - Build the pure-Go executable without requesting an incompatible external-link PIE mode.
 
