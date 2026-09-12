@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libxdgdirs
 Version:        1.1.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An implementation helpers for XDG Base Directory Specification in C
 License:        MIT
 URL:            https://github.com/Jorenar/libXDGdirs
 Source0:        libxdgdirs-1.1.3.tar.gz
+Patch0:         0001-cmake-run-tests-with-build-testing.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
@@ -14,10 +15,10 @@ BuildRequires:  make
 An implementation helpers for XDG Base Directory Specification in C
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n libXDGdirs-%{version}
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake_conf -DBUILD_TESTING=ON
 %cmake_build
 
 %install
@@ -33,5 +34,8 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.3-2
+- Select the verified archive root and run tests in an out-of-source release build.
+
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.3-1
 - Initial openEuler RISC-V package from the full package inventory.

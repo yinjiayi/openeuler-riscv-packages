@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-cmake-run-tests-with-build-testing.patch",
+        "license": "MIT",
+        "purpose": "Run the upstream test with the standard BUILD_TESTING option without turning the distributed library into a Debug build.",
+        "remove_when": "Upstream decouples test registration from CMAKE_BUILD_TYPE and honors BUILD_TESTING directly.",
+        "sha256": "266251f779f3558a894e782142aafd7e5cfbc56495691dcafb0ca0d82eb44d04",
+        "source": "Downstream openEuler packaging review of libXDGdirs 1.1.3.",
+        "upstream_status": "downstream-only"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "libxdgdirs.spec"
@@ -28,7 +38,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package selects the archive's case-sensitive root and carries a minimal patch so the upstream test follows the standard BUILD_TESTING switch in an out-of-source release build. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "libxdgdirs",
@@ -63,6 +73,6 @@
   "version": {
     "current": "1.1.3",
     "latest_detected": "1.1.3",
-    "release": "1"
+    "release": "2"
   }
 }
