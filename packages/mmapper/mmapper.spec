@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           mmapper
 Version:        25.07.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        MMapper2 is a MUD (Multi-User Dungeon) mapper especially written for the MUD MUME
 License:        GPL-2.0-or-later
 URL:            https://github.com/MUME/MMapper
@@ -39,6 +39,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc NEWS.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 25.07.0-7
+- Allow 240 minutes after the full QEMU build reached 88% at the prior deadline.
+
 * Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 25.07.0-6
 - Allow 180 minutes for the complete QEMU build and upstream test suite.
 
