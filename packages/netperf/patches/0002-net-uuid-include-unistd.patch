@@ -1,0 +1,29 @@
+From 0b0cbbef75021134c83be0c3dd21878467e11144 Mon Sep 17 00:00:00 2001
+From: Rick Jones <raj@cup.hp.com>
+Date: Fri, 30 Oct 2015 08:37:12 -0700
+Subject: [PATCH] net_uuid: include unistd declarations when available
+
+The UUID helper calls read and close on non-Windows systems but the 2.7.0 tag
+does not include unistd.h.  Backport the exact upstream include guard so
+modern compilers see both declarations.
+
+Patch-Source: https://github.com/HewlettPackard/netperf/commit/0b0cbbef75021134c83be0c3dd21878467e11144
+Patch-License: MIT
+Upstream-Status: Backport
+---
+ src/net_uuid.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+--- a/src/net_uuid.c
++++ b/src/net_uuid.c
+@@ -29,6 +29,9 @@
+ #include <string.h>
+ #include <fcntl.h>
+-
++#if defined(HAVE_UNISTD_H)
++#include <unistd.h>
++#endif
++
+ #if defined(HAVE_INTTYPES_H)
+ #include <inttypes.h>
+ #endif
