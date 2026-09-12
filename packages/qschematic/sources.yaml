@@ -16,6 +16,21 @@
       "signature": null,
       "url": "https://github.com/simulton/QSchematic/archive/refs/tags/3.0.3.tar.gz",
       "version": "3.0.3"
+    },
+    {
+      "digests": {
+        "sha256": "c0b86573ebfbc76169a43a4508fecf17f2b1b20d44cdba9adf2265ad3e0547e3"
+      },
+      "filename": "gpds-1.10.0.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official GPDS 1.10.0 stable source; GPDS and bundled MiniYAML use MIT, bundled TinyXML-2 uses Zlib. All three license notices are included in the RPM."
+      },
+      "signature": null,
+      "url": "https://github.com/simulton/gpds/archive/refs/tags/1.10.0.tar.gz",
+      "version": "1.10.0"
     }
   ]
 }

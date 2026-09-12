@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 90
+    "timeout_minutes": 120
   },
   "discovery": {
     "lineage": [
@@ -33,7 +33,7 @@
   },
   "package_id": "qschematic",
   "rpm": {
-    "license": "MIT",
+    "license": "MIT AND Zlib",
     "name": "qschematic",
     "summary": "A library that allows creating diagrams such as flowcharts or even proper engineering schematics within a Qt application"
   },
@@ -63,6 +63,6 @@
   "version": {
     "current": "3.0.3",
     "latest_detected": "3.0.3",
-    "release": "4"
+    "release": "5"
   }
 }
