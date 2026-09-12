@@ -1,0 +1,30 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 240},
+  "discovery": {
+    "lineage": [
+      {"evidence_url": "https://archlinux.org/packages/extra/x86_64/yaml-cpp/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "yaml-cpp", "package_name": "yaml-cpp", "source": "arch-extra", "source_version": "0.9.0-1"},
+      {"evidence_url": "https://aur.archlinux.org/packages/mingw-w64-yaml-cpp", "observed_at": "2026-08-08T16:50:00Z", "package_base": "mingw-w64-yaml-cpp", "package_name": "mingw-w64-yaml-cpp", "source": "aur", "source_version": "0.9.0-1"},
+      {"evidence_url": "https://packages.debian.org/trixie/source/yaml-cpp", "observed_at": "2026-08-08T16:50:00Z", "package_base": "yaml-cpp", "package_name": "yaml-cpp", "source": "debian", "source_version": "0.8.0+dfsg-7"},
+      {"evidence_url": "https://packages.fedoraproject.org/pkgs/yaml-cpp/yaml-cpp/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "yaml-cpp", "package_name": "yaml-cpp", "source": "fedora", "source_version": "0.8.0-5.fc44"},
+      {"evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/yaml-cpp", "observed_at": "2026-08-08T16:50:00Z", "package_base": "yaml-cpp", "package_name": "yaml-cpp", "source": "opensuse-tumbleweed", "source_version": "0.9.0-1.4"}
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "yaml-cpp.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "Frozen Arch, AUR, Debian, Fedora, and openSUSE aliases were deduplicated by the official yaml-cpp component. AUR rows are metadata only and were never executed. The official 0.9.0 release asset publishes the same SHA-256 as the independently retrieved bytes. The complete bundled upstream CTest suite remains enabled.", "status": "active"},
+  "package_id": "yaml-cpp",
+  "rpm": {"license": "MIT", "name": "yaml-cpp", "summary": "YAML parser and emitter for C++"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-releases"},
+  "upstream": {
+    "component": "github.com-jbeder-yaml-cpp",
+    "homepage": "https://github.com/jbeder/yaml-cpp",
+    "release_api": "https://api.github.com/repos/jbeder/yaml-cpp/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "yaml-cpp-(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/jbeder/yaml-cpp",
+    "source_url_template": "https://github.com/jbeder/yaml-cpp/releases/download/yaml-cpp-{version}/yaml-cpp-yaml-cpp-{version}.tar.gz"
+  },
+  "version": {"current": "0.9.0", "latest_detected": "0.9.0", "release": "1"}
+}
