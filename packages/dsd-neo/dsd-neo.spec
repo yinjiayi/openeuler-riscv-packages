@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           dsd-neo
 Version:        2.5.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Digital Speech Decoder - A modern, modular, and performance enhanced C/C++ decoder for digital voice. DMR, P25, NXDN, YSF, and more.
 License:        GPL-3.0-or-later
 URL:            https://github.com/arancormonk/dsd-neo
 Source0:        dsd-neo-2.5.1.tar.gz
+Patch0:         patches/0001-link-bit-packing-in-crypto.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -40,6 +41,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.1-4
+- Link the shared crypto library with its bit-packing implementation.
+
 * Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.1-3
 - Configure in the RPM out-of-source build directory used by later macros.
 

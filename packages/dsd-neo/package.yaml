@@ -19,7 +19,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-link-bit-packing-in-crypto.patch",
+        "sha256": "43e422bf85002127868bf335b448a2104d06a7ea2659df037b66d62fac98b1ed",
+        "purpose": "Resolve the shared crypto library's bit-packing dependency without a cyclic dependency on core; retain all upstream tests.",
+        "source": "Downstream fix for exact-head CI run 34267193336, verified against official v2.5.1 source.",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream links the bit-packing implementation into the crypto library or an acyclic shared dependency."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "dsd-neo.spec"
@@ -63,6 +73,6 @@
   "version": {
     "current": "2.5.1",
     "latest_detected": "2.5.1",
-    "release": "3"
+    "release": "4"
   }
 }
