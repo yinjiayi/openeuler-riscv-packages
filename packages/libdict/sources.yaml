@@ -1,0 +1,21 @@
+{
+  "package_id": "libdict",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bbe4072ca68f6f501e66992be03994dcb7eaf8f5cfce5cd172a47e6b6c4750fa"
+      },
+      "filename": "libdict-1.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rtbrick/libdict/archive/refs/tags/v1.0.3.tar.gz",
+      "version": "1.0.3"
+    }
+  ]
+}
