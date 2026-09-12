@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pybind11-json
 Version:        0.2.15
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Using nlohmann::json with pybind11
 License:        BSD-3-Clause
 URL:            https://github.com/pybind/pybind11_json
 Source0:        pybind11-json-0.2.15.tar.gz
+BuildArch:      noarch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -41,6 +42,10 @@ test -x %{_vpath_builddir}/test/test_pybind11_json
 %doc README.md
 
 %changelog
+* Sun Sep 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.15-4
+- Mark the installed header-only CMake package as noarch while retaining the
+  architecture-native upstream test build and execution.
+
 * Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.15-3
 - Use the openEuler out-of-source CMake configure macro expected by the build,
   install, and test helpers.

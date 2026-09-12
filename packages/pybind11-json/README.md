@@ -25,4 +25,9 @@ Release 3 configures with openEuler's out-of-source `%cmake_conf` macro. This
 keeps the configure directory aligned with `%cmake_build`, `%cmake_install`, and
 the explicit `%check` executable path while leaving the upstream suite enabled.
 
+Release 4 marks the installed header-only CMake package as `noarch`. The build
+still compiles and executes the complete upstream test binary on the target
+architecture; only the installed headers and CMake metadata are architecture
+independent.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
