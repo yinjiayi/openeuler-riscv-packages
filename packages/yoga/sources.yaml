@@ -1,0 +1,21 @@
+{
+  "package_id": "yoga",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "86b399ac31fd820d8ffa823c3fae31bb690b6fc45301b2a8a966c09b5a088b55"
+      },
+      "filename": "yoga-3.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/facebook/yoga/archive/refs/tags/v3.2.1.tar.gz",
+      "version": "3.2.1"
+    }
+  ]
+}
