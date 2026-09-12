@@ -47,7 +47,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package selects the archive's case-sensitive root, makes the upstream test follow the standard BUILD_TESTING switch in an out-of-source release build, and exports the test fixture environment to its child process. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package selects the archive's case-sensitive root, makes the upstream test follow the standard BUILD_TESTING switch in an out-of-source release build, and exports the test fixture environment to its child process. Release 4 disables the inapplicable automatic debuginfo subpackage because the installed static library and header contain no debuggable ELF file; the upstream CTest remains enabled. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "libxdgdirs",
@@ -82,6 +82,6 @@
   "version": {
     "current": "1.1.3",
     "latest_detected": "1.1.3",
-    "release": "3"
+    "release": "4"
   }
 }
