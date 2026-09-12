@@ -18,4 +18,12 @@ directory contains that target, so the hook can create both documentation
 files before CMake installs them. The existing GUI, Catch checks, and optional
 LaTeX patch are retained; fresh target CI must verify the repair.
 
+Release `6` addresses the next failure in the bundled Catch2 test framework:
+modern glibc obtains signal-stack sizes at runtime, whereas this older header
+uses one as a constant array size. A small adaptation of
+[Catch2's upstream fix](https://github.com/catchorg/Catch2/commit/8f277a54c0b9c1d1024dedcb2dec1d206971e745)
+allocates the alternate stack once with owned storage and retains fatal-signal
+reporting. The complete `check` target remains enabled; the prior run completed
+installation but could not compile its unit-test executable.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

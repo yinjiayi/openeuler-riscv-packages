@@ -28,6 +28,15 @@
         "sha256": "99e10d53acf604c892230e5257a08f401c6a7abbaa157176397b46c9060228b3",
         "source": "Downstream review of the upstream 2.1.2 CMake dependency graph and exact-head run 34125137726.",
         "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0002-catch2-runtime-signal-stack.patch",
+        "license": "BSL-1.0",
+        "purpose": "Allocate the bundled Catch2 alternate signal stack at runtime so modern glibc signal-stack sizes need not be constant expressions, retaining POSIX signal handling and all unit tests.",
+        "remove_when": "Upstream updates its bundled Catch2 to support runtime signal stack sizes.",
+        "sha256": "f50e56087765015141c2274adce936ef72f21c0a8551188e567fe660222120e4",
+        "source": "Adapted from Catch2 commit 8f277a54c0b9c1d1024dedcb2dec1d206971e745 after exact-head run 34683905655 failed compiling the bundled Catch2 signal stack.",
+        "upstream_status": "downstream-only"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -73,6 +82,6 @@
   "version": {
     "current": "2.1.2",
     "latest_detected": "2.1.2",
-    "release": "5"
+    "release": "6"
   }
 }
