@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/open-s4c/vatomic",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "vatomic",
+        "package_name": "vatomic",
+        "source": "aur",
+        "source_version": "2.4.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-tests-use-valid-std-atomic-memory-orders.patch",
+        "license": "MIT",
+        "purpose": "Keep the complete upstream C++ comparison suite valid under libstdc++ assertions by mapping invalid load, store, and compare-exchange failure orders for both mirror and subject.",
+        "remove_when": "An upstream release after 2.4.1 restricts the C++ comparison tests to memory orders valid for each atomic operation.",
+        "sha256": "f085fb763a5fcee7b11e4b339d882178ae30c10b2255c489c51661f73b95eddc",
+        "source": "Downstream analysis of openEuler RISC-V package CI runs 33351268802 and 33545098029 against the SHA-256-verified upstream 2.4.1 archive.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "vatomic.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 enables the upstream VATOMIC_TESTS option, adds the C++ compiler used by those tests, and disables only developer-time template regeneration while packaging the generated headers from the verified release archive. Release 3 explicitly configures the build directory consumed by the openEuler CMake RPM macros without changing upstream source, build features, or tests. Release 4 requires the fixed target repository's libatomic runtime because upstream links its RISC-V 8-bit and 16-bit atomic tests with -latomic. Release 5 patches invalid std::atomic load and store orders in the upstream C++ comparison tests; release 6 corrects that patch's first hunk boundary for strict GNU patch application. Release 7 extends the same test-only fix to use the standard compare-exchange failure-order mapping for both the mirror and subject. All upstream tests remain enabled.",
+    "status": "active"
+  },
+  "package_id": "vatomic",
+  "rpm": {
+    "license": "MIT",
+    "name": "vatomic",
+    "summary": "VSync atomics - formally-verified atomic operations library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-open-s4c-vatomic",
+    "homepage": "https://github.com/open-s4c/vatomic",
+    "release_api": "https://api.github.com/repos/open-s4c/vatomic/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/open-s4c/vatomic",
+    "source_url_template": "https://github.com/open-s4c/vatomic/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.4.1",
+    "latest_detected": "2.4.1",
+    "release": "7"
+  }
+}
