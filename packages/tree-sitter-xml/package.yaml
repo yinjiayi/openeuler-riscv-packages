@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/tree-sitter-grammars/tree-sitter-xml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tree-sitter-xml",
+        "package_name": "tree-sitter-xml",
+        "source": "aur",
+        "source_version": "0.7.0-3"
+      },
+      {
+        "evidence_url": "https://github.com/tree-sitter-grammars/tree-sitter-xml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tree-sitter-xml",
+        "package_name": "tree-sitter-xml",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.7.0+git.1768987141.5000ae8-1.3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tree-sitter-xml.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "tree-sitter-xml",
+  "rpm": {
+    "license": "MIT",
+    "name": "tree-sitter-xml",
+    "summary": "XML & DTD grammars for tree-sitter"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-tree-sitter-grammars-tree-sitter-xml",
+    "homepage": "https://github.com/tree-sitter-grammars/tree-sitter-xml",
+    "release_api": "https://api.github.com/repos/tree-sitter-grammars/tree-sitter-xml/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/tree-sitter-grammars/tree-sitter-xml",
+    "source_url_template": "https://github.com/tree-sitter-grammars/tree-sitter-xml/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.7.0",
+    "latest_detected": "0.7.0",
+    "release": "1"
+  }
+}
