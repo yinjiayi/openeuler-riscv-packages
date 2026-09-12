@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           intel-metrics-discovery
 Version:        1.14.186
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        User mode library providing access to Intel GPU performance data (MDAPI)
 License:        MIT
 URL:            https://github.com/intel/metrics-discovery
@@ -36,6 +36,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.14.186-6
+- Allow 180 minutes for the complete QEMU build including the final LTO link.
+
 * Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.14.186-5
 - Allow the verified QEMU build enough time to finish its final link and tests.
 
