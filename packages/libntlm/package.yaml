@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "package_id": "libntlm",
+  "rpm": {
+    "name": "libntlm",
+    "summary": "NTLM authentication protocol client library",
+    "license": "LGPL-2.1-or-later AND GPL-3.0-or-later"
+  },
+  "upstream": {
+    "component": "gitlab.com-gsasl-libntlm",
+    "homepage": "https://savannah.nongnu.org/projects/libntlm/",
+    "source_repository": "https://gitlab.com/gsasl/libntlm",
+    "release_channel": "stable",
+    "release_api": "https://download.savannah.nongnu.org/releases/libntlm/",
+    "release_regex": "libntlm-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://download.savannah.nongnu.org/releases/libntlm/libntlm-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.8",
+    "release": "1",
+    "latest_detected": "1.8"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libntlm",
+        "package_base": "libntlm",
+        "source_version": "1.8-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libntlm/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libntlm",
+        "package_base": "libntlm",
+        "source_version": "1.8-1",
+        "evidence_url": "https://packages.debian.org/source/stable/libntlm",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libntlm",
+        "package_base": "libntlm",
+        "source_version": "1.8-4.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/libntlm",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libntlm",
+        "package_base": "libntlm",
+        "source_version": "1.8-1.1",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE:Factory/libntlm",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": true,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libntlm.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official Savannah libntlm 1.8 release archive was independently downloaded, SHA-256 pinned, and archive-audited. Distribution metadata is discovery lineage only; no external packaging recipe was executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-savannah-archive"
+  }
+}

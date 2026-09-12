@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "datamash",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://ftp.gnu.org/gnu/datamash/datamash-1.9.tar.gz",
+      "filename": "datamash-1.9.tar.gz",
+      "version": "1.9",
+      "digests": {
+        "sha256": "f382ebda03650dd679161f758f9c0a6cc9293213438d4a77a8eda325aacb87d2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution is permitted by the upstream GPL-3.0-or-later and GFDL-1.3-or-later notices."
+      }
+    }
+  ]
+}

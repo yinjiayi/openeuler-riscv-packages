@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libvterm",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/neovim/libvterm/tar.gz/9d6d2112335080312ef8c36667fa717ded4f7daf",
+      "filename": "libvterm-0.3.3.tar.gz",
+      "version": "0.3.3",
+      "digests": {
+        "sha256": "08827df2eec047797aa8807c5213636aa76b75a0822f1286b876d30a917d043a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution and modification are permitted by the upstream MIT license."
+      }
+    }
+  ]
+}

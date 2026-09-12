@@ -1,0 +1,21 @@
+{
+  "package_id": "http-parser",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "467b9e30fd0979ee301065e70f637d525c28193449e1b13fbcb1b1fab3ad224f"
+      },
+      "filename": "http-parser-2.9.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official http-parser source archive is MIT."
+      },
+      "signature": null,
+      "url": "https://github.com/nodejs/http-parser/archive/refs/tags/v2.9.4.tar.gz",
+      "version": "2.9.4"
+    }
+  ]
+}

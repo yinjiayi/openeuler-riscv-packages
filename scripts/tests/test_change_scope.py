@@ -172,6 +172,7 @@ class ChangeScopeTests(unittest.TestCase):
             policy = json.loads(policy_output.read_text(encoding="utf-8"))
             self.assertTrue(policy["needs_native"])
             self.assertEqual(policy["build_profile"], "needs-native-riscv")
+            self.assertEqual(policy["build_user"], "root")
 
     def test_ref_name_is_rejected_instead_of_resolved(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "package_id": "libltc",
+  "rpm": {
+    "name": "libltc",
+    "summary": "Linear timecode encoder and decoder library",
+    "license": "LGPL-3.0-or-later"
+  },
+  "upstream": {
+    "component": "x42-libltc",
+    "homepage": "https://x42.github.io/libltc/",
+    "source_repository": "https://github.com/x42/libltc.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/x42/libltc/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/x42/libltc/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.3.2",
+    "release": "1",
+    "latest_detected": "1.3.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "libltc", "package_base": "libltc", "source_version": "1.3.2", "evidence_url": "https://archlinux.org/packages/extra/x86_64/libltc/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "libltc", "package_base": "libltc", "source_version": "1.3.2", "evidence_url": "https://packages.debian.org/trixie/source/libltc", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "libltc", "package_base": "libltc", "source_version": "1.3.2", "evidence_url": "https://packages.fedoraproject.org/pkgs/libltc/libltc/fedora-44.html", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "opensuse-tumbleweed", "package_name": "libltc", "package_base": "libltc", "source_version": "1.3.2", "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libltc", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "libltc", "package_base": "libltc", "source_version": "1.3.2", "evidence_url": "https://packages.ubuntu.com/resolute/source/libltc", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libltc.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official v1.3.2 tag resolves to immutable commit bf84b01097a1789c0296cc5fcfc3bf4608407930. Its SHA-256-pinned archive contains the complete maintained test corpus. Frozen Arch, Debian, Fedora 44, openSUSE, and Ubuntu evidence corroborates the lineage; no external packaging recipe was read or executed. The package is new to the fixed target and introduces libltc.so.11."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-releases"}
+}

@@ -1,0 +1,19 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 180},
+  "discovery": {"lineage": [
+    {"evidence_url": "https://archlinux.org/packages/extra/x86_64/nasm/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "nasm", "package_name": "nasm", "source": "arch-extra", "source_version": "3.02-1"},
+    {"evidence_url": "https://packages.debian.org/trixie/nasm", "observed_at": "2026-08-08T16:50:00Z", "package_base": "nasm", "package_name": "nasm", "source": "debian", "source_version": "2.16.03-1"},
+    {"evidence_url": "https://packages.fedoraproject.org/pkgs/nasm/nasm/fedora-44.html", "observed_at": "2026-08-08T16:50:00Z", "package_base": "nasm", "package_name": "nasm", "source": "fedora", "source_version": "3.01-2.fc44"},
+    {"evidence_url": "https://software.opensuse.org/package/nasm", "observed_at": "2026-08-08T16:50:00Z", "package_base": "nasm", "package_name": "nasm", "source": "opensuse-tumbleweed", "source_version": "3.02-1.2"},
+    {"evidence_url": "https://packages.ubuntu.com/resolute/nasm", "observed_at": "2026-08-08T16:50:00Z", "package_base": "nasm", "package_name": "nasm", "source": "ubuntu", "source_version": "3.01-1"}
+  ], "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"},
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "nasm.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "Official stable bytes are pinned and the full upstream golden-output test route is retained; no distribution or AUR recipe is executed.", "status": "active"},
+  "package_id": "nasm",
+  "rpm": {"license": "BSD-2-Clause", "name": "nasm", "summary": "Portable x86 assembler with Intel-like syntax"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"},
+  "upstream": {"component": "nasm-us", "homepage": "https://www.nasm.us/", "release_api": "https://www.nasm.us/", "release_channel": "stable", "release_regex": "Stable\\s+(?P<version>[0-9]+(?:\\.[0-9]+)+)", "source_repository": "https://github.com/netwide-assembler/nasm", "source_url_template": "https://www.nasm.us/pub/nasm/releasebuilds/{version}/nasm-{version}.tar.xz"},
+  "version": {"current": "3.02", "latest_detected": "3.02", "release": "1"}
+}

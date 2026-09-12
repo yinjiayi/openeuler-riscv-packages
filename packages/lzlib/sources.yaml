@@ -1,0 +1,21 @@
+{
+  "package_id": "lzlib",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "203228de911780309dad6813e51541d7ea89469784f01cb661edba080ff1b038"
+      },
+      "filename": "lzlib-1.16.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official archive is redistributable under the lzlib BSD-2-Clause and minilzip GPL-2.0-or-later terms."
+      },
+      "signature": null,
+      "url": "https://download.savannah.gnu.org/releases/lzip/lzlib/lzlib-1.16.tar.gz",
+      "version": "1.16"
+    }
+  ]
+}

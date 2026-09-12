@@ -1,0 +1,106 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/giflib/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "giflib",
+        "package_name": "giflib",
+        "source": "arch-extra",
+        "source_version": "6.1.3-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-giflib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-giflib",
+        "package_name": "android-riscv64-giflib",
+        "source": "aur",
+        "source_version": "5.2.2-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/giflib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "giflib",
+        "package_name": "giflib",
+        "source": "debian",
+        "source_version": "5.2.2-1+deb13u1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/giflib/giflib/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "giflib",
+        "package_name": "giflib",
+        "source": "fedora",
+        "source_version": "6.1.2-1.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/giflib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "giflib",
+        "package_name": "giflib",
+        "source": "opensuse-tumbleweed",
+        "source_version": "5.2.2-4.3"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/giflib",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "giflib",
+        "package_name": "giflib",
+        "source": "ubuntu",
+        "source_version": "5.2.2-1ubuntu3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "giflib.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official giflib 6.1.3 SourceForge release bytes are SHA-256 pinned. The complete upstream TAP suite remains enabled. The libgif.so.7 ABI major matches the target's existing giflib. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "giflib",
+  "rpm": {
+    "license": "MIT",
+    "name": "giflib",
+    "summary": "Library and utilities for reading and writing GIF images"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-sourceforge-files"
+  },
+  "upstream": {
+    "component": "giflib.sourceforge.net",
+    "homepage": "https://giflib.sourceforge.net/",
+    "release_api": "https://sourceforge.net/projects/giflib/files/giflib-6.x/",
+    "release_channel": "stable",
+    "release_regex": "giflib-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://sourceforge.net/p/giflib/code/ci/master/tree/",
+    "source_url_template": "https://downloads.sourceforge.net/project/giflib/giflib-6.x/giflib-{version}.tar.gz"
+  },
+  "version": {
+    "current": "6.1.3",
+    "latest_detected": "6.1.3",
+    "release": "1"
+  }
+}

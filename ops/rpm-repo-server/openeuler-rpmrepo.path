@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: Apache-2.0
+[Unit]
+Description=Watch for completed openEuler RISC-V RPM uploads
+
+[Path]
+PathChanged=/opt/openeuler-riscv-rpm-repo/incoming
+Unit=openeuler-rpmrepo.service
+
+[Install]
+WantedBy=multi-user.target

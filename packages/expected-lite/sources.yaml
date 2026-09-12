@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "expected-lite",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/nonstd-lite/expected-lite/archive/refs/tags/v0.10.0.tar.gz",
+      "filename": "expected-lite-0.10.0.tar.gz",
+      "version": "0.10.0",
+      "digests": {
+        "sha256": "cfe082e4ffedeeedac47763504102646a39c080599c7c1fe99299d6a1f99af92"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the upstream Boost Software License; source is fetched in CI."
+      }
+    }
+  ]
+}

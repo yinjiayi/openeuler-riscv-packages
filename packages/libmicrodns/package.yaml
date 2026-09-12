@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libmicrodns/",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "libmicrodns",
+        "package_name": "libmicrodns",
+        "source": "arch-extra",
+        "source_version": "0.2.0-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libmicrodns",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "libmicrodns",
+        "package_name": "libmicrodns",
+        "source": "debian",
+        "source_version": "0.2.0-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libmicrodns/tree/f44",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "libmicrodns",
+        "package_name": "libmicrodns",
+        "source": "fedora",
+        "source_version": "0.2.0-15.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libmicrodns",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "libmicrodns",
+        "package_name": "libmicrodns",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.2.0+6-2.11"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libmicrodns",
+        "observed_at": "2026-08-12T14:00:00Z",
+        "package_base": "libmicrodns",
+        "package_name": "libmicrodns",
+        "source": "ubuntu",
+        "source_version": "0.2.0-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260812T140000Z-b34-libmicrodns"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libmicrodns.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable tag 0.2.0 was archive-audited and SHA-256 pinned; the complete registered Meson suite remains mandatory.",
+    "status": "active"
+  },
+  "package_id": "libmicrodns",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "libmicrodns",
+    "summary": "Minimal mDNS resolver and announcer library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-videolabs-libmicrodns",
+    "homepage": "https://github.com/videolabs/libmicrodns",
+    "release_api": "https://api.github.com/repos/videolabs/libmicrodns/tags",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/videolabs/libmicrodns",
+    "source_url_template": "https://github.com/videolabs/libmicrodns/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2.0",
+    "latest_detected": "0.2.0",
+    "release": "1"
+  }
+}

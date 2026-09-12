@@ -98,7 +98,11 @@
       "required": ["profile", "network_during_build", "timeout_minutes"],
       "properties": {
         "profile": {"enum": ["qemu-user", "needs-native-riscv"]},
-        "network_during_build": {"const": false},
+        "user": {"enum": ["root", "unprivileged"]},
+        "network_during_build": {
+          "type": "boolean",
+          "description": "Whether upstream package logic requires network access; CI may provide network access even when the package does not require it."
+        },
         "timeout_minutes": {"type": "integer", "minimum": 5, "maximum": 360},
         "native_reason": {"type": ["string", "null"]}
       }

@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libxdg-basedir/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxdg-basedir",
+        "package_name": "libxdg-basedir",
+        "source": "arch-extra",
+        "source_version": "1.2.3-3"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libxdg-basedir",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxdg-basedir",
+        "package_name": "libxdg-basedir",
+        "source": "debian",
+        "source_version": "1.2.0-2.1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libxdg-basedir/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxdg-basedir",
+        "package_name": "libxdg-basedir",
+        "source": "fedora",
+        "source_version": "1.2.0-37.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libxdg-basedir",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxdg-basedir",
+        "package_name": "libxdg-basedir",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.2.3-2.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libxdg-basedir",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxdg-basedir",
+        "package_name": "libxdg-basedir",
+        "source": "ubuntu",
+        "source_version": "1.2.0-2.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libxdg-basedir.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 1.2.3 tag was resolved to an immutable commit archive; all 31 maintained cache and XDG-directory query tests were run without network access.",
+    "status": "active"
+  },
+  "package_id": "libxdg-basedir",
+  "rpm": {
+    "license": "MIT",
+    "name": "libxdg-basedir",
+    "summary": "Implementation of the XDG Base Directory specification"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-devnev-libxdg-basedir",
+    "homepage": "https://github.com/devnev/libxdg-basedir",
+    "release_api": "https://api.github.com/repos/devnev/libxdg-basedir/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/devnev/libxdg-basedir",
+    "source_url_template": "https://github.com/devnev/libxdg-basedir/archive/refs/tags/libxdg-basedir-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.2.3",
+    "latest_detected": "1.2.3",
+    "release": "1"
+  }
+}

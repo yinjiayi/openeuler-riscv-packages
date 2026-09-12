@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "libavtp",
+  "rpm": {
+    "name": "libavtp",
+    "summary": "Audio Video Transport Protocol library",
+    "license": "BSD-3-Clause"
+  },
+  "upstream": {
+    "component": "github.com-Avnu-libavtp",
+    "homepage": "https://github.com/Avnu/libavtp",
+    "source_repository": "https://github.com/Avnu/libavtp.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/Avnu/libavtp/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/Avnu/libavtp/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2.0",
+    "release": "1",
+    "latest_detected": "0.2.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libavtp",
+        "package_base": "libavtp",
+        "source_version": "0.2.0-3",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libavtp/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libavtp",
+        "package_base": "libavtp",
+        "source_version": "0.2.0-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/libavtp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libavtp",
+        "package_base": "libavtp",
+        "source_version": "0.2.0-15.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libavtp/libavtp/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libavtp",
+        "package_base": "libavtp",
+        "source_version": "0.2.0-2.10",
+        "evidence_url": "https://software.opensuse.org/package/libavtp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libavtp",
+        "package_base": "libavtp",
+        "source_version": "0.2.0-2build1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libavtp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libavtp.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 0.2.0 tag bytes are pinned and archive-safe. Frozen Arch, Fedora 44, Debian, openSUSE, and Ubuntu lineage corroborates the component; AUR RPC had no exact package. Target metadata has no prior package or libavtp.so.0 provider. All seven CMocka test executables remain enabled."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases-latest"
+  }
+}

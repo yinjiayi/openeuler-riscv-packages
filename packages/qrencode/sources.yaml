@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "qrencode",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/fukuchi/libqrencode/tar.gz/715e29fd4cd71b6e452ae0f4e36d917b43122ce8",
+      "filename": "libqrencode-4.1.1.tar.gz",
+      "version": "4.1.1",
+      "digests": {
+        "sha256": "7777a49d6b838347ccc35dadd78e47bcf3962536da1b047ccd06a432cf796db9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution and modification are permitted by the upstream LGPL-2.1-or-later license."
+      }
+    }
+  ]
+}

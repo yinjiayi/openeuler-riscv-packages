@@ -65,7 +65,9 @@
     "spec": "libpsl.spec"
   },
   "maintenance": {
-    "maintainers": ["yinjiayi"],
+    "maintainers": [
+      "yinjiayi"
+    ],
     "notes": "Official libpsl 0.23.1 stable release asset is independently SHA-256 pinned and openSUSE Tumbleweed confirms 0.23.1. Arch stable, Fedora 44, Debian stable, and Ubuntu GA carried older stable lines, so this is an intentional official-stable forward release. The AUR libpsl-git row is VCS-only and older than 730 days, so it was excluded as a source. AUR RPC metadata only was read; no AUR recipe or distribution spec was executed. The official archive carries the Public Suffix List used to generate built-in data offline; libidn2 and libunistring come from the fixed target repository, and the full Meson test suite remains enabled.",
     "status": "active"
   },
@@ -85,7 +87,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-08-14T19:12:04Z",
     "last_successful_check_at": null,
     "release_provider": "github-releases"
   },
@@ -98,5 +100,9 @@
     "source_repository": "https://github.com/rockdaboot/libpsl",
     "source_url_template": "https://github.com/rockdaboot/libpsl/releases/download/{version}/libpsl-{version}.tar.gz"
   },
-  "version": {"current": "0.23.1", "latest_detected": "0.23.1", "release": "1"}
+  "version": {
+    "current": "0.23.3",
+    "latest_detected": "0.23.3",
+    "release": "1"
+  }
 }

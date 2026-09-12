@@ -1,0 +1,93 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/kspalaiologos/bzip3",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bzip3",
+        "package_name": "bzip3",
+        "source": "arch-extra",
+        "source_version": "1.5.3-1"
+      },
+      {
+        "evidence_url": "https://github.com/kspalaiologos/bzip3",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bzip3",
+        "package_name": "bzip3",
+        "source": "debian",
+        "source_version": "1.5.1-1"
+      },
+      {
+        "evidence_url": "https://github.com/kspalaiologos/bzip3",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bzip3",
+        "package_name": "bzip3",
+        "source": "fedora",
+        "source_version": "1.5.3-3.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/kspalaiologos/bzip3",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bzip3",
+        "package_name": "bzip3",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.5.3-1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "bzip3.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable tag archive independently downloaded, checksum-pinned, and archive-audited; reviewed registry enrichment remains a separate infrastructure change. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "bzip3",
+  "rpm": {
+    "license": "LGPL-3.0-or-later AND Apache-2.0 AND BSD-2-Clause",
+    "name": "bzip3",
+    "summary": "Modern block-sorting compression utility and library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-kspalaiologos-bzip3",
+    "homepage": "https://github.com/kspalaiologos/bzip3",
+    "release_api": "https://api.github.com/repos/kspalaiologos/bzip3/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/kspalaiologos/bzip3",
+    "source_url_template": "https://github.com/kspalaiologos/bzip3/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.5.3",
+    "latest_detected": "1.5.3",
+    "release": "1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "catatonit",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9950425501af862e12f618bdc930ea755c46db6a16072a1462b4fc93b2bd59bc"
+      },
+      "filename": "catatonit.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/openSUSE/catatonit/releases/download/v0.2.1/catatonit.tar.xz",
+      "version": "0.2.1"
+    }
+  ]
+}

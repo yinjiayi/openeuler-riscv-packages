@@ -1,0 +1,21 @@
+{
+  "package_id": "libcyaml",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3211b2a0589ebfe02c563c96adce9246c0787be2af30353becbbd362998d16dc"
+      },
+      "filename": "libcyaml-1.4.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release is redistributable under the declared ISC license."
+      },
+      "signature": null,
+      "url": "https://github.com/tlsa/libcyaml/archive/refs/tags/v1.4.2.tar.gz",
+      "version": "1.4.2"
+    }
+  ]
+}

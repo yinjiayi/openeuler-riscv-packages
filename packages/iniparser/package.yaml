@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/iniparser/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "iniparser",
+        "package_name": "iniparser",
+        "source": "arch-extra",
+        "source_version": "4.2.6-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/iniparser-git",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "iniparser-git",
+        "package_name": "iniparser-git",
+        "source": "aur",
+        "source_version": "1:4.2.6-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/iniparser",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "iniparser",
+        "package_name": "iniparser",
+        "source": "debian",
+        "source_version": "4.2.6-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/iniparser/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "iniparser",
+        "package_name": "iniparser",
+        "source": "fedora",
+        "source_version": "4.2.6-4.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/iniparser",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "iniparser",
+        "package_name": "iniparser",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.2.6-2.2"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/iniparser",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "iniparser",
+        "package_name": "iniparser",
+        "source": "ubuntu",
+        "source_version": "4.2.6-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "iniparser.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v4.2.6 source and official Unity v2.7.0 test dependency were independently pinned so the complete upstream CTest suite runs offline.",
+    "status": "active"
+  },
+  "package_id": "iniparser",
+  "rpm": {
+    "license": "MIT",
+    "name": "iniparser",
+    "summary": "Portable C library for parsing INI files"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-gitlab-tags"
+  },
+  "upstream": {
+    "component": "gitlab.com-iniparser-iniparser",
+    "homepage": "https://gitlab.com/iniparser/iniparser",
+    "release_api": "https://gitlab.com/api/v4/projects/iniparser%2Finiparser/repository/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://gitlab.com/iniparser/iniparser",
+    "source_url_template": "https://gitlab.com/iniparser/iniparser/-/archive/v{version}/iniparser-v{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.2.6",
+    "latest_detected": "4.2.6",
+    "release": "1"
+  }
+}

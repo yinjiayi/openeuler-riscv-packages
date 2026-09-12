@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Fri, 14 Aug 2026 05:22:00 +0000
+Subject: [PATCH] bash: use the declared make_builtin_argv return type
+
+Bash 5.2 declares make_builtin_argv() as returning char **.  Keeping the
+older const char ** local declaration makes GCC reject the assignment under
+the target compiler's incompatible-pointer-types diagnostics.
+
+Patch-Source: https://git.savannah.gnu.org/cgit/bash.git/tree/builtins/common.h?h=bash-5.2
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (package-local repair; upstream writes are forbidden)
+---
+ bash/testrec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/bash/testrec.c b/bash/testrec.c
+index 99c5dd7..6b70710 100644
+--- a/bash/testrec.c
++++ b/bash/testrec.c
+@@ -54,1 +54,1 @@
+-  const char **argv;
++  char **argv;

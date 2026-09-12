@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "libdill",
+  "rpm": {
+    "name": "libdill",
+    "summary": "Structured concurrency library for C",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "github.com-sustrik-libdill",
+    "homepage": "https://github.com/sustrik/libdill",
+    "source_repository": "https://github.com/sustrik/libdill",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/sustrik/libdill/tags",
+    "release_regex": "libdill-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://github.com/sustrik/libdill/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.14",
+    "release": "1",
+    "latest_detected": "2.14"
+  },
+  "discovery": {
+    "snapshot_id": "reviewed-20260814T035920Z-libdill",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libdill",
+        "package_base": "libdill",
+        "source_version": "2.14-2",
+        "evidence_url": "https://aur.archlinux.org/packages/libdill",
+        "observed_at": "2026-08-14T04:10:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 240,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdill.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-fix-compilation-for-gcc-9.patch",
+        "sha256": "d21b26109ae98fc235785e6bf418c7c29e8255f4c55e1602352dda791cace805",
+        "purpose": "Apply the accepted upstream fix that keeps compound-literal address expressions valid with GCC 9 and newer.",
+        "source": "https://github.com/sustrik/libdill/commit/195809f97a368380487259dca3f0926d29a298a6",
+        "license": "MIT",
+        "upstream_status": "accepted",
+        "remove_when": "The packaged release contains upstream commit 195809f97a368380487259dca3f0926d29a298a6."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official GitHub 2.14 tag archive is independently SHA-256 pinned. The release tarball lacks generated Autotools files, so CI regenerates them in %prep. AUR metadata is lineage only; no PKGBUILD was executed. CI is intentionally allowed to access the network during the target build."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}

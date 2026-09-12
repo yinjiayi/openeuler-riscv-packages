@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/gtypist/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gtypist",
+        "package_name": "gtypist",
+        "source": "aur",
+        "source_version": "2.10.1-2"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gtypist/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gtypist",
+        "package_name": "gtypist",
+        "source": "debian",
+        "source_version": "2.9.5-4"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gtypist/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gtypist",
+        "package_name": "gtypist",
+        "source": "fedora",
+        "source_version": "2.10.1-3.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gtypist/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gtypist",
+        "package_name": "gtypist",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.10.1-1.5"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gtypist/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gtypist",
+        "package_name": "gtypist",
+        "source": "ubuntu",
+        "source_version": "2.9.5-4build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gtypist.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "gtypist",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "gtypist",
+    "summary": "Universal typing tutor"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-gtypist",
+    "homepage": "https://www.gnu.org/software/gtypist/",
+    "release_api": "https://ftp.gnu.org/gnu/gtypist/",
+    "release_channel": "stable",
+    "release_regex": "gtypist-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://savannah.gnu.org/projects/gtypist/",
+    "source_url_template": "https://ftp.gnu.org/gnu/gtypist/gtypist-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.10.1",
+    "latest_detected": "2.10.1",
+    "release": "1"
+  }
+}

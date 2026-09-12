@@ -1,0 +1,21 @@
+{
+  "package_id": "libzupt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6e49114c2d85682e7e227a920ea0379387ea8630f3afd277b6c8a634be3ab6c0"
+      },
+      "filename": "libzupt-1.0.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cabelo/libzupt/archive/refs/tags/v1.0.8.tar.gz",
+      "version": "1.0.8"
+    }
+  ]
+}

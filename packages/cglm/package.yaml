@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/cglm/",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "cglm",
+        "package_name": "cglm",
+        "source": "arch-extra",
+        "source_version": "0.9.6-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/cglm",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "cglm",
+        "package_name": "cglm",
+        "source": "debian",
+        "source_version": "0.9.6-1"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/cglm",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "cglm",
+        "package_name": "cglm",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.9.6-1.4"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/cglm",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "cglm",
+        "package_name": "cglm",
+        "source": "ubuntu",
+        "source_version": "0.9.6-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260812T010000Z-b30-cglm"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "cglm.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable tag 0.9.6 was archive-audited and pinned; the complete upstream CTest aggregate remains enabled.",
+    "status": "active"
+  },
+  "package_id": "cglm",
+  "rpm": {
+    "license": "MIT",
+    "name": "cglm",
+    "summary": "Optimized OpenGL mathematics library for C"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-recp-cglm",
+    "homepage": "https://github.com/recp/cglm",
+    "release_api": "https://api.github.com/repos/recp/cglm/tags",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/recp/cglm",
+    "source_url_template": "https://github.com/recp/cglm/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.9.6",
+    "latest_detected": "0.9.6",
+    "release": "1"
+  }
+}

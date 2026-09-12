@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: Apache-2.0
+[Unit]
+Description=Validate and publish openEuler RISC-V RPM repository batches
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/default/openeuler-rpmrepo
+ExecStart=/usr/local/sbin/openeuler-rpmrepo-publish
+User=root
+Group=root
+UMask=0022
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=strict
+ReadWritePaths=/opt/openeuler-riscv-rpm-repo /run/lock
+RestrictAddressFamilies=AF_UNIX
+RestrictRealtime=true
+RestrictSUIDSGID=true
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

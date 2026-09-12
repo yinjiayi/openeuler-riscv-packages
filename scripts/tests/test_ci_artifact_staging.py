@@ -118,6 +118,47 @@ class BuildArtifactStagingTests(unittest.TestCase):
             self.assertIsNone(manifest["package_id"])
             self.assertEqual(manifest["included_files"], [])
 
+    def test_target_user_read_only_rpm_remains_host_stageable(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            artifact_dir = root / "artifacts" / "build"
+            rpm_dir = root / "work" / "demo" / "RPMS" / "riscv64"
+            output_dir = root / "upload"
+            artifact_dir.mkdir(parents=True)
+            rpm_dir.mkdir(parents=True)
+            rpm = rpm_dir / "demo-1.0-1.riscv64.rpm"
+            rpm.write_bytes(b"target-user-rpm")
+            rpm.chmod(0o444)
+
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(STAGER),
+                    "--package-id",
+                    "demo",
+                    "--artifact-dir",
+                    str(artifact_dir),
+                    "--work-dir",
+                    str(root / "work" / "demo"),
+                    "--output-dir",
+                    str(output_dir),
+                ],
+                cwd=str(REPO),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            staged = output_dir / "work" / "demo" / "RPMS" / "riscv64" / rpm.name
+            self.assertEqual(staged.read_bytes(), b"target-user-rpm")
+            manifest = json.loads(
+                (output_dir / "artifacts" / "build" / "archive-manifest.json").read_text()
+            )
+            self.assertIn(
+                f"work/demo/RPMS/riscv64/{rpm.name}", manifest["included_files"]
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

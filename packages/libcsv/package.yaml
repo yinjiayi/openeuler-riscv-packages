@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libcsv",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcsv",
+        "package_name": "libcsv",
+        "source": "aur",
+        "source_version": "3.0.3-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libcsv",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcsv",
+        "package_name": "libcsv",
+        "source": "debian",
+        "source_version": "3.0.3+dfsg-6"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libcsv/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcsv",
+        "package_name": "libcsv",
+        "source": "fedora",
+        "source_version": "3.0.3^20210820gitb1d5212-20.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libcsv",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcsv",
+        "package_name": "libcsv",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.0.3-2.30"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libcsv",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcsv",
+        "package_name": "libcsv",
+        "source": "ubuntu",
+        "source_version": "3.0.3+dfsg-6build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libcsv.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Publisher release 3.0.3 and its complete maintained parser/writer regression program were reviewed and pinned; external packaging was metadata-only lineage evidence.",
+    "status": "active"
+  },
+  "package_id": "libcsv",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "libcsv",
+    "summary": "Small streaming CSV parser and writer library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-sourceforge-files"
+  },
+  "upstream": {
+    "component": "sourceforge.net-projects-libcsv",
+    "homepage": "https://sourceforge.net/projects/libcsv/",
+    "release_api": "https://sourceforge.net/projects/libcsv/files/libcsv/",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/rgamble/libcsv",
+    "source_url_template": "https://sourceforge.net/projects/libcsv/files/libcsv/libcsv-{version}/libcsv-{version}.tar.gz/download"
+  },
+  "version": {
+    "current": "3.0.3",
+    "latest_detected": "3.0.3",
+    "release": "1"
+  }
+}

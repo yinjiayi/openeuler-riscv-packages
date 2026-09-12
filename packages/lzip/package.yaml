@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/lzip/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lzip",
+        "package_name": "lzip",
+        "source": "arch-extra",
+        "source_version": "1.26-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/lzip",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lzip",
+        "package_name": "lzip",
+        "source": "debian",
+        "source_version": "1.25-3"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/lzip/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lzip",
+        "package_name": "lzip",
+        "source": "fedora",
+        "source_version": "1.26-1.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/lzip",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lzip",
+        "package_name": "lzip",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.26-1.4"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/lzip",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lzip",
+        "package_name": "lzip",
+        "source": "ubuntu",
+        "source_version": "1.26~rc1-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "lzip.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Publisher release 1.26 and its complete compression, decompression, listing, corruption, and invalid-input test script were reviewed and pinned; external packaging was metadata-only lineage evidence.",
+    "status": "active"
+  },
+  "package_id": "lzip",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "lzip",
+    "summary": "Lossless data compressor based on the LZMA algorithm"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "nongnu.org-lzip",
+    "homepage": "https://www.nongnu.org/lzip/lzip.html",
+    "release_api": "https://download.savannah.gnu.org/releases/lzip/",
+    "release_channel": "stable",
+    "release_regex": "lzip-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.nongnu.org/projects/lzip/",
+    "source_url_template": "https://download.savannah.gnu.org/releases/lzip/lzip-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.26",
+    "latest_detected": "1.26",
+    "release": "1"
+  }
+}

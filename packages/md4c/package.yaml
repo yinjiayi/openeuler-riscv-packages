@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/md4c/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "md4c",
+        "package_name": "md4c",
+        "source": "arch-extra",
+        "source_version": "0.5.3-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/md4c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "md4c",
+        "package_name": "md4c",
+        "source": "debian",
+        "source_version": "0.5.2-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/md4c/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "md4c",
+        "package_name": "md4c",
+        "source": "fedora",
+        "source_version": "0.5.1-5.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/md4c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "md4c",
+        "package_name": "md4c",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.5.3-1.4"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/md4c",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "md4c",
+        "package_name": "md4c",
+        "source": "ubuntu",
+        "source_version": "0.5.2-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "md4c.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official release-0.5.3 tag bytes are SHA-256 pinned. MIT covers MD4C and the normalization helper, CC-BY-SA-4.0 covers the CommonMark corpus, and BSD-2-Clause covers the bundled test tools. Every bundled spec file and all pathological cases run in %check. Exact-name AUR RPC returned no md4c result; no external packaging recipe was read or executed.",
+    "status": "active"
+  },
+  "package_id": "md4c",
+  "rpm": {
+    "license": "MIT AND BSD-2-Clause AND CC-BY-SA-4.0",
+    "name": "md4c",
+    "summary": "Fast C Markdown parser"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-mity-md4c",
+    "homepage": "https://github.com/mity/md4c",
+    "release_api": "https://api.github.com/repos/mity/md4c/tags",
+    "release_channel": "stable",
+    "release_regex": "^release-(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/mity/md4c",
+    "source_url_template": "https://github.com/mity/md4c/archive/refs/tags/release-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.5.3",
+    "latest_detected": "0.5.3",
+    "release": "1"
+  }
+}

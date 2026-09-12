@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "6tunnel",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/wojtekka/6tunnel/archive/refs/tags/0.14.tar.gz",
+      "filename": "6tunnel-0.14.tar.gz",
+      "version": "0.14",
+      "digests": {
+        "sha256": "f597edda55db4b6e661d7afdaa17c1f0c41aeadc21fc8b5599e678595906552b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL-2.0-only source is fetched from the official GitHub tag archive in CI."
+      }
+    }
+  ]
+}

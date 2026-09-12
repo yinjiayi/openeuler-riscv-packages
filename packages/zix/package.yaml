@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/zix/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zix",
+        "package_name": "zix",
+        "source": "arch-extra",
+        "source_version": "0.8.2-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/zix-git",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zix-git",
+        "package_name": "zix-git",
+        "source": "aur",
+        "source_version": "1:0.8.1.r642.e1cbd66-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/zix",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zix",
+        "package_name": "zix",
+        "source": "debian",
+        "source_version": "0.6.2-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/zix/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zix",
+        "package_name": "zix",
+        "source": "fedora",
+        "source_version": "0.8.0-2.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/zix",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zix",
+        "package_name": "zix",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.8.0-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/zix",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zix",
+        "package_name": "zix",
+        "source": "ubuntu",
+        "source_version": "0.8.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "zix.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 0.8.2 release archive and complete shipped tests were reviewed and pinned; external packaging and AUR content were not executed.",
+    "status": "active"
+  },
+  "package_id": "zix",
+  "rpm": {
+    "license": "0BSD OR ISC",
+    "name": "zix",
+    "summary": "Portability wrappers and data structures for C"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-gitlab-tags"
+  },
+  "upstream": {
+    "component": "gitlab.com-drobilla-zix",
+    "homepage": "https://drobilla.net/software/zix.html",
+    "release_api": "https://gitlab.com/api/v4/projects/drobilla%2Fzix/repository/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://gitlab.com/drobilla/zix",
+    "source_url_template": "https://download.drobilla.net/zix-{version}.tar.xz"
+  },
+  "version": {
+    "current": "0.8.2",
+    "latest_detected": "0.8.2",
+    "release": "1"
+  }
+}

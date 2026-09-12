@@ -1,0 +1,19 @@
+{
+  "package_id": "gsl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "6a99eeed15632c6354895b1dd542ed5a855c0f15d9ad1326c6fe2b2c9e423190"},
+      "filename": "gsl-2.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL-licensed source is fetched from the official immutable GNU release archive in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz",
+      "version": "2.8"
+    }
+  ]
+}

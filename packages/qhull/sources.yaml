@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "qhull",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/qhull/qhull/tar.gz/613debeaea72ee66626dace9ba1a2eff11b5d37d",
+      "filename": "qhull-2020.2.tar.gz",
+      "version": "2020.2",
+      "digests": {
+        "sha256": "b4504a190dc15c3ae932b998a2eed3cba8c7bdda1ab2a886e7e09d0526ee8143"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution and modification are permitted by the upstream Qhull license in COPYING.txt."
+      }
+    }
+  ]
+}

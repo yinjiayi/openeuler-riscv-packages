@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "package_id": "muparser",
+  "rpm": {"name": "muparser", "summary": "Fast mathematical expression parser library", "license": "BSD-2-Clause"},
+  "upstream": {
+    "component": "beltoforion-muparser",
+    "homepage": "https://beltoforion.de/en/muparser/",
+    "source_repository": "https://github.com/beltoforion/muparser.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/beltoforion/muparser/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/beltoforion/muparser/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "2.3.5", "release": "1", "latest_detected": "2.3.5"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "muparser", "package_base": "muparser", "source_version": "2.3.5", "evidence_url": "https://archlinux.org/packages/extra/x86_64/muparser/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "muparser", "package_base": "muparser", "source_version": "2.3.5", "evidence_url": "https://packages.debian.org/trixie/source/muparser", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "muParser", "package_base": "muParser", "source_version": "2.3.5", "evidence_url": "https://packages.fedoraproject.org/pkgs/muParser/muParser/fedora-44.html", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "muparser", "package_base": "muparser", "source_version": "2.3.4", "evidence_url": "https://packages.ubuntu.com/resolute/source/muparser", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "muparser.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official v2.3.5 tag resolves to immutable commit fbafd7f8774af2b53f4d2de07c57353fcfc09216. Frozen Arch, Debian, Fedora 44, and Ubuntu evidence corroborates the component; no external packaging recipe was read or executed. The package is new to the fixed target and introduces libmuparser.so.2 while keeping the complete ParserTest registration enabled."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-releases"}
+}
