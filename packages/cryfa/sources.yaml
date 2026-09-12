@@ -1,0 +1,21 @@
+{
+  "package_id": "cryfa",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8e65537821d4a6f8d64ddbdb7751344fcb7793096809cb3ed1661720c607aaa9"
+      },
+      "filename": "cryfa-20.04.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cobilab/cryfa/archive/refs/tags/v20.04.tar.gz",
+      "version": "20.04"
+    }
+  ]
+}
