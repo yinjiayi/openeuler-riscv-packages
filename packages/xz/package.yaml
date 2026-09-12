@@ -68,7 +68,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable XZ Utils 5.8.3 release bytes are SHA-256 pinned. This is a stable forward release relative to Fedora 44 and Debian stable. Fedora's downstream Epoch is lineage metadata only and is not copied over the epoch-less openEuler package. AUR was queried through RPC only, and no AUR packaging content was read or executed. Distribution specs were treated only as untrusted, read-only lineage references and were never executed.",
+    "notes": "Official stable XZ Utils 5.8.4 release bytes are SHA-256 pinned. CI permits network retrieval of the declared official source and verifies its pinned SHA-256 before building. This is a stable forward release relative to Fedora 44 and Debian stable. Fedora's downstream Epoch is lineage metadata only and is not copied over the epoch-less openEuler package. AUR was queried through RPC only, and no AUR packaging content was read or executed. Distribution specs were treated only as untrusted, read-only lineage references and were never executed.",
     "status": "active"
   },
   "package_id": "xz",
