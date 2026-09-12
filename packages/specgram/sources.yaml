@@ -1,0 +1,21 @@
+{
+  "package_id": "specgram",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f59ba563b243a013b519bfde7ea98d6c58dfc6769b5339c574a143a547b0bf4a"
+      },
+      "filename": "specgram-0.9.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rimio/specgram/archive/refs/tags/v0.9.3.tar.gz",
+      "version": "0.9.3"
+    }
+  ]
+}
