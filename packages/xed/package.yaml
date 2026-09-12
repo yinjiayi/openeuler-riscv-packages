@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/linuxmint/xed",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xed",
+        "package_name": "xed",
+        "source": "arch-extra",
+        "source_version": "3.8.9-2"
+      },
+      {
+        "evidence_url": "https://github.com/linuxmint/xed",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xed",
+        "package_name": "xed",
+        "source": "fedora",
+        "source_version": "3.8.9-2.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/linuxmint/xed",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xed",
+        "package_name": "xed",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.8.9-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "xed.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Package CI run 33671388772 reached Meson and proved that the build requires the libxml2 pkg-config metadata, supplied by openEuler's libxml2-devel package. Exact-head Package CI run 33672386241 then reached the next Meson dependency check and proved that pkgconfig(glib-2.0) is required; openEuler repository metadata binds that interface to glib2-devel, which Release 3 declares. Exact-head run 33673849283 resolved libxml-2.0, glib-2.0, gthread-2.0 and gio-2.0, then proved that pkgconfig(gtk+-3.0) is required; SHA-256-bound target repository metadata identifies gtk3-devel as its provider, which Release 4 declares. Exact-head run 33674636862 resolved the earlier interfaces and then proved that pkgconfig(gtksourceview-4) is required; target repository metadata identifies gtksourceview4-devel as the provider, which Release 5 declares. Exact-head run 33675528070 at 64219f349f579106306b963df38de05113261264 resolved all earlier interfaces, then stopped at the mandatory pkgconfig(libpeas-1.0) check. Release 6 declares libpeas-devel; checksum-verified official openEuler 24.03 LTS SP3 EPOL RVA23 metadata identifies version 1.36.0-1.oe2403sp3 as the provider. The current CI dependency transaction enables only Everything RVA23 and the fixed supplemental generation, neither of which contains that provider, so a fresh build remains blocked until libpeas-devel is made visible to the CI buildroot.",
+    "status": "active"
+  },
+  "package_id": "xed",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "xed",
+    "summary": "A small and lightweight text editor"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-linuxmint-xed",
+    "homepage": "https://github.com/linuxmint/xed",
+    "release_api": "https://api.github.com/repos/linuxmint/xed/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/linuxmint/xed",
+    "source_url_template": "https://github.com/linuxmint/xed/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.8.9",
+    "latest_detected": "3.8.9",
+    "release": "6"
+  }
+}
