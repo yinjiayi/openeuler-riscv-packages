@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 120
   },
   "discovery": {
     "lineage": [
@@ -28,12 +28,12 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory. The official release plus the five exact upstream commits declared by its FetchContent configuration were independently downloaded, safety-inspected, and pinned by SHA-256. CI uses those local source trees, exercises the registered upstream tests, and selects cpptrace's addr2line symbol backend to avoid undeclared nested downloads. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "libassert",
   "rpm": {
-    "license": "MIT",
+    "license": "MIT AND BSD-3-Clause AND BSL-1.0",
     "name": "libassert",
     "summary": "The most over-engineered C++ assertion library"
   },
@@ -63,6 +63,6 @@
   "version": {
     "current": "2.2.1",
     "latest_detected": "2.2.1",
-    "release": "1"
+    "release": "2"
   }
 }

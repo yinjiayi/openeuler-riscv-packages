@@ -16,6 +16,81 @@
       "signature": null,
       "url": "https://github.com/jeremy-rifkin/libassert/archive/refs/tags/v2.2.1.tar.gz",
       "version": "2.2.1"
+    },
+    {
+      "digests": {
+        "sha256": "77d689fd7956ff80351a079d83e86a03865dbbe2433b4559cc6cea50bed77390"
+      },
+      "filename": "cpptrace-3db8da80111171c219ab5839905771386bee06b3.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official cpptrace source at the exact commit required by libassert; fetched and SHA-256 verified in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jeremy-rifkin/cpptrace/archive/3db8da80111171c219ab5839905771386bee06b3.tar.gz",
+      "version": "1.0.4-3db8da80111171c219ab5839905771386bee06b3"
+    },
+    {
+      "digests": {
+        "sha256": "a06b11989a7802de62a405c373b23c3fcc4caca27e0a0df5f9905bc322a14a40"
+      },
+      "filename": "magic_enum-e046b69a3736d314fad813e159b1c192eaef92cd.tar.gz",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official magic_enum source at the exact commit required by libassert; fetched and SHA-256 verified in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Neargye/magic_enum/archive/e046b69a3736d314fad813e159b1c192eaef92cd.tar.gz",
+      "version": "0.9.7-e046b69a3736d314fad813e159b1c192eaef92cd"
+    },
+    {
+      "digests": {
+        "sha256": "7ff5db23de232a39cbb5c9f5143c355885e30ac596161a6b9fc50c4538bfbf01"
+      },
+      "filename": "googletest-f8d7d77c06936315286eb55f8de22cd23c188571.tar.gz",
+      "id": "source3",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official googletest source at the exact commit required by libassert tests; fetched and SHA-256 verified in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/google/googletest/archive/f8d7d77c06936315286eb55f8de22cd23c188571.tar.gz",
+      "version": "1.14.0-f8d7d77c06936315286eb55f8de22cd23c188571"
+    },
+    {
+      "digests": {
+        "sha256": "1ee1c9045bfc55510e2e97965b72aafce256ce478a8c863fa62337470b988714"
+      },
+      "filename": "Catch2-4e8d92bf02f7d1c8006a0e7a5ecabd8e62d98502.tar.gz",
+      "id": "source4",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official Catch2 source at the exact commit required by libassert tests; fetched and SHA-256 verified in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/catchorg/Catch2/archive/4e8d92bf02f7d1c8006a0e7a5ecabd8e62d98502.tar.gz",
+      "version": "3.6.0-4e8d92bf02f7d1c8006a0e7a5ecabd8e62d98502"
+    },
+    {
+      "digests": {
+        "sha256": "1723f27eed50e751037f49dcdf73e33b17658f1178ea1c1f829a30bb02335745"
+      },
+      "filename": "fmt-e69e5f977d458f2650bb346dadf2ad30c5320281.tar.gz",
+      "id": "source5",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official fmt source at the exact commit required by libassert tests; fetched and SHA-256 verified in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fmtlib/fmt/archive/e69e5f977d458f2650bb346dadf2ad30c5320281.tar.gz",
+      "version": "10.2.1-e69e5f977d458f2650bb346dadf2ad30c5320281"
     }
   ]
 }
