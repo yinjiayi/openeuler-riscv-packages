@@ -34,7 +34,7 @@
         "license": "GPL-3.0-or-later",
         "purpose": "Keep the activation-on-show method without requiring a Qt 6.8 virtual hook and correct the expose-size member reference so the complete session-lock implementation builds against openEuler Qt 6.5.",
         "remove_when": "Upstream supports Qt 6.5 directly, or requires Qt 6.8 or later and no longer compiles the older expose path.",
-        "sha256": "a1c6f6df08866b87d04cb47a00fa16077e28b414a5c52897d7f922849d9b16cb",
+        "sha256": "d20e3edb434681f6c655a97070a30dfa7b8eec7e3ec191d59529e46d0ab83802",
         "source": "Downstream adaptation of the checksum-verified qt-session-lock 2.1.0 sources to the Qt 6.5 QWaylandShellSurface API.",
         "upstream_status": "downstream-only"
       }
