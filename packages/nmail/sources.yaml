@@ -1,0 +1,21 @@
+{
+  "package_id": "nmail",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d089e315bcca1906a2bd12a940ad7ebbc0b62e10ed1d2c12a952f2cf8ad71556"
+      },
+      "filename": "nmail-5.14.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/d99kris/nmail/archive/refs/tags/v5.14.12.tar.gz",
+      "version": "5.14.12"
+    }
+  ]
+}
