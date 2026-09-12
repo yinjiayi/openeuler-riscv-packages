@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: detect RISC-V as a non-x86 architecture
+
+Root cause: DIAMOND 2.2.4 defaults X86 to ON and only clears it for Arm,
+PowerPC, s390, and SPARC. RISC-V builds consequently compile SSE/AVX objects
+and pass unsupported x86 options. The generic object also receives
+`-mtune=generic` unconditionally, which GCC for RISC-V does not accept.
+
+Recognize RISC-V as non-x86 and add `-mtune=generic` only when the compiler
+accepts it. This keeps the portable generic implementation and all upstream
+tests enabled. The patch applies to 2.2.4 and can be removed after upstream
+architecture detection covers RISC-V and probes the generic tuning flag.
+
+Patch-Source: downstream adaptation of DIAMOND 2.2.4 CMakeLists.txt
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+---
+ CMakeLists.txt | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -54,6 +54,8 @@ elseif(NOT CROSS_COMPILE AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm.*|ARM.*)")
+ elseif(NOT CROSS_COMPILE AND CMAKE_SYSTEM_PROCESSOR MATCHES "PPC64*|ppc64*|powerpc64*")
+   set(X86 OFF)
+   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -maltivec")
++elseif(NOT CROSS_COMPILE AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(riscv.*|RISCV.*)")
++  set(X86 OFF)
+ elseif(NOT CROSS_COMPILE AND CMAKE_SYSTEM_PROCESSOR MATCHES "^s390|sparc")
+   set(X86 OFF)
+ endif()
+@@ -208,10 +210,14 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+ else()
+     include(CheckCXXCompilerFlag)
+ 
+-    set(ARCH_GENERIC_CXX_FLAGS
+-        -mtune=generic
+-        -fno-stack-protector
+-    )
++    set(ARCH_GENERIC_CXX_FLAGS -fno-stack-protector)
++
++    check_cxx_compiler_flag("-mtune=generic"
++                            HAVE_CXX_FLAG_MTUNE_GENERIC)
++
++    if(HAVE_CXX_FLAG_MTUNE_GENERIC)
++        list(APPEND ARCH_GENERIC_CXX_FLAGS -mtune=generic)
++    endif()
+ 
+     check_cxx_compiler_flag("-fcf-protection=none"
+                             HAVE_CXX_FLAG_FCF_PROTECTION_NONE)
+-- 
+2.50.1

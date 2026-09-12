@@ -1,0 +1,62 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] generic: complete portable fingerprint and vector support
+
+The generic implementation is selected on RISC-V after architecture
+detection is corrected. Unlike every SIMD implementation, its FingerPrint
+type lacks the std::array constructor and load helper used by the shared
+search kernels. The generic vector header also defines Traits<float> twice.
+
+Provide the same array/load interface as the SIMD implementations and remove
+the duplicate specialization. This keeps the generic search implementation
+and all upstream tests enabled.
+
+Patch-Source: downstream adaptation of DIAMOND 2.2.4 generic implementation
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+---
+ src/search/hamming/finger_print.h | 12 ++++++++++++
+ src/util/simd/vector_generic.h    |  6 ------
+ 2 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/src/search/hamming/finger_print.h b/src/search/hamming/finger_print.h
+--- a/src/search/hamming/finger_print.h
++++ b/src/search/hamming/finger_print.h
+@@ -182,6 +182,18 @@ struct FingerPrint
+ 	FingerPrint()
+ 	{
+ 	}
++	explicit FingerPrint(const std::array<char, 48>& a) noexcept
++	{
++		memcpy(r, a.data(), 48);
++	}
++	static void load(const Letter* q, std::array<char, 48>* dst) noexcept
++	{
++		std::copy(q - 16, q + 32, dst->begin());
++#ifdef SEQ_MASK
++		for (char& letter : *dst)
++			letter &= LETTER_MASK;
++#endif
++	}
+ 	FingerPrint(const Letter* q) noexcept
+ 	{
+ 		memcpy(r, q - 16, 48);
+diff --git a/src/util/simd/vector_generic.h b/src/util/simd/vector_generic.h
+--- a/src/util/simd/vector_generic.h
++++ b/src/util/simd/vector_generic.h
+@@ -84,12 +84,6 @@ struct Traits<float> {
+ 	using Register = float;
+ };
+ 
+-template<>
+-struct Traits<float> {
+-	static constexpr size_t LANES = 1;
+-	using Register = float;
+-};
+-
+ static inline float zero(float) {
+ 	return 0.0f;
+ }
+-- 
+2.50.1
