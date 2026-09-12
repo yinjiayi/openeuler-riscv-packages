@@ -1,0 +1,21 @@
+{
+  "package_id": "vapoursynth-plugin-d2vsource",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b57f2b4875f2ebea29a4c17d6d03c107dd38de330cac6d3533755ebd163e9fd5"
+      },
+      "filename": "vapoursynth-plugin-d2vsource-1.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dwbuiten/d2vsource/archive/refs/tags/v1.4.tar.gz",
+      "version": "1.4"
+    }
+  ]
+}
