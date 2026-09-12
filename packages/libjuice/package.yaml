@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package uses the openEuler out-of-source CMake workflow and runs the complete upstream test binary. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "libjuice",
@@ -63,6 +63,6 @@
   "version": {
     "current": "1.7.3",
     "latest_detected": "1.7.3",
-    "release": "1"
+    "release": "2"
   }
 }
