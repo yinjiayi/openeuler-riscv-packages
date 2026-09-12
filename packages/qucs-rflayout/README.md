@@ -10,4 +10,12 @@ upstream's optional XeLaTeX handling: generated diagram files become a product
 dependency only when CMake actually finds XeLaTeX. The normal documentation and
 installation targets remain intact.
 
+Release `5` runs CMake installation from its generated build directory.
+Upstream's `Gzip.cmake` install hook invokes `make gzip` in the current
+directory; calling it from the source directory failed to generate the
+compressed manual and changelog after compilation completed. The build
+directory contains that target, so the hook can create both documentation
+files before CMake installs them. The existing GUI, Catch checks, and optional
+LaTeX patch are retained; fresh target CI must verify the repair.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
