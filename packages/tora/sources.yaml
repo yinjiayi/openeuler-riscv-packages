@@ -1,0 +1,21 @@
+{
+  "package_id": "tora",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a1055250e5cce668fec10ba67d05c338a1401edf8621193ade4789e3b1c58b15"
+      },
+      "filename": "tora-3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/tora-tool/tora/archive/refs/tags/v3.2.tar.gz",
+      "version": "3.2"
+    }
+  ]
+}
