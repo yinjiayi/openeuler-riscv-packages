@@ -1,0 +1,21 @@
+{
+  "package_id": "libvitamtp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b03a77689fae8b6e78de4a3d2a7cbca707f7e519219dcb6da7295ddc29ff2f02"
+      },
+      "filename": "libvitamtp-2.5.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/codestation/vitamtp/archive/refs/tags/v2.5.9.tar.gz",
+      "version": "2.5.9"
+    }
+  ]
+}
