@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libpaper
-Version:        2.2.8
-Release:        1%{?dist}
+Version:        2.3.0
+Release:        2%{?dist}
 Summary:        Library and utilities for handling paper sizes
 License:        LGPL-2.1-or-later AND GPL-2.0-only AND GPL-3.0-or-later AND MIT AND LicenseRef-Public-Domain
 URL:            https://github.com/rrthomas/libpaper
-Source0:        libpaper-%{version}.tar.gz
+Source0:        libpaper-2.3.0.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  help2man
@@ -13,8 +13,8 @@ BuildRequires:  make
 BuildRequires:  perl
 
 %description
-libpaper provides a paper-size database, a C library for querying it, and
-paper and paperconf command-line utilities.
+libpaper provides a paper-size database, a C library for querying it, and the
+paper command-line utility.
 
 %package devel
 Summary:        Development files for libpaper
@@ -42,7 +42,6 @@ rm -f %{buildroot}%{_libdir}/libpaper.la
 %doc AUTHORS ChangeLog README.md
 %config(noreplace) %{_sysconfdir}/paperspecs
 %{_bindir}/paper
-%{_bindir}/paperconf
 %{_libdir}/libpaper.so.2*
 %{_mandir}/man1/paper.1*
 %{_mandir}/man5/paperspecs.5*
@@ -53,5 +52,8 @@ rm -f %{buildroot}%{_libdir}/libpaper.la
 %{_libdir}/libpaper.so
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.3.0-2
+- Follow upstream's 2.3 command set and package the installed paper utility.
+
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.8-1
 - Initial openEuler RISC-V package.
