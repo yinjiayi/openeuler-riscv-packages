@@ -33,6 +33,9 @@ BRIDGE_PATH = ".github/workflows/configure-context-bridge.yml"
 CHECK_NAME = "configure"
 CHECK_APP_ID = 15368
 CHECK_APP_SLUG = "github-actions"
+IMAGE_LOCK_PATH = "ci/image.lock"
+CLEANUP_LOCK_PATH = "ops/actions-runner-fleet/cleanup-image.lock"
+IMAGE_LOCK_PATHS = [IMAGE_LOCK_PATH, CLEANUP_LOCK_PATH]
 LOCK_FIELDS = {
     "schema_version",
     "image",
@@ -193,47 +196,56 @@ def pull_attestation(repository: str, number: int, head: str, base: str) -> Mapp
             raise BridgeError(f"pull-request {side} repository is not trusted")
     if pull_base.get("ref") != "main" or base != current_main(repository, base):
         raise BridgeError("pull request is not based on the current default-branch head")
-    if pull.get("changed_files") != 1:
-        raise BridgeError("image-lock pull request does not contain exactly one changed file")
+    if pull.get("changed_files") != 2:
+        raise BridgeError("image-lock pull request does not contain exactly two changed files")
     pages = api_json(["--paginate", "--slurp", f"repos/{repository}/pulls/{number}/files?per_page=100"])
     if not isinstance(pages, list) or any(not isinstance(page, list) for page in pages):
         raise BridgeError("pull-request file listing is not a paginated array")
     files = [item for page in pages for item in page]
-    if len(files) != 1 or not isinstance(files[0], Mapping) or files[0].get("filename") != "ci/image.lock":
+    if any(not isinstance(item, Mapping) for item in files):
+        raise BridgeError("image-lock pull request file entry is malformed")
+    files = sorted(files, key=lambda item: str(item.get("filename") or ""))
+    if (
+        len(files) != 2
+        or [item.get("filename") for item in files] != IMAGE_LOCK_PATHS
+    ):
         raise BridgeError("image-lock pull request changed an unexpected path")
-    if files[0].get("status") != "modified" or files[0].get("previous_filename") is not None:
+    if (
+        any(item.get("status") != "modified" for item in files)
+        or any(item.get("previous_filename") is not None for item in files)
+    ):
         raise BridgeError("image-lock file change shape is invalid")
     return pull
 
 
-def contents_file(repository: str, commit: str) -> str:
+def contents_file(repository: str, commit: str, path: str) -> str:
     document = mapping(
-        api_json([f"repos/{repository}/contents/ci/image.lock?ref={commit}"]),
-        "image-lock contents response",
+        api_json([f"repos/{repository}/contents/{path}?ref={commit}"]),
+        f"{path} contents response",
     )
     if (
         document.get("type") != "file"
-        or document.get("path") != "ci/image.lock"
-        or document.get("name") != "image.lock"
+        or document.get("path") != path
+        or document.get("name") != path.rsplit("/", 1)[-1]
         or document.get("encoding") != "base64"
     ):
-        raise BridgeError("image-lock contents identity is invalid")
+        raise BridgeError(f"{path} contents identity is invalid")
     blob_sha = document.get("sha")
     size = document.get("size")
     content = document.get("content")
     if not isinstance(blob_sha, str) or not SHA.fullmatch(blob_sha):
-        raise BridgeError("image-lock blob SHA is invalid")
+        raise BridgeError(f"{path} blob SHA is invalid")
     if type(size) is not int or size <= 0 or size > 16384 or not isinstance(content, str):
-        raise BridgeError("image-lock contents size is invalid")
+        raise BridgeError(f"{path} contents size is invalid")
     try:
         if re.fullmatch(r"[A-Za-z0-9+/=\n]+", content) is None:
             raise binascii.Error("unexpected base64 character")
         raw = base64.b64decode(content.replace("\n", ""), validate=True)
         text = raw.decode("utf-8")
     except (binascii.Error, UnicodeDecodeError) as error:
-        raise BridgeError("image-lock contents are not canonical base64 UTF-8") from error
+        raise BridgeError(f"{path} contents are not canonical base64 UTF-8") from error
     if len(raw) != size or "\x00" in text:
-        raise BridgeError("image-lock decoded size or encoding is invalid")
+        raise BridgeError(f"{path} decoded size or encoding is invalid")
     return text
 
 
@@ -296,20 +308,60 @@ def parse_lock(text: str, description: str) -> dict[str, Any]:
     return values
 
 
+def parse_cleanup_lock(text: str, description: str) -> str:
+    values: dict[str, str] = {}
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if raw_line != line or "=" not in line:
+            raise BridgeError(f"{description} contains unsupported assignment syntax")
+        key, value = line.split("=", 1)
+        if key in values:
+            raise BridgeError(f"{description} contains duplicate field {key}")
+        values[key] = value
+    if set(values) != {"CLEANUP_IMAGE_REF"}:
+        raise BridgeError(f"{description} fields are invalid")
+    image_ref = values["CLEANUP_IMAGE_REF"]
+    if re.fullmatch(
+        r"ghcr\.io/yinjiayi/openeuler-riscv64-rpmbuild@sha256:[0-9a-f]{64}",
+        image_ref,
+    ) is None:
+        raise BridgeError(f"{description} image reference is invalid")
+    return image_ref
+
+
 def lock_attestation(repository: str, head: str, base: str, branch: str) -> dict[str, Any]:
-    candidate = parse_lock(contents_file(repository, head), "candidate image lock")
-    previous = parse_lock(contents_file(repository, base), "base image lock")
+    candidate = parse_lock(
+        contents_file(repository, head, IMAGE_LOCK_PATH), "candidate image lock"
+    )
+    previous = parse_lock(
+        contents_file(repository, base, IMAGE_LOCK_PATH), "base image lock"
+    )
+    candidate_cleanup = parse_cleanup_lock(
+        contents_file(repository, head, CLEANUP_LOCK_PATH), "candidate cleanup lock"
+    )
+    previous_cleanup = parse_cleanup_lock(
+        contents_file(repository, base, CLEANUP_LOCK_PATH), "base cleanup lock"
+    )
     prefix = branch.removeprefix("infra/ci-image-")
     digest_hex = str(candidate["digest"]).removeprefix("sha256:")
     if len(prefix) != 12 or not re.fullmatch(r"[0-9a-f]{12}", prefix) or not digest_hex.startswith(prefix):
         raise BridgeError("image-lock branch does not match the candidate digest prefix")
     if candidate["digest"] == previous["digest"]:
         raise BridgeError("candidate image lock did not update digest")
+    expected_candidate_cleanup = f"{candidate['image']}@{candidate['digest']}"
+    expected_previous_cleanup = f"{previous['image']}@{previous['digest']}"
+    if candidate_cleanup != expected_candidate_cleanup:
+        raise BridgeError("candidate cleanup lock does not match the candidate image digest")
+    if previous_cleanup != expected_previous_cleanup:
+        raise BridgeError("base cleanup lock does not match the base image digest")
     if candidate["built_at"] <= previous["built_at"]:
         raise BridgeError("candidate image lock did not advance built_at")
     for key in ("schema_version", "image", "tag", "source_repository"):
         if candidate[key] != previous[key]:
             raise BridgeError(f"candidate image lock unexpectedly changed {key}")
+    candidate["cleanup_image_ref"] = candidate_cleanup
     return candidate
 
 
@@ -358,6 +410,14 @@ def prove_context_absent(repository: str, head: str) -> None:
 
 def external_id(repository: str, number: int, head: str, base: str, source_run: int, bridge_run: int) -> str:
     return ":".join(("configure-bridge-v1", repository, str(number), head, base, str(source_run), str(bridge_run)))
+
+
+def canonical_details_url(repository: str, check_id: int) -> str:
+    # Checks created with the workflow GITHUB_TOKEN can be normalized by
+    # GitHub from the requested workflow URL to this owning CheckRun URL.
+    # Bridge provenance remains bound separately by the external id and exact
+    # source/bridge workflow readbacks.
+    return f"https://github.com/{repository}/runs/{check_id}"
 
 
 def patch_check(repository: str, check_id: int, conclusion: str, title: str, summary: str) -> Mapping[str, Any]:
@@ -418,7 +478,6 @@ def prove_check(
     check_id: int,
     head: str,
     eid: str,
-    details_url: str,
     status: str,
     conclusion: str | None,
 ) -> Mapping[str, Any]:
@@ -431,10 +490,11 @@ def prove_check(
         "status": status,
         "conclusion": conclusion,
         "external_id": eid,
-        "details_url": details_url,
     }
     if any(check.get(key) != value for key, value in expected.items()):
         raise BridgeError("check-run readback identity is invalid")
+    if check.get("details_url") != canonical_details_url(repository, check_id):
+        raise BridgeError("check-run readback details URL is invalid")
     if app.get("id") != CHECK_APP_ID or app.get("slug") != CHECK_APP_SLUG:
         raise BridgeError("configure was not created by the GitHub Actions Checks app")
     return check
@@ -465,6 +525,7 @@ def main() -> int:
         "base_sha": None,
         "image_digest": None,
         "image_built_at": None,
+        "cleanup_image_ref": None,
         "errors": [],
     }
     check_id: int | None = None
@@ -489,7 +550,11 @@ def main() -> int:
             raise BridgeError("source pull request is stale relative to trusted main")
         pull = pull_attestation(args.repository, number, head, base)
         lock = lock_attestation(args.repository, head, base, str(mapping(pull.get("head"), "pull-request head")["ref"]))
-        result.update({"image_digest": lock["digest"], "image_built_at": lock["built_at"]})
+        result.update({
+            "image_digest": lock["digest"],
+            "image_built_at": lock["built_at"],
+            "cleanup_image_ref": lock["cleanup_image_ref"],
+        })
         prove_context_absent(args.repository, head)
         disarm(args.repository, number, head, base)
         # The complete second pass immediately precedes the CheckRun write.
@@ -508,7 +573,7 @@ def main() -> int:
         result["check_run_id"] = check_id
         # Prove the Checks App provenance while the context is still pending;
         # an unexpected creator must never receive a transient success.
-        prove_check(args.repository, check_id, head, eid, details, "in_progress", None)
+        prove_check(args.repository, check_id, head, eid, "in_progress", None)
         # A third exact lease protects completion from a post-create race.
         current_main(args.repository, args.trusted_main_sha)
         source_final, candidate_final = source_attestation(args.repository, args.source_run_id)
@@ -524,7 +589,7 @@ def main() -> int:
             "Configure bridge attestation passed",
             f"Trusted protected-main bridge validated PR #{number} at exact head {head} and base {base}.",
         )
-        prove_check(args.repository, check_id, head, eid, details, "completed", "success")
+        prove_check(args.repository, check_id, head, eid, "completed", "success")
         # Final lease: a success is invalidated if the candidate changed during
         # the successful-check readback window.
         current_main(args.repository, args.trusted_main_sha)

@@ -139,10 +139,11 @@ class RpmBaselineEvidenceTests(unittest.TestCase):
         create = source.index('"docker", "create"', egress_create)
         connected = source.index('baseline["network_install_started"] = True', create)
         persisted = source.index("write_json_atomic(baseline_path, baseline)", connected)
-        install = source.index("install_attempts = run_with_retries", persisted)
+        install = source.index("run(root_exec(", persisted)
+        verified = source.index('transaction_record.get("status") != "passed"', install)
         disconnect = source.index(
             '["docker", "network", "disconnect", egress_network_id, container_id]',
-            install,
+            verified,
         )
         self.assertIn(
             '"--platform", "linux/riscv64", "--network", "none", "--read-only"',
@@ -156,7 +157,8 @@ class RpmBaselineEvidenceTests(unittest.TestCase):
         self.assertLess(create, connected)
         self.assertLess(connected, persisted)
         self.assertLess(persisted, install)
-        self.assertLess(install, disconnect)
+        self.assertLess(install, verified)
+        self.assertLess(verified, disconnect)
 
     def test_connected_state_is_atomically_persisted_before_install(self) -> None:
         manifest = [entry(name) for name in sorted(MODULE.BASELINE_ANCHORS)]
@@ -445,6 +447,60 @@ class RpmBaselineImageContractTests(unittest.TestCase):
         self.assertIn("gpgkey=file://", repository)
         self.assertIn("%{SHA256HEADER}", MANIFEST_HELPER.read_text(encoding="utf-8"))
 
+    def test_large_authenticated_bootstrap_downloads_resume_before_checksum_use(self) -> None:
+        bootstrap = BOOTSTRAP.read_text(encoding="utf-8")
+        helper = bootstrap.index("download_verified_resumable()")
+        resume = bootstrap.index("--continue-at -", helper)
+        bounded_attempts = bootstrap.index("for attempt in 1 2 3 4 5", helper)
+        checksum = bootstrap.index("sha256sum --check --strict", helper)
+        publish = bootstrap.index('mv -f -- "$partial" "$output"', checksum)
+        self.assertLess(helper, resume)
+        self.assertLess(resume, checksum)
+        self.assertLess(bounded_attempts, checksum)
+        self.assertLess(checksum, publish)
+        self.assertIn(
+            '"${repo_url}${primary_href}" "$primary_checksum" /evidence/primary.sqlite.bz2',
+            bootstrap,
+        )
+        self.assertIn(
+            '"${repo_url}${key_href}" "$key_checksum" /evidence/openEuler-gpg-keys.rpm',
+            bootstrap,
+        )
+        self.assertIn('rm -f -- "$output" "$partial"', bootstrap)
+        self.assertNotIn('--retry 4 --retry-delay 2 --connect-timeout 20 --max-time 300', bootstrap)
+
+    def test_bootstrap_payload_downloads_use_one_cached_bounded_stream(self) -> None:
+        bootstrap = BOOTSTRAP.read_text(encoding="utf-8")
+        runner = (REPO / "ci" / "run-dnf-transaction").read_text(encoding="utf-8")
+        transaction = bootstrap[bootstrap.index("dnf -y") :]
+        for option in (
+            "--setopt=retries=20",
+            "--setopt=timeout=60",
+            "--setopt=minrate=1000",
+            "--setopt=max_parallel_downloads=1",
+        ):
+            self.assertIn(option, runner)
+        for marker in (
+            "/bootstrap/run-dnf-transaction",
+            "--evidence /evidence/bootstrap-dnf-transaction.json",
+            "--budget-seconds 7300",
+            "--attempt-timeouts-seconds 4200,3000",
+            "--setopt keepcache=True",
+        ):
+            self.assertIn(marker, bootstrap)
+        self.assertIn(
+            "COPY ci/run-dnf-transaction /bootstrap/run-dnf-transaction",
+            CONTAINERFILE.read_text(encoding="utf-8"),
+        )
+        self.assertNotIn("--setopt keepcache=False", transaction)
+        self.assertNotIn("--setopt minrate=1", runner)
+        self.assertIn("gpgcheck=1", BOOTSTRAP_REPOSITORY.read_text(encoding="utf-8"))
+        preserved = bootstrap.index(
+            "bootstrap-dnf-transaction.json", bootstrap.index("dnf -y")
+        )
+        cleanup = bootstrap.index('rm -rf -- "$rootfs/var/cache/dnf"')
+        self.assertLess(preserved, cleanup)
+
     def test_target_finalization_runs_before_exact_target_verification(self) -> None:
         containerfile = CONTAINERFILE.read_text(encoding="utf-8")
         finalizer = containerfile.index("finalize-target-rpmdb.sh")
@@ -453,11 +509,13 @@ class RpmBaselineImageContractTests(unittest.TestCase):
         self.assertLess(finalizer, execution)
         self.assertLess(execution, verification)
 
-    def test_image_workflow_tracks_and_hashes_both_baseline_helpers(self) -> None:
+    def test_image_workflow_tracks_and_hashes_all_bootstrap_helpers(self) -> None:
         workflow = IMAGE_WORKFLOW.read_text(encoding="utf-8")
         for name in ("ci/finalize-target-rpmdb.sh", "ci/rpm-manifest.sh"):
             self.assertGreaterEqual(workflow.count(f"- {name}"), 2)
             self.assertIn(f"sha256sum {name}", workflow)
+        self.assertGreaterEqual(workflow.count("- ci/run-dnf-transaction"), 2)
+        self.assertIn("sha256sum ci/run-dnf-transaction", workflow)
         self.assertIn("artifacts/image/rpm-manifest-live.tsv", workflow)
         self.assertIn(
             "cmp -s artifacts/image/rpm-manifest.tsv artifacts/image/rpm-manifest-live.tsv",
