@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           bzip3
 Version:        1.5.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Modern block-sorting compression utility and library
 License:        LGPL-3.0-or-later AND Apache-2.0 AND BSD-2-Clause
 URL:            https://github.com/kspalaiologos/bzip3
@@ -71,6 +71,9 @@ cmp roundtrip.txt roundtrip.out
 %{_libdir}/cmake/bzip3/
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.4-3
+- Validate the installed libbzip3.so.1 ABI link in the smoke test.
+
 * Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.4-2
 - Track the libbzip3.so.1 SONAME installed by upstream 1.5.4.
 

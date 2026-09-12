@@ -6,7 +6,7 @@ rpm -q -- bzip3 bzip3-devel
 installed_version=$(rpm -q --qf '%{VERSION}' bzip3)
 bzip3 -V | grep -F "$installed_version"
 test -r /usr/include/libbz3.h
-test -r /usr/lib64/libbzip3.so.0
+test -r /usr/lib64/libbzip3.so.1
 tmpdir=$(mktemp -d)
 sample="$tmpdir/sample"
 compressed="$tmpdir/compressed.bz3"
