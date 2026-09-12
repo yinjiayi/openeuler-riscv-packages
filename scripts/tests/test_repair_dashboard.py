@@ -258,6 +258,16 @@ class RepairDashboardTests(unittest.TestCase):
             self.assertTrue((output / "index.html").is_file())
             self.assertTrue((output / "inventory.json").is_file())
 
+    def test_dashboard_refresh_is_batched_and_does_not_cancel_an_active_snapshot(self) -> None:
+        workflow = (SCRIPTS.parent / ".github" / "workflows" / "dashboard.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("schedule:\n    - cron: '17 * * * *'", workflow)
+        self.assertNotIn("workflow_run:", workflow)
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertIn("group: github-pages-dashboard", workflow)
+        self.assertIn("cancel-in-progress: false", workflow)
+
     def test_dashboard_publishes_links_only_for_matching_verified_generation(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
