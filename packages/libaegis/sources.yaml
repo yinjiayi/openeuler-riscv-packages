@@ -1,0 +1,21 @@
+{
+  "package_id": "libaegis",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0f3350dabf1d54ddb94a34a8fc8509ba21cb8431a841a98be78ec274238a86fc"
+      },
+      "filename": "libaegis-0.10.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/aegis-aead/libaegis/archive/refs/tags/0.10.1.tar.gz",
+      "version": "0.10.1"
+    }
+  ]
+}
