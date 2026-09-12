@@ -11,3 +11,10 @@ error-free build that was still progressing at 65%. GUI, Wayland, and the full
 CTest suite remain enabled without source changes.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
+
+Release 8 links `ContourTerminalDisplay` to the already selected yaml-cpp
+target. Run `34232036793` compiled the bundled yaml-cpp provider, but the
+display target did not inherit its include path and failed on
+`yaml-cpp/emitter.h` through `Config.h`. The patch supports both namespaced
+and legacy yaml-cpp targets and leaves GUI, Wayland, CTest, and the
+240-minute budget unchanged; it does not add a second provider.

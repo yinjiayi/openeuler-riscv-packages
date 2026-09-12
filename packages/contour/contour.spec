@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           contour
 Version:        0.6.3.8249
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Modern C++ Terminal Emulator
 License:        Apache-2.0
 URL:            https://github.com/contour-terminal/contour
 Source0:        contour-0.6.3.8249.tar.gz
 Patch0:         0001-find-qt-wayland-private-target-via-public-component.patch
+Patch1:         0002-link-display-to-yaml-cpp.patch
 BuildRequires:  cairo-devel
 BuildRequires:  catch2-devel >= 3.4.0
 BuildRequires:  cmake
@@ -52,6 +53,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.6.3.8249-8
+- Propagate yaml-cpp usage requirements to the GUI display target.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.6.3.8249-7
 - Allow the complete QEMU build and CTest suite to use a 240-minute package
   budget after the 120-minute budget expired during error-free compilation.
