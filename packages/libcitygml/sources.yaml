@@ -1,0 +1,21 @@
+{
+  "package_id": "libcitygml",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "49e4ad5a767ba5ce0eb95fbb6db9d75ea0370c1a735af123aed3a66c6a5a44d3"
+      },
+      "filename": "libcitygml-2.5.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jklimke/libcitygml/archive/refs/tags/v2.5.3.tar.gz",
+      "version": "2.5.3"
+    }
+  ]
+}
