@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           yyjson
-Version:        0.12.0
+Version:        0.13.0
 Release:        2%{?dist}
 Summary:        High-performance JSON library written in C
 License:        MIT
 URL:            https://github.com/ibireme/yyjson
-Source0:        yyjson-%{version}.tar.gz
+Source0:        0.13.0.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -50,6 +50,9 @@ Headers, CMake metadata, and pkg-config metadata for yyjson.
 %{_libdir}/cmake/yyjson/
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.13.0-2
+- Align the package release and documentation with the verified 0.13.0 update.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.12.0-2
 - Exercise the installed shared library without requiring a compiler at runtime.
 
