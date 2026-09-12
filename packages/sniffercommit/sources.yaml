@@ -16,6 +16,36 @@
       "signature": null,
       "url": "https://github.com/slowy07/sniffercommit/archive/refs/tags/v0.3.3.tar.gz",
       "version": "0.3.3"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "url": "https://github.com/fmtlib/fmt/archive/refs/tags/11.0.2.tar.gz",
+      "filename": "fmt-11.0.2.tar.gz",
+      "version": "11.0.2",
+      "digests": {"sha256": "6cb1e6d37bdcb756dbbe59be438790db409cdb4868c66e888d5df9f13f7c027f"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Official fmt 11.0.2 archive; MIT license and copyright notice inspected and retained as LICENSE.fmt."}
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "url": "https://github.com/marzer/tomlplusplus/archive/refs/tags/v3.4.0.tar.gz",
+      "filename": "tomlplusplus-3.4.0.tar.gz",
+      "version": "3.4.0",
+      "digests": {"sha256": "8517f65938a4faae9ccf8ebb36631a38c1cadfb5efa85d9a72e15b9e97d25155"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Official tomlplusplus 3.4.0 archive; MIT license and copyright notice inspected and retained as LICENSE.tomlplusplus."}
+    },
+    {
+      "id": "source3",
+      "kind": "test-dependency",
+      "url": "https://github.com/google/googletest/archive/refs/tags/v1.15.2.tar.gz",
+      "filename": "googletest-1.15.2.tar.gz",
+      "version": "1.15.2",
+      "digests": {"sha256": "7b42b4d6ed48810c5362c265a17faebe90dc2373c885e5216439d37927f02926"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Official GoogleTest 1.15.2 archive; BSD-3-Clause license and copyright notice inspected and retained as LICENSE.googletest."}
     }
   ]
 }

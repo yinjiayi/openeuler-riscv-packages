@@ -28,12 +28,12 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The upstream repository now redirects to slowy07/metis, so the v0.3.3 archive expands as metis-0.3.3. Release 4 configures explicitly out of source, keeps configure, build, install, and the full upstream CTest suite on the shared RPM CMake build directory, and declares the official clang-tools-extra provider used by FormatModeTest.DryRunFormat. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The upstream repository now redirects to slowy07/metis, so the v0.3.3 archive expands as metis-0.3.3. Release 4 configures explicitly out of source, keeps configure, build, install, and the full upstream CTest suite on the shared RPM CMake build directory, and declares the official clang-tools-extra provider used by FormatModeTest.DryRunFormat. Release 5 pins fmt 11.0.2, tomlplusplus 3.4.0 and GoogleTest 1.15.2 official archives with SHA-256, binds FetchContent to their local source directories with downloads disabled, and builds dependencies privately without installing their library or development providers. Dependency license notices are retained. The full upstream suite remains enabled; installed smoke queries the RPM only. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "sniffercommit",
   "rpm": {
-    "license": "MIT",
+    "license": "MIT AND BSD-3-Clause",
     "name": "sniffercommit",
     "summary": "Fast C++20-powered pre-commit hook and CI generator"
   },
@@ -63,6 +63,6 @@
   "version": {
     "current": "0.3.3",
     "latest_detected": "0.3.3",
-    "release": "4"
+    "release": "5"
   }
 }
