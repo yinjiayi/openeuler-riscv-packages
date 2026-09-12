@@ -2,7 +2,7 @@
 
 Name:           bmake
 Version:        20260824
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Portable version of the NetBSD make build tool
 License:        BSD-3-Clause AND BSD-2-Clause AND BSD-4-Clause-UC
 URL:            https://www.crufty.net/help/sjg/bmake.htm
@@ -84,5 +84,8 @@ unset MAKEFLAGS MAKEOBJDIR MAKEOBJDIRPREFIX MAKESYSPATH
 %{_datadir}/mk/
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 20260824-2
+- Match the smoke-test executable version against the installed RPM version.
+
 * Thu Aug 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 20260714-1
 - Initial openEuler RISC-V package with the complete upstream unit suite.

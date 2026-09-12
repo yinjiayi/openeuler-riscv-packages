@@ -29,7 +29,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official 20260714 release bytes are SHA-256 pinned and archive-safe. The full upstream boot-strap test operation remains mandatory. Target BuildRequires include ksh, tcsh, and Lua so shell cases and check-expect.lua are available. The fixed unprivileged build identity keeps the upstream objdir-writable permission test enabled; no network is needed after verified source and RPM dependencies have been acquired.",
+    "notes": "Official 20260824 release bytes are SHA-256 pinned and archive-safe. The full upstream boot-strap test operation remains mandatory. Target BuildRequires include ksh, tcsh, and Lua so shell cases and check-expect.lua are available. The fixed unprivileged build identity keeps the upstream objdir-writable permission test enabled; no network is needed after verified source and RPM dependencies have been acquired. The installed-RPM smoke test verifies the executable version against RPM metadata so version updates retain this check.",
     "status": "active"
   },
   "package_id": "bmake",
@@ -64,6 +64,6 @@
   "version": {
     "current": "20260824",
     "latest_detected": "20260824",
-    "release": "1"
+    "release": "2"
   }
 }
