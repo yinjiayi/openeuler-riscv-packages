@@ -1,0 +1,21 @@
+{
+  "package_id": "g3data",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5f23562fff0aba23db99d6fcec2a5e2c25922f2cc82ce892fd0a8a01b40517e0"
+      },
+      "filename": "g3data-1.5.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/pn2200/g3data/archive/refs/tags/v1.5.4.tar.gz",
+      "version": "1.5.4"
+    }
+  ]
+}
