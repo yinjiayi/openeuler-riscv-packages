@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 00:00:00 +0000
+Subject: [PATCH] tests: register Catch2 suite without helper module
+
+The target catch2-devel package provides Catch2Config.cmake and the imported
+Catch2 targets, but it does not install the optional Catch.cmake discovery
+helper.  Enable CTest in the top-level build directory before entering the
+unit-test subdirectory, then register the same unit_tests executable directly
+so one test invocation still executes every Catch2 test case.  Enabling CTest
+only in the subdirectory leaves the top-level ctest invocation with zero
+discovered tests.
+
+Patch-Source: openEuler RISC-V package CI run 33712259106 and its
+ SHA-256-verified immutable repository file-list metadata.
+Patch-License: BSD-3-Clause
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: The target catch2-devel package provides Catch.cmake or upstream
+ no longer requires that optional helper to register its complete suite.
+---
+ CMakeLists.txt            | 1 +
+ tests/unit/CMakeLists.txt | 5 +----
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -220,0 +221 @@ if(SOCKPP_BUILD_TESTS)
++	include(CTest)
+
+diff --git a/tests/unit/CMakeLists.txt b/tests/unit/CMakeLists.txt
+--- a/tests/unit/CMakeLists.txt
++++ b/tests/unit/CMakeLists.txt
+@@ -96,4 +96 @@ target_link_libraries(unit_tests
+-include(CTest)
+-include(Catch)
+-
+-catch_discover_tests(unit_tests)
++add_test(NAME unit_tests COMMAND unit_tests)
