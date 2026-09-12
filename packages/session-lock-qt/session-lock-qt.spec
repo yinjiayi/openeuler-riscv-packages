@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           session-lock-qt
 Version:        2.1.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        session-lock-qt
 License:        GPL-3.0-or-later
 URL:            https://github.com/waycrate/qt-session-lock
@@ -47,6 +47,9 @@ test -x %{_vpath_builddir}/sessionlock-test
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.0-7
+- Include QGuiApplication in the QML session-lock implementation as well.
+
 * Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.0-6
 - Include QGuiApplication directly for the focus-window activation query.
 

@@ -41,10 +41,10 @@
       {
         "file": "patches/0003-include-qguiapplication.patch",
         "license": "GPL-3.0-or-later",
-        "purpose": "Include the public QGuiApplication declaration directly for requestActivate's focus-window query on Qt 6.5.",
-        "remove_when": "Upstream directly includes the QGuiApplication declaration in the session-lock surface translation unit.",
-        "sha256": "e494957810a5d2588bbf9bec861ee9903f2683dae7c65a48a7133a9bd88d0fdb",
-        "source": "Exact source and compiler failure in run 34686802262 at head 467609de2d3dc031db582a7d2b6caed06069c5b9.",
+        "purpose": "Include QGuiApplication directly for the surface activation and QML screen queries on Qt 6.5.",
+        "remove_when": "Upstream directly includes QGuiApplication in both the session-lock surface and QML translation units.",
+        "sha256": "98e56615b102b27a450fc676a34f9c37390a44d547a6df3a758e0780b9ab8e44",
+        "source": "Exact source and compiler failures in runs 34686802262 and 34687737850.",
         "upstream_status": "downstream-only"
       }
     ],
@@ -91,6 +91,6 @@
   "version": {
     "current": "2.1.0",
     "latest_detected": "2.1.0",
-    "release": "6"
+    "release": "7"
   }
 }

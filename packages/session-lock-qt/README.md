@@ -18,4 +18,8 @@ method but Qt 6.5's private headers did not declare the application class
 transitively. This only makes the existing dependency explicit; activation
 behavior, the compositor test executable, and all build checks are retained.
 
+Release `7` extends that direct include to the QML implementation, whose
+screen queries use the same class. An audit of all application-class uses
+found the other use in the test executable already includes its declaration.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

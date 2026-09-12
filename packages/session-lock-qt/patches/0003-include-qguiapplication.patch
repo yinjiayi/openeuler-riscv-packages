@@ -1,17 +1,17 @@
 From: openEuler RISC-V Maintainers <noreply@example.invalid>
 Date: Sat, 12 Sep 2026 00:00:00 +0000
-Subject: [PATCH] include QGuiApplication for the focus-window query
+Subject: [PATCH] include QGuiApplication for activation and screen queries
 
 License: GPL-3.0-or-later
 Upstream-Status: downstream-only
-Origin: exact-source audit and run 34686802262 compiler evidence
+Origin: exact-source audit and runs 34686802262 and 34687737850
 
-requestActivate() calls QGuiApplication::focusWindow(), but this translation
-unit does not include QGuiApplication. The Qt 6.5 private headers do not
-provide that declaration transitively. Include the public QtGui header
-directly; activation behavior and all Wayland functionality remain unchanged.
+The surface activation code and the QML session-lock code both use
+QGuiApplication without including its declaration. The Qt 6.5 private
+headers do not provide it transitively. Include the public QtGui header
+directly in both translation units; all Wayland functionality is unchanged.
 
-Remove when upstream directly includes the QGuiApplication declaration.
+Remove when upstream directly includes QGuiApplication in both files.
 
 --- a/src/qwaylandextsessionlocksurface.cpp
 +++ b/src/qwaylandextsessionlocksurface.cpp
@@ -19,3 +19,11 @@ Remove when upstream directly includes the QGuiApplication declaration.
 
 +#include <QtGui/QGuiApplication>
  #include <QtWaylandClient/private/qwaylandinputdevice_p.h>
+--- a/src/qml/SessionLock.cpp
++++ b/src/qml/SessionLock.cpp
+@@ -3,4 +3,5 @@
+ #include "window.h"
+ #include <QDebug>
++#include <QtGui/QGuiApplication>
+ #include <private/qwaylandscreen_p.h>
+ #include <private/qwaylandsurface_p.h>
