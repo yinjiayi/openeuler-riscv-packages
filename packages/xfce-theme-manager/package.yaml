@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/KeithDHedger/Xfce-Theme-Manager",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xfce-theme-manager",
+        "package_name": "xfce-theme-manager",
+        "source": "aur",
+        "source_version": "1:0.3.9-1"
+      },
+      {
+        "evidence_url": "https://github.com/KeithDHedger/Xfce-Theme-Manager",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xfce-theme-manager",
+        "package_name": "xfce-theme-manager",
+        "source": "fedora",
+        "source_version": "0.3.9-7.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "xfce-theme-manager.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 fixes only the %prep archive-directory selection: exact-head Package CI run 33671418692 successfully installed BuildRequires, then failed because the verified v0.3.9 archive expands as Xfce-Theme-Manager-0.3.9 while the default %autosetup directory was xfce-theme-manager-0.3.9. Exact-head Package CI run 33673203229 then reached configure and proved that pkgconfig(gtk+-2.0) is required; openEuler's SHA-256-bound repository metadata identifies gtk2-devel as the provider, which Release 3 declares. Exact-head run 33674094901 resolved GTK 2 and then proved that pkgconfig(libxfconf-0) is mandatory. Release 4 declares that virtual BuildRequires. The fixed official target metadata has no provider and no managed provider is currently published, so the package is dependency-blocked and no successful build or RPM URL is claimed.",
+    "status": "active"
+  },
+  "package_id": "xfce-theme-manager",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "xfce-theme-manager",
+    "summary": "Integrated theme manager for xfce4"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-keithdhedger-xfce-theme-manager",
+    "homepage": "https://keithdhedger.github.io/Xfce-Theme-Manager/",
+    "release_api": "https://api.github.com/repos/KeithDHedger/Xfce-Theme-Manager/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/KeithDHedger/Xfce-Theme-Manager",
+    "source_url_template": "https://github.com/KeithDHedger/Xfce-Theme-Manager/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.3.9",
+    "latest_detected": "0.3.9",
+    "release": "4"
+  }
+}
