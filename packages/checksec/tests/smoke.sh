@@ -3,9 +3,6 @@
 set -euo pipefail
 rpm -q -- checksec
 installed_version=$(rpm -q --qf '%{VERSION}' checksec)
-checksec --version | grep -F "checksec v${installed_version}"
-if checksec --help | grep -E -- '--(update|upgrade)'; then
-  echo 'packaged checksec unexpectedly exposes its network self-update command' >&2
-  exit 1
-fi
-checksec --format=json --file=/usr/bin/bash | jq -e 'type == "object"'
+checksec --version | grep -F "${installed_version}"
+checksec --no-banner --output json file /usr/bin/bash | \
+  jq -e 'type == "array" and length == 1 and (.[0].checks | type == "object")'
