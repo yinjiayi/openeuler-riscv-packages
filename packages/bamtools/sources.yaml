@@ -1,0 +1,21 @@
+{
+  "package_id": "bamtools",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7d4e59bac7c03bde488fe43e533692f78b5325a097328785ec31373ffac08344"
+      },
+      "filename": "bamtools-2.5.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/pezmaster31/bamtools/archive/refs/tags/v2.5.3.tar.gz",
+      "version": "2.5.3"
+    }
+  ]
+}
