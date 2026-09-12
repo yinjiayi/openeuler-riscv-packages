@@ -64,6 +64,15 @@
         "license": "GPL-2.0-only",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream tobrowser.cpp includes QButtonGroup before using its methods."
+      },
+      {
+        "file": "patches/0006-security-include-qbuttongroup.patch",
+        "sha256": "046b79a42dbe8863e367a6a6d82f0716ba6046a470d4c607ed60899d48d82be3",
+        "purpose": "Include the complete QButtonGroup type in the security quota editor before construction and member access.",
+        "source": "Downstream adaptation of tora 3.2 src/tools/tosecurity.cpp",
+        "license": "GPL-2.0-only",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream tosecurity.cpp includes QButtonGroup before using its methods."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -74,7 +83,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Trusted exact-head run 34123431416 installed all declared dependencies in one successful transaction, configured successfully, and compiled continuously to 85% without a compiler, linker, dependency, or QEMU error before the 120-minute package deadline terminated rpmbuild with exit 124. Release 10 raises only the package budget to 180 minutes while retaining the full debug build, its development test targets, and the CTest check. Upstream does not register CTest tests in this release. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Trusted exact-head run 34123431416 installed all declared dependencies in one successful transaction, configured successfully, and compiled continuously to 85% without a compiler, linker, dependency, or QEMU error before the 120-minute package deadline terminated rpmbuild with exit 124. Release 10 raises only the package budget to 180 minutes while retaining the full debug build, its development test targets, and the CTest check. Run 34230629837 then reached the security quota editor and exposed its separate missing QButtonGroup include; Release 11 adds only that definition without changing behavior or the retained checks. Upstream does not register CTest tests in this release. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "tora",
@@ -109,6 +118,6 @@
   "version": {
     "current": "3.2",
     "latest_detected": "3.2",
-    "release": "10"
+    "release": "11"
   }
 }

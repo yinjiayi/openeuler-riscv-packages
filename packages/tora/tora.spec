@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tora
 Version:        3.2
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        SQL IDE for Oracle, MySQL and PostgreSQL dbs
 License:        GPL-2.0-or-later
 URL:            https://github.com/tora-tool/tora
@@ -11,6 +11,7 @@ Patch1:         0002-dtl-fix-const-mutator.patch
 Patch2:         0003-include-qmenu-definition.patch
 Patch3:         0004-antlr-fix-cyclic-dfa-copy.patch
 Patch4:         0005-include-qbuttongroup-definition.patch
+Patch5:         0006-security-include-qbuttongroup.patch
 BuildRequires:  cmake
 BuildRequires:  boost-devel
 BuildRequires:  boost-system
@@ -50,6 +51,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc ChangeLog
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2-11
+- Include the complete QButtonGroup type in the security quota editor.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2-10
 - Allow the complete QEMU debug build to use a 180-minute package budget.
 

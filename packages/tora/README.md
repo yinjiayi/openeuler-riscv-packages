@@ -18,3 +18,9 @@ development test applications; packaging retains that build and the `%check`
 CTest invocation rather than disabling either layer.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
+
+Release 11 adds the missing `QButtonGroup` include in `tosecurity.cpp`, where
+the quota editor constructs the group and calls its methods. Exact-head CI
+run `34230629837` exposed this separate translation-unit error after the
+earlier browser include repair. The patch changes no quota logic, build
+options, tests, or timeout budget; a replacement CI build is still required.
