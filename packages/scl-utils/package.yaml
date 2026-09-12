@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 uses the openEuler out-of-tree CMake macro, declares the RPM and CMocka development dependencies used by the program and its two upstream CTest executables, and adds an installed-command smoke check. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head CI evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 uses the openEuler out-of-tree CMake macro, declares the RPM and CMocka development dependencies used by the program and its two upstream CTest executables, keeps the generated file list valid after RPM compresses the installed manual page, and adds an installed-command smoke check. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head CI evidence.",
     "status": "active"
   },
   "package_id": "scl-utils",
@@ -63,6 +63,6 @@
   "version": {
     "current": "2.0.3",
     "latest_detected": "2.0.3",
-    "release": "2"
+    "release": "3"
   }
 }
