@@ -1,0 +1,21 @@
+{
+  "package_id": "dnf-plugin-diff",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8cd6675f31d42d0a7438352cc4e7baa04b36c046905b040c24ccf4cc37996902"
+      },
+      "filename": "dnf-plugin-diff-2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/praiskup/dnf-plugin-diff/archive/refs/tags/v2.0.tar.gz",
+      "version": "2.0"
+    }
+  ]
+}
