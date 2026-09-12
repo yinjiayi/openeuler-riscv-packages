@@ -1,0 +1,371 @@
+diff -up julius-4.6/adinrec/Makefile.in.DESTDIR julius-4.6/adinrec/Makefile.in
+--- julius-4.6/adinrec/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/adinrec/Makefile.in	2023-10-03 09:21:25.235951711 -0400
+@@ -36,8 +36,8 @@ $(TARGET): adinrec.c $(LIBSENT)/libsent.
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ ############################################################
+ 
+diff -up julius-4.6/adintool/Makefile.in.DESTDIR julius-4.6/adintool/Makefile.in
+--- julius-4.6/adintool/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/adintool/Makefile.in	2023-10-03 09:21:25.235951711 -0400
+@@ -46,8 +46,8 @@ adintool-gui@EXEEXT@: $(GUIOBJ) $(LIBSEN
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ clean:
+ 	$(RM) $(OBJ) $(GUIOBJ)
+diff -up julius-4.6/binlm2arpa/Makefile.in.DESTDIR julius-4.6/binlm2arpa/Makefile.in
+--- julius-4.6/binlm2arpa/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/binlm2arpa/Makefile.in	2023-10-03 09:21:25.235951711 -0400
+@@ -30,8 +30,8 @@ $(TARGET): $(OBJ) $(LIBSENT)/libsent.a
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ clean:
+ 	$(RM) $(OBJ)
+diff -up julius-4.6/generate-ngram/Makefile.in.DESTDIR julius-4.6/generate-ngram/Makefile.in
+--- julius-4.6/generate-ngram/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/generate-ngram/Makefile.in	2023-10-03 09:21:25.235951711 -0400
+@@ -33,8 +33,8 @@ $(TARGET): $(OBJ) $(LIBSENT)/libsent.a
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ clean:
+ 	$(RM) $(OBJ) *~ core
+diff -up julius-4.6/gramtools/accept_check/Makefile.in.DESTDIR julius-4.6/gramtools/accept_check/Makefile.in
+--- julius-4.6/gramtools/accept_check/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/gramtools/accept_check/Makefile.in	2023-10-03 09:21:25.235951711 -0400
+@@ -36,8 +36,8 @@ $(TARGET): $(OBJ)
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ ############################################################
+ 
+diff -up julius-4.6/gramtools/dfa_determinize/Makefile.in.DESTDIR julius-4.6/gramtools/dfa_determinize/Makefile.in
+--- julius-4.6/gramtools/dfa_determinize/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/gramtools/dfa_determinize/Makefile.in	2023-10-03 09:21:25.235951711 -0400
+@@ -35,8 +35,8 @@ $(TARGET): $(OBJ)
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ ############################################################
+ 
+diff -up julius-4.6/gramtools/dfa_minimize/Makefile.in.DESTDIR julius-4.6/gramtools/dfa_minimize/Makefile.in
+--- julius-4.6/gramtools/dfa_minimize/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/gramtools/dfa_minimize/Makefile.in	2023-10-03 09:21:25.235951711 -0400
+@@ -34,8 +34,8 @@ $(TARGET): $(OBJ)
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ ############################################################
+ 
+diff -up julius-4.6/gramtools/generate/Makefile.in.DESTDIR julius-4.6/gramtools/generate/Makefile.in
+--- julius-4.6/gramtools/generate/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/gramtools/generate/Makefile.in	2023-10-03 09:21:25.235951711 -0400
+@@ -35,8 +35,8 @@ $(TARGET): $(OBJ)
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ ############################################################
+ 
+diff -up julius-4.6/gramtools/gram2sapixml/Makefile.in.DESTDIR julius-4.6/gramtools/gram2sapixml/Makefile.in
+--- julius-4.6/gramtools/gram2sapixml/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/gramtools/gram2sapixml/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -17,8 +17,8 @@ all:
+ install: install.bin
+ 
+ install.bin:
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ clean:
+ 	echo nothing to do
+diff -up julius-4.6/gramtools/mkdfa/Makefile.in.DESTDIR julius-4.6/gramtools/mkdfa/Makefile.in
+--- julius-4.6/gramtools/mkdfa/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/gramtools/mkdfa/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -18,13 +18,13 @@ all:
+ 
+ install:
+ 	(cd $(SUBDIR); $(MAKE) install)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ install.bin:
+ 	(cd $(SUBDIR); $(MAKE) install.bin)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ clean:
+ 	(cd $(SUBDIR); $(MAKE) clean)
+diff -up julius-4.6/gramtools/mkdfa/mkfa-1.44-flex/Makefile.in.DESTDIR julius-4.6/gramtools/mkdfa/mkfa-1.44-flex/Makefile.in
+--- julius-4.6/gramtools/mkdfa/mkfa-1.44-flex/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/gramtools/mkdfa/mkfa-1.44-flex/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -43,8 +43,8 @@ $(TARGET): $(OBJS)
+ install: install.bin
+ 
+ install.bin:
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ clean:
+ 	$(RM) *.o *~ core
+diff -up julius-4.6/gramtools/nextword/Makefile.in.DESTDIR julius-4.6/gramtools/nextword/Makefile.in
+--- julius-4.6/gramtools/nextword/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/gramtools/nextword/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -36,8 +36,8 @@ $(TARGET): $(OBJ)
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ ############################################################
+ 
+diff -up julius-4.6/gramtools/yomi2voca/Makefile.in.DESTDIR julius-4.6/gramtools/yomi2voca/Makefile.in
+--- julius-4.6/gramtools/yomi2voca/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/gramtools/yomi2voca/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -17,8 +17,8 @@ all:
+ install: install.bin
+ 
+ install.bin:
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ clean:
+ 	echo nothing to do
+diff -up julius-4.6/jclient-perl/Makefile.in.DESTDIR julius-4.6/jclient-perl/Makefile.in
+--- julius-4.6/jclient-perl/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/jclient-perl/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -17,8 +17,8 @@ all:
+ install: install.bin
+ 
+ install.bin:
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ clean:
+ 	echo nothing to do
+diff -up julius-4.6/jcontrol/Makefile.in.DESTDIR julius-4.6/jcontrol/Makefile.in
+--- julius-4.6/jcontrol/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/jcontrol/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -31,8 +31,8 @@ $(TARGET): $(OBJ)
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ clean:
+ 	$(RM) $(OBJ)
+diff -up julius-4.6/julius/Makefile.in.DESTDIR julius-4.6/julius/Makefile.in
+--- julius-4.6/julius/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/julius/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -61,8 +61,8 @@ $(TARGET): $(LIBSENT)/libsent.a $(LIBJUL
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	${INSTALL_PROGRAM} $(TARGET) ${bindir}/${INSTALLTARGET}
++	${INSTALL} -d ${DESTDIR}@bindir@
++	${INSTALL_PROGRAM} $(TARGET) ${DESTDIR}${bindir}/${INSTALLTARGET}
+ 
+ depend:
+ 	makedepend -- $(CFLAGS) -- $(OBJSENT)
+diff -up julius-4.6/libjulius/Makefile.in.DESTDIR julius-4.6/libjulius/Makefile.in
+--- julius-4.6/libjulius/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/libjulius/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -93,18 +93,18 @@ $(TARGET): $(OBJ)
+ install: install.lib install.include install.bin
+ 
+ install.lib: $(TARGET)
+-	${INSTALL} -d ${libdir}
+-	${INSTALL_DATA} $(TARGET) ${libdir}
+-	${INSTALL} -d ${pkgconfigdir}
+-	${INSTALL_DATA} $(PKGCONF_FILE) ${pkgconfigdir}
++	${INSTALL} -d ${DESTDIR}${libdir}
++	${INSTALL_DATA} $(TARGET) ${DESTDIR}${libdir}
++	${INSTALL} -d ${DESTDIR}${pkgconfigdir}
++	${INSTALL_DATA} $(PKGCONF_FILE) ${DESTDIR}${pkgconfigdir}
+ 
+ install.include:
+-	${INSTALL} -d ${includedir}/julius
+-	${INSTALL_DATA} include/julius/*.h ${includedir}/julius 
++	${INSTALL} -d ${DESTDIR}${includedir}/julius
++	${INSTALL_DATA} include/julius/*.h ${DESTDIR}${includedir}/julius 
+ 
+ install.bin: libjulius-config-dist
+-	${INSTALL} -d ${bindir}
+-	${INSTALL_PROGRAM} libjulius-config-dist ${bindir}/libjulius-config
++	${INSTALL} -d ${DESTDIR}${bindir}
++	${INSTALL_PROGRAM} libjulius-config-dist ${DESTDIR}${bindir}/libjulius-config
+ 
+ depend:
+ 	makedepend -- $(CFLAGS) -- $(OBJSENT)
+diff -up julius-4.6/libsent/Makefile.in.DESTDIR julius-4.6/libsent/Makefile.in
+--- julius-4.6/libsent/Makefile.in.DESTDIR	2023-10-03 09:21:25.236951724 -0400
++++ julius-4.6/libsent/Makefile.in	2023-10-03 09:23:41.003819421 -0400
+@@ -169,18 +169,18 @@ src/phmm/calc_dnn_neon.o: src/phmm/calc_
+ install: install.lib install.include install.bin
+ 
+ install.lib: $(TARGET)
+-	${INSTALL} -d ${libdir}
+-	${INSTALL_DATA} $(TARGET) ${libdir}
+-	${INSTALL} -d ${pkgconfigdir}
+-	${INSTALL_DATA} $(PKGCONF_FILE) ${pkgconfigdir}
++	${INSTALL} -d ${DESTDIR}${libdir}
++	${INSTALL_DATA} $(TARGET) ${DESTDIR}${libdir}
++	${INSTALL} -d ${DESTDIR}${pkgconfigdir}
++	${INSTALL_DATA} $(PKGCONF_FILE) ${DESTDIR}${pkgconfigdir}
+ 
+ install.include:
+-	${INSTALL} -d ${includedir}/sent
+-	${INSTALL_DATA} include/sent/*.h ${includedir}/sent
++	${INSTALL} -d ${DESTDIR}${includedir}/sent
++	${INSTALL_DATA} include/sent/*.h ${DESTDIR}${includedir}/sent
+ 
+ install.bin: libsent-config-dist
+-	${INSTALL} -d ${bindir}
+-	${INSTALL_PROGRAM} libsent-config-dist ${bindir}/libsent-config
++	${INSTALL} -d ${DESTDIR}${bindir}
++	${INSTALL_PROGRAM} libsent-config-dist ${DESTDIR}${bindir}/libsent-config
+ 
+ clean:
+ 	$(RM) *~ src/*/*~ src/*/*.o src/*/*/*.o src/*/*/*/*.o src/*/*/*/*/*.o include/sent/*~
+diff -up julius-4.6/mkbingram/Makefile.in.DESTDIR julius-4.6/mkbingram/Makefile.in
+--- julius-4.6/mkbingram/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/mkbingram/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -30,8 +30,8 @@ $(TARGET): $(OBJ) $(LIBSENT)/libsent.a
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ clean:
+ 	$(RM) $(OBJ)
+diff -up julius-4.6/mkbinhmm/Makefile.in.DESTDIR julius-4.6/mkbinhmm/Makefile.in
+--- julius-4.6/mkbinhmm/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/mkbinhmm/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -32,8 +32,8 @@ mkbinhmmlist@EXEEXT@: mkbinhmmlist.o $(L
+ install: install.bin
+ 
+ install.bin: mkbinhmm@EXEEXT@ mkbinhmmlist@EXEEXT@
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ mkbinhmm@EXEEXT@ mkbinhmmlist@EXEEXT@ @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ mkbinhmm@EXEEXT@ mkbinhmmlist@EXEEXT@ ${DESTDIR}@bindir@
+ 
+ clean:
+ 	$(RM) mkbinhmm.o mkbinhmmlist.o
+diff -up julius-4.6/mkgshmm/Makefile.in.DESTDIR julius-4.6/mkgshmm/Makefile.in
+--- julius-4.6/mkgshmm/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/mkgshmm/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -23,8 +23,8 @@ $(TARGET):
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ ############################################################
+ 
+diff -up julius-4.6/mkss/Makefile.in.DESTDIR julius-4.6/mkss/Makefile.in
+--- julius-4.6/mkss/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/mkss/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -36,8 +36,8 @@ $(TARGET): mkss.c $(LIBSENT)/libsent.a $
+ install: install.bin
+ 
+ install.bin: $(TARGET)
+-	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	${INSTALL} -d ${DESTDIR}@bindir@
++	@INSTALL_PROGRAM@ $(TARGET) ${DESTDIR}@bindir@
+ 
+ ############################################################
+ 
+diff -up julius-4.6/oldman/Makefile.in.DESTDIR julius-4.6/oldman/Makefile.in
+--- julius-4.6/oldman/Makefile.in.DESTDIR	2020-09-01 21:28:43.000000000 -0400
++++ julius-4.6/oldman/Makefile.in	2023-10-03 09:21:25.236951724 -0400
+@@ -20,16 +20,16 @@ all:
+ install: install.man install.man.ja
+ 
+ install.man:
+-	${INSTALL} -d @mandir@/man1
++	${INSTALL} -d ${DESTDIR}@mandir@/man1
+ 	for f in *.1; do \
+-	  @INSTALL_DATA@ $$f @mandir@/man1/$$f; \
++	  @INSTALL_DATA@ $$f ${DESTDIR}@mandir@/man1/$$f; \
+ 	done
+ 
+ install.man.ja:
+-	${INSTALL} -d @mandir@/ja/man1
++	${INSTALL} -d ${DESTDIR}@mandir@/ja/man1
+ 	cd ja;
+ 	for f in *.1; do \
+-	  @INSTALL_DATA@ $$f @mandir@/ja/man1/$$f; \
++	  @INSTALL_DATA@ $$f ${DESTDIR}@mandir@/ja/man1/$$f; \
+ 	done
+ 	cd ..
+ 
