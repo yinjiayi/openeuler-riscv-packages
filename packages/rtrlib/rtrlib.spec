@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           rtrlib
 Version:        0.8.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        RPKI-RTR client library
 License:        MIT
 URL:            https://github.com/rtrlib/rtrlib
@@ -28,7 +28,7 @@ RPKI-RTR client library
 %install
 %cmake_install
 find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
-# brp-compress changes manual-page suffixes after %install, so keep them out
+# brp-compress changes manual-page suffixes after installation, so keep them out
 # of the generated file list and match their final compressed names below.
 sed -i '\|^/usr/share/man/|d' %{name}.files
 test -s %{name}.files
@@ -50,6 +50,9 @@ ctest --test-dir %{_vpath_builddir} \
 %{_mandir}/man1/rtrclient.1*
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.0-5
+- Avoid expanding an RPM section macro from a SPEC comment.
+
 * Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.0-4
 - Match manual pages after the RPM brp-compress suffix transformation.
 
