@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           heimer
 Version:        4.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Cross-platform mind map, diagram, and note-taking tool
 License:        GPL-3.0-or-later
 URL:            https://github.com/juzzlin/heimer
@@ -39,6 +39,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc CHANGELOG
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.5.0-4
+- Allow 120 minutes after slow dependency installation left only 1249 seconds for compilation.
+
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 4.5.0-3
 - Generate into the build directory consumed by the openEuler CMake macros.
 
