@@ -1,0 +1,21 @@
+{
+  "package_id": "qterminal",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "dc17658372b3d275b40950f36ae28faa94ffebf6be1b2caa77a84e246a694f74"
+      },
+      "filename": "qterminal-2.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/lxqt/qterminal/archive/refs/tags/2.4.0.tar.gz",
+      "version": "2.4.0"
+    }
+  ]
+}
