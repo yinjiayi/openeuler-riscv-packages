@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           dsd-neo
 Version:        2.5.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Digital Speech Decoder - A modern, modular, and performance enhanced C/C++ decoder for digital voice. DMR, P25, NXDN, YSF, and more.
 License:        GPL-3.0-or-later
 URL:            https://github.com/arancormonk/dsd-neo
@@ -42,6 +42,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.1-6
+- Preserve the status-gamma test's ncurses accessor stubs as well.
+
 * Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.1-5
 - Preserve printer-helper test stubs when ncurses exposes accessor macros.
 

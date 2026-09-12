@@ -14,3 +14,7 @@ The full upstream CTest suite remains enabled.
 Release 5 also undefines four ncurses window-accessor macros inside the
 printer-helper test so its existing deterministic function stubs compile.
 The test assertions and production UI behavior are unchanged.
+
+Release 6 extends the same macro isolation to the status-gamma test, the
+only other test translation unit defining these four accessor stubs.
+The full CTest suite and production curses behavior remain unchanged.
