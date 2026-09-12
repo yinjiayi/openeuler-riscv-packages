@@ -3,7 +3,7 @@
 
 Name:           cpp-httplib
 Version:        0.56.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Header-only C++ HTTP and HTTPS library
 License:        MIT
 URL:            https://github.com/yhirose/cpp-httplib
@@ -54,6 +54,9 @@ grep -F 'POST' server-and-client.log
 %{_libdir}/cmake/httplib/
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.56.0-2
+- Compare the installed header version with its RPM version during smoke tests.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.54.1-2
 - Synchronize the installed smoke assertion and package documentation with 0.54.1.
 
