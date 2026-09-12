@@ -281,17 +281,34 @@ def first_error(log: str) -> Optional[str]:
         r"(?im)^(?:FAIL|ERROR):\s+.+$",
         r"(?im)^#\s*(?:FAIL|ERROR):\s*[1-9][0-9]*\s*$",
         r"(?im)^.*(?:fatal error|error:|failed:|no such file|undefined reference|bad exit status).*$",
-        r"(?im)^.*(?:timeout|killed|segmentation fault).*$",
-        r"(?im)^.*\*\*\*.*$",
+        r"(?im)^.*\btimed?\s+out\b.*$",
+        r"(?im)^\s*[0-9]+/[0-9]+.*\bTIMEOUT\b\s+[0-9]+(?:\.[0-9]+)?\s*(?:s|sec(?:ond)?s?)\b.*$",
+        r"(?im)^.*(?:\bkilled\b|\bsegmentation fault\b).*$",
+        r"(?im)^.*\b(?:g?make)(?:\[[0-9]+\])?:\s+\*\*\*\s+.+$",
     )
-    for pattern in patterns:
+    candidates: List[Tuple[int, int, str]] = []
+    for priority, pattern in enumerate(patterns):
         for match in re.finditer(pattern, log):
             candidate = match.group(0).strip()
-            # Automake always prints zero-valued counters such as
-            # "# ERROR: 0".  They are summaries, not effective errors.
-            if re.fullmatch(r"#\s*(?:FAIL|ERROR):\s*0", candidate, re.IGNORECASE):
+            # Automake and Meson print zero-valued counters such as
+            # "# ERROR: 0" and "Fail: 0".  CTest similarly emits
+            # "100% tests passed, 0 tests failed out of N".  These are
+            # successful summaries, not effective errors.
+            if re.fullmatch(
+                r"#?\s*(?:(?:expected\s+)?fail|error|timeout):\s*0",
+                candidate,
+                re.IGNORECASE,
+            ) or re.fullmatch(
+                r"(?:[0-9]+%\s+tests passed,\s*)?0\s+tests?\s+failed\s+out\s+of\s+[0-9]+",
+                candidate,
+                re.IGNORECASE,
+            ):
                 continue
-            return candidate[:2000]
+            candidates.append((match.start(), priority, candidate))
+    if candidates:
+        # The first effective error in the log is more useful than a later
+        # wrapper selected merely because its regex family appeared first.
+        return min(candidates, key=lambda item: (item[0], item[1]))[2][:2000]
     return None
 
 
