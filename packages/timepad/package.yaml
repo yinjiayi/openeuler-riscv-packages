@@ -3,7 +3,7 @@
     "native_reason": null,
     "network_during_build": true,
     "profile": "qemu-user",
-    "timeout_minutes": 90
+    "timeout_minutes": 120
   },
   "discovery": {
     "lineage": [
@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package enables SDL's X11 desktop backend, supplies the exact upstream SDL and Dear ImGui commits as independently verified source archives, prohibits undeclared FetchContent downloads, builds SDL statically with a 90-minute QEMU build budget, and installs Timepad's desktop entry and runtime assets. Generated RPM file-list entries are quoted to retain the upstream font filenames containing spaces.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package enables SDL's X11 desktop backend, supplies the exact upstream SDL and Dear ImGui commits as independently verified source archives, prohibits undeclared FetchContent downloads, builds SDL statically with a 120-minute QEMU build budget, and installs Timepad's desktop entry and runtime assets. Generated RPM file-list entries are quoted to retain the upstream font filenames containing spaces.",
     "status": "active"
   },
   "package_id": "timepad",
