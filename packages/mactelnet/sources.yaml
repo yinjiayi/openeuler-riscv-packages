@@ -1,0 +1,21 @@
+{
+  "package_id": "mactelnet",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1b685568bddfe8d41cf70242a8db98968154334647b2c98c389596604e3fc38a"
+      },
+      "filename": "mactelnet-0.6.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/haakonnessjoen/MAC-Telnet/archive/refs/tags/v0.6.3.tar.gz",
+      "version": "0.6.3"
+    }
+  ]
+}
