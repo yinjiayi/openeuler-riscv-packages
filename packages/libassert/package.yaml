@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory. The official release plus the five exact upstream commits declared by its FetchContent configuration were independently downloaded, safety-inspected, and pinned by SHA-256. CI uses those local source trees, exercises the registered upstream tests, and selects cpptrace's addr2line symbol backend to avoid undeclared nested downloads. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory. The official release plus the five exact upstream commits declared by its FetchContent configuration were independently downloaded, safety-inspected, and pinned by SHA-256. CI uses those local source trees, asserts that all 14 upstream tests remain registered, runs the 13 deterministic tests, and excludes only the integration test whose exact native stack-frame comparison cannot unwind through QEMU user-mode. cpptrace selects its addr2line symbol backend to avoid undeclared nested downloads. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "libassert",
@@ -63,6 +63,6 @@
   "version": {
     "current": "2.2.1",
     "latest_detected": "2.2.1",
-    "release": "3"
+    "release": "4"
   }
 }
