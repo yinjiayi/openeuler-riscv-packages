@@ -1,0 +1,21 @@
+{
+  "package_id": "nemu",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e272b3e80623f8aef66c3ecb5e2d8846ac89b2514a4bbb5026e74f51c1a5ef42"
+      },
+      "filename": "nemu-3.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nemuTUI/nemu/archive/refs/tags/v3.4.0.tar.gz",
+      "version": "3.4.0"
+    }
+  ]
+}
