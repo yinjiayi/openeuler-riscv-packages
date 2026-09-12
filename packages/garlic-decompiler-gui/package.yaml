@@ -28,6 +28,15 @@
         "sha256": "b24252b2f3bed62131145de98b8c112e2ef7c66670b6aac1636d7a3eab6f892b",
         "source": "Downstream fix derived from the exact upstream 1.1.0 CMakeLists.txt after target run 34127343629 reproduced the GCC 14 diagnostic conflict.",
         "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0002-allow-distribution-debug-symbol-processing.patch",
+        "license": "Apache-2.0",
+        "purpose": "Make post-build stripping optional so RPM can extract debug information before performing its normal stripping.",
+        "remove_when": "Upstream allows distribution builds to retain debug symbols until the packaging stage.",
+        "sha256": "de50fc0120566a83d1bd1a4a1b8582d9a41497277744c339cb59aae4031fb017",
+        "source": "Downstream fix for exact-head run 34684335202, whose post-build strip removed debug data before RPM reported an empty debuginfo file list; verified against official v1.1.0 source.",
+        "upstream_status": "downstream-only"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -73,6 +82,6 @@
   "version": {
     "current": "1.1.0",
     "latest_detected": "1.1.0",
-    "release": "5"
+    "release": "6"
   }
 }

@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           garlic-decompiler-gui
 Version:        1.1.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Gui for the Garlic Decompiler, supporting APK, DEX, JAR, and CLASS decompilation
 License:        Apache-2.0
 URL:            https://github.com/AgarwalKritik/garlic-gui
 Source0:        garlic-decompiler-gui-1.1.0.tar.gz
 Patch0:         0001-keep-distribution-format-security-checks-enabled.patch
+Patch1:         0002-allow-distribution-debug-symbol-processing.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -21,7 +22,7 @@ Gui for the Garlic Decompiler, supporting APK, DEX, JAR, and CLASS decompilation
 %autosetup -n garlic-gui-%{version} -p1
 
 %build
-%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON -DGARLIC_STATIC_QT=OFF
+%cmake -S . -B %{_vpath_builddir} -DBUILD_TESTING=ON -DGARLIC_STATIC_QT=OFF -DGARLIC_STRIP_BINARY=OFF
 %cmake_build
 
 %install
@@ -38,6 +39,9 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.0-6
+- Preserve debug symbols until RPM extracts debuginfo and performs stripping.
+
 * Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.0-5
 - Balance patch context so GNU patch applies the format-security fix at fuzz zero.
 

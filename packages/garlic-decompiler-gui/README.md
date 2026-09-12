@@ -21,3 +21,8 @@ Release 5 supplies balanced context in the existing format-security patch.
 GNU patch rejected the asymmetric hunk with RPM's
 zero-fuzz policy even though macOS BSD patch accepted it. The change preserves
 the original single-line deletion and all compiler diagnostics and checks.
+
+Release 6 disables upstream's optional post-build stripping only for the RPM
+build. This preserves the executable's debug information until RPM extracts
+debuginfo and performs its normal stripping; it does not disable debuginfo,
+change compiler optimizations, or alter the executable and CTest checks.
