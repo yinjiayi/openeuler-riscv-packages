@@ -25,7 +25,7 @@
         "license": "Apache-2.0",
         "purpose": "Remove upstream's blanket -Wno-format flag so openEuler's GCC 14 format-security diagnostics remain valid and enabled.",
         "remove_when": "Upstream no longer disables -Wformat for the embedded C core.",
-        "sha256": "1514763047a5c479c7a369152e87274f6ff30a09d6a3012ce344961a00584c44",
+        "sha256": "b24252b2f3bed62131145de98b8c112e2ef7c66670b6aac1636d7a3eab6f892b",
         "source": "Downstream fix derived from the exact upstream 1.1.0 CMakeLists.txt after target run 34127343629 reproduced the GCC 14 diagnostic conflict.",
         "upstream_status": "downstream-only"
       }
@@ -73,6 +73,6 @@
   "version": {
     "current": "1.1.0",
     "latest_detected": "1.1.0",
-    "release": "4"
+    "release": "5"
   }
 }

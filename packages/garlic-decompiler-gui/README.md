@@ -16,3 +16,8 @@ GCC 14 error caused by combining a disabled prerequisite warning with
 `-Werror=format-security`.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
+
+Release 5 supplies balanced context in the existing format-security patch.
+GNU patch rejected the asymmetric hunk with RPM's
+zero-fuzz policy even though macOS BSD patch accepted it. The change preserves
+the original single-line deletion and all compiler diagnostics and checks.
