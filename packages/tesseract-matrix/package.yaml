@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/surakin/tesseract",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tesseract-matrix",
+        "package_name": "tesseract-matrix",
+        "source": "aur",
+        "source_version": "0.8.16-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-resolve-whole-archive-link-features.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Resolve CMake 3.27's conflicting default and WHOLE_ARCHIVE features while retaining every mutually dependent archive and the complete test target.",
+        "remove_when": "Upstream carries an equivalent link-feature override or removes the conflicting transitive default references.",
+        "sha256": "188a829628f8b5bcbd7467e3897d50a415cd0f1a6b638ad4e257925a13f6ca54",
+        "source": "Target openEuler 24.03 LTS SP3 riscv64 Package CI run 34029883049.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tesseract-matrix.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "tesseract-matrix",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "tesseract-matrix",
+    "summary": "Cross-platform Matrix chat client"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-surakin-tesseract",
+    "homepage": "https://surakin.github.io/tesseract/",
+    "release_api": "https://api.github.com/repos/surakin/tesseract/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/surakin/tesseract",
+    "source_url_template": "https://github.com/surakin/tesseract/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.8.16",
+    "latest_detected": "0.8.16",
+    "release": "1"
+  }
+}
