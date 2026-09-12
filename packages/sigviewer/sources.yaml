@@ -1,0 +1,21 @@
+{
+  "package_id": "sigviewer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bceb6b589823ff59f329b6ae2a9a50c09bceccd6fa309e8a18969e3f2975a0c5"
+      },
+      "filename": "sigviewer-0.7.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cbrnr/sigviewer/archive/refs/tags/v0.7.2.tar.gz",
+      "version": "0.7.2"
+    }
+  ]
+}
