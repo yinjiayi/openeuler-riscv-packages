@@ -1,0 +1,21 @@
+{
+  "package_id": "alizams",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fdb0a36fa109b756eceed373f4c41a91270d3c2438a7aef6f31c82775c5d6cc3"
+      },
+      "filename": "alizams-1.10.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/AlizaMedicalImaging/AlizaMS/archive/refs/tags/v1.10.0.tar.gz",
+      "version": "1.10.0"
+    }
+  ]
+}
