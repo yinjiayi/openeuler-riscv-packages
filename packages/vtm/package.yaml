@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 raises the bounded QEMU package budget to 240 minutes after exact-head run 33048397975 completed source and dependency preparation, then remained inside rpmbuild for 106 minutes and 40 seconds without a package error before the fixed 120-minute job limit cancelled it. Upstream registers no CTest tests, so the existing CTest invocation is retained and supplemented with build-tree and installed-RPM version checks that execute the real riscv64 binary. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 raises the bounded QEMU package budget to 240 minutes after exact-head run 33048397975 completed source and dependency preparation, then remained inside rpmbuild for 106 minutes and 40 seconds without a package error before the fixed 120-minute job limit cancelled it. Upstream registers no CTest tests, so the existing CTest invocation is retained and supplemented with build-tree and installed-RPM version checks that execute the real riscv64 binary. Run 34119156883 reached the version assertion but captured no output because upstream suppresses its terminal logger for redirected stdin. Release 3 provides a pseudo-terminal via util-linux script for both version assertions and preserves child exit status with --return; features, debug information, and the budget are unchanged. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "vtm",
@@ -63,6 +63,6 @@
   "version": {
     "current": "2026.07.30",
     "latest_detected": "2026.07.30",
-    "release": "2"
+    "release": "3"
   }
 }
