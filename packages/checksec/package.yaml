@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "The official 3.2.0 tag archive is independently SHA-256 pinned. The package builds the current Go implementation with an explicit Go 1.25.0 toolchain request and read-only module resolution; upstream go.sum authenticates fetched modules. The legacy unmaintained shell implementation is not shipped.",
+    "notes": "The official 3.2.0 tag archive is independently SHA-256 pinned. The package builds the current pure-Go implementation with an explicit Go 1.25.0 toolchain request and read-only module resolution; upstream go.sum authenticates fetched modules. The legacy unmaintained shell implementation is not shipped.",
     "status": "active"
   },
   "package_id": "checksec",
@@ -95,6 +95,6 @@
   "version": {
     "current": "3.2.0",
     "latest_detected": "3.2.0",
-    "release": "2"
+    "release": "3"
   }
 }

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           checksec
 Version:        3.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Inspect ELF binaries for hardening features
 License:        BSD-3-Clause
 URL:            https://github.com/slimm609/checksec.sh
@@ -22,7 +22,7 @@ the legacy shell implementation retained in the source archive is not shipped.
 export CGO_ENABLED=0
 export GOTOOLCHAIN=go1.25.0+auto
 export GOFLAGS='-mod=readonly'
-go build -buildmode=pie -buildvcs=false -trimpath \
+go build -buildvcs=false -trimpath \
   -ldflags '-X main.version=%{version} -X main.commit=source -X main.date=reproducible' \
   -o checksec ./main.go
 
@@ -46,6 +46,9 @@ go test -count=1 ./...
 %{_mandir}/man1/checksec.1*
 
 %changelog
+* Sun Sep 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.0-3
+- Build the pure-Go executable without requesting an incompatible external-link PIE mode.
+
 * Sun Sep 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.2.0-2
 - Build the actual upstream Go implementation and run its complete Go test suite.
 
