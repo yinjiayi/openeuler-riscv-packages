@@ -52,7 +52,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package uses the distribution pybind11, nlohmann-json3, GTest, and Python development providers and runs the upstream executable test suite. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "pybind11-json",
@@ -87,6 +87,6 @@
   "version": {
     "current": "0.2.15",
     "latest_detected": "0.2.15",
-    "release": "1"
+    "release": "2"
   }
 }
