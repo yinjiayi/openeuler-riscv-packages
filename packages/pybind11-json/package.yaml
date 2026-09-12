@@ -52,7 +52,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package uses the distribution pybind11, nlohmann-json3, GTest, and Python development providers and runs the upstream executable test suite. Release 3 uses openEuler's out-of-source CMake configure macro so the configure, build, install, and test helpers share the same build directory. Release 4 marks the installed header-only CMake package as noarch while retaining the architecture-native upstream test build and execution. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package uses the distribution pybind11, nlohmann-json3, GTest, and Python development providers and runs the upstream executable test suite. Release 3 uses openEuler's out-of-source CMake configure macro so the configure, build, install, and test helpers share the same build directory. Release 4 marks the installed header-only CMake package as noarch; its target build produced RPM and SRPM artifacts and passed all 29 upstream tests, but installed consumer compilation exposed the missing Python development header dependency. Release 5 requires python3-devel for installed pybind11_json consumers. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "pybind11-json",
@@ -87,6 +87,6 @@
   "version": {
     "current": "0.2.15",
     "latest_detected": "0.2.15",
-    "release": "4"
+    "release": "5"
   }
 }

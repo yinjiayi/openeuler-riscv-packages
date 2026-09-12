@@ -28,6 +28,12 @@ the explicit `%check` executable path while leaving the upstream suite enabled.
 Release 4 marks the installed header-only CMake package as `noarch`. The build
 still compiles and executes the complete upstream test binary on the target
 architecture; only the installed headers and CMake metadata are architecture
-independent.
+independent. Target CI produced RPM and SRPM artifacts and passed all 29 upstream
+tests, but installed consumer compilation then failed because `Python.h` was not
+installed.
+
+Release 5 declares `python3-devel` as an installed dependency so consumers of
+the exported `pybind11_json` CMake target receive the Python development headers
+required by pybind11.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
