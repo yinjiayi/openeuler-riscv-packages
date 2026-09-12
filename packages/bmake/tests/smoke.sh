@@ -3,7 +3,8 @@
 set -euo pipefail
 
 rpm -q -- bmake mk-files
-test "$(bmake -r -f /dev/null -V .MAKE.VERSION)" = "20260714"
+expected_version=$(rpm -q --qf '%{VERSION}' bmake)
+test "$(bmake -r -f /dev/null -V .MAKE.VERSION)" = "$expected_version"
 test "$(bmake -r -f /dev/null -V .MAKE.OS)" = "Linux"
 test "$(bmake -f /dev/null -V .SYSPATH)" = "/usr/share/mk"
 test -r /usr/share/mk/sys.mk
