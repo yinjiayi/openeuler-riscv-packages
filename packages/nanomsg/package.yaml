@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "The official 1.2.4 tag resolves to immutable commit e6d0b8ddfc780eb89f8f6ef305e92c19e76bed6b. Frozen Arch, Debian, Fedora 44, openSUSE, and Ubuntu evidence corroborates the component at earlier stable versions; no external packaging recipe was read or executed. The target has no provider or consumer collision for the current libnanomsg.so.6 ABI, and all 43 CTests remain enabled.",
+    "notes": "The official 1.2.5 tag resolves to immutable commit 85856cb785ba6dd38c5e9757298a54d1bca55580. Frozen Arch, Debian, Fedora 44, openSUSE, and Ubuntu evidence corroborates the component at earlier stable versions; no external packaging recipe was read or executed. The target has no provider or consumer collision for the current libnanomsg.so.6 ABI, and the upstream CTest suite remains enabled.",
     "status": "active"
   },
   "package_id": "nanomsg",
@@ -95,6 +95,6 @@
   "version": {
     "current": "1.2.5",
     "latest_detected": "1.2.5",
-    "release": "1"
+    "release": "2"
   }
 }
