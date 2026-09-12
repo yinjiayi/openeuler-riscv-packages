@@ -11,4 +11,6 @@ Release 5 declares the official fmt 11.0.2, tomlplusplus 3.4.0 and GoogleTest 1.
 
 The MIT notices for fmt and tomlplusplus and BSD-3-Clause notice for GoogleTest are included as distinct license files. Source archives are checksum-pinned official tag snapshots, not signature-authenticated release attestations.
 
+Release 6 extracts each dependency with a separate `%setup -T -D -a` invocation: target CI showed that repeating `-a` through `%autosetup` extracted only the last archive. All dependency pinning, private-library settings and tests from Release 5 remain unchanged.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
