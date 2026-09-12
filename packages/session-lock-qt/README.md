@@ -12,4 +12,10 @@ accepted it. The revised hunk uses two unchanged lines on each side and passes
 GNU patch's zero-fuzz dry run against the pinned source archive. Target build
 and session-lock behavior still require fresh CI and runtime evidence.
 
+Release `6` adds the direct public `QGuiApplication` include used by
+`requestActivate()`. After the patch-format repair, compilation reached that
+method but Qt 6.5's private headers did not declare the application class
+transitively. This only makes the existing dependency explicit; activation
+behavior, the compositor test executable, and all build checks are retained.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

@@ -37,6 +37,15 @@
         "sha256": "d20e3edb434681f6c655a97070a30dfa7b8eec7e3ec191d59529e46d0ab83802",
         "source": "Downstream adaptation of the checksum-verified qt-session-lock 2.1.0 sources to the Qt 6.5 QWaylandShellSurface API.",
         "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0003-include-qguiapplication.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Include the public QGuiApplication declaration directly for requestActivate's focus-window query on Qt 6.5.",
+        "remove_when": "Upstream directly includes the QGuiApplication declaration in the session-lock surface translation unit.",
+        "sha256": "e494957810a5d2588bbf9bec861ee9903f2683dae7c65a48a7133a9bd88d0fdb",
+        "source": "Exact source and compiler failure in run 34686802262 at head 467609de2d3dc031db582a7d2b6caed06069c5b9.",
+        "upstream_status": "downstream-only"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -82,6 +91,6 @@
   "version": {
     "current": "2.1.0",
     "latest_detected": "2.1.0",
-    "release": "5"
+    "release": "6"
   }
 }

@@ -1,0 +1,21 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Sat, 12 Sep 2026 00:00:00 +0000
+Subject: [PATCH] include QGuiApplication for the focus-window query
+
+License: GPL-3.0-or-later
+Upstream-Status: downstream-only
+Origin: exact-source audit and run 34686802262 compiler evidence
+
+requestActivate() calls QGuiApplication::focusWindow(), but this translation
+unit does not include QGuiApplication. The Qt 6.5 private headers do not
+provide that declaration transitively. Include the public QtGui header
+directly; activation behavior and all Wayland functionality remain unchanged.
+
+Remove when upstream directly includes the QGuiApplication declaration.
+
+--- a/src/qwaylandextsessionlocksurface.cpp
++++ b/src/qwaylandextsessionlocksurface.cpp
+@@ -4,2 +4,3 @@
+
++#include <QtGui/QGuiApplication>
+ #include <QtWaylandClient/private/qwaylandinputdevice_p.h>
