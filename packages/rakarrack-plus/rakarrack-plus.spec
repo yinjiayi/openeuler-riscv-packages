@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           rakarrack-plus
 Version:        1.4.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Guitar Effects Processor
 License:        GPL-2.0-or-later
 URL:            https://github.com/Stazed/rakarrack-plus
@@ -45,18 +45,25 @@ Guitar Effects Processor
 
 %install
 %cmake_install
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+# RPM compresses manual pages after install; list that page in %%files below.
+find %{buildroot} \( -type f -o -type l \) \
+  ! -path '%{buildroot}%{_mandir}/man1/rakarrack-plus.1' \
+  -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
 ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 %files -f %{name}.files
+%{_mandir}/man1/rakarrack-plus.1*
 %license COPYING
 %doc README.md
 %doc AUTHORS
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.1-6
+- Match the manual page after RPM's post-install compression.
+
 * Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.4.1-5
 - Allow 120 minutes for the complete QEMU build and upstream test suite.
 
