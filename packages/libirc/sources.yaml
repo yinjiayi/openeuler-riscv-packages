@@ -1,0 +1,21 @@
+{
+  "package_id": "libirc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "584925f0eafd57293fa7af62cc3820e47e3889a60d00543b0969716b808d0a8b"
+      },
+      "filename": "libirc-0.2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/n0la/libirc/archive/refs/tags/0.2.2.tar.gz",
+      "version": "0.2.2"
+    }
+  ]
+}
