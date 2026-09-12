@@ -1,0 +1,21 @@
+{
+  "package_id": "libjuice",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "86e075ca4732882746b6d5733ff1b6090f942e5750df58630b191b5f00f30010"
+      },
+      "filename": "libjuice-1.7.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/paullouisageneau/libjuice/archive/refs/tags/v1.7.3.tar.gz",
+      "version": "1.7.3"
+    }
+  ]
+}
