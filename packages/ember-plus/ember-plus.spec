@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ember-plus
 Version:        1.8.2.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Ember+ control protocol - Slick and free for all!
 License:        BSL-1.0
 URL:            https://github.com/Lawo/ember-plus
@@ -46,6 +46,9 @@ done
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.8.2.2-4
+- Allow 120 minutes for both the aggregate build and all four upstream self-tests.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.8.2.2-3
 - Use the explicit out-of-source directory consumed by the RPM CMake macros.
 - Build and execute all four upstream libember self-test programs.
