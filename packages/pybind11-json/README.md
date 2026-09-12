@@ -21,4 +21,8 @@ option and directly executes `test_pybind11_json`; installed smoke independently
 consumes `find_package(pybind11_json)` and exercises a Python-dictionary to JSON
 conversion and back in a compiled C++17 program.
 
+Release 3 configures with openEuler's out-of-source `%cmake_conf` macro. This
+keeps the configure directory aligned with `%cmake_build`, `%cmake_install`, and
+the explicit `%check` executable path while leaving the upstream suite enabled.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
