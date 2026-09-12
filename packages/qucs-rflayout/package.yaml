@@ -37,6 +37,15 @@
         "sha256": "f50e56087765015141c2274adce936ef72f21c0a8551188e567fe660222120e4",
         "source": "Adapted from Catch2 commit 8f277a54c0b9c1d1024dedcb2dec1d206971e745 after exact-head run 34683905655 failed compiling the bundled Catch2 signal stack.",
         "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0003-cmake-link-unit-test-sources.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Define the production sources referenced by the upstream unit-test target and link Qt Core for its non-minimal schparser implementation.",
+        "remove_when": "Upstream defines QUCS-RF-LAYOUT_SRCS for the unit-test target or links that target to an equivalent production library.",
+        "sha256": "391005cfbb37987d115f418c27a7ce271cad4c7293e0bd08d243ab09151df934",
+        "source": "Downstream review of upstream 2.1.2 and exact-head run 34686777688, which compiled the tests but failed to link all production classes because QUCS-RF-LAYOUT_SRCS was undefined.",
+        "upstream_status": "downstream-only"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -47,7 +56,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 matches the archive's Qucs-RFlayout-2.1.2 source root, declares the fixed-repository Qt 6 and OpenGL development providers, explicitly configures the out-of-tree directory consumed by the openEuler CMake build/install macros, and runs upstream's check target so the excluded unit-test executable is built before CTest. Exact-head run 34125137726 then showed that the optional XeLaTeX probe failed but upstream still attached the generated diagrams to the GUI target. Release 4 conditions only that optional dependency on a usable XeLaTeX compiler; GUI, installation, normal documentation, installed smoke, and Catch tests remain enabled. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive is SHA-256 pinned. Releases 3 through 6 repaired the out-of-tree build, optional XeLaTeX dependency, install working directory, and bundled Catch2 runtime signal stack while retaining the GUI and complete check target. Exact-head run 34686777688 then proved the unit-test executable referenced an undefined production-source list and failed to link every tested class. Release 7 defines that non-GUI source list and links Qt Core for the normal non-minimal build; assertions, GUI features, installation, and smoke remain enabled. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
     "status": "active"
   },
   "package_id": "qucs-rflayout",
@@ -82,6 +91,6 @@
   "version": {
     "current": "2.1.2",
     "latest_detected": "2.1.2",
-    "release": "6"
+    "release": "7"
   }
 }

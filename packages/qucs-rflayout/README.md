@@ -26,4 +26,11 @@ allocates the alternate stack once with owned storage and retains fatal-signal
 reporting. The complete `check` target remains enabled; the prior run completed
 installation but could not compile its unit-test executable.
 
+Release `7` repairs the next upstream test-target failure. The CMake unit-test
+executable references `QUCS-RF-LAYOUT_SRCS`, but upstream never defines that
+list, so the tests compiled and then failed to link every production class they
+exercise. The downstream patch supplies the non-GUI production source list and
+links Qt Core when the normal GUI product is enabled. It does not remove tests,
+change their assertions, or switch the packaged application to minimal mode.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

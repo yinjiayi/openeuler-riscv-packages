@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           qucs-rflayout
 Version:        2.1.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Export Qucs RF schematics to KiCad layouts & OpenEMS scripts
 License:        GPL-3.0-or-later
 URL:            https://github.com/thomaslepoix/Qucs-RFlayout
 Source0:        qucs-rflayout-2.1.2.tar.gz
 Patch0:         0001-cmake-guard-optional-latex-docs.patch
 Patch1:         0002-catch2-runtime-signal-stack.patch
+Patch2:         0003-cmake-link-unit-test-sources.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -43,6 +44,10 @@ test -s %{name}.files
 %doc CHANGELOG
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.2-7
+- Link the upstream unit-test target to the production sources it exercises.
+- Preserve the complete GUI build and Catch test suite.
+
 * Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.2-6
 - Allocate the bundled Catch2 signal stack at runtime for modern glibc.
 - Preserve POSIX fatal-signal reporting and the complete unit-test target.
