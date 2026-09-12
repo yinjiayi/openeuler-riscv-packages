@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           timepad
 Version:        0.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A minimal Timer App for Linux that has a picture-in-picture mode
 License:        MIT
 URL:            https://github.com/agokule/timepad
@@ -51,7 +51,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/timepad.desktop
 install -Dpm0644 assets/icon.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/timepad.png
 install -d %{buildroot}%{_datadir}/timepad
 cp -a assets/fonts assets/sound %{buildroot}%{_datadir}/timepad/
-find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+find %{buildroot} \( -type f -o -type l \) -printf '"/%%P"\n' | LC_ALL=C sort > %{name}.files
 test -s %{name}.files
 
 %check
@@ -63,6 +63,9 @@ test -x %{_vpath_builddir}/Timepad
 %doc README.md
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.0-4
+- Quote generated file-list entries to preserve font filenames containing spaces.
+
 * Tue Sep 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.1.0-3
 - Allow the complete SDL and Timepad build to finish under QEMU.
 

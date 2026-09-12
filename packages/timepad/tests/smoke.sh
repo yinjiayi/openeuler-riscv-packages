@@ -8,6 +8,8 @@ grep -Fxq 'Exec=Timepad' /usr/share/applications/timepad.desktop
 grep -Fxq 'Icon=timepad' /usr/share/applications/timepad.desktop
 test -f /usr/share/icons/hicolor/256x256/apps/timepad.png
 test -f '/usr/share/timepad/fonts/Roboto-Regular.ttf'
+test -f '/usr/share/timepad/fonts/Font Awesome 7 Free-Regular-400.otf'
+test -f '/usr/share/timepad/fonts/Font Awesome 7 Free-Solid-900.otf'
 test -f '/usr/share/timepad/sound/freesound_community-kitchen-timer-87485.mp3'
 if ldd /usr/bin/Timepad | grep -F 'not found'; then
   exit 1
