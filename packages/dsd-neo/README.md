@@ -10,3 +10,7 @@ crypto calls the bit-packing utility, while the utility was compiled only into
 core, which itself depends on crypto. The downstream CMake patch assigns that
 utility to crypto; core retains access through its existing public dependency.
 The full upstream CTest suite remains enabled.
+
+Release 5 also undefines four ncurses window-accessor macros inside the
+printer-helper test so its existing deterministic function stubs compile.
+The test assertions and production UI behavior are unchanged.

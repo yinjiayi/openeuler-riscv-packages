@@ -1,0 +1,28 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] tests: undef ncurses accessors before defining test stubs
+
+ncurses may define the window dimension and cursor accessors as function-like
+macros. Those macros expand the printer-helper test's function definitions
+into expressions, causing syntax errors on openEuler. Undefine only these
+four accessors after the headers so this translation unit uses its existing
+deterministic stubs. Keep all test assertions and other curses wrappers.
+
+SPDX-License-Identifier: GPL-3.0-or-later
+Upstream-Status: Pending
+
+diff --git a/tests/ui/test_ui_ncurses_printer_helpers.c b/tests/ui/test_ui_ncurses_printer_helpers.c
+--- a/tests/ui/test_ui_ncurses_printer_helpers.c
++++ b/tests/ui/test_ui_ncurses_printer_helpers.c
+@@ -37,6 +37,12 @@
+ #include "dsd-neo/core/dsd_time.h"
+ #include "dsd-neo/platform/platform.h"
+ 
++/* Use the deterministic accessor stubs below, not ncurses header macros. */
++#undef getmaxx
++#undef getmaxy
++#undef getcurx
++#undef getcury
++
+ int ncurses_last_synctype;
+ WINDOW* stdscr;
+ 

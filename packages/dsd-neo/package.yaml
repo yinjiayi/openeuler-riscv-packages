@@ -28,6 +28,15 @@
         "license": "GPL-3.0-or-later",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream links the bit-packing implementation into the crypto library or an acyclic shared dependency."
+      },
+      {
+        "file": "patches/0002-undef-curses-test-accessor-macros.patch",
+        "sha256": "55029f02d1b38b41a4dae8364eb5dc72e88e95c2e9cbaf67cc026e56507043bb",
+        "purpose": "Prevent ncurses accessor macros from expanding the printer-helper test's existing function stubs, retaining all assertions.",
+        "source": "Downstream fix for exact-head CI run 34682595997, verified against official v2.5.1 source.",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream undefines the accessor macros before its printer-helper test stubs or otherwise preserves those stubs on ncurses."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -73,6 +82,6 @@
   "version": {
     "current": "2.5.1",
     "latest_detected": "2.5.1",
-    "release": "4"
+    "release": "5"
   }
 }
