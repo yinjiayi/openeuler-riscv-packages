@@ -43,7 +43,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-port-to-mxml-4.patch",
+        "sha256": "0694ff696abfef20bdfd67022d1301a42c9eae237303b2925f3b6177977159c2",
+        "purpose": "Port the upstream Mini-XML 3 callback API to the parallel-installable Mini-XML 4 provider while preserving both parsing modes and the complete test suite.",
+        "source": "Downstream review of libomemo 0.8.1 and the immutable project Mini-XML 4 provider",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "An upstream libomemo release supports Mini-XML 4 or the target repositories provide a maintained Mini-XML 3 compatibility provider."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "libomemo.spec"
@@ -52,7 +62,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 declares all five pkg-config providers, keeps all three upstream CMocka executables enabled, uses the openEuler out-of-tree CMake macro, and ports the private implementation from Mini-XML 3 callbacks to the parallel-installable Mini-XML 4 API available in the immutable project repository. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head CI evidence.",
     "status": "active"
   },
   "package_id": "libomemo",
@@ -87,6 +97,6 @@
   "version": {
     "current": "0.8.1",
     "latest_detected": "0.8.1",
-    "release": "1"
+    "release": "2"
   }
 }
