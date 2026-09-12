@@ -1,0 +1,21 @@
+{
+  "package_id": "termbox2",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1d7a9811060e3673be417019007acbf4e2575734b6f95baaf6e8aed27f06c65a"
+      },
+      "filename": "termbox2-2.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/termbox/termbox2/archive/refs/tags/v2.5.0.tar.gz",
+      "version": "2.5.0"
+    }
+  ]
+}
