@@ -5,4 +5,4 @@ rpm -q -- checksec
 installed_version=$(rpm -q --qf '%{VERSION}' checksec)
 checksec --version | grep -F "${installed_version}"
 checksec --no-banner --output json file /usr/bin/bash | \
-  jq -e 'type == "array" and length == 1 and (.[0].checks | type == "object")'
+  python3 -c 'import json, sys; result = json.load(sys.stdin); assert isinstance(result, list) and len(result) == 1 and isinstance(result[0].get("checks"), dict)'
