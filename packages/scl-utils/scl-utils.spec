@@ -1,14 +1,16 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           scl-utils
 Version:        2.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Utilities for alternative packaging
 License:        GPL-2.0-or-later
 URL:            https://github.com/sclorg/scl-utils
 Source0:        scl-utils-2.0.3.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
+BuildRequires:  libcmocka-devel
 BuildRequires:  make
+BuildRequires:  rpm-devel
 
 %description
 Utilities for alternative packaging
@@ -17,7 +19,7 @@ Utilities for alternative packaging
 %autosetup -p1
 
 %build
-%cmake -DBUILD_TESTING=ON
+%cmake_conf
 %cmake_build
 
 %install
@@ -33,5 +35,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.3-2
+- Configure in the out-of-tree directory expected by the openEuler CMake macros.
+- Declare the RPM and CMocka development dependencies used by the program and tests.
+- Run the two upstream CTest executables and an installed-command smoke check.
+
 * Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.3-1
 - Initial openEuler RISC-V package from the full package inventory.
