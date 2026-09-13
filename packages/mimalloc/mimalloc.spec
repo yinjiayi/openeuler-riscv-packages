@@ -67,5 +67,9 @@ DESTDIR=%{buildroot} %{__cmake} --install .
 %{_libdir}/libmimalloc.a
 
 %changelog
+* Sun Sep 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.5.2-1
+- Update to the latest stable upstream release.
+- Verify the exact installed header and runtime version with a public API smoke test.
+
 * Thu Aug 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.4.5-1
 - Initial openEuler RISC-V package.
