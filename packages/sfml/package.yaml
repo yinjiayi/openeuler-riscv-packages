@@ -1,0 +1,93 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 240,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/sfml2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sfml2",
+        "package_name": "sfml2",
+        "source": "aur",
+        "source_version": "2.6.2-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/libsfml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libsfml",
+        "package_name": "libsfml",
+        "source": "debian",
+        "source_version": "2.6.2+dfsg-2"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/SFML/SFML/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "SFML",
+        "package_name": "SFML",
+        "source": "fedora",
+        "source_version": "2.6.2-10.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/sfml2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sfml2",
+        "package_name": "sfml2",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.6.1-2.10"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "SFML.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "SFML 2.6.2 is the latest official stable 2.x tag and is retained as the compatibility provider while upstream distributions move to SFML 3. The official tag archive is SHA-256 pinned and archive-audited. All five modules and the complete upstream test suite remain enabled; system dependencies are used where upstream supports them. AUR remained read-only metadata and no external packaging recipe was executed.",
+    "status": "active"
+  },
+  "package_id": "sfml",
+  "rpm": {
+    "license": "Zlib AND Apache-2.0 AND CC0-1.0 AND MIT AND (MIT AND Apache-2.0) AND (MIT OR Unlicense) AND LicenseRef-Public-Domain",
+    "name": "SFML",
+    "summary": "Simple and Fast Multimedia Library 2.x compatibility stack"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags-2.x"
+  },
+  "upstream": {
+    "component": "sfml-dev.org",
+    "homepage": "https://www.sfml-dev.org/",
+    "release_api": "https://github.com/SFML/SFML/tags.atom",
+    "release_channel": "stable",
+    "release_regex": "releases/tag/(?P<version>2\\.[0-9]+(?:\\.[0-9]+)?)",
+    "source_repository": "https://github.com/SFML/SFML",
+    "source_url_template": "https://github.com/SFML/SFML/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.6.2",
+    "latest_detected": "2.6.2",
+    "release": "1"
+  }
+}
