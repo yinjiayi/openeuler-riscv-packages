@@ -1,0 +1,37 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 7 Sep 2026 00:00:00 +0000
+Subject: [PATCH] contour: load private Wayland target from public component
+
+License: Apache-2.0
+Upstream-Status: downstream-only
+Origin: openEuler RISC-V packaging
+
+Qt 6.5's Wayland development package exports both Qt6::WaylandClient and
+Qt6::WaylandClientPrivate from Qt6WaylandClientConfig.cmake.  It does not ship
+a separate Qt6WaylandClientPrivateConfig.cmake, so asking Qt's component
+loader for WaylandClientPrivate makes an otherwise complete package fail.
+
+Load the public WaylandClient component, which imports both targets, and keep
+linking the private target exactly as before.  The protocol generator and all
+Wayland functionality remain enabled.
+
+Remove this patch when upstream no longer requests WaylandClientPrivate as a
+separate Qt component, or when the target distribution provides its separate
+component configuration.
+
+---
+ src/contour/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/contour/CMakeLists.txt b/src/contour/CMakeLists.txt
+--- a/src/contour/CMakeLists.txt
++++ b/src/contour/CMakeLists.txt
+@@ -210,7 +210,7 @@ if(CONTOUR_FRONTEND_GUI)
+     endif()
+ 
+     if(LINUX AND CONTOUR_WAYLAND)
+-        find_package(Qt6 COMPONENTS WaylandClient WaylandClientPrivate)
++        find_package(Qt6 COMPONENTS WaylandClient REQUIRED)
+         target_compile_definitions(contour PRIVATE CONTOUR_WAYLAND)
+         target_link_libraries(contour PRIVATE Qt6::WaylandClient Qt6::WaylandClientPrivate)
+         qt6_generate_wayland_protocol_client_sources(contour FILES "${CMAKE_CURRENT_SOURCE_DIR}/protocols/blur.xml")
