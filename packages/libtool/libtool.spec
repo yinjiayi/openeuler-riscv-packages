@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libtool
 Version:        2.6.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Generic library support scripts
 License:        GPL-2.0-or-later AND GPL-2.0-or-later WITH Autoconf-exception-generic AND GPL-2.0-or-later WITH Libtool-exception AND LGPL-2.0-or-later WITH Libtool-exception AND GPL-3.0-or-later WITH Autoconf-exception-generic-3.0 AND MIT AND FSFAP AND FSFULLR AND FSFULLRWD AND GFDL-1.3-or-later AND X11
 URL:            https://www.gnu.org/software/libtool/
@@ -57,7 +57,7 @@ rm -f %{buildroot}%{_infodir}/dir
 rm -f %{buildroot}%{_libdir}/libltdl.a %{buildroot}%{_libdir}/libltdl.la
 
 %check
-%make_build check VERBOSE=yes
+%make_build check TESTSUITEFLAGS='--jobs=2' VERBOSE=yes
 
 %files
 %license COPYING
@@ -85,5 +85,8 @@ rm -f %{buildroot}%{_libdir}/libltdl.a %{buildroot}%{_libdir}/libltdl.la
 %exclude %{_datadir}/libtool/build-aux
 
 %changelog
+* Sun Sep 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.6.2-2
+- Run the complete upstream Autotest suite with two supported workers.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.6.2-1
 - Initial openEuler RISC-V package from frozen cross-distribution and upstream evidence.

@@ -11,10 +11,11 @@ Debian `2.5.4-4`, Fedora 44 GA `2.5.4-10.fc44`, openSUSE Tumbleweed
 only; no PKGBUILD or distribution spec was read or executed.
 
 The full upstream Autotest suite is a hard gate with C, C++, and Fortran
-compilers installed. Static libltdl is built because the suite needs it and is
-removed only after testing during package installation. Installed smoke uses
-the shipped Libtool driver to compile, link, and execute a real shared library,
-and calls the public libltdl API.
+compilers installed. Its native `--jobs=2` mode runs all test groups with the
+same two-way parallelism as the RPM build. Static libltdl is built because the
+suite needs it and is removed only after testing during package installation.
+Installed smoke uses the shipped Libtool driver to compile, link, and execute a
+real shared library, and calls the public libltdl API.
 
 External source licenses remain upstream's. Apache-2.0 covers only this
 repository's original packaging metadata, scripts, tests, and documentation.
