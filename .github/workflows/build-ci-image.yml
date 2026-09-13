@@ -50,7 +50,7 @@ jobs:
   build-publish:
     name: build-and-verify-rva23-image
     runs-on: ubuntu-24.04
-    timeout-minutes: 180
+    timeout-minutes: 300
     permissions:
       contents: read
       packages: write
@@ -111,7 +111,8 @@ jobs:
             --metadata-file artifacts/image/buildx-metadata.json .
       - name: Run M0 target and RVA23 probes
         run: |
-          docker run --rm --platform linux/riscv64 --memory 1g --cpus 2 --pids-limit 256 \
+          docker run --rm --platform linux/riscv64 --network none \
+            --memory 1g --cpus 2 --pids-limit 256 \
             openeuler-riscv64-rpmbuild:m0 /usr/local/bin/verify-target \
             | tee artifacts/image/target-self-test.log
           container=$(docker create --platform linux/riscv64 openeuler-riscv64-rpmbuild:m0)

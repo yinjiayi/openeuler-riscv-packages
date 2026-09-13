@@ -501,13 +501,69 @@ class RpmBaselineImageContractTests(unittest.TestCase):
         cleanup = bootstrap.index('rm -rf -- "$rootfs/var/cache/dnf"')
         self.assertLess(preserved, cleanup)
 
-    def test_target_finalization_runs_before_exact_target_verification(self) -> None:
+    def test_target_finalization_precedes_target_dnf_cache_and_verification(self) -> None:
         containerfile = CONTAINERFILE.read_text(encoding="utf-8")
         finalizer = containerfile.index("finalize-target-rpmdb.sh")
         execution = containerfile.index("&& /usr/local/libexec/openeuler-riscv-ci/finalize-target-rpmdb.sh")
-        verification = containerfile.index("&& /usr/local/bin/verify-target", execution)
+        target_arch = containerfile.index('&& test "$(uname -m)" = riscv64', execution)
+        cache_cleanup = containerfile.index("&& find /var/cache/dnf -mindepth 1 -delete", target_arch)
+        hydration = containerfile.index(
+            "&& /usr/local/libexec/openeuler-riscv-ci/run-dnf-transaction",
+            cache_cleanup,
+        )
+        verification = containerfile.index("&& /usr/local/bin/verify-target", hydration)
         self.assertLess(finalizer, execution)
-        self.assertLess(execution, verification)
+        self.assertLess(execution, target_arch)
+        self.assertLess(target_arch, cache_cleanup)
+        self.assertLess(cache_cleanup, hydration)
+        self.assertLess(hydration, verification)
+        for marker in (
+            "--evidence /usr/share/openeuler-riscv-ci/official-dnf-cache-transaction.json",
+            "--budget-seconds 7300",
+            "--attempt-timeouts-seconds 4200,3000",
+            "--retry-delay-seconds 5",
+            "--kill-after-seconds 30",
+            "-- dnf -y --disablerepo='*' --enablerepo=openeuler-rva23 makecache",
+            "test -z \"$(find /var/cache/dnf -type f -name '*.rpm' -print -quit)\"",
+        ):
+            self.assertIn(marker, containerfile[hydration:verification])
+        self.assertIn(
+            "COPY --from=bootstrap /bootstrap/run-dnf-transaction "
+            "/usr/local/libexec/openeuler-riscv-ci/run-dnf-transaction",
+            containerfile,
+        )
+
+    def test_target_verification_requires_networkless_official_cache_load(self) -> None:
+        verify = VERIFY.read_text(encoding="utf-8")
+        repository = BOOTSTRAP_REPOSITORY.read_text(encoding="utf-8")
+        for marker in (
+            "official_dnf_cache=/var/cache/dnf",
+            "official-dnf-cache-transaction.json",
+            'evidence.get("status") != "passed"',
+            'evidence.get("command") != expected_command',
+            "dnf --cacheonly --quiet --disablerepo='*' --enablerepo=openeuler-rva23",
+            "list bash >/dev/null",
+            "target DNF cache unexpectedly contains RPM payloads",
+        ):
+            self.assertIn(marker, verify)
+        for marker in (
+            "gpgcheck=1",
+            "repo_gpgcheck=0",
+            "metadata_expire=never",
+            "skip_if_unavailable=0",
+        ):
+            self.assertIn(marker, repository)
+            self.assertIn(marker, verify)
+
+        workflow = IMAGE_WORKFLOW.read_text(encoding="utf-8")
+        build_job = workflow.index("  build-publish:")
+        probe = workflow.index("- name: Run M0 target and RVA23 probes")
+        verification = workflow.index(
+            "openeuler-riscv64-rpmbuild:m0 /usr/local/bin/verify-target",
+            probe,
+        )
+        self.assertIn("timeout-minutes: 300", workflow[build_job:probe])
+        self.assertIn("--network none", workflow[probe:verification])
 
     def test_image_workflow_tracks_and_hashes_all_bootstrap_helpers(self) -> None:
         workflow = IMAGE_WORKFLOW.read_text(encoding="utf-8")
@@ -519,6 +575,10 @@ class RpmBaselineImageContractTests(unittest.TestCase):
         self.assertIn("artifacts/image/rpm-manifest-live.tsv", workflow)
         self.assertIn(
             "cmp -s artifacts/image/rpm-manifest.tsv artifacts/image/rpm-manifest-live.tsv",
+            workflow,
+        )
+        self.assertIn(
+            "docker run --rm --platform linux/riscv64 --network none",
             workflow,
         )
 
