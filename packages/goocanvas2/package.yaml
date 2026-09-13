@@ -1,0 +1,110 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://gitlab.gnome.org/GNOME/goocanvas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "goocanvas2",
+        "package_name": "goocanvas2",
+        "source": "aur",
+        "source_version": "2.0.4-11"
+      },
+      {
+        "evidence_url": "https://gitlab.gnome.org/GNOME/goocanvas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "goocanvas-2.0",
+        "package_name": "goocanvas-2.0",
+        "source": "debian",
+        "source_version": "2.0.4-1.1"
+      },
+      {
+        "evidence_url": "https://gitlab.gnome.org/GNOME/goocanvas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "goocanvas2",
+        "package_name": "goocanvas2",
+        "source": "fedora",
+        "source_version": "2.0.4-22.fc44"
+      },
+      {
+        "evidence_url": "https://gitlab.gnome.org/GNOME/goocanvas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "goocanvas2",
+        "package_name": "goocanvas2",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.0.4-5.5"
+      },
+      {
+        "evidence_url": "https://gitlab.gnome.org/GNOME/goocanvas",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "goocanvas-2.0",
+        "package_name": "goocanvas-2.0",
+        "source": "ubuntu",
+        "source_version": "2.0.4-1.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-fix-gcc14-incompatible-pointer-assignment.patch",
+        "license": "LGPL-2.0-only",
+        "purpose": "Apply Fedora's type-safe pointer cast so GooCanvas 2.0.4 builds with GCC 14 without changing its model ownership or runtime behavior.",
+        "remove_when": "Upstream releases an equivalent GCC 14 compatibility fix or this package moves to a release containing one.",
+        "sha256": "44c979167049cf1c9840eff1ebe607c23c42a1cf6783b441a0972e8675a98ed5",
+        "source": "Fedora goocanvas2 dist-git commit 0285935dc7c3b4b39ddd1d5789b3e5ebabd973d7 (Adapt to GCC 14).",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "goocanvas2.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected as the 2.x compatibility ABI from the full discovery inventory: AUR, Fedora, and openSUSE name it goocanvas2, while Debian and Ubuntu name the same 2.0.4 source goocanvas-2.0. The exact official GNOME archive was independently downloaded, matched the checksum published beside the release, safety-inspected, and confirmed to contain the generated Autotools build, LGPL-2.0 license text, pkg-config metadata, GObject introspection support, and Python override. The build enables the complete 2.x C, introspection, and Python interfaces. Upstream registers no functional automated test suite when gtk-doc generation is disabled, so %check retains the upstream check target and adds a compiled public-ABI type-registration probe. The first target run resolved every direct BuildRequires but the network-limited installation of the 139-package GTK dependency closure reached only package 118 before the 60-minute package deadline; Release 2 allows 120 minutes without weakening the build or test contract. Release 3 imports Fedora dist-git commit 0285935dc7c3b4b39ddd1d5789b3e5ebabd973d7's one-line GCC 14 pointer-type compatibility patch after exact target CI reproduced the same failure. Exact-head run 34124796531 then completed the build and checks but reported all 52 installed gtk-doc files as unpackaged; Release 4 keeps that generated API documentation and assigns its complete directory to the development package.",
+    "status": "active"
+  },
+  "package_id": "goocanvas2",
+  "rpm": {
+    "license": "LGPL-2.0-only",
+    "name": "goocanvas2",
+    "summary": "Cairo canvas widget library for GTK 3"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gitlab.gnome.org-gnome-goocanvas-2",
+    "homepage": "https://gitlab.gnome.org/GNOME/goocanvas",
+    "release_api": "https://download.gnome.org/sources/goocanvas/2.0/",
+    "release_channel": "stable",
+    "release_regex": "goocanvas-(?P<version>2\\.0\\.[0-9]+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.gnome.org/GNOME/goocanvas",
+    "source_url_template": "https://download.gnome.org/sources/goocanvas/2.0/goocanvas-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.0.4",
+    "latest_detected": "2.0.4",
+    "release": "4"
+  }
+}
