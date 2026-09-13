@@ -1,0 +1,21 @@
+{
+  "package_id": "libunarr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fa0ebf6d9b420d34171b1b6100949edce708c7933e7cfd2cedd03eae998d1c53"
+      },
+      "filename": "libunarr-1.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/selmf/unarr/archive/refs/tags/v1.1.1.tar.gz",
+      "version": "1.1.1"
+    }
+  ]
+}
