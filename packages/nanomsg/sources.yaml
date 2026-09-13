@@ -1,16 +1,21 @@
 {
-  "schema_version": 1,
   "package_id": "nanomsg",
+  "schema_version": 1,
   "sources": [
     {
+      "digests": {
+        "sha256": "fd8f3695484c88f45eac83b7c866e5826e894e102b0d4974be08cb47e18d2ab9"
+      },
+      "filename": "1.2.5.tar.gz",
       "id": "source0",
       "kind": "upstream-release",
-      "url": "https://codeload.github.com/nanomsg/nanomsg/tar.gz/e6d0b8ddfc780eb89f8f6ef305e92c19e76bed6b",
-      "filename": "nanomsg-1.2.4.tar.gz",
-      "version": "1.2.4",
-      "digests": {"sha256": "cad98db63a13072e3aab4f15d2ed0ccb080b11b926fd1a4c777ca9c8f85efd23"},
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution and modification are permitted by the upstream MIT license."
+      },
       "signature": null,
-      "redistribution": {"allowed": true, "reason": "Redistribution and modification are permitted by the upstream MIT license."}
+      "url": "https://github.com/nanomsg/nanomsg/archive/refs/tags/1.2.5.tar.gz",
+      "version": "1.2.5"
     }
   ]
 }
