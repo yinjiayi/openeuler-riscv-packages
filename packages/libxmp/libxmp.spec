@@ -2,12 +2,12 @@
 %global abi 4
 
 Name:           libxmp
-Version:        4.7.2
+Version:        4.7.3
 Release:        1%{?dist}
 Summary:        Multi-format module playback library
 License:        0BSD AND BSD-3-Clause AND ISC AND MIT AND LicenseRef-Fedora-Public-Domain
 URL:            https://xmp.sourceforge.net/
-Source0:        libxmp-%{version}.tar.gz
+Source0:        libxmp-4.7.3.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make

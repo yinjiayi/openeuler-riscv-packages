@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/any/nlohmann-json/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nlohmann-json",
+        "package_name": "nlohmann-json",
+        "source": "arch-extra",
+        "source_version": "3.12.0-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/mingw-w64-nlohmann-json",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-nlohmann-json",
+        "package_name": "mingw-w64-nlohmann-json",
+        "source": "aur",
+        "source_version": "3.12.0-4"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/nlohmann-json3",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nlohmann-json3",
+        "package_name": "nlohmann-json3",
+        "source": "debian",
+        "source_version": "3.11.3-2.1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/json/json/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "json",
+        "package_name": "json",
+        "source": "fedora",
+        "source_version": "3.12.0-2.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/nlohmann_json",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nlohmann_json",
+        "package_name": "nlohmann_json",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.12.0-2.4"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/nlohmann-json3",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "nlohmann-json3",
+        "package_name": "nlohmann-json3",
+        "source": "ubuntu",
+        "source_version": "3.12.0.really.3.12.0.really.3.11.3-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "nlohmann-json3.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full inventory to supply the absent nlohmann-json3 capability and compatible json/nlohmann development names. The official minimal 3.12.0 release asset is SHA-256 pinned and its detached-signature issuer is recorded for advisory evidence. It contains the complete multi-header tree, CMake metadata, pkg-config metadata, and license without external test dependencies. AUR remained read-only metadata; no distribution recipe was executed.",
+    "status": "active"
+  },
+  "package_id": "nlohmann-json3",
+  "rpm": {
+    "license": "MIT AND CC0-1.0",
+    "name": "nlohmann-json3",
+    "summary": "Header-only JSON library for modern C++"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "github.com-nlohmann-json",
+    "homepage": "https://json.nlohmann.me/",
+    "release_api": "https://api.github.com/repos/nlohmann/json/releases/latest",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/nlohmann/json",
+    "source_url_template": "https://github.com/nlohmann/json/releases/download/v{version}/json.tar.xz"
+  },
+  "version": {
+    "current": "3.12.0",
+    "latest_detected": "3.12.0",
+    "release": "1"
+  }
+}
