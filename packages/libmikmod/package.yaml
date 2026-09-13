@@ -65,8 +65,10 @@
     "spec": "libmikmod.spec"
   },
   "maintenance": {
-    "maintainers": ["yinjiayi"],
-    "notes": "Official libmikmod 3.3.13 SourceForge release bytes are SHA-256 pinned. The upstream check target remains enabled, and the public API smoke adds installed-artifact coverage. libmikmod.so.3 preserves the target ABI major. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official libmikmod 3.3.14 SourceForge release bytes are SHA-256 pinned. The upstream check target remains enabled, and the public API smoke adds installed-artifact coverage. libmikmod.so.3 preserves the target ABI major. AUR was read-only RPC metadata only; no external packaging content was executed.",
     "status": "active"
   },
   "package_id": "libmikmod",
@@ -85,7 +87,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-09-11T20:56:09Z",
     "last_successful_check_at": null,
     "release_provider": "official-sourceforge-files"
   },
@@ -99,8 +101,8 @@
     "source_url_template": "https://downloads.sourceforge.net/project/mikmod/libmikmod/{version}/libmikmod-{version}.tar.gz"
   },
   "version": {
-    "current": "3.3.13",
-    "latest_detected": "3.3.13",
+    "current": "3.3.14",
+    "latest_detected": "3.3.14",
     "release": "1"
   }
 }

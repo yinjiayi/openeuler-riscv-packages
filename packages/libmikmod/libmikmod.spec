@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libmikmod
-Version:        3.3.13
+Version:        3.3.14
 Release:        1%{?dist}
 Summary:        Library for playing tracker module music files
 License:        GPL-2.0-only AND LicenseRef-Callaway-LGPLv2+
 URL:            https://mikmod.sourceforge.net/
-Source0:        libmikmod-%{version}.tar.gz
+Source0:        libmikmod-3.3.14.tar.gz
 
 BuildRequires:  alsa-lib-devel
 BuildRequires:  autoconf
