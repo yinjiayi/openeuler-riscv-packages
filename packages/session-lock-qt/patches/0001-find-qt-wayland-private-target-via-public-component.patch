@@ -1,0 +1,34 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 7 Sep 2026 00:00:00 +0000
+Subject: [PATCH] session-lock-qt: load private target from public component
+
+License: Apache-2.0
+Upstream-Status: downstream-only
+Origin: openEuler RISC-V packaging
+
+openEuler Qt 6.5 exports Qt6::WaylandClientPrivate from the public
+Qt6WaylandClientConfig.cmake file. It does not ship a separate
+Qt6WaylandClientPrivateConfig.cmake, so requesting WaylandClientPrivate as a
+component fails before the exported private target can be used.
+
+Load the public WaylandClient component, which imports both targets, while
+continuing to link Qt6::WaylandClientPrivate. This retains all Wayland
+session-lock functionality and private API use.
+
+Remove this patch when upstream no longer requests WaylandClientPrivate as a
+separate component, or when the target distribution provides a separate
+Qt6WaylandClientPrivateConfig.cmake.
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -30,4 +30,4 @@
+ find_package(Qt6 REQUIRED COMPONENTS Core Gui WaylandClient
+-             WaylandClientPrivate Qml Quick)
++             Qml Quick)
+ find_package(Qt6WaylandScannerTools REQUIRED)
+ find_package(WaylandScanner REQUIRED)
