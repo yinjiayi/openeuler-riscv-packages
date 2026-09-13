@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/allegro/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "allegro",
+        "package_name": "allegro",
+        "source": "arch-extra",
+        "source_version": "5.2.11.3-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/allegro5",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "allegro5",
+        "package_name": "allegro5",
+        "source": "debian",
+        "source_version": "2:5.2.10.1+dfsg-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/allegro5/allegro5/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "allegro5",
+        "package_name": "allegro5",
+        "source": "fedora",
+        "source_version": "5.2.11.3-1.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/allegro",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "allegro",
+        "package_name": "allegro",
+        "source": "opensuse-tumbleweed",
+        "source_version": "5.2.11.3-1.6"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-use-configured-install-libdir-in-pkgconfig.patch",
+        "license": "Zlib",
+        "purpose": "Make pkg-config linker paths follow GNUInstallDirs on the riscv64 lib64 target.",
+        "remove_when": "Upstream generates pkg-config libdir from CMAKE_INSTALL_LIBDIR.",
+        "sha256": "ecc34f0adaa07ee802df87520075eadec58e7fefbe8ced0d24c286b5a315952f",
+        "source": "openEuler RISC-V package review",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "allegro.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The frozen four-distribution Allegro 5 lineage was resolved to the official 5.2.11.3 GitHub release asset and independently SHA-256 verified. External distribution recipes were not executed. Fixed openEuler repository metadata proves the complete declared build dependency set; optional FreeImage, DUMB, OpenMPT, and minimp3 codec paths are disabled because that repository exposes no corresponding development provider. Core plus audio, image, font, TTF, color, memfile, PhysicsFS, primitives, native-dialog, and video add-ons remain enabled.",
+    "status": "active"
+  },
+  "package_id": "allegro",
+  "rpm": {
+    "license": "Zlib AND BSD-3-Clause AND OFL-1.1 AND LicenseRef-Custom",
+    "name": "allegro",
+    "summary": "Cross-platform game programming library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "liballeg.org",
+    "homepage": "https://liballeg.org/",
+    "release_api": "https://api.github.com/repos/liballeg/allegro5/releases?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>5\\.2\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/liballeg/allegro5",
+    "source_url_template": "https://github.com/liballeg/allegro5/releases/download/{version}/allegro-{version}.tar.gz"
+  },
+  "version": {
+    "current": "5.2.11.3",
+    "latest_detected": "5.2.11.3",
+    "release": "1"
+  }
+}
