@@ -1,0 +1,61 @@
+From: zlib-ng contributors
+Date: Mon, 16 Feb 2026 16:34:55 +0000
+Subject: [PATCH] Fix building on RISC-V without RVV
+
+License: Zlib
+Upstream-Status: Backport [https://github.com/zlib-ng/zlib-ng/commit/9f396c3d09d65dc59cce607d52f67f03b266c2de]
+Origin: https://github.com/zlib-ng/zlib-ng/pull/2152
+
+RISC-V Zbc needs cpu_features.riscv and the architecture function
+declarations even when RVV is disabled.  Wire the common RISC-V feature
+headers and runtime detector whenever either optimization is requested,
+while keeping the implementation-specific compile flags conditional on
+the corresponding compiler probes.
+
+This is the upstream stable bug fix, merged after the 2.3.3 release.  The
+upstream PR reports a successful Fedora riscv64 RPM build of zlib-ng 2.3.3
+with this patch.
+
+---
+ CMakeLists.txt | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b82202f..6f21f02 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -929,18 +929,18 @@ if(WITH_OPTIM)
+             endif()
+         endif()
+     elseif(BASEARCH_RISCV_FOUND)
++        if(WITH_RVV OR WITH_RISCV_ZBC)
++            add_definitions(-DRISCV_FEATURES)
++            list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/riscv_functions.h)
++            if(WITH_RUNTIME_CPU_DETECTION)
++                list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/riscv_features.h)
++                list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/riscv_features.c)
++            endif()
++        endif()
+         if(WITH_RVV)
+             check_rvv_intrinsics()
+             if(HAVE_RVV_INTRIN)
+-                add_definitions(-DRISCV_FEATURES)
+                 add_definitions(-DRISCV_RVV)
+-                list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/riscv_functions.h)
+-                if(WITH_RUNTIME_CPU_DETECTION)
+-                    list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/riscv_features.h)
+-                    list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/riscv_features.c)
+-                endif()
+-                # FIXME: we will not set compile flags for riscv_features.c when
+-                # the kernels update hwcap or hwprobe for riscv
+                 set(RVV_SRCS ${ARCHDIR}/adler32_rvv.c ${ARCHDIR}/chunkset_rvv.c ${ARCHDIR}/compare256_rvv.c ${ARCHDIR}/slide_hash_rvv.c)
+                 list(APPEND ZLIB_ARCH_SRCS ${RVV_SRCS})
+                 set_property(SOURCE ${RVV_SRCS} PROPERTY COMPILE_FLAGS "${RISCVFLAG} ${NOLTOFLAG}")
+@@ -964,4 +964,6 @@ if(WITH_OPTIM)
+-        if(WITH_RUNTIME_CPU_DETECTION AND BASEARCH_RISCV_FOUND)
++        # FIXME: we will not set compile flags for riscv_features.c when
++        # the kernels update hwcap or hwprobe for riscv
++        if(WITH_RUNTIME_CPU_DETECTION)
+             if(WITH_RVV AND WITH_RISCV_ZBC AND HAVE_RVV_INTRIN AND HAVE_RISCV_ZBC)
+                 set_property(SOURCE ${ARCHDIR}/riscv_features.c PROPERTY COMPILE_FLAGS "${RISCVFLAG}_zbc ${NOLTOFLAG}")
+             elseif(WITH_RVV AND HAVE_RVV_INTRIN)

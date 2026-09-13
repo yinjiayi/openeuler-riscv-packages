@@ -17,7 +17,7 @@ int main(void) {
     vbi_decoder *decoder;
 
     vbi_version(&major, &minor, &micro);
-    if (major != 0 || minor != 2 || micro != 44)
+    if (major != 0 || minor != 2 || micro != 45)
         return 1;
     decoder = vbi_decoder_new();
     if (decoder == 0)

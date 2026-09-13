@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           mimalloc
-Version:        3.4.5
+Version:        3.5.0
 Release:        1%{?dist}
 Summary:        Compact general-purpose memory allocator
 License:        MIT
 URL:            https://github.com/microsoft/mimalloc
-Source0:        mimalloc-%{version}.tar.gz
+Source0:        v3.5.0.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc

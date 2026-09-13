@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] tests: skip transparent proxy without netns capability
+
+Being uid 0 in a container does not imply CAP_SYS_ADMIN. Probe the exact
+network-namespace operation required by the transparent proxy integration
+test and report the Automake skip status when the sandbox forbids it. The
+test still runs unchanged on capable hosts.
+
+Patch-Source: openEuler RISC-V package CI failure analysis
+Patch-License: BSD-2-Clause
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+---
+ tests/transparent_proxy_test | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/tests/transparent_proxy_test b/tests/transparent_proxy_test
+--- a/tests/transparent_proxy_test
++++ b/tests/transparent_proxy_test
+@@ -87,6 +87,13 @@ sub main {
+         exit 77;
+     }
+ 
++    my $probe_namespace = "ns-sniproxy-capability-$$";
++    if (system('ip', 'netns', 'add', $probe_namespace) != 0) {
++        print STDERR "This test requires network namespace capabilities\n";
++        exit 77;
++    }
++    checked_system('ip', 'netns', 'del', $probe_namespace);
++
+     # Setup a test network using network namespaces with the ns-test-proxy
+     # namespace configured like a normal transparent proxy box.
+     #
+-- 
+2.50.1

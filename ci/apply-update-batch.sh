@@ -101,5 +101,6 @@ for update in "${updates[@]}"; do
   ensure_label "package:${package_id}" 0e8a16 "Changes only package ${package_id}"
   gh pr edit "$pr_url" --repo "$repo" --add-label update --add-label operation:update \
     --add-label "package:${package_id}" --add-label ci-queued
-  gh pr merge "$pr_url" --repo "$repo" --auto --squash --delete-branch
+  printf 'Created %s for %s. Auto-merge is disabled; an explicit maintainer squash merge is required.\n' \
+    "$pr_url" "$package_id"
 done

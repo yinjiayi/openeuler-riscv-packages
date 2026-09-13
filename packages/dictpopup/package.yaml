@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/Ajatt-Tools/dictpopup",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dictpopup",
+        "package_name": "dictpopup",
+        "source": "aur",
+        "source_version": "1:0.3.2-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-do-not-force-native-architecture.patch",
+        "sha256": "56f9dc8b8566cf1b9a66f852548f8bfc28a01a5e5e7a7e5cb9895891c4fe062c",
+        "purpose": "Let the openEuler RVA23 compiler flags select the target instead of forcing the QEMU build host's native architecture.",
+        "source": "Downstream adaptation of dictpopup 0.3.2 CMakeLists.txt",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream stops forcing -march=native and -mtune=native in release builds."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "dictpopup.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "dictpopup",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "dictpopup",
+    "summary": "A Japanese popup dictionary working on mouse selection with Anki integration"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-ajatt-tools-dictpopup",
+    "homepage": "https://github.com/Ajatt-Tools/dictpopup",
+    "release_api": "https://api.github.com/repos/Ajatt-Tools/dictpopup/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/Ajatt-Tools/dictpopup",
+    "source_url_template": "https://github.com/Ajatt-Tools/dictpopup/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.3.2",
+    "latest_detected": "0.3.2",
+    "release": "8"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "package_id": "the-silver-searcher",
+  "rpm": {
+    "name": "the_silver_searcher",
+    "summary": "Fast recursive code-searching tool",
+    "license": "Apache-2.0 AND BSD-1-Clause"
+  },
+  "upstream": {
+    "component": "github.com-ggreer-the_silver_searcher",
+    "homepage": "https://github.com/ggreer/the_silver_searcher",
+    "source_repository": "https://github.com/ggreer/the_silver_searcher",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/ggreer/the_silver_searcher/tags",
+    "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/ggreer/the_silver_searcher/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.2.0",
+    "release": "2",
+    "latest_detected": "2.2.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "the_silver_searcher",
+        "package_base": "the_silver_searcher",
+        "source_version": "2.2.0-4",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/the_silver_searcher/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "silversearcher-ag",
+        "package_base": "silversearcher-ag",
+        "source_version": "2.2.0+git20200805-1.2",
+        "evidence_url": "https://packages.debian.org/trixie/source/silversearcher-ag",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "the_silver_searcher",
+        "package_base": "the_silver_searcher",
+        "source_version": "2.2.0^2020704.5a1c8d8-15.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/the_silver_searcher/the_silver_searcher/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "silversearcher-ag",
+        "package_base": "silversearcher-ag",
+        "source_version": "2.2.0+git20200805-1.2build1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/silversearcher-ag",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": true,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "the_silver_searcher.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-fix-multiple-global-symbol-definitions.patch",
+        "sha256": "b30b32d7ddf254b57ffe3b953ead145fbd4fe3b6419fd9748a5a5f50f4b652ca",
+        "purpose": "Use one definition per global symbol so the 2.2.0 source links with GCC's -fno-common default.",
+        "source": "https://github.com/ggreer/the_silver_searcher/commit/21eaa1c4160b868b0c5bbf59da17974429f30055",
+        "license": "Apache-2.0",
+        "upstream_status": "accepted",
+        "remove_when": "The package updates to an upstream stable release containing merge commit 3f6ecb6c02f147d5d180b9d85373e74c83f675ec."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official 2.2.0 tag and commit 520ff29c528503668020c8cbedb5b03bccf4c7e0 were independently verified; the tag archive was downloaded, archive-audited, and SHA-256 pinned. Distribution metadata is lineage only and no external packaging recipe was executed. The accepted upstream global-symbol fix is backported from commit 21eaa1c4160b868b0c5bbf59da17974429f30055 for modern GCC. openEuler lacks python3-cram, so check retains direct deterministic file and stdin CLI regressions rather than silently skipping validation."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}

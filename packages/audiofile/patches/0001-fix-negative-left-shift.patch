@@ -1,0 +1,40 @@
+From: Fedora audiofile maintainers
+Date: Wed, 3 Feb 2016 21:21:14 +0100
+Subject: [PATCH] Avoid undefined negative left shifts
+
+License: LGPL-2.1-or-later AND BSD-3-Clause
+Upstream-Status: Downstream [production hunk accepted as b62c902dd258125cac86cd2df21fc898035a43d3]
+Origin: https://src.fedoraproject.org/rpms/audiofile/raw/rawhide/f/audiofile-0.3.6-left-shift-neg.patch
+
+Use an unsigned shift before subtraction so GCC 14 can evaluate the signed
+minimum constants without invoking undefined behavior. The production fix
+was accepted upstream; Fedora carries the same correction in the three
+test-only constants.
+
+---
+ libaudiofile/modules/SimpleModule.h | 2 +-
+ test/FloatToInt.cpp                 | 2 +-
+ test/IntToFloat.cpp                 | 2 +-
+ test/Sign.cpp                       | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+--- a/libaudiofile/modules/SimpleModule.h
++++ b/libaudiofile/modules/SimpleModule.h
+@@ -126 +126 @@
+-	static const int kMinSignedValue = -1 << kScaleBits;
++	static const int kMinSignedValue = 0 - (1U << kScaleBits);
+--- a/test/FloatToInt.cpp
++++ b/test/FloatToInt.cpp
+@@ -118 +118 @@
+-static const int32_t kMinInt24 = -1<<23;
++static const int32_t kMinInt24 = 0 - (1U << 23);
+--- a/test/IntToFloat.cpp
++++ b/test/IntToFloat.cpp
+@@ -120 +120 @@
+-static const int32_t kMinInt24 = -1<<23;
++static const int32_t kMinInt24 = 0 - (1U << 23);
+--- a/test/Sign.cpp
++++ b/test/Sign.cpp
+@@ -119 +119 @@
+-static const int32_t kMinInt24 = -1<<23;
++static const int32_t kMinInt24 = 0 - (1U << 23);

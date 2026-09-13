@@ -4,12 +4,25 @@
   "title": "GitHub Pages package dashboard data",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "repository", "generated_at", "coverage_claim", "update_health", "packages"],
+  "required": ["schema_version", "repository", "generated_at", "coverage_claim", "inventory", "update_health", "packages"],
   "properties": {
     "schema_version": {"const": 1},
     "repository": {"const": "yinjiayi/openeuler-riscv-packages"},
     "generated_at": {"type": "string", "format": "date-time"},
-    "coverage_claim": {"const": "observed-managed-packages-only"},
+    "coverage_claim": {"enum": ["full-package-inventory", "observed-managed-packages-only"]},
+    "inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "entry_count", "status_counts", "source_generated_at", "main_ref", "snapshot_id"],
+      "properties": {
+        "url": {"const": "inventory.json"},
+        "entry_count": {"type": "integer", "minimum": 0},
+        "status_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "source_generated_at": {"type": ["string", "null"], "format": "date-time"},
+        "main_ref": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"},
+        "snapshot_id": {"type": ["string", "null"]}
+      }
+    },
     "update_health": {
       "type": "object",
       "additionalProperties": false,
@@ -38,7 +51,7 @@
           "current_version": {"type": "string"},
           "latest_upstream_version": {"type": ["string", "null"]},
           "last_successful_upstream_check_at": {"type": ["string", "null"], "format": "date-time"},
-          "status": {"enum": ["discovered", "pr-open", "ci-queued", "building", "repair-queued", "codex-repairing", "failed", "needs-native-riscv", "needs-human", "passed", "merged"]},
+          "status": {"enum": ["discovered", "reviewed", "open-pr", "merged-pr", "managed", "pr-open", "ci-queued", "building", "repair-queued", "codex-repairing", "failed", "needs-native-riscv", "needs-human", "passed", "build-succeeded", "published", "merged"]},
           "riscv_status": {"enum": ["unknown", "qemu-buildable", "native-verified", "patched-for-riscv", "qemu-limitation", "unsupported"]},
           "sources": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
           "patch_count": {"type": "integer", "minimum": 0},
@@ -49,12 +62,15 @@
           "links": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["package", "pr", "ci", "logs"],
+            "required": ["package", "pr", "ci", "logs", "rpm", "srpm", "publication"],
             "properties": {
               "package": {"type": "string"},
               "pr": {"type": ["string", "null"]},
               "ci": {"type": ["string", "null"]},
-              "logs": {"type": ["string", "null"]}
+              "logs": {"type": ["string", "null"]},
+              "rpm": {"type": "array", "items": {"type": "string", "format": "uri"}},
+              "srpm": {"type": "array", "items": {"type": "string", "format": "uri"}},
+              "publication": {"type": ["string", "null"], "format": "uri"}
             }
           }
         }

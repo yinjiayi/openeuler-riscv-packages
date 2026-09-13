@@ -26,15 +26,16 @@
     {
       "type": "required_status_checks",
       "parameters": {
-        "strict_required_status_checks_policy": false,
+        "strict_required_status_checks_policy": true,
         "do_not_enforce_on_create": true,
         "required_status_checks": [
-          {"context": "metadata-validate"},
-          {"context": "source-verify"},
-          {"context": "rpmbuild-riscv64"},
-          {"context": "rpm-install-smoke"},
-          {"context": "patch-policy"},
-          {"context": "merge-policy"}
+          {"context": "metadata-validate", "integration_id": 15368},
+          {"context": "source-verify", "integration_id": 15368},
+          {"context": "rpmbuild-riscv64", "integration_id": 15368},
+          {"context": "rpm-install-smoke", "integration_id": 15368},
+          {"context": "patch-policy", "integration_id": 15368},
+          {"context": "merge-policy", "integration_id": 15368},
+          {"context": "configure", "integration_id": 15368}
         ]
       }
     }

@@ -1,0 +1,96 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 240
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/zlib-ng/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zlib-ng",
+        "package_name": "zlib-ng",
+        "source": "arch-extra",
+        "source_version": "2.3.3-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/mingw-w64-zlib-ng",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-zlib-ng",
+        "package_name": "mingw-w64-zlib-ng",
+        "source": "aur",
+        "source_version": "2.3.3-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/zlib-ng/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zlib-ng",
+        "package_name": "zlib-ng",
+        "source": "fedora",
+        "source_version": "2.3.3-3.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/zlib-ng",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zlib-ng",
+        "package_name": "zlib-ng",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.3.3-2.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-riscv-build-zbc-without-rvv.patch",
+        "license": "Zlib",
+        "purpose": "Backport the upstream fix that wires common RISC-V feature declarations for a Zbc-enabled build when RVV is disabled.",
+        "remove_when": "zlib-ng is updated past upstream commit 9f396c3d09d65dc59cce607d52f67f03b266c2de.",
+        "sha256": "48006d99adef4f7b8b1f8189edf044bc78cc85e7162bfa28b15d0c4d48ada0ad",
+        "source": "https://github.com/zlib-ng/zlib-ng/commit/9f396c3d09d65dc59cce607d52f67f03b266c2de",
+        "upstream_status": "accepted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "zlib-ng.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official zlib-ng 2.3.3 stable tag archive is SHA-256 pinned. Arch stable, Fedora 44, openSUSE Tumbleweed, and a non-bin AUR cross-toolchain metadata row corroborate 2.3.3. Debian stable and Ubuntu GA contained no zlib-ng source row in the committed snapshot; that absence is recorded rather than treated as corroboration. AUR metadata was read through RPC only and no packaging recipe or distribution spec was executed. RVV is disabled to follow Fedora's explicit riscv64 toolchain boundary. The optional Zbc CRC path is also disabled because the commit-bound openEuler QEMU test run reached SIGILL with the statically linked library; generic CRC and the complete upstream test suite remain enabled. Upstream commit 9f396c3d09d65dc59cce607d52f67f03b266c2de remains backported so the source tree has the accepted Zbc-without-RVV build fix when runtime Zbc support can be safely re-enabled.",
+    "status": "active"
+  },
+  "package_id": "zlib-ng",
+  "rpm": {
+    "license": "Zlib",
+    "name": "zlib-ng",
+    "summary": "Zlib replacement with next-generation optimizations"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "github.com-zlib-ng-zlib-ng",
+    "homepage": "https://github.com/zlib-ng/zlib-ng",
+    "release_api": "https://api.github.com/repos/zlib-ng/zlib-ng/releases",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/zlib-ng/zlib-ng",
+    "source_url_template": "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {"current": "2.3.3", "latest_detected": "2.3.3", "release": "1"}
+}

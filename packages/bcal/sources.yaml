@@ -1,0 +1,21 @@
+{
+  "package_id": "bcal",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "794fcf539dcc759bc144ebb56a290f1eda2d1af0bbe7473daad19cc31cac431e"
+      },
+      "filename": "bcal-v2.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jarun/bcal/releases/download/v2.5/bcal-v2.5.tar.gz",
+      "version": "2.5"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "pwgen",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "dab03dd30ad5a58e578c5581241a6e87e184a18eb2c3b2e0fffa8a9cf105c97b"
+      },
+      "filename": "pwgen-2.08.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL-2.0-only source is fetched from the official versioned SourceForge release asset in CI."
+      },
+      "signature": null,
+      "url": "https://downloads.sourceforge.net/project/pwgen/pwgen/2.08/pwgen-2.08.tar.gz",
+      "version": "2.08"
+    }
+  ]
+}

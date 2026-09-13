@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "package_id": "jsmn",
+  "rpm": {
+    "name": "jsmn",
+    "summary": "Minimalistic JSON parser and tokenizer for C",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "github.com-zserge-jsmn",
+    "homepage": "https://github.com/zserge/jsmn",
+    "source_repository": "https://github.com/zserge/jsmn",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/zserge/jsmn/releases",
+    "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/zserge/jsmn/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.1.0",
+    "release": "1",
+    "latest_detected": "1.1.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "jsmn",
+        "package_base": "jsmn",
+        "source_version": "1.1.0-1",
+        "evidence_url": "https://aur.archlinux.org/packages/jsmn",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "jsmn",
+        "package_base": "jsmn",
+        "source_version": "1.1.0-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/jsmn",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "jsmn",
+        "package_base": "jsmn",
+        "source_version": "1.1.0-2build1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/jsmn",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "jsmn.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official stable tag archive was independently downloaded, inspected, and SHA-256 pinned. Distribution metadata is lineage only; no external recipe was executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}

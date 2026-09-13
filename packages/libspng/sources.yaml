@@ -1,0 +1,21 @@
+{
+  "package_id": "libspng",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "47ec02be6c0a6323044600a9221b049f63e1953faf816903e7383d4dc4234487"
+      },
+      "filename": "libspng-0.7.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official BSD-2-Clause and libpng-2.0 licensed release tag is fetched over HTTPS and SHA-256 verified by CI."
+      },
+      "signature": null,
+      "url": "https://github.com/randy408/libspng/archive/refs/tags/v0.7.4.tar.gz",
+      "version": "0.7.4"
+    }
+  ]
+}

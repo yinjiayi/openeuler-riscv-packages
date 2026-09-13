@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           unibilium
-Version:        2.1.2
+Version:        2.1.4
 Release:        1%{?dist}
 Summary:        Terminfo parsing library
 License:        LGPL-3.0-or-later
 URL:            https://github.com/neovim/unibilium
-Source0:        unibilium-%{version}.tar.gz
+Source0:        v2.1.4.tar.gz
 
 BuildRequires:  autoconf
 BuildRequires:  automake

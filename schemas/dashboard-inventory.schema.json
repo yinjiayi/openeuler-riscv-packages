@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/dashboard-inventory.schema.json",
+  "title": "Browser-ready full package inventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "generated_at", "source", "status_counts", "entries"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "dashboard-package-inventory"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "generated_at", "main_ref", "snapshot_id", "managed_metadata_count", "build_evidence_count", "publication_evidence_count"],
+      "properties": {
+        "path": {"type": "string"},
+        "generated_at": {"type": ["string", "null"], "format": "date-time"},
+        "main_ref": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"},
+        "snapshot_id": {"type": ["string", "null"]},
+        "managed_metadata_count": {"type": "integer", "minimum": 0},
+        "build_evidence_count": {"type": "integer", "minimum": 0},
+        "publication_evidence_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "status_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["inventory_id", "name", "version", "status"],
+        "properties": {
+          "inventory_id": {"type": "string", "minLength": 1},
+          "package_id": {"type": ["string", "null"]},
+          "name": {"type": "string", "minLength": 1},
+          "aliases": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "component_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "version": {"type": "string"},
+          "status": {"enum": ["discovered", "reviewed", "open-pr", "merged-pr", "managed", "pr-open", "ci-queued", "building", "repair-queued", "codex-repairing", "failed", "needs-native-riscv", "needs-human", "passed", "build-succeeded", "published", "merged"]},
+          "summary": {"type": ["string", "null"]},
+          "decisions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "updated_at": {"type": "string", "format": "date-time"},
+          "links": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "package": {"type": ["string", "null"], "format": "uri"},
+              "pr": {"type": ["string", "null"], "format": "uri"},
+              "ci": {"type": ["string", "null"], "format": "uri"},
+              "upstream": {"type": ["string", "null"], "format": "uri"},
+              "rpm": {"type": "array", "items": {"type": "string", "format": "uri"}},
+              "srpm": {"type": "array", "items": {"type": "string", "format": "uri"}},
+              "publication": {"type": ["string", "null"], "format": "uri"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

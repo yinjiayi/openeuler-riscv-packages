@@ -1,0 +1,94 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/rhash/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "rhash",
+        "package_name": "rhash",
+        "source": "arch-extra",
+        "source_version": "1.4.6-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/rhash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "rhash",
+        "package_name": "rhash",
+        "source": "debian",
+        "source_version": "1.4.5-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/rhash/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "rhash",
+        "package_name": "rhash",
+        "source": "fedora",
+        "source_version": "1.4.5-4.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/rhash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "rhash",
+        "package_name": "rhash",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.4.6-2.3"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/rhash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "rhash",
+        "package_name": "rhash",
+        "source": "ubuntu",
+        "source_version": "1.4.6-1.1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "rhash.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official RHash 1.4.6 stable tag archive is SHA-256 pinned. Arch stable, openSUSE Tumbleweed, and Ubuntu GA corroborate 1.4.6; Fedora 44 and Debian stable provide 1.4.5 baselines. The AUR result was rhash-git, a VCS pre-release lineage, so it was not used as stable-version corroboration. AUR was queried through RPC only; no AUR recipe or distribution spec was executed.",
+    "status": "active"
+  },
+  "package_id": "rhash",
+  "rpm": {
+    "license": "0BSD",
+    "name": "rhash",
+    "summary": "Utility and library for computing hash sums"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "github.com-rhash-rhash",
+    "homepage": "https://github.com/rhash/RHash",
+    "release_api": "https://api.github.com/repos/rhash/RHash/releases",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/rhash/RHash",
+    "source_url_template": "https://github.com/rhash/RHash/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "1.4.6", "latest_detected": "1.4.6", "release": "1"}
+}

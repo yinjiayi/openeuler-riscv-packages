@@ -1,0 +1,23 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 180},
+  "discovery": {
+    "lineage": [
+      {"evidence_url": "https://archlinux.org/packages/core/x86_64/libmpc/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libmpc", "package_name": "libmpc", "source": "arch-core", "source_version": "1.4.1-1"},
+      {"evidence_url": "https://aur.archlinux.org/packages/mingw-w64-libmpc", "observed_at": "2026-08-08T16:50:00Z", "package_base": "mingw-w64-libmpc", "package_name": "mingw-w64-libmpc", "source": "aur", "source_version": "1.4.0-1"},
+      {"evidence_url": "https://packages.debian.org/trixie/source/mpclib3", "observed_at": "2026-08-08T16:50:00Z", "package_base": "mpclib3", "package_name": "mpclib3", "source": "debian", "source_version": "1.3.1-1"},
+      {"evidence_url": "https://packages.fedoraproject.org/pkgs/libmpc/libmpc/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libmpc", "package_name": "libmpc", "source": "fedora", "source_version": "1.4.0-1.fc44"},
+      {"evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/mpc", "observed_at": "2026-08-08T16:50:00Z", "package_base": "mpc", "package_name": "mpc", "source": "opensuse-tumbleweed", "source_version": "1.4.1-1.4"},
+      {"evidence_url": "https://packages.ubuntu.com/resolute/source/mpclib3", "observed_at": "2026-08-08T16:50:00Z", "package_base": "mpclib3", "package_name": "mpclib3", "source": "ubuntu", "source_version": "1.3.1-3"}
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "libmpc.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "The immutable snapshot exactly records all six lineage tuples. The AUR row is a non-native MinGW cross-target package and is metadata only. No AUR recipe or distribution spec was read or executed. Official GNU MPC 1.4.1 stable bytes were independently SHA-256 pinned and the complete upstream make check suite remains enabled against openEuler gmp-devel and mpfr-devel.", "status": "active"},
+  "package_id": "libmpc",
+  "rpm": {"license": "LGPL-3.0-or-later AND FSFAP", "name": "libmpc", "summary": "Multiple-precision complex arithmetic library"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "gnu-ftp-index"},
+  "upstream": {"component": "multiprecision.org-mpc", "homepage": "https://www.multiprecision.org/mpc/", "release_api": "https://ftp.gnu.org/gnu/mpc/", "release_channel": "stable", "release_regex": "mpc-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz", "source_repository": "https://gitlab.inria.fr/mpc/mpc", "source_url_template": "https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.xz"},
+  "version": {"current": "1.4.1", "latest_detected": "1.4.1", "release": "1"}
+}

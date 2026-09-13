@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "libmodbus",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/stephane/libmodbus/tar.gz/a9b025d12289855490b10d77461c99e001abfc0f",
+      "filename": "libmodbus-3.2.0.tar.gz",
+      "version": "3.2.0",
+      "digests": {"sha256": "447a7473509a729ad27eb2c3cc12b5a350c41fd72efd2842791f6cd00c74af7f"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Redistribution and modification are permitted by the upstream LGPL-2.1-or-later license."}
+    }
+  ]
+}

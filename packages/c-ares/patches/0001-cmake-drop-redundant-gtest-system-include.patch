@@ -1,0 +1,48 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 10 Aug 2026 21:38:00 +0800
+Subject: [PATCH] cmake: drop redundant GTest system include
+
+The openEuler GTest CMake targets export /usr/include.  In the RVA23 QEMU
+buildroot CMake does not discover the compiler's implicit C++ include list,
+so it emits -isystem /usr/include.  That makes libstdc++'s include_next lookup
+for stdlib.h skip the only system copy.  Remove only this compiler-default
+path while retaining any non-default include paths exported by GTest.
+
+Root cause: the imported GTest targets expose a compiler-default include as a
+system include while CMake's QEMU buildroot probe omits that same default from
+its implicit include set.
+Patch-Source: downstream reconstruction from the observed openEuler RVA23 build
+Patch-License: MIT
+Upstream-Status: Not Submitted (the trigger is downstream toolchain metadata)
+Removal: remove when the locked openEuler CMake/GTest buildroot no longer emits
+         /usr/include as a redundant imported-target system include.
+
+---
+ test/CMakeLists.txt | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
+--- a/test/CMakeLists.txt
++++ b/test/CMakeLists.txt
+@@ -14,6 +14,21 @@
+ IF (CMAKE_VERSION VERSION_LESS "3.23.0")
+   Message("GoogleTest found, cmake version too old to verify GMock, look for errors...")
+ ELSE ()
++  foreach(gtest_target GTest::gtest GTest::gmock)
++    if(TARGET ${gtest_target})
++      foreach(include_property
++              INTERFACE_INCLUDE_DIRECTORIES
++              INTERFACE_SYSTEM_INCLUDE_DIRECTORIES)
++        get_target_property(gtest_includes ${gtest_target} ${include_property})
++        if(gtest_includes)
++          list(REMOVE_ITEM gtest_includes "/usr/include")
++          set_target_properties(${gtest_target} PROPERTIES
++            ${include_property} "${gtest_includes}")
++        endif()
++      endforeach()
++    endif()
++  endforeach()
++
+   IF (NOT TARGET GTest::gmock)
+     Message(FATAL_ERROR "GoogleTest found but the GMock component was not found")
+   ENDIF()

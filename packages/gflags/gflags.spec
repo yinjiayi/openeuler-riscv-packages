@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gflags
-Version:        2.2.2
+Version:        2.3.1
 Release:        1%{?dist}
 Summary:        C++ library for command-line flag processing
 License:        BSD-3-Clause
 URL:            https://gflags.github.io/gflags/
-Source0:        gflags-%{version}.tar.gz
+Source0:        v2.3.1.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -70,8 +70,8 @@ cat "$ctest_log"
 %license COPYING.txt
 %doc AUTHORS.txt ChangeLog.txt README.md
 %{_bindir}/gflags_completions.sh
-%{_libdir}/libgflags.so.2.2*
-%{_libdir}/libgflags_nothreads.so.2.2*
+%{_libdir}/libgflags.so.2.3*
+%{_libdir}/libgflags_nothreads.so.2.3*
 
 %files devel
 %license COPYING.txt

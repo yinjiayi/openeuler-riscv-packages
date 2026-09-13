@@ -1,0 +1,21 @@
+{
+  "package_id": "hiredis",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ca3180359a8b1275838a45415851f8cd5c411e27bdbf18f4823012e45507d2e4"
+      },
+      "filename": "hiredis-1.4.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/redis/hiredis/archive/refs/tags/v1.4.1.tar.gz",
+      "version": "1.4.1"
+    }
+  ]
+}

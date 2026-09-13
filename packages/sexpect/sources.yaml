@@ -1,0 +1,21 @@
+{
+  "package_id": "sexpect",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "44f5711aa99f3ccf9c4b0edfcd9a7d25fa64b442574624ce451713d1532c1a7e"
+      },
+      "filename": "sexpect-2.3.15.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/clarkwang/sexpect/archive/refs/tags/v2.3.15.tar.gz",
+      "version": "2.3.15"
+    }
+  ]
+}

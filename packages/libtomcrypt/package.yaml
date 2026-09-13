@@ -1,0 +1,129 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://libtom.net/LibTomCrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtomcrypt",
+        "package_name": "libtomcrypt",
+        "source": "arch-extra",
+        "source_version": "1.18.2-1"
+      },
+      {
+        "evidence_url": "https://libtom.net/LibTomCrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtomcrypt",
+        "package_name": "libtomcrypt",
+        "source": "debian",
+        "source_version": "1.18.2+dfsg-7"
+      },
+      {
+        "evidence_url": "https://libtom.net/LibTomCrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtomcrypt",
+        "package_name": "libtomcrypt",
+        "source": "fedora",
+        "source_version": "1.18.2-23.fc44"
+      },
+      {
+        "evidence_url": "https://libtom.net/LibTomCrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtomcrypt",
+        "package_name": "libtomcrypt",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.18.2-3.12"
+      },
+      {
+        "evidence_url": "https://libtom.net/LibTomCrypt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtomcrypt",
+        "package_name": "libtomcrypt",
+        "source": "ubuntu",
+        "source_version": "1.18.2+dfsg-7build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-fix-CVE-2019-17362.patch",
+        "license": "Public Domain",
+        "purpose": "Fix the CVE-2019-17362 out-of-bounds read in the LTC ASN.1 decoder.",
+        "remove_when": "The pinned upstream release includes this fix and no older supported release is retained.",
+        "sha256": "44b3ea4d3ff52ecb4147236fb5d093d569db292a5defdcc2e17c0fe7448fa517",
+        "source": "Upstream commit 25c26a3b7a9ad8192ccc923e15cf62bf0108ef94.",
+        "upstream_status": "accepted"
+      },
+      {
+        "file": "patches/0002-fix-missing-mutex-unlock.patch",
+        "license": "Public Domain",
+        "purpose": "Unlock the mutex on the error path before returning from the threaded PRNG code.",
+        "remove_when": "The pinned upstream release includes this fix and no older supported release is retained.",
+        "sha256": "46e428bf9a66414941c117e5c816108626ffdff813f185d7282779484cd5edfd",
+        "source": "Upstream commit ee24a31ae1735c03d58576d2dc43274735c8fbef.",
+        "upstream_status": "accepted"
+      },
+      {
+        "file": "patches/0003-fix-CCM-bounds-and-warning.patch",
+        "license": "Public Domain",
+        "purpose": "Correct CCM bounds handling and remove the compiler warning in the affected code path.",
+        "remove_when": "The pinned upstream release includes this fix and no older supported release is retained.",
+        "sha256": "c92ab759f6ac2e40a4ff3e4b413bda2d8921364aa08c9e7861e8d5470778441d",
+        "source": "Upstream commit 349d56e38c802dfeeaff0036639972616311622f.",
+        "upstream_status": "accepted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtomcrypt.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libtomcrypt",
+  "rpm": {
+    "license": "LicenseRef-Public-Domain OR WTFPL",
+    "name": "libtomcrypt",
+    "summary": "Portable modular cryptographic toolkit"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-libtom-libtommath",
+    "homepage": "https://libtom.net/LibTomCrypt",
+    "release_api": "https://api.github.com/repos/libtom/libtomcrypt/releases",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/libtom/libtomcrypt",
+    "source_url_template": "https://github.com/libtom/libtomcrypt/releases/download/v{version}/crypt-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.18.2",
+    "latest_detected": "1.18.2",
+    "release": "1"
+  }
+}

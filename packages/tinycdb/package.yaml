@@ -1,0 +1,33 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 120},
+  "discovery": {
+    "lineage": [
+      {"evidence_url": "https://archlinux.org/packages/extra/x86_64/tinycdb/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "tinycdb", "package_name": "tinycdb", "source": "arch-extra", "source_version": "0.81-2"},
+      {"evidence_url": "https://packages.debian.org/trixie/source/tinycdb", "observed_at": "2026-08-08T16:50:00Z", "package_base": "tinycdb", "package_name": "tinycdb", "source": "debian", "source_version": "0.81-2"},
+      {"evidence_url": "https://packages.fedoraproject.org/pkgs/tinycdb/tinycdb/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "tinycdb", "package_name": "tinycdb", "source": "fedora", "source_version": "0.80-6.fc44"},
+      {"evidence_url": "https://packages.ubuntu.com/resolute/source/tinycdb", "observed_at": "2026-08-08T16:50:00Z", "package_base": "tinycdb", "package_name": "tinycdb", "source": "ubuntu", "source_version": "0.81-2build1"}
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "tinycdb.spec"},
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Arch, Debian, Fedora, and Ubuntu lineage was deduplicated by the official tinycdb component. The official project page identifies 0.81 as latest; its independently downloaded versioned archive was SHA-256 and safety checked. No distribution recipe was executed. Both upstream static and shared tests remain enabled.",
+    "status": "active"
+  },
+  "package_id": "tinycdb",
+  "rpm": {"license": "MIT", "name": "tinycdb", "summary": "Constant database library and tools"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"},
+  "upstream": {
+    "component": "corpit.ru-mjt-tinycdb.html",
+    "homepage": "https://www.corpit.ru/mjt/tinycdb.html",
+    "release_api": "https://www.corpit.ru/mjt/tinycdb/",
+    "release_channel": "stable",
+    "release_regex": "tinycdb-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://www.corpit.ru/mjt/tinycdb/",
+    "source_url_template": "https://www.corpit.ru/mjt/tinycdb/tinycdb-{version}.tar.gz"
+  },
+  "version": {"current": "0.81", "latest_detected": "0.81", "release": "1"}
+}

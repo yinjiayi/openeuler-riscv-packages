@@ -1,0 +1,21 @@
+{
+  "package_id": "texel",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b8b4346def6081e68b0be9292572788f9436d345c8e32638092df28e65f17d23"
+      },
+      "filename": "texel-1.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/peterosterlund2/texel/archive/refs/tags/1.12.tar.gz",
+      "version": "1.12"
+    }
+  ]
+}

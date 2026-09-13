@@ -2,12 +2,12 @@
 %global debug_package %{nil}
 
 Name:           cpp-httplib
-Version:        0.52.0
-Release:        1%{?dist}
+Version:        0.54.1
+Release:        2%{?dist}
 Summary:        Header-only C++ HTTP and HTTPS library
 License:        MIT
 URL:            https://github.com/yhirose/cpp-httplib
-Source0:        cpp-httplib-%{version}.tar.gz
+Source0:        v0.54.1.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -54,5 +54,8 @@ grep -F 'POST' server-and-client.log
 %{_libdir}/cmake/httplib/
 
 %changelog
+* Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.54.1-2
+- Synchronize the installed smoke assertion and package documentation with 0.54.1.
+
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.52.0-1
 - Initial openEuler RISC-V package.

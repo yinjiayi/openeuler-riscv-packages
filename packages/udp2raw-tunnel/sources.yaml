@@ -1,0 +1,21 @@
+{
+  "package_id": "udp2raw-tunnel",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1e459020654d3c65acb252a56fe11a5e2feec5a64d6e2ffd0aacc14213bbc9c0"
+      },
+      "filename": "udp2raw-tunnel-20230206.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/wangyu-/udp2raw-tunnel/archive/refs/tags/20230206.0.tar.gz",
+      "version": "20230206.0"
+    }
+  ]
+}

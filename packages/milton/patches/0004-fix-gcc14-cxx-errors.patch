@@ -1,0 +1,114 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Fri, 28 Aug 2026 14:11:21 +0800
+Subject: [PATCH] linux: fix GCC 14 C++ and format-security errors
+
+platform.h includes the Unix platform header inside an extern "C" block. GTK now reaches C++ standard-library templates there, which GCC 14 rejects as templates with C linkage. Include the platform-specific header before opening the C-linkage block while retaining C linkage for Milton platform declarations.
+
+Also pass localized UI text through an explicit string format. This preserves openEuler format-security policy without treating translations as format strings.
+
+Patch-Source: downstream adaptation of Milton 1.9.1 src/platform.h and src/gui.cc
+
+Patch-License: GPL-3.0-or-later
+
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+
+Applies-To: Milton 1.9.1 with GCC 14
+
+Remove-When: upstream keeps C++ headers outside C linkage and uses explicit formats for localized UI text
+---
+ src/gui.cc     | 14 +++++++-------
+ src/platform.h | 13 ++++++-------
+ 2 files changed, 13 insertions(+), 14 deletions(-)
+
+diff --git a/src/gui.cc b/src/gui.cc
+index c3b2eb6..922f659 100644
+--- a/src/gui.cc
++++ b/src/gui.cc
+@@ -147,7 +147,7 @@ gui_layer_window(MiltonInput* input, PlatformState* platform, Milton* milton, f3
+         ImGui::EndChild();
+         ImGui::BeginChild("buttons");
+ 
+-        ImGui::Text(loc(TXT_move));
++        ImGui::Text("%s", loc(TXT_move));
+ 
+         Layer* a = NULL;
+         Layer* b = NULL;
+@@ -191,8 +191,8 @@ gui_layer_window(MiltonInput* input, PlatformState* platform, Milton* milton, f3
+                 }
+             }
+             else if ( deleting ) {
+-                ImGui::Text(loc(TXT_are_you_sure));
+-                ImGui::Text(loc(TXT_cant_be_undone));
++                ImGui::Text("%s", loc(TXT_are_you_sure));
++                ImGui::Text("%s", loc(TXT_cant_be_undone));
+                 if ( ImGui::Button(loc(TXT_yes)) ) {
+                     milton_delete_working_layer(milton);
+                     input->flags |= MiltonInputFlags_FULL_REFRESH;
+@@ -208,7 +208,7 @@ gui_layer_window(MiltonInput* input, PlatformState* platform, Milton* milton, f3
+         {
+             // ImGui::GetWindow(Pos|Size) works in here because we are inside Begin()/End() calls.
+             {
+-                ImGui::Text(loc(TXT_opacity));
++                ImGui::Text("%s", loc(TXT_opacity));
+                 f32 alpha = canvas->working_layer->alpha;
+                 if ( ImGui::SliderFloat("##opacity", &alpha, 0.0f, 1.0f) ) {
+                     // Used the slider. Ask if it's OK to convert the binary format.
+@@ -783,7 +783,7 @@ milton_imgui_tick(MiltonInput* input, PlatformState* platform,  Milton* milton,
+                 ImGui::Separator();
+                 ImGui::BeginChild("ScrollRegion");
+ 
+-                ImGui::Text(loc(TXT_default_background_color));
++                ImGui::Text("%s", loc(TXT_default_background_color));
+ 
+                 v3f* bg = &milton->settings->background_color;
+                 if (ImGui::ColorEdit3(loc(TXT_color), bg->d)) {
+@@ -866,7 +866,7 @@ milton_imgui_tick(MiltonInput* input, PlatformState* platform,  Milton* milton,
+ 
+         // Export window
+         if ( ImGui::Begin(loc(TXT_export_DOTS), &opened, ImGuiWindowFlags_NoCollapse) ) {
+-            ImGui::Text(loc(TXT_MSG_click_and_drag_instruction));
++            ImGui::Text("%s", loc(TXT_MSG_click_and_drag_instruction));
+ 
+             Exporter* exporter = &milton->gui->exporter;
+             if ( exporter->state == ExporterState_SELECTED ) {
+@@ -895,7 +895,7 @@ milton_imgui_tick(MiltonInput* input, PlatformState* platform,  Milton* milton,
+                 }
+                 ImGui::Text("%s: %dx%d\n", loc(TXT_final_image_resolution), raster_w*exporter->scale, raster_h*exporter->scale);
+ 
+-                ImGui::Text(loc(TXT_background_COLON));
++                ImGui::Text("%s", loc(TXT_background_COLON));
+                 static int radio_v = 0;
+                 ImGui::RadioButton(loc(TXT_background_color), &radio_v, 0);
+                 ImGui::RadioButton(loc(TXT_transparent_background), &radio_v, 1);
+diff --git a/src/platform.h b/src/platform.h
+index aae6a22..9ddf8b2 100644
+--- a/src/platform.h
++++ b/src/platform.h
+@@ -11,6 +11,12 @@
+ #include "utils.h"
+ #include "vector.h"
+ 
++#if defined(_WIN32)
++#include "platform_windows.h"
++#elif defined(__linux__) || defined(__MACH__)
++#include "platform_unix.h"
++#endif
++
+ #if defined(__cplusplus)
+ extern "C" {
+ #endif
+@@ -225,13 +231,6 @@ u64 perf_counter();
+ float perf_count_to_sec(u64 counter);
+ 
+ 
+-#if defined(_WIN32)
+-#include "platform_windows.h"
+-#elif defined(__linux__) || defined(__MACH__)
+-#include "platform_unix.h"
+-#endif
+-
+-
+ #if defined(__cplusplus)
+ }
+ #endif

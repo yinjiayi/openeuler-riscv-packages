@@ -1,0 +1,8 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+# tpm2-tss
+
+This directory packages upstream `https://github.com/tpm2-software/tpm2-tss` version `4.1.3` release `5` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
+
+Downstream release `2` declares the pkg-config, OpenSSL, JSON-C, libcurl, UUID, and cmocka providers required by the default build and enables upstream's cmocka unit tests with the actual `--enable-unit` configure option. Release `3` uses upstream's official GNU-style release tarball, whose generated `VERSION`, `src_vars.mk`, `configure`, and `Makefile.in` files support the normal release-package configure flow. CI verifies the independently recomputed SHA-256. Release `4` adds the OpenSSL command-line package because the enabled unit suite runs `openssl enc` to decode committed test fixtures; `openssl-devel` remains required for compilation. Release `5` excludes installed manual pages from the generated file list and declares them with compression-tolerant RPM globs, so the `brp-compress` post-processing step cannot leave stale uncompressed filenames in the manifest. Upstream publishes a detached signature whose issuer fingerprint is recorded under the advisory signature policy, but this packaging audit did not cryptographically verify that signature. Integration tests remain at their upstream default because they require a TPM simulator and additional integration infrastructure; no library or TCTI feature is disabled, and the RISC-V build status remains `unknown` pending fresh CI evidence.
+
+External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

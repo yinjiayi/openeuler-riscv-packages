@@ -1,0 +1,21 @@
+{
+  "package_id": "libdaemon",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fd23eb5f6f986dcc7e708307355ba3289abe03cc381fc47a80bca4a50aa6b834"
+      },
+      "filename": "libdaemon-0.14.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official LGPL-2.1-or-later release archive is fetched over HTTPS and SHA-256 verified by CI."
+      },
+      "signature": null,
+      "url": "https://0pointer.net/lennart/projects/libdaemon/libdaemon-0.14.tar.gz",
+      "version": "0.14"
+    }
+  ]
+}

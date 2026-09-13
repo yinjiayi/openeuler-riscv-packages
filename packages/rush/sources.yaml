@@ -1,0 +1,21 @@
+{
+  "package_id": "rush",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fa95af9d2c7b635581841cc27a1d27af611f60dd962113a93d23a8874aa060f4"
+      },
+      "filename": "rush-2.4.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/rush/rush-2.4.tar.xz",
+      "version": "2.4"
+    }
+  ]
+}

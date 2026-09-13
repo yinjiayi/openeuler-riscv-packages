@@ -1,0 +1,21 @@
+{
+  "package_id": "jpeginfo",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "274f6be23fd089bd9e8715b67643a66ca2f63a503028bdea3e571228d50b669e"
+      },
+      "filename": "jpeginfo-1.7.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL-3.0-or-later source is fetched from the official stable release tag in CI; bundled digest code is identified by upstream as public domain."
+      },
+      "signature": null,
+      "url": "https://github.com/tjko/jpeginfo/archive/refs/tags/v1.7.1.tar.gz",
+      "version": "1.7.1"
+    }
+  ]
+}

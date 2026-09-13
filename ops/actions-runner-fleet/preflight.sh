@@ -35,6 +35,8 @@ runner_dir=$(oe_runner_dir "$name")
   || oe_die 'runner version is not the pinned release'
 [[ -S /run/docker.sock ]] || oe_die 'Docker socket is unavailable'
 oe_run docker info >/dev/null 2>&1 || oe_die 'runner service account cannot reach Docker'
+[[ -x /usr/sbin/iptables ]] \
+  || oe_die 'Docker firewall helper is missing: /usr/sbin/iptables'
 command -v qemu-riscv64 >/dev/null || oe_die 'qemu-riscv64 is missing'
 [[ -r /proc/sys/fs/binfmt_misc/qemu-riscv64 ]] || oe_die 'qemu-riscv64 binfmt registration is missing'
 grep -Fxq enabled /proc/sys/fs/binfmt_misc/qemu-riscv64 || oe_die 'qemu-riscv64 binfmt registration is disabled'

@@ -1,0 +1,21 @@
+{
+  "package_id": "hello",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0d5f60154382fee10b114a1c34e785d8b1f492073ae2d3a6f7b147687b366aa0"
+      },
+      "filename": "hello-2.12.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official GNU source release under GPL-3.0-or-later; the archive is fetched in CI and is not committed."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/hello/hello-2.12.3.tar.gz",
+      "version": "2.12.3"
+    }
+  ]
+}

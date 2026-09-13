@@ -1,0 +1,19 @@
+{
+  "package_id": "cmark",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "f9bc5ca38bcb0b727f0056100fac4d743e768872e3bacec7746de28f5700d697"},
+      "filename": "cmark-0.31.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Permissively licensed source is fetched from the official immutable version tag in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/commonmark/cmark/archive/refs/tags/0.31.2.tar.gz",
+      "version": "0.31.2"
+    }
+  ]
+}

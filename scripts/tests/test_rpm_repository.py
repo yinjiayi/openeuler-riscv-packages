@@ -18,6 +18,7 @@ CLIENT_PATH = REPO / "ci" / "rpm-repo-client.py"
 STAGER = REPO / "ci" / "stage-rpm-repository-upload.py"
 LIST_PACKAGES = REPO / "ci" / "list-rpm-repo-packages.py"
 BUILDDEPS_PATH = REPO / "ci" / "prepare-build-deps.py"
+INSTALL_SMOKE = REPO / "ci" / "install-smoke.sh"
 RSYNC_RETRY = REPO / "ci" / "rsync-with-lock-retry.sh"
 PUBLISHER_PATH = REPO / "ops" / "rpm-repo-server" / "rpmrepo_publish.py"
 BACKFILL_WORKFLOW = REPO / ".github" / "workflows" / "rpm-repo-backfill.yml"
@@ -401,17 +402,64 @@ class BackfillPlanTests(unittest.TestCase):
             run([str(LIST_PACKAGES), "--packages-dir", str(packages), "--output", str(output)])
             plan = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(plan["packages"], ["active"])
+            self.assertEqual(plan["shards"], [
+                {"index": 0, "package_count": 1, "packages": ["active"]},
+                {"index": 1, "package_count": 0, "packages": []},
+            ])
+            self.assertEqual(plan["max_parallel_per_shard"], 25)
             self.assertEqual({item["package_id"] for item in plan["skipped"]}, {"native", "retired", "golden-success-hello"})
+
+    def test_more_than_one_matrix_is_split_deterministically(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            packages = root / "packages"
+            expected = [f"pkg-{index:03d}" for index in range(257)]
+            for package_id in expected:
+                directory = packages / package_id
+                directory.mkdir(parents=True)
+                (directory / "package.yaml").write_text(
+                    json.dumps({"build": {"profile": "qemu-user"}, "maintenance": {"status": "active"}}),
+                    encoding="utf-8",
+                )
+            output = root / "plan.json"
+            github_output = root / "github-output"
+            run([
+                str(LIST_PACKAGES),
+                "--packages-dir", str(packages),
+                "--output", str(output),
+                "--github-output", str(github_output),
+                "--max-concurrency", "50",
+            ])
+            plan = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual([shard["package_count"] for shard in plan["shards"]], [129, 128])
+            self.assertEqual(plan["shards"][0]["packages"], expected[0::2])
+            self.assertEqual(plan["shards"][1]["packages"], expected[1::2])
+            self.assertEqual(plan["max_parallel_per_shard"], 25)
+            values = dict(line.split("=", 1) for line in github_output.read_text(encoding="utf-8").splitlines())
+            self.assertEqual(json.loads(values["packages_0"]), expected[0::2])
+            self.assertEqual(json.loads(values["packages_1"]), expected[1::2])
+            self.assertEqual(values["package_count"], "257")
+            self.assertEqual(values["max_parallel_per_shard"], "25")
 
 
 class BackfillWorkflowContractTests(unittest.TestCase):
-    def test_backfill_defaults_to_thirty_two_self_hosted_qemu_workers(self) -> None:
+    def test_backfill_splits_fifty_self_hosted_workers_across_two_matrices(self) -> None:
         workflow = BACKFILL_WORKFLOW.read_text(encoding="utf-8")
         self.assertIn(
-            "max-parallel: ${{ fromJSON(vars.RPM_BACKFILL_MAX_CONCURRENCY || '32') }}",
+            "--max-concurrency \"${{ vars.RPM_BACKFILL_MAX_CONCURRENCY || '50' }}\"",
             workflow,
         )
-        self.assertNotIn("max-parallel: 16", workflow)
+        self.assertEqual(
+            workflow.count("max-parallel: ${{ fromJSON(needs.plan.outputs.max_parallel_per_shard) }}"),
+            2,
+        )
+        self.assertIn("package_id: ${{ fromJSON(needs.plan.outputs.packages_0) }}", workflow)
+        self.assertIn("package_id: ${{ fromJSON(needs.plan.outputs.packages_1) }}", workflow)
+        package_workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn(
+            "$GITHUB_REPOSITORY/.github/workflows/rpm-repo-backfill.yml@refs/heads/main",
+            package_workflow,
+        )
 
     def test_caller_permission_ceiling_covers_reusable_workflow_jobs(self) -> None:
         caller_blocks = permission_blocks(BACKFILL_WORKFLOW)
@@ -443,6 +491,18 @@ class BackfillWorkflowContractTests(unittest.TestCase):
         workflow = GOLDEN_WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("BUILD_USER: ${{ steps.policy.outputs.build_user }}", workflow)
         self.assertIn('--build-user "$BUILD_USER"', workflow)
+
+    def test_heavy_dependency_preparation_has_a_bounded_one_hour_window(self) -> None:
+        for path in (PACKAGE_WORKFLOW, GOLDEN_WORKFLOW):
+            workflow = path.read_text(encoding="utf-8")
+            self.assertIn(
+                "--max-bytes 52428800 --timeout-seconds 3600 --",
+                workflow,
+            )
+            self.assertNotIn(
+                "--max-bytes 52428800 --timeout-seconds 1800 --",
+                workflow,
+            )
 
 
 class RrsyncLockRetryTests(unittest.TestCase):
@@ -539,26 +599,30 @@ class RrsyncLockRetryTests(unittest.TestCase):
 
 
 class BuildRequiresRetryTests(unittest.TestCase):
-    def test_retry_preserves_the_transaction_and_stops_after_success(self) -> None:
-        results = [
-            subprocess.CompletedProcess(["dnf"], 1),
-            subprocess.CompletedProcess(["dnf"], 92),
-            subprocess.CompletedProcess(["dnf"], 0),
-        ]
-        with mock.patch.object(builddeps.subprocess, "run", side_effect=results) as invoked:
-            with mock.patch.object(builddeps.time, "sleep") as sleeper:
-                used = builddeps.run_with_retries(["dnf", "install", "gcc"], delays=(0, 0))
-        self.assertEqual(used, 3)
-        self.assertEqual(invoked.call_count, 3)
-        self.assertEqual(sleeper.call_count, 2)
+    def test_buildrequires_uses_the_container_local_bounded_runner(self) -> None:
+        source = BUILDDEPS_PATH.read_text(encoding="utf-8")
+        self.assertIn('DNF_ATTEMPT_TIMEOUTS_SECONDS = "2100,1100"', source)
+        self.assertIn("DNF_TRANSACTION_BUDGET_SECONDS = 3300", source)
+        self.assertIn("DNF_KILL_AFTER_SECONDS = 10", source)
+        self.assertIn("dst={DNF_TRANSACTION_CONTAINER_PATH},readonly", source)
+        self.assertIn('"dependency_install_transaction"', source)
+        self.assertNotIn("run_with_retries", source)
 
-    def test_retry_is_bounded_for_deterministic_failures(self) -> None:
-        result = subprocess.CompletedProcess(["dnf"], 1)
-        with mock.patch.object(builddeps.subprocess, "run", return_value=result) as invoked:
-            with mock.patch.object(builddeps.time, "sleep"):
-                with self.assertRaises(subprocess.CalledProcessError):
-                    builddeps.run_with_retries(["dnf", "install", "missing"], delays=(0, 0))
-        self.assertEqual(invoked.call_count, 3)
+    def test_installed_smoke_allows_one_full_slow_metadata_attempt(self) -> None:
+        source = INSTALL_SMOKE.read_text(encoding="utf-8")
+        self.assertIn("--attempt-timeouts-seconds 2100,1100", source)
+        self.assertIn("--budget-seconds 3300", source)
+        for path in (PACKAGE_WORKFLOW, GOLDEN_WORKFLOW):
+            workflow = path.read_text(encoding="utf-8")
+            self.assertGreaterEqual(
+                workflow.count("--max-bytes 52428800 --timeout-seconds 3600 --"),
+                2,
+            )
+            self.assertNotIn("--timeout-seconds 1500", workflow)
+        package_workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("  rpm-install-smoke:\n    name: rpm-install-smoke", package_workflow)
+        self.assertIn("    timeout-minutes: 70", package_workflow)
+        self.assertNotIn("    timeout-minutes: 30", package_workflow)
 
 
 if __name__ == "__main__":

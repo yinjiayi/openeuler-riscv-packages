@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "package_id": "cproto",
+  "rpm": {
+    "name": "cproto",
+    "summary": "C function prototype generator",
+    "license": "LicenseRef-Public-Domain AND MIT"
+  },
+  "upstream": {
+    "component": "invisible-island.net-cproto",
+    "homepage": "https://invisible-island.net/cproto/",
+    "source_repository": "https://invisible-island.net/cproto/",
+    "release_channel": "stable",
+    "release_api": "https://invisible-mirror.net/archives/cproto/",
+    "release_regex": "cproto-(?P<version>[0-9]+(?:\\.[0-9]+)*[a-z]?)\\.tgz",
+    "source_url_template": "https://invisible-mirror.net/archives/cproto/cproto-{version}.tgz"
+  },
+  "version": {
+    "current": "4.8a",
+    "release": "1",
+    "latest_detected": "4.8a"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "cproto",
+        "package_base": "cproto",
+        "source_version": "4.8a-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/cproto/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "cproto",
+        "package_base": "cproto",
+        "source_version": "4.7l-1",
+        "evidence_url": "https://packages.debian.org/source/stable/cproto",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "cproto",
+        "package_base": "cproto",
+        "source_version": "4.7l-13.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/cproto",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "cproto",
+        "package_base": "cproto",
+        "source_version": "4.8a-1.1",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE:Factory/cproto",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": true,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "cproto.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official invisible-mirror cproto 4.8a archive was independently downloaded, SHA-256 pinned, and archive-audited. Distribution metadata is discovery lineage only; no external packaging recipe was executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

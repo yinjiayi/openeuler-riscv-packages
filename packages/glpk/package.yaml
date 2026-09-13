@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/glpk/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "glpk",
+        "package_name": "glpk",
+        "source": "arch-extra",
+        "source_version": "5.0-3"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/glpk/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "glpk",
+        "package_name": "glpk",
+        "source": "debian",
+        "source_version": "5.0-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/glpk/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "glpk",
+        "package_name": "glpk",
+        "source": "fedora",
+        "source_version": "5.0-16.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/glpk/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "glpk",
+        "package_name": "glpk",
+        "source": "opensuse-tumbleweed",
+        "source_version": "5.0-5.3"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/glpk/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "glpk",
+        "package_name": "glpk",
+        "source": "ubuntu",
+        "source_version": "5.0-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "glpk.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "glpk",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "glpk",
+    "summary": "GNU Linear Programming Kit: solve LP, MIP and other problems"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-glpk",
+    "homepage": "https://www.gnu.org/software/glpk/",
+    "release_api": "https://ftp.gnu.org/gnu/glpk/",
+    "release_channel": "stable",
+    "release_regex": "glpk-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/glpk/",
+    "source_url_template": "https://ftp.gnu.org/gnu/glpk/glpk-{version}.tar.gz"
+  },
+  "version": {
+    "current": "5.0",
+    "latest_detected": "5.0",
+    "release": "1"
+  }
+}

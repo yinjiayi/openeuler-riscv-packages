@@ -1,0 +1,26 @@
+From 195809f97a368380487259dca3f0926d29a298a6 Mon Sep 17 00:00:00 2001
+From: Adel Mamin <adel.mamin@exafore.com>
+Date: Thu, 18 Jul 2019 09:51:35 +0000
+Subject: [PATCH] Fix compilation for gcc 9.1.0
+
+Take the address of each compound literal inside dns_quietinit.  GCC wraps
+that macro in a statement expression, whose result is not an lvalue, so
+taking its address outside the macro fails with newer GCC releases.
+
+Patch-Source: https://github.com/sustrik/libdill/commit/195809f97a368380487259dca3f0926d29a298a6
+Patch-License: MIT
+Upstream-Status: Accepted (commit 195809f97a368380487259dca3f0926d29a298a6)
+Remove-When: The packaged release contains upstream commit 195809f97a368380487259dca3f0926d29a298a6.
+---
+ dns/dns.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/dns/dns.h b/dns/dns.h
+--- a/dns/dns.h
++++ b/dns/dns.h
+@@ -499 +499 @@ size_t dns_rr_print(void *, size_t, struct dns_rr *, struct dns_packet *, int *)
+-	dns_rr_i_init(&dns_quietinit((struct dns_rr_i){ 0, __VA_ARGS__ }), (P))
++	dns_rr_i_init(dns_quietinit(&(struct dns_rr_i){ 0, __VA_ARGS__ }), (P))
+@@ -1009 +1009 @@ void dns_cache_close(struct dns_cache *);
+-#define dns_opts(...) (&dns_quietinit((struct dns_options)DNS_OPTS_INIT(__VA_ARGS__)))
++#define dns_opts(...) (dns_quietinit(&(struct dns_options)DNS_OPTS_INIT(__VA_ARGS__)))

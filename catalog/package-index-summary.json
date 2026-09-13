@@ -1,0 +1,50 @@
+{
+  "artifact": "catalog/package-index.json.gz",
+  "entry_count": 151852,
+  "generated_at": "2026-08-23T12:43:41Z",
+  "kind": "package-inventory-summary",
+  "main_ref": "16ef9d71451b1781abeb4f6a8012db8cc57473d4",
+  "managed_package_count": 279,
+  "merged_pull_request_count": 357,
+  "open_pull_request_count": 82,
+  "pull_request_count": 439,
+  "reviewed_release_count": 119,
+  "schema_version": 1,
+  "source_snapshot": {
+    "candidate_record_count": 0,
+    "decision_counts": {
+      "binary-only": 12765,
+      "license-blocked": 17752,
+      "pre-release": 823,
+      "stale": 46870,
+      "unverified-upstream": 89975,
+      "vcs-only": 12949
+    },
+    "lineage_record_counts": {
+      "arch": 15163,
+      "aur": 117191,
+      "debian": 38068,
+      "fedora": 23660,
+      "opensuse": 17113,
+      "ubuntu": 40311
+    },
+    "path": "catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+    "policy": {
+      "aur_stale_days": 730,
+      "execute_external_packaging": false,
+      "normalization_version": 5,
+      "stable_only": true,
+      "verified_source_required": true
+    },
+    "record_count": 181134,
+    "rejection_record_count": 181134,
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "unique_discovery_key_count": 151835
+  },
+  "status_counts": {
+    "discovered": 151512,
+    "managed": 279,
+    "merged-pr": 1,
+    "open-pr": 60
+  }
+}

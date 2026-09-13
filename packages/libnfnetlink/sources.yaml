@@ -1,0 +1,21 @@
+{
+  "package_id": "libnfnetlink",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b064c7c3d426efb4786e60a8e6859b82ee2f2c5e49ffeea640cfe4fe33cbc376"
+      },
+      "filename": "libnfnetlink-1.0.2.tar.bz2",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://www.netfilter.org/projects/libnfnetlink/files/libnfnetlink-1.0.2.tar.bz2",
+      "version": "1.0.2"
+    }
+  ]
+}
