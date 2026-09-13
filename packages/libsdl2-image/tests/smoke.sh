@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- SDL2_image SDL2_image-devel
-pkg-config --exists 'SDL2_image = 2.8.8'
+pkg-config --exists 'SDL2_image = 2.8.12'
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf -- "$smoke_dir"' EXIT
@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     const SDL_version *version = IMG_Linked_Version();
     SDL_Surface *image;
     if (argc != 2) return 1;
-    if (version == NULL || version->major != 2 || version->minor != 8 || version->patch != 8) return 2;
+    if (version == NULL || version->major != 2 || version->minor != 8 || version->patch != 12) return 2;
     image = IMG_Load(argv[1]);
     if (image == NULL) return 3;
     return image->w == 1 && image->h == 1 ? 0 : 4;
