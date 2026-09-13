@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 # doctest
 
-This directory packages upstream `https://github.com/doctest/doctest` version `2.5.2` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
+This directory packages upstream `https://github.com/doctest/doctest` version `2.5.3` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23.
 
 The immutable discovery snapshot cross-checks Arch stable, Fedora GA, and openSUSE Tumbleweed records. Only the official stable tag archive and independently calculated SHA-256 are build inputs; no AUR recipe or distribution build hook is read or executed.
 
@@ -10,9 +10,10 @@ upstream archive combines MIT project code, CC-BY-4.0 artwork, BSL-1.0 header
 sections, and BSD-3-Clause CMake helpers. Fedora's SPEC was inspected only as
 packaging evidence and was not executed.
 
-The complete upstream CTest suite remains enabled. On the pinned RISC-V QEMU
-user-mode runner, a single long-lived `ctest` process receives `SIGILL` after
-69 successful tests; `%check` therefore runs the discovered test set in
-bounded batches without omitting or accepting failures from any test.
+The complete upstream CTest suite remains enabled and is discovered at build
+time. RISC-V QEMU user-mode runs have produced process-level `SIGILL` failures
+at varying points even though the identical package tree has also passed the
+complete suite. `%check` therefore runs the discovered test set in bounded
+batches without omitting or accepting failures from any test.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

@@ -44,7 +44,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "notes": "Official stable release archive independently reviewed and pinned in sources.yaml; external distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "doctest",
@@ -63,7 +63,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-09-13T12:15:48Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
   },
@@ -77,8 +77,8 @@
     "source_url_template": "https://github.com/doctest/doctest/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "2.5.2",
-    "latest_detected": "2.5.2",
-    "release": "4"
+    "current": "2.5.3",
+    "latest_detected": "2.5.3",
+    "release": "1"
   }
 }

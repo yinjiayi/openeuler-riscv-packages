@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           doctest
-Version:        2.5.2
-Release:        4%{?dist}
+Version:        2.5.3
+Release:        1%{?dist}
 Summary:        Lightweight feature-rich C++ testing framework
 License:        MIT AND CC-BY-4.0 AND BSL-1.0 AND BSD-3-Clause
 URL:            https://github.com/doctest/doctest
-Source0:        doctest-2.5.2.tar.gz
+Source0:        doctest-2.5.3.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  make
@@ -34,8 +34,8 @@ install -Dpm 0644 %{_vpath_builddir}/libdoctest_with_main.a \
   %{buildroot}%{_libdir}/libdoctest_with_main.a
 
 %check
-# Long-lived ctest processes receive SIGILL under QEMU user mode after otherwise
-# successful tests.  Keep the full upstream suite, but bound each ctest process
+# QEMU user mode has produced process-level SIGILL at varying points in otherwise
+# successful runs.  Keep the full upstream suite, but bound each ctest process
 # to eight tests so emulator state is renewed more frequently.
 test_count=$(ctest --test-dir %{_vpath_builddir} -N | \
   sed -n 's/^Total Tests: //p')
@@ -59,6 +59,10 @@ done
 %{_libdir}/pkgconfig/doctest.pc
 
 %changelog
+* Sun Sep 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.3-1
+- Update to the verified official stable 2.5.3 archive.
+- Retain the complete dynamic CTest batches and disable empty debuginfo output.
+
 * Wed Sep 09 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.5.2-4
 - Disable the empty debuginfo subpackage for the header/static-only payload.
 
