@@ -1,0 +1,21 @@
+{
+  "package_id": "grub-qemu",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "affcac9169285c29b4dafdd9c9a04877a3197889c8a9ba23952d99d7823689cc"
+      },
+      "filename": "grub-qemu-0.1.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/VC365/grub-qemu/archive/refs/tags/v0.1.3.tar.gz",
+      "version": "0.1.3"
+    }
+  ]
+}
