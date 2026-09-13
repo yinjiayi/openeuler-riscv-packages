@@ -1,0 +1,36 @@
+{
+  "package_id": "cadet-core",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "057a2695273278963191af8bac459db77c6aeaf412c3022f48dbb7f6227bc062"
+      },
+      "filename": "cadet-core-5.1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cadet/cadet-core/archive/refs/tags/v5.1.0.tar.gz",
+      "version": "5.1.0"
+    },
+    {
+      "digests": {
+        "sha256": "8586084f71f9bde545ee7fa6d00288b264a2b7ac3607b974e54d13e7162c1c72"
+      },
+      "filename": "eigen-3.4.0.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official immutable Eigen 3.4.0 archive is redistributed under its upstream free-software licenses."
+      },
+      "signature": null,
+      "url": "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz",
+      "version": "3.4.0"
+    }
+  ]
+}
