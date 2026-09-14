@@ -50,6 +50,8 @@ rm -f %{buildroot}%{_libdir}/libfastjson.la
 %{_libdir}/pkgconfig/libfastjson.pc
 
 %changelog
+* Tue Sep 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2609.0-1
+- Update to upstream 1.2609.0 and exercise the installed public C API.
+
 * Sat Aug 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2304.0-1
 - Initial openEuler RISC-V package.
-
