@@ -1,0 +1,104 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/julius-speech/julius",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "julius-speech",
+        "package_name": "julius-speech",
+        "source": "aur",
+        "source_version": "4.6-2"
+      },
+      {
+        "evidence_url": "https://github.com/julius-speech/julius",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "julius",
+        "package_name": "julius",
+        "source": "fedora",
+        "source_version": "4.6-10.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-libsent-restrict-cpuid-header-to-x86.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Keep GCC's x86-only cpuid.h out of RISC-V builds while preserving Julius's existing scalar DNN implementation.",
+        "remove_when": "Upstream restricts cpuid.h to x86 targets in a stable release.",
+        "sha256": "afaf95ad12b4855bfc1e9ec31d9bd944f6a608ccc0e342c3038b8c5e8561270a",
+        "source": "openEuler RISC-V package CI runs 33673195508 and 33676018135 against exact heads 6b82e5cf4850d4eeea02929adcffa41bb5ba87fa and db47526640d784318e3406537ba11b6a4bb91680",
+        "upstream_status": "not-submitted"
+      },
+      {
+        "file": "patches/0002-libsent-include-openmp-header-when-enabled.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Declare the OpenMP runtime functions used by calc_dnn.c whenever the compiler enables OpenMP, including targets without SIMD implementations.",
+        "remove_when": "Upstream includes omp.h whenever _OPENMP is defined in a stable release.",
+        "sha256": "786e1ee1935f5ad018b9f05bb7c6cc803f2ebe078e16820807ead7f972f5e6d2",
+        "source": "openEuler RISC-V package CI run 33678330024 against exact head 0b8632e6e2aa97766a139765e86cfac25d6f0961",
+        "upstream_status": "not-submitted"
+      },
+      {
+        "file": "patches/0003-fedora-support-destdir.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Honor DESTDIR throughout upstream's recursive install rules so RPM installation populates the buildroot instead of the build container root.",
+        "remove_when": "Upstream honors DESTDIR in every installed target or Fedora removes this patch from its Julius 4.6 packaging.",
+        "sha256": "28b8484c6241f89439a30b390aaeb8c729d98602fa21ad05c401b0542b22ee30",
+        "source": "https://src.fedoraproject.org/rpms/julius/raw/rawhide/f/julius-4.6-DESTDIR.patch",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "julius-speech.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the SPEC source root to the archive's exact julius-4.6 top-level directory. Exact-head CI run 33673195508 for release 2 reached compilation and failed because upstream includes GCC's x86-only cpuid.h on RISC-V even though no x86 SIMD implementation is enabled. Release 3 restricts that header to x86 targets, preserving the scalar DNN implementation and build features. Exact-head run 33676018135 verified the release 3 source and dependencies, then failed first in %prep because strict GNU patch could not apply the hand-written hunk. Release 4 regenerates the semantically unchanged hunk with standard three-line unified-diff context; it applies to the verified archive with GNU patch and fuzz disabled. Exact-head run 33678330024 for release 4 applied that patch and compiled on RISC-V until libsent/src/phmm/calc_dnn.c used omp_get_max_threads and omp_get_thread_num without declarations. Configure had enabled OpenMP with -fopenmp, but upstream nested omp.h inside a SIMD-only conditional that is false on RISC-V. Release 5 includes omp.h whenever _OPENMP is defined while preserving OpenMP and scalar DNN behavior. Exact-head run 33682226324 at a44dc56ad2be5472e59afa62918ed0e6fafb65b4 applied both source fixes and completed compilation, then %make_install wrote every file under the build container's /usr because upstream's recursive Makefiles ignore DESTDIR. The RPM buildroot remained empty and the explicit nonempty-manifest check failed. Release 6 imports Fedora's checksum-pinned Julius 4.6 DESTDIR patch so the same complete upstream install target stages files in the RPM buildroot. Exact-head run 33685567655 at 6ea2085f8ef6a63891fd89405bdfcc597dd4a319 completed compilation and staged installation, then failed in %check because the upstream top-level Makefile defines no check target. Source audit found no registered top-level test suite; the only check-named target under the configured source tree is an empty libjcode build alias. Release 7 replaces the invalid command with deterministic checks that execute the built Julius decoder's documented help path, assert its documented exit status and stable output, and verify both generated library configuration reporters. No source feature or patch is changed. The RISC-V build status remains unknown pending fresh exact-head CI evidence for release 7.",
+    "status": "active"
+  },
+  "package_id": "julius-speech",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "julius-speech",
+    "summary": "A high-performance, two-pass large vocabulary continuous speech recognition decoder software"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-julius-speech-julius",
+    "homepage": "https://github.com/julius-speech/julius",
+    "release_api": "https://api.github.com/repos/julius-speech/julius/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/julius-speech/julius",
+    "source_url_template": "https://github.com/julius-speech/julius/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.6",
+    "latest_detected": "4.6",
+    "release": "7"
+  }
+}

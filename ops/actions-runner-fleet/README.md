@@ -134,7 +134,7 @@ The **systemd package integrity gate** is the shared lifecycle check that binds
 `/usr/bin/systemctl` to Ubuntu's installed `systemd` package before any
 `systemctl` operation. It requires a root-owned, mode-0755, non-symlink regular
 executable; the exact dpkg owner; an installed `systemd` package with a valid
-version; and no output from `dpkg-query --verify systemd`. Dpkg can return zero
+version; and no output from `dpkg --verify systemd`. Dpkg can return zero
 while printing a file checksum mismatch, so empty verification output—not the
 return code alone—is the acceptance condition. The installer repeats this
 gate after apt completes, and preflight, audit, registration, activation, and
@@ -252,8 +252,11 @@ batches, while each host keeps the following per-host state machine:
    path make this the supported way to repair missing packages and stale or
    absent installed helpers.
 4. Run `activate.sh --enable-reviewed-policy` with the same identity arguments.
-   Activation performs bounded cleanup and preflight before starting the
-   service. Then require `audit.sh` success, the service active/enabled, the
+   Activation anonymously caches and verifies the digest-locked cleanup image
+   when it is absent, then performs bounded cleanup and preflight before
+   starting the service. This prevents root-owned output from an older QEMU
+   build from trapping a freshly redeployed runner in the unprivileged host
+   fallback. Then require `audit.sh` success, the service active/enabled, the
    GitHub Runner online with `busy=false`, and an empty Docker container
    inventory before advancing to the next host.
 
@@ -265,7 +268,9 @@ installer.
 
 GitHub-supported synchronous pre/post hooks run `job-guard.sh` and
 `cleanup.sh` with a five-minute timeout. **Activation cleanup** is the full
-workspace cleanup that runs before the Runner service starts. **Job-start
+workspace cleanup that runs before the Runner service starts. Activation first
+requires the same digest-pinned base image to be locally cached; `audit.sh`
+fails closed if that cache prerequisite is absent. **Job-start
 cleanup** runs after the Runner has downloaded pinned actions, so it removes
 only the exact configured repository workspace contents plus home and
 Docker-client state; it deliberately preserves the sibling `_actions`,

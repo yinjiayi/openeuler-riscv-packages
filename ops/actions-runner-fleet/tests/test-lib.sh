@@ -52,16 +52,17 @@ integrity_probe() (
       --show)
         printf 'systemd\tinstall ok installed\t259.5-0ubuntu3.4\n'
         ;;
-      --verify)
-        if [[ $mismatch == true ]]; then
-          printf '%s\n' '??5??????   /usr/bin/systemctl'
-        fi
-        return 0
-        ;;
       *)
         return 2
         ;;
     esac
+  }
+  dpkg() {
+    [[ ${1-} == --verify && ${2-} == systemd && $# -eq 2 ]] || return 2
+    if [[ $mismatch == true ]]; then
+      printf '%s\n' '??5??????   /usr/bin/systemctl'
+    fi
+    return 0
   }
   oe_assert_systemctl_integrity
 )
