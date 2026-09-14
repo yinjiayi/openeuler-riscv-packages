@@ -484,14 +484,26 @@ class TrustedPackageDispatchAuthorizerTests(unittest.TestCase):
             "event_ref": "refs/heads/main",
         }
         image = self.pr(
-            changed_files=1,
+            changed_files=2,
             user={"login": "github-actions[bot]"},
             author_association="CONTRIBUTOR",
         )
         image["head"] = dict(image["head"], ref="infra/ci-image-c382709bffbe")
+        image_files = [
+            {"filename": "ci/image.lock", "status": "modified"},
+            {
+                "filename": "ops/actions-runner-fleet/cleanup-image.lock",
+                "status": "modified",
+            },
+        ]
         AUTHORIZER_MODULE.authorize(
             image,
-            [{"filename": "ci/image.lock", "status": "modified"}],
+            image_files,
+            **values,
+        )
+        AUTHORIZER_MODULE.authorize(
+            image,
+            list(reversed(image_files)),
             **values,
         )
 
@@ -509,14 +521,40 @@ class TrustedPackageDispatchAuthorizerTests(unittest.TestCase):
         )
 
         rejected = (
-            (image, [{"filename": "ci/image.lock", "status": "added"}]),
+            (
+                image,
+                [dict(image_files[0], status="added"), image_files[1]],
+            ),
             (
                 dict(image, user={"login": "yinjiayi"}),
-                [{"filename": "ci/image.lock", "status": "modified"}],
+                image_files,
             ),
             (
                 dict(image, head=dict(image["head"], ref="infra/unreviewed")),
-                [{"filename": "ci/image.lock", "status": "modified"}],
+                image_files,
+            ),
+            (
+                dict(image, changed_files=1),
+                [image_files[0]],
+            ),
+            (
+                image,
+                [image_files[0], {"filename": "README.md", "status": "modified"}],
+            ),
+            (
+                image,
+                [image_files[0], image_files[0]],
+            ),
+            (
+                image,
+                [
+                    image_files[0],
+                    dict(
+                        image_files[1],
+                        status="renamed",
+                        previous_filename="ops/actions-runner-fleet/old.lock",
+                    ),
+                ],
             ),
             (
                 catalog,

@@ -1,0 +1,27 @@
+From 6c49f52ef61d6b739ee930e995be1eea0b5de4ad Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 8 Sep 2026 12:00:00 +0800
+Subject: [PATCH] cmake: support openEuler and install the binary
+
+openEuler 24.03 LTS SP3 provides CMake 3.27, while this small project
+uses no command newer than that release.  Lower the declared minimum so
+the source can configure in the locked buildroot.
+
+The upstream build also lacks an install rule.  Install the executable
+through CMake so RPM's staged install receives the program.
+---
+ CMakeLists.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6e6f318..680b1b7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5 +5 @@
+-cmake_minimum_required(VERSION 3.31)
++cmake_minimum_required(VERSION 3.27)
+@@ -10,3 +10,4 @@ set(CMAKE_C_STANDARD 11)
+ add_executable(grub-qemu main.c
+         src/temp.h
+ )
++install(TARGETS grub-qemu RUNTIME DESTINATION bin)

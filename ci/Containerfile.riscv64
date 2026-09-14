@@ -8,6 +8,7 @@ RUN dnf -y install bzip2 ca-certificates cpio curl dnf-plugins-core rpm shadow-u
     && dnf clean all
 COPY ci/openeuler-rva23.repo /bootstrap/openeuler-rva23.repo
 COPY ci/bootstrap-rootfs.sh /bootstrap/bootstrap-rootfs.sh
+COPY ci/run-dnf-transaction /bootstrap/run-dnf-transaction
 COPY ci/rpm-manifest.sh /bootstrap/rpm-manifest.sh
 RUN /bootstrap/bootstrap-rootfs.sh /rootfs /bootstrap/openeuler-rva23.repo
 
