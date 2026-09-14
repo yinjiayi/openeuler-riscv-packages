@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           qpdf
 Version:        12.3.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        QPDF: A Content-Preserving PDF Transformation System
 License:        Apache-2.0
 URL:            https://github.com/qpdf/qpdf
@@ -43,6 +43,10 @@ ctest --test-dir %{_vpath_builddir} --output-on-failure
 %{_mandir}/man1/*.1*
 
 %changelog
+* Mon Sep 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 12.3.2-4
+- Allow the complete seven-test suite 180 minutes under QEMU.
+- Exercise installed PDF generation and validation.
+
 * Mon Sep 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 12.3.2-3
 - Own installed manual pages with an RPM compression-tolerant glob.
 
