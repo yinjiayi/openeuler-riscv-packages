@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libcerf
-Version:        3.6
-Release:        1%{?dist}
+Version:        3.7
+Release:        2%{?dist}
 Summary:        Complex error function library
 License:        MIT
 URL:            https://jugit.fz-juelich.de/mlz/libcerf
-Source0:        libcerf-v3.6.tar.gz
+Source0:        libcerf-v3.7.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -28,7 +28,7 @@ The C and C++ header, pkg-config and CMake metadata, manual pages, and the
 unversioned shared library links for developing applications with libcerf.
 
 %prep
-%autosetup -n cerf-v%{version}-070f3fdcb82efb594f89435382d7a4e647be39e9 -p1
+%autosetup -n cerf-v%{version}-c22fc842bfc5a8cd34cee2f64cc0c830d6b2729c -p1
 
 %build
 %cmake_conf \
@@ -45,7 +45,8 @@ unversioned shared library links for developing applications with libcerf.
 rm -rf %{buildroot}%{_docdir}/cerf
 
 %check
-# Run all 18 registered C and C++ numerical tests.
+# Run all 16 registered C and C++ numerical tests.
+test "$(ctest --test-dir %{_vpath_builddir} -N | awk '/^Total Tests:/{print $3}')" -eq 16
 %ctest
 
 %files
@@ -64,6 +65,13 @@ rm -rf %{buildroot}%{_docdir}/cerf
 %{_mandir}/man3/*.3*
 
 %changelog
+* Mon Sep 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.7-2
+- Follow the verified v3.7 GitLab archive root and assert all 16 registered C
+  and C++ numerical tests before running the complete CTest suite.
+
+* Sat Sep 05 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.7-1
+- Update to upstream 3.7.
+
 * Sat Sep 05 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.6-1
 - Update to upstream 3.6 and retain the complete C and C++ test suite.
 
@@ -71,4 +79,5 @@ rm -rf %{buildroot}%{_docdir}/cerf
 - Synchronize the archive root with the verified upstream v3.5 source.
 
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.3-1
-- Initial openEuler RISC-V package with all 18 upstream C and C++ tests.
+- Initial openEuler RISC-V package with the complete upstream C and C++ test
+  suite.

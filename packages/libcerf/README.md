@@ -2,7 +2,7 @@
 # libcerf
 
 This directory packages upstream
-`https://jugit.fz-juelich.de/mlz/libcerf` version `3.6` for openEuler 24.03
+`https://jugit.fz-juelich.de/mlz/libcerf` version `3.7` for openEuler 24.03
 LTS SP3 on `riscv64`/RVA23.
 
 The frozen discovery snapshot is the immutable metadata capture identified by
@@ -14,11 +14,16 @@ negative result is recorded rather than inventing a lineage row. No
 distribution recipe or AUR content was read or executed.
 
 The complete maintained upstream test gate is CTest with both the C and C++
-interfaces enabled. It runs all 18 registered numerical tests without network
-access. The source is the immutable archive for the publisher's current stable
-`v3.6` tag; no distribution source or mirror was substituted. Exact-head run
-`33227448843` attempt 2 verified that archive and exposed the stale v3.3 commit
-root in `%prep`; the current SPEC follows the archive's versioned root.
+interfaces enabled. Upstream registers the eight maintained `*test.c` sources
+once for the C library and once for the C++ library, for exactly 16 numerical
+tests. The SPEC asserts that count before running the complete suite without
+network access. The source is the immutable archive for the publisher's stable
+`v3.7` tag, pinned by SHA-256
+`9071fd4c02f5a57b909ad733dd7c8ac321642464365691b181c23d66ac6730f6`;
+no distribution source or mirror was substituted. The v3.6 packaging repair
+that made `%prep` follow the verified GitLab archive root is retained for v3.7,
+whose exact root is
+`cerf-v3.7-c22fc842bfc5a8cd34cee2f64cc0c830d6b2729c`.
 
 External source licenses remain those of upstream. The repository's
 Apache-2.0 license covers only the original packaging metadata, scripts, and
