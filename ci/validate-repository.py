@@ -180,10 +180,73 @@ def main() -> int:
             )
         if "COPY ci/run-dnf-transaction /bootstrap/run-dnf-transaction" not in containerfile:
             errors.append("bootstrap image does not copy the bounded DNF transaction runner")
+        if "FROM --platform=$TARGETPLATFORM ${BASE_IMAGE} AS metadata-refresh" not in containerfile:
+            errors.append("CI image does not define its immutable metadata-refresh target")
+        else:
+            metadata_refresh = containerfile[
+                containerfile.index(
+                    "FROM --platform=$TARGETPLATFORM ${BASE_IMAGE} AS metadata-refresh"
+                ) :
+            ]
+            for marker in (
+                "io.openeuler.parent-image=\"${BASE_IMAGE}\"",
+                "/usr/share/openeuler-riscv-ci/parent-image.txt",
+                "rpmdb --verifydb",
+                "cmp -s /usr/share/openeuler-riscv-ci/rpm-manifest.tsv",
+                "&& find /var/cache/dnf -mindepth 1 -delete",
+                "&& /usr/local/libexec/openeuler-riscv-ci/run-dnf-transaction",
+                "&& /usr/local/bin/verify-target",
+            ):
+                if marker not in metadata_refresh:
+                    errors.append(
+                        f"immutable metadata-refresh target is missing: {marker}"
+                    )
+            for forbidden_marker in (
+                "/bootstrap/bootstrap-rootfs.sh",
+                "&& /usr/local/libexec/openeuler-riscv-ci/finalize-target-rpmdb.sh",
+            ):
+                if forbidden_marker in metadata_refresh:
+                    errors.append(
+                        "metadata refresh unexpectedly rebuilds or reimports the "
+                        f"locked rootfs: {forbidden_marker}"
+                    )
         if image_workflow.count("- ci/run-dnf-transaction") < 2:
             errors.append("Build CI Image does not rebuild when the DNF transaction runner changes")
         if "sha256sum ci/run-dnf-transaction" not in image_workflow:
             errors.append("Build CI Image does not record the DNF transaction runner checksum")
+        for marker in (
+            "full_bootstrap:",
+            "target=metadata-refresh",
+            "target=full-bootstrap",
+            "reason=bootstrap-contract-change",
+            "ci/image-ref.sh ci/image.lock",
+            "sha256sum ci/image.lock",
+            "artifacts/image/base-image.txt",
+            "artifacts/image/build-mode.txt",
+            '--target "$IMAGE_TARGET"',
+            '--build-arg "BASE_IMAGE=$BASE_REF"',
+        ):
+            if marker not in image_workflow:
+                errors.append(f"CI image locked-base build contract is missing: {marker}")
+        mode_start = "- name: Select the bounded image build mode"
+        mode_end = "- name: Resolve the locked verified CI base image"
+        if mode_start not in image_workflow or mode_end not in image_workflow:
+            errors.append("CI image workflow does not select a locked refresh or full bootstrap")
+        else:
+            mode_selection = image_workflow[
+                image_workflow.index(mode_start) : image_workflow.index(mode_end)
+            ]
+            for bootstrap_sensitive in (
+                "ci/bootstrap-rootfs.sh",
+                "ci/finalize-target-rpmdb.sh",
+                "ci/rpm-manifest.sh",
+                "ci/build-config.yaml",
+            ):
+                if bootstrap_sensitive not in mode_selection:
+                    errors.append(
+                        "CI image mode selection ignores bootstrap-sensitive input: "
+                        + bootstrap_sensitive
+                    )
         transaction_marker = "dnf -y"
         export_marker = 'rpmdb --root "$rootfs" --exportdb'
         if (

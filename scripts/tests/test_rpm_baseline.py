@@ -533,6 +533,55 @@ class RpmBaselineImageContractTests(unittest.TestCase):
             containerfile,
         )
 
+    def test_metadata_refresh_reuses_only_the_locked_verified_image(self) -> None:
+        containerfile = CONTAINERFILE.read_text(encoding="utf-8")
+        refresh_marker = (
+            "FROM --platform=$TARGETPLATFORM ${BASE_IMAGE} AS metadata-refresh"
+        )
+        self.assertIn(refresh_marker, containerfile)
+        refresh = containerfile[containerfile.index(refresh_marker) :]
+        for marker in (
+            "io.openeuler.parent-image=\"${BASE_IMAGE}\"",
+            "/usr/share/openeuler-riscv-ci/parent-image.txt",
+            "rpmdb --verifydb",
+            "cmp -s /usr/share/openeuler-riscv-ci/rpm-manifest.tsv",
+            "&& find /var/cache/dnf -mindepth 1 -delete",
+            "&& /usr/local/libexec/openeuler-riscv-ci/run-dnf-transaction",
+            "&& /usr/local/bin/verify-target",
+        ):
+            self.assertIn(marker, refresh)
+        self.assertNotIn("/bootstrap/bootstrap-rootfs.sh", refresh)
+        self.assertNotIn(
+            "&& /usr/local/libexec/openeuler-riscv-ci/finalize-target-rpmdb.sh",
+            refresh,
+        )
+
+        workflow = IMAGE_WORKFLOW.read_text(encoding="utf-8")
+        for marker in (
+            "full_bootstrap:",
+            "target=metadata-refresh",
+            "target=full-bootstrap",
+            "reason=bootstrap-contract-change",
+            "ci/image-ref.sh ci/image.lock",
+            "sha256sum ci/image.lock",
+            "artifacts/image/base-image.txt",
+            "artifacts/image/build-mode.txt",
+            '--target "$IMAGE_TARGET"',
+            '--build-arg "BASE_IMAGE=$BASE_REF"',
+        ):
+            self.assertIn(marker, workflow)
+        mode = workflow[
+            workflow.index("- name: Select the bounded image build mode") :
+            workflow.index("- name: Resolve the locked verified CI base image")
+        ]
+        for name in (
+            "ci/bootstrap-rootfs.sh",
+            "ci/finalize-target-rpmdb.sh",
+            "ci/rpm-manifest.sh",
+            "ci/build-config.yaml",
+        ):
+            self.assertIn(name, mode)
+
     def test_target_verification_requires_networkless_official_cache_load(self) -> None:
         verify = VERIFY.read_text(encoding="utf-8")
         repository = BOOTSTRAP_REPOSITORY.read_text(encoding="utf-8")
