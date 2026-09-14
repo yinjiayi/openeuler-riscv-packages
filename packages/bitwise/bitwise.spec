@@ -42,6 +42,9 @@ autoreconf -fi
 %{_mandir}/man1/bitwise.1*
 
 %changelog
+* Mon Sep 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.70-1
+- Update to 0.70.
+
 * Mon Aug 24 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.60-1
 - Update to 0.60 and use the upstream release asset.
 
