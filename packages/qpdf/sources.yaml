@@ -1,0 +1,21 @@
+{
+  "package_id": "qpdf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "11ac1800f0d7334863fa1fce6a8b87b105897610bb6a25b9b883ba3f9f1aa4d7"
+      },
+      "filename": "qpdf-12.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/qpdf/qpdf/archive/refs/tags/v12.3.2.tar.gz",
+      "version": "12.3.2"
+    }
+  ]
+}
