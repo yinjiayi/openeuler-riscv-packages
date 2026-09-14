@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           snappy
-Version:        1.2.2
+Version:        1.3.0
 Release:        1%{?dist}
 Summary:        Fast compression and decompression library
 License:        BSD-3-Clause
 URL:            https://github.com/google/snappy
-Source0:        snappy-%{version}.tar.gz
+Source0:        1.3.0.tar.gz
 Patch0:         0001-cmake-use-system-googletest.patch
 
 BuildRequires:  cmake
