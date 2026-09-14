@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libmaxminddb
-Version:        1.13.3
+Version:        1.14.0
 Release:        1%{?dist}
 Summary:        Library for reading MaxMind DB files
 License:        Apache-2.0
 URL:            https://maxmind.github.io/libmaxminddb
-Source0:        libmaxminddb-%{version}.tar.gz
+Source0:        libmaxminddb-1.14.0.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++

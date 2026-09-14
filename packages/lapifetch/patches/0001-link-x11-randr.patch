@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Mon, 7 Sep 2026 00:00:00 +0000
+Subject: [PATCH] cmake: link the X11 and RandR libraries
+
+system.cpp calls XOpenDisplay and the XRandR API, but the CMake target does
+not link either library. Match the libraries already used by upstream's
+Makefile and Nix packaging so the CMake build resolves those symbols.
+
+Patch-Source: openEuler RISC-V package CI failure analysis
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+---
+ CMakeLists.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,6 +7,8 @@ file(GLOB SRC_FILES src/*.cpp)
+ 
+ add_executable(lapifetch ${SRC_FILES})
+ 
++target_link_libraries(lapifetch PRIVATE X11 Xrandr)
++
+ include(GNUInstallDirs)
+ 
+ install(TARGETS lapifetch
+-- 
+2.50.1

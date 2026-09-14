@@ -1,0 +1,96 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/waycrate/qt-session-lock",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "session-lock-qt",
+        "package_name": "session-lock-qt",
+        "source": "aur",
+        "source_version": "2.1.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-find-qt-wayland-private-target-via-public-component.patch",
+        "license": "Apache-2.0",
+        "purpose": "Load the Qt6::WaylandClientPrivate target from openEuler Qt 6.5's public WaylandClient component without disabling Wayland session-lock support.",
+        "remove_when": "Upstream no longer requests WaylandClientPrivate as a separate Qt component, or the target distribution provides a separate Qt6WaylandClientPrivateConfig.cmake.",
+        "sha256": "d482bb234722cbc571e89e9fe22947672f67a84e5703e92c5f15a25bb8ea842b",
+        "source": "Downstream openEuler compatibility patch based on the checksum-verified qt6-qtwayland-devel 6.5.2 provider layout.",
+        "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0002-support-qt-6.5-shell-surface-api.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Keep the activation-on-show method without requiring a Qt 6.8 virtual hook and correct the expose-size member reference so the complete session-lock implementation builds against openEuler Qt 6.5.",
+        "remove_when": "Upstream supports Qt 6.5 directly, or requires Qt 6.8 or later and no longer compiles the older expose path.",
+        "sha256": "d20e3edb434681f6c655a97070a30dfa7b8eec7e3ec191d59529e46d0ab83802",
+        "source": "Downstream adaptation of the checksum-verified qt-session-lock 2.1.0 sources to the Qt 6.5 QWaylandShellSurface API.",
+        "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0003-include-qguiapplication.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Include QGuiApplication directly for the surface activation and QML screen queries on Qt 6.5.",
+        "remove_when": "Upstream directly includes QGuiApplication in both the session-lock surface and QML translation units.",
+        "sha256": "98e56615b102b27a450fc676a34f9c37390a44d547a6df3a758e0780b9ab8e44",
+        "source": "Exact source and compiler failures in runs 34686802262 and 34687737850.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "session-lock-qt.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the archive's qt-session-lock-2.1.0 source root, declares the fixed-repository Qt 6 and Wayland development providers, and installs the QML module under the target architecture's library directory. Exact-head trusted run 34029100753 proved those providers install and then failed because upstream requests WaylandClientPrivate as a separate Qt component. Release 3 loads the private target through Qt 6.5's public WaylandClient component, retains Wayland functionality, declares libxkbcommon-devel, and checks that the upstream sessionlock-test executable is built. Exact-head run 34123502357 installed the full declared dependency closure and configured successfully before Qt 6.5 rejected the newer requestActivateOnShow override. Release 4 retains that method without requiring Qt 6.5 to declare it as virtual, retains requestActivate on Qt 6.5, and corrects the older expose-size member reference without removing the compositor test product, CTest invocation, or session-lock functionality. The source digest is unchanged and external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "session-lock-qt",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "session-lock-qt",
+    "summary": "session-lock-qt"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-waycrate-qt-session-lock",
+    "homepage": "https://github.com/waycrate/qt-session-lock",
+    "release_api": "https://api.github.com/repos/waycrate/qt-session-lock/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/waycrate/qt-session-lock",
+    "source_url_template": "https://github.com/waycrate/qt-session-lock/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.1.0",
+    "latest_detected": "2.1.0",
+    "release": "7"
+  }
+}

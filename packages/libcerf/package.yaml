@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Publisher tag v3.5 and all 18 maintained C and C++ numerical tests were reviewed and pinned; external packaging was metadata-only lineage evidence. Release 2 synchronizes the SPEC archive root with the verified v3.5 GitLab archive used by exact-head CI.",
+    "notes": "Publisher tag v3.7 and all 16 maintained C and C++ numerical tests are pinned for exact-head verification; external packaging remains metadata-only lineage evidence. The SPEC carries forward the v3.6 archive-root repair, follows the verified v3.7 GitLab archive root, asserts the registered test count, and retains the complete CTest suite.",
     "status": "active"
   },
   "package_id": "libcerf",
