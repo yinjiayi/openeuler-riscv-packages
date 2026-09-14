@@ -180,10 +180,73 @@ def main() -> int:
             )
         if "COPY ci/run-dnf-transaction /bootstrap/run-dnf-transaction" not in containerfile:
             errors.append("bootstrap image does not copy the bounded DNF transaction runner")
+        if "FROM --platform=$TARGETPLATFORM ${BASE_IMAGE} AS metadata-refresh" not in containerfile:
+            errors.append("CI image does not define its immutable metadata-refresh target")
+        else:
+            metadata_refresh = containerfile[
+                containerfile.index(
+                    "FROM --platform=$TARGETPLATFORM ${BASE_IMAGE} AS metadata-refresh"
+                ) :
+            ]
+            for marker in (
+                "io.openeuler.parent-image=\"${BASE_IMAGE}\"",
+                "/usr/share/openeuler-riscv-ci/parent-image.txt",
+                "rpmdb --verifydb",
+                "cmp -s /usr/share/openeuler-riscv-ci/rpm-manifest.tsv",
+                "&& find /var/cache/dnf -mindepth 1 -delete",
+                "&& /usr/local/libexec/openeuler-riscv-ci/run-dnf-transaction",
+                "&& /usr/local/bin/verify-target",
+            ):
+                if marker not in metadata_refresh:
+                    errors.append(
+                        f"immutable metadata-refresh target is missing: {marker}"
+                    )
+            for forbidden_marker in (
+                "/bootstrap/bootstrap-rootfs.sh",
+                "&& /usr/local/libexec/openeuler-riscv-ci/finalize-target-rpmdb.sh",
+            ):
+                if forbidden_marker in metadata_refresh:
+                    errors.append(
+                        "metadata refresh unexpectedly rebuilds or reimports the "
+                        f"locked rootfs: {forbidden_marker}"
+                    )
         if image_workflow.count("- ci/run-dnf-transaction") < 2:
             errors.append("Build CI Image does not rebuild when the DNF transaction runner changes")
         if "sha256sum ci/run-dnf-transaction" not in image_workflow:
             errors.append("Build CI Image does not record the DNF transaction runner checksum")
+        for marker in (
+            "full_bootstrap:",
+            "target=metadata-refresh",
+            "target=full-bootstrap",
+            "reason=bootstrap-contract-change",
+            "ci/image-ref.sh ci/image.lock",
+            "sha256sum ci/image.lock",
+            "artifacts/image/base-image.txt",
+            "artifacts/image/build-mode.txt",
+            '--target "$IMAGE_TARGET"',
+            '--build-arg "BASE_IMAGE=$BASE_REF"',
+        ):
+            if marker not in image_workflow:
+                errors.append(f"CI image locked-base build contract is missing: {marker}")
+        mode_start = "- name: Select the bounded image build mode"
+        mode_end = "- name: Resolve the locked verified CI base image"
+        if mode_start not in image_workflow or mode_end not in image_workflow:
+            errors.append("CI image workflow does not select a locked refresh or full bootstrap")
+        else:
+            mode_selection = image_workflow[
+                image_workflow.index(mode_start) : image_workflow.index(mode_end)
+            ]
+            for bootstrap_sensitive in (
+                "ci/bootstrap-rootfs.sh",
+                "ci/finalize-target-rpmdb.sh",
+                "ci/rpm-manifest.sh",
+                "ci/build-config.yaml",
+            ):
+                if bootstrap_sensitive not in mode_selection:
+                    errors.append(
+                        "CI image mode selection ignores bootstrap-sensitive input: "
+                        + bootstrap_sensitive
+                    )
         transaction_marker = "dnf -y"
         export_marker = 'rpmdb --root "$rootfs" --exportdb'
         if (
@@ -242,14 +305,48 @@ def main() -> int:
         ):
             if marker not in verify_target:
                 errors.append(f"target verification is missing the live RPM baseline gate: {marker}")
+        for marker in (
+            "official_dnf_cache=/var/cache/dnf",
+            "official-dnf-cache-transaction.json",
+            'evidence.get("status") != "passed"',
+            'evidence.get("command") != expected_command',
+            "dnf --cacheonly --quiet --disablerepo='*' --enablerepo=openeuler-rva23",
+            "list bash >/dev/null",
+            "target DNF cache unexpectedly contains RPM payloads",
+        ):
+            if marker not in verify_target:
+                errors.append(
+                    f"target verification is missing immutable DNF metadata-cache proof: {marker}"
+                )
         finalizer_run = "&& /usr/local/libexec/openeuler-riscv-ci/finalize-target-rpmdb.sh"
+        target_cache_run = "&& /usr/local/libexec/openeuler-riscv-ci/run-dnf-transaction"
         target_verify_run = "&& /usr/local/bin/verify-target"
         if (
             finalizer_run not in containerfile
+            or target_cache_run not in containerfile
             or target_verify_run not in containerfile
-            or containerfile.index(finalizer_run) > containerfile.index(target_verify_run)
+            or not (
+                containerfile.index(finalizer_run)
+                < containerfile.index(target_cache_run)
+                < containerfile.index(target_verify_run)
+            )
         ):
-            errors.append("target RPM database finalization must precede target verification")
+            errors.append(
+                "target RPM database finalization, target DNF cache hydration, and "
+                "target verification are not ordered fail-closed"
+            )
+        for marker in (
+            "COPY --from=bootstrap /bootstrap/run-dnf-transaction",
+            "&& test \"$(uname -m)\" = riscv64",
+            "&& find /var/cache/dnf -mindepth 1 -delete",
+            "--evidence /usr/share/openeuler-riscv-ci/official-dnf-cache-transaction.json",
+            "--budget-seconds 7300",
+            "--attempt-timeouts-seconds 4200,3000",
+            "-- dnf -y --disablerepo='*' --enablerepo=openeuler-rva23 makecache",
+            "test -z \"$(find /var/cache/dnf -type f -name '*.rpm' -print -quit)\"",
+        ):
+            if marker not in containerfile:
+                errors.append(f"target DNF metadata-cache hydration is missing: {marker}")
         for name in ("ci/finalize-target-rpmdb.sh", "ci/rpm-manifest.sh"):
             if image_workflow.count(f"- {name}") < 2 or f"sha256sum {name}" not in image_workflow:
                 errors.append(f"CI image workflow does not trigger on and record {name}")
@@ -259,6 +356,13 @@ def main() -> int:
             not in image_workflow
         ):
             errors.append("CI image workflow does not retain and compare the live target RPM manifest")
+        if "docker run --rm --platform linux/riscv64 --network none" not in image_workflow:
+            errors.append("CI image workflow does not prove target verification without network")
+        image_build_job = image_workflow[image_workflow.index("  build-publish:") :]
+        if "timeout-minutes: 300" not in image_build_job:
+            errors.append(
+                "CI image workflow does not reserve time for both long bounded metadata transactions"
+            )
 
     forbidden = {
         "OPENAI_API_KEY": "Actions must not hold OpenAI credentials",
