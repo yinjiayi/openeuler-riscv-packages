@@ -12,9 +12,8 @@ on:
       - ci/collect-dashboard-evidence.py
       - ci/collect-github-state.sh
       - .github/workflows/dashboard.yml
-  workflow_run:
-    workflows: [Package CI, Daily Update Check, Update Schedule Monitor]
-    types: [completed]
+  schedule:
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 concurrency:

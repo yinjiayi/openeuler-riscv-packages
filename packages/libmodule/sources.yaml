@@ -1,0 +1,21 @@
+{
+  "package_id": "libmodule",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "72101e69aabe16937576fa30a61830309b28ce96aa3bb7de5958134fa521f7fe"
+      },
+      "filename": "libmodule-5.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/FedeDP/libmodule/archive/refs/tags/5.0.2.tar.gz",
+      "version": "5.0.2"
+    }
+  ]
+}

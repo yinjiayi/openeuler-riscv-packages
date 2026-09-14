@@ -85,6 +85,10 @@ The GitHub Pages Dashboard presents that full inventory as its primary view and 
 
 The full table searches package names, aliases, component IDs, and decision labels; status and evidence filters operate over the complete list. Rendering is paginated so the browser creates at most 250 table rows at once even though the JSON contains every inventory entry. `schemas/dashboard.schema.json` covers the summary/managed payload and `schemas/dashboard-inventory.schema.json` covers the full browser list.
 
+A **batched Dashboard refresh** is one complete snapshot that collects the current pull-request, Actions, retained build, and publication evidence once for the whole site. It is not a per-package completion callback. Protected-main pushes that change package, catalog, Dashboard, or collector inputs refresh immediately; an hourly run at minute 17 incorporates later CI and publication results, and maintainers can request a manual refresh. Consequently, a just-finished CI result can take up to one hourly interval to appear, while every published link remains subject to the same immutable-generation proof above. This cadence prevents a large burst of package completions from starting hundreds of redundant full-history API scans and exhausting the GitHub installation rate limit.
+
+An **evidence retention selection** keeps only the newest unexpired smoke artifact and the newest unexpired publication artifact for each package when assembling one Dashboard snapshot. It does not delete Actions artifacts or repository RPMs; it bounds which retained JSON envelopes are downloaded for the current view. Publication artifacts are fetched before smoke artifacts, so a late API quota failure cannot starve a newly verified RPM/SRPM generation behind older build evidence. A newer failed result supersedes an older result of the same kind instead of allowing stale success evidence to mask the current state.
+
 ## Repository map
 
 | Path | Purpose |

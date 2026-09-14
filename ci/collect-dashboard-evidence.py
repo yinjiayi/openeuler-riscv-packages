@@ -18,7 +18,9 @@ import zipfile
 from typing import Any, Dict, List
 
 
-ARTIFACT_PREFIXES = ("package-ci-smoke-", "rpm-repository-publish-")
+ARTIFACT_NAME = re.compile(
+    r"^(?P<kind>package-ci-smoke|rpm-repository-publish)-(?P<package>.+)-(?P<run_id>[1-9][0-9]*)$"
+)
 MAX_JSON_BYTES = 8 * 1024 * 1024
 
 
@@ -80,6 +82,41 @@ def extract_json(archive: bytes, output: pathlib.Path, artifact_id: int) -> List
     return extracted
 
 
+def select_artifacts(artifacts: List[Dict[str, Any]]) -> tuple[List[Dict[str, Any]], int]:
+    """Keep the newest artifact per package/kind and fetch publications first."""
+    newest: Dict[tuple[str, str], Dict[str, Any]] = {}
+    eligible_count = 0
+    for artifact in artifacts:
+        name = artifact.get("name")
+        artifact_id = artifact.get("id")
+        if artifact.get("expired") or not isinstance(name, str) or not isinstance(artifact_id, int):
+            continue
+        match = ARTIFACT_NAME.fullmatch(name)
+        if not match:
+            continue
+        eligible_count += 1
+        key = (match.group("kind"), match.group("package"))
+        prior = newest.get(key)
+        ordering = (str(artifact.get("created_at") or ""), artifact_id)
+        prior_ordering = (
+            (str(prior.get("created_at") or ""), int(prior["id"]))
+            if prior
+            else ("", -1)
+        )
+        if prior is None or ordering > prior_ordering:
+            newest[key] = artifact
+    selected = sorted(
+        newest.values(),
+        key=lambda artifact: (
+            str(artifact["name"]).startswith("rpm-repository-publish-"),
+            str(artifact.get("created_at") or ""),
+            int(artifact["id"]),
+        ),
+        reverse=True,
+    )
+    return selected, eligible_count
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", required=True)
@@ -93,17 +130,7 @@ def main() -> int:
     for page in pages if isinstance(pages, list) else []:
         if isinstance(page, dict) and isinstance(page.get("artifacts"), list):
             artifacts.extend(item for item in page["artifacts"] if isinstance(item, dict))
-    selected = sorted(
-        (
-            item
-            for item in artifacts
-            if not item.get("expired")
-            and isinstance(item.get("name"), str)
-            and str(item["name"]).startswith(ARTIFACT_PREFIXES)
-            and isinstance(item.get("id"), int)
-        ),
-        key=lambda item: (str(item.get("created_at") or ""), int(item["id"])),
-    )
+    selected, eligible_count = select_artifacts(artifacts)
     output = pathlib.Path(args.output_dir)
     output.mkdir(parents=True, exist_ok=True)
     failures: List[Dict[str, Any]] = []
@@ -125,7 +152,9 @@ def main() -> int:
         "schema_version": 1,
         "kind": "dashboard-evidence-collection",
         "repository": repository,
+        "eligible_artifact_count": eligible_count,
         "selected_artifact_count": len(selected),
+        "selection_strategy": "latest-per-package-kind-publication-first",
         "extracted_json_count": len(extracted),
         "failures": failures,
     }
