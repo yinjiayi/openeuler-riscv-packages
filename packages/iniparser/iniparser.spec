@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           iniparser
-Version:        4.2.6
+Version:        4.3.0
 Release:        1%{?dist}
 Summary:        Portable C library for parsing INI files
 License:        MIT
 URL:            https://gitlab.com/iniparser/iniparser
-Source0:        iniparser-%{version}.tar.gz
+Source0:        iniparser-v4.3.0.tar.gz
 Source1:        unity-2.7.0.tar.gz
 
 BuildRequires:  cmake
