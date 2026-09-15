@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           fast-float
-Version:        8.2.10
+Version:        8.3.0
 Release:        1%{?dist}
 Summary:        Fast and exact string-to-floating-point conversion library
 License:        Apache-2.0 OR BSL-1.0 OR MIT
 URL:            https://github.com/fastfloat/fast_float
-Source0:        fast-float-%{version}.tar.gz
+Source0:        v8.3.0.tar.gz
 Source1:        doctest-2.5.2.tar.gz
 
 BuildRequires:  cmake
