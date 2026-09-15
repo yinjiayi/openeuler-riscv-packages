@@ -1,0 +1,21 @@
+{
+  "package_id": "bongocat",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1c0c63979e3e05872f5d140d13250db4897d48be53c92ed1263869e3a4b89dfc"
+      },
+      "filename": "bongocat-2.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/saatvik333/wayland-bongocat/archive/refs/tags/v2.0.2.tar.gz",
+      "version": "2.0.2"
+    }
+  ]
+}
