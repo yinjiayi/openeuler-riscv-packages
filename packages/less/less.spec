@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           less
-Version:        704
+Version:        710
 Release:        1%{?dist}
 Summary:        Terminal file pager
 License:        (GPL-3.0-only OR BSD-2-Clause) AND GPL-2.0-or-later
 URL:            https://www.greenwoodsoftware.com/less/
-Source0:        less-%{version}.tar.gz
+Source0:        less-710.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
