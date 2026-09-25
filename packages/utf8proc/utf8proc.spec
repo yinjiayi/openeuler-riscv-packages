@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           utf8proc
-Version:        2.11.3
+Version:        2.12.0
 Release:        1%{?dist}
 Summary:        Unicode normalization and case-folding library
 License:        MIT
 URL:            https://github.com/JuliaStrings/utf8proc
-Source0:        utf8proc-%{version}.tar.gz
+Source0:        utf8proc-2.12.0.tar.gz
 Source1:        NormalizationTest-17.0.0.txt
 Source2:        GraphemeBreakTest-17.0.0.txt
 Patch0:         0001-tests-use-pinned-unicode-data.patch
