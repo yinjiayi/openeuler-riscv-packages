@@ -42,6 +42,8 @@ that embed GNU libmicrohttpd.
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete
+# install-info creates a directory index for the buildroot, not this package.
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 # Keep the full upstream default functional suite, including libcurl and TLS.
