@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "package_id": "libcdada",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release",
+    "url": "https://codeload.github.com/msune/libcdada/tar.gz/81d9bcb5ec06fb33f5d5b093f0cd8fbfb06174b1",
+    "filename": "libcdada-0.6.4.tar.gz", "version": "0.6.4",
+    "digests": {"sha256": "cab8660477305368be7f9ba850abcb62760767f385c46102dcf8c1b4bcbd5890"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "The upstream BSD-2-Clause license permits source redistribution."}
+  }]
+}
