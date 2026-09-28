@@ -19,7 +19,7 @@ int main(void) {
     static const char message[] = "openEuler riscv64 RVA23 mimalloc smoke";
     char *copy;
 
-    if (MI_MALLOC_VERSION != 30502 || mi_version() != 30502)
+    if (MI_MALLOC_VERSION != 30503 || mi_version() != 30503)
         return 1;
     copy = mi_malloc(sizeof(message));
     if (copy == NULL)
