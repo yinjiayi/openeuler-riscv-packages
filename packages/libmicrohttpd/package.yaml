@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "package_id": "libmicrohttpd",
+  "rpm": {
+    "name": "libmicrohttpd",
+    "summary": "Embedded HTTP and HTTPS server library",
+    "license": "LGPL-2.1-or-later"
+  },
+  "upstream": {
+    "component": "gnu.org-software-libmicrohttpd",
+    "homepage": "https://www.gnu.org/software/libmicrohttpd/",
+    "source_repository": "https://git.gnunet.org/libmicrohttpd.git",
+    "release_channel": "stable",
+    "release_api": "https://ftp.gnu.org/gnu/libmicrohttpd/",
+    "release_regex": "libmicrohttpd-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.10",
+    "release": "1",
+    "latest_detected": "1.0.10"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-core",
+        "package_name": "libmicrohttpd",
+        "package_base": "libmicrohttpd",
+        "source_version": "1.0.10-1",
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/libmicrohttpd/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libmicrohttpd",
+        "package_base": "libmicrohttpd",
+        "source_version": "1.0.1-4",
+        "evidence_url": "https://packages.debian.org/source/stable/libmicrohttpd",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libmicrohttpd",
+        "package_base": "libmicrohttpd",
+        "source_version": "1:1.0.2-3.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/libmicrohttpd/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libmicrohttpd",
+        "package_base": "libmicrohttpd",
+        "source_version": "1.0.9-1.1",
+        "evidence_url": "https://software.opensuse.org/package/libmicrohttpd",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libmicrohttpd",
+        "package_base": "libmicrohttpd",
+        "source_version": "1.0.1-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libmicrohttpd",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmicrohttpd.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official GNU stable source independently downloaded from the primary FTP server and a GNU-selected mirror with identical SHA-256. HTTPS/GnuTLS and libcurl-backed functional tests remain enabled; optional heavy timing/performance tests are not valid QEMU evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

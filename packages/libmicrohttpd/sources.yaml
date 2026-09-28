@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmicrohttpd",
+  "sources": [
+    {
+      "id": "source0",
+      "version": "1.0.10",
+      "url": "https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-1.0.10.tar.gz",
+      "filename": "libmicrohttpd-1.0.10.tar.gz",
+      "digests": {
+        "sha256": "04bfe8ef75db7d629a33de767599765cecadc56274a39822d5d081030d577685"
+      },
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The upstream LGPL-2.1-or-later release permits source redistribution."
+      }
+    }
+  ]
+}
