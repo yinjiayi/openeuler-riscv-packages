@@ -20,5 +20,13 @@ target RVA23 repository lists `nasm` 2.16.01. Installed-RPM smoke compiles
 against the public header and exercises the library lifecycle. CI artifacts
 do not establish public RPM repository publication.
 
+The first exact-head PR #2156 run `36480595492` built the library but stopped
+at `%check` while compiling the upstream test driver: `sys/io.h` is an
+x86-only glibc header absent on `riscv64`. The only related `iopl(3)` call in
+that source is commented out; there are no active hardware-I/O calls. The
+test-only patch removes this unused include, preserving every fixture and
+expected-output comparison. That first run did not execute the 60 fixtures
+or installed smoke; only a new CI run can establish their result.
+
 Upstream `LICENSE` and `LICENSE_INFO` permit redistribution under a
 historical X11/HPND-style license; both are retained in the RPM.

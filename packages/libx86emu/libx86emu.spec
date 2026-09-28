@@ -6,6 +6,7 @@ Summary:        Library for emulating x86 instructions
 License:        HPND
 URL:            https://github.com/wfeldt/libx86emu
 Source0:        libx86emu-%{version}.tar.gz
+Patch0:         0001-test-remove-unused-x86-io-header.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
