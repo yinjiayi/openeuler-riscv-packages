@@ -30,7 +30,7 @@ Public header, linker name, and pkg-config metadata for libconfini.
 # Upstream temporarily clears CFLAGS before its fopen link probe. Ensure that
 # the RISC-V hardened default PIE link still receives position-independent code.
 export CC="gcc -fPIC"
-%configure --disable-static || { status=$?; sed -n '/checking whether we are cross compiling/,+45p' config.log; exit "$status"; }
+%configure --disable-static
 %make_build
 
 %install
@@ -42,7 +42,6 @@ find %{buildroot} -name '*.la' -delete
 
 %files
 %license COPYING
-%doc README
 %{_libdir}/libconfini.so.0*
 %{_docdir}/libconfini/
 %{_mandir}/man3/*
@@ -50,6 +49,8 @@ find %{buildroot} -name '*.la' -delete
 %files devel
 %license COPYING
 %{_includedir}/confini.h
+%{_includedir}/confini-1.h
+%{_includedir}/confini-1.16.h
 %{_libdir}/libconfini.so
 %{_libdir}/pkgconfig/libconfini.pc
 

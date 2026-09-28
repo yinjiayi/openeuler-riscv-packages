@@ -23,6 +23,13 @@ non-PIC relocations and no runnable conftest. The SPEC supplies `gcc -fPIC`
 as the compiler for configure and build, preserving the distro flags and all
 tests without modifying upstream source or declaring a false cross-build.
 
+The next exact-head CI build completed compilation, installation and the
+upstream test, then RPM rejected two installed but unlisted compatibility
+headers. The devel manifest now owns `confini-1.h` and `confini-1.16.h` along
+with `confini.h`. The runtime manifest already owns the installed documentation
+directory; the duplicate `%doc README` directive was removed to avoid duplicate
+file-list warnings without dropping that documentation.
+
 The frozen AUR record is discovery lineage only; no external package recipe is
 executed. QEMU-user CI covers functional behavior, not native RISC-V timing or
 performance. A successful PR build is not evidence of repository publication.

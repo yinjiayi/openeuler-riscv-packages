@@ -55,7 +55,7 @@
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "The official 1.16.4 release asset with generated configure is SHA-256 pinned. Its complete default make check suite and a stronger installed parser smoke test remain enabled. CC includes -fPIC because upstream configure temporarily clears distro CFLAGS and otherwise fails its fopen link probe under target RISC-V PIE hardening. The AUR snapshot is discovery lineage only; no external packaging recipe is executed. QEMU user mode does not validate native RISC-V performance."
+    "notes": "The official 1.16.4 release asset with generated configure is SHA-256 pinned. Its complete default make check suite and a stronger installed parser smoke test remain enabled. CC includes -fPIC because upstream configure temporarily clears distro CFLAGS and otherwise fails its fopen link probe under target RISC-V PIE hardening. Exact-head CI run 36437944271 then compiled, installed and passed upstream checks but failed RPM ownership for two compatibility headers; the devel manifest now includes them and the duplicate README directive is removed. The AUR snapshot is discovery lineage only; no external packaging recipe is executed. QEMU user mode does not validate native RISC-V performance."
   },
   "updates": {
     "enabled": true,
