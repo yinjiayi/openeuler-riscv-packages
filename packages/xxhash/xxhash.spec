@@ -34,6 +34,10 @@ export LDFLAGS="%{__global_ldflags}"
 %make_build
 
 %install
+# Upstream keys its object cache by flags; reuse the debug-enabled build
+# instead of rebuilding uninstrumented objects during make install.
+export CFLAGS="%{optflags}"
+export LDFLAGS="%{__global_ldflags}"
 %make_install \
   PREFIX=%{_prefix} \
   LIBDIR=%{_libdir} \
