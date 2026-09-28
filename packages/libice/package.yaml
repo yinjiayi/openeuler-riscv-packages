@@ -1,0 +1,74 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libice",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libice",
+        "package_name": "libice",
+        "source": "debian",
+        "source_version": "2:1.1.1-1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libice",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libice",
+        "package_name": "libice",
+        "source": "ubuntu",
+        "source_version": "2:1.1.1-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libICE.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official X.Org 1.1.2 release and MIT license reviewed. Upstream registers no automated tests; %check and installed smoke each exercise authority-record write/read using an anonymous temporary stream.",
+    "status": "active"
+  },
+  "package_id": "libice",
+  "rpm": {
+    "license": "MIT",
+    "name": "libICE",
+    "summary": "X.Org Inter-Client Exchange protocol library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libice",
+    "homepage": "https://www.x.org/",
+    "release_api": "https://xorg.freedesktop.org/releases/individual/lib/",
+    "release_channel": "stable",
+    "release_regex": "libICE-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libice",
+    "source_url_template": "https://xorg.freedesktop.org/releases/individual/lib/libICE-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.1.2",
+    "latest_detected": "1.1.2",
+    "release": "1"
+  }
+}
