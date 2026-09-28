@@ -6,6 +6,7 @@ Summary:        X11 miscellaneous utility libraries
 License:        MIT-open-group AND SMLNJ AND X11 AND ISC
 URL:            https://gitlab.freedesktop.org/xorg/lib/libxmu
 Source0:        libXmu-%{version}.tar.xz
+Patch0:         0001-reallocarray-test-avoid-qemu-ignored-rlimit.patch
 
 BuildRequires:  gcc
 BuildRequires:  glib2-devel
@@ -36,7 +37,7 @@ Public headers, pkg-config metadata, and linker names for libXmu and libXmuu.
 %autosetup -p1
 
 %build
-%configure --disable-docs --enable-unit-tests
+%configure --disable-static --disable-docs --enable-unit-tests
 %make_build
 
 %install

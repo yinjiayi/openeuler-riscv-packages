@@ -1,0 +1,31 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 29 Sep 2026 04:10:00 +0800
+Subject: [PATCH] Make reallocarray oversize assertion independent of RLIMIT_AS
+
+QEMU linux-user deliberately ignores guest RLIMIT_AS updates to avoid
+breaking its own address space. The upstream test assumes setrlimit limits a
+later 1 GiB realloc, which can instead succeed under user-mode emulation.
+Keep the entire test suite and all assertions, but request a non-overflowing
+SIZE_MAX-1 bytes in the oversize case. Linux/glibc rejects that allocation
+with ENOMEM even when QEMU ignores the resource limit. Production code is
+unchanged.
+
+Patch-Source: downstream QEMU user-mode compatibility
+Patch-License: MIT
+Upstream-Status: Not submitted (test-harness compatibility only)
+Remove-When: The upstream test no longer relies on RLIMIT_AS under QEMU user mode.
+---
+ test/reallocarray.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/reallocarray.c b/test/reallocarray.c
+--- a/test/reallocarray.c
++++ b/test/reallocarray.c
+@@ -158,7 +158,7 @@ static void test_Xmureallocarray_oversize(void)
+     CHECK_ALIGNMENT(p);
+     CHECK_SIZE(p, num * size);
+
+-    p2 = Xmureallocarray(p, 2, ALLOC_LIMIT);
++    p2 = Xmureallocarray(p, 2, SIZE_MAX / 2);
+     g_assert_null(p2);
+     /* Unfortunately, g_assert_null has a test_nonfatal_assertions option that

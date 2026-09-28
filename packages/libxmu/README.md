@@ -11,8 +11,15 @@ files. CI fetches and verifies the pinned hash before building.
 
 The official release includes the pre-generated Autotools build and 11
 registered GLib unit-test executables. `glib2-devel` is required and
-`--enable-unit-tests` explicitly retains the whole upstream suite in
-`%check`; none of the tests call an X server. The CursorName test may report
+`--enable-unit-tests` explicitly retains every test program and case in
+`%check`; none of the tests call an X server. On the first exact-head RISC-V
+run ([36474592806](https://github.com/yinjiayi/openeuler-riscv-packages/actions/runs/36474592806)),
+24 TAP cases passed, none were skipped, and the `reallocarray` oversize case
+failed because QEMU linux-user ignores `RLIMIT_AS` limits that the upstream
+test uses to force an allocation error. A test-only downstream patch keeps
+that same assertion and all registered cases, but requests a non-overflowing
+`SIZE_MAX-1` bytes to make the error independent of the ignored resource
+limit. Production code is unchanged. The CursorName test may report
 an upstream skip only if the target's `/usr/include/X11/cursorfont.h` is
 missing; the build requires `libX11-devel` so that header should be present.
 Installed-RPM smoke additionally checks both library/pkg-config versions,
