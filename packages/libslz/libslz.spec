@@ -6,6 +6,7 @@ Summary:        Stateless zlib-compatible compression library
 License:        MIT
 URL:            https://github.com/wtarreau/libslz
 Source0:        libslz-%{version}.tar.gz
+Patch0:         patches/0001-link-complete-shared-library.patch
 
 BuildRequires:  binutils
 BuildRequires:  coreutils
@@ -32,7 +33,7 @@ Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
 The static SLZ library for applications requiring static linking.
 
 %prep
-%autosetup -n libslz-046706451ccc90908fd63dd2509ece96f1c18e94
+%autosetup -p1 -n libslz-046706451ccc90908fd63dd2509ece96f1c18e94
 
 %build
 %make_build IGNOREGIT=1 PREFIX=%{_prefix} LIBDIR=%{_libdir} \

@@ -20,7 +20,13 @@ smoke compiles a public-API client and round-trips via the installed tools.
 Upstream's `install-tools` target accidentally copies `zdecode` into the
 `zdec` path and strips `zenc` before RPM debug extraction. The SPEC installs
 the same three built tools directly, preserving their distinct behavior and
-debug data. Both shared and static libraries are packaged.
+debug data. Initial PR CI run `36492131485` built successfully and passed the
+180-case `%check`, but the installed public-API client failed to link because
+upstream's shared-library rule omitted the PIC checksum and decoder objects.
+A package-local Makefile patch adds those objects without disabling any
+feature or test. Both shared and static libraries remain packaged. The
+repaired head requires a new target CI run; the original failed smoke is not
+represented as a pass.
 
 Target: openEuler 24.03 LTS SP3, `riscv64`, RVA23. CI may retrieve only the
 SHA-256-pinned source over HTTPS. A successful PR build would show target
