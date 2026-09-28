@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-next-perl",
+  "rpm": {
+    "name": "perl-File-Next",
+    "summary": "Perl file-finding iterator",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "libfile-next-perl",
+    "homepage": "https://metacpan.org/dist/File-Next",
+    "source_repository": "https://github.com/petdance/file-next",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/",
+    "release_regex": "File-Next-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/File-Next-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.18",
+    "release": "1",
+    "latest_detected": "1.18"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-next-perl",
+        "package_base": "libfile-next-perl",
+        "source_version": "1.18-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-next-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-next-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libfile-next-perl key maps to official stable CPAN File-Next 1.18. CPAN CHECKSUMS SHA-256, archive safety, Artistic-2.0 source declarations, 16 default top-level test files including FIFO/fork, and optional POD test dependencies were reviewed. Target build/install outcome awaits exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
