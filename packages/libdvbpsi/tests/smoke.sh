@@ -9,6 +9,8 @@ trap 'rm -rf "$smoke_dir"' EXIT
 cat >"$smoke_dir/smoke.c" <<'EOF'
 #include <stdint.h>
 #include <stdbool.h>
+#include <stddef.h>
+#include <sys/types.h>
 #include <dvbpsi/dvbpsi.h>
 #include <dvbpsi/descriptor.h>
 

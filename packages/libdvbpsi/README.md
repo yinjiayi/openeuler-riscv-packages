@@ -13,6 +13,10 @@ exercises 15 DVB descriptors and returns failure on any mismatch. `%check`
 runs both. Installed-RPM smoke compiles a public API consumer that creates
 and releases a decoder handle and a descriptor. This establishes functional
 linkage under QEMU user mode, not hardware or transport timing behavior.
+The first CI run at head `f6689740172821b0eef3d8944d39c65e2ff09da7`
+built the RPMs and passed descriptor tests, but installed smoke did not compile:
+upstream public headers expect consumers to include standard size/type headers
+first. The smoke consumer now includes them; a new exact-head CI run is needed.
 
 Apache-2.0 covers original packaging metadata, tests, and this document;
 upstream source retains its LGPL terms.
