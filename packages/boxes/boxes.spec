@@ -48,7 +48,7 @@ install -Dpm0644 doc/boxes.1 %{buildroot}%{_mandir}/man1/boxes.1
 # Match all three non-coverage upstream CI suites without skipping cases.
 C_INCLUDE_PATH="$PWD/cmocka-stage/include" \
 LIBRARY_PATH="$PWD/cmocka-stage/lib" \
-%make_build utest GLOBALCONF=%{_datadir}/boxes
+%make_build utest GLOBALCONF=%{_datadir}/boxes CFLAGS_ADDTL="-include stdint.h"
 %make_build test-sunny GLOBALCONF=%{_datadir}/boxes
 %make_build test GLOBALCONF=%{_datadir}/boxes
 
