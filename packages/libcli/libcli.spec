@@ -8,7 +8,9 @@ URL:            https://github.com/dparrish/libcli
 Source0:        libcli-%{version}.tar.gz
 
 BuildRequires:  gcc
-BuildRequires:  libxcrypt-devel
+# The target base glibc-devel needs libxcrypt-static from the 4.4 series;
+# the supplemental 4.5 devel package conflicts with that installed pair.
+BuildRequires:  libxcrypt-devel < 4.5
 BuildRequires:  make
 
 %description

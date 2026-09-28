@@ -12,6 +12,10 @@ terms; Apache-2.0 covers only these packaging files.
 The default upstream make target builds both libraries and its `clitest`
 example. There is no automated upstream test target: `%check` confirms that
 the example was compiled but does not claim to have executed a test suite.
+The target base image contains `libxcrypt-devel` 4.4.36; the supplemental
+repository's 4.5.2 candidate conflicts with the base `glibc-devel` and
+`libxcrypt-static` pair, so BuildRequires caps the development dependency
+below 4.5 until the repository versions are reconciled.
 Installed smoke compiles and links a consumer, registers a command and checks
 that dispatch invokes its callback with the expected argument. Network
 sessions, interactive terminal behavior and native RISC-V performance remain
