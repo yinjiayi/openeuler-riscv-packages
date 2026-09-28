@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- less
-less --version | head -n 1 | grep -Fx 'less 704 (PCRE2 regular expressions)'
+less --version | head -n 1 | grep -Fx 'less 710 (PCRE2 regular expressions)'
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
