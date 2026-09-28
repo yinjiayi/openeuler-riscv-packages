@@ -3,9 +3,9 @@
 
 This directory packages MuJS 1.3.10 for openEuler 24.03 LTS SP3 on
 `riscv64`/RVA23. MuJS supplies a JavaScript interpreter, a pretty-printer,
-and an embeddable C library. The official upstream download index lists
-1.3.10 as its newest stable source release. CI retrieves the HTTPS archive
-and verifies SHA-256
+and embeddable shared and static C libraries. The official upstream download
+index lists 1.3.10 as its newest stable source release. CI retrieves the HTTPS
+archive and verifies SHA-256
 `6e36c15dbb84ff859320297c900852f241b131a7b6ddaea669ac9a65bd75571c`
 before building. Its 58 archive members are regular files or directories
 within `mujs-1.3.10/`, with no duplicate or unsafe paths and no links.

@@ -22,8 +22,8 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       pkgconf-pkg-config
 
 %description devel
-The MuJS public C header and pkg-config metadata for embedding its shared
-library in other applications.
+The MuJS public C header, static library, and pkg-config metadata for
+embedding MuJS in other applications.
 
 %prep
 %autosetup -p1
@@ -62,6 +62,7 @@ EOF
 %files devel
 %license COPYING
 %{_includedir}/mujs.h
+%{_libdir}/libmujs.a
 %{_libdir}/pkgconfig/mujs.pc
 
 %changelog
