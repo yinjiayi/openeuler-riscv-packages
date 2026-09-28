@@ -17,7 +17,7 @@
   },
   "version": {
     "current": "0.4.21",
-    "release": "1",
+    "release": "2",
     "latest_detected": "0.4.21"
   },
   "discovery": {
@@ -81,13 +81,23 @@
   "files": {
     "spec": "libp11.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-report-failed-softhsm-test-logs.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Emit bounded failed SoftHSM test logs before the target CI timeout without changing tests or failure status.",
+        "remove_when": "Target CI captures individual failed test logs before timeout.",
+        "sha256": "23b3fd580b671d807d8aa4aa13d4c8a0d53bab261acdcb8dc0ab8419caa60a26",
+        "source": "openEuler RISC-V package CI run 36424142097 and upstream Automake test-driver",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "Official stable release asset and GitHub-reported SHA-256 independently verified. Full upstream SoftHSM-backed make check remains enabled, with no hardware requirement."
+    "notes": "Official stable release asset and GitHub-reported SHA-256 independently verified. Full upstream SoftHSM-backed make check remains enabled, with no hardware requirement. Target CI run 36424142097 timed out after 180 minutes with nine RSA test failures and no build artifacts. Release 2 is diagnostic only: it emits bounded failed-test logs while preserving every test and nonzero failure status."
   },
   "updates": {
     "enabled": true,

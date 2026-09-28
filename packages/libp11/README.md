@@ -18,5 +18,12 @@ The complete upstream `make check` suite uses the SoftHSM software token and
 OpenSC's `pkcs11-tool`; both dependencies exist in the target openEuler RVA23
 repository. The installed smoke test links a C client and creates/frees a
 public libp11 context. Neither test path requires a physical smart card.
-Target build and installation status remain unknown until CI runs on the
-pinned openEuler RISC-V image.
+Target run `36424142097` at PR head `25a191cf` failed and timed out after
+180 minutes of the complete `make check` suite. Nine early RSA SoftHSM tests
+reported failure; other RSA, EC, EdDSA, and session tests reported passes,
+but no RPM or SRPM was produced. The run did not upload the individual
+failed-test logs, so neither source nor target crypto policy has been shown
+to be the cause. Release 2 only prints the last 200 lines of each failed
+upstream test as soon as it finishes. It keeps every test, its classification,
+the full `make check`, and the system crypto policy unchanged. Any subsequent
+CI run is diagnostic until the real failures are understood and repaired.

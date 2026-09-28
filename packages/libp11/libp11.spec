@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libp11
 Version:        0.4.21
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PKCS#11 wrapper library and OpenSSL integration modules
 License:        LGPL-2.1-or-later
 URL:            https://github.com/OpenSC/libp11
 Source0:        libp11-%{version}.tar.gz
+Patch0:         0001-report-failed-softhsm-test-logs.patch
 
 BuildRequires:  findutils
 BuildRequires:  gawk
@@ -68,5 +69,9 @@ make check
 %{_libdir}/pkgconfig/libp11.pc
 
 %changelog
+* Mon Sep 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.21-2
+- Report bounded failed SoftHSM test logs immediately for target CI diagnosis;
+  retain the complete upstream make check suite and its failure status.
+
 * Mon Sep 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.21-1
 - Initial package from the official 0.4.21 release with full SoftHSM tests.
