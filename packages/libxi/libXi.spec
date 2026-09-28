@@ -36,7 +36,7 @@ name for X Input extension clients.
 %autosetup -p1
 
 %build
-%configure --disable-docs --disable-specs
+%configure --disable-static --disable-docs --disable-specs
 %make_build
 
 %install
