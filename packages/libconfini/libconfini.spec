@@ -27,7 +27,7 @@ Public header, linker name, and pkg-config metadata for libconfini.
 %autosetup -p1 -n libconfini-%{version}-with-configure
 
 %build
-%configure --disable-static || { status=$?; tail -n 120 config.log; exit "$status"; }
+%configure --disable-static || { status=$?; sed -n '/checking whether we are cross compiling/,+45p' config.log; exit "$status"; }
 %make_build
 
 %install
