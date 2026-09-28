@@ -38,13 +38,13 @@
     "release": "24.03-LTS-SP3",
     "arch": "riscv64",
     "isa": "RVA23",
-    "riscv_status": "unknown"
+    "riscv_status": "qemu-limitation"
   },
   "build": {
-    "profile": "qemu-user",
+    "profile": "needs-native-riscv",
     "network_during_build": true,
     "timeout_minutes": 90,
-    "native_reason": null
+    "native_reason": "Upstream Alloc tests use RLIMIT_AS to make oversized XtMalloc/XtCalloc/XtRealloc allocations fail; QEMU linux-user does not enforce the guest limit. Exact-head PR #2153 run 36478534871 failed in Alloc, so all three upstream test programs and installed RPM smoke require a real RVA23 riscv64 runner."
   },
   "files": {
     "spec": "libXt.spec",
@@ -55,7 +55,7 @@
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "The exact libxt inventory key maps to X.Org/RPM libXt 1.3.1. Official release checksum independently verified. All three upstream GLib unit-test programs remain enabled in %check; installed smoke exercises display-free allocation and deallocation. Optional DocBook specifications are disabled, but the shared library, headers, pkg-config file, and manual pages remain enabled."
+    "notes": "The exact libxt inventory key maps to X.Org/RPM libXt 1.3.1. Official release checksum independently verified. All three upstream GLib unit-test programs remain enabled in %check, but exact-head PR #2153 run 36478534871 failed in Alloc because QEMU linux-user does not honor the RLIMIT_AS test precondition. Converters and Event passed; the remaining Alloc cases and installed smoke are unverified. Native RVA23 riscv64 validation is required before merge. Optional DocBook specifications are disabled, but the shared library, headers, pkg-config file, and manual pages remain enabled."
   },
   "updates": {
     "enabled": true,
