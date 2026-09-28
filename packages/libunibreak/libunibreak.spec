@@ -40,7 +40,7 @@ rm -f %{buildroot}%{_libdir}/libunibreak.la
 %files
 %license LICENCE
 %doc AUTHORS NEWS README.md
-%{_libdir}/libunibreak.so.7*
+%{_libdir}/libunibreak.so.8*
 
 %files devel
 %license LICENCE
