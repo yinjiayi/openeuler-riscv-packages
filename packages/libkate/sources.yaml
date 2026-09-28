@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "libkate",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://downloads.xiph.org/releases/kate/libkate-0.4.3.tar.gz",
+      "filename": "libkate-0.4.3.tar.gz",
+      "version": "0.4.3",
+      "digests": {"sha256": "96827ca136ad496b4e34ff3ed2434a8e76ad83b1e6962b5df06ad24cbbfeebaf"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The upstream source is distributed under BSD-3-Clause."}
+    }
+  ]
+}
