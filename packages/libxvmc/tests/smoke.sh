@@ -3,8 +3,11 @@
 set -euo pipefail
 
 rpm -q -- libXvMC
-test "$(pkg-config --modversion xvmc)" = '1.0.15'
-test "$(pkg-config --modversion xvmc-wrapper)" = '1.0.15'
+for module in xvmc xvmc-wrapper; do
+  module_version=$(pkg-config --print-errors --modversion "$module")
+  printf '%s version: %s\n' "$module" "$module_version"
+  test "$module_version" = '1.0.15'
+done
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf -- "$smoke_dir"' EXIT
