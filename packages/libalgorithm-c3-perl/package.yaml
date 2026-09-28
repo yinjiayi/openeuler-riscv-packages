@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-c3-perl",
+  "rpm": {
+    "name": "perl-Algorithm-C3",
+    "summary": "Perl C3 method-resolution-order algorithm",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libalgorithm-c3-perl",
+    "homepage": "https://metacpan.org/dist/Algorithm-C3",
+    "source_repository": "https://github.com/moose/Algorithm-C3",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/",
+    "release_regex": "Algorithm-C3-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Algorithm-C3-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.11",
+    "release": "1",
+    "latest_detected": "0.11"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libalgorithm-c3-perl",
+        "package_base": "libalgorithm-c3-perl",
+        "source_version": "0.11-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libalgorithm-c3-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libalgorithm-c3-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libalgorithm-c3-perl key maps to official CPAN Algorithm-C3 0.11. CPAN CHECKSUMS SHA-256, safe archive structure, explicit dual-license file, all 11 default t/ tests, and two separately registered xt/ POD tests were reviewed. The official target RVA23 Everything primary metadata has no same-name RPM or module provider and contains the declared Perl test dependencies. Target QEMU timing behavior of upstream SIGALRM loop tests remains to be established by exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
