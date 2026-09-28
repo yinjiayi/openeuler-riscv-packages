@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           mimalloc
-Version:        3.5.0
+Version:        3.5.2
 Release:        1%{?dist}
 Summary:        Compact general-purpose memory allocator
 License:        MIT
 URL:            https://github.com/microsoft/mimalloc
-Source0:        v3.5.0.tar.gz
+Source0:        v3.5.2.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -67,5 +67,9 @@ DESTDIR=%{buildroot} %{__cmake} --install .
 %{_libdir}/libmimalloc.a
 
 %changelog
+* Sun Sep 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.5.2-1
+- Update to the latest stable upstream release.
+- Verify the exact installed header and runtime version with a public API smoke test.
+
 * Thu Aug 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.4.5-1
 - Initial openEuler RISC-V package.

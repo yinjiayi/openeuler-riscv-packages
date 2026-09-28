@@ -1,0 +1,24 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Sat, 12 Sep 2026 00:00:00 +0000
+Subject: [PATCH] tests: export XDG_DATA_HOME to the child
+
+The fixture invokes the test binary as a child process. Export its XDG value so
+the child can observe the environment being asserted.
+---
+ tests/test1 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/test1 b/tests/test1
+index f8e9c6d..8ff0941 100755
+--- a/tests/test1
++++ b/tests/test1
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env sh
+ 
+-XDG_DATA_HOME="/aaa"
++export XDG_DATA_HOME="/aaa"
+ 
+ expected="$XDG_DATA_HOME"
+ 
+-- 
+2.51.0

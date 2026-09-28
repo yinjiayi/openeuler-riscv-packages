@@ -1,0 +1,87 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/Jorenar/libXDGdirs",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxdgdirs",
+        "package_name": "libxdgdirs",
+        "source": "aur",
+        "source_version": "1.1.3-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-run-tests-with-build-testing.patch",
+        "license": "MIT",
+        "purpose": "Run the upstream test with the standard BUILD_TESTING option without turning the distributed library into a Debug build.",
+        "remove_when": "Upstream decouples test registration from CMAKE_BUILD_TYPE and honors BUILD_TESTING directly.",
+        "sha256": "266251f779f3558a894e782142aafd7e5cfbc56495691dcafb0ca0d82eb44d04",
+        "source": "Downstream openEuler packaging review of libXDGdirs 1.1.3.",
+        "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0002-tests-export-xdg-data-home.patch",
+        "license": "MIT",
+        "purpose": "Export the XDG_DATA_HOME fixture value so the test child process observes the environment it asserts.",
+        "remove_when": "Upstream exports XDG_DATA_HOME or passes the fixture environment explicitly to the child process.",
+        "sha256": "a71e4777bcacb02e5991f86b2f67989419b9cec6a1ae9094a28c322952f8f079",
+        "source": "Downstream openEuler packaging review of the libXDGdirs 1.1.3 test failure.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libxdgdirs.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The package selects the archive's case-sensitive root, makes the upstream test follow the standard BUILD_TESTING switch in an out-of-source release build, and exports the test fixture environment to its child process. Release 4 disables the inapplicable automatic debuginfo subpackage because the installed static library and header contain no debuggable ELF file; the upstream CTest remains enabled. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libxdgdirs",
+  "rpm": {
+    "license": "MIT",
+    "name": "libxdgdirs",
+    "summary": "An implementation helpers for XDG Base Directory Specification in C"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-jorenar-libxdgdirs",
+    "homepage": "https://github.com/Jorenar/libXDGdirs",
+    "release_api": "https://api.github.com/repos/Jorenar/libXDGdirs/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/Jorenar/libXDGdirs",
+    "source_url_template": "https://github.com/Jorenar/libXDGdirs/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.1.3",
+    "latest_detected": "1.1.3",
+    "release": "4"
+  }
+}

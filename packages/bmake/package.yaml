@@ -1,69 +1,69 @@
 {
-  "schema_version": 1,
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/bmake/",
+        "observed_at": "2026-08-08T07:43:58Z",
+        "package_base": "bmake",
+        "package_name": "bmake",
+        "source": "arch-extra",
+        "source_version": "20260714-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T074348Z-31246813686"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "bmake.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 20260824 release bytes are SHA-256 pinned and archive-safe. The full upstream boot-strap test operation remains mandatory. Target BuildRequires include ksh, tcsh, and Lua so shell cases and check-expect.lua are available. The fixed unprivileged build identity keeps the upstream objdir-writable permission test enabled; no network is needed after verified source and RPM dependencies have been acquired. The installed-RPM smoke test verifies the executable version against RPM metadata so version updates retain this check.",
+    "status": "active"
+  },
   "package_id": "bmake",
   "rpm": {
+    "license": "BSD-3-Clause AND BSD-2-Clause AND BSD-4-Clause-UC",
     "name": "bmake",
-    "summary": "Portable version of the NetBSD make build tool",
-    "license": "BSD-3-Clause AND BSD-2-Clause AND BSD-4-Clause-UC"
+    "summary": "Portable version of the NetBSD make build tool"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": "2026-09-10T20:49:50Z",
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
   },
   "upstream": {
     "component": "crufty.net-help-sjg-bmake.html",
     "homepage": "https://www.crufty.net/help/sjg/bmake.htm",
-    "source_repository": "https://github.com/NetBSD/src/tree/trunk/usr.bin/make",
-    "release_channel": "stable",
     "release_api": "https://ftp.netbsd.org/pub/NetBSD/misc/sjg/",
+    "release_channel": "stable",
     "release_regex": "bmake-(?P<version>[0-9]{8})\\.tar\\.gz",
+    "source_repository": "https://github.com/NetBSD/src/tree/trunk/usr.bin/make",
     "source_url_template": "https://ftp.netbsd.org/pub/NetBSD/misc/sjg/bmake-{version}.tar.gz"
   },
   "version": {
-    "current": "20260714",
-    "release": "1",
-    "latest_detected": "20260714"
-  },
-  "discovery": {
-    "snapshot_id": "discovery-20260808T074348Z-31246813686",
-    "lineage": [
-      {
-        "source": "arch-extra",
-        "package_name": "bmake",
-        "package_base": "bmake",
-        "source_version": "20260714-1",
-        "evidence_url": "https://archlinux.org/packages/extra/x86_64/bmake/",
-        "observed_at": "2026-08-08T07:43:58Z"
-      }
-    ]
-  },
-  "target": {
-    "os": "openEuler",
-    "release": "24.03-LTS-SP3",
-    "arch": "riscv64",
-    "isa": "RVA23",
-    "riscv_status": "unknown"
-  },
-  "build": {
-    "profile": "qemu-user",
-    "user": "unprivileged",
-    "network_during_build": false,
-    "timeout_minutes": 120,
-    "native_reason": null
-  },
-  "files": {
-    "spec": "bmake.spec",
-    "sources": "sources.yaml",
-    "patches": [],
-    "smoke_test": "tests/smoke.sh"
-  },
-  "maintenance": {
-    "status": "active",
-    "maintainers": [
-      "yinjiayi"
-    ],
-    "notes": "Official 20260714 release bytes are SHA-256 pinned and archive-safe. The full upstream boot-strap test operation remains mandatory. Target BuildRequires include ksh, tcsh, and Lua so shell cases and check-expect.lua are available. The fixed unprivileged build identity keeps the upstream objdir-writable permission test enabled; no network is needed after verified source and RPM dependencies have been acquired."
-  },
-  "updates": {
-    "enabled": true,
-    "last_checked_at": null,
-    "last_successful_check_at": null,
-    "release_provider": "official-html-index"
+    "current": "20260824",
+    "latest_detected": "20260824",
+    "release": "2"
   }
 }

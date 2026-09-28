@@ -16,6 +16,57 @@ COLLECTOR = ROOT / "ci" / "collect-dashboard-evidence.py"
 
 
 class DashboardEvidenceTests(unittest.TestCase):
+    def test_selects_latest_per_package_kind_with_publications_first(self) -> None:
+        module = runpy.run_path(str(COLLECTOR))
+        artifacts = [
+            {
+                "id": 1,
+                "name": "package-ci-smoke-demo-100",
+                "created_at": "2026-08-08T00:00:00Z",
+                "expired": False,
+            },
+            {
+                "id": 2,
+                "name": "package-ci-smoke-demo-101",
+                "created_at": "2026-08-08T01:00:00Z",
+                "expired": False,
+            },
+            {
+                "id": 3,
+                "name": "rpm-repository-publish-demo-102",
+                "created_at": "2026-08-08T02:00:00Z",
+                "expired": False,
+            },
+            {
+                "id": 4,
+                "name": "rpm-repository-publish-other-package-103",
+                "created_at": "2026-08-08T03:00:00Z",
+                "expired": False,
+            },
+            {
+                "id": 5,
+                "name": "package-ci-smoke-expired-104",
+                "created_at": "2026-08-08T04:00:00Z",
+                "expired": True,
+            },
+            {
+                "id": 6,
+                "name": "package-ci-smoke-malformed",
+                "created_at": "2026-08-08T05:00:00Z",
+                "expired": False,
+            },
+        ]
+        selected, eligible_count = module["select_artifacts"](artifacts)
+        self.assertEqual(eligible_count, 4)
+        self.assertEqual(
+            [artifact["name"] for artifact in selected],
+            [
+                "rpm-repository-publish-other-package-103",
+                "rpm-repository-publish-demo-102",
+                "package-ci-smoke-demo-101",
+            ],
+        )
+
     def test_extracts_only_bounded_regular_json_into_artifact_directory(self) -> None:
         module = runpy.run_path(str(COLLECTOR))
         archive = io.BytesIO()
