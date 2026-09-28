@@ -1,0 +1,82 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libtiff",
+        "package_base": "libtiff",
+        "source_version": "4.7.2-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libtiff/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "aur",
+        "package_name": "android-riscv64-libtiff",
+        "package_base": "android-riscv64-libtiff",
+        "source_version": "4.7.1-1",
+        "evidence_url": "https://aur.archlinux.org/packages/android-riscv64-libtiff",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libtiff",
+        "package_base": "libtiff",
+        "source_version": "4.7.1-2.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libtiff/libtiff/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtiff.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official OSGeo LibTIFF 4.7.2 release archive is pinned by SHA-256. The full upstream CTest suite, shared C and C++ libraries, standard tools, and target-available compression codecs are enabled. Sphinx generation is disabled in favor of the upstream prebuilt HTML manual, without disabling code or tests. AUR evidence is read-only metadata; no PKGBUILD is executed.",
+    "status": "active"
+  },
+  "package_id": "libtiff",
+  "rpm": {
+    "license": "libtiff",
+    "name": "libtiff",
+    "summary": "Library for reading and writing TIFF images"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libtiff",
+    "homepage": "https://libtiff.gitlab.io/libtiff/",
+    "release_api": "https://download.osgeo.org/libtiff/",
+    "release_channel": "stable",
+    "release_regex": "tiff-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.com/libtiff/libtiff",
+    "source_url_template": "https://download.osgeo.org/libtiff/tiff-{version}.tar.xz"
+  },
+  "version": {
+    "current": "4.7.2",
+    "latest_detected": "4.7.2",
+    "release": "1"
+  }
+}
