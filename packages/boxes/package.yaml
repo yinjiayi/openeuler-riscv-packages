@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "boxes",
+  "rpm": {"name": "boxes", "summary": "Draw and remove text boxes using configurable designs", "license": "GPL-3.0-only"},
+  "upstream": {
+    "component": "boxes.thomasjensen.com",
+    "homepage": "https://boxes.thomasjensen.com/",
+    "source_repository": "https://github.com/ascii-boxes/boxes.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/ascii-boxes/boxes/releases/latest",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)*)$",
+    "source_url_template": "https://github.com/ascii-boxes/boxes/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "2.3.2", "release": "1", "latest_detected": "2.3.2"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "boxes", "package_base": "boxes", "source_version": "2.3.1-1", "evidence_url": "https://packages.debian.org/source/trixie/boxes", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 180, "native_reason": null},
+  "files": {"spec": "boxes.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official stable v2.3.2 tag resolves to cebddf7abf4d6a5e0846678263f9e420424b57bd and its HTTPS archive is SHA-256 pinned. Upstream's three non-coverage test targets (white-box, sunny-day, black-box) remain in %check; target CI determines actual RISC-V results."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-releases"}
+}
