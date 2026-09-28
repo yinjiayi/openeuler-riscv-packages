@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libxrandr",
+  "rpm": {
+    "name": "libXrandr",
+    "summary": "X Resize, Rotate and Reflection extension client library",
+    "license": "HPND-sell-variant"
+  },
+  "upstream": {
+    "component": "xorg.freedesktop.org-lib-libxrandr",
+    "homepage": "https://gitlab.freedesktop.org/xorg/lib/libxrandr",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libxrandr.git",
+    "release_channel": "stable",
+    "release_api": "https://xorg.freedesktop.org/archive/individual/lib/",
+    "release_regex": "libXrandr-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://xorg.freedesktop.org/archive/individual/lib/libXrandr-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.5.5",
+    "release": "1",
+    "latest_detected": "1.5.5"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libxrandr",
+        "package_base": "libxrandr",
+        "source_version": null,
+        "evidence_url": "https://packages.debian.org/trixie/source/libxrandr",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libXrandr.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official X.Org announcement SHA-256 matches the independently downloaded archive. The release has no registered automated tests; make check is retained and installed smoke exercises memory-only RandR allocation/free APIs without a display. The lowercase frozen inventory key maps to upstream and RPM libXrandr."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
