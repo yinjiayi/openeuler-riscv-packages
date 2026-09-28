@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           liboauth
 Version:        1.0.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 %global upstream_commit 07fc30bf6d44f5b431a943452f6083fbaf22bc8f
 Summary:        C library for OAuth request signing
 License:        MIT
 URL:            https://github.com/x42/liboauth
 Source0:        liboauth-%{version}.tar.gz
 Patch0:         0001-openssl-3-allocate-evp-digest-contexts.patch
+Patch1:         0002-public-header-include-size-t-definition.patch
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -66,6 +67,9 @@ fi
 %{_libdir}/pkgconfig/oauth.pc
 
 %changelog
+* Mon Sep 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.3-4
+- Make the public header self-contained for installed development consumers.
+
 * Mon Sep 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.3-3
 - Use upstream's complete OpenSSL crypto backend with OpenSSL 3 context
   lifecycle compatibility; retain all three upstream self-tests.

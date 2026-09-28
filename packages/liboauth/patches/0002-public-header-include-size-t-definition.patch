@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 28 Sep 2026 00:00:00 +0000
+Subject: [PATCH] public header: define size_t before declaring API
+
+The installed oauth.h declares size_t parameters but does not include the
+standard header that defines the type. This breaks a consumer that includes
+oauth.h first, as detected by the target installed-RPM smoke test.
+
+Patch-Source: openEuler RISC-V package CI run 36488700105
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: Upstream oauth.h includes stddef.h directly.
+---
+diff --git a/src/oauth.h b/src/oauth.h
+--- a/src/oauth.h
++++ b/src/oauth.h
+@@ -29,2 +29,4 @@
+ 
++#include <stddef.h>
++
+ #ifndef DOXYGEN_IGNORE

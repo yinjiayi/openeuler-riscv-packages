@@ -16,15 +16,19 @@ upstream README describes
 `make check` as an offline self-test: all three registered tests (`tcwiki`,
 `tceran`, `tcother`) run in `%check`, while network-dependent examples are
 not registered. Installed-RPM smoke exercises the public URL escaping API
-through the shipped pkg-config metadata.
+through the shipped pkg-config metadata. Target trial run `36488700105`
+built the RPMs and SRPM with all three self-tests passing, but its installed-
+RPM smoke failed because `oauth.h` used `size_t` without including
+`<stddef.h>`. Release 4 patches the public header itself, so direct consumers
+do not need a workaround include.
 
 Two target RISC-V CI runs (`36432105235` and `36433796200`) reported a
 `tcwiki` segmentation fault after the HMAC assertions. A diagnostic run
 (`36486701162`) retained the complete test and identified target NSS error
 `-8011` (`SEC_ERROR_SIGNATURE_ALGORITHM_DISABLED`) for RSA-SHA1 signing.
-Release 3 trials the existing upstream OpenSSL backend without changing the
+Release 3 trialled the existing upstream OpenSSL backend without changing the
 system cryptographic policy or removing any test. The target CI must still
-prove its build and runtime behavior; no RPM success is claimed here.
+prove release 4's build and runtime behavior; no publish success is claimed here.
 
 OpenSSL 3 is Apache-2.0-licensed. Upstream's MIT option permits this library
 to be linked and distributed with it, while GPL-2.0-only downstream programs
