@@ -16,6 +16,9 @@ The target base image contains `libxcrypt-devel` 4.4.36; the supplemental
 repository's 4.5.2 candidate conflicts with the base `glibc-devel` and
 `libxcrypt-static` pair, so BuildRequires caps the development dependency
 below 4.5 until the repository versions are reconciled.
+GCC 14 also diagnoses nine upstream `calloc(sizeof(T), 1)` calls under its
+`-Werror` build. A minimal downstream patch changes each to the equivalent
+`calloc(1, sizeof(T))`; no warning checks are disabled.
 Installed smoke compiles and links a consumer, registers a command and checks
 that dispatch invokes its callback with the expected argument. Network
 sessions, interactive terminal behavior and native RISC-V performance remain

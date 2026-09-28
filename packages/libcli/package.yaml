@@ -49,13 +49,23 @@
   "files": {
     "spec": "libcli.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-calloc-argument-order.patch",
+        "sha256": "c7b2bc91a837375267086dec152f148d0aa97cbbbb821989248b662b887a972b",
+        "purpose": "Keep the upstream -Werror build passing under GCC 14 by placing calloc element count before element size at nine equivalent allocation sites.",
+        "source": "Downstream review of official libcli V1.10.7 source and exact-head RISC-V CI run 36443146056.",
+        "license": "LGPL-2.1-only",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream fixes the nine calloc argument order warnings in a released version."
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "The official V1.10.7 release tag resolves to commit 0f8d257612a5c62000a55fd00e79a35f813f0375. Its HTTPS archive is SHA-256 pinned and safety inspected. COPYING contains LGPL version 2.1 terms. Upstream has no automated make test target; its clitest example is built by the default target and the installed consumer smoke exercises command registration and dispatch. Fedora metadata is discovery lineage only; no external recipe is executed."
+    "notes": "The official V1.10.7 release tag resolves to commit 0f8d257612a5c62000a55fd00e79a35f813f0375. Its HTTPS archive is SHA-256 pinned and safety inspected. COPYING contains LGPL version 2.1 terms. The target base requires libxcrypt-devel below 4.5 until supplemental repository versions are reconciled. A narrow downstream patch swaps equivalent calloc arguments at nine sites diagnosed by GCC 14 while retaining upstream -Werror. Upstream has no automated make test target; its clitest example is built by the default target and the installed consumer smoke exercises command registration and dispatch. Fedora metadata is discovery lineage only; no external recipe is executed."
   },
   "updates": {
     "enabled": true,

@@ -6,6 +6,7 @@ Summary:        Cisco-style command-line interface library
 License:        LGPL-2.1-only
 URL:            https://github.com/dparrish/libcli
 Source0:        libcli-%{version}.tar.gz
+Patch0:         0001-calloc-argument-order.patch
 
 BuildRequires:  gcc
 # The target base glibc-devel needs libxcrypt-static from the 4.4 series;
