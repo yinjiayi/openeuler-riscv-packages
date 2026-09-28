@@ -56,7 +56,9 @@ for applications using libwbxml.
 %check
 # Check-devel enables the upstream API suite. Retain the complete CTest
 # registration, including XML round-trips and malformed-input regressions.
-%ctest --parallel 4 --no-tests=error
+# Keep QEMU execution serial: the parallel run terminated ctest itself with
+# SIGILL after 100 passing cases, without a failing test case to attribute.
+%ctest --parallel 1 --no-tests=error
 
 %files
 %license COPYING GNU-LGPL
