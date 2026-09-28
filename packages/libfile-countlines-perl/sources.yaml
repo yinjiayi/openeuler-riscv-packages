@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-countlines-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-CountLines-v0.0.3.tar.gz",
+      "version": "0.0.3",
+      "url": "https://cpan.metacpan.org/authors/id/M/MO/MORITZ/File-CountLines-v0.0.3.tar.gz",
+      "digests": {
+        "sha256": "cfd97cce7c9613e4e569d47874a2b5704f1be9eced2f0739c870725694382a62"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN module explicitly grants Perl GPL/Artistic redistribution and modification terms; bundled examples are declared public domain, and the HTTPS archive SHA-256 matches official CHECKSUMS."
+      }
+    }
+  ]
+}
