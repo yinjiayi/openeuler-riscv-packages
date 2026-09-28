@@ -34,11 +34,10 @@ backward movement, searching, filtering, and large files.
 %license COPYING LICENSE
 %doc INSTALL NEWS README
 %{_bindir}/less
-%{_bindir}/lesskey
 %{_libexecdir}/lessecho
 %{_libexecdir}/less-osc8-open
 %{_mandir}/man1/less.1*
-%{_mandir}/man1/lesskey.1*
+%{_mandir}/man5/lesskey.5*
 %{_mandir}/man1/lessecho.1*
 
 %changelog
