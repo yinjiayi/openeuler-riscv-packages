@@ -6,6 +6,7 @@ Summary:        Cross-platform audio output library
 License:        GPL-2.0-or-later
 URL:            https://www.xiph.org/ao/
 Source0:        libao-%{version}.tar.gz
+Patch0:         0001-pulse-declare-posix-headers.patch
 
 BuildRequires:  alsa-lib-devel
 BuildRequires:  gcc

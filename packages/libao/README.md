@@ -8,6 +8,11 @@ matches Xiph's published downloads checksum. All archive members remain
 under one top-level directory with no absolute or parent-traversal paths.
 Upstream code is GPL-2.0-or-later; Apache-2.0 covers the packaging files.
 
+The initial RISC-V build failed in the PulseAudio driver because the source
+calls `nanosleep` without declaring it. The small downstream patch includes
+`<time.h>` and `<errno.h>` in that one translation unit; it does not disable
+PulseAudio or change the call's behavior.
+
 The package retains built-in null, WAV, AU and raw output and requires ALSA
 and PulseAudio plugins to be built and installed. The upstream release
 registers no automated tests, so `%make_build check` does not claim functional

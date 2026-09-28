@@ -49,13 +49,23 @@
   "files": {
     "spec": "libao.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-pulse-declare-posix-headers.patch",
+        "sha256": "569a87efe5a541c966b4afa759c7d42cb9234813c128dd66dde3be8c175d0b2a",
+        "purpose": "Declare nanosleep and errno in the PulseAudio plugin without changing its behavior or disabling the plugin.",
+        "source": "Official libao 1.2.0 source and exact-head Package CI run 36436643414 rpmbuild log.",
+        "license": "GPL-2.0-or-later",
+        "upstream_status": "downstream-only",
+        "remove_when": "Upstream adds the POSIX time and errno declarations to the PulseAudio source."
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "Official Xiph 1.2.0 tarball matches the publisher SHA-256. Built-in null and WAV output plus ALSA and PulseAudio plugins are retained. Upstream registers no automated tests, so make check is retained and installed smoke exercises null/WAV output without audio hardware. Frozen Fedora metadata is lineage only; no distribution recipe is executed."
+    "notes": "Official Xiph 1.2.0 tarball matches the publisher SHA-256. Built-in null and WAV output plus ALSA and PulseAudio plugins are retained. The minimal PulseAudio source patch adds the POSIX time and errno declarations missing from its nanosleep call; initial RISC-V CI failed at that exact implicit declaration. Upstream registers no automated tests, so make check is retained and installed smoke exercises null/WAV output without audio hardware. Frozen Fedora metadata is lineage only; no distribution recipe is executed."
   },
   "updates": {
     "enabled": true,
