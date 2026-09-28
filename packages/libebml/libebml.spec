@@ -47,7 +47,7 @@ cat > %{_vpath_builddir}/ebml-smoke.cpp <<'EOF'
 
 int main() {
     const libebml::EbmlId id(0x1A45DFA3u, 4);
-    libebml::binary bytes[4] = {};
+    binary bytes[4] = {};
     id.Fill(bytes);
     if (LIBEBML_VERSION != 0x010406 || id.GetLength() != 4 ||
         bytes[0] != 0x1a || bytes[1] != 0x45 ||
