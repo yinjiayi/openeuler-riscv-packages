@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xxhash
-Version:        0.8.3
+Version:        0.8.4
 Release:        1%{?dist}
 Summary:        Extremely fast non-cryptographic hash algorithm
 License:        BSD-2-Clause AND GPL-2.0-or-later
 URL:            https://github.com/Cyan4973/xxHash
-Source0:        xxhash-0.8.3.tar.gz
+Source0:        v0.8.4.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 
@@ -34,6 +34,10 @@ export LDFLAGS="%{__global_ldflags}"
 %make_build
 
 %install
+# Upstream keys its object cache by flags; reuse the debug-enabled build
+# instead of rebuilding uninstrumented objects during make install.
+export CFLAGS="%{optflags}"
+export LDFLAGS="%{__global_ldflags}"
 %make_install \
   PREFIX=%{_prefix} \
   LIBDIR=%{_libdir} \
