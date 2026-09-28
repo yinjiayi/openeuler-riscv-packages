@@ -52,7 +52,7 @@
     "patches": [
       {
         "file": "patches/0001-calloc-argument-order.patch",
-        "sha256": "c7b2bc91a837375267086dec152f148d0aa97cbbbb821989248b662b887a972b",
+        "sha256": "6f086c9a25211679e2e8f143cdbf2037a36cfbe1ea61927e0319d016654a056c",
         "purpose": "Keep the upstream -Werror build passing under GCC 14 by placing calloc element count before element size at nine equivalent allocation sites.",
         "source": "Downstream review of official libcli V1.10.7 source and exact-head RISC-V CI run 36443146056.",
         "license": "LGPL-2.1-only",

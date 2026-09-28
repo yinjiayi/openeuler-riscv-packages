@@ -61,10 +61,7 @@ upstream's -Werror build remains enabled.
 
    c->command_type = CLI_FILTER_COMMAND;
    c->init = init;
-@@ -2239,6 +2239,6 @@ struct cli_optarg *cli_register_optarg(struct cli_def *cli, struct cli_command *cmd, const char *name,
-       goto CLEANUP;
-     }
-   }
+@@ -2242,3 +2242,3 @@ struct cli_optarg *cli_register_optarg(struct cli_def *cli, struct cli_command *cmd, const char *name,
 -  if (!(optarg = calloc(sizeof(struct cli_optarg), 1))) goto CLEANUP;
 +  if (!(optarg = calloc(1, sizeof(struct cli_optarg)))) goto CLEANUP;
    if (!(optarg->name = strdup(name))) goto CLEANUP;
