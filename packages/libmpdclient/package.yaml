@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "package_id": "libmpdclient",
+  "rpm": {
+    "name": "libmpdclient",
+    "summary": "C client library for the Music Player Daemon protocol",
+    "license": "BSD-2-Clause AND BSD-3-Clause"
+  },
+  "upstream": {
+    "component": "musicpd.org-libs-libmpdclient",
+    "homepage": "https://musicpd.org/libs/libmpdclient/",
+    "source_repository": "https://github.com/MusicPlayerDaemon/libmpdclient",
+    "release_channel": "stable",
+    "release_api": "https://musicpd.org/download/libmpdclient/2/",
+    "release_regex": "libmpdclient-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://musicpd.org/download/libmpdclient/2/libmpdclient-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.26",
+    "release": "1",
+    "latest_detected": "2.27"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libmpdclient",
+        "package_base": "libmpdclient",
+        "source_version": "2.26-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libmpdclient/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libmpdclient",
+        "package_base": "libmpdclient",
+        "source_version": "2.22-1.1",
+        "evidence_url": "https://packages.debian.org/source/stable/libmpdclient",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libmpdclient",
+        "package_base": "libmpdclient",
+        "source_version": "2.26-1.2",
+        "evidence_url": "https://software.opensuse.org/package/libmpdclient",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libmpdclient",
+        "package_base": "libmpdclient",
+        "source_version": "2.22-1.1build2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libmpdclient",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmpdclient.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official 2.26 release archive independently downloaded and SHA-256 pinned. The two upstream Meson tests and an installed public API smoke test remain mandatory. The publisher has since released 2.27."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
