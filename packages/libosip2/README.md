@@ -14,6 +14,10 @@ even though the upstream shell driver returns success on failed fixtures.
 Installed-RPM smoke links to both the parser and transaction libraries and
 checks a URI round trip and core initialization. QEMU user-mode functional
 tests do not establish timing or native-hardware performance.
+The first CI build at head `909dd9cd9f028cd06451cfccd2f1da15c4c452b5`
+built RPMs and passed the fixture suite, but installed smoke failed to compile:
+the public oSIP header expects consumers to include standard time headers
+first. The smoke consumer now includes them and needs a new exact-head run.
 
 Apache-2.0 covers original packaging metadata, scripts, and this document;
 the upstream source retains its own LGPL terms.

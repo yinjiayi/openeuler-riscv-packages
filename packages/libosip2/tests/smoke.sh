@@ -7,6 +7,9 @@ smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
 
 cat >"$smoke_dir/smoke.c" <<'EOF'
+#include <time.h>
+#include <sys/time.h>
+#include <stdlib.h>
 #include <osip2/osip.h>
 #include <osipparser2/osip_uri.h>
 #include <osipparser2/osip_port.h>
