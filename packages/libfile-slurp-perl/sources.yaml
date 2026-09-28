@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-slurp-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Slurp-9999.32.tar.gz",
+      "version": "9999.32",
+      "url": "https://cpan.metacpan.org/authors/id/C/CA/CAPOEIRAB/File-Slurp-9999.32.tar.gz",
+      "digests": {
+        "sha256": "4c3c21992a9d42be3a79dd74a3c83d27d38057269d65509a2f555ea0fb2bc5b0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN source is licensed under the same terms as Perl itself and is fetched over HTTPS with its official SHA-256 checksum."
+      }
+    }
+  ]
+}
