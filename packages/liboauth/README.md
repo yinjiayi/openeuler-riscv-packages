@@ -27,8 +27,12 @@ Two target RISC-V CI runs (`36432105235` and `36433796200`) reported a
 (`36486701162`) retained the complete test and identified target NSS error
 `-8011` (`SEC_ERROR_SIGNATURE_ALGORITHM_DISABLED`) for RSA-SHA1 signing.
 Release 3 trialled the existing upstream OpenSSL backend without changing the
-system cryptographic policy or removing any test. The target CI must still
-prove release 4's build and runtime behavior; no publish success is claimed here.
+system cryptographic policy or removing any test. Release 4 passed target
+build, all three upstream tests, and installed-RPM smoke in CI run
+`36490410983` at PR head `f89997c4` against main `01a0de7b`. All four RPMs
+and the SRPM matched the build manifest's sizes and SHA-256 digests. This is
+old-base quality evidence only; a new CI run against the current protected
+main is required before merge, and no publication success is claimed here.
 
 OpenSSL 3 is Apache-2.0-licensed. Upstream's MIT option permits this library
 to be linked and distributed with it, while GPL-2.0-only downstream programs
