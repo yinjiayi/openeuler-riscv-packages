@@ -10,6 +10,10 @@ trap 'rm -rf -- "$smoke_dir"' EXIT
 
 cat >"$smoke_dir/smoke.c" <<'EOF'
 #include <string.h>
+#include <X11/Xfuncproto.h>
+#include <X11/fonts/font.h>
+#include <X11/fonts/fontstruct.h>
+#include <X11/fonts/fontmisc.h>
 #include <X11/fonts/libxfont2.h>
 
 int main(void)
