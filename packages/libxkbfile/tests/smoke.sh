@@ -9,7 +9,9 @@ smoke_dir=$(mktemp -d)
 trap 'rm -rf -- "$smoke_dir"' EXIT
 
 cat >"$smoke_dir/smoke.c" <<'EOF'
+#include <stdio.h>
 #include <X11/Xlib.h>
+#include <X11/extensions/XKBstr.h>
 #include <X11/extensions/XKBrules.h>
 
 int main(void)

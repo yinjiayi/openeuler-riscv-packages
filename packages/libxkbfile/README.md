@@ -22,7 +22,11 @@ The release contains no upstream test directory or Meson-registered tests.
 `%check` retains the upstream Meson test target without claiming a passing
 upstream suite. The installed-RPM smoke test compiles and runs against the
 installed `xkbfile.pc`, `libxkbfile.so.1`, and public `XkbRF_Create`/
-`XkbRF_Free` APIs. It requires no X server or display.
+`XkbRF_Free` APIs. It explicitly includes `stdio.h` and X.Org's `XKBstr.h`
+before `XKBrules.h` because that public header uses their `FILE` and
+`XkbComponentNamesPtr` types without including those prerequisites itself.
+The first GitLab-source CI run built both RPMs but caught the missing smoke
+includes at compile time. The smoke requires no X server or display.
 
 The frozen inventory's exact `libxkbfile` discovery key maps to this package
 ID. Its Debian and Ubuntu versions are lineage evidence, not the source of
