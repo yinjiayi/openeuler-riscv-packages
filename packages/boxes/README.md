@@ -9,7 +9,9 @@ or symlinks. Upstream's `LICENSE` and source headers specify GPL-3.0-only.
 
 `%check` retains all three non-coverage targets used by upstream CI: C
 white-box tests, design-by-design sunny-day tests, and the complete 378-case
-black-box suite. Installed smoke checks the version, installed design
+black-box suite. The target repositories do not supply `cmocka-devel`, so
+official SHA-256-pinned cmocka 1.1.8 is built as a test-only dependency; its
+files do not enter the binary RPM. Installed smoke checks the version, installed design
 configuration, and a create/remove roundtrip. These tests do not by
 themselves prove native RISC-V hardware behavior or repository publication.
 The repository's Apache-2.0 license covers original packaging files only.

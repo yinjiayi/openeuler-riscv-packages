@@ -24,7 +24,7 @@
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "The official stable v2.3.2 tag resolves to cebddf7abf4d6a5e0846678263f9e420424b57bd and its HTTPS archive is SHA-256 pinned. Upstream's three non-coverage test targets (white-box, sunny-day, black-box) remain in %check; target CI determines actual RISC-V results."
+    "notes": "The official stable v2.3.2 tag resolves to cebddf7abf4d6a5e0846678263f9e420424b57bd and its HTTPS archive is SHA-256 pinned. The target repos lack cmocka-devel, so official SHA-256-pinned cmocka 1.1.8 is built only for the white-box tests, not packaged. All three non-coverage upstream test targets remain in %check."
   },
   "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-releases"}
 }
