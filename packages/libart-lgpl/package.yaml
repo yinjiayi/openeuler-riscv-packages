@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "libart-lgpl",
+  "rpm": {"name": "libart-lgpl", "summary": "LGPL 2D graphics primitives", "license": "LGPL-2.0-or-later"},
+  "upstream": {
+    "component": "levien.com-libart",
+    "homepage": "https://levien.com/libart/",
+    "source_repository": "https://gitlab.gnome.org/Archive/libart_lgpl.git",
+    "release_channel": "stable",
+    "release_api": "https://download.gnome.org/sources/libart_lgpl/2.3/",
+    "release_regex": "libart_lgpl-(?P<version>[0-9]+(?:\\.[0-9]+)*)\\.tar\\.bz2",
+    "source_url_template": "https://download.gnome.org/sources/libart_lgpl/2.3/libart_lgpl-{version}.tar.bz2"
+  },
+  "version": {"current": "2.3.21", "release": "1", "latest_detected": "2.3.21"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "aur", "package_name": "libart-lgpl", "package_base": "libart-lgpl", "source_version": "2.3.21-5", "evidence_url": "https://aur.archlinux.org/packages/libart-lgpl", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libart-lgpl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The GNOME 2.3.21 stable archive SHA-256 matches the official sha256sum index. The frozen AUR discovery row was stale and no AUR recipe was used. Upstream's tests target only builds the two generator programs; %check executes every testart mode and testuta, while the installed smoke calls an affine API on target. CI determines actual RISC-V build and installed behavior."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}
