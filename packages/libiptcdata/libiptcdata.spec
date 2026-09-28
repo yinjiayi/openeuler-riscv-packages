@@ -93,6 +93,7 @@ gcc %{optflags} -I. -Ilibiptcdata iptc-roundtrip.c \
 %{_includedir}/libiptcdata/
 %{_libdir}/libiptcdata.so
 %{_libdir}/pkgconfig/libiptcdata.pc
+%{_datadir}/gtk-doc/html/libiptcdata/
 
 %changelog
 * Mon Sep 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.5-1
