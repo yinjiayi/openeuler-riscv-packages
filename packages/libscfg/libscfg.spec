@@ -39,7 +39,8 @@ The public header, pkg-config metadata, and linker name for libscfg.
 %files
 %license LICENSE
 %doc README.md
-%{_libdir}/libscfg.so.2*
+%{_libdir}/libscfg.so.0.2.0
+%{_libdir}/libscfg.so.2
 
 %files devel
 %license LICENSE

@@ -13,6 +13,10 @@ file. `%check` runs the entire upstream-registered test set: the `parse` and
 `format` cases. Both test branches return a nonzero exit code on failure.
 The installed smoke check separately compiles an external C client with
 pkg-config, parses a directive, and checks the resulting public data model.
+The first CI run (`36494388501`) passed both tests but failed RPM's file-list
+check: the SPEC included the `.so.2` SONAME but omitted the real
+`libscfg.so.0.2.0` file. Both paths are now listed; a new exact-head CI run
+must still verify the corrected package and installed smoke.
 
 This PR's target is openEuler 24.03 LTS SP3, `riscv64`, RVA23 under the CI
 QEMU-user profile. A successful PR CI build yields CI artifacts; it is not
