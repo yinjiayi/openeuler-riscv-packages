@@ -3,7 +3,8 @@
 set -euo pipefail
 
 rpm -q -- figlet
-test "$(figlet -I1)" = 2.2.5
+# Upstream -I1 reports the integer version, not the dotted release.
+test "$(figlet -I1)" = 20205
 test "$(figlet -I2)" = /usr/share/figlet
 test -f /usr/share/figlet/standard.flf
 test -n "$(figlet -f standard RISCV)"
