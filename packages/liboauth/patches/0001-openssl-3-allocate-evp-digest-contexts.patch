@@ -1,0 +1,99 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 28 Sep 2026 00:00:00 +0000
+Subject: [PATCH] openssl: allocate EVP digest contexts for OpenSSL 3
+
+The target openEuler repository ships OpenSSL 3.0.12, where EVP_MD_CTX is
+opaque and cannot be allocated on the stack. Use EVP_MD_CTX_new/free for the
+existing RSA-SHA1 and body-hash operations. Keep the upstream HMAC and RSA
+implementations and the complete self-test suite; this patch does not alter
+the target cryptographic policy.
+
+Patch-Source: OpenSSL 3 EVP API documentation and openEuler RISC-V package
+ CI run 36486701162, which diagnosed NSS SEC_ERROR_SIGNATURE_ALGORITHM_DISABLED.
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: Upstream supports OpenSSL 3 EVP_MD_CTX lifecycle directly.
+---
+diff --git a/src/hash.c b/src/hash.c
+--- a/src/hash.c
++++ b/src/hash.c
+@@ -389 +389 @@ char *oauth_sign_rsa_sha1 (const char *m, const char *k) {
+-  EVP_MD_CTX md_ctx;
++  EVP_MD_CTX *md_ctx;
+@@ -405,3 +405,5 @@ char *oauth_sign_rsa_sha1 (const char *m, const char *k) {
+-  EVP_SignInit(&md_ctx, EVP_sha1());
+-  EVP_SignUpdate(&md_ctx, m, strlen(m));
+-  if (EVP_SignFinal (&md_ctx, sig, &len, pkey)) {
++  md_ctx = EVP_MD_CTX_new();
++  if (!md_ctx) goto sign_failed;
++  if (!EVP_SignInit(md_ctx, EVP_sha1())) goto sign_failed;
++  if (!EVP_SignUpdate(md_ctx, m, strlen(m))) goto sign_failed;
++  if (EVP_SignFinal (md_ctx, sig, &len, pkey)) {
+@@ -411 +413,2 @@ char *oauth_sign_rsa_sha1 (const char *m, const char *k) {
+-    OPENSSL_free(sig);
++    EVP_MD_CTX_free(md_ctx);
++    xfree(sig);
+@@ -414,0 +418,4 @@ char *oauth_sign_rsa_sha1 (const char *m, const char *k) {
++sign_failed:
++  EVP_MD_CTX_free(md_ctx);
++  xfree(sig);
++  EVP_PKEY_free(pkey);
+@@ -419 +426 @@ int oauth_verify_rsa_sha1 (const char *m, const char *c, const char *s) {
+-  EVP_MD_CTX md_ctx;
++  EVP_MD_CTX *md_ctx;
+@@ -443,4 +450,12 @@ int oauth_verify_rsa_sha1 (const char *m, const char *c, const char *s) {
+-  EVP_VerifyInit(&md_ctx, EVP_sha1());
+-  EVP_VerifyUpdate(&md_ctx, m, strlen(m));
+-  err = EVP_VerifyFinal(&md_ctx, b64d, slen, pkey);
+-  EVP_MD_CTX_cleanup(&md_ctx);
++  md_ctx = EVP_MD_CTX_new();
++  if (!md_ctx) {
++    EVP_PKEY_free(pkey);
++    xfree(b64d);
++    return -1;
++  }
++  if (!EVP_VerifyInit(md_ctx, EVP_sha1()) ||
++      !EVP_VerifyUpdate(md_ctx, m, strlen(m)))
++    err = -1;
++  else
++    err = EVP_VerifyFinal(md_ctx, b64d, slen, pkey);
++  EVP_MD_CTX_free(md_ctx);
+@@ -458 +473 @@ char *oauth_body_hash_file(char *filename) {
+-  EVP_MD_CTX ctx;
++  EVP_MD_CTX *ctx;
+@@ -464,2 +479,6 @@ char *oauth_body_hash_file(char *filename) {
+-  EVP_MD_CTX_init(&ctx);
+-  EVP_DigestInit(&ctx,EVP_sha1());
++  ctx = EVP_MD_CTX_new();
++  if (!ctx) {
++    fclose(F);
++    return NULL;
++  }
++  EVP_DigestInit(ctx,EVP_sha1());
+@@ -467 +486 @@ char *oauth_body_hash_file(char *filename) {
+-    EVP_DigestUpdate(&ctx, fb, len);
++    EVP_DigestUpdate(ctx, fb, len);
+@@ -472,2 +491,2 @@ char *oauth_body_hash_file(char *filename) {
+-  EVP_DigestFinal(&ctx, md,(unsigned int*) &len);
+-  EVP_MD_CTX_cleanup(&ctx);
++  EVP_DigestFinal(ctx, md,(unsigned int*) &len);
++  EVP_MD_CTX_free(ctx);
+@@ -478 +497 @@ char *oauth_body_hash_data(size_t length, const char *data) {
+-  EVP_MD_CTX ctx;
++  EVP_MD_CTX *ctx;
+@@ -482,5 +501,9 @@ char *oauth_body_hash_data(size_t length, const char *data) {
+-  EVP_MD_CTX_init(&ctx);
+-  EVP_DigestInit(&ctx,EVP_sha1());
+-  EVP_DigestUpdate(&ctx, data, length);
+-  EVP_DigestFinal(&ctx, md,(unsigned int*) &len);
+-  EVP_MD_CTX_cleanup(&ctx);
++  ctx = EVP_MD_CTX_new();
++  if (!ctx) {
++    xfree(md);
++    return NULL;
++  }
++  EVP_DigestInit(ctx,EVP_sha1());
++  EVP_DigestUpdate(ctx, data, length);
++  EVP_DigestFinal(ctx, md,(unsigned int*) &len);
++  EVP_MD_CTX_free(ctx);
