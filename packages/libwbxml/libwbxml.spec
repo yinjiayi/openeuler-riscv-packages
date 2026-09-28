@@ -60,7 +60,7 @@ for applications using libwbxml.
 
 %files
 %license COPYING GNU-LGPL
-%doc AUTHORS BUGS ChangeLog NEWS README References THANKS TODO
+%doc BUGS ChangeLog README References THANKS TODO
 %{_bindir}/wbxml2xml
 %{_bindir}/xml2wbxml
 %{_libdir}/libwbxml2.so.1*
