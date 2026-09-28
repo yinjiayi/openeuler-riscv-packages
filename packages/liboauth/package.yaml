@@ -11,7 +11,7 @@
     "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
     "source_url_template": "https://github.com/x42/liboauth/archive/refs/tags/v{version}.tar.gz"
   },
-  "version": {"current": "1.0.3", "release": "3", "latest_detected": "1.0.3"},
+  "version": {"current": "1.0.3", "release": "4", "latest_detected": "1.0.3"},
   "discovery": {
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
     "lineage": [
@@ -21,10 +21,10 @@
   },
   "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
   "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
-  "files": {"spec": "liboauth.spec", "sources": "sources.yaml", "patches": [{"file": "patches/0001-openssl-3-allocate-evp-digest-contexts.patch", "license": "MIT", "purpose": "Use OpenSSL 3 EVP_MD_CTX_new/free for the existing RSA-SHA1 and body-hash operations while retaining HMAC and the full test suite without changing target crypto policy.", "remove_when": "Upstream supports OpenSSL 3 EVP_MD_CTX lifecycle directly.", "sha256": "e96491a85e391e44c319844f778a650fa505b5166cf4e4efb7430c832ed5bc84", "source": "OpenSSL 3 EVP API documentation and openEuler RISC-V package CI run 36486701162", "upstream_status": "not-submitted"}], "smoke_test": "tests/smoke.sh"},
+  "files": {"spec": "liboauth.spec", "sources": "sources.yaml", "patches": [{"file": "patches/0001-openssl-3-allocate-evp-digest-contexts.patch", "license": "MIT", "purpose": "Use OpenSSL 3 EVP_MD_CTX_new/free for the existing RSA-SHA1 and body-hash operations while retaining HMAC and the full test suite without changing target crypto policy.", "remove_when": "Upstream supports OpenSSL 3 EVP_MD_CTX lifecycle directly.", "sha256": "e96491a85e391e44c319844f778a650fa505b5166cf4e4efb7430c832ed5bc84", "source": "OpenSSL 3 EVP API documentation and openEuler RISC-V package CI run 36486701162", "upstream_status": "not-submitted"}, {"file": "patches/0002-public-header-include-size-t-definition.patch", "license": "MIT", "purpose": "Make the installed oauth.h self-contained for consumers that include it before other standard headers.", "remove_when": "Upstream oauth.h includes stddef.h directly.", "sha256": "09f86d8a54d2154b29d51aa91c94ac2f04f1ab3f48b52e5762a5006977a8f663", "source": "openEuler RISC-V package CI run 36488700105", "upstream_status": "not-submitted"}], "smoke_test": "tests/smoke.sh"},
   "maintenance": {
     "status": "active", "maintainers": ["yinjiayi"],
-    "notes": "Official v1.0.3 tag commit 07fc30bf6d44f5b431a943452f6083fbaf22bc8f is SHA-256 pinned. Full libcurl and upstream OpenSSL HMAC/RSA functionality are retained, with OpenSSL 3 EVP context compatibility. All three upstream-registered offline self-tests remain enabled. Internet examples are not in the upstream TESTS list. The target NSS backend rejected RSA-SHA1 with SEC_ERROR_SIGNATURE_ALGORITHM_DISABLED (-8011); release 3 is an OpenSSL backend trial, not yet evidence of a successful target build. Upstream dual-licenses core code under MIT or GPL; this package selects MIT and documents the distinct GPL-2.0-only downstream compatibility concern with Apache-2.0 OpenSSL 3."
+    "notes": "Official v1.0.3 tag commit 07fc30bf6d44f5b431a943452f6083fbaf22bc8f is SHA-256 pinned. Full libcurl and upstream OpenSSL HMAC/RSA functionality are retained, with OpenSSL 3 EVP context compatibility. All three upstream-registered offline self-tests remain enabled. Internet examples are not in the upstream TESTS list. The target NSS backend rejected RSA-SHA1 with SEC_ERROR_SIGNATURE_ALGORITHM_DISABLED (-8011). Release 3 built with all three tests passing but its installed-RPM smoke exposed an oauth.h missing size_t definition; release 4 fixes the public header and awaits full target CI. Upstream dual-licenses core code under MIT or GPL; this package selects MIT and documents the distinct GPL-2.0-only downstream compatibility concern with Apache-2.0 OpenSSL 3."
   },
   "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"}
 }

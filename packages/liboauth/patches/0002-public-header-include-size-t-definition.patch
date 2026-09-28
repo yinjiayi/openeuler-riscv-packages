@@ -15,8 +15,9 @@ Remove-When: Upstream oauth.h includes stddef.h directly.
 diff --git a/src/oauth.h b/src/oauth.h
 --- a/src/oauth.h
 +++ b/src/oauth.h
-@@ -29,2 +29,4 @@
- 
+@@ -30,3 +30,5 @@
 +#include <stddef.h>
 +
  #ifndef DOXYGEN_IGNORE
+ // liboauth version
+ #define LIBOAUTH_VERSION "1.0.3"
