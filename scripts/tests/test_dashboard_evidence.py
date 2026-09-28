@@ -8,6 +8,7 @@ import runpy
 import stat
 import tempfile
 import unittest
+from unittest import mock
 import zipfile
 
 
@@ -16,6 +17,45 @@ COLLECTOR = ROOT / "ci" / "collect-dashboard-evidence.py"
 
 
 class DashboardEvidenceTests(unittest.TestCase):
+    def test_artifact_listing_retries_truncated_page_without_slurping(self) -> None:
+        module = runpy.run_path(str(COLLECTOR))
+        fetch = module["list_artifacts"]
+        calls: list[str] = []
+
+        def fake_gh(*arguments: str, **kwargs: object) -> str:
+            self.assertEqual(arguments[0], "api")
+            self.assertEqual(kwargs, {"timeout_seconds": 60})
+            calls.append(arguments[1])
+            if len(calls) == 1:
+                return '{"artifacts": ['
+            if arguments[1].endswith("&page=1"):
+                return json.dumps({"artifacts": [{"id": index} for index in range(1, 101)]})
+            return json.dumps({"artifacts": [{"id": 100}, {"id": 101}]})
+
+        with mock.patch.dict(fetch.__globals__, {"gh": fake_gh}):
+            with mock.patch.object(fetch.__globals__["time"], "sleep") as sleep:
+                artifacts, pages, retries = fetch("example/repository")
+        self.assertEqual([item["id"] for item in artifacts], list(range(1, 102)))
+        self.assertEqual((pages, retries), (2, 1))
+        self.assertEqual(len(calls), 3)
+        self.assertTrue(all("--paginate" not in item for item in calls))
+        sleep.assert_called_once_with(1)
+
+    def test_artifact_listing_fails_closed_after_repeated_truncation(self) -> None:
+        module = runpy.run_path(str(COLLECTOR))
+        fetch = module["list_artifacts"]
+        with mock.patch.dict(fetch.__globals__, {"gh": lambda *args, **kwargs: '{"artifacts": ['}):
+            with mock.patch.object(fetch.__globals__["time"], "sleep"):
+                with self.assertRaisesRegex(RuntimeError, "page 1 failed after 3 attempts"):
+                    fetch("example/repository")
+
+    def test_artifact_listing_rejects_invalid_page_shape(self) -> None:
+        module = runpy.run_path(str(COLLECTOR))
+        fetch = module["list_artifacts"]
+        with mock.patch.dict(fetch.__globals__, {"gh": lambda *args, **kwargs: '{"artifacts": {}}'}):
+            with self.assertRaisesRegex(ValueError, "invalid shape"):
+                fetch("example/repository")
+
     def test_selects_latest_per_package_kind_with_publications_first(self) -> None:
         module = runpy.run_path(str(COLLECTOR))
         artifacts = [

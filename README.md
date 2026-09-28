@@ -106,6 +106,8 @@ A **batched Dashboard refresh** is one complete snapshot that collects the curre
 
 An **evidence retention selection** keeps only the newest unexpired smoke artifact and the newest unexpired publication artifact for each package when assembling one Dashboard snapshot. It does not delete Actions artifacts or repository RPMs; it bounds which retained JSON envelopes are downloaded for the current view. Publication artifacts are fetched before smoke artifacts, so a late API quota failure cannot starve a newly verified RPM/SRPM generation behind older build evidence. A newer failed result supersedes an older result of the same kind instead of allowing stale success evidence to mask the current state.
 
+The collector reads the Actions artifact listing in bounded, independent pages. A truncated response or transient API error is retried for that page; a repeated failure or malformed page fails the Dashboard build instead of silently dropping evidence. The result records page and retry counts, while RPM/SRPM links remain gated on verified publication data.
+
 ## Repository map
 
 | Path | Purpose |
