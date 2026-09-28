@@ -14,18 +14,33 @@ trap 'rm -rf -- "$smoke_dir"' EXIT
 
 cat >"$smoke_dir/smoke.c" <<'EOF'
 #include <dlfcn.h>
+#include <stdio.h>
 #include <X11/Xlib.h>
 #include <X11/extensions/XvMClib.h>
 #include <X11/extensions/vldXvMC.h>
 
 int main(void)
 {
-    static const char *libraries[] = {"libXvMC.so.1", "libXvMCW.so.1"};
-    for (unsigned int i = 0; i < sizeof(libraries) / sizeof(libraries[0]); i++) {
-        void *handle = dlopen(libraries[i], RTLD_NOW);
-        if (!handle || !dlsym(handle, "XvMCQueryVersion") ||
-            !dlsym(handle, "XvMCCreateContext")) {
+    static const struct {
+        const char *library;
+        const char *symbols[2];
+    } checks[] = {
+        {"libXvMC.so.1", {"XvMCQueryVersion", "XvMCListSurfaceTypes"}},
+        {"libXvMCW.so.1", {"XvMCQueryVersion", "XvMCCreateContext"}}
+    };
+    for (unsigned int i = 0; i < sizeof(checks) / sizeof(checks[0]); i++) {
+        void *handle = dlopen(checks[i].library, RTLD_NOW);
+        if (!handle) {
+            fprintf(stderr, "%s: %s\n", checks[i].library, dlerror());
             return 1;
+        }
+        for (unsigned int j = 0; j < 2; j++) {
+            if (!dlsym(handle, checks[i].symbols[j])) {
+                fprintf(stderr, "%s: missing %s\n", checks[i].library,
+                        checks[i].symbols[j]);
+                dlclose(handle);
+                return 1;
+            }
         }
         dlclose(handle);
     }
