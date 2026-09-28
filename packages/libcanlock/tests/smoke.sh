@@ -6,7 +6,14 @@ rpm -q -- libcanlock libcanlock-devel
 command -v canlock
 command -v canlock-mhp
 command -v canlock-hfp
-pkg-config --exists libcanlock-3 libcanlock-hp-3
+pkg-config --print-errors --exists libcanlock-3 libcanlock-hp-3 || {
+  printf '%s\n' 'Installed pkg-config metadata could not be resolved.' >&2
+  printf '%s\n' 'Installed metadata files:' >&2
+  ls -l /usr/lib64/pkgconfig/libcanlock*.pc >&2
+  printf '%s\n' 'pkg-config search path:' >&2
+  pkg-config --variable=pc_path pkg-config >&2 || true
+  exit 1
+}
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf -- "$smoke_dir"' EXIT
