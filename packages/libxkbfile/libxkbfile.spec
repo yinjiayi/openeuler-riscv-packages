@@ -5,7 +5,7 @@ Release:        1%{?dist}
 Summary:        XKB configuration file parsing library
 License:        MIT
 URL:            https://gitlab.freedesktop.org/xorg/lib/libxkbfile
-Source0:        libxkbfile-%{version}.tar.xz
+Source0:        libxkbfile-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  libX11-devel
@@ -29,7 +29,7 @@ Headers, pkg-config metadata, and the linker name for applications using
 libxkbfile.
 
 %prep
-%autosetup -p1
+%autosetup -n libxkbfile-42e5dedd7fd3c7c73f3870a8751893c03c1afc69 -p1
 
 %build
 %meson
