@@ -21,11 +21,7 @@ Remove-When: The upstream test no longer relies on RLIMIT_AS under QEMU user mod
 diff --git a/test/reallocarray.c b/test/reallocarray.c
 --- a/test/reallocarray.c
 +++ b/test/reallocarray.c
-@@ -158,7 +158,7 @@ static void test_Xmureallocarray_oversize(void)
-     CHECK_ALIGNMENT(p);
-     CHECK_SIZE(p, num * size);
-
+@@ -161,2 +161,2 @@ static void test_Xmureallocarray_oversize(void)
 -    p2 = Xmureallocarray(p, 2, ALLOC_LIMIT);
 +    p2 = Xmureallocarray(p, 2, SIZE_MAX / 2);
      g_assert_null(p2);
-     /* Unfortunately, g_assert_null has a test_nonfatal_assertions option that

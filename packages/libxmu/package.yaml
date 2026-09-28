@@ -52,7 +52,7 @@
     "patches": [
       {
         "file": "patches/0001-reallocarray-test-avoid-qemu-ignored-rlimit.patch",
-        "sha256": "a0ad506cf46e33c60005ebf12699c878d7df1fcb067ebbd1539cb538171b70f7",
+        "sha256": "19ad16ab20f73aff43a77aefea20a2ada6ba0ce21f844ca57caeb002788267f7",
         "purpose": "Retain all upstream reallocarray assertions while making the oversize allocation fail independently of QEMU's ignored RLIMIT_AS setting.",
         "source": "downstream QEMU user-mode compatibility",
         "license": "MIT",
