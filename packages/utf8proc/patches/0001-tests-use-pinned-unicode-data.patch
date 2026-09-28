@@ -2,9 +2,8 @@ From: openEuler RISC-V Maintainers <noreply@example.invalid>
 Date: Tue, 11 Aug 2026 00:00:00 +0000
 Subject: [PATCH] tests: use pinned Unicode data supplied by the build
 
-Distribution builds must not access the network after source verification.
-Require the caller to provide the two official Unicode conformance files and
-pass their absolute paths directly to the test executables.
+Require the caller to provide the two checksum-verified official Unicode 18.0.0
+conformance files and pass their absolute paths directly to the test executables.
 
 ---
  CMakeLists.txt | 22 ++++++++++++++++------
@@ -18,7 +17,7 @@ index 77e3fc1..bd3dfbd 100644
  if(UTF8PROC_ENABLE_TESTING)
    enable_testing()
 -  file(MAKE_DIRECTORY data)
--  set(UNICODE_VERSION 17.0.0)
+-  set(UNICODE_VERSION 18.0.0)
 -  file(DOWNLOAD https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/NormalizationTest.txt ${CMAKE_BINARY_DIR}/data/NormalizationTest.txt SHOW_PROGRESS)
 -  file(DOWNLOAD https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/auxiliary/GraphemeBreakTest.txt ${CMAKE_BINARY_DIR}/data/GraphemeBreakTest.txt SHOW_PROGRESS)
 +  set(UTF8PROC_NORMALIZATION_TEST_FILE "" CACHE FILEPATH
