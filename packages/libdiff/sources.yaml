@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "package_id": "libdiff",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/kristapsdz/libdiff/tar.gz/refs/tags/VERSION_0_1_0",
+      "filename": "libdiff-0.1.0.tar.gz",
+      "version": "0.1.0",
+      "digests": {"sha256": "987d846c28c30da62528558516b2fa015f71f8336381e82e0d16cd605c983f68"},
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream MIT source and BSD-3-Clause/ISC compatibility notices allow redistribution with notices preserved."
+      }
+    }
+  ]
+}
