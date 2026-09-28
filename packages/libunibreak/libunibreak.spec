@@ -44,10 +44,8 @@ rm -f %{buildroot}%{_libdir}/libunibreak.la
 
 %files devel
 %license LICENCE
-%{_includedir}/eastasianwidthdef.h
 %{_includedir}/graphemebreak.h
 %{_includedir}/linebreak.h
-%{_includedir}/linebreakdef.h
 %{_includedir}/unibreakbase.h
 %{_includedir}/unibreakdef.h
 %{_includedir}/wordbreak.h
