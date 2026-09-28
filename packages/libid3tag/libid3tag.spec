@@ -68,7 +68,7 @@ gcc %{optflags} -I%{_vpath_builddir} id3tag-api-check.c \
 
 %files
 %license COPYRIGHT COPYING
-%doc README CHANGES
+%doc README.md CHANGES
 %{_libdir}/libid3tag.so.0*
 
 %files devel
