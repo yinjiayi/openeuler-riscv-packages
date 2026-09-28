@@ -335,6 +335,10 @@ def package_row(
     latest_value = update.get("latest_version") if update else version_data.get("latest_detected")
     latest_version = str(latest_value) if latest_value not in (None, "") else None
     state = str(entry.get("status")) if entry and entry.get("status") in INVENTORY_STATES else "managed"
+    # The committed inventory is a snapshot. A package directory on current main
+    # is stronger evidence than its older discovered/reviewed catalog status.
+    if state in {"discovered", "reviewed"}:
+        state = "managed"
     if pr and str(pr.get("state") or "").lower() in {"open", "opened"}:
         state = pr_state(pr)
     if build and not pr:
