@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libxt",
+  "rpm": {
+    "name": "libXt",
+    "summary": "X Toolkit Intrinsics library",
+    "license": "MIT AND HPND AND MIT-open-group AND X11"
+  },
+  "upstream": {
+    "component": "xorg.freedesktop.org-lib-libxt",
+    "homepage": "https://gitlab.freedesktop.org/xorg/lib/libxt",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libxt.git",
+    "release_channel": "stable",
+    "release_api": "https://xorg.freedesktop.org/archive/individual/lib/",
+    "release_regex": "libXt-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://xorg.freedesktop.org/archive/individual/lib/libXt-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.3.1",
+    "release": "1",
+    "latest_detected": "1.3.1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libxt",
+        "package_base": "libxt",
+        "source_version": null,
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libxt/",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libXt.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The exact libxt inventory key maps to X.Org/RPM libXt 1.3.1. Official release checksum independently verified. All three upstream GLib unit-test programs remain enabled in %check; installed smoke exercises display-free allocation and deallocation. Optional DocBook specifications are disabled, but the shared library, headers, pkg-config file, and manual pages remain enabled."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
