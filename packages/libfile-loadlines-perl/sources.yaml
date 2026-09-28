@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-loadlines-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-LoadLines-1.047.tar.gz",
+      "version": "1.047",
+      "url": "https://cpan.metacpan.org/authors/id/J/JV/JV/File-LoadLines-1.047.tar.gz",
+      "digests": {
+        "sha256": "26efd9682e4ecf91c1efe3e3e27bd8bcfaeea9c3c5e2eb432ed4f96968f84707"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The module explicitly permits redistribution under Perl's GPL/Artistic terms, and the official CPAN archive is fetched over HTTPS with its CHECKSUMS SHA-256."
+      }
+    }
+  ]
+}

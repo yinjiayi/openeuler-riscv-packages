@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-loadlines-perl",
+  "rpm": {
+    "name": "perl-File-LoadLines",
+    "summary": "Perl module for loading text lines from files and data URLs",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-loadlines-perl",
+    "homepage": "https://metacpan.org/dist/File-LoadLines",
+    "source_repository": "https://github.com/sciurius/perl-File-LoadLines",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JV/JV/",
+    "release_regex": "File-LoadLines-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JV/JV/File-LoadLines-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.047",
+    "release": "1",
+    "latest_detected": "1.047"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-loadlines-perl",
+        "package_base": "libfile-loadlines-perl",
+        "source_version": "1.047-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-loadlines-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-loadlines-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libfile-loadlines-perl key maps to official stable CPAN File-LoadLines 1.047. Official CPAN CHECKSUMS SHA-256, safe 37-entry archive, and explicit Perl GPL/Artistic license grant were verified. The official openEuler SP3 RVA23 everything primary.xml.zst with SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no perl-File-LoadLines RPM; the locked image baseline also has none. All 14 upstream default test files and their Unicode fixtures remain intact; optional HTTP fetching via LWP is not tested by upstream's default suite. Target outcome awaits exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
