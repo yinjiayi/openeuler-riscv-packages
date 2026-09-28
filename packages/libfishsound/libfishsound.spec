@@ -55,6 +55,7 @@ find %{buildroot} -name '*.la' -delete
 %doc README
 %{_libdir}/libfishsound.so.1*
 %{_docdir}/libfishsound/html/
+%{_docdir}/libfishsound/latex/
 
 %files devel
 %license COPYING

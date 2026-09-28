@@ -11,7 +11,7 @@ The target's available Vorbis, Speex, and FLAC development packages are all
 required. The SPEC checks that configure actually enabled every codec and
 both encode/decode paths. The complete upstream `make check` suite runs
 serially; the installed smoke test creates and destroys public API handles
-for all three codecs. Source-bundled Doxygen HTML is installed without
+for all three codecs. Source-bundled Doxygen HTML and LaTeX are installed without
 requiring a documentation regeneration during RPM construction. The optional
 liboggz example utilities are not installed by upstream and are not used as
 evidence for the codec library.
