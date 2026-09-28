@@ -31,7 +31,7 @@ package configuration for developing applications with libid3tag.
 %autosetup -n libid3tag -p1
 
 %build
-%cmake -DBUILD_SHARED_LIBS=ON
+%cmake_conf -DBUILD_SHARED_LIBS=ON
 %cmake_build
 
 %install
