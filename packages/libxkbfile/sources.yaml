@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxkbfile",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libxkbfile-1.2.0.tar.xz",
+      "version": "1.2.0",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libxkbfile-1.2.0.tar.xz",
+      "digests": {
+        "sha256": "7f71884e5faf56fb0e823f3848599cf9b5a9afce51c90982baeb64f635233ebf"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official MIT-licensed X.Org release archive is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}
