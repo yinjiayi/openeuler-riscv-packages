@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "package_id": "libplist",
+  "rpm": {
+    "name": "libplist",
+    "summary": "C and C++ libraries for Apple property list files",
+    "license": "LGPL-2.1-or-later AND MIT"
+  },
+  "upstream": {
+    "component": "github.com-libimobiledevice-libplist",
+    "homepage": "https://libimobiledevice.org/",
+    "source_repository": "https://github.com/libimobiledevice/libplist",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/libimobiledevice/libplist/releases",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/libimobiledevice/libplist/releases/download/{version}/libplist-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "2.7.0",
+    "release": "1",
+    "latest_detected": "2.7.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libplist",
+        "package_base": "libplist",
+        "source_version": "2.7.0-3",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libplist/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libplist",
+        "package_base": "libplist",
+        "source_version": "2.6.0-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/libplist",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libplist",
+        "package_base": "libplist",
+        "source_version": "2.6.0-6.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libplist/libplist/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libplist",
+        "package_base": "libplist",
+        "source_version": "2.6.0-3.5",
+        "evidence_url": "https://software.opensuse.org/package/libplist",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libplist",
+        "package_base": "libplist",
+        "source_version": "2.7.0+git20250820-1build1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libplist",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libplist.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official 2.7.0 release asset was downloaded and SHA-256 verified. Its 225 members form a safe single-root archive without links. The full upstream format-compliance suite is retained; frozen distribution rows are lineage only."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}
