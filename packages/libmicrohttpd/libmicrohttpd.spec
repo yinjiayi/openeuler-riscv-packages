@@ -56,7 +56,7 @@ test -x src/testcurl/https/test_https_get_select
 %{_libdir}/libmicrohttpd.so.12*
 %{_mandir}/man3/libmicrohttpd.3*
 %{_infodir}/libmicrohttpd*.info*
-%{_infodir}/libmicrohttpd_performance_data.png
+%{_infodir}/libmicrohttpd_performance_data.png*
 
 %files devel
 %license COPYING
