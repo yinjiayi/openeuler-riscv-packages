@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libbitarray",
+  "rpm": {
+    "name": "libbitarray",
+    "summary": "Resizable bit arrays and bit-lock primitives for C",
+    "license": "CC0-1.0"
+  },
+  "upstream": {
+    "component": "github.com-noporpoise-bitarray",
+    "homepage": "https://github.com/noporpoise/BitArray",
+    "source_repository": "https://github.com/noporpoise/BitArray",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/noporpoise/BitArray/tags",
+    "release_regex": null,
+    "source_url_template": "https://github.com/noporpoise/BitArray/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.0",
+    "release": "1",
+    "latest_detected": "2.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libbitarray",
+        "package_base": "libbitarray",
+        "source_version": "2.0",
+        "evidence_url": "https://github.com/noporpoise/BitArray",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libbitarray.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official 2.0 tag and CC0 license reviewed. The upstream default tests and additional bitlock_try_test remain enabled. A versioned shared library is linked from the upstream PIC object; CI build and smoke outcomes are not yet known."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}
