@@ -22,6 +22,7 @@ LibHTP parses HTTP requests and responses for security-sensitive consumers.
 %package devel
 Summary:        Development files for libhtp
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       zlib-devel
 
 %description devel
 The public headers, pkg-config metadata, and library link for libhtp.
