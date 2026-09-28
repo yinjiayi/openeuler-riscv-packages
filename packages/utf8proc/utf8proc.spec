@@ -6,8 +6,8 @@ Summary:        Unicode normalization and case-folding library
 License:        MIT
 URL:            https://github.com/JuliaStrings/utf8proc
 Source0:        utf8proc-2.12.0.tar.gz
-Source1:        NormalizationTest-17.0.0.txt
-Source2:        GraphemeBreakTest-17.0.0.txt
+Source1:        NormalizationTest-18.0.0.txt
+Source2:        GraphemeBreakTest-18.0.0.txt
 Patch0:         0001-tests-use-pinned-unicode-data.patch
 
 BuildRequires:  cmake
@@ -56,5 +56,8 @@ link for developing applications with utf8proc.
 %{_libdir}/cmake/utf8proc/
 
 %changelog
+* Mon Sep 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.12.0-1
+- Use checksum-pinned Unicode 18.0.0 conformance data for upstream 2.12.0 tests.
+
 * Tue Aug 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.11.3-1
 - Initial openEuler RISC-V package with pinned Unicode 17.0.0 conformance data.
