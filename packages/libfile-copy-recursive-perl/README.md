@@ -10,10 +10,11 @@ single top-level directory and contains no traversal paths, links, or special
 files. CI verifies the digest before the openEuler 24.03 LTS SP3 `riscv64`/
 RVA23 build.
 
-`%check` runs all five default upstream test files, including symlink and
+`%check` runs all six default upstream test files, including symlink and
 read-only directory cases where applicable. Upstream OS-specific and
-permission-specific SKIP branches are not counted as passes. The installed-
-RPM smoke checks the module provider and copies a small directory tree. The
+permission-specific SKIP branches are not counted as passes; the Windows-only
+`t/05.legacy-pathmk_unc.t` is skipped on Linux. The installed RPM smoke
+checks the module provider and copies a small directory tree. The
 source POD and CPAN metadata declare the same GPL/Artistic choice as Perl;
 there is no standalone license file. CI artifacts do not prove public RPM
 repository publication.

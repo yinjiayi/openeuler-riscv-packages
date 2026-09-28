@@ -39,7 +39,7 @@ find %{buildroot} -type f -name .packlist -delete
 find %{buildroot} -type f -name perllocal.pod -delete
 
 %check
-# Keep all five default upstream test files. Their operating-system and
+# Keep all six default upstream test files. Their operating-system and
 # permission-specific SKIP branches remain governed by upstream tests.
 %make_build test
 
