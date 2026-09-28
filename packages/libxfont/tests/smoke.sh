@@ -13,7 +13,6 @@ cat >"$smoke_dir/smoke.c" <<'EOF'
 #include <X11/Xfuncproto.h>
 #include <X11/fonts/font.h>
 #include <X11/fonts/fontstruct.h>
-#include <X11/fonts/fontmisc.h>
 #include <X11/fonts/libxfont2.h>
 
 int main(void)
