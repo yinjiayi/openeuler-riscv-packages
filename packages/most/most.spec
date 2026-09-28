@@ -23,7 +23,12 @@ supports searching, horizontal scrolling, and color output.
 %make_build
 
 %install
-%make_install
+# Upstream's install target hardcodes `install -s`, stripping the binary
+# before RPM can extract debuginfo. Install the same artifacts unstripped.
+most_binary=$(find src -maxdepth 2 -type f -name most -print -quit)
+test -n "$most_binary" && test -x "$most_binary"
+install -Dpm0755 "$most_binary" %{buildroot}%{_bindir}/most
+install -Dpm0644 doc/most.1 %{buildroot}%{_mandir}/man1/most.1
 
 %check
 # Upstream ships manual testfiles but has no automated check target. Exercise
@@ -36,9 +41,9 @@ test "$("$most_binary" most-check-input)" = most-file-smoke
 
 %files
 %license COPYING COPYRIGHT
+%doc README changes.txt doc/most.txt doc/most-fun.txt doc/lesskeys.rc doc/most.rc
 %{_bindir}/most
 %{_mandir}/man1/most.1*
-%{_docdir}/most/
 
 %changelog
 * Tue Sep 29 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 5.2.0-1
