@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libxvmc",
+  "rpm": {
+    "name": "libXvMC",
+    "summary": "X Video Motion Compensation client libraries",
+    "license": "MIT AND HPND-sell-variant"
+  },
+  "upstream": {
+    "component": "xorg.freedesktop.org-lib-libxvmc",
+    "homepage": "https://gitlab.freedesktop.org/xorg/lib/libXvMC",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libXvMC.git",
+    "release_channel": "stable",
+    "release_api": "https://xorg.freedesktop.org/archive/individual/lib/",
+    "release_regex": "libXvMC-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://xorg.freedesktop.org/archive/individual/lib/libXvMC-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.0.15",
+    "release": "1",
+    "latest_detected": "1.0.15"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libxvmc",
+        "package_base": "libxvmc",
+        "source_version": null,
+        "evidence_url": "https://packages.debian.org/trixie/source/libxvmc",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libXvMC.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official X.Org announcement SHA-256 matches the downloaded archive. Upstream registers no automated tests; make check is retained. Installed smoke checks both shared libraries, pkg-config files and public headers without claiming display-dependent behavior. The lowercase frozen inventory key maps to upstream and RPM libXvMC."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
