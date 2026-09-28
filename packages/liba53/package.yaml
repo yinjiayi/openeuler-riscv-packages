@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "package_id": "liba53",
+  "rpm": {"name": "liba53", "summary": "GSM A5 and GEA cipher library", "license": "GPL-2.0-or-later"},
+  "upstream": {
+    "component": "github.com-rangenetworks-liba53",
+    "homepage": "https://github.com/RangeNetworks/liba53",
+    "source_repository": "https://github.com/RangeNetworks/liba53.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/RangeNetworks/liba53/tags",
+    "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/RangeNetworks/liba53/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "4.0.0", "release": "1", "latest_detected": "4.0.0"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "aur", "package_name": "liba53", "package_base": "liba53", "source_version": "4.0.0-1", "evidence_url": "https://aur.archlinux.org/packages/liba53", "observed_at": "2026-09-28T00:00:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "liba53.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "The official annotated v4.0.0 tag resolves to immutable commit efe146ece29c986c975398da92dd5e53f6319e0a. The upstream Makefile leaves vector targets commented out and a53test returns zero even on a mismatch; %check compiles every supplied vector program, compares three .ok fixtures, and asserts all 18 A5/3 block results. Timing output is not treated as performance evidence."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"}
+}
