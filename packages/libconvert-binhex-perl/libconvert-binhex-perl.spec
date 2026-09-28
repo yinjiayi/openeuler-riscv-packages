@@ -8,6 +8,10 @@ URL:            https://metacpan.org/dist/Convert-BinHex
 Source0:        Convert-BinHex-%{version}.tar.gz
 
 BuildArch:      noarch
+# The two upstream CLI tools load Mac::Files only on classic MacOS. RPM's
+# static Perl scanner cannot infer that branch and would make Linux installs
+# depend on a module unavailable on openEuler riscv64.
+%global __requires_exclude ^perl\\(Mac::Files\\)$
 BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  make
