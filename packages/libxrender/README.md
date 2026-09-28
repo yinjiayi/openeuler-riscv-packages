@@ -16,6 +16,11 @@ and `XRenderParseColor`, testing a valid RGBA value and an invalid value. This
 path does not require an X server; it does not validate display-dependent
 Render requests.
 
+The first target build compiled and linked successfully, but RPM's installed
+file check rejected upstream's unowned static `.a` and libtool `.la` files.
+The package now disables the unused static library and removes the libtool
+metadata after install; the shared runtime and development linker name remain.
+
 The upstream `COPYING` and source notices use the X.Org permission-to-sell
 license variant, recorded as `HPND-sell-variant`. The frozen inventory key is
 `libxrender` while the upstream and RPM names are `libXrender`; this exact

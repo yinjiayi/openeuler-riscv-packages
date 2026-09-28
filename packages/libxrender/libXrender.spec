@@ -31,11 +31,12 @@ Public headers, pkg-config metadata, and linker name for X Render clients.
 %autosetup -p1
 
 %build
-%configure
+%configure --disable-static
 %make_build
 
 %install
 %make_install
+rm -f %{buildroot}%{_libdir}/libXrender.la
 
 %check
 # The upstream 0.9.12 Automake project registers no test programs.
