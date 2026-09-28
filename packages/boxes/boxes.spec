@@ -37,7 +37,9 @@ using a collection of configurable ASCII and Unicode designs.
   -DUNIT_TESTING=OFF -DWITH_EXAMPLES=OFF
 %{__cmake} --build cmocka-build
 %{__cmake} --install cmocka-build
-%make_build build GLOBALCONF=%{_datadir}/boxes CFLAGS_ADDTL="%{optflags}"
+# Upstream's build target strips the binary before RPM can extract debuginfo;
+# its debug target builds the same binary without stripping it.
+%make_build debug GLOBALCONF=%{_datadir}/boxes CFLAGS_ADDTL="%{optflags}"
 
 %install
 install -Dpm0755 out/boxes %{buildroot}%{_bindir}/boxes
