@@ -23,9 +23,9 @@ ARTIFACT_NAME = re.compile(
     r"^(?P<kind>package-ci-smoke|rpm-repository-publish)-(?P<package>.+)-(?P<run_id>[1-9][0-9]*)$"
 )
 MAX_JSON_BYTES = 8 * 1024 * 1024
-ARTIFACT_PAGE_SIZE = 100
-MAX_ARTIFACT_PAGES = 100
-ARTIFACT_PAGE_ATTEMPTS = 3
+ARTIFACT_PAGE_SIZE = 25
+MAX_ARTIFACT_PAGES = 1000
+ARTIFACT_PAGE_ATTEMPTS = 6
 MAX_ARTIFACT_PAGE_BYTES = 2 * 1024 * 1024
 
 
@@ -139,7 +139,7 @@ def list_artifacts(repository: str) -> tuple[List[Dict[str, Any]], int, int]:
         )
         for attempt in range(ARTIFACT_PAGE_ATTEMPTS):
             try:
-                payload = str(gh("api", endpoint, timeout_seconds=60))
+                payload = str(gh("api", endpoint, timeout_seconds=30))
                 if len(payload.encode("utf-8")) > MAX_ARTIFACT_PAGE_BYTES:
                     raise ValueError("artifact page exceeds the response bound")
                 document = json.loads(payload)
@@ -149,7 +149,7 @@ def list_artifacts(repository: str) -> tuple[List[Dict[str, Any]], int, int]:
                 if len(page) > ARTIFACT_PAGE_SIZE or not all(isinstance(item, dict) for item in page):
                     raise ValueError("artifact page has invalid entries")
                 break
-            except (RuntimeError, json.JSONDecodeError) as error:
+            except (RuntimeError, json.JSONDecodeError, subprocess.TimeoutExpired) as error:
                 if attempt + 1 == ARTIFACT_PAGE_ATTEMPTS:
                     raise RuntimeError("artifact page %d failed after %d attempts: %s" % (
                         page_number, ARTIFACT_PAGE_ATTEMPTS, error
