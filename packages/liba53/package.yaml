@@ -20,10 +20,12 @@
   },
   "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
   "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
-  "files": {"spec": "liba53.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "files": {"spec": "liba53.spec", "sources": "sources.yaml", "patches": [
+    {"file": "patches/0001-gea-test-use-direction-enum.patch", "sha256": "72162c9ea6a09032cd317948da11dbee84ed2582cffae3334e75b39a3054037e", "purpose": "Compile the upstream GEA fixture with the C++ compiler used by its Makefile while retaining all vectors.", "source": "Downstream review of official liba53 v4.0.0 fixture", "license": "GPL-2.0-or-later", "upstream_status": "not-submitted", "remove_when": "Upstream fixes the fixture argument type or makes the GEA vectors compile under its C++ build."}
+  ], "smoke_test": "tests/smoke.sh"},
   "maintenance": {
     "status": "active", "maintainers": ["yinjiayi"],
-    "notes": "The official annotated v4.0.0 tag resolves to immutable commit efe146ece29c986c975398da92dd5e53f6319e0a. The upstream Makefile leaves vector targets commented out and a53test returns zero even on a mismatch; %check compiles every supplied vector program, compares three .ok fixtures, and asserts all 18 A5/3 block results. Timing output is not treated as performance evidence."
+    "notes": "The official annotated v4.0.0 tag resolves to immutable commit efe146ece29c986c975398da92dd5e53f6319e0a. The upstream Makefile leaves vector targets commented out and a53test returns zero even on a mismatch; %check compiles every supplied vector program, compares three .ok fixtures, and asserts all 18 A5/3 block results. CI run 36434062116 proved GEA fixture uses an int where C++ expects gprs_cipher_direction; the package patch casts the original 0/1 values without skipping vectors. Timing output is not treated as performance evidence."
   },
   "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"}
 }

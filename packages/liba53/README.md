@@ -22,5 +22,12 @@ claim. Installed-RPM smoke checks a public A5/3 vector through the shipped
 shared library. These deterministic vectors are functional tests, not a
 security certification.
 
+Exact-head CI run `36434062116` compiled the library and the A5 and KASUMI
+fixtures but found that the GEA fixture passes an `int` to an enum parameter
+under the C++ compiler selected by upstream's Makefile. The local patch casts
+the existing 0/1 direction values to the declared enum, preserving all nine
+GEA vectors and their `.ok` comparison. The repaired build remains subject to
+a new exact-head CI run.
+
 The upstream source retains GPL-2.0-or-later terms; Apache-2.0 covers the
 original packaging metadata, test, and documentation here.

@@ -7,6 +7,7 @@ Summary:        GSM A5 and GEA cipher library
 License:        GPL-2.0-or-later
 URL:            https://github.com/RangeNetworks/liba53
 Source0:        liba53-%{version}.tar.gz
+Patch0:         0001-gea-test-use-direction-enum.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  make
