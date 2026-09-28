@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libao",
+  "rpm": {
+    "name": "libao",
+    "summary": "Cross-platform audio output library",
+    "license": "GPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "libao",
+    "homepage": "https://www.xiph.org/ao/",
+    "source_repository": "https://gitlab.xiph.org/xiph/libao",
+    "release_channel": "stable",
+    "release_api": "https://downloads.xiph.org/releases/ao/",
+    "release_regex": "libao-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://downloads.xiph.org/releases/ao/libao-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.2.0",
+    "release": "1",
+    "latest_detected": "1.2.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "fedora",
+        "package_name": "libao",
+        "package_base": "libao",
+        "source_version": "1.2.0-31.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libao/libao/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libao.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official Xiph 1.2.0 tarball matches the publisher SHA-256. Built-in null and WAV output plus ALSA and PulseAudio plugins are retained. Upstream registers no automated tests, so make check is retained and installed smoke exercises null/WAV output without audio hardware. Frozen Fedora metadata is lineage only; no distribution recipe is executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
