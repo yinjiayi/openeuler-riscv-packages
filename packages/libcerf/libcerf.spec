@@ -45,7 +45,7 @@ unversioned shared library links for developing applications with libcerf.
 rm -rf %{buildroot}%{_docdir}/cerf
 
 %check
-# Run all 18 registered C and C++ numerical tests.
+# Run every registered C and C++ numerical test.
 %ctest
 
 %files
