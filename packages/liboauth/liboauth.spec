@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           liboauth
 Version:        1.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 %global upstream_commit 07fc30bf6d44f5b431a943452f6083fbaf22bc8f
 Summary:        C library for OAuth request signing
 License:        MIT
 URL:            https://github.com/x42/liboauth
 Source0:        liboauth-%{version}.tar.gz
+Patch0:         0001-tests-report-nss-rsa-failure-without-crashing.patch
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -65,5 +66,9 @@ fi
 %{_libdir}/pkgconfig/oauth.pc
 
 %changelog
+* Mon Sep 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.3-2
+- Preserve all upstream tests while reporting NSS RSA signing failures as
+  explicit tcwiki assertion failures instead of a segmentation fault.
+
 * Mon Sep 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.3-1
 - Initial openEuler RISC-V package with all three offline upstream self-tests.

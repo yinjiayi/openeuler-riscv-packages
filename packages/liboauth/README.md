@@ -17,6 +17,12 @@ depends on obsolete context APIs. The official upstream README describes
 not registered. Installed-RPM smoke exercises the public URL escaping API
 through the shipped pkg-config metadata.
 
+Two target RISC-V CI runs (`36432105235` and `36433796200`) reported a
+`tcwiki` segmentation fault after the HMAC assertions. Release 2 adds an NSS
+error-code diagnostic and guards the RSA result comparison; the complete test
+still fails if RSA signing fails. This is a diagnostic change, not evidence of
+a successful RPM build or an NSS compatibility fix.
+
 Fedora and Debian source-package metadata corroborate version and component
 lineage. No downstream recipe was executed. MIT remains the upstream source
 license; Apache-2.0 covers the original packaging metadata, test, and notes.

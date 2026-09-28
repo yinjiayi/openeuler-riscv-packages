@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 28 Sep 2026 00:00:00 +0000
+Subject: [PATCH] tests: report NSS RSA failure without crashing
+
+The complete upstream tcwiki test crashes just after its HMAC assertions on
+the target openEuler RISC-V image. The NSS RSA signer can return NULL on an
+error, but tcwiki passes that pointer to strcmp unconditionally. Report the
+NSPR error at the signer and fail the same test normally when signing did not
+produce a signature. This diagnostic does not skip any test or turn a failed
+RSA assertion into success.
+
+Patch-Source: openEuler RISC-V package CI runs 36432105235 and 36433796200.
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: Upstream reports NSS signer failures and guards the test result.
+---
+ src/hash.c             | 2 ++
+ tests/selftest_wiki.c | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/hash.c b/src/hash.c
+--- a/src/hash.c
++++ b/src/hash.c
+@@ -99,4 +99,5 @@
+ #include "pk11pub.h"
+ #include "nss.h"
++#include "prerror.h"
+ #include "base64.h"
+ #include "keyhi.h"
+@@ -219,2 +220,3 @@ char *oauth_sign_rsa_sha1 (const char *m, const char *k) {
+ looser:
++  if (!rv) fprintf(stderr, "liboauth/NSS: RSA-SHA1 signer failed (NSPR error %d)\n", PR_GetError());
+   if (pkey) SECKEY_DestroyPrivateKey(pkey);
+diff --git a/tests/selftest_wiki.c b/tests/selftest_wiki.c
+--- a/tests/selftest_wiki.c
++++ b/tests/selftest_wiki.c
+@@ -147 +147 @@ int main (int argc, char **argv) {
+-  if (strcmp(b64d,"jvTp/wX1TYtByB1m+Pbyo0lnCOLIsyGCH7wke8AUs3BpnwZJtAuEJkvQL2/9n4s5wUmUl4aCI4BwpraNx4RtEXMe5qg5T1LVTGliMRpKasKsW//e+RinhejgCuzoH26dyF8iY2ZZ/5D1ilgeijhV/vBka5twt399mXwaYdCwFYE=")) {
++  if (!b64d || strcmp(b64d,"jvTp/wX1TYtByB1m+Pbyo0lnCOLIsyGCH7wke8AUs3BpnwZJtAuEJkvQL2/9n4s5wUmUl4aCI4BwpraNx4RtEXMe5qg5T1LVTGliMRpKasKsW//e+RinhejgCuzoH26dyF8iY2ZZ/5D1ilgeijhV/vBka5twt399mXwaYdCwFYE=")) {
