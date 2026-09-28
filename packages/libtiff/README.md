@@ -14,6 +14,11 @@ release tarball's prebuilt HTML documentation is installed instead of running
 Sphinx during RPM construction. The installed smoke test writes a TIFF via the
 public C API, then reads it with both the public C API and `tiffinfo`.
 
+The target's `libjpeg-turbo-devel` CMake package currently references a
+missing `libturbojpeg.so.0.3.0` file. The upstream `jpeg-prefer-standard`
+option selects CMake's standard FindJPEG path and retains JPEG codec support;
+it does not omit JPEG tests or disable the codec.
+
 The discovery snapshot corroborates LibTIFF in Arch, Fedora, and AUR metadata.
 AUR is metadata only; no AUR build recipe is executed. QEMU-user CI can verify
 functional behavior, but timing/performance or hardware claims require native

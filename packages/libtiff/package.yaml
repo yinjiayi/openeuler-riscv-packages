@@ -42,7 +42,7 @@
   },
   "maintenance": {
     "maintainers": ["yinjiayi"],
-    "notes": "Official OSGeo LibTIFF 4.7.2 release archive is pinned by SHA-256. The full upstream CTest suite, shared C and C++ libraries, standard tools, and target-available compression codecs are enabled. Sphinx generation is disabled in favor of the upstream prebuilt HTML manual, without disabling code or tests. AUR evidence is read-only metadata; no PKGBUILD is executed.",
+    "notes": "Official OSGeo LibTIFF 4.7.2 release archive is pinned by SHA-256. The full upstream CTest suite, shared C and C++ libraries, standard tools, and target-available compression codecs are enabled. Standard FindJPEG is selected to keep JPEG support while avoiding a broken libjpeg-turbo CMake config in the target repository. Sphinx generation is disabled in favor of the upstream prebuilt HTML manual, without disabling code or tests. AUR evidence is read-only metadata; no PKGBUILD is executed.",
     "status": "active"
   },
   "package_id": "libtiff",

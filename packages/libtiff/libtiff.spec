@@ -49,6 +49,8 @@ images.
   -Dtiff-tests=ON \
   -Dtiff-contrib=ON \
   -Dtiff-docs=ON \
+  -Djpeg-prefer-standard=ON \
+  -Djpeg=ON \
   -Dsphinx=OFF
 %cmake_build
 
