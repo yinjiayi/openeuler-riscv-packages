@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libxfont",
+  "rpm": {
+    "name": "libXfont2",
+    "summary": "X.Org server-side font handling library",
+    "license": "BSD-2-Clause AND BSD-4-Clause-UC AND HPND-sell-variant AND MIT-open-group AND SMLNJ AND X11"
+  },
+  "upstream": {
+    "component": "xorg.freedesktop.org-lib-libxfont2",
+    "homepage": "https://gitlab.freedesktop.org/xorg/lib/libXfont",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libXfont.git",
+    "release_channel": "stable",
+    "release_api": "https://xorg.freedesktop.org/archive/individual/lib/",
+    "release_regex": "libXfont2-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://xorg.freedesktop.org/archive/individual/lib/libXfont2-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.0.9",
+    "release": "1",
+    "latest_detected": "2.0.9"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libxfont",
+        "package_base": "libxfont",
+        "source_version": "1:2.0.6-1",
+        "evidence_url": "https://packages.debian.org/stable/source/libxfont",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libXfont2.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The exact libxfont inventory key maps to X.Org/RPM libXfont2 2.0.9. The official SHA-256 is independently verified. Python is required to retain the five upstream malformed-PCF parser tests. Deprecated X fontserver support remains disabled by upstream default; live X-server behavior is not claimed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
