@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import http.client
 import io
 import json
 import os
@@ -15,6 +16,8 @@ import stat
 import subprocess
 import tempfile
 import time
+import urllib.error
+import urllib.request
 import zipfile
 from typing import Any, Dict, List
 
@@ -27,6 +30,12 @@ ARTIFACT_PAGE_SIZE = 25
 MAX_ARTIFACT_PAGES = 1000
 ARTIFACT_PAGE_ATTEMPTS = 6
 MAX_ARTIFACT_PAGE_BYTES = 2 * 1024 * 1024
+GITHUB_API_ROOT = "https://api.github.com"
+
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request: Any, fp: Any, code: int, message: str, headers: Any, new_url: str) -> None:
+        return None
 
 
 def gh(*arguments: str, binary: bool = False, timeout_seconds: int = 180) -> bytes | str:
@@ -41,6 +50,46 @@ def gh(*arguments: str, binary: bool = False, timeout_seconds: int = 180) -> byt
         message = completed.stderr.decode("utf-8", errors="replace").strip()
         raise RuntimeError("gh api failed: %s" % message[:1000])
     return completed.stdout if binary else completed.stdout.decode("utf-8")
+
+
+def github_artifact_page(endpoint: str) -> bytes:
+    """Read one bounded Actions listing page without exposing the token in argv."""
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    if not token:
+        raise RuntimeError("GitHub token is unavailable for Dashboard evidence collection")
+    if not re.fullmatch(
+        r"repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/actions/artifacts\?per_page=25&page=[1-9][0-9]*",
+        endpoint,
+    ):
+        raise ValueError("artifact listing endpoint is invalid")
+    url = "%s/%s" % (GITHUB_API_ROOT, endpoint)
+    request = urllib.request.Request(
+        url,
+        headers={
+            "Accept": "application/vnd.github+json",
+            "Authorization": "Bearer %s" % token,
+            "User-Agent": "openeuler-riscv-dashboard-evidence",
+            "X-GitHub-Api-Version": "2022-11-28",
+        },
+    )
+    opener = urllib.request.build_opener(NoRedirect)
+    try:
+        with opener.open(request, timeout=30) as response:
+            if response.status != 200 or response.geturl() != url:
+                raise ValueError("artifact listing response changed URL or status")
+            length = response.headers.get("Content-Length")
+            if length is not None and int(length) > MAX_ARTIFACT_PAGE_BYTES:
+                raise ValueError("artifact page exceeds the response bound")
+            payload = response.read(MAX_ARTIFACT_PAGE_BYTES + 1)
+    except urllib.error.HTTPError as error:
+        if error.code in {408, 429, 500, 502, 503, 504}:
+            raise RuntimeError("GitHub artifact listing returned transient HTTP %d" % error.code) from error
+        raise ValueError("GitHub artifact listing returned HTTP %d" % error.code) from error
+    except (urllib.error.URLError, TimeoutError, OSError, http.client.IncompleteRead) as error:
+        raise RuntimeError("GitHub artifact listing transport failed") from error
+    if len(payload) > MAX_ARTIFACT_PAGE_BYTES:
+        raise ValueError("artifact page exceeds the response bound")
+    return payload
 
 
 def safe_basename(value: str) -> str:
@@ -139,17 +188,14 @@ def list_artifacts(repository: str) -> tuple[List[Dict[str, Any]], int, int]:
         )
         for attempt in range(ARTIFACT_PAGE_ATTEMPTS):
             try:
-                payload = str(gh("api", endpoint, timeout_seconds=30))
-                if len(payload.encode("utf-8")) > MAX_ARTIFACT_PAGE_BYTES:
-                    raise ValueError("artifact page exceeds the response bound")
-                document = json.loads(payload)
+                document = json.loads(github_artifact_page(endpoint).decode("utf-8"))
                 if not isinstance(document, dict) or not isinstance(document.get("artifacts"), list):
                     raise ValueError("artifact page has an invalid shape")
                 page = document["artifacts"]
                 if len(page) > ARTIFACT_PAGE_SIZE or not all(isinstance(item, dict) for item in page):
                     raise ValueError("artifact page has invalid entries")
                 break
-            except (RuntimeError, json.JSONDecodeError, subprocess.TimeoutExpired) as error:
+            except (RuntimeError, UnicodeDecodeError, json.JSONDecodeError) as error:
                 if attempt + 1 == ARTIFACT_PAGE_ATTEMPTS:
                     raise RuntimeError("artifact page %d failed after %d attempts: %s" % (
                         page_number, ARTIFACT_PAGE_ATTEMPTS, error
