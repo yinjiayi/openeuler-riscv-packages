@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 Name:           bmake
-Version:        20260824
-Release:        2%{?dist}
+Version:        20260912
+Release:        1%{?dist}
 Summary:        Portable version of the NetBSD make build tool
 License:        BSD-3-Clause AND BSD-2-Clause AND BSD-4-Clause-UC
 URL:            https://www.crufty.net/help/sjg/bmake.htm
-Source0:        bmake-20260824.tar.gz
+Source0:        bmake-20260912.tar.gz
 
 BuildRequires:  bash
 BuildRequires:  coreutils
