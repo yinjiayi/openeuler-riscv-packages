@@ -17,6 +17,12 @@ metadata. The upstream development/performance experiments are not registered
 in the default `make check` target and do not establish performance evidence.
 Bundled manuals and examples are installed without generating documentation.
 
+Upstream configure temporarily clears distribution `CFLAGS` before an fopen
+link probe. With the target's hardened RISC-V default PIE link, this yields
+non-PIC relocations and no runnable conftest. The SPEC supplies `gcc -fPIC`
+as the compiler for configure and build, preserving the distro flags and all
+tests without modifying upstream source or declaring a false cross-build.
+
 The frozen AUR record is discovery lineage only; no external package recipe is
 executed. QEMU-user CI covers functional behavior, not native RISC-V timing or
 performance. A successful PR build is not evidence of repository publication.

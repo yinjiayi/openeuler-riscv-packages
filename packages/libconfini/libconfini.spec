@@ -27,6 +27,9 @@ Public header, linker name, and pkg-config metadata for libconfini.
 %autosetup -p1 -n libconfini-%{version}-with-configure
 
 %build
+# Upstream temporarily clears CFLAGS before its fopen link probe. Ensure that
+# the RISC-V hardened default PIE link still receives position-independent code.
+export CC="gcc -fPIC"
 %configure --disable-static || { status=$?; sed -n '/checking whether we are cross compiling/,+45p' config.log; exit "$status"; }
 %make_build
 
