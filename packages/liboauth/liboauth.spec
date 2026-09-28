@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           liboauth
 Version:        1.0.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 %global upstream_commit 07fc30bf6d44f5b431a943452f6083fbaf22bc8f
 Summary:        C library for OAuth request signing
 License:        MIT
 URL:            https://github.com/x42/liboauth
 Source0:        liboauth-%{version}.tar.gz
-Patch0:         0001-tests-report-nss-rsa-failure-without-crashing.patch
+Patch0:         0001-openssl-3-allocate-evp-digest-contexts.patch
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -15,13 +15,13 @@ BuildRequires:  gcc
 BuildRequires:  libcurl-devel
 BuildRequires:  libtool
 BuildRequires:  make
-BuildRequires:  nss-devel
+BuildRequires:  openssl-devel
 BuildRequires:  pkgconf
 
 %description
 liboauth supplies URL encoding, request signing, and signature verification
 functions for OAuth clients and servers. This build includes libcurl HTTP
-integration and NSS-backed cryptographic signatures.
+integration and OpenSSL-backed cryptographic signatures.
 
 %package devel
 Summary:        Development files for liboauth
@@ -37,7 +37,7 @@ applications using liboauth.
 
 %build
 autoreconf -fi
-%configure --disable-static --enable-nss
+%configure --disable-static
 %make_build
 
 %install
@@ -66,6 +66,12 @@ fi
 %{_libdir}/pkgconfig/oauth.pc
 
 %changelog
+* Mon Sep 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.3-3
+- Use upstream's complete OpenSSL crypto backend with OpenSSL 3 context
+  lifecycle compatibility; retain all three upstream self-tests.
+- The target NSS backend rejected RSA-SHA1 with
+  SEC_ERROR_SIGNATURE_ALGORITHM_DISABLED; do not weaken system policy.
+
 * Mon Sep 28 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.3-2
 - Preserve all upstream tests while reporting NSS RSA signing failures as
   explicit tcwiki assertion failures instead of a segmentation fault.
