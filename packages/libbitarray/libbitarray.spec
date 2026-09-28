@@ -27,7 +27,7 @@ Headers and static and shared link names for BitArray consumers.
 
 %build
 %make_build all CC=%{__cc} CXX=%{__cxx} \
-  CFLAGS='%{build_cflags} -Wall -Wextra -I.. -I.'
+  CFLAGS='%{build_cflags} -Wall -Wextra -I.. -I. -L..'
 %{__cc} %{build_ldflags} -shared -Wl,-soname,libbitarr.so.2 \
   -o libbitarr.so.2.0.0 bit_array.o
 
