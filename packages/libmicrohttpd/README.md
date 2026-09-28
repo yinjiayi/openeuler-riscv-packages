@@ -18,4 +18,9 @@ HTTPS-backed upstream default test programs are actually built and run by
 `make check`. The optional heavy timing/performance suite explicitly asks for
 a dedicated native host and is not enabled on QEMU. The installed smoke test
 links a public C client, checks its version, and verifies the TLS feature.
-Actual target build and installation outcomes remain unknown until CI runs.
+Target CI run `36488885432` at PR head `89ce9514` against main `d3dacb47`
+passed the RISC-V build, all 182 upstream functional tests, and installed-RPM
+smoke. Its four RPMs and one SRPM matched the build manifest's sizes and
+SHA-256 digests. This is old-base quality evidence only: a new run against
+the current protected main is required before merge, and no public repository
+publication is claimed.
