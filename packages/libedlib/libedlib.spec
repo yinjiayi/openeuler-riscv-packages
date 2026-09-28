@@ -27,7 +27,7 @@ Public header, linker name, pkg-config metadata and CMake package files.
 %autosetup -n edlib-%{version} -p1
 
 %build
-%cmake -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON \
+%cmake_conf -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON \
   -DEDLIB_ENABLE_INSTALL=ON -DEDLIB_BUILD_EXAMPLES=ON \
   -DEDLIB_BUILD_UTILITIES=ON
 %cmake_build
