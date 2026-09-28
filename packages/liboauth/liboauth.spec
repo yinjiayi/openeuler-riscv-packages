@@ -45,7 +45,12 @@ find %{buildroot} -name '*.la' -delete
 
 %check
 # All three registered upstream TESTS are self-contained and offline.
-%make_build check
+# Retain per-case progress on a crash so the CI artifact identifies the
+# failing assertion rather than only reporting the harness exit status.
+if ! %make_build check TESTS_ENVIRONMENT='stdbuf -oL -eL'; then
+    test -f test-suite.log && sed -n '1,240p' test-suite.log
+    exit 1
+fi
 
 %files
 %license COPYING.MIT
