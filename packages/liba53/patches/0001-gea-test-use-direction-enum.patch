@@ -20,20 +20,13 @@ Remove-When: An upstream release uses the declared direction enum in the
 diff --git a/gea_test.c b/gea_test.c
 --- a/gea_test.c
 +++ b/gea_test.c
-@@ -23,6 +23,6 @@ void test_gea3(uint64_t kc, uint32_t iv, int dir, uint16_t len, char * res) {
- void test_gea3(uint64_t kc, uint32_t iv, int dir, uint16_t len, char * res) {
-     printf("%d: %d -> 0x%X ", len, dir, iv);
+@@ -25,3 +25,3 @@
      uint8_t out[len];
 -    osmo_gea3(out, len, kc, iv, dir);
 +    osmo_gea3(out, len, kc, iv, (enum gprs_cipher_direction)dir);
      print_check(res, out, len);
- }
-@@ -30,7 +30,7 @@ void test_gea4(char * kc, uint32_t iv, int dir, uint16_t len, char * res) {
- void test_gea4(char * kc, uint32_t iv, int dir, uint16_t len, char * res) {
-     printf("%d: %d -> 0x%X ", len, dir, iv);
-     uint8_t out[len], ck[256];
+@@ -33,3 +33,3 @@
      osmo_hexparse(kc, ck, len);
 -    osmo_gea4(out, len, ck, iv, dir);
 +    osmo_gea4(out, len, ck, iv, (enum gprs_cipher_direction)dir);
      print_check(res, out, len);
- }

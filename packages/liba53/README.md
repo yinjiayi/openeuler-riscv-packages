@@ -29,5 +29,11 @@ the existing 0/1 direction values to the declared enum, preserving all nine
 GEA vectors and their `.ok` comparison. The repaired build remains subject to
 a new exact-head CI run.
 
+The first patch-format revision failed in `%prep` on run `36435881975`
+because GNU `patch --fuzz=0` could not apply its context, although the native
+macOS `patch` accepted it. The replacement patch has been checked explicitly
+with GNU `patch --fuzz=0` against the pinned source archive; no fixture or
+build result is counted as passed from that failed run.
+
 The upstream source retains GPL-2.0-or-later terms; Apache-2.0 covers the
 original packaging metadata, test, and documentation here.

@@ -21,7 +21,7 @@
   "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
   "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
   "files": {"spec": "liba53.spec", "sources": "sources.yaml", "patches": [
-    {"file": "patches/0001-gea-test-use-direction-enum.patch", "sha256": "72162c9ea6a09032cd317948da11dbee84ed2582cffae3334e75b39a3054037e", "purpose": "Compile the upstream GEA fixture with the C++ compiler used by its Makefile while retaining all vectors.", "source": "Downstream review of official liba53 v4.0.0 fixture", "license": "GPL-2.0-or-later", "upstream_status": "not-submitted", "remove_when": "Upstream fixes the fixture argument type or makes the GEA vectors compile under its C++ build."}
+    {"file": "patches/0001-gea-test-use-direction-enum.patch", "sha256": "0b6b7be460fca0815183efe71896530b5e0a32f31cb93c42ca1f1d22e74a861d", "purpose": "Compile the upstream GEA fixture with the C++ compiler used by its Makefile while retaining all vectors.", "source": "Downstream review of official liba53 v4.0.0 fixture", "license": "GPL-2.0-or-later", "upstream_status": "not-submitted", "remove_when": "Upstream fixes the fixture argument type or makes the GEA vectors compile under its C++ build."}
   ], "smoke_test": "tests/smoke.sh"},
   "maintenance": {
     "status": "active", "maintainers": ["yinjiayi"],
