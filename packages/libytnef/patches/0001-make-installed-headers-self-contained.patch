@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 29 Sep 2026 00:00:00 +0000
+Subject: [PATCH] public headers: include standard FILE and size_t definitions
+
+The installed tnef-types.h declares FILE and ytnef.h declares size_t, but
+neither header includes the corresponding C standard header. A consumer that
+includes ytnef.h first fails to compile, as the target installed-RPM smoke
+test showed. Make both public headers self-contained without changing the
+library ABI or the smoke test.
+
+Patch-Source: openEuler RISC-V package CI run 36501471769
+Patch-License: GPL-2.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: Upstream public headers include their required standard types.
+---
+diff --git a/lib/tnef-types.h b/lib/tnef-types.h
+--- a/lib/tnef-types.h
++++ b/lib/tnef-types.h
+@@ -20,7 +20,8 @@
+ */
+ #ifndef _TNEF_TYPES_H_
+ #define _TNEF_TYPES_H_
+-
++#include <stdio.h>
++
+ #define BYTE unsigned char
+ #define WORD unsigned short int
+ #define DWORD unsigned int
+diff --git a/lib/ytnef.h b/lib/ytnef.h
+--- a/lib/ytnef.h
++++ b/lib/ytnef.h
+@@ -20,7 +20,8 @@
+ */
+ #ifndef _TNEF_PROCS_H_
+ #define _TNEF_PROCS_H_
+-
++#include <stddef.h>
++
+ #include "tnef-types.h"
+ #include "mapi.h"
+ #include "mapidefs.h"
