@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-naivebayes-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Algorithm-NaiveBayes-0.04.tar.gz",
+      "version": "0.04",
+      "url": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Algorithm-NaiveBayes-0.04.tar.gz",
+      "digests": {
+        "sha256": "fd769448ec977a3626a135b02e0d5fcd41de2d9d14ade0632194d1ad801eeccd"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included module's COPYRIGHT POD grants the same GPL/Artistic choice as Perl; the official CPAN archive is fetched over HTTPS with SHA-256 verification."
+      }
+    }
+  ]
+}
