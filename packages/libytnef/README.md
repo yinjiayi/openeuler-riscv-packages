@@ -22,3 +22,12 @@ The library and tools retain the upstream GPL-2.0-or-later grant. The tools
 subpackage includes the optional `ytnefprocess` Perl mail processor and its
 module dependencies; no core utility is silently dropped. CI build
 artifacts are not evidence of publication to the public RPM repository.
+
+Target run `36501471769` at head `f371afbb` against main `51d28650` built
+the complete RPM/SRPM set and passed upstream `make check` plus the full TNEF
+fixture script. DNF installed `libytnef`, its tools/devel subpackages, and
+the `MIME::Parser`/`Mail::Mailer` providers, but the installed public-header
+smoke failed: `tnef-types.h` used `FILE` without `<stdio.h>` and `ytnef.h`
+used `size_t` without `<stddef.h>`. Release 2 patches those two headers;
+the smoke program and all tests remain unchanged. A new target CI run must
+prove the repair before this PR is merge-ready.

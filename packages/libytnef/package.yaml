@@ -17,7 +17,7 @@
   },
   "version": {
     "current": "2.1.2",
-    "release": "1",
+    "release": "2",
     "latest_detected": "2.1.2"
   },
   "discovery": {
@@ -49,13 +49,23 @@
   "files": {
     "spec": "libytnef.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-make-installed-headers-self-contained.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Make installed public headers self-contained for FILE and size_t without changing the ABI or smoke assertions.",
+        "remove_when": "Upstream public headers include their required standard types.",
+        "sha256": "565fb292589aa46b6fd72a4b22b3922e1ed860daa40f53e9ec82e8a6e79ba10b",
+        "source": "openEuler RISC-V package CI run 36501471769",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "The exact libytnef inventory key maps to the official stable ytnef v2.1.2 tag. The pinned tag archive SHA-256 is independently verified. The full upstream TNEF fixture regression script runs explicitly in %check in addition to make check. Tools, including the optional Perl mail processor, are retained in a separate subpackage."
+    "notes": "The exact libytnef inventory key maps to the official stable ytnef v2.1.2 tag. The pinned tag archive SHA-256 is independently verified. The full upstream TNEF fixture regression script runs explicitly in %check in addition to make check. Tools, including the optional Perl mail processor, are retained in a separate subpackage. Target CI run 36501471769 installed all RPMs and Perl dependencies but found installed public headers missing FILE and size_t definitions; release 2 fixes the headers without weakening the smoke or upstream tests."
   },
   "updates": {
     "enabled": true,

@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libytnef
 Version:        2.1.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library for reading Microsoft TNEF streams
 License:        GPL-2.0-or-later
 URL:            https://github.com/Yeraze/ytnef
 Source0:        ytnef-v%{version}.tar.gz
+Patch0:         0001-make-installed-headers-self-contained.patch
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -86,5 +87,8 @@ rm -rf -- test-data/data
 %{_bindir}/ytnefprocess
 
 %changelog
+* Tue Sep 29 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.2-2
+- Make installed public headers include the standard FILE and size_t types.
+
 * Tue Sep 29 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1.2-1
 - Package the official 2.1.2 tag and full TNEF regression suite.
