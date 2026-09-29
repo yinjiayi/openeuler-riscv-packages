@@ -54,6 +54,9 @@ grep -F 'POST' server-and-client.log
 %{_libdir}/cmake/httplib/
 
 %changelog
+* Tue Sep 29 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.57.1-1
+- Match the installed header smoke assertion to the verified 0.57.1 source.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.54.1-2
 - Synchronize the installed smoke assertion and package documentation with 0.54.1.
 
