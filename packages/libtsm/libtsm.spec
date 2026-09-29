@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libtsm
-Version:        4.7.1
+Version:        4.8.0
 Release:        1%{?dist}
 Summary:        Terminal-emulator state machine library
 License:        MIT AND LGPL-2.1-or-later
 URL:            https://github.com/kmscon/libtsm
-Source0:        v4.7.1.tar.gz
+Source0:        v4.8.0.tar.gz
 
 BuildRequires:  check-devel
 BuildRequires:  gcc

@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libsrtp
-Version:        2.8.0
+Version:        2.8.1
 Release:        1%{?dist}
 Summary:        Secure Real-time Transport Protocol library
 License:        BSD-3-Clause
 URL:            https://github.com/cisco/libsrtp
-Source0:        libsrtp-%{version}.tar.gz
+Source0:        v2.8.1.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  libpcap-devel
