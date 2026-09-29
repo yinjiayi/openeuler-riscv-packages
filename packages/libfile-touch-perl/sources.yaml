@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-touch-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Touch-0.12.tar.gz",
+      "version": "0.12",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/File-Touch-0.12.tar.gz",
+      "digests": {
+        "sha256": "2a04dc424df48e98c54556c6045cab026a49e3737aa94a21cf497761b0f2e59c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The bundled LICENSE grants Perl GPL/Artistic redistribution and modification terms; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}
