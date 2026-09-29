@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-copy-link-perl",
+  "rpm": {
+    "name": "perl-File-Copy-Link",
+    "summary": "Replace a symbolic link with a copy of its target in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-copy-link-perl",
+    "homepage": "https://metacpan.org/dist/File-Copy-Link",
+    "source_repository": "https://metacpan.org/dist/File-Copy-Link",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RM/RMBARKER/",
+    "release_regex": "File-Copy-Link-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RM/RMBARKER/File-Copy-Link-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.200",
+    "release": "1",
+    "latest_detected": "0.200"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-copy-link-perl",
+        "package_base": "libfile-copy-link-perl",
+        "source_version": "0.200-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-copy-link-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-copy-link-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory exact key libfile-copy-link-perl maps to official stable CPAN 0.200. The official CHECKSUMS SHA-256, safe 32-entry archive, and bundled Perl dual-license text were verified; this resolves the automated license-blocked and unverified-upstream flags by primary source evidence. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has neither same-name RPM nor perl(File::Copy::Link)/perl(File::Spec::Link) Provides. All nine upstream default test files remain intact; Test::Pod and Test::Pod::Coverage are required so their optional checks do not silently skip. Symlink-specific upstream tests may self-skip if the target environment cannot create links; report exact CI counts. Target result awaits exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
