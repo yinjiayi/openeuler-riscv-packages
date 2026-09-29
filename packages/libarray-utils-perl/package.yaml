@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-utils-perl",
+  "rpm": {
+    "name": "perl-Array-Utils",
+    "summary": "Pure-Perl array set operations",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libarray-utils-perl",
+    "homepage": "https://metacpan.org/dist/Array-Utils",
+    "source_repository": "https://metacpan.org/dist/Array-Utils",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/Z/ZM/ZMIJ/Array/",
+    "release_regex": "Array-Utils-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/Z/ZM/ZMIJ/Array/Array-Utils-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.5",
+    "release": "1",
+    "latest_detected": "0.5"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libarray-utils-perl",
+        "package_base": "libarray-utils-perl",
+        "source_version": "0.5-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libarray-utils-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libarray-utils-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libarray-utils-perl key maps to official CPAN Array-Utils 0.5. CPAN CHECKSUMS SHA-256, safe archive, explicit Perl GPL/Artistic dual license in Utils.pm POD despite unknown MetaCPAN license metadata, and the full one-file/17-assertion upstream suite were reviewed. Target primary has no same-name RPM or module provider. Target RPM/QEMU and installed smoke require exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
