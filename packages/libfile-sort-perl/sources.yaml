@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-sort-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Sort-1.01.tar.gz",
+      "version": "1.01",
+      "url": "https://cpan.metacpan.org/authors/id/C/CN/CNANDOR/File-Sort-1.01.tar.gz",
+      "digests": {
+        "sha256": "f1bf27c5fa98973632f4d43ba951cda23e84d23b3e1b1b514f0aa56c1c3c532c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The bundled README and Sort.pm grant Perl GPL/Artistic redistribution and modification terms; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}

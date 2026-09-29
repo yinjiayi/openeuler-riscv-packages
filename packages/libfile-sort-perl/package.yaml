@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-sort-perl",
+  "rpm": {
+    "name": "perl-File-Sort",
+    "summary": "Sort files with a portable Perl API",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-sort-perl",
+    "homepage": "https://metacpan.org/dist/File-Sort",
+    "source_repository": "https://metacpan.org/dist/File-Sort",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CN/CNANDOR/",
+    "release_regex": "File-Sort-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CN/CNANDOR/File-Sort-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.01",
+    "release": "1",
+    "latest_detected": "1.01"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-sort-perl",
+        "package_base": "libfile-sort-perl",
+        "source_version": "1.01-4",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-sort-perl",
+        "observed_at": "2026-09-29T00:25:04Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-sort-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory exact key libfile-sort-perl maps to official latest CPAN 1.01. CPAN CHECKSUMS SHA-256, eight safe archive entries, and bundled README/Sort.pm Perl dual-license text resolve the automated license-blocked flag. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a contains neither same-name RPM nor perl(File::Sort) Provide. The complete default upstream test.pl (eight TAP assertions) is retained; it creates temporary relative files only in the fresh source tree and cleans them on successful completion. The legacy source's modern-Perl compatibility is unverified until exact-head target CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
