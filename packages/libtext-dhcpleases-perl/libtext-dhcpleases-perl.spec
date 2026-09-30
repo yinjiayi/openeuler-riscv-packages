@@ -27,6 +27,7 @@ iterator access to lease records.
 
 %install
 ./Build install --destdir %{buildroot}
+find %{buildroot} -type f -name .packlist -delete
 
 %check
 # Retain both default upstream fixture-based test files.
