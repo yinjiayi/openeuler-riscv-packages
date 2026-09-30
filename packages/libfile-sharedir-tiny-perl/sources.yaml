@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-sharedir-tiny-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-ShareDir-Tiny-0.001.tar.gz",
+      "version": "0.001",
+      "url": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/File-ShareDir-Tiny-0.001.tar.gz",
+      "digests": {
+        "sha256": "16d6e0352d02402cdd46bc8d7c426c66cd8488d7066878b250e50a6a34e47b58"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The release's full LICENSE grants Perl GPL-1-or-later OR Artistic terms; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}
