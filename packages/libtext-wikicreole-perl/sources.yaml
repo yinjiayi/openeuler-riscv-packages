@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-wikicreole-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-WikiCreole-0.07.tar.gz",
+      "version": "0.07",
+      "url": "https://cpan.metacpan.org/authors/id/J/JB/JBURNETT/Text-WikiCreole-0.07.tar.gz",
+      "digests": {
+        "sha256": "34d1e4eb65351d5a303a50daf463a9edf854e396680444e80c0a8fb6944b1e90"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included README and module POD explicitly grant the same terms as Perl itself; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
