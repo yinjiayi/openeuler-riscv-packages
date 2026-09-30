@@ -4,17 +4,16 @@ Subject: [PATCH] CLI: request scalar text from context-sensitive generators
 The module intentionally returns a list in list context and a joined
 string in scalar context. print supplies list context to its operands,
 so the CLI printed generated words without separators. Request the
-documented string form for each command-line mode.
+documented string form for the three numbered command-line modes.
 
 ---
- bin/lorem | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ bin/lorem | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/bin/lorem b/bin/lorem
 --- a/bin/lorem
 +++ b/bin/lorem
-@@ -19,13 +19,13 @@ die usage()
- my $lorem = Text::Lorem->new;
+@@ -20,12 +20,12 @@
  if ($opt_w) {
 -    print $lorem->words($opt_w);
 +    print scalar $lorem->words($opt_w);
@@ -28,6 +27,5 @@ diff --git a/bin/lorem b/bin/lorem
 +    print scalar $lorem->paragraphs($opt_p);
  }
  else {
--    print $lorem->paragraphs(1);
-+    print scalar $lorem->paragraphs(1);
+     print $lorem->paragraphs(1);
  }
