@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-levenshtein-damerau-perl",
+  "rpm": {
+    "name": "perl-Text-Levenshtein-Damerau",
+    "summary": "Calculate the Damerau-Levenshtein edit distance in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-levenshtein-damerau-perl",
+    "homepage": "https://metacpan.org/dist/Text-Levenshtein-Damerau",
+    "source_repository": "https://github.com/ugexe/Text--Levenshtein--Damerau",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/U/UG/UGEXE/",
+    "release_regex": "Text-Levenshtein-Damerau-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/U/UG/UGEXE/Text-Levenshtein-Damerau-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.41",
+    "release": "1",
+    "latest_detected": "0.41"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-levenshtein-damerau-perl",
+        "package_base": "libtext-levenshtein-damerau-perl",
+        "source_version": "0.41-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-levenshtein-damerau-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-levenshtein-damerau-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu 0.41-3 and official CPAN stable 0.41. Publisher CHECKSUMS SHA-256, archive safety and included GPL-1.0-or-later OR Artistic-1.0-Perl LICENSE verified. Official target primary lacks same-name RPM and both module providers. All six default upstream suites and 45 assertions passed locally; two non-default xt POD files are not claimed as tested. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
