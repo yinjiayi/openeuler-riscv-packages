@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-trim-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Trim-1.04.tar.gz",
+      "version": "1.04",
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJT/Text-Trim-1.04.tar.gz",
+      "digests": {
+        "sha256": "d5878a9079d33cd1766cf6abc44cd625bd00a0213d2ce8e3143fe6944abaaa11"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches CHECKSUMS; bundled LICENSE expressly grants GPL-1.0-or-later or Artistic-1.0-Perl terms."
+      }
+    }
+  ]
+}
