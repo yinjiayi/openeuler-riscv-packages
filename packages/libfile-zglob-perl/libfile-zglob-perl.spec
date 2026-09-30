@@ -21,7 +21,7 @@ wildcards and brace alternatives.
 %autosetup -n File-Zglob-%{version} -p1
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
+%{__perl} -I. Makefile.PL INSTALLDIRS=vendor
 %make_build
 
 %install
