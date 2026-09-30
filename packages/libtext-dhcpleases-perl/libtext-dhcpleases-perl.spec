@@ -13,6 +13,8 @@ BuildRequires:  perl-Module-Build
 BuildRequires:  perl-Test-Simple
 BuildRequires:  perl-generators
 Requires:       perl(Class::Struct) >= 0.63
+# Upstream loads this file by its Text:: path but declares a DHCPLeases:: class.
+Provides:       perl(Text::DHCPLeases::Object::Iterator) = %{version}
 
 %description
 Text::DHCPLeases parses ISC DHCP server lease files and provides object and
