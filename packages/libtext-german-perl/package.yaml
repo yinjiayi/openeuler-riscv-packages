@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-german-perl",
+  "rpm": {
+    "name": "perl-Text-German",
+    "summary": "Approximate German word base-form reduction in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-german-perl",
+    "homepage": "https://metacpan.org/dist/Text-German",
+    "source_repository": "https://metacpan.org/dist/Text-German",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/U/UL/ULPFR/",
+    "release_regex": "Text-German-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/U/UL/ULPFR/Text-German-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.06",
+    "release": "1",
+    "latest_detected": "0.06"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-german-perl",
+        "package_base": "libtext-german-perl",
+        "source_version": "0.06-5",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-german-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-german-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Exact frozen-inventory Ubuntu libtext-german-perl 0.06 original tar MD5 matches official CPAN Text-German 0.06 byte-for-byte. CPAN CHECKSUMS SHA-256, safe archive and README/German.pod same-terms-as-Perl license were reviewed. Both default t/ files and 34 assertions pass locally; no tests are skipped. Upstream explicitly calls the reduction method incomplete. Official RVA23 primary has no same-name RPM or module provider."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
