@@ -15,6 +15,7 @@ BuildRequires:  perl-File-Find-Rule
 BuildRequires:  perl-Test-Simple
 BuildRequires:  perl-Text-Glob
 BuildRequires:  perl-generators
+Requires:       perl(Text::Glob)
 
 %description
 File::Finder builds File::Find predicates using find-style steps and can
