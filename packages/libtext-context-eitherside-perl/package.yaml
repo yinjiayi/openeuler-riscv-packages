@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-context-eitherside-perl",
+  "rpm": {
+    "name": "perl-Text-Context-EitherSide",
+    "summary": "Extract words around search terms in Perl text",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "libtext-context-eitherside-perl",
+    "homepage": "https://metacpan.org/dist/Text-Context-EitherSide",
+    "source_repository": "https://metacpan.org/dist/Text-Context-EitherSide",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TM/TMTM/",
+    "release_regex": "Text-Context-EitherSide-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TM/TMTM/Text-Context-EitherSide-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.4",
+    "release": "1",
+    "latest_detected": "1.4"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-context-eitherside-perl",
+        "package_base": "libtext-context-eitherside-perl",
+        "source_version": "1.4-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-context-eitherside-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-context-eitherside-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official CPAN 1.4; Ubuntu orig MD5 and CPAN CHECKSUMS SHA-256 match. README and module POD explicitly grant Artistic-2.0 despite empty META.yml license. Safe archive; official target primary has neither same-name RPM nor module provider and includes all declared test dependencies. All three default tests remain enabled; local functional and POD assertions passed, while local POD coverage skipped for missing module and must run in target CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
