@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-lorem-perl",
+  "rpm": {
+    "name": "perl-Text-Lorem",
+    "summary": "Generate placeholder Latin-looking text",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-lorem-perl",
+    "homepage": "https://metacpan.org/dist/Text-Lorem",
+    "source_repository": "https://github.com/adeolaawoyemi/Text-Lorem",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AD/ADEOLA/",
+    "release_regex": "Text-Lorem-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AD/ADEOLA/Text-Lorem-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.34",
+    "release": "1",
+    "latest_detected": "0.34"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-lorem-perl",
+        "package_base": "libtext-lorem-perl",
+        "source_version": "0.34-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-lorem-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-lorem-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libtext-lorem-perl; official stable CPAN 0.34 HTTPS source SHA-256 0ce6a3c19917b2323424a1aa742d988b063c39440427a3101a4cec6dbd847157 matches CHECKSUMS. README and module POD say same license as Perl; Makefile.PL and META specify perl_5, mapped to GPL-1.0-or-later OR Artistic-1.0-Perl. Official RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks same-name RPM and perl(Text::Lorem) provider. All five default upstream tests retained; local Perl 5.34.1 ran 23 assertions, no skips. The upstream bin/lorem script is shipped non-executable and not installed by MakeMaker; SPEC explicitly installs it as a command. Exact-head target CI must prove build/install smoke; public publication unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
