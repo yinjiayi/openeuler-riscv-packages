@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-unique-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Array-Unique-0.09.tar.gz",
+      "version": "0.09",
+      "url": "https://cpan.metacpan.org/authors/id/S/SZ/SZABGAB/Array-Unique-0.09.tar.gz",
+      "digests": {
+        "sha256": "653ce782b482800ece0bb0558e98f7a8f1986f41631261b9bb1598ab7accddf7"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included README and module POD grant the same GPL/Artistic choice as Perl; the official CPAN archive is fetched over HTTPS with SHA-256 verification."
+      }
+    }
+  ]
+}
