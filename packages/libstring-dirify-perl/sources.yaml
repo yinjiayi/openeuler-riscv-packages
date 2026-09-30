@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-dirify-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Dirify-1.03.tgz",
+      "version": "1.03",
+      "url": "https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/String-Dirify-1.03.tgz",
+      "digests": {
+        "sha256": "8e66374ade8b447ba94d276616973ef8a249e5b6258b81662142daa712329d53"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Archive LICENSE explicitly grants the same terms as Perl itself; official CPAN HTTPS source SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
