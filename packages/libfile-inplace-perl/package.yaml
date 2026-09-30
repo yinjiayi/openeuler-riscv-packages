@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-inplace-perl",
+  "rpm": {
+    "name": "perl-File-Inplace",
+    "summary": "Edit a file in place with optional backup",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-inplace-perl",
+    "homepage": "https://metacpan.org/dist/File-Inplace",
+    "source_repository": "https://metacpan.org/dist/File-Inplace",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CH/CHIPT/",
+    "release_regex": "File-Inplace-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CH/CHIPT/File-Inplace-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.20",
+    "release": "1",
+    "latest_detected": "0.20"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-inplace-perl",
+        "package_base": "libfile-inplace-perl",
+        "source_version": "0.20-5",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-inplace-perl",
+        "observed_at": "2026-09-30T03:51:17Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-inplace-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-inplace-perl maps to official CPAN 0.20. Source archive SHA-256 00d63cf15fdd03a166ecb7af2813a684251254f992fcf5da722ff557b4f10a3e matches CPAN CHECKSUMS and contains 15 safe entries. Module POD and README grant the same terms as Perl (the former cites 5.6.0, the latter 5.8.5; both allow later Perl 5 terms); standard Perl dual-license expression used. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has neither same-name RPM nor perl(File::Inplace) Provide. The one default upstream test file runs 21 assertions on local Perl 5.34.1; target QEMU remains unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
