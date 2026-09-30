@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-undiacritic-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Undiacritic-0.07.tar.gz",
+      "version": "0.07",
+      "url": "https://cpan.metacpan.org/authors/id/W/WO/WOLLMERS/Text-Undiacritic-0.07.tar.gz",
+      "digests": {
+        "sha256": "6ba5bfac2a57462aa7a06d7254fefe08511ba36f7e4590fdc54573d821e261a9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches CHECKSUMS; bundled LICENSE explicitly grants GPL-1.0-or-later or Artistic-1.0-Perl."
+      }
+    }
+  ]
+}
