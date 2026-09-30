@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-trim-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Trim-0.005.tar.gz",
+      "version": "0.005",
+      "url": "https://cpan.metacpan.org/authors/id/D/DO/DOHERTY/String-Trim-0.005.tar.gz",
+      "digests": {
+        "sha256": "b169e20b02476f308fec0425c75077fd6a851f578b4ea3703e6220659d73b31f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE and module POD expressly grant the same terms as Perl itself; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
