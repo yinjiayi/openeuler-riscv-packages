@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-finder-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Finder-1.01.tar.gz",
+      "version": "1.01",
+      "url": "https://cpan.metacpan.org/authors/id/M/ME/MERLYN/File-Finder-1.01.tar.gz",
+      "digests": {
+        "sha256": "2b6abd64354e76c5c2e5b37a34228af2d807f6ed4ab7070b116b6b448265fb87"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches CHECKSUMS; both module PODs expressly grant redistribution and modification under Perl's terms."
+      }
+    }
+  ]
+}
