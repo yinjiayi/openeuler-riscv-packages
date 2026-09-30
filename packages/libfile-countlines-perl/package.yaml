@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-countlines-perl",
+  "rpm": {
+    "name": "perl-File-CountLines",
+    "summary": "Efficiently count line breaks in a file",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-countlines-perl",
+    "homepage": "https://metacpan.org/dist/File-CountLines",
+    "source_repository": "https://metacpan.org/dist/File-CountLines",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MO/MORITZ/",
+    "release_regex": "File-CountLines-v(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MO/MORITZ/File-CountLines-v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.0.3",
+    "release": "1",
+    "latest_detected": "0.0.3"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-countlines-perl",
+        "package_base": "libfile-countlines-perl",
+        "source_version": "0.0.3-4",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-countlines-perl",
+        "observed_at": "2026-09-30T04:45:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-countlines-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-countlines-perl maps to official CPAN File-CountLines-v0.0.3. CPAN CHECKSUMS and HTTPS archive SHA-256 cfd97cce7c9613e4e569d47874a2b5704f1be9eced2f0739c870725694382a62 match; 13 archive entries are under one safe top-level tree. The old frozen-index license-blocked flag was independently reviewed: README and source POD explicitly grant Perl's use, redistribution and modification terms, while META.yml and Build.PL declare perl; no conflicting bundled code was found. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(File::CountLines) Provide, and perl-Test-Pod 1.52 is available to avoid the optional POD test skip. Both default upstream test files pass all 22 tests on local Perl 5.34.1; target QEMU remains unverified until exact-head CI. Upstream requests a new maintainer; repository packaging is for compatibility and does not imply upstream maintenance."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
