@@ -6,6 +6,7 @@ Summary:        Generate placeholder Latin-looking text
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Text-Lorem
 Source0:        Text-Lorem-%{version}.tar.gz
+Patch0:         0001-cli-request-scalar-text-from-generators.patch
 
 BuildArch:      noarch
 BuildRequires:  make
@@ -46,3 +47,4 @@ install -Dpm 0755 bin/lorem %{buildroot}%{_bindir}/lorem
 %changelog
 * Wed Sep 30 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.34-1
 - Package official CPAN release with full tests, command and installed smoke.
+- Request scalar text from the context-sensitive CLI generators.

@@ -1,0 +1,33 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] CLI: request scalar text from context-sensitive generators
+
+The module intentionally returns a list in list context and a joined
+string in scalar context. print supplies list context to its operands,
+so the CLI printed generated words without separators. Request the
+documented string form for each command-line mode.
+
+---
+ bin/lorem | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/bin/lorem b/bin/lorem
+--- a/bin/lorem
++++ b/bin/lorem
+@@ -19,13 +19,13 @@ die usage()
+ my $lorem = Text::Lorem->new;
+ if ($opt_w) {
+-    print $lorem->words($opt_w);
++    print scalar $lorem->words($opt_w);
+ }
+ elsif ($opt_s) {
+-    print $lorem->sentences($opt_s);
++    print scalar $lorem->sentences($opt_s);
+ }
+ elsif ($opt_p) {
+-    print $lorem->paragraphs($opt_p);
++    print scalar $lorem->paragraphs($opt_p);
+ }
+ else {
+-    print $lorem->paragraphs(1);
++    print scalar $lorem->paragraphs(1);
+ }
