@@ -4,9 +4,12 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+import runpy
+import signal
 import subprocess
 import sys
 import tempfile
+import time
 from typing import Optional
 import unittest
 
@@ -114,30 +117,53 @@ fi
             self.assertIn("--setopt=minrate=1000", argument_lines[0])
             self.assertNotIn("--setopt=minrate=1 ", argument_lines[0])
 
-    def test_timeout_terminates_the_dnf_process_group_and_fails_closed(self) -> None:
+    def test_timeout_fails_closed_and_records_evidence(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            marker = root / "terminated"
-            make_command(
-                root,
-                """
-trap 'printf terminated >"${DNF_TERM_MARKER:?}"; exit 143' TERM
-sleep 30 &
-wait
-""",
-            )
-            os.environ["DNF_TERM_MARKER"] = str(marker)
-            try:
-                completed = invoke(root, timeouts="1", budget=3)
-            finally:
-                os.environ.pop("DNF_TERM_MARKER", None)
+            make_command(root, "sleep 30\n")
+            completed = invoke(root, timeouts="1", budget=2)
             self.assertEqual(completed.returncode, 124, completed.stderr)
-            self.assertTrue(marker.is_file(), "DNF did not receive container-local TERM")
             evidence = json.loads((root / "transaction.json").read_text(encoding="utf-8"))
             self.assertEqual(evidence["status"], "failed")
             self.assertEqual(evidence["exit_code"], 124)
             self.assertEqual(len(evidence["attempts"]), 1)
             self.assertTrue(evidence["attempts"][0]["timed_out"])
+
+    def test_termination_signals_a_ready_process_group(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            ready = root / "ready"
+            marker = root / "terminated"
+            command = make_command(
+                root,
+                """
+trap 'printf terminated >"${DNF_TERM_MARKER:?}"; exit 143' TERM
+sleep 30 &
+printf ready >"${DNF_READY_MARKER:?}"
+while :; do :; done
+""",
+            )
+            environment = dict(os.environ)
+            environment["DNF_READY_MARKER"] = str(ready)
+            environment["DNF_TERM_MARKER"] = str(marker)
+            process = subprocess.Popen([str(command)], env=environment, start_new_session=True)
+            try:
+                deadline = time.monotonic() + 10
+                while not ready.is_file() and time.monotonic() < deadline:
+                    self.assertIsNone(process.poll(), "fixture exited before it became ready")
+                    time.sleep(0.01)
+                self.assertTrue(ready.is_file(), "fixture did not become ready")
+                terminate = runpy.run_path(str(RUNNER))["terminate_process_group"]
+                self.assertEqual(terminate(process, 2), 143)
+                self.assertEqual(marker.read_text(encoding="utf-8"), "terminated")
+            finally:
+                # Also reap the fixture if an assertion fails before termination.
+                if process.poll() is None:
+                    try:
+                        os.killpg(process.pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+                process.wait()
 
     def test_rejects_a_policy_whose_worst_case_exceeds_the_total_budget(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
