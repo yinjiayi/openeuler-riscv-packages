@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libxmlb",
+  "rpm": {
+    "name": "libxmlb",
+    "summary": "Fast indexed binary representation of XML metadata",
+    "license": "LGPL-2.1-or-later"
+  },
+  "upstream": {
+    "component": "libxmlb",
+    "homepage": "https://github.com/hughsie/libxmlb",
+    "source_repository": "https://github.com/hughsie/libxmlb",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/hughsie/libxmlb/releases",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/hughsie/libxmlb/releases/download/{version}/libxmlb-{version}.tar.xz"
+  },
+  "version": {
+    "current": "0.3.29",
+    "release": "1",
+    "latest_detected": "0.3.29"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libxmlb",
+        "package_base": "libxmlb",
+        "source_version": "0.3.29-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libxmlb/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libxmlb.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official 0.3.29 release archive is pinned to its publisher SHA-256. The build keeps the default library, CLI, introspection, gtk-doc, lzma and zstd support, and complete registered Meson tests. Installed smoke exercises the CLI and pkg-config API. Arch metadata is frozen discovery lineage only; no external recipe is executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}
