@@ -1,0 +1,21 @@
+{
+  "package_id": "openssl-pkcs11-sign-provider",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "67b2ef3f6ab5da3e79c1cb214f99d611065c37a5f1482f73f32209bfe71b30b7"
+      },
+      "filename": "openssl-pkcs11-sign-provider-1.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/opencryptoki/openssl-pkcs11-sign-provider/archive/refs/tags/v1.0.2.tar.gz",
+      "version": "1.0.2"
+    }
+  ]
+}
