@@ -1,0 +1,21 @@
+{
+  "package_id": "libvarlink",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ca3ecd13005309e0322bc64a26f2960e613f2a9a9cedee845865c2d042f73b3c"
+      },
+      "filename": "libvarlink-24.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/varlink/libvarlink/archive/refs/tags/v24.0.1.tar.gz",
+      "version": "24.0.1"
+    }
+  ]
+}
