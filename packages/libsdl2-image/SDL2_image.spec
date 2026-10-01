@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           SDL2_image
-Version:        2.8.8
-Release:        3%{?dist}
+Version:        2.8.12
+Release:        2%{?dist}
 Summary:        Image loading library for SDL 2
 License:        Zlib
 URL:            https://github.com/libsdl-org/SDL_image
-Source0:        SDL2_image-%{version}.tar.gz
+Source0:        SDL2_image-2.8.12.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -94,6 +94,9 @@ configuration for developing applications with SDL2_image.
 %{_libdir}/pkgconfig/SDL2_image.pc
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.8.12-2
+- Synchronize installed smoke version checks with the 2.8.12 update.
+
 * Sun Sep 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.8.8-3
 - Keep installed smoke self-contained to the produced RPM dependency closure.
 

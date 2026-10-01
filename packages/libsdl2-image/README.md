@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 # SDL2_image
 
-This directory packages the SDL 2 image-loading library `2.8.8` as the
+This directory packages the SDL 2 image-loading library `2.8.12` as the
 `SDL2_image` and `SDL2_image-devel` RPMs for openEuler 24.03 LTS SP3 on
 `riscv64`/RVA23. The package directory uses the inventory key
 `libsdl2-image`; its RPM and development-provider names retain upstream's
@@ -9,17 +9,10 @@ This directory packages the SDL 2 image-loading library `2.8.8` as the
 pkg-config module, and CMake package.
 
 The official, non-prerelease GitHub release asset was independently downloaded
-twice and both copies had SHA-256
-`2213b56fdaff2220d0e38c8e420cbe1a83c87374190cba8c70af2156097ce30a`.
-The current official SDL 2 tag feed also exposes `2.8.12`; this package remains
-at the task-selected inventory version `2.8.8`, while update metadata retains
-`2.8.12` as the latest detected SDL 2 release instead of claiming the frozen
-inventory value is still newest upstream.
-The archive contains one `SDL2_image-2.8.8` root, only regular files and safe
-relative symbolic links, and no absolute path, parent traversal, unsafe link,
-or special-file entry. Its detached signature names upstream fingerprint
-`1528 635D 8053 A57F 77D1 E086 30A5 9377 A776 3BE6`; the build records that
-signature as advisory and does not claim a cryptographic verification.
+and verified with SHA-256
+`393f5efb50536ec13ca4f4affb69cc9966d3c3f969e6c5e701faddf9f9785381`.
+The archive contains one `SDL2_image-2.8.12` root and passed the repository's
+path, link, member-type, and checksum checks before the target build.
 
 The exact fixed openEuler repository metadata provides SDL2, SDL2's static
 test-support library, and the libjpeg-turbo, libpng, libtiff, and libwebp
