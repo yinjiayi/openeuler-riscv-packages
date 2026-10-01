@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Mon, 7 Sep 2026 00:00:00 +0000
+Subject: [PATCH] build: declare Linux sendfile and CPU affinity interfaces
+
+netlib.c conditionally calls sendfile and sched_setaffinity when configure
+detects those functions, but the 2.7.0 source neither includes
+sys/sendfile.h nor enables the GNU declarations in sched.h.  GCC 14 rejects
+the resulting implicit function declarations.
+
+Define the GNU feature-test macro before the first system header and include
+the Linux sendfile header.  This keeps both detected features enabled and
+does not affect non-Linux builds.
+
+Patch-Source: Fedora netperf-c99.patch plus openEuler RISC-V package CI failure analysis
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+---
+ src/netlib.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+--- a/src/netlib.c
++++ b/src/netlib.c
+@@ -1,2 +1,6 @@
++#if defined(__linux__) && !defined(_GNU_SOURCE)
++#define _GNU_SOURCE 1
++#endif
++
+ char    netlib_id[]="\
+ @(#)netlib.c (c) Copyright 1993-2012 Hewlett-Packard Company. Version 2.6.0";
+@@ -72,6 +76,10 @@ char    netlib_id[]="\
+ #endif /* MPE */
+ #include <sys/types.h>
+ #include <fcntl.h>
++#if defined(__linux__)
++#include <sys/sendfile.h>
++#endif
++
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <math.h>
