@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-copy-link-perl",
+  "rpm": {
+    "name": "perl-File-Copy-Link",
+    "summary": "Replace symbolic links with copies of their targets",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-copy-link-perl",
+    "homepage": "https://metacpan.org/dist/File-Copy-Link",
+    "source_repository": "https://metacpan.org/dist/File-Copy-Link",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RM/RMBARKER/",
+    "release_regex": "File-Copy-Link-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RM/RMBARKER/File-Copy-Link-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.200",
+    "release": "1",
+    "latest_detected": "0.200"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-copy-link-perl",
+        "package_base": "libfile-copy-link-perl",
+        "source_version": "0.200-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-copy-link-perl",
+        "observed_at": "2026-09-30T05:54:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-copy-link-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-copy-link-perl maps to official CPAN latest 0.200. Official HTTPS archive SHA-256 9cfa2f1b51b417126631b8ab24ee65d307fb8f76489acca6d66fada03ee59b29 matches CPAN CHECKSUMS; 32 entries stay under one safe top-level tree. README and both modules explicitly grant Perl's dual redistribution/modification terms. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(File::Copy::Link)/perl(File::Spec::Link) Provide. All nine default upstream t files are retained; local Perl 5.34.1 passed eight files/52 assertions, while optional pod-coverage.t skipped solely because local Test::Pod::Coverage is absent. The official target provides perl-Test-Pod-Coverage 1.10 and the SPEC requires it, so target CI must prove the complete suite rather than treating the local skip as success. The command and both modules are packaged; target QEMU remains unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

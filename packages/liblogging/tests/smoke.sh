@@ -2,5 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
 rpm -q -- liblogging
-test -e /usr/lib64/liblogging-stdlog.so.1
-test -e /usr/lib64/liblogging-rfc3195.so.0
+for soname in liblogging-stdlog.so.0 liblogging-rfc3195.so.0; do
+  library="/usr/lib64/$soname"
+  test -e "$library"
+  test "$(rpm -qf --qf '%{NAME}' -- "$library")" = liblogging
+done

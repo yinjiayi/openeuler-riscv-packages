@@ -1,0 +1,21 @@
+{
+  "package_id": "string-theory",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9bb0a9697319964479f813d9c61e3c5a1f57f7e8a5bc6db14cba7489addc3f49"
+      },
+      "filename": "string-theory-3.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/zrax/string_theory/archive/refs/tags/3.9.tar.gz",
+      "version": "3.9"
+    }
+  ]
+}

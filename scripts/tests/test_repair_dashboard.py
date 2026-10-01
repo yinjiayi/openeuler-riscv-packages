@@ -258,6 +258,46 @@ class RepairDashboardTests(unittest.TestCase):
             self.assertTrue((output / "index.html").is_file())
             self.assertTrue((output / "inventory.json").is_file())
 
+    def test_dashboard_refresh_is_batched_and_does_not_cancel_an_active_snapshot(self) -> None:
+        workflow = (SCRIPTS.parent / ".github" / "workflows" / "dashboard.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("schedule:\n    - cron: '17 * * * *'", workflow)
+        self.assertNotIn("workflow_run:", workflow)
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertIn("group: github-pages-dashboard", workflow)
+        self.assertIn("cancel-in-progress: false", workflow)
+
+    def test_live_managed_directory_overrides_stale_discovery_status(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            (root / "dashboard").mkdir()
+            for name in ("index.html", "app.js", "styles.css"):
+                shutil.copyfile(SCRIPTS.parent / "dashboard" / name, root / "dashboard" / name)
+            entries = []
+            for package_id, frozen_status in (("discovered-demo", "discovered"), ("reviewed-demo", "reviewed")):
+                package = root / "packages" / package_id
+                package.mkdir(parents=True)
+                write_json(package / "package.yaml", {"package_id": package_id, "rpm": {"name": package_id}, "version": {"current": "1.0"}})
+                entries.append({
+                    "discovery_key": package_id,
+                    "names": [package_id],
+                    "status": frozen_status,
+                    "stable_versions": ["1.0"],
+                })
+            inventory = root / "package-index.json"
+            write_json(inventory, {"entries": entries})
+            output = root / "public"
+            run_tool("generate-dashboard", ["--repo-root", str(root), "--output-dir", str(output), "--package-inventory", str(inventory), "--now", "2026-08-08T02:00:00Z"], root)
+            data = json.loads((output / "data.json").read_text(encoding="utf-8"))
+            full = json.loads((output / "inventory.json").read_text(encoding="utf-8"))
+            self.assertEqual({row["package_id"]: row["status"] for row in data["packages"]}, {"discovered-demo": "managed", "reviewed-demo": "managed"})
+            self.assertEqual({row["inventory_id"]: row["status"] for row in full["entries"]}, {"discovered-demo": "managed", "reviewed-demo": "managed"})
+            self.assertEqual(full["status_counts"]["managed"], 2)
+            for row in full["entries"]:
+                self.assertNotIn("rpm", row["links"])
+                self.assertNotIn("srpm", row["links"])
+
     def test_dashboard_publishes_links_only_for_matching_verified_generation(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)

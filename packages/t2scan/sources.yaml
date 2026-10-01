@@ -1,0 +1,21 @@
+{
+  "package_id": "t2scan",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "44e4b738a2beed8eb964be3d90b6da48c2d1c672d81fd8db8bbda87bcc433fcb"
+      },
+      "filename": "t2scan-0.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/mighty-p/t2scan/archive/refs/tags/v0.7.tar.gz",
+      "version": "0.7"
+    }
+  ]
+}

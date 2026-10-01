@@ -1,0 +1,112 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-core",
+        "package_name": "sed",
+        "package_base": "sed",
+        "source_version": "4.10-1",
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/sed/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "aur",
+        "package_name": "sed-git",
+        "package_base": "sed-git",
+        "source_version": "4.9.r32.g5420e97-1",
+        "evidence_url": "https://aur.archlinux.org/packages/sed-git",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "sed",
+        "package_base": "sed",
+        "source_version": "4.9-2+deb13u1",
+        "evidence_url": "https://packages.debian.org/source/stable/sed",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "sed",
+        "package_base": "sed",
+        "source_version": "4.9-7.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/sed/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "sed",
+        "package_base": "sed",
+        "source_version": "4.10-1.4",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/sed",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "sed",
+        "package_base": "sed",
+        "source_version": "4.9-2build3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/sed",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-gnulib-normalize-unsigned-char-localeconv-sentinel.patch",
+        "license": "LGPL-2.1-or-later",
+        "purpose": "Normalize the C-locale localeconv unavailable sentinel when an unsigned-char RISC-V libc exposes SCHAR_MAX.",
+        "remove_when": "The bundled gnulib localeconv probe and replacement handle this openEuler RISC-V representation upstream.",
+        "sha256": "58bdb09d20990100f468d00a0822964437b2c978495c72c5a362db70bb5cc168",
+        "source": "Downstream openEuler RISC-V CI failure in gnulib-tests/test-localeconv on openEuler 24.03 LTS SP3.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "sed.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official GNU sed 4.10 stable release bytes are SHA-256 pinned. The localeconv configure cache result is exported so the patched bundled gnulib replacement is selected on openEuler RISC-V. This is a stable forward release relative to Fedora 44, Debian stable, and Ubuntu GA. The stale AUR VCS row was excluded by policy; only RPC metadata was recorded, and no AUR packaging content was read or executed. Distribution specs were treated only as untrusted, read-only lineage references and were never executed.",
+    "status": "active"
+  },
+  "package_id": "sed",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "sed",
+    "summary": "GNU stream-oriented text editor"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "gnu-ftp-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-sed",
+    "homepage": "https://www.gnu.org/software/sed/",
+    "release_api": "https://ftp.gnu.org/gnu/sed/",
+    "release_channel": "stable",
+    "release_regex": "sed-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://git.savannah.gnu.org/git/sed.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/sed/sed-{version}.tar.xz"
+  },
+  "version": {"current": "4.10", "latest_detected": "4.10", "release": "2"}
+}

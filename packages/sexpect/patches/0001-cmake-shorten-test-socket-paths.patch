@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Mon, 31 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: keep test sockets within sockaddr_un
+
+The locked build path makes the longest generated test socket path 110
+bytes, while Linux sockaddr_un.sun_path has room for 108 bytes including
+the terminating null. Glibc fortification therefore aborts four tests at
+server startup. Drop the redundant TEST_ prefix and use the current test
+binary directory explicitly, keeping the longest path at 105 bytes without
+skipping or weakening any test.
+
+Patch-Source: openEuler RISC-V package CI failure analysis
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+---
+ tests/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -12,7 +12,7 @@ FUNCTION(addtest t)
+             SRCDIR=${CMAKE_SOURCE_DIR}
+             TNAME=${t}
+             PATH=${CMAKE_BINARY_DIR}:${CMAKE_BINARY_DIR}/tests:$ENV{PATH}
+-            SEXPECT_SOCKFILE=${CMAKE_BINARY_DIR}/tests/TEST_${t}.sock
++            SEXPECT_SOCKFILE=${CMAKE_CURRENT_BINARY_DIR}/${t}.sock
+     )
+     set_tests_properties(
+         ${t} PROPERTIES
+--
+2.50.1

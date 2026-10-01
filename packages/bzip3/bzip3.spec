@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           bzip3
-Version:        1.5.3
-Release:        1%{?dist}
+Version:        1.5.4
+Release:        3%{?dist}
 Summary:        Modern block-sorting compression utility and library
 License:        LGPL-3.0-or-later AND Apache-2.0 AND BSD-2-Clause
 URL:            https://github.com/kspalaiologos/bzip3
-Source0:        bzip3-%{version}.tar.gz
+Source0:        1.5.4.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -58,7 +58,7 @@ cmp roundtrip.txt roundtrip.out
 %{_bindir}/bz3more
 %{_bindir}/bz3most
 %{_bindir}/bzip3
-%{_libdir}/libbzip3.so.0*
+%{_libdir}/libbzip3.so.1*
 %{_mandir}/man1/bunzip3.1*
 %{_mandir}/man1/bz3*.1*
 %{_mandir}/man1/bzip3.1*
@@ -71,5 +71,11 @@ cmp roundtrip.txt roundtrip.out
 %{_libdir}/cmake/bzip3/
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.4-3
+- Validate the installed libbzip3.so.1 ABI link in the smoke test.
+
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.4-2
+- Track the libbzip3.so.1 SONAME installed by upstream 1.5.4.
+
 * Thu Aug 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5.3-1
 - Initial openEuler RISC-V package.

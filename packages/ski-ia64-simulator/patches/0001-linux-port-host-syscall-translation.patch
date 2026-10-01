@@ -1,0 +1,208 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 31 Aug 2026 00:00:00 +0000
+Subject: [PATCH] linux: port host syscall translation to asm-generic ABIs
+
+The Linux host adapter includes sys/syscall.h after Ski's HP-UX syscall
+number table.  On asm-generic hosts that header redefines names such as
+SYS_lseek with host values; RISC-V SYS_lseek is 62, which collides with
+Ski's HP-UX SYS_FCNTL case.  Use the already included asm/unistd.h
+__NR_* namespace for host calls so simulated syscall numbers remain intact.
+
+RISC-V also exposes getdents64 but not the legacy getdents entry point.
+Select the matching host directory-entry layout at compile time, cap the
+host read to the local buffer, and keep the existing conversion to IA-64
+getdents and getdents64 records.  Return ENOSYS when the host implements
+neither directory syscall or the obsolete uselib syscall.
+
+Patch-Source: openEuler RISC-V package CI run 33319503264
+Patch-License: GPL-2.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: Upstream supports asm-generic Linux hosts without host SYS_*
+ namespace collisions and provides getdents64/uselib fallbacks.
+---
+ src/linux/syscall-linux.c | 77 ++++++++++++++++++++++++++++++++--------
+ 1 file changed, 57 insertions(+), 20 deletions(-)
+
+diff --git a/src/linux/syscall-linux.c b/src/linux/syscall-linux.c
+--- a/src/linux/syscall-linux.c
++++ b/src/linux/syscall-linux.c
+@@ -215,6 +215,19 @@
+ #define dirent_name_off		offsetof(struct dirent, d_name)
+ #define dirent64_name_off	offsetof(struct dirent64, d_name)
+
++#if defined(__NR_getdents)
++typedef struct dirent host_dirent_t;
++# define HOST_GETDENTS_NR __NR_getdents
++# define host_dirent_name_off dirent_name_off
++#elif defined(__NR_getdents64)
++typedef struct dirent64 host_dirent_t;
++# define HOST_GETDENTS_NR __NR_getdents64
++# define host_dirent_name_off dirent64_name_off
++#else
++typedef struct dirent host_dirent_t;
++# define host_dirent_name_off dirent_name_off
++#endif
++
+ typedef long long lia64_clock_t;	/* Linux/ia64 uses 64 bit clock_t */
+ typedef long long lia64_off_t;
+ typedef int lia64_pid_t;
+@@ -550,9 +563,6 @@
+ # define MASTER_ID	13
+ #endif
+
+-#include <sys/syscall.h>
+-#define uselib(libname) syscall(__NR_uselib, libname)
+-
+ extern int setresuid (uid_t, uid_t, uid_t);
+ extern int getresuid (uid_t *, uid_t *, uid_t *);
+ extern int setresgid (gid_t, gid_t, gid_t);
+@@ -570,11 +580,27 @@
+ }
+
+ static int
+-getdents (unsigned int fd, struct dirent *dirp, unsigned int count)
++host_uselib (const char *libname)
+ {
+-	return syscall (__NR_getdents, fd, dirp, count);
++#if defined(__NR_uselib)
++  return syscall (__NR_uselib, libname);
++#else
++  errno = ENOSYS;
++  return -1;
++#endif
+ }
+
++static int
++host_getdents (unsigned int fd, host_dirent_t *dirp, unsigned int count)
++{
++#if defined(HOST_GETDENTS_NR)
++  return syscall (HOST_GETDENTS_NR, fd, dirp, count);
++#else
++  errno = ENOSYS;
++  return -1;
++#endif
++}
++
+ extern BOOL intrsim, extint;
+
+ #define DEBUG_SIGNALS	0
+@@ -1584,6 +1610,7 @@
+   static int need_init = 1;
+   ssize_t nbytes;
+   int max, i, fd, nfds, resource, pfd[2], bytes_in, bytes_out;
++  unsigned int host_count;
+   struct tms host_tms;
+   struct lia64_tms lia64_tms;
+   struct flock host_flock;
+@@ -1609,7 +1636,7 @@
+   struct lia64_stat lia64_stat;
+   struct lia64_old_stat lia64_old_stat;
+   struct stat host_stat;
+-  struct dirent *host_dirent;
++  host_dirent_t *host_dirent;
+   struct lia64_iovec lia64_iovec;
+   struct sigaction act;
+   struct lia64_sigaction lia64_sigact, *sa;
+@@ -1909,7 +1936,7 @@
+       break;
+
+     case LIA64_gettid:
+-      *status = syscall (SYS_gettid);
++      *status = syscall (__NR_gettid);
+       setStatReturn (ret, status);
+       break;
+
+@@ -1986,7 +2013,7 @@
+       break;
+
+     case LIA64_tgkill:
+-      *status = syscall (SYS_tgkill, arg0, arg1, arg2);
++      *status = syscall (__NR_tgkill, arg0, arg1, arg2);
+       setStatReturn (ret, status);
+       break;
+
+@@ -2763,7 +2790,7 @@
+
+     case LIA64_uselib:
+       memBBRd (ADDPTR (arg0), buf, 0);
+-      *status = uselib ((char *) buf);
++      *status = host_uselib ((char *) buf);
+       setStatReturn (ret, status);
+       break;
+
+@@ -3303,9 +3330,13 @@
+
+     case LIA64_getdents:
+       CHECK_FD (arg0);
+-      max = arg2 / (sizeof (*host_dirent) - sizeof (host_dirent->d_name) + 1);
+-      *status = getdents (fdmap[arg0], (struct dirent *) buf,
+-			  arg2 - max*(18 - dirent_name_off));
++      host_count = arg2 > sizeof (buf) ? sizeof (buf) : (unsigned int) arg2;
++      max = host_count /
++	(sizeof (*host_dirent) - sizeof (host_dirent->d_name) + 1);
++      if (18 > host_dirent_name_off)
++	host_count -= max * (18 - host_dirent_name_off);
++      *status = host_getdents (fdmap[arg0], (host_dirent_t *) buf,
++			       host_count);
+       if ((int) *status != -1)
+	{
+	  REG end, total = 0;
+@@ -3316,11 +3347,12 @@
+	  end = arg1 + arg2;
+	  for (bp = buf; bp < buf + *status; bp += host_dirent->d_reclen)
+	    {
+-	      host_dirent = (struct dirent *) bp;
++	      host_dirent = (host_dirent_t *) bp;
+
+	      lia64_ino = host_dirent->d_ino;
+	      lia64_off = host_dirent->d_off;
+-	      lia64_reclen = (host_dirent->d_reclen + (18 - dirent_name_off)
++	      lia64_reclen = (host_dirent->d_reclen
++			      + (18 - host_dirent_name_off)
+			      + 7) & ~7;
+
+	      memBBWrt_alloc (ADDPTR (arg1), (BYTE *) &lia64_ino,
+@@ -3341,9 +3373,13 @@
+
+     case LIA64_getdents64:
+       CHECK_FD (arg0);
+-      max = arg2 / (sizeof (*host_dirent) - sizeof (host_dirent->d_name) + 1);
+-      *status = nbytes = getdents (fdmap[arg0], (struct dirent *) buf,
+-				   arg2 - max*(19 - dirent_name_off));
++      host_count = arg2 > sizeof (buf) ? sizeof (buf) : (unsigned int) arg2;
++      max = host_count /
++	(sizeof (*host_dirent) - sizeof (host_dirent->d_name) + 1);
++      if (19 > host_dirent_name_off)
++	host_count -= max * (19 - host_dirent_name_off);
++      *status = nbytes = host_getdents (fdmap[arg0],
++				       (host_dirent_t *) buf, host_count);
+       if ((int) *status != -1)
+	{
+	  REG end, total = 0;
+@@ -3375,11 +3411,12 @@
+	  end = arg1 + arg2;
+	  for (bp = buf; bp < buf + nbytes; bp += host_dirent->d_reclen)
+	    {
+-	      host_dirent = (struct dirent *) bp;
++	      host_dirent = (host_dirent_t *) bp;
+
+	      lia64_ino = host_dirent->d_ino;
+	      lia64_off = host_dirent->d_off;
+-	      lia64_reclen = (host_dirent->d_reclen + (19 - dirent_name_off)
++	      lia64_reclen = (host_dirent->d_reclen
++			      + (19 - host_dirent_name_off)
+			      + 7) & ~7;
+	      lia64_type = 0;	/* DT_UNKNOWN */
+
+@@ -4319,7 +4356,7 @@
+     case LIA64_futex:
+       // Have to mimic part of kernel's state machine?
+       // Or can run it as is?
+-      *status = syscall (SYS_futex, arg0, arg1, arg2, arg3, arg4, arg5);
++      *status = syscall (__NR_futex, arg0, arg1, arg2, arg3, arg4, arg5);
+       setStatReturn (ret, status);
+       break;
+
+--
+2.50.1

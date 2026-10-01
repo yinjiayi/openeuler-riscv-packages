@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-findlib-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-FindLib-0.001004.tar.gz",
+      "version": "0.001004",
+      "url": "https://cpan.metacpan.org/authors/id/T/TY/TYEMQ/File-FindLib-0.001004.tar.gz",
+      "digests": {
+        "sha256": "c047e5bfac1bb05ff31b207f2b2510fcaca4f11e134a915db046248b01f4e5e5"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The release's LICENSE is the Unlicense public-domain dedication; the official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}

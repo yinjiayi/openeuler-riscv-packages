@@ -1,0 +1,161 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 31 Aug 2026 00:00:00 +0000
+Subject: [PATCH] tests: use valid std::atomic memory orders
+
+The C++ comparison tests pass every memory order to load, store, and both
+the success and failure sides of compare-exchange.  The C++ standard does
+not permit consume, acquire, or acquire-release for a store, nor release or
+acquire-release for a load.  A compare-exchange failure order cannot be
+release or acquire-release and cannot be stronger than its success order.
+Newer libstdc++ builds with _GLIBCXX_ASSERTIONS abort when these invalid
+orders reach std::atomic.
+
+Map only the invalid operation/order pairs in both the std::atomic mirror and
+the vatomic subject.  For compare-exchange, map a release success to a relaxed
+failure and an acquire-release success to an acquire failure, matching the
+standard single-order overload.  This retains every test case and preserves
+the intended like-for-like behavior comparison.
+
+Patch-Source: openEuler RISC-V package CI runs 33351268802 and 33545098029
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: An upstream release after 2.4.1 restricts the C++ comparison
+ tests to memory orders valid for each atomic operation.
+---
+ test/atomics_cxx/ut_int_types.cpp | 21 ++++++++++++++-------
+ test/atomics_cxx/ut_ptr.cpp       | 36 +++++++++++++++++++++++++++---------
+ 2 files changed, 41 insertions(+), 16 deletions(-)
+
+diff --git a/test/atomics_cxx/ut_int_types.cpp b/test/atomics_cxx/ut_int_types.cpp
+--- a/test/atomics_cxx/ut_int_types.cpp
++++ b/test/atomics_cxx/ut_int_types.cpp
+@@ -38,11 +38,13 @@ template <typename TT, bool IsVolatile> struct TestAtomics {
+                 // the implicit barrier to mo_relaxed. However, if you set
+                 // -pedanti, the compiler will complain. So, we perform this
+                 // mapping manually.
+-                auto w_order = order == vsync::memory_order_acquire ?
+-
++                auto w_order = order == vsync::memory_order_consume ||
++                                       order == vsync::memory_order_acquire ||
++                                       order == vsync::memory_order_acq_rel ?
+                                    vsync::memory_order_relaxed :
+                                    order;
+-                auto r_order = order == vsync::memory_order_release ?
++                auto r_order = order == vsync::memory_order_release ||
++                                       order == vsync::memory_order_acq_rel ?
+                                    vsync::memory_order_relaxed :
+                                    order;
+                 mirror.store(v, static_cast<std::memory_order>(w_order));
+@@ -76,14 +78,19 @@ template <typename TT, bool IsVolatile> struct TestAtomics {
+
+         for (int order = vsync::memory_order_relaxed;
+              order <= vsync::memory_order_seq_cst; order++) {
++            auto f_order = order == vsync::memory_order_release ?
++                               vsync::memory_order_relaxed :
++                           order == vsync::memory_order_acq_rel ?
++                               vsync::memory_order_acquire :
++                               order;
+             for (TT val : vals) {
+                 for (vsize_t i = 0; i < repeat; i++) {
+                     r_mirror = mirror.compare_exchange_strong(
+                         v_var, val, static_cast<std::memory_order>(order),
+-                        static_cast<std::memory_order>(order));
++                        static_cast<std::memory_order>(f_order));
+                     r_var = subject.compare_exchange_strong(
+                         v_mirror, val, static_cast<vsync::memory_order>(order),
+-                        static_cast<vsync::memory_order>(order));
++                        static_cast<vsync::memory_order>(f_order));
+                     assert(subject == mirror);
+                     assert(r_mirror == r_var);
+                     assert(v_var == v_mirror);
+@@ -94,10 +101,10 @@ template <typename TT, bool IsVolatile> struct TestAtomics {
+                 for (vsize_t i = 0; i < repeat; i++) {
+                     r_mirror = mirror.compare_exchange_weak(
+                         v_var, val, static_cast<std::memory_order>(order),
+-                        static_cast<std::memory_order>(order));
++                        static_cast<std::memory_order>(f_order));
+                     r_var = subject.compare_exchange_weak(
+                         v_mirror, val, static_cast<vsync::memory_order>(order),
+-                        static_cast<vsync::memory_order>(order));
++                        static_cast<vsync::memory_order>(f_order));
+                     assert(subject == mirror);
+                     assert(r_mirror == r_var);
+                     assert(v_var == v_mirror);
+diff --git a/test/atomics_cxx/ut_ptr.cpp b/test/atomics_cxx/ut_ptr.cpp
+--- a/test/atomics_cxx/ut_ptr.cpp
++++ b/test/atomics_cxx/ut_ptr.cpp
+@@ -21,12 +21,20 @@ template <typename TT> struct TestPtrAtomic {
+         mirror = subject = nullptr;
+         for (int order = vsync::memory_order_relaxed;
+              order <= vsync::memory_order_seq_cst; order++) {
++            auto w_order = order == vsync::memory_order_consume ||
++                                   order == vsync::memory_order_acquire ||
++                                   order == vsync::memory_order_acq_rel ?
++                               vsync::memory_order_relaxed :
++                               order;
++            auto r_order = order == vsync::memory_order_release ||
++                                   order == vsync::memory_order_acq_rel ?
++                               vsync::memory_order_relaxed :
++                               order;
+             for (size_t i = 0; i < length; i++) {
+-                mirror.store(&arr[i], static_cast<std::memory_order>(order));
+-                subject.store(&arr[i], static_cast<vsync::memory_order>(order));
++                mirror.store(&arr[i], static_cast<std::memory_order>(w_order));
++                subject.store(&arr[i], static_cast<vsync::memory_order>(w_order));
+-
+-                assert(mirror.load(static_cast<std::memory_order>(order)) ==
+-                       subject.load(static_cast<vsync::memory_order>(order)));
++                assert(mirror.load(static_cast<std::memory_order>(r_order)) ==
++                       subject.load(static_cast<vsync::memory_order>(r_order)));
+             }
+         }
+     }
+@@ -58,16 +66,21 @@ template <typename TT> struct TestPtrAtomic {
+         mirror = subject = nullptr;
+         for (int order = vsync::memory_order_relaxed;
+              order <= vsync::memory_order_seq_cst; order++) {
++            auto f_order = order == vsync::memory_order_release ?
++                               vsync::memory_order_relaxed :
++                           order == vsync::memory_order_acq_rel ?
++                               vsync::memory_order_acquire :
++                               order;
+             for (size_t i = 0; i < length; i++) {
+                 v_var = v_mirror = nullptr;
+                 for (vsize_t i = 0; i < repeat; i++) {
+                     r_mirror = mirror.compare_exchange_strong(
+                         v_var, &arr[i], static_cast<std::memory_order>(order),
+-                        static_cast<std::memory_order>(order));
++                        static_cast<std::memory_order>(f_order));
+                     r_var = subject.compare_exchange_strong(
+                         v_mirror, &arr[i],
+                         static_cast<vsync::memory_order>(order),
+-                        static_cast<vsync::memory_order>(order));
++                        static_cast<vsync::memory_order>(f_order));
+                     assert(subject == mirror);
+                     assert(r_mirror == r_var);
+                     assert(v_var == v_mirror);
+@@ -78,16 +91,21 @@ template <typename TT> struct TestPtrAtomic {
+         mirror = subject = nullptr;
+         for (int order = vsync::memory_order_relaxed;
+              order <= vsync::memory_order_seq_cst; order++) {
++            auto f_order = order == vsync::memory_order_release ?
++                               vsync::memory_order_relaxed :
++                           order == vsync::memory_order_acq_rel ?
++                               vsync::memory_order_acquire :
++                               order;
+             for (size_t i = 0; i < length; i++) {
+                 v_var = v_mirror = nullptr;
+                 for (vsize_t i = 0; i < repeat; i++) {
+                     r_mirror = mirror.compare_exchange_weak(
+                         v_var, &arr[i], static_cast<std::memory_order>(order),
+-                        static_cast<std::memory_order>(order));
++                        static_cast<std::memory_order>(f_order));
+                     r_var = subject.compare_exchange_weak(
+                         v_mirror, &arr[i],
+                         static_cast<vsync::memory_order>(order),
+-                        static_cast<vsync::memory_order>(order));
++                        static_cast<vsync::memory_order>(f_order));
+                     assert(subject == mirror);
+                     assert(r_mirror == r_var);
+                     assert(v_var == v_mirror);

@@ -1,0 +1,21 @@
+{
+  "package_id": "soundtouch",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "35d404e6e8c2ebd12fb4000da6fadd75c99e37eed2126a04721828c11c0377ec"
+      },
+      "filename": "soundtouch-2.4.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "LGPL-2.1-or-later source is fetched from the official versioned Codeberg tag archive in CI."
+      },
+      "signature": null,
+      "url": "https://codeberg.org/soundtouch/soundtouch/archive/2.4.1.tar.gz",
+      "version": "2.4.1"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Tue, 1 Sep 2026 00:00:00 +0000
+Subject: [PATCH] transport_hep: include inet_pton declaration
+
+transport_hep.c calls inet_pton for IPv4 and IPv6 HEP chunks but does not
+include arpa/inet.h, which declares that interface. Modern compilers reject
+the resulting implicit function declaration. Include the standard header
+without changing HEP behavior.
+
+Patch-Source: openEuler RISC-V package CI failure analysis
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+Remove-When: Upstream transport_hep.c includes arpa/inet.h in a packaged release.
+---
+ src/transport_hep.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/transport_hep.c b/src/transport_hep.c
+--- a/src/transport_hep.c
++++ b/src/transport_hep.c
+@@ -23,1 +23,2 @@
++#include <arpa/inet.h>
+ #include <sys/socket.h>

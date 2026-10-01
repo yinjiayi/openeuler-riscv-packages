@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Fri, 28 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: support Qt 6.5 translation setup
+
+The I18N_TRANSLATED_LANGUAGES argument to qt_standard_project_setup is newer
+than openEuler's Qt 6.5. Use the established qt_add_translations API on Qt
+versions before 6.7 and install those generated catalogs alongside the Linux
+application data.
+
+Patch-Source: downstream adaptation of tail-tray 0.2.34 CMakeLists.txt
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Applies-To: tail-tray 0.2.34 with Qt 6.2 through 6.6
+Remove-When: openEuler provides Qt 6.7 or newer
+---
+ CMakeLists.txt | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -151,7 +151,20 @@ else ()
+ 
+ endif ()
+ 
+-qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES en_US sv_SE de_DE fr_FR)
++if (Qt6_VERSION VERSION_LESS 6.7)
++    qt_standard_project_setup()
++    qt_add_translations(tail-tray
++        TS_FILES
++            translations/tail_tray_en_US.ts
++            translations/tail_tray_sv_SE.ts
++            translations/tail_tray_de_DE.ts
++            translations/tail_tray_fr_FR.ts
++    )
++else ()
++    qt_standard_project_setup(
++        I18N_TRANSLATED_LANGUAGES en_US sv_SE de_DE fr_FR
++    )
++endif ()
+ 
+ target_link_libraries(
+     tail-tray PRIVATE
+@@ -171,7 +184,7 @@ install(TARGETS tail-tray
+     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+ )
+ 
+-if (UNIVERSAL_CROSSBUILD)
++if (UNIVERSAL_CROSSBUILD OR Qt6_VERSION VERSION_LESS 6.7)
+     install(FILES "${CMAKE_BINARY_DIR}/tail_tray_en_US.qm"
+             "${CMAKE_BINARY_DIR}/tail_tray_sv_SE.qm"
+             "${CMAKE_BINARY_DIR}/tail_tray_fr_FR.qm"
+-- 
+2.50.1

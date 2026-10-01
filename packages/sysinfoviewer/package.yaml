@@ -1,0 +1,87 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 360
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/Magpiny/sysinfoviewer",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sysinfoviewer",
+        "package_name": "sysinfoviewer",
+        "source": "aur",
+        "source_version": "0.3.2-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-support-version-3.27.patch",
+        "license": "MIT",
+        "purpose": "Accept the CMake 3.27 version shipped by openEuler 24.03 LTS SP3 without changing the C++23 build or application features.",
+        "remove_when": "Upstream lowers its minimum CMake version to 3.27 or openEuler provides the upstream-declared CMake 4.2 minimum.",
+        "sha256": "f5749facff92e3138b40f4bb02937cb91af68132001a490c513aad8311581bd0",
+        "source": "Static review of the exact upstream 0.3.2 archive against the fixed openEuler 24.03 LTS SP3 RVA23 repository metadata.",
+        "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0002-wxarraystring-compat.patch",
+        "license": "MIT",
+        "purpose": "Populate the application column labels through wxArrayString::Add so the source compiles with the target wxWidgets 3.2 API without changing the labels or their order.",
+        "remove_when": "Upstream replaces the initializer-list conversion or the target wxWidgets provides it compatibly.",
+        "sha256": "c99f72845f63ebc3fdc3c3d2a194e9dfeebede26809116455fa802aedb5c4bf0",
+        "source": "Package CI run 33704367867 at exact commit 05b3e80dfe35605f2592a4242a6c13b8f2acc8bb against openEuler 24.03 LTS SP3 wxWidgets 3.2.2.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "sysinfoviewer.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 2 accepts the fixed repository's CMake 3.27 and declares every development dependency required by the upstream CMake project. Release 3 raises the audited build timeout after the target repository needed more than 60 minutes to download the required wxWidgets GUI dependency closure; it does not change the dependency set or source. Release 4 explicitly generates the out-of-source CMake build tree used by the build, install, and check macros. Release 5 uses wxArrayString::Add after exact-head Package CI showed that the target wxWidgets 3.2.2 does not accept upstream's initializer-list conversion. Upstream registers no CTest tests, so the existing CTest invocation does not establish functional test coverage. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "sysinfoviewer",
+  "rpm": {
+    "license": "MIT",
+    "name": "sysinfoviewer",
+    "summary": "A comprehensive system information viewer built with wxWidgets"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-magpiny-sysinfoviewer",
+    "homepage": "https://magpiny.github.io/sysinfoviewer/",
+    "release_api": "https://api.github.com/repos/Magpiny/sysinfoviewer/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/Magpiny/sysinfoviewer",
+    "source_url_template": "https://github.com/Magpiny/sysinfoviewer/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.3.2",
+    "latest_detected": "0.3.2",
+    "release": "5"
+  }
+}

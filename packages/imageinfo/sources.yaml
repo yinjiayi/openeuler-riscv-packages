@@ -1,0 +1,21 @@
+{
+  "package_id": "imageinfo",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ca033b939dae24e990389781728ce948e09665f45a2be70d4ac1aff83931d0eb"
+      },
+      "filename": "imageinfo-2.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/xiaozhuai/imageinfo/archive/refs/tags/v2.0.0.tar.gz",
+      "version": "2.0.0"
+    }
+  ]
+}

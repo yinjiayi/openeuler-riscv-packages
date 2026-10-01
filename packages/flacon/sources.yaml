@@ -1,0 +1,21 @@
+{
+  "package_id": "flacon",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bbb85061d2ea3736184fd181d09e598278d28e970983cfb0d7b2f809776efd14"
+      },
+      "filename": "flacon-13.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/flacon/flacon/archive/refs/tags/v13.0.2.tar.gz",
+      "version": "13.0.2"
+    }
+  ]
+}

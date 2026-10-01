@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0
-"""Authorize one exact internal package PR head for a protected-main dispatch.
+"""Authorize one exact internal PR head for a protected-main dispatch.
 
 This program is intentionally run from the ``main`` revision of Package CI
 before any job checks out ``inputs.commit_sha``.  A workflow-dispatch caller
 cannot turn an arbitrary repository commit into self-hosted runner work by
 supplying it as an input: it must identify the current head of one open,
-trusted, same-repository PR whose changed files are confined to the selected
-package directory.
+trusted, same-repository package PR, or one of the two exact bot-created
+infrastructure PR shapes that exercise no package build.
 """
 
 from __future__ import annotations
@@ -30,6 +30,8 @@ SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 TRUSTED_ASSOCIATIONS = {"OWNER", "MEMBER", "COLLABORATOR"}
 TRUSTED_LOGINS = {"yinjiayi", "github-actions[bot]", "dependabot[bot]"}
 TRUSTED_PREFIXES = ("onboard/", "update/", "repair/", "golden/")
+IMAGE_LOCK_BRANCH_RE = re.compile(r"^infra/ci-image-[0-9a-f]{12}$")
+CATALOG_BRANCH_RE = re.compile(r"^catalog/(discovery-[0-9]{8}T[0-9]{6}Z-[1-9][0-9]*)$")
 
 
 class AuthorizationError(RuntimeError):
@@ -98,7 +100,7 @@ def authorize(
         raise AuthorizationError("unexpected repository")
     if event_ref != PROTECTED_REF:
         raise AuthorizationError("trusted dispatch must originate from protected main")
-    if not PACKAGE_RE.fullmatch(package_id):
+    if package_id and not PACKAGE_RE.fullmatch(package_id):
         raise AuthorizationError("package id is invalid")
     expected_base = exact_sha(base_sha, "dispatch base")
     expected_head = exact_sha(head_sha, "dispatch head")
@@ -117,8 +119,7 @@ def authorize(
         raise AuthorizationError("PR head is not in the trusted repository")
     if str(base.get("ref") or "") != "main":
         raise AuthorizationError("PR base must be protected main")
-    if str(head.get("ref") or "").startswith(TRUSTED_PREFIXES) is False:
-        raise AuthorizationError("PR head ref is outside the trusted package prefixes")
+    head_ref = str(head.get("ref") or "")
     association = str(pr.get("author_association") or "")
     login = str(user.get("login") or "")
     if association not in TRUSTED_ASSOCIATIONS and login not in TRUSTED_LOGINS:
@@ -131,10 +132,38 @@ def authorize(
         raise AuthorizationError("PR changed-file count is outside the trusted one-page boundary")
     if len(files) != changed_files:
         raise AuthorizationError("PR file listing is incomplete")
-    package_prefix = "packages/%s/" % package_id
     paths = [str(item.get("filename") or "") for item in files]
-    if not paths or any(not path.startswith(package_prefix) for path in paths):
-        raise AuthorizationError("PR changes are not confined to packages/%s" % package_id)
+    if package_id:
+        if head_ref.startswith(TRUSTED_PREFIXES) is False:
+            raise AuthorizationError("PR head ref is outside the trusted package prefixes")
+        package_prefix = "packages/%s/" % package_id
+        if not paths or any(not path.startswith(package_prefix) for path in paths):
+            raise AuthorizationError("PR changes are not confined to packages/%s" % package_id)
+        return
+
+    exact_file = len(files) == 1 and not files[0].get("previous_filename")
+    exact_image_locks = (
+        len(files) == 2
+        and sorted(paths) == ["ci/image.lock", "ops/actions-runner-fleet/cleanup-image.lock"]
+        and all(item.get("status") == "modified" for item in files)
+        and all(not item.get("previous_filename") for item in files)
+    )
+    if (
+        login == "github-actions[bot]"
+        and exact_image_locks
+        and IMAGE_LOCK_BRANCH_RE.fullmatch(head_ref)
+    ):
+        return
+    catalog = CATALOG_BRANCH_RE.fullmatch(head_ref)
+    if (
+        login == "github-actions[bot]"
+        and exact_file
+        and catalog
+        and paths == ["catalog/snapshots/%s.json.gz" % catalog.group(1)]
+        and files[0].get("status") == "added"
+    ):
+        return
+    raise AuthorizationError("PR is not an allowed bot infrastructure shape")
 
 
 def write_authorized(path_value: str) -> None:

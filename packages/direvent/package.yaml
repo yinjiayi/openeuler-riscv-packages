@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/direvent/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "direvent",
+        "package_name": "direvent",
+        "source": "aur",
+        "source_version": "5.5-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/direvent/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "direvent",
+        "package_name": "direvent",
+        "source": "debian",
+        "source_version": "5.2-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/direvent/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "direvent",
+        "package_name": "direvent",
+        "source": "opensuse-tumbleweed",
+        "source_version": "5.5-1.3"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/direvent/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "direvent",
+        "package_name": "direvent",
+        "source": "ubuntu",
+        "source_version": "5.2-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "direvent.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "direvent",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "direvent",
+    "summary": "Deamon that monitors events in the file system directories"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-direvent",
+    "homepage": "https://www.gnu.org/software/direvent/",
+    "release_api": "https://ftp.gnu.org/gnu/direvent/",
+    "release_channel": "stable",
+    "release_regex": "direvent-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/direvent/",
+    "source_url_template": "https://ftp.gnu.org/gnu/direvent/direvent-{version}.tar.gz"
+  },
+  "version": {
+    "current": "5.5",
+    "latest_detected": "5.5",
+    "release": "1"
+  }
+}

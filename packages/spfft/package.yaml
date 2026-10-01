@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/eth-cscs/SpFFT",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "spfft",
+        "package_name": "spfft",
+        "source": "aur",
+        "source_version": "1.1.1-2"
+      },
+      {
+        "evidence_url": "https://github.com/eth-cscs/SpFFT",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "spfft",
+        "package_name": "spfft",
+        "source": "debian",
+        "source_version": "1.1.1-3"
+      },
+      {
+        "evidence_url": "https://github.com/eth-cscs/SpFFT",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "spfft",
+        "package_name": "spfft",
+        "source": "ubuntu",
+        "source_version": "1.1.1-4ubuntu2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "spfft.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "spfft",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "spfft",
+    "summary": "Sparse 3D FFT library with MPI, OpenMP, CUDA and ROCm support"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-eth-cscs-spfft",
+    "homepage": "https://github.com/eth-cscs/SpFFT",
+    "release_api": "https://api.github.com/repos/eth-cscs/SpFFT/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/eth-cscs/SpFFT",
+    "source_url_template": "https://github.com/eth-cscs/SpFFT/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.1.1",
+    "latest_detected": "1.1.1",
+    "release": "1"
+  }
+}

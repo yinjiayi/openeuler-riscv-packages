@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/fpagliughi/sockpp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sockpp",
+        "package_name": "sockpp",
+        "source": "aur",
+        "source_version": "1.0.0-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-tests-register-catch2-suite-without-helper.patch",
+        "license": "BSD-3-Clause",
+        "purpose": "Run the complete upstream Catch2 test executable through direct CTest registration when the target catch2-devel package omits the optional Catch.cmake discovery helper.",
+        "remove_when": "The target catch2-devel package provides Catch.cmake or an upstream release no longer requires that optional helper to register the complete suite.",
+        "sha256": "268b489c0310210630366c0daca6c0f719c1842f25d576cb55e13bbb1dbeb506",
+        "source": "Downstream analysis of openEuler RISC-V package CI run 33712259106 and its SHA-256-verified immutable repository file-list metadata.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "sockpp.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 retains the Catch2 development provider and all upstream registered unit tests while raising the package timeout to 180 minutes: exact-head CI resolved the complete 124-package, 170 MB dependency transaction but exhausted the former 60-minute budget during dependency downloads before rpmbuild began. Release 4 configures the explicit out-of-source build directory and registers the same complete unit_tests executable directly with CTest because exact-head CI and the immutable repository file list proved that the target catch2-devel package omits the optional Catch.cmake discovery helper. Exact-head run 33714262764 then built three RPMs and one SRPM and passed installation smoke, but its top-level CTest invocation discovered zero tests. Release 5 enables CTest before adding the unit-test subdirectory and makes zero discovered tests a hard failure before verbosely executing the complete Catch2 suite. Test and library functionality remain enabled, the source digest is unchanged, and the RISC-V build status remains unknown pending fresh exact-head RPM, test, and installed-smoke evidence.",
+    "status": "active"
+  },
+  "package_id": "sockpp",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "sockpp",
+    "summary": "Simple, modern, C++ socket library."
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-fpagliughi-sockpp",
+    "homepage": "https://github.com/fpagliughi/sockpp",
+    "release_api": "https://api.github.com/repos/fpagliughi/sockpp/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/fpagliughi/sockpp",
+    "source_url_template": "https://github.com/fpagliughi/sockpp/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.0",
+    "latest_detected": "1.0.0",
+    "release": "5"
+  }
+}

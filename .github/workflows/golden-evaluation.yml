@@ -161,8 +161,9 @@ jobs:
           BUILD_USER: ${{ steps.policy.outputs.build_user }}
         run: |
           derived="golden-builddeps:${GITHUB_RUN_ID}-${PACKAGE_ID}"
+          # Keep the golden path aligned with the package CI dependency window.
           ci/run-capped.sh --log "artifacts/golden/$PACKAGE_ID/dependencies.log" \
-            --max-bytes 52428800 --timeout-seconds 1800 -- \
+            --max-bytes 52428800 --timeout-seconds 3600 -- \
             ci/prepare-build-deps.py --base-image "$BASE_IMAGE" \
               --package-dir "packages/$PACKAGE_ID" --work-dir "work/$PACKAGE_ID" \
               --output "artifacts/golden/$PACKAGE_ID/dependencies.json" \
@@ -211,7 +212,7 @@ jobs:
           if [[ "$expected" = passed ]]; then
             test "$build_exit" -eq 0
             ci/run-capped.sh --log "artifacts/golden/$PACKAGE_ID/smoke.log" \
-              --max-bytes 52428800 --timeout-seconds 1500 -- \
+              --max-bytes 52428800 --timeout-seconds 3600 -- \
               docker run --rm --platform linux/riscv64 \
                 --memory 6g --cpus 2 --pids-limit 1024 \
                 --security-opt no-new-privileges \

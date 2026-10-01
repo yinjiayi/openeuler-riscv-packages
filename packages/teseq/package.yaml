@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/teseq/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "teseq",
+        "package_name": "teseq",
+        "source": "debian",
+        "source_version": "1.1.1-5"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/teseq/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "teseq",
+        "package_name": "teseq",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.1.1-1.39"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/teseq/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "teseq",
+        "package_name": "teseq",
+        "source": "ubuntu",
+        "source_version": "1.1.1-5build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "teseq.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "teseq",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "teseq",
+    "summary": "A tool for control characters and terminal control sequences"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-teseq",
+    "homepage": "https://www.gnu.org/software/teseq/",
+    "release_api": "https://ftp.gnu.org/gnu/teseq/",
+    "release_channel": "stable",
+    "release_regex": "teseq-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://savannah.gnu.org/projects/teseq/",
+    "source_url_template": "https://ftp.gnu.org/gnu/teseq/teseq-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.1.1",
+    "latest_detected": "1.1.1",
+    "release": "1"
+  }
+}

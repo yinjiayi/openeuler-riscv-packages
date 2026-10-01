@@ -1,0 +1,30 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 300},
+  "discovery": {
+    "lineage": [
+      {"evidence_url": "https://archlinux.org/packages/extra/x86_64/zimg/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "zimg", "package_name": "zimg", "source": "arch-extra", "source_version": "3.0.6-2"},
+      {"evidence_url": "https://aur.archlinux.org/packages/lib32-zimg", "observed_at": "2026-08-08T16:50:00Z", "package_base": "lib32-zimg", "package_name": "lib32-zimg", "source": "aur", "source_version": "3.0.6-1"},
+      {"evidence_url": "https://packages.debian.org/trixie/source/zimg", "observed_at": "2026-08-08T16:50:00Z", "package_base": "zimg", "package_name": "zimg", "source": "debian", "source_version": "3.0.5+ds1-1"},
+      {"evidence_url": "https://packages.fedoraproject.org/pkgs/zimg/zimg/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "zimg", "package_name": "zimg", "source": "fedora", "source_version": "3.0.6-3.fc44"},
+      {"evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/zimg", "observed_at": "2026-08-08T16:50:00Z", "package_base": "zimg", "package_name": "zimg", "source": "opensuse-tumbleweed", "source_version": "3.0.6+20260720.g1ad1895-1.1"}
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "zimg.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "Frozen Arch, AUR, Debian, Fedora, and openSUSE aliases were deduplicated by the official zimg component. AUR rows are metadata only and were never executed. The release tag and its exact GoogleTest gitlink commit are checksum pinned. The complete upstream unit-test route remains enabled offline.", "status": "active"},
+  "package_id": "zimg",
+  "rpm": {"license": "WTFPL", "name": "zimg", "summary": "Scaling, colorspace, and depth conversion library"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-releases"},
+  "upstream": {
+    "component": "github.com-sekrit-twc-zimg",
+    "homepage": "https://github.com/sekrit-twc/zimg",
+    "release_api": "https://api.github.com/repos/sekrit-twc/zimg/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "release-(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/sekrit-twc/zimg",
+    "source_url_template": "https://github.com/sekrit-twc/zimg/archive/refs/tags/release-{version}.tar.gz"
+  },
+  "version": {"current": "3.0.6", "latest_detected": "3.0.6", "release": "1"}
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "swh-plugins",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d1b090feec4c5e8f9605334b47faaad72db7cc18fe91d792b9161a9e3b821ce7"
+      },
+      "filename": "swh-plugins-0.4.17.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/swh/ladspa/archive/refs/tags/v0.4.17.tar.gz",
+      "version": "0.4.17"
+    }
+  ]
+}

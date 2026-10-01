@@ -3,7 +3,8 @@
 set -euo pipefail
 
 rpm -q -- wdiff diffutils
-wdiff --version | grep -F 'wdiff (GNU wdiff) 1.2.2'
+installed_version=$(rpm -q --qf '%{VERSION}' wdiff)
+wdiff --version | grep -Fx "wdiff (GNU wdiff) ${installed_version}"
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf -- "$smoke_dir"' EXIT
