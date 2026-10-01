@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/libimobiledevice/idevicerestore",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "idevicerestore",
+        "package_name": "idevicerestore",
+        "source": "fedora",
+        "source_version": "1.0.0^20240927git511261e-4.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "idevicerestore.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "idevicerestore",
+  "rpm": {
+    "license": "LGPL-3.0-or-later",
+    "name": "idevicerestore",
+    "summary": "Restore/upgrade firmware of iOS devices"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-libimobiledevice-idevicerestore",
+    "homepage": "https://libimobiledevice.org",
+    "release_api": "https://api.github.com/repos/libimobiledevice/idevicerestore/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/libimobiledevice/idevicerestore",
+    "source_url_template": "https://github.com/libimobiledevice/idevicerestore/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.0",
+    "latest_detected": "1.0.0",
+    "release": "1"
+  }
+}
