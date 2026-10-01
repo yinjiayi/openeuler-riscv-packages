@@ -1,0 +1,21 @@
+{
+  "package_id": "switchtec",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "55061450215b170dc8aef476670ccf44a01ff0b7584c3d6894f6d97c077ec7fc"
+      },
+      "filename": "switchtec-4.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Microsemi/switchtec-user/archive/refs/tags/v4.3.tar.gz",
+      "version": "4.3"
+    }
+  ]
+}
