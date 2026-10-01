@@ -1,0 +1,21 @@
+{
+  "package_id": "gkrellm-nvidia",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5e70b015b1b0ce7473ae8745fc5215b04268b9fbbcc59162b36269f270a24156"
+      },
+      "filename": "gkrellm-nvidia-1.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/carcass82/gkrellm-nvidia/archive/refs/tags/release-1.3.2.tar.gz",
+      "version": "1.3.2"
+    }
+  ]
+}
