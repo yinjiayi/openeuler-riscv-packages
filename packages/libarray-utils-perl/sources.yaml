@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-utils-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Array-Utils-0.5.tar.gz",
+      "version": "0.5",
+      "url": "https://cpan.metacpan.org/authors/id/Z/ZM/ZMIJ/Array/Array-Utils-0.5.tar.gz",
+      "digests": {
+        "sha256": "89dd1b7fcd9b4379492a3a77496e39fe6cd379b773fd03a6b160dd26ede63770"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN source's Utils.pm POD grants GPL/Artistic licensing, and the HTTPS archive is pinned by official CPAN CHECKSUMS SHA-256."
+      }
+    }
+  ]
+}
