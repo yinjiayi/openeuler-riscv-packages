@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxfont",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libXfont2-2.0.9.tar.xz",
+      "version": "2.0.9",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXfont2-2.0.9.tar.xz",
+      "digests": {
+        "sha256": "f042a370666815e7b941e9b7019024755bd1c6c2954afbfa515af378251799e2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The permissively licensed official X.Org release is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}
