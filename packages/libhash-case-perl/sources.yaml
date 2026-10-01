@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-case-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Hash-Case-1.07.tar.gz",
+      "version": "1.07",
+      "url": "https://cpan.metacpan.org/authors/id/M/MA/MARKOV/Hash-Case-1.07.tar.gz",
+      "digests": {
+        "sha256": "f591db9f9a8355c67fba94ae27e06e6339b800ca78c5250d75c7688c0bc33969"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README.md, module SPDX header, Makefile.PL and META.json agree on Perl terms; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
