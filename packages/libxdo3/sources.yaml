@@ -1,0 +1,21 @@
+{
+  "package_id": "libxdo3",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "82b15a944a5e82fee15e0f6116bd9f642bc3d0bb6989fc0ca5ad9dfe35de0847"
+      },
+      "filename": "libxdo3-3.20211022.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jordansissel/xdotool/archive/refs/tags/v3.20211022.1.tar.gz",
+      "version": "3.20211022.1"
+    }
+  ]
+}
