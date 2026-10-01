@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-ansi-util-perl",
+  "rpm": {
+    "name": "perl-Text-ANSI-Util",
+    "summary": "Utilities for text containing ANSI escape codes",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-ansi-util-perl",
+    "homepage": "https://metacpan.org/dist/Text-ANSI-Util",
+    "source_repository": "https://metacpan.org/dist/Text-ANSI-Util",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/",
+    "release_regex": "Text-ANSI-Util-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/Text-ANSI-Util-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.234",
+    "release": "1",
+    "latest_detected": "0.234"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-ansi-util-perl",
+        "package_base": "libtext-ansi-util-perl",
+        "source_version": "0.234-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-ansi-util-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-ansi-util-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu 0.234-1 and official CPAN stable 0.234. Publisher CHECKSUMS SHA-256, safe archive, and included LICENSE Perl dual terms verified despite historical license-blocked discovery marker. Official target primary lacks same-name RPM/provider and has Data::Dump. Both operational upstream default suites/16 top-level checks passed locally; three upstream author-only files explicitly skipped. Target build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
