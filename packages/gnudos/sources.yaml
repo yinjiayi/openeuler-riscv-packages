@@ -1,0 +1,21 @@
+{
+  "package_id": "gnudos",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "887c88f8c94a3c35469dda1b96a3ea46e6b2fbcaba625ca722c5197ea4b1c41a"
+      },
+      "filename": "gnudos-2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/gnudos/gnudos-2.0.tar.gz",
+      "version": "2.0"
+    }
+  ]
+}
