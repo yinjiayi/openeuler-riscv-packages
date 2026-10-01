@@ -1,0 +1,21 @@
+{
+  "package_id": "i3blocks",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "41764d771043d0c06c23d75b1e3ca6b2b94279191483d03f10c5e034d6722ebf"
+      },
+      "filename": "i3blocks-1.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/vivien/i3blocks/archive/refs/tags/1.5.tar.gz",
+      "version": "1.5"
+    }
+  ]
+}
