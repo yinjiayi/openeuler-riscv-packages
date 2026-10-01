@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-munkres-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Algorithm-Munkres-0.08.tar.gz",
+      "version": "0.08",
+      "url": "https://cpan.metacpan.org/authors/id/T/TP/TPEDERSE/Algorithm-Munkres-0.08.tar.gz",
+      "digests": {
+        "sha256": "196bcda3984b179cedd847a7c16666b4f9741c07f611a65490d9e7f4b7a55626"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official source README and module POD explicitly grant GPL-2.0-or-later; archive SHA-256 matches the publisher's CPAN CHECKSUMS. The stale AUR Artistic label is not source authority."
+      }
+    }
+  ]
+}
