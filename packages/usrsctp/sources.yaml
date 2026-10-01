@@ -1,0 +1,21 @@
+{
+  "package_id": "usrsctp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "260107caf318650a57a8caa593550e39bca6943e93f970c80d6c17e59d62cd92"
+      },
+      "filename": "usrsctp-0.9.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/sctplab/usrsctp/archive/refs/tags/0.9.5.0.tar.gz",
+      "version": "0.9.5.0"
+    }
+  ]
+}
