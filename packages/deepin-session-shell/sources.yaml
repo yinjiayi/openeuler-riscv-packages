@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-session-shell",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2f9b0ccce912babb60e69bc2ebdbc6202296c6fdd9697f137933e22788b72cce"
+      },
+      "filename": "deepin-session-shell-6.0.52.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dde-session-shell-snipe/archive/refs/tags/6.0.52.tar.gz",
+      "version": "6.0.52"
+    }
+  ]
+}
