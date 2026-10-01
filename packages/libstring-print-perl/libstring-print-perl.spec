@@ -15,12 +15,14 @@ BuildRequires:  perl-Data-Dumper
 BuildRequires:  perl-Encode
 BuildRequires:  perl-ExtUtils-MakeMaker
 BuildRequires:  perl-HTML-Parser
+BuildRequires:  perl(MIME::Charset)
 BuildRequires:  perl-Scalar-List-Utils
 BuildRequires:  perl-Test-Pod
 BuildRequires:  perl-Test-Simple
 BuildRequires:  perl-TimeDate
 BuildRequires:  perl-Unicode-LineBreak
 BuildRequires:  perl-generators
+Requires:       perl(MIME::Charset)
 
 %description
 String::Print extends string interpolation and provides functional and
