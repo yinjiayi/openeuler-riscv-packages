@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-dumper-simple-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Dumper-Simple-0.11.tar.gz",
+      "version": "0.11",
+      "url": "https://cpan.metacpan.org/authors/id/O/OV/OVID/Data-Dumper-Simple-0.11.tar.gz",
+      "digests": {
+        "sha256": "3f3cfd278cbe118852d97a399de139a3dfce38c6e0f0c775a492d27e702f0c5e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the official CPAN source SHA-256. The README and sole PM explicitly grant redistribution/modification under Perl terms by copyright holder Curtis Poe; Build.PL declares perl licensing."
+      }
+    }
+  ]
+}
