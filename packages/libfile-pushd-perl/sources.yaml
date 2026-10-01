@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-pushd-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-pushd-1.016.tar.gz",
+      "version": "1.016",
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/File-pushd-1.016.tar.gz",
+      "digests": {
+        "sha256": "d73a7f09442983b098260df3df7a832a5f660773a313ca273fa8b56665f97cdc"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN archive contains the Apache-2.0 license and is fetched over HTTPS with the official CPAN CHECKSUMS SHA-256."
+      }
+    }
+  ]
+}
