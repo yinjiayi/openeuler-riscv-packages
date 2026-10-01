@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-bufferstack-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-BufferStack-1.16.tar.gz",
+      "version": "1.16",
+      "url": "https://cpan.metacpan.org/authors/id/A/AL/ALEXMV/String-BufferStack-1.16.tar.gz",
+      "digests": {
+        "sha256": "812181c2e73ebb71b3c687bbb7aed97bb8b66df2a64d18bd8843dc0c4b083392"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Main module POD and README grant the same terms as Perl itself; META declares perl licensing, and official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
