@@ -1,0 +1,21 @@
+{
+  "package_id": "sharutils",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2b05cff7de5d7b646dc1669bc36c35fdac02ac6ae4b6c19cb3340d87ec553a9a"
+      },
+      "filename": "sharutils-4.15.2.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/sharutils/sharutils-4.15.2.tar.xz",
+      "version": "4.15.2"
+    }
+  ]
+}
