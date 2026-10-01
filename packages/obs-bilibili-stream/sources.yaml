@@ -1,0 +1,21 @@
+{
+  "package_id": "obs-bilibili-stream",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "005fdac6c148e63010f718e88206034f84407875fc3469ac4ab85da755c619bc"
+      },
+      "filename": "obs-bilibili-stream-2.0.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Zarosmm/obs-bilibili-stream/archive/refs/tags/2.0.12.tar.gz",
+      "version": "2.0.12"
+    }
+  ]
+}
