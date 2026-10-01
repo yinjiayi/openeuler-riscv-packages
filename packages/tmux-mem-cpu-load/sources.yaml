@@ -1,0 +1,21 @@
+{
+  "package_id": "tmux-mem-cpu-load",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ea7a24802d6d1223831f749e68ef29c07c9c5e45dff570022f844ce37eb56c85"
+      },
+      "filename": "tmux-mem-cpu-load-3.8.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/thewtex/tmux-mem-cpu-load/archive/refs/tags/v3.8.3.tar.gz",
+      "version": "3.8.3"
+    }
+  ]
+}
