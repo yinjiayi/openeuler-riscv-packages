@@ -1,0 +1,21 @@
+{
+  "package_id": "rclone-browser",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5f8242a011b85477749127b7e94e874035c431c2fa6df817e5603ed891604beb"
+      },
+      "filename": "rclone-browser-1.8.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kapitainsky/RcloneBrowser/archive/refs/tags/1.8.0.tar.gz",
+      "version": "1.8.0"
+    }
+  ]
+}
