@@ -1,0 +1,21 @@
+{
+  "package_id": "x11vnc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3ab47c042bc1c33f00c7e9273ab674665b85ab10592a8e0425589fe7f3eb1a69"
+      },
+      "filename": "x11vnc-0.9.17.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/LibVNC/x11vnc/archive/refs/tags/0.9.17.tar.gz",
+      "version": "0.9.17"
+    }
+  ]
+}
