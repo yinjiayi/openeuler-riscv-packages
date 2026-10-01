@@ -1,0 +1,21 @@
+{
+  "package_id": "libstoragemgmt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9ffea8ab33bb8304d9698fd4ccaef14ab5a762c65e13790d8e996b74be66a34e"
+      },
+      "filename": "libstoragemgmt-1.10.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libstorage/libstoragemgmt/archive/refs/tags/1.10.3.tar.gz",
+      "version": "1.10.3"
+    }
+  ]
+}
