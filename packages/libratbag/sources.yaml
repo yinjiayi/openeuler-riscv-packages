@@ -1,0 +1,21 @@
+{
+  "package_id": "libratbag",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8a7f8bf00c21ef5ad534e2804ed537f2fc6521a3932dd822c438e561a85a1bcd"
+      },
+      "filename": "libratbag-0.18.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libratbag/libratbag/archive/refs/tags/v0.18.tar.gz",
+      "version": "0.18"
+    }
+  ]
+}
