@@ -1,0 +1,21 @@
+{
+  "package_id": "mairix",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "78dfe1773936a57c943260ec6734d2492d0a0345655f28367988dcf3a77aeaec"
+      },
+      "filename": "mairix-0.24.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/vandry/mairix/archive/refs/tags/0.24.tar.gz",
+      "version": "0.24"
+    }
+  ]
+}
