@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxfixes",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libXfixes-6.0.2.tar.xz",
+      "version": "6.0.2",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXfixes-6.0.2.tar.xz",
+      "digests": {
+        "sha256": "39f115d72d9c5f8111e4684164d3d68cc1fd21f9b27ff2401b08fddfc0f409ba"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official X.Org permissively licensed release archive is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}
