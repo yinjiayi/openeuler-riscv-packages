@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": "The upstream RVV runtime probe executes an illegal instruction under the current QEMU user-mode runner despite its advertised RVA23 capability; validate the SIMD-enabled build and full upstream test suite on native RISC-V hardware.",
+    "network_during_build": false,
+    "profile": "needs-native-riscv",
+    "timeout_minutes": 240
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libjpeg-turbo/",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "libjpeg-turbo",
+        "package_name": "libjpeg-turbo",
+        "source": "arch-extra",
+        "source_version": "3.2.0-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libjpeg-turbo-git",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "libjpeg-turbo-git",
+        "package_name": "libjpeg-turbo-git",
+        "source": "aur",
+        "source_version": "3.2.0.r2.g8a99315b-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/libjpeg-turbo",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "libjpeg-turbo",
+        "package_name": "libjpeg-turbo",
+        "source": "debian",
+        "source_version": "1:2.1.5-4"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libjpeg-turbo/libjpeg-turbo/",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "libjpeg-turbo",
+        "package_name": "libjpeg-turbo",
+        "source": "fedora",
+        "source_version": "3.1.4.1-1.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libjpeg-turbo",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "libjpeg-turbo",
+        "package_name": "libjpeg-turbo",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.1.4.1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libjpeg-turbo",
+        "observed_at": "2026-08-11T12:30:01Z",
+        "package_base": "libjpeg-turbo",
+        "package_name": "libjpeg-turbo",
+        "source": "ubuntu",
+        "source_version": "2.1.5-4ubuntu4"
+      }
+    ],
+    "snapshot_id": "discovery-20260811T123001Z-336db182a16e2370"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libjpeg-turbo.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official libjpeg-turbo 3.2.0 stable release bytes and SHA-256 are corroborated by the upstream GitHub release asset metadata, and Arch stable confirms 3.2.0. Fedora 44, openSUSE Tumbleweed, Debian stable, and Ubuntu GA carried older stable lines, so this is an intentional official-stable forward release. The AUR libjpeg-turbo-git row is VCS-only and excluded as a source. AUR RPC metadata only was read; no AUR recipe or distribution spec was executed. SIMD, tools, TurboJPEG, and every upstream regression test remain enabled in the SPEC; the Fedora-proven fp-contract mode is selected on RISC-V without skipping tests. The current QEMU user-mode runner faults in libjpeg-turbo's RVV capability probe despite advertising RVA23 support, so native RISC-V hardware must validate the SIMD-enabled package and full upstream test suite.",
+    "status": "active"
+  },
+  "package_id": "libjpeg-turbo",
+  "rpm": {
+    "license": "Zlib AND BSD-3-Clause AND MIT AND IJG",
+    "name": "libjpeg-turbo",
+    "summary": "SIMD-accelerated JPEG codec libraries and tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "qemu-limitation"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  },
+  "upstream": {
+    "component": "libjpeg-turbo.org-libjpeg-turbo",
+    "homepage": "https://libjpeg-turbo.org/",
+    "release_api": "https://api.github.com/repos/libjpeg-turbo/libjpeg-turbo/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/libjpeg-turbo/libjpeg-turbo",
+    "source_url_template": "https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/{version}/libjpeg-turbo-{version}.tar.gz"
+  },
+  "version": {"current": "3.2.0", "latest_detected": "3.2.0", "release": "1"}
+}
