@@ -1,0 +1,21 @@
+{
+  "package_id": "dashpay-bls-signatures",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5e2d7d5135dc1d95ebc8165cbb54c569d956f0498b49ca19e9340a17dc76626e"
+      },
+      "filename": "dashpay-bls-signatures-1.3.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dashpay/bls-signatures/archive/refs/tags/1.3.5.tar.gz",
+      "version": "1.3.5"
+    }
+  ]
+}
