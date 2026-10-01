@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-merge-perl",
+  "rpm": {
+    "name": "perl-Algorithm-Merge",
+    "summary": "Three-way merge and diff routines for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libalgorithm-merge-perl",
+    "homepage": "https://metacpan.org/dist/Algorithm-Merge",
+    "source_repository": "https://metacpan.org/dist/Algorithm-Merge",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JS/JSMITH/",
+    "release_regex": "Algorithm-Merge-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JS/JSMITH/Algorithm-Merge-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.08",
+    "release": "1",
+    "latest_detected": "0.08"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libalgorithm-merge-perl",
+        "package_base": "libalgorithm-merge-perl",
+        "source_version": "0.08-5",
+        "evidence_url": "https://packages.ubuntu.com/resolute/libalgorithm-merge-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libalgorithm-merge-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.08-5 row is lineage only. Official CPAN README/POD explicitly grant redistribution on the same terms as Perl itself although legacy release metadata says unknown; publisher CHECKSUMS confirms the pinned source SHA-256. Official SP3 RVA23 primary has no same-name RPM or perl(Algorithm::Merge) provider and supplies perl(Algorithm::Diff), ExtUtils::MakeMaker and Test::More. All three unmodified default upstream test files/66 assertions pass locally without skips. Target build, tests, install and smoke await hosted PR CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
