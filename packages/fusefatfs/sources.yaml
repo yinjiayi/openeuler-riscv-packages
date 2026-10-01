@@ -1,0 +1,21 @@
+{
+  "package_id": "fusefatfs",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "48e29307382b8ac9c52218ca3da081e6aebc8d5761512808d2549c026065d7d7"
+      },
+      "filename": "fusefatfs-0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/virtualsquare/fusefatfs/archive/refs/tags/0.3.tar.gz",
+      "version": "0.3"
+    }
+  ]
+}
