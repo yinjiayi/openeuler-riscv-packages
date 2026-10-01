@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/snitch-org/snitch",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "snitch",
+        "package_name": "snitch",
+        "source": "aur",
+        "source_version": "1.3.2-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-tests-accept-release-version.patch",
+        "license": "BSL-1.0",
+        "purpose": "Let the upstream approval suite normalize both three-component stable releases and four-component development versions.",
+        "remove_when": "An upstream release accepts three-component stable versions in its approval-test filters.",
+        "sha256": "5aef70124b046cb923c64a38bdfb8590f3610b0d45147e4837e3a9a26af5fb83",
+        "source": "openEuler RISC-V review of the official snitch 1.3.2 tag",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "snitch.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "snitch",
+  "rpm": {
+    "license": "BSL-1.0",
+    "name": "snitch",
+    "summary": "Lightweight C++20 testing framework"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-snitch-org-snitch",
+    "homepage": "https://github.com/snitch-org/snitch",
+    "release_api": "https://api.github.com/repos/snitch-org/snitch/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/snitch-org/snitch",
+    "source_url_template": "https://github.com/snitch-org/snitch/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.3.2",
+    "latest_detected": "1.3.2",
+    "release": "1"
+  }
+}
