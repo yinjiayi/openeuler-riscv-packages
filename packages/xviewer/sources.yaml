@@ -1,0 +1,21 @@
+{
+  "package_id": "xviewer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "41323bd88c032ce158ce1970f945aa7b6c7fc11fcc211bdfd54ea9d8701d9866"
+      },
+      "filename": "xviewer-3.4.16.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxmint/xviewer/archive/refs/tags/3.4.16.tar.gz",
+      "version": "3.4.16"
+    }
+  ]
+}
