@@ -1,0 +1,21 @@
+{
+  "package_id": "mdk4",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "20f73d674e4dde4f654463c2d3a950af253a607c18486b15e3512d8331abe11a"
+      },
+      "filename": "mdk4-4.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/aircrack-ng/mdk4/archive/refs/tags/4.2.tar.gz",
+      "version": "4.2"
+    }
+  ]
+}
