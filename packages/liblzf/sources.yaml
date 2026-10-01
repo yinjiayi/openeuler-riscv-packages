@@ -1,0 +1,19 @@
+{
+  "package_id": "liblzf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "9c5de01f7b9ccae40c3f619d26a7abec9986c06c36d260c179cedd04b89fb46a"},
+      "filename": "liblzf-3.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream BSD-2-Clause terms permit redistribution; CI fetches the official HTTPS release archive."
+      },
+      "signature": null,
+      "url": "https://dist.schmorp.de/liblzf/liblzf-3.6.tar.gz",
+      "version": "3.6"
+    }
+  ]
+}
