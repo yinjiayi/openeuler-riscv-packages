@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxvmc",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libXvMC-1.0.15.tar.xz",
+      "version": "1.0.15",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXvMC-1.0.15.tar.xz",
+      "digests": {
+        "sha256": "4f518afde3d7fd435346af7b368d2f73517f3d5f82647c962caf3f7bb8ff7078"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official permissively licensed X.Org release archive is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}
