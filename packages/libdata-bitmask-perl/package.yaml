@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-bitmask-perl",
+  "rpm": {
+    "name": "perl-Data-BitMask",
+    "summary": "Named bit-mask construction and explanation for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-bitmask-perl",
+    "homepage": "https://metacpan.org/dist/Data-BitMask",
+    "source_repository": "https://metacpan.org/dist/Data-BitMask",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TE/TEVERETT/",
+    "release_regex": "Data-BitMask-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TE/TEVERETT/Data-BitMask-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.00",
+    "release": "1",
+    "latest_detected": "1.00"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libdata-bitmask-perl",
+        "package_base": "libdata-bitmask-perl",
+        "source_version": "1.00-1",
+        "evidence_url": "https://packages.debian.org/source/sid/libdata-bitmask-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-bitmask-perl",
+        "package_base": "libdata-bitmask-perl",
+        "source_version": "1.00-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-bitmask-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-bitmask-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory 1.00 was unverified upstream and license-blocked by discovery metadata. The official SHA-256-verified CPAN archive and author grants in README/module resolve that source and license question. Official SP3 RVA23 primary has no same-name or perl(Data::BitMask) provider; it uniquely supplies Module::Build 0.42.34, Test, Data::Dumper and Carp. The sole upstream default test file is retained unchanged with 137 assertions. Local macOS upstream tests passed, but target exact-head CI must prove full %check and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
