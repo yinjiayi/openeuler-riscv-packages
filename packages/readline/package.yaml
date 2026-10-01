@@ -1,0 +1,29 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 180},
+  "discovery": {
+    "lineage": [
+      {"evidence_url": "https://archlinux.org/packages/core/x86_64/readline/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "readline", "package_name": "readline", "source": "arch-core", "source_version": "8.3.003-1"},
+      {"evidence_url": "https://aur.archlinux.org/packages/android-riscv64-readline", "observed_at": "2026-08-08T16:50:00Z", "package_base": "android-riscv64-readline", "package_name": "android-riscv64-readline", "source": "aur", "source_version": "8.2.013-1"},
+      {"evidence_url": "https://packages.debian.org/trixie/source/readline", "observed_at": "2026-08-08T16:50:00Z", "package_base": "readline", "package_name": "readline", "source": "debian", "source_version": "8.2-6"},
+      {"evidence_url": "https://packages.fedoraproject.org/pkgs/readline/readline/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "readline", "package_name": "readline", "source": "fedora", "source_version": "8.3-4.fc44"}
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "readline.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "Frozen cross-distribution aliases were deduplicated by the official GNU Readline component. AUR rows are metadata only and were never executed. The official maintainer page identifies 8.3 as current stable; the RPM additionally pins and applies all official patches through 003. The upstream root and examples check routes remain enabled.", "status": "active"},
+  "package_id": "readline",
+  "rpm": {"license": "GPL-3.0-or-later", "name": "readline", "summary": "Library for interactive command line editing"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"},
+  "upstream": {
+    "component": "tiswww.case.edu-php-chet-readline-rltop.html",
+    "homepage": "https://tiswww.case.edu/php/chet/readline/rltop.html",
+    "release_api": "https://tiswww.case.edu/php/chet/readline/rltop.html",
+    "release_channel": "stable",
+    "release_regex": "readline-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://git.savannah.gnu.org/git/readline.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/readline/readline-{version}.tar.gz"
+  },
+  "version": {"current": "8.3", "latest_detected": "8.3", "release": "3"}
+}
