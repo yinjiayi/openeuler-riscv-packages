@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-util-fieldhash-compat-perl",
+  "rpm": {
+    "name": "perl-Hash-Util-FieldHash-Compat",
+    "summary": "Compatibility facade for Perl field hashes",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libhash-util-fieldhash-compat-perl",
+    "homepage": "https://metacpan.org/dist/Hash-Util-FieldHash-Compat",
+    "source_repository": "https://metacpan.org/dist/Hash-Util-FieldHash-Compat",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/",
+    "release_regex": "Hash-Util-FieldHash-Compat-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Hash-Util-FieldHash-Compat-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.11",
+    "release": "1",
+    "latest_detected": "0.11"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libhash-util-fieldhash-compat-perl",
+        "package_base": "libhash-util-fieldhash-compat-perl",
+        "source_version": "0.11-2",
+        "evidence_url": "https://packages.ubuntu.com/resolute/libhash-util-fieldhash-compat-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libhash-util-fieldhash-compat-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.11-2 row is lineage only. Official LICENCE explicitly grants GPL-1.0-or-later OR Artistic-1.0-Perl; publisher CHECKSUMS confirms pinned source SHA-256. Official SP3 RVA23 primary lacks same-name RPM and perl(Hash::Util::FieldHash::Compat) provider, while providing native perl(Hash::Util::FieldHash), its mandatory path on this fixed target, and all hard build/test modules. Both unmodified default upstream test files/27 assertions pass locally without skips; xt author/release tests are not part of upstream default. Target build, tests, install and smoke await hosted PR CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
