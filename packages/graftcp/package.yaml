@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/hmgle/graftcp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "graftcp",
+        "package_name": "graftcp",
+        "source": "aur",
+        "source_version": "0.8.2-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "graftcp.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "graftcp",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "graftcp",
+    "summary": "A flexible tool for redirecting a program's TCP, UDP, and DNS traffic to SOCKS5 or HTTP proxies."
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-hmgle-graftcp",
+    "homepage": "https://github.com/hmgle/graftcp",
+    "release_api": "https://api.github.com/repos/hmgle/graftcp/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/hmgle/graftcp",
+    "source_url_template": "https://github.com/hmgle/graftcp/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.8.2",
+    "latest_detected": "0.8.2",
+    "release": "1"
+  }
+}
