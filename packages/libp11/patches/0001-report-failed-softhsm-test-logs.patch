@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 28 Sep 2026 00:00:00 +0000
+Subject: [PATCH] tests: emit bounded logs as each SoftHSM test fails
+
+The complete SoftHSM suite exceeded the target CI's 180-minute budget after
+several RSA tests had already failed. Automake wrote the individual failure
+logs in the build tree, but the run timeout prevented its final summary from
+reaching the uploaded build log. Emit the last 200 lines of each failed test
+immediately after its result is known. Do not alter the test invocation,
+result classification, test list, or make check exit status.
+
+Patch-Source: openEuler RISC-V package CI run 36424142097 and the upstream
+ Automake test-driver included in libp11 0.4.21
+Patch-License: GPL-2.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: Target CI captures individual failed test logs before timeout.
+---
+diff --git a/test-driver b/test-driver
+--- a/test-driver
++++ b/test-driver
+@@ -143,6 +143,15 @@
+ # Report outcome to console.
+ echo "${col}${res}${std}: $test_name"
+-
++case $res in
++  FAIL|ERROR|XPASS)
++    echo "--- $test_name diagnostic log (last 200 lines) ---"
++    if test -r "$log_file"; then
++      tail -n 200 "$log_file"
++    fi
++    echo "--- end $test_name diagnostic log ---"
++    ;;
++esac
++
+ # Register the test result, and other relevant metadata.
+ echo ":test-result: $res" > $trs_file
+ echo ":global-test-result: $res" >> $trs_file

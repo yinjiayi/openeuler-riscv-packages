@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libp11",
+  "sources": [
+    {
+      "id": "source0",
+      "version": "0.4.21",
+      "url": "https://github.com/OpenSC/libp11/releases/download/libp11-0.4.21/libp11-0.4.21.tar.gz",
+      "filename": "libp11-0.4.21.tar.gz",
+      "digests": {
+        "sha256": "efdb523aef8613d447e6a2d38227d4b389866f4bcf4b503130acd7f759490847"
+      },
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The upstream LGPL-2.1-or-later release asset permits source redistribution."
+      }
+    }
+  ]
+}
