@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "package_id": "libcleri",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/cesbit/libcleri/tar.gz/refs/tags/v1.0.2",
+      "filename": "libcleri-1.0.2.tar.gz",
+      "version": "1.0.2",
+      "digests": {"sha256": "7180ed1f215c30fba601a150ef9eb7a54f6efd4cf8f130bb4c5ed86ac03bc9c5"},
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The selected official Cesbit libcleri source grants MIT redistribution terms in LICENSE.md."
+      }
+    }
+  ]
+}
