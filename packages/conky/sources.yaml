@@ -1,0 +1,21 @@
+{
+  "package_id": "conky",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f921ac714ea519c25bf20d7b47aaf939a63c48859e6a90d2e39d946e1b5466e2"
+      },
+      "filename": "conky-1.24.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/brndnmtthws/conky/archive/refs/tags/v1.24.0.tar.gz",
+      "version": "1.24.0"
+    }
+  ]
+}
