@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liblist-pairwise-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "List-Pairwise-1.03.tar.gz",
+      "version": "1.03",
+      "url": "https://cpan.metacpan.org/authors/id/T/TD/TDRUGEON/List-Pairwise-1.03.tar.gz",
+      "digests": {
+        "sha256": "96d716f2b2832cf42875e3a4f81752a025be94c3114a382887dc2eb4515a302e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Embedded POD grants the same terms as Perl 5; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
