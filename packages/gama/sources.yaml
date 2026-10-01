@@ -1,0 +1,21 @@
+{
+  "package_id": "gama",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a1a8aac402a90c9ac0f59516029f7763bb5f4e82eecd0334ac2e40e0de43fb5d"
+      },
+      "filename": "gama-2.33.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/gama/gama-2.33.tar.gz",
+      "version": "2.33"
+    }
+  ]
+}
