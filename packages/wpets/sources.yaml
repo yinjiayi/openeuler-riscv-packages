@@ -1,0 +1,21 @@
+{
+  "package_id": "wpets",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f9177930b88ffd74eb297c5a0c8ff73002b9eca065e2988c955d6ff16f87507b"
+      },
+      "filename": "wpets-5.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/furudbat/wayland-vpets/archive/refs/tags/v5.0.2.tar.gz",
+      "version": "5.0.2"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] build: leave ISA selection to the distribution
+
+The release build hard-codes -march=native. Under the RISC-V QEMU build
+route GCC interprets the host-native selection as an invalid RISC-V ISA
+string. Distribution compiler flags already carry the target ISA, so remove
+the conflicting override.
+
+Patch-Source: openEuler RISC-V package CI failure analysis
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+---
+ src/CMakeLists.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -41,7 +41,6 @@ target_compile_options(
+   bongocat_options
+   INTERFACE
+     $<$<CONFIG:Release>:
+-    -march=native
+     -fomit-frame-pointer
+     -funroll-loops
+     -finline-functions
+-- 
+2.50.1
