@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liblist-gen-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "List-Gen-0.979.tar.gz",
+      "version": "0.979",
+      "url": "https://cpan.metacpan.org/authors/id/S/SO/SOMMREY/List-Gen-0.979.tar.gz",
+      "digests": {
+        "sha256": "dc4a4affa792162c3023cc7c79e17cc753720cd3d5bbcb63aaa93c3141396a1d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Embedded List/Gen.pm grants GPL or Artistic terms; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
