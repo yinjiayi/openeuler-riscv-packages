@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-calculator",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "78858df641359430c837f675fd2994da9106fdda01e3e4743c509ca0eb67832a"
+      },
+      "filename": "deepin-calculator-6.5.38.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/deepin-calculator/archive/refs/tags/6.5.38.tar.gz",
+      "version": "6.5.38"
+    }
+  ]
+}
