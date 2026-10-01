@@ -1,0 +1,21 @@
+{
+  "package_id": "ibus-input-pad",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6d69d449ed2cac9799eaf9b9c82047fec720f85a4486a48b0a56047a58c0ca2e"
+      },
+      "filename": "ibus-input-pad-1.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fujiwarat/ibus-input-pad/archive/refs/tags/1.5.0.tar.gz",
+      "version": "1.5.0"
+    }
+  ]
+}
