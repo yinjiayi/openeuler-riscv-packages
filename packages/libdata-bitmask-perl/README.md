@@ -23,3 +23,10 @@ The sole default upstream test file is unchanged and plans 137 assertions.
 It passed locally on macOS (`Files=1, Tests=137`, no skips). That is not a
 target-build claim: exact-head hosted CI must confirm all 137 under the
 locked SP3 RVA23 image, RPM/SRPM integrity, and installed functional smoke.
+
+The first hosted target run `36937266498` also passed all 137 assertions, but
+rpmbuild failed afterward on an empty `debugfiles.list`: this distribution
+installs only a Perl `.pm` file and manual page, with no ELF binary. Release 2
+marks the payload `noarch` and suppresses inapplicable ELF debuginfo output,
+following existing repository SPEC precedent. The old run remains a failure;
+only the new exact-head run can establish build and smoke success.

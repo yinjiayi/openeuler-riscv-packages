@@ -17,7 +17,7 @@
   },
   "version": {
     "current": "1.00",
-    "release": "1",
+    "release": "2",
     "latest_detected": "1.00"
   },
   "discovery": {
@@ -63,7 +63,7 @@
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "Frozen inventory 1.00 was unverified upstream and license-blocked by discovery metadata. The official SHA-256-verified CPAN archive and author grants in README/module resolve that source and license question. Official SP3 RVA23 primary has no same-name or perl(Data::BitMask) provider; it uniquely supplies Module::Build 0.42.34, Test, Data::Dumper and Carp. The sole upstream default test file is retained unchanged with 137 assertions. Local macOS upstream tests passed, but target exact-head CI must prove full %check and installed smoke."
+    "notes": "Frozen inventory 1.00 was unverified upstream and license-blocked by discovery metadata. The official SHA-256-verified CPAN archive and author grants in README/module resolve that source and license question. Official SP3 RVA23 primary has no same-name or perl(Data::BitMask) provider; it uniquely supplies Module::Build 0.42.34, Test, Data::Dumper and Carp. The sole upstream default test file is retained unchanged with 137 assertions. Initial target run 36937266498 passed all 137 assertions but failed after %check because its pure-Perl payload generated an empty debuginfo file list; Release 2 marks the package noarch and suppresses that inapplicable ELF debuginfo output. Target exact-head CI must still prove full RPM build and installed smoke."
   },
   "updates": {
     "enabled": true,

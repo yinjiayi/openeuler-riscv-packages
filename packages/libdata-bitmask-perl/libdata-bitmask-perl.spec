@@ -1,12 +1,15 @@
 # SPDX-License-Identifier: Apache-2.0
+%global debug_package %{nil}
+
 Name:           perl-Data-BitMask
 Version:        1.00
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Named bit-mask construction and explanation for Perl
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Data-BitMask
 Source0:        Data-BitMask-%{version}.tar.gz
 
+BuildArch:      noarch
 BuildRequires:  findutils
 BuildRequires:  perl
 BuildRequires:  perl(Carp)
@@ -41,5 +44,8 @@ find %{buildroot} -type f -name perllocal.pod -delete
 %{_mandir}/man3/Data::BitMask.3*
 
 %changelog
+* Fri Oct 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.00-2
+- Mark the pure-Perl payload noarch and suppress empty ELF debuginfo output.
+
 * Fri Oct 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.00-1
 - Package the official CPAN release with its full default upstream test.
