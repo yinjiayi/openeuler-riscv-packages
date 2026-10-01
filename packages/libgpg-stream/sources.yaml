@@ -1,0 +1,21 @@
+{
+  "package_id": "libgpg-stream",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "96e90c8358c3b92424d0495ea63d6fe49118aaadb353964519ebfd4d94baf9fa"
+      },
+      "filename": "libgpg-stream-1.1.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/theesfeld/libgpg-stream/archive/refs/tags/v1.1.9.tar.gz",
+      "version": "1.1.9"
+    }
+  ]
+}
