@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/analogdevicesinc/libiio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libiio",
+        "package_name": "libiio",
+        "source": "arch-extra",
+        "source_version": "0.26-5"
+      },
+      {
+        "evidence_url": "https://github.com/analogdevicesinc/libiio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libiio",
+        "package_name": "python-pylibiio",
+        "source": "arch-extra",
+        "source_version": "0.26-5"
+      },
+      {
+        "evidence_url": "https://github.com/analogdevicesinc/libiio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libiio",
+        "package_name": "libiio",
+        "source": "debian",
+        "source_version": "0.26-2"
+      },
+      {
+        "evidence_url": "https://github.com/analogdevicesinc/libiio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libiio",
+        "package_name": "libiio",
+        "source": "fedora",
+        "source_version": "0.26-8.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/analogdevicesinc/libiio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libiio",
+        "package_name": "libiio",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.26-1.9"
+      },
+      {
+        "evidence_url": "https://github.com/analogdevicesinc/libiio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libiio",
+        "package_name": "libiio",
+        "source": "ubuntu",
+        "source_version": "0.26-2build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libiio.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libiio",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "libiio",
+    "summary": "Interface to the Linux Industrial Input/Output (IIO) Subsystem"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-analogdevicesinc-libiio",
+    "homepage": "https://github.com/analogdevicesinc/libiio",
+    "release_api": "https://api.github.com/repos/analogdevicesinc/libiio/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/analogdevicesinc/libiio",
+    "source_url_template": "https://github.com/analogdevicesinc/libiio/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.26",
+    "latest_detected": "0.26",
+    "release": "1"
+  }
+}
