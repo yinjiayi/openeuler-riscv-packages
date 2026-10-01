@@ -1,0 +1,21 @@
+{
+  "package_id": "zelph",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4e0fd7c2b27acf02a10a4e6c0259d3cc61a5a4e37976ad4fe459bf2d3540a333"
+      },
+      "filename": "zelph-0.9.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/acrion/zelph/archive/refs/tags/v0.9.9.tar.gz",
+      "version": "0.9.9"
+    }
+  ]
+}
