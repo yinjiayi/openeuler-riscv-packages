@@ -14,6 +14,7 @@ BuildRequires:  perl-ExtUtils-MakeMaker
 BuildRequires:  perl-Test-Pod
 BuildRequires:  perl-Test-Pod-Coverage
 BuildRequires:  perl-Test-Simple
+BuildRequires:  perl(YAML)
 BuildRequires:  perl-generators
 
 %description
