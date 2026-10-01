@@ -1,0 +1,21 @@
+{
+  "package_id": "espeakup",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c708a0c3889466a7aa14a52687af8f49abb4dfb01fb9afbeb1e2507247494432"
+      },
+      "filename": "espeakup-0.90.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linux-speakup/espeakup/archive/refs/tags/v0.90.tar.gz",
+      "version": "0.90"
+    }
+  ]
+}
