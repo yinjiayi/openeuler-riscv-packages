@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-crc-cksum-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-CRC-Cksum-0.91.tar.gz",
+      "version": "0.91",
+      "url": "https://cpan.metacpan.org/authors/id/A/AH/AHAMM/String-CRC-Cksum-0.91.tar.gz",
+      "digests": {
+        "sha256": "1091aeebaefa9057cbc209e85151833f96e2aace5540e878700974c88a984671"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD explicitly permit redistribution and modification under the same terms as Perl itself; official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
