@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-naivebayes-perl",
+  "rpm": {
+    "name": "perl-Algorithm-NaiveBayes",
+    "summary": "Bayesian category prediction in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libalgorithm-naivebayes-perl",
+    "homepage": "https://metacpan.org/dist/Algorithm-NaiveBayes",
+    "source_repository": "https://metacpan.org/dist/Algorithm-NaiveBayes",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/",
+    "release_regex": "Algorithm-NaiveBayes-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Algorithm-NaiveBayes-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04",
+    "release": "1",
+    "latest_detected": "0.04"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libalgorithm-naivebayes-perl",
+        "package_base": "libalgorithm-naivebayes-perl",
+        "source_version": "0.04-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libalgorithm-naivebayes-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libalgorithm-naivebayes-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libalgorithm-naivebayes-perl key maps to the official CPAN Algorithm-NaiveBayes 0.04 release. CPAN CHECKSUMS SHA-256, safe archive, upstream same-terms-as-Perl license text, and all three default test files (23 assertions) were reviewed. The official target RVA23 Everything primary metadata has no same-name RPM or module provider and contains the required Perl module providers. Exact-head target CI remains necessary."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
