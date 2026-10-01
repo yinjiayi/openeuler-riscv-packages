@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-capitalize-perl",
+  "rpm": {
+    "name": "perl-Text-Capitalize",
+    "summary": "Title capitalization utilities for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-capitalize-perl",
+    "homepage": "https://metacpan.org/dist/Text-Capitalize",
+    "source_repository": "https://metacpan.org/dist/Text-Capitalize",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DO/DOOM/",
+    "release_regex": "Text-Capitalize-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DO/DOOM/Text-Capitalize-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.5",
+    "release": "1",
+    "latest_detected": "1.5"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-capitalize-perl",
+        "package_base": "libtext-capitalize-perl",
+        "source_version": "1.5-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-capitalize-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-capitalize-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libtext-capitalize-perl maps to official CPAN latest 1.5. Official HTTPS archive SHA-256 e01bf82325415538e02b4acf4a22d08e0afd63864a56c7d9c84b53367f37ab38 matches CPAN CHECKSUMS; archive paths are safe and README/module POD grant Perl dual license terms. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(Text::Capitalize) provider and required build/test dependencies are present. All nine default upstream t files/608 assertions passed locally without a conditional skip; exact-head target CI build, tests, installed smoke and public publication remain unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
