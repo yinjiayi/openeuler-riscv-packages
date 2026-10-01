@@ -1,0 +1,21 @@
+{
+  "package_id": "aws-c-auth",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6fb567f496a450d4b6d3f5749d735977a0156957e8ccbca9af7a5ee15d1ffda7"
+      },
+      "filename": "aws-c-auth-0.10.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/awslabs/aws-c-auth/archive/refs/tags/v0.10.4.tar.gz",
+      "version": "0.10.4"
+    }
+  ]
+}
