@@ -1,0 +1,21 @@
+{
+  "package_id": "libperseus-sdr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "825913fc75a21ecb4564359a9e527bfcc4d0a0dbae6794350e38dff887b43cd0"
+      },
+      "filename": "libperseus-sdr-0.8.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Microtelecom/libperseus-sdr/archive/refs/tags/v0.8.2.tar.gz",
+      "version": "0.8.2"
+    }
+  ]
+}
