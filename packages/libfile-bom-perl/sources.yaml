@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-bom-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-BOM-0.18.tar.gz",
+      "version": "0.18",
+      "url": "https://cpan.metacpan.org/authors/id/M/MA/MATTLAW/File-BOM-0.18.tar.gz",
+      "digests": {
+        "sha256": "28edc43fcb118e11bc458c9ae889d56d388c1d9bc29997b00b1dffd8573823a3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN source is licensed under the same terms as Perl itself and is fetched over HTTPS with the official CPAN CHECKSUMS SHA-256."
+      }
+    }
+  ]
+}
