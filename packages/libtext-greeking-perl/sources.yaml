@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-greeking-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Greeking-0.15.tar.gz",
+      "version": "0.15",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Greeking-0.15.tar.gz",
+      "digests": {
+        "sha256": "b4657a0044bf0db6b79957bcb13b63653fa070bc23a725ab5b0aca649a75b540"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches its CHECKSUMS entry; bundled LICENSE and README explicitly grant Artistic License 1.0."
+      }
+    }
+  ]
+}
