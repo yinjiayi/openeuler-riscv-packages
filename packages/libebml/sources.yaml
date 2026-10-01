@@ -1,0 +1,32 @@
+{
+  "package_id": "libebml",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "d06cf1d5ad89390389eeb1eb7d50f70b55ac7538b19aeac8859eed3f2a9908dc"},
+      "filename": "libebml-1.4.6.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The LGPL-2.1-or-later source is fetched from Matroska's official HTTPS release archive."
+      },
+      "signature": null,
+      "url": "https://dl.matroska.org/downloads/libebml/libebml-1.4.6.tar.xz",
+      "version": "1.4.6"
+    },
+    {
+      "digests": {"sha256": "14fd1b3c466814cb4c40771b7f207b61d2c7a0aa6a5e620ca05c00df27f25afd"},
+      "filename": "utfcpp-3.2.5.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Boost Software License 1.0 permits the exact CMake-required utf8cpp dependency to be fetched from its publisher's HTTPS release tag."
+      },
+      "signature": null,
+      "url": "https://github.com/nemtrif/utfcpp/archive/refs/tags/v3.2.5.tar.gz",
+      "version": "3.2.5"
+    }
+  ]
+}
