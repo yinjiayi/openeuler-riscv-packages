@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "package_id": "boxes",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/ascii-boxes/boxes/archive/refs/tags/v2.3.2.tar.gz",
+      "filename": "boxes-2.3.2.tar.gz",
+      "version": "2.3.2",
+      "digests": {"sha256": "9318ef65f555ee3d893176349a4219f1f1260ce24d4100aeb667a546f61fc183"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The upstream LICENSE and source headers grant GPL-3.0-only redistribution subject to its notice and source requirements."}
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://cmocka.org/files/1.1/cmocka-1.1.8.tar.xz",
+      "filename": "cmocka-1.1.8.tar.xz",
+      "version": "1.1.8",
+      "digests": {"sha256": "58435b558766d7f4c729ba163bdf3aec38bed3bc766dab684e3526ed0aa7c780"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The official cmocka source grants Apache-2.0 redistribution; it is used only to build the upstream boxes white-box tests and is not included in the binary RPM."}
+    }
+  ]
+}
