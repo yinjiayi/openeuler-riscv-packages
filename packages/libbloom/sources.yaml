@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "package_id": "libbloom",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/jvirkki/libbloom/tar.gz/refs/tags/v2.0",
+      "filename": "libbloom-2.0.tar.gz",
+      "version": "2.0",
+      "digests": {"sha256": "59965451ef033b0e060c9d7e472ead06af1ac61beddde11fe3ed4f5f4587bda6"},
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The upstream BSD-2-Clause grant and the bundled MurmurHash2 MIT grant allow source and binary redistribution."
+      }
+    }
+  ]
+}
