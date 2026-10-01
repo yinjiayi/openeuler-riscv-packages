@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-font-manager",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "745723e7880933e2be4f7a2db4b691c8c3dd377ed7b55fd3b3fc3bd3c605cac4"
+      },
+      "filename": "deepin-font-manager-6.5.16.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/deepin-font-manager/archive/refs/tags/6.5.16.tar.gz",
+      "version": "6.5.16"
+    }
+  ]
+}
