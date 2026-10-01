@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-format-perl",
+  "rpm": {
+    "name": "perl-Text-Format",
+    "summary": "Format and wrap text in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-format-perl",
+    "homepage": "https://metacpan.org/dist/Text-Format",
+    "source_repository": "https://github.com/shlomif/perl-Module-Format",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/",
+    "release_regex": "Text-Format-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Text-Format-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.63",
+    "release": "1",
+    "latest_detected": "0.63"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-format-perl",
+        "package_base": "libtext-format-perl",
+        "source_version": "0.63-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-format-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-format-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Exact frozen-inventory Ubuntu libtext-format-perl 0.63 orig-tar MD5 matches official CPAN Text-Format 0.63 byte-for-byte; distinct from Text-FormatTable. CPAN CHECKSUMS SHA-256, safe archive and included Perl dual license reviewed. All three default t/ suites and 15 assertions pass locally. Separate xt/author and xt/release suites are not default and are not claimed passing. Official RVA23 primary lacks same-name RPM or module provider and has declared build/test dependencies."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
