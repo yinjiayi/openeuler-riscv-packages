@@ -1,0 +1,21 @@
+{
+  "package_id": "libmcl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6e1129ab8566ebbe5a26106953977178d3589578372d878dc4dc99db8e3a317b"
+      },
+      "filename": "libmcl-3.04.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/herumi/mcl/archive/refs/tags/v3.04.tar.gz",
+      "version": "3.04"
+    }
+  ]
+}
