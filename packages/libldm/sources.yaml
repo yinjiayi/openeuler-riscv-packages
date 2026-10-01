@@ -1,0 +1,21 @@
+{
+  "package_id": "libldm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "61bb2f2367b1df59f818cb96794d1770a0def956bd2c343dccf1425dae3021b5"
+      },
+      "filename": "libldm-0.2.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/mdbooth/libldm/archive/refs/tags/libldm-0.2.5.tar.gz",
+      "version": "0.2.5"
+    }
+  ]
+}
