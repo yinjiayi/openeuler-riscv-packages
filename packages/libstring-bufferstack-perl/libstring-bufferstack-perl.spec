@@ -22,7 +22,8 @@ filter content before it reaches a caller-defined output method.
 %autosetup -n String-BufferStack-%{version} -p1
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+# Perl 5.38 does not include the source tree in @INC; use bundled Module::Install.
+PERL5LIB=. %{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %make_build
 
 %install

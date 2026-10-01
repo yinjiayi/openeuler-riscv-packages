@@ -19,7 +19,13 @@ It contains neither `perl-String-BufferStack` nor a
 test toolchain. This is a snapshot collision check, not a future guarantee.
 
 `%check` runs all five default upstream tests (169 assertions passed on
-local Perl 5.34.1). The installed-RPM smoke checks module version, nesting,
-flushing, and automatic provider metadata. The exact-head target CI must
-still establish the SP3 RVA23 RPM build, full suite, and installed smoke;
-none is claimed from the local Perl run.
+local Perl 5.34.1). Initial target run `36796657542` failed in `%build`
+before tests because Perl 5.38 did not search the source tree for the
+bundled `inc::Module::Install`. The SPEC now explicitly adds that verified
+source tree to `PERL5LIB` for configuration. This uses the release's bundled
+build helper rather than substituting the independently versioned target
+`perl-Module-Install` package, and does not drop or change tests. The
+generated Makefile's test harness searches `inc`, `blib/lib`, and `blib/arch`.
+The installed-RPM smoke checks module version, nesting, flushing, and
+automatic provider metadata. The repaired exact-head target CI must still
+establish the SP3 RVA23 RPM build, full suite, and installed smoke.
