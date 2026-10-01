@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-worddiff-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-WordDiff-0.09.tar.gz",
+      "version": "0.09",
+      "url": "https://cpan.metacpan.org/authors/id/T/TI/TIMK/Text-WordDiff-0.09.tar.gz",
+      "digests": {
+        "sha256": "fee699ca763adca2f4e18f4a8a836fd2102bc2820af708f8eb43356d5ae0d50e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches CHECKSUMS; bundled LICENSE and all differently authored module POD grant Perl GPL-1.0-or-later or Artistic terms."
+      }
+    }
+  ]
+}
