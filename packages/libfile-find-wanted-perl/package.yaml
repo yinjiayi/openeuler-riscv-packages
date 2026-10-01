@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-find-wanted-perl",
+  "rpm": {
+    "name": "perl-File-Find-Wanted",
+    "summary": "Direct wrapper around Perl File::Find",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "libfile-find-wanted-perl",
+    "homepage": "https://metacpan.org/dist/File-Find-Wanted",
+    "source_repository": "https://metacpan.org/dist/File-Find-Wanted",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/",
+    "release_regex": "File-Find-Wanted-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/File-Find-Wanted-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.00",
+    "release": "1",
+    "latest_detected": "1.00"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-find-wanted-perl",
+        "package_base": "libfile-find-wanted-perl",
+        "source_version": "1.00-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-find-wanted-perl",
+        "observed_at": "2026-09-30T03:30:31Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-find-wanted-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-find-wanted-perl maps to official latest CPAN 1.00. CPAN CHECKSUMS SHA-256 3d41caadd1d4df785ef3eb269c667c656d864df79a490137f9cab33b8d244886, safe archive, and explicit Artistic-2.0 notices in README.md and Wanted.pm resolve automated license-blocked/unverified-upstream decisions. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has neither same-name RPM nor perl(File::Find::Wanted) Provide. All four default tests are retained; target BuildRequires include Test::Pod and Test::Pod::Coverage so both conditional POD tests run. Local host lacks the latter and skipped its test, so full target coverage remains unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-zglob-perl",
+  "rpm": {
+    "name": "perl-File-Zglob",
+    "summary": "Extended filesystem globbing for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-zglob-perl",
+    "homepage": "https://metacpan.org/dist/File-Zglob",
+    "source_repository": "https://metacpan.org/dist/File-Zglob",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/",
+    "release_regex": "File-Zglob-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/File-Zglob-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.11",
+    "release": "1",
+    "latest_detected": "0.11"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-zglob-perl",
+        "package_base": "libfile-zglob-perl",
+        "source_version": "0.11-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-zglob-perl",
+        "observed_at": "2026-09-30T05:35:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-zglob-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-zglob-perl maps to official CPAN latest 0.11. Official HTTPS archive SHA-256 1cb1edde20ac094ef003794bafef2c7624169cf8402c7367d9b7460f6c0e669b matches CPAN CHECKSUMS; archive entries stay in one safe top-level tree. Module POD grants Perl's dual redistribution/modification terms. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(File::Zglob) provider. All four default upstream t files/21 assertions passed on local Perl 5.34.1; author-only xt files are outside the upstream default test target. Target QEMU full suite and installed smoke remain unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

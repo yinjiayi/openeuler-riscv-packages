@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-affixes-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Affixes-0.09.tar.gz",
+      "version": "0.09",
+      "url": "https://cpan.metacpan.org/authors/id/K/KA/KAPPA/Text-Affixes-0.09.tar.gz",
+      "digests": {
+        "sha256": "7d0808f7194d7a68786fee8fedc36414c69029c460cc41efe608d2bbfb3dcc5e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included LICENSE, README and module POD grant the same GPL/Artistic choice as Perl; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}

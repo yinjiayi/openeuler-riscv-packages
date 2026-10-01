@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-random-perl",
+  "rpm": {
+    "name": "perl-String-Random",
+    "summary": "Generate random strings from character patterns",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-random-perl",
+    "homepage": "https://metacpan.org/dist/String-Random",
+    "source_repository": "https://metacpan.org/dist/String-Random",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/",
+    "release_regex": "String-Random-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/String-Random-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.32",
+    "release": "1",
+    "latest_detected": "0.32"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-random-perl",
+        "package_base": "libstring-random-perl",
+        "source_version": "1:0.32-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-random-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-random-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official stable CPAN String-Random 0.32. Publisher CHECKSUMS SHA-256 and a safe 39-entry single-root archive were verified. LICENSE, README and module POD grant the Perl 5 dual terms. The official RVA23 primary has no same-name RPM or perl(String::Random) provider, while Module::Build is available. All nine default t/ files and 202 assertions passed locally; six separate xt/author and xt/release files are not in the upstream default test target. The module uses Perl rand and is not suitable for cryptographic secrets. Target RPM build and installed smoke await exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

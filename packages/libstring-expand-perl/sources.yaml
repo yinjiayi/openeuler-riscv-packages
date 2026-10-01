@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-expand-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Expand-0.04.tar.gz",
+      "version": "0.04",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PEVANS/String-Expand-0.04.tar.gz",
+      "digests": {
+        "sha256": "96a18d78fbe0bcb3c5e41d23ca000d30c830f759f7fb745892b9a8eded6c4b44"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE and module header expressly grant Perl dual terms; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
