@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/Nakanomk/Seekey",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "seekey",
+        "package_name": "seekey",
+        "source": "aur",
+        "source_version": "0.2.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "seekey.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 matches the archive's case-sensitive Seekey-0.2.1 source root, declares the gettext, pkg-config, GLib, GTK 4, GTK 4 layer-shell, JSON-GLib, libevdev, and ncurses providers used by the Makefile, and runs upstream's check target with the bundled Unity tests. Build, test, and GUI functionality remain enabled, and the source digest is unchanged. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "status": "active"
+  },
+  "package_id": "seekey",
+  "rpm": {
+    "license": "MIT",
+    "name": "seekey",
+    "summary": "Wayland keyboard visualizer with floating key bubbles"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-nakanomk-seekey",
+    "homepage": "https://www.nkns.cc/blog/seekey",
+    "release_api": "https://api.github.com/repos/Nakanomk/Seekey/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/Nakanomk/Seekey",
+    "source_url_template": "https://github.com/Nakanomk/Seekey/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2.1",
+    "latest_detected": "0.2.1",
+    "release": "2"
+  }
+}
