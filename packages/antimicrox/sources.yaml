@@ -1,0 +1,21 @@
+{
+  "package_id": "antimicrox",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "badaae3c472e07f8df1d85a5ed32c48394b25c75f0a9892ac3fe7e4db3098a91"
+      },
+      "filename": "antimicrox-3.6.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/AntiMicroX/antimicrox/archive/refs/tags/3.6.1.tar.gz",
+      "version": "3.6.1"
+    }
+  ]
+}
