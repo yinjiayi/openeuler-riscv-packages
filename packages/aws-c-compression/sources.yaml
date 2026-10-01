@@ -1,0 +1,21 @@
+{
+  "package_id": "aws-c-compression",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f93f5a5d8b3fee3a6d97b14ba279efacd4d4016ef9cc7dc4be7d43519ecfbe93"
+      },
+      "filename": "aws-c-compression-0.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/awslabs/aws-c-compression/archive/refs/tags/v0.3.2.tar.gz",
+      "version": "0.3.2"
+    }
+  ]
+}
