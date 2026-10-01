@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-tagged-perl",
+  "rpm": {
+    "name": "perl-String-Tagged",
+    "summary": "Mutable Perl strings with tagged character extents",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-tagged-perl",
+    "homepage": "https://metacpan.org/dist/String-Tagged",
+    "source_repository": "https://metacpan.org/dist/String-Tagged",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PE/PEVANS/",
+    "release_regex": "String-Tagged-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PE/PEVANS/String-Tagged-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.24",
+    "release": "1",
+    "latest_detected": "0.24"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-tagged-perl",
+        "package_base": "libstring-tagged-perl",
+        "source_version": "0.24-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-tagged-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-tagged-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official stable CPAN String-Tagged 0.24. Publisher CHECKSUMS SHA-256 and safe 41-entry single-root archive were verified. Archive LICENSE and module header grant the Perl 5 GPL-1.0-or-later or Artistic-1.0-Perl terms, resolving the historical license-blocked marker for this exact release. Official RVA23 primary lacks same-name RPM and perl(String::Tagged), while Module::Build, Test2::V0 and Test::Pod are available. All 22 default upstream t/ files including conditional POD coverage, 228 assertions, passed locally without skips. Target RPM build and installed smoke await exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

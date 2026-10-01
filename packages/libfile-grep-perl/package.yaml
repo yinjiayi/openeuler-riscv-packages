@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-grep-perl",
+  "rpm": {
+    "name": "perl-File-Grep",
+    "summary": "Pattern matching across a series of files",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-grep-perl",
+    "homepage": "https://metacpan.org/dist/File-Grep",
+    "source_repository": "https://metacpan.org/dist/File-Grep",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MN/MNEYLON/",
+    "release_regex": "File-Grep-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MN/MNEYLON/File-Grep-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.02",
+    "release": "1",
+    "latest_detected": "0.02"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-grep-perl",
+        "package_base": "libfile-grep-perl",
+        "source_version": "0.02-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/arm64/misc/libfile-grep-perl",
+        "observed_at": "2026-09-30T04:24:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-grep-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-grep-perl maps to official CPAN 0.02. Source SHA-256 462e15274eb6278521407ea302d9eea7252cd44cab2382871f7de833d5f85632 matches CPAN CHECKSUMS; safe 11-entry archive. README expressly permits redistribution/modification under the same terms as Perl and points to Artistic; standard Perl dual-license expression is used. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(File::Grep) Provide. Default upstream one file/11 tests pass on local Perl 5.34.1; target QEMU remains unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

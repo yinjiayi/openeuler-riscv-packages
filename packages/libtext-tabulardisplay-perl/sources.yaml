@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-tabulardisplay-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-TabularDisplay-1.38.tar.gz",
+      "version": "1.38",
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DARREN/Text-TabularDisplay-1.38.tar.gz",
+      "digests": {
+        "sha256": "eb0990fafa56b667f23db764bdda5a4dc5f4b1ddc4b1383aa5eed6f22ed186e8"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included COPYING and module header grant GPL version 2 redistribution and modification; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}
