@@ -1,0 +1,21 @@
+{
+  "package_id": "vcvrack-mschack",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e340b058bfb564a5bc978521f496499c97ec049fde1995b7c1a485694da01c8d"
+      },
+      "filename": "vcvrack-mschack-2.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/baconpaul/mschack-VCV-Rack-Plugins/archive/refs/tags/v2.0.0.tar.gz",
+      "version": "2.0.0"
+    }
+  ]
+}
