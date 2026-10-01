@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-luhn-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Algorithm-LUHN-1.02.tar.gz",
+      "version": "1.02",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Algorithm-LUHN-1.02.tar.gz",
+      "digests": {
+        "sha256": "e808fbba13e262608d37923efa917e18407453c4af96ab783fc77f9fe159b9c0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official archive LICENSE and module POD explicitly grant redistribution under Perl's GPL-1-or-later or Artistic terms, with Tim Ayers identified as copyright holder; publisher CPAN CHECKSUMS confirms the archive SHA-256."
+      }
+    }
+  ]
+}
