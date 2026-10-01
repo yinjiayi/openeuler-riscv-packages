@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "package_id": "libedlib",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/Martinsos/edlib/tar.gz/refs/tags/v1.2.7",
+      "filename": "libedlib-1.2.7.tar.gz",
+      "version": "1.2.7",
+      "digests": {"sha256": "8767bc1b04a1a67282d57662e5702c4908996e96b1753b5520921ff189974621"},
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official MIT license allows source redistribution with the copyright notice retained."
+      }
+    }
+  ]
+}
