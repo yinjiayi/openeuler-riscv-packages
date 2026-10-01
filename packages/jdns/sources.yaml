@@ -1,0 +1,21 @@
+{
+  "package_id": "jdns",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "59a65873837d4aaec0984c394d05586d93bcf5b68f16d5ffdf2209d0309aa06e"
+      },
+      "filename": "jdns-2.0.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/psi-im/jdns/archive/refs/tags/v2.0.6.tar.gz",
+      "version": "2.0.6"
+    }
+  ]
+}
