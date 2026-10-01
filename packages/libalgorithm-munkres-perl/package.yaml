@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-munkres-perl",
+  "rpm": {
+    "name": "perl-Algorithm-Munkres",
+    "summary": "Munkres assignment algorithm for Perl matrices",
+    "license": "GPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "libalgorithm-munkres-perl",
+    "homepage": "https://metacpan.org/dist/Algorithm-Munkres",
+    "source_repository": "https://metacpan.org/dist/Algorithm-Munkres",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TP/TPEDERSE/",
+    "release_regex": "Algorithm-Munkres-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TP/TPEDERSE/Algorithm-Munkres-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.08",
+    "release": "1",
+    "latest_detected": "0.08"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "perl-algorithm-munkres",
+        "package_base": "perl-algorithm-munkres",
+        "source_version": "0.08-1",
+        "evidence_url": "https://aur.archlinux.org/packages/perl-algorithm-munkres",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libalgorithm-munkres-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen stale AUR 0.08-1 record is lineage only. Its GPL AND PerlArtistic label conflicts with the official publisher source, whose README and POD explicitly grant GPL-2.0-or-later only; official source controls package licensing. CPAN legacy META lacks a license value. Publisher CHECKSUMS confirms official archive SHA-256. Verified SP3 RVA23 primary has no same-module RPM/provider and uniquely provides MakeMaker and Test::More. All 13 default upstream files/130 assertions passed locally; target build and smoke await hosted CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
