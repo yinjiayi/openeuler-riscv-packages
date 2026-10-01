@@ -1,0 +1,21 @@
+{
+  "package_id": "ibus-hangul",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f2f4967f90701c040a85657ea2ab9a1021d7d31f0061cf21b9dd90e026e49d2a"
+      },
+      "filename": "ibus-hangul-1.5.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libhangul/ibus-hangul/archive/refs/tags/1.5.5.tar.gz",
+      "version": "1.5.5"
+    }
+  ]
+}
