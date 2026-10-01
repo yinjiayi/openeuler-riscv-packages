@@ -1,0 +1,104 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/bbuchfink/diamond",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "diamond",
+        "package_name": "diamond",
+        "source": "aur",
+        "source_version": "2.2.4-1"
+      },
+      {
+        "evidence_url": "https://github.com/bbuchfink/diamond",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "diamond-aligner",
+        "package_name": "diamond-aligner",
+        "source": "debian",
+        "source_version": "2.1.11-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-detect-riscv-architecture.patch",
+        "sha256": "3d0f6a1d7f34717b8bad0218898eb42f767b181bd20ec202b8bc57c6f12ef932",
+        "purpose": "Recognize RISC-V as non-x86 and use the portable generic implementation without unsupported x86 or tuning flags.",
+        "source": "Downstream adaptation of DIAMOND 2.2.4 CMakeLists.txt",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream architecture detection covers RISC-V and probes the generic tuning flag."
+      },
+      {
+        "file": "patches/0002-generic-build-fixes.patch",
+        "sha256": "5c179831a5d4f382f2ea60ef1be5b24bced291b25070612efebcbe28fa53130e",
+        "purpose": "Complete the generic fingerprint interface and remove the duplicate floating-point SIMD trait specialization.",
+        "source": "Downstream adaptation of DIAMOND 2.2.4 generic implementation",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream generic fingerprints expose the same array/load API as SIMD implementations and the duplicate trait is removed."
+      },
+      {
+        "file": "patches/0003-global-ranking-use-serial-thread-pool-fallback.patch",
+        "sha256": "cd783336ec7ca18c0020a7bb46c77ad2728301298cd6d864bd0fad2ca8879d6c",
+        "purpose": "Provide a per-call serial nested-task pool when global-ranking post-processing extends queries after the ordinary alignment pool has been cleared.",
+        "source": "Package CI run 33634962291 at exact commit 391d242d385814e73b3c3196f37f57f62ebed977 and static review of DIAMOND 2.2.4 global-ranking extension flow.",
+        "license": "GPL-3.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream global-ranking extension no longer dereferences an absent alignment ThreadPool and retains safe nested DP task execution."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "diamond.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Two exact-head QEMU builds installed the full dependency closure in 8-13 minutes and were then cancelled at the former 120-minute job boundary before producing an rpmbuild result, so the bounded package build allowance is 180 minutes. Exact-head run 33634962291 then completed 37 of 39 tests and exposed a null ThreadPool dereference in both global-ranking tests; release 5 supplies an isolated serial nested-task fallback for that post-processing path. No compiler options, features, or tests are disabled. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "diamond",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "diamond",
+    "summary": "High performance sequence aligner for protein and translated DNA searches with big sequence data. https://doi.org/10.1038/s41592-021-01101-x"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "patched-for-riscv"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-bbuchfink-diamond",
+    "homepage": "https://github.com/bbuchfink/diamond",
+    "release_api": "https://api.github.com/repos/bbuchfink/diamond/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/bbuchfink/diamond",
+    "source_url_template": "https://github.com/bbuchfink/diamond/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.2.4",
+    "latest_detected": "2.2.4",
+    "release": "5"
+  }
+}
