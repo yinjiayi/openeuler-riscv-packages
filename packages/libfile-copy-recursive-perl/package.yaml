@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-copy-recursive-perl",
+  "rpm": {
+    "name": "perl-File-Copy-Recursive",
+    "summary": "Recursive file and directory copying for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-copy-recursive-perl",
+    "homepage": "https://metacpan.org/dist/File-Copy-Recursive",
+    "source_repository": "https://github.com/drmuey/p5-File-Copy-Recursive.git",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/",
+    "release_regex": "File-Copy-Recursive-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/File-Copy-Recursive-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.45",
+    "release": "1",
+    "latest_detected": "0.45"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-copy-recursive-perl",
+        "package_base": "libfile-copy-recursive-perl",
+        "source_version": "0.45-4",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libfile-copy-recursive-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-copy-recursive-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libfile-copy-recursive-perl key maps to official CPAN File-Copy-Recursive 0.45. The official CPAN CHECKSUMS SHA-256, safe archive structure, Perl dual licensing, and all six default upstream test files were reviewed. OS-specific and permission-specific skips are not represented as passes. Target riscv64 dependency and test results remain subject to exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
