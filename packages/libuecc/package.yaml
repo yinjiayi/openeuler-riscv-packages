@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "package_id": "libuecc",
+  "rpm": {"name": "libuecc", "summary": "Small Ed25519-compatible elliptic-curve library", "license": "BSD-2-Clause"},
+  "upstream": {
+    "component": "github.com-neocturne-libuecc",
+    "homepage": "https://github.com/neocturne/libuecc",
+    "source_repository": "https://github.com/neocturne/libuecc.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/neocturne/libuecc/releases/latest",
+    "release_regex": "v(?P<version>[0-9]+)",
+    "source_url_template": "https://github.com/neocturne/libuecc/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "7", "release": "1", "latest_detected": "7"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "libuecc", "package_base": "libuecc", "source_version": "7-4", "evidence_url": "https://archlinux.org/packages/extra/x86_64/libuecc/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "libuecc", "package_base": "libuecc", "source_version": "7-6", "evidence_url": "https://packages.debian.org/source/stable/libuecc", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "libuecc", "package_base": "libuecc", "source_version": "7-29.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/libuecc/libuecc/fedora-44.html", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "libuecc", "package_base": "libuecc", "source_version": "7-7", "evidence_url": "https://packages.ubuntu.com/source/resolute/libuecc", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libuecc.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official stable v7 tag resolves to immutable commit 7c9a6f6af088d0764e792cf849e553d7f55ff99e. The release archive and BSD-2-Clause license were independently inspected. Upstream registers no automated tests; package checks exercise Ed25519 base-point encoding, scalar multiplication, group addition, doubling, and inverse properties without claiming cryptographic assurance."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-releases"}
+}
