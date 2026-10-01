@@ -1,0 +1,21 @@
+{
+  "package_id": "xmrig-cuda",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0fb1312f000a172fc84191bc260005a801043c61c450db20c08848bda34ce11d"
+      },
+      "filename": "xmrig-cuda-6.22.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/xmrig/xmrig-cuda/archive/refs/tags/v6.22.1.tar.gz",
+      "version": "6.22.1"
+    }
+  ]
+}
