@@ -1,13 +1,18 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-Hash-Util-FieldHash-Compat
 Version:        0.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Compatibility facade for Perl field hashes
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Hash-Util-FieldHash-Compat
 Source0:        Hash-Util-FieldHash-Compat-%{version}.tar.gz
 
 BuildArch:      noarch
+# Compat.pm loads Heavy.pm only if native Hash::Util::FieldHash is unavailable.
+# This fixed target hard-requires the native provider; RPM's static scanner
+# otherwise adds an unresolvable dependency from the unreachable fallback.
+# Keep Heavy.pm and its tests intact, excluding only that false-positive name.
+%global __requires_exclude ^perl\\(Tie::RefHash::Weak\\)$
 BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  perl
@@ -45,5 +50,8 @@ find %{buildroot} -type f -name perllocal.pod -delete
 %{_mandir}/man3/Hash::Util::FieldHash::Compat*.3*
 
 %changelog
+* Thu Oct 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.11-2
+- Exclude an unreachable older-Perl fallback auto-Requires on the fixed target.
+
 * Thu Oct 01 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.11-1
 - Package the official CPAN release with all default upstream tests.

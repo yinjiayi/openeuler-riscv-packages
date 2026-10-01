@@ -17,7 +17,7 @@
   },
   "version": {
     "current": "0.11",
-    "release": "1",
+    "release": "2",
     "latest_detected": "0.11"
   },
   "discovery": {
@@ -55,7 +55,7 @@
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "Frozen Ubuntu 0.11-2 row is lineage only. Official LICENCE explicitly grants GPL-1.0-or-later OR Artistic-1.0-Perl; publisher CHECKSUMS confirms pinned source SHA-256. Official SP3 RVA23 primary lacks same-name RPM and perl(Hash::Util::FieldHash::Compat) provider, while providing native perl(Hash::Util::FieldHash), its mandatory path on this fixed target, and all hard build/test modules. Both unmodified default upstream test files/27 assertions pass locally without skips; xt author/release tests are not part of upstream default. Target build, tests, install and smoke await hosted PR CI."
+    "notes": "Frozen Ubuntu 0.11-2 row is lineage only. Official LICENCE explicitly grants GPL-1.0-or-later OR Artistic-1.0-Perl; publisher CHECKSUMS confirms pinned source SHA-256. Official SP3 RVA23 primary lacks same-name RPM and perl(Hash::Util::FieldHash::Compat) provider, while providing native perl(Hash::Util::FieldHash), its mandatory path on this fixed target, and all hard build/test modules. Both unmodified default upstream test files/27 assertions pass locally without skips; xt author/release tests are not part of upstream default. Initial target build and tests passed but DNF install failed because RPM statically inferred perl(Tie::RefHash::Weak) from Heavy.pm, which Compat.pm loads only without native field hashes. The SPEC hard-requires the target native provider and excludes only that unreachable fallback dependency name, retaining Heavy.pm/tests; fresh exact-head install/smoke remains required."
   },
   "updates": {
     "enabled": true,
