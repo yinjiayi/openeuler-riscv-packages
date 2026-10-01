@@ -25,7 +25,7 @@ HTML escaping. It also includes file-based rendering helpers.
 %autosetup -n Text-MicroTemplate-%{version} -p1
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{__perl} -I. Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %make_build
 
 %install
