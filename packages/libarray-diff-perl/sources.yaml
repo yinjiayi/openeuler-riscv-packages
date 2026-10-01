@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-diff-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Array-Diff-0.09.tar.gz",
+      "version": "0.09",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Array-Diff-0.09.tar.gz",
+      "digests": {
+        "sha256": "8006392e9861e741537c2bbc9116c8e42b962f2e07e8d641a2ff6a11c6445077"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN source is licensed under the same terms as Perl itself and is fetched over HTTPS with its official SHA-256 checksum."
+      }
+    }
+  ]
+}
