@@ -1,0 +1,21 @@
+{
+  "package_id": "crom",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "96c712ffccab12e07d321b57fb9e8e28f971ee4b5cf6e5afacef94fdf5eb8b55"
+      },
+      "filename": "crom-0.3.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/hedgeg0d/crom/archive/refs/tags/v0.3.1.tar.gz",
+      "version": "0.3.1"
+    }
+  ]
+}
