@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-microtemplate-perl",
+  "rpm": {
+    "name": "perl-Text-MicroTemplate",
+    "summary": "Small Perl template renderer with automatic HTML escaping",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-microtemplate-perl",
+    "homepage": "https://metacpan.org/dist/Text-MicroTemplate",
+    "source_repository": "https://github.com/kazuho/p5-text-microtemplate",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/",
+    "release_regex": "Text-MicroTemplate-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/Text-MicroTemplate-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.24",
+    "release": "1",
+    "latest_detected": "0.24"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-microtemplate-perl",
+        "package_base": "libtext-microtemplate-perl",
+        "source_version": "0.24-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-microtemplate-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-microtemplate-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.24-3 maps to official stable CPAN 0.24. Publisher CHECKSUMS full SHA-256 and 61 safe single-root archive entries verified. Main module POD expressly grants the same terms as Perl and shipped META/Makefile.PL declare perl licensing; standard Perl 5 dual SPDX mapping is used. Vendored inc/Module::Install is a build helper, not shipped runtime. Official SP3 primary lacks same-name RPM/provider and supplies MakeMaker, Test::Simple, File::Temp and IO::Scalar. All 16 default t/*.t remain enabled; IO::Scalar is required so t/05-warn.t does not skip for a missing optional module. Target build/tests/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
