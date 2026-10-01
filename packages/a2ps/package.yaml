@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/a2ps/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "a2ps",
+        "package_name": "a2ps",
+        "source": "arch-extra",
+        "source_version": "4.15.8-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/a2ps/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "a2ps",
+        "package_name": "a2ps",
+        "source": "debian",
+        "source_version": "1:4.15.6-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/a2ps/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "a2ps",
+        "package_name": "a2ps",
+        "source": "fedora",
+        "source_version": "4.15.8-3.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/a2ps/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "a2ps",
+        "package_name": "a2ps",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.15.6-2.6"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "a2ps.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "a2ps",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "a2ps",
+    "summary": "An Any to PostScript filter"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-a2ps",
+    "homepage": "https://www.gnu.org/software/a2ps/",
+    "release_api": "https://ftp.gnu.org/gnu/a2ps/",
+    "release_channel": "stable",
+    "release_regex": "a2ps-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/a2ps/",
+    "source_url_template": "https://ftp.gnu.org/gnu/a2ps/a2ps-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.15.8",
+    "latest_detected": "4.15.8",
+    "release": "1"
+  }
+}
