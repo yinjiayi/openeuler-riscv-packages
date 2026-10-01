@@ -1,0 +1,21 @@
+{
+  "package_id": "librepo",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c21dd3caefe97ea58bc865f92095a9d2db2ec8aab49d0c714d4742094db930b6"
+      },
+      "filename": "librepo-1.20.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rpm-software-management/librepo/archive/refs/tags/1.20.0.tar.gz",
+      "version": "1.20.0"
+    }
+  ]
+}
