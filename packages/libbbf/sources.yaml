@@ -1,0 +1,21 @@
+{
+  "package_id": "libbbf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "18f25d199a6a372a2b894f00d6578d41ceadd022ffd2a773c18377d9fb441c02"
+      },
+      "filename": "libbbf-3.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ef1500/libbbf/archive/refs/tags/v3.0.1.tar.gz",
+      "version": "3.0.1"
+    }
+  ]
+}
