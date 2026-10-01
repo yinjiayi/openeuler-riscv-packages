@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "package_id": "libigloo",
+  "rpm": {
+    "name": "libigloo",
+    "summary": "Common C framework used by the Icecast project",
+    "license": "LGPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "gitlab.xiph.org-xiph-icecast-libigloo",
+    "homepage": "https://gitlab.xiph.org/xiph/icecast-libigloo",
+    "source_repository": "https://gitlab.xiph.org/xiph/icecast-libigloo",
+    "release_channel": "stable",
+    "release_api": "https://gitlab.xiph.org/api/v4/projects/xiph%2Ficecast-libigloo/repository/tags",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://gitlab.xiph.org/xiph/icecast-libigloo/-/archive/v{version}/icecast-libigloo-v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.9.5",
+    "release": "1",
+    "latest_detected": "0.9.5"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libigloo",
+        "package_base": "libigloo",
+        "source_version": "0.9.5-2",
+        "evidence_url": "https://aur.archlinux.org/packages/libigloo",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libigloo",
+        "package_base": "libigloo",
+        "source_version": "0.9.5-2.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libigloo/libigloo/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libigloo",
+        "package_base": "libigloo",
+        "source_version": "0.9.5-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libigloo",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libigloo.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact libigloo key maps to Xiph's official stable v0.9.5 GitLab tag (commit 1a4f57543f3d441982f6999370fd8a23c229b592). The original frozen distribution metadata lacked license proof; upstream COPYING and source headers independently confirm LGPL-2.0-or-later. Official HTTPS archive is SHA-256 pinned. All ten upstream Automake TAP TESTS remain enabled in %check, with installed public API smoke. The target RVA23 Everything repository lists rhash-devel 1.4.4."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-gitlab-tags"
+  }
+}
