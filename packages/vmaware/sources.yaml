@@ -1,0 +1,21 @@
+{
+  "package_id": "vmaware",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0d18d77f1a87f9d098b4f0bb8e8115172a410c5f014c7e3065921769e37aab72"
+      },
+      "filename": "vmaware-2.8.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/NotRequiem/VMAware/archive/refs/tags/v2.8.0.tar.gz",
+      "version": "2.8.0"
+    }
+  ]
+}
