@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-print-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Print-1.02.tar.gz",
+      "version": "1.02",
+      "url": "https://cpan.metacpan.org/authors/id/M/MA/MARKOV/String-Print-1.02.tar.gz",
+      "digests": {
+        "sha256": "3049536486459e38e1d791c07ce022326a91a302beaf01dcdb0e7b703a5da6cc"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Main module SPDX explicitly grants Artistic-1.0-Perl OR GPL-1.0-or-later and its POD grants Perl 5 terms; official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
