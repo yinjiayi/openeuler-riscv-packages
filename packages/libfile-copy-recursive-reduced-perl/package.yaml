@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-copy-recursive-reduced-perl",
+  "rpm": {
+    "name": "perl-File-Copy-Recursive-Reduced",
+    "summary": "Reduced recursive file-copy routines for the Perl toolchain",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-copy-recursive-reduced-perl",
+    "homepage": "https://metacpan.org/dist/File-Copy-Recursive-Reduced",
+    "source_repository": "https://github.com/jkeenan/file-copy-recursive-reduced",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/",
+    "release_regex": "File-Copy-Recursive-Reduced-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/File-Copy-Recursive-Reduced-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.008",
+    "release": "1",
+    "latest_detected": "0.008"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-copy-recursive-reduced-perl",
+        "package_base": "libfile-copy-recursive-reduced-perl",
+        "source_version": "0.008-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-copy-recursive-reduced-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-copy-recursive-reduced-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libfile-copy-recursive-reduced-perl key maps to official stable CPAN 0.008. The official CHECKSUMS SHA-256, safe 22-entry archive, and bundled Perl GPL/Artistic license were verified. The official openEuler SP3 RVA23 everything primary.xml.zst with SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a contains neither a same-name RPM nor perl(File::Copy::Recursive::Reduced) Provide. All three upstream default suites remain intact. PERL_AUTHOR_TESTING enables their extra comparison cases, with official-target File::Copy::Recursive declared as a BuildRequires; environment-specific hardlink/symlink skips must be reported from exact-head CI. Tests operate within File::Temp directories and do not access external hosts. Target outcome awaits exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
