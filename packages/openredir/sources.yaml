@@ -1,0 +1,21 @@
+{
+  "package_id": "openredir",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "45d922e349c4e4c640a7ace997cfc7369961a960ea8d6d66084817a82f7390c5"
+      },
+      "filename": "openredir-1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/lilydjwg/openredir/archive/refs/tags/v1.0.tar.gz",
+      "version": "1.0"
+    }
+  ]
+}
