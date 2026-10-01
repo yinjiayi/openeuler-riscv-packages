@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 102a3c1..68d3003 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -23,4 +23,5 @@ find_library (FFTW3 fftw3)
+ if (TESTING)
+-    find_package(GTest)
+-    find_package(X11)
++    find_package(GTest REQUIRED)
++    find_package(X11 REQUIRED)
++    include(GoogleTest)
+ endif()
