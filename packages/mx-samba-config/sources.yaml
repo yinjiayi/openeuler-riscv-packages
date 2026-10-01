@@ -1,0 +1,21 @@
+{
+  "package_id": "mx-samba-config",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "121afbfca026dd81bd22e522a934f18ada231e44787212577c215df012b1b4c6"
+      },
+      "filename": "mx-samba-config-26.03.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/MX-Linux/mx-samba-config/archive/refs/tags/26.03.tar.gz",
+      "version": "26.03"
+    }
+  ]
+}
