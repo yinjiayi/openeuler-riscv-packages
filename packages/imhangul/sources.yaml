@@ -1,0 +1,21 @@
+{
+  "package_id": "imhangul",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a6c57070f6bd57cd7adff645962635378ea238671469b21d8927608d5769a5d5"
+      },
+      "filename": "imhangul-3.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/choehwanjin/imhangul/archive/refs/tags/imhangul-3.1.1.tar.gz",
+      "version": "3.1.1"
+    }
+  ]
+}
