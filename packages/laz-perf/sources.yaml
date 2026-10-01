@@ -1,0 +1,21 @@
+{
+  "package_id": "laz-perf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ddc1219cac345aee53a33b52dde6b28892e85708b848ab6831dc0c9aa795534d"
+      },
+      "filename": "laz-perf-3.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/hobu/laz-perf/archive/refs/tags/3.4.0.tar.gz",
+      "version": "3.4.0"
+    }
+  ]
+}
