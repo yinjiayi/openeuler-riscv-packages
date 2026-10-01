@@ -1,0 +1,21 @@
+{
+  "package_id": "xmrig-proxy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "84c3cd98913774abedb4aa78f78655fd29651c099cfb82c7c1ed0a64130e2fe1"
+      },
+      "filename": "xmrig-proxy-6.24.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/xmrig/xmrig-proxy/archive/refs/tags/v6.24.0.tar.gz",
+      "version": "6.24.0"
+    }
+  ]
+}
