@@ -1,0 +1,21 @@
+{
+  "package_id": "nitrogen",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "12ad31c1e2c44f486b5ca7f7d48bc5b07fb92bf15977e1793624e9e64c38b9a7"
+      },
+      "filename": "nitrogen-1.6.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/l3ib/nitrogen/archive/refs/tags/1.6.1.tar.gz",
+      "version": "1.6.1"
+    }
+  ]
+}
