@@ -18,6 +18,14 @@ declared Carp 1.50, Data::Dumper 2.183, Fcntl 1.15 and FileHandle 2.05
 providers, all above upstream's minimum versions. This is a snapshot check,
 not a guarantee about future repository contents.
 
+Carp's upstream minimum is 1.3301. Perl considers 1.50 newer, but RPM's
+version ordering considers `1.50` older than `1.3301`; using that Perl
+minimum verbatim in a versioned RPM virtual dependency prevented DNF from
+installing the target's `perl-Carp` 1.50. The SPEC therefore requires the
+known target RPM version at build and runtime, and independently checks
+`Carp->VERSION(1.3301)` with Perl in `%check`. This preserves the upstream
+minimum without relying on incompatible version-ordering rules.
+
 Upstream Makefile.PL installs the module under `File/File/Data.pm` because
 `INST_LIBDIR` already includes the `File` subdirectory. The package-local
 patch changes the destination to `INST_LIB/File/Data.pm`, without altering

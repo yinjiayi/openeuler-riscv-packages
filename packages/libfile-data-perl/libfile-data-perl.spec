@@ -14,10 +14,12 @@ BuildRequires:  perl
 BuildRequires:  perl-ExtUtils-MakeMaker
 BuildRequires:  perl-Test-Simple
 BuildRequires:  perl-generators
-BuildRequires:  perl(Carp) >= 1.3301
+# Perl compares Carp 1.50 above 1.3301; RPM version ordering does not.
+BuildRequires:  perl-Carp >= 1.50
 BuildRequires:  perl(Data::Dumper) >= 2.151
 BuildRequires:  perl(Fcntl) >= 1.11
 BuildRequires:  perl(FileHandle) >= 2.02
+Requires:       perl-Carp >= 1.50
 
 %description
 File::Data provides an object interface for reading, writing and transforming
@@ -38,6 +40,7 @@ find %{buildroot} -type f -name perllocal.pod -delete
 %check
 # Keep the original t/test.t (16 assertions). It uses the source tree; also
 # prove that the patched staged install can load the packaged module.
+%{__perl} -MCarp -e 'Carp->VERSION(1.3301)'
 %make_build test
 test -f %{buildroot}%{perl_vendorlib}/File/Data.pm
 PERL5LIB=%{buildroot}%{perl_vendorlib} %{__perl} -MFile::Data -e 'die "unexpected version\n" unless $File::Data::VERSION eq "1.20"'
