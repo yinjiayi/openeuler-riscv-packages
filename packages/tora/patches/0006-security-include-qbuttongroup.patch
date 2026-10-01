@@ -1,0 +1,24 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Sat, 12 Sep 2026 00:00:00 +0000
+Subject: [PATCH] security: include the QButtonGroup definition
+
+The quota editor constructs QButtonGroup and calls addButton, but the
+transitive Qt headers only forward-declare that type. Include its definition
+in the translation unit that uses it. This does not change quota behavior.
+
+Patch-Source: downstream adaptation of tora 3.2 src/tools/tosecurity.cpp
+Patch-License: GPL-2.0-only
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Applies-To: tora 3.2
+Remove-When: upstream tosecurity.cpp includes QButtonGroup before using it
+---
+ src/tools/tosecurity.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/tools/tosecurity.cpp b/src/tools/tosecurity.cpp
+--- a/src/tools/tosecurity.cpp
++++ b/src/tools/tosecurity.cpp
+@@ -47,2 +47,3 @@
+ #include <QSplitter>
++#include <QButtonGroup>
+ #include <QToolBar>

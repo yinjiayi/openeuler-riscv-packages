@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 7 Sep 2026 00:00:00 +0000
+Subject: [PATCH] browser: include the QButtonGroup definition
+
+Qt's abstract-button header only forward-declares QButtonGroup. GCC 14
+therefore rejects construction and member calls in toBrowserFilterSetup
+because their receiver is incomplete. Include the complete Qt type where it
+is used.
+
+Patch-Source: downstream adaptation of tora 3.2 src/tools/tobrowser.cpp
+Patch-License: GPL-2.0-only
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Applies-To: tora 3.2
+Remove-When: upstream tobrowser.cpp includes QButtonGroup before using it
+---
+ src/tools/tobrowser.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/tools/tobrowser.cpp b/src/tools/tobrowser.cpp
+--- a/src/tools/tobrowser.cpp
++++ b/src/tools/tobrowser.cpp
+@@ -55,6 +55,7 @@
+ #  include "core/tomysqluser.h"
+ #endif
+ 
++#include <QButtonGroup>
+ #include <QInputDialog>
+ #include <QSplitter>
+ #include <QToolBar>
+
+-- 
+2.50.1
