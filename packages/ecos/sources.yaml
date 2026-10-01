@@ -1,0 +1,21 @@
+{
+  "package_id": "ecos",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1aa24b5782b84fa33df2987510fb8f60f5f999cc2d3a5c73cfc3eb5e5f3b46af"
+      },
+      "filename": "ecos-2.0.10.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/embotech/ecos/archive/refs/tags/v2.0.10.tar.gz",
+      "version": "2.0.10"
+    }
+  ]
+}
