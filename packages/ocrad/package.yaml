@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/ocrad/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ocrad",
+        "package_name": "ocrad",
+        "source": "arch-extra",
+        "source_version": "0.29-3"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/ocrad/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ocrad",
+        "package_name": "ocrad",
+        "source": "debian",
+        "source_version": "0.29-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/ocrad/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ocrad",
+        "package_name": "ocrad",
+        "source": "fedora",
+        "source_version": "0.29-6.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/ocrad/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ocrad",
+        "package_name": "ocrad",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.29-1.9"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/ocrad/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ocrad",
+        "package_name": "ocrad",
+        "source": "ubuntu",
+        "source_version": "0.29-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "ocrad.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "ocrad",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "ocrad",
+    "summary": "OCR (Optical Character Recognition) program based on a feature extraction method"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-ocrad",
+    "homepage": "https://www.gnu.org/software/ocrad/",
+    "release_api": "https://ftp.gnu.org/gnu/ocrad/",
+    "release_channel": "stable",
+    "release_regex": "ocrad-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.lz",
+    "source_repository": "https://savannah.gnu.org/projects/ocrad/",
+    "source_url_template": "https://ftp.gnu.org/gnu/ocrad/ocrad-{version}.tar.lz"
+  },
+  "version": {
+    "current": "0.29",
+    "latest_detected": "0.29",
+    "release": "1"
+  }
+}
