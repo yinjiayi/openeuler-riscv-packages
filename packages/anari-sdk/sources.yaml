@@ -1,0 +1,21 @@
+{
+  "package_id": "anari-sdk",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8fe0fa1a7eea6768fe69a46313ba405b62b2667b1bae5e843bc751a90a53fad3"
+      },
+      "filename": "anari-sdk-0.15.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/KhronosGroup/ANARI-SDK/archive/refs/tags/v0.15.0.tar.gz",
+      "version": "0.15.0"
+    }
+  ]
+}
