@@ -21,11 +21,14 @@ native module; the fallback source is retained, not stripped. The initial
 exact-head hosted build passed all 27 assertions but DNF could not install
 the RPM because RPM's static scanner inferred an unavailable
 `perl(Tie::RefHash::Weak) >= 0.08` requirement from that unreachable fallback.
-The SPEC hard-requires native `perl(Hash::Util::FieldHash)` and excludes only
-that precise false-positive auto-Requires name. Installed smoke rejects any
-reappearance of the generated dependency. A successful target install/smoke
-still requires fresh exact-head hosted CI; it is not inferred from the prior
-build or local Perl 5.34.1 run.
+The first repair build also passed all 27 assertions but retained that
+versioned auto-Requires: its name-only filter did not match the complete
+generated dependency string. The SPEC hard-requires native
+`perl(Hash::Util::FieldHash)` and now filters only the exact fallback module
+name with an optional version suffix. Installed smoke checks both the native
+Requires and absence of the fallback Requires. A successful target
+install/smoke still requires fresh exact-head hosted CI; it is not inferred
+from either prior build or the local Perl 5.34.1 run.
 
 The frozen 151,852-row inventory records Ubuntu `0.11-2` lineage; it is not
 the authority for source, license, dependencies or test results.

@@ -5,6 +5,10 @@ set -euo pipefail
 rpm -q -- perl-Hash-Util-FieldHash-Compat
 rpm -q --whatprovides 'perl(Hash::Util::FieldHash::Compat)'
 rpm -q --whatprovides 'perl(Hash::Util::FieldHash)'
+if ! rpm -q --requires perl-Hash-Util-FieldHash-Compat | grep -Fxq 'perl(Hash::Util::FieldHash)'; then
+  echo 'native fieldhash dependency missing from RPM Requires' >&2
+  exit 1
+fi
 if rpm -q --requires perl-Hash-Util-FieldHash-Compat | grep -Fq 'perl(Tie::RefHash::Weak)'; then
   echo 'unreachable fallback dependency leaked into RPM Requires' >&2
   exit 1
