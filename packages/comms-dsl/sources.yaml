@@ -1,0 +1,21 @@
+{
+  "package_id": "comms-dsl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1cfea40736579162f6c9cbf8b8182441b91d0f1da12e860ac077f5b3eb752497"
+      },
+      "filename": "comms-dsl-6.3.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/commschamp/commsdsl/archive/refs/tags/v6.3.4.tar.gz",
+      "version": "6.3.4"
+    }
+  ]
+}
