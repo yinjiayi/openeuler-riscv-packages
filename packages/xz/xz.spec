@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xz
-Version:        5.8.3
+Version:        5.8.4
 Release:        1%{?dist}
 Summary:        LZMA compression utilities and library
 License:        0BSD AND GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.1-or-later
 URL:            https://tukaani.org/xz/
-Source0:        xz-%{version}.tar.xz
+Source0:        xz-5.8.4.tar.gz
 
 BuildRequires:  doxygen
 BuildRequires:  gcc
