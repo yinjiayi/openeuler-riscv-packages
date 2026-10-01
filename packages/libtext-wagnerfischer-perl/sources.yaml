@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-wagnerfischer-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-WagnerFischer-0.04.tar.gz",
+      "version": "0.04",
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAVIDEBE/Text-WagnerFischer-0.04.tar.gz",
+      "digests": {
+        "sha256": "decb05e614d0f7f85281a55e03580a100cce80dac09dc9bd77a6f59e7ed8230d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive matches publisher CHECKSUMS SHA-256; README and module POD grant redistribution under the same terms as Perl itself."
+      }
+    }
+  ]
+}
