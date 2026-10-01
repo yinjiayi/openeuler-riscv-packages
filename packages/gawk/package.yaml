@@ -1,0 +1,101 @@
+{
+  "build": {
+    "native_reason": "The complete upstream suite reproducibly fails six unassigned-value tests under QEMU user mode: array elements are formatted as numeric zero instead of the empty string. The same result at the default optimization and at -O1 rules out the attempted optimization workaround; validate the unchanged suite on native riscv64.",
+    "network_during_build": true,
+    "profile": "needs-native-riscv",
+    "timeout_minutes": 240,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://gnu.org/software/gawk",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gawk",
+        "package_name": "gawk",
+        "source": "arch-core",
+        "source_version": "5.4.1-1"
+      },
+      {
+        "evidence_url": "https://gnu.org/software/gawk",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gawk",
+        "package_name": "gawk",
+        "source": "debian",
+        "source_version": "1:5.2.1-2"
+      },
+      {
+        "evidence_url": "https://gnu.org/software/gawk",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gawk",
+        "package_name": "gawk",
+        "source": "fedora",
+        "source_version": "5.3.2-3.fc44"
+      },
+      {
+        "evidence_url": "https://gnu.org/software/gawk",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gawk",
+        "package_name": "gawk",
+        "source": "opensuse-tumbleweed",
+        "source_version": "5.4.1-1.2"
+      },
+      {
+        "evidence_url": "https://gnu.org/software/gawk",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gawk",
+        "package_name": "gawk",
+        "source": "ubuntu",
+        "source_version": "1:5.3.2-1ubuntu1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gawk.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed. The complete suite remains mandatory and requires native riscv64 validation after reproducible QEMU-user unassigned-value failures at both the default optimization and -O1.",
+    "status": "active"
+  },
+  "package_id": "gawk",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "gawk",
+    "summary": "GNU implementation of the AWK programming language"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-gawk",
+    "homepage": "https://gnu.org/software/gawk",
+    "release_api": "https://ftp.gnu.org/gnu/gawk/",
+    "release_channel": "stable",
+    "release_regex": "gawk-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://git.savannah.gnu.org/git/gawk.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/gawk/gawk-{version}.tar.xz"
+  },
+  "version": {
+    "current": "5.4.1",
+    "latest_detected": "5.4.1",
+    "release": "1"
+  }
+}
