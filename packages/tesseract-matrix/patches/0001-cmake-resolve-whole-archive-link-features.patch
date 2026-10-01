@@ -1,0 +1,52 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Sun, 6 Sep 2026 00:00:00 +0000
+Subject: [PATCH] cmake: resolve whole-archive link features
+
+License: GPL-3.0-or-later
+Upstream-Status: downstream-only
+Origin: openEuler RISC-V packaging
+
+CMake 3.27 rejects a link item that reaches an executable both through a
+normal transitive link interface and through LINK_LIBRARY's WHOLE_ARCHIVE
+feature.  The client, SDK bridge, and Rust archive deliberately use
+WHOLE_ARCHIVE because they are mutually dependent, but tesseract_tk and
+tesseract_client also propagate normal references to the same targets.
+
+Override every occurrence of those three archives to WHOLE_ARCHIVE on the
+two Linux Qt consumers.  This resolves the feature conflict without removing
+an archive, changing symbol retention, or disabling the test executable.
+
+Remove this patch when upstream applies an equivalent link-feature override
+or otherwise removes the conflicting transitive default references.
+
+---
+ tests/CMakeLists.txt      | 3 +++
+ ui/linux-qt/CMakeLists.txt | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -379,6 +379,9 @@ else()
+         tesseract_tk
+     )
+ endif()
++set_property(TARGET tesseract_tests PROPERTY LINK_LIBRARY_OVERRIDE
++    "WHOLE_ARCHIVE,tesseract_sdk_bridge_cxx,tesseract_client,tesseract_sdk_ffi-static")
++
+ # Register each Catch2 TEST_CASE as an individual ctest test.
+ include(Catch)
+ # Keychain-touching tests share the OS credential store (libsecret /
+diff --git a/ui/linux-qt/CMakeLists.txt b/ui/linux-qt/CMakeLists.txt
+--- a/ui/linux-qt/CMakeLists.txt
++++ b/ui/linux-qt/CMakeLists.txt
+@@ -129,6 +129,9 @@ target_link_libraries(tesseract_qt PRIVATE
+     opus
+ )
+ 
++set_property(TARGET tesseract_qt PROPERTY LINK_LIBRARY_OVERRIDE
++    "WHOLE_ARCHIVE,tesseract_sdk_bridge_cxx,tesseract_client,tesseract_sdk_ffi-static")
++
+ if(WAYLAND_CLIENT_LIB AND Qt6GuiPrivate_FOUND)
+     # The root project only enables LANGUAGES CXX. Enable C here so we can
+     # compile the wayland-scanner generated .c protocol glue.
