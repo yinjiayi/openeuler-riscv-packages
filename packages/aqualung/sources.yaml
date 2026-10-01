@@ -1,0 +1,21 @@
+{
+  "package_id": "aqualung",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a6ae09e25a7c6711fabbb504372089a9306e7ce28c1b34d6d565bccd6ef96e9a"
+      },
+      "filename": "aqualung-2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jeremyevans/aqualung/archive/refs/tags/2.0.tar.gz",
+      "version": "2.0"
+    }
+  ]
+}
