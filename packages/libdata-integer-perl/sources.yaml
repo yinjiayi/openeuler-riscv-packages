@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-integer-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Integer-0.007.tar.gz",
+      "version": "0.007",
+      "url": "https://cpan.metacpan.org/authors/id/R/RR/RRWO/Data-Integer-0.007.tar.gz",
+      "digests": {
+        "sha256": "cd635ecc814122f12e3103daab0c0a9323070a1316a5f4152c3e26ae7745473d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the official CPAN source SHA-256. Sole module and README explicitly grant redistribution/modification under Perl terms by copyright holder Andrew Main; Makefile.PL declares perl licensing and no conflicting per-file grant appears."
+      }
+    }
+  ]
+}
