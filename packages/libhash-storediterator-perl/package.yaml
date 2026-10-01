@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-storediterator-perl",
+  "rpm": {
+    "name": "perl-Hash-StoredIterator",
+    "summary": "Independent iterators over Perl hash entries",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libhash-storediterator-perl",
+    "homepage": "https://metacpan.org/dist/Hash-StoredIterator",
+    "source_repository": "https://metacpan.org/dist/Hash-StoredIterator",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/",
+    "release_regex": "Hash-StoredIterator-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/Hash-StoredIterator-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.008",
+    "release": "1",
+    "latest_detected": "0.008"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "perl-hash-storediterator",
+        "package_base": "perl-hash-storediterator",
+        "source_version": "0.008-3",
+        "evidence_url": "https://aur.archlinux.org/packages/perl-hash-storediterator",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libhash-storediterator-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen AUR 0.008-3 is lineage only. Official LICENSE grants GPL-1.0-or-later OR Artistic-1.0-Perl and official CHECKSUMS confirms the pinned archive. Verified SP3 RVA23 primary lacks same-name RPM or module provider and supplies Module::Build, ExtUtils::CBuilder/ParseXS, Test2::Bundle::Extended/Tools::Spec, compiler and Perl headers. Unmodified local XS default test passes one file/six top-level Test2 tests without skips. Source uses Perl hash-iterator C APIs with no architecture-specific assembly; target Perl 5.38 build/test/install remain hosted CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
