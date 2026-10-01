@@ -1,0 +1,21 @@
+{
+  "package_id": "beseda",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a98633ef2da25e0a30b365aff0997e429ceb9b001d7912d139f906569d974804"
+      },
+      "filename": "beseda-1.5.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/psemiletov/beseda/archive/refs/tags/1.5.1.tar.gz",
+      "version": "1.5.1"
+    }
+  ]
+}
