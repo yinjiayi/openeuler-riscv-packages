@@ -1,0 +1,21 @@
+{
+  "package_id": "bitsery",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "22a6d92ac030e999b53d57a0c9afe28723766595c6d00c91ab9c5637d4ed0eec"
+      },
+      "filename": "bitsery-5.2.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fraillt/bitsery/archive/refs/tags/v5.2.5.tar.gz",
+      "version": "5.2.5"
+    }
+  ]
+}
