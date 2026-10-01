@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-random-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Random-0.32.tar.gz",
+      "version": "0.32",
+      "url": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/String-Random-0.32.tar.gz",
+      "digests": {
+        "sha256": "9d93c679a34ffa26d3b4fa0837caed1cd2e67d76572818b91e97dea734705246"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN CHECKSUMS SHA-256 matches the HTTPS release archive; archived LICENSE and module POD grant Perl 5 GPL-1.0-or-later or Artistic-1.0-Perl terms."
+      }
+    }
+  ]
+}

@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import http.client
 import io
 import json
 import os
@@ -14,6 +15,9 @@ import re
 import stat
 import subprocess
 import tempfile
+import time
+import urllib.error
+import urllib.request
 import zipfile
 from typing import Any, Dict, List
 
@@ -22,20 +26,70 @@ ARTIFACT_NAME = re.compile(
     r"^(?P<kind>package-ci-smoke|rpm-repository-publish)-(?P<package>.+)-(?P<run_id>[1-9][0-9]*)$"
 )
 MAX_JSON_BYTES = 8 * 1024 * 1024
+ARTIFACT_PAGE_SIZE = 25
+MAX_ARTIFACT_PAGES = 1000
+ARTIFACT_PAGE_ATTEMPTS = 6
+MAX_ARTIFACT_PAGE_BYTES = 2 * 1024 * 1024
+GITHUB_API_ROOT = "https://api.github.com"
 
 
-def gh(*arguments: str, binary: bool = False) -> bytes | str:
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request: Any, fp: Any, code: int, message: str, headers: Any, new_url: str) -> None:
+        return None
+
+
+def gh(*arguments: str, binary: bool = False, timeout_seconds: int = 180) -> bytes | str:
     completed = subprocess.run(
         ["gh", *arguments],
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        timeout=180,
+        timeout=timeout_seconds,
     )
     if completed.returncode != 0:
         message = completed.stderr.decode("utf-8", errors="replace").strip()
         raise RuntimeError("gh api failed: %s" % message[:1000])
     return completed.stdout if binary else completed.stdout.decode("utf-8")
+
+
+def github_artifact_page(endpoint: str) -> bytes:
+    """Read one bounded Actions listing page without exposing the token in argv."""
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    if not token:
+        raise RuntimeError("GitHub token is unavailable for Dashboard evidence collection")
+    if not re.fullmatch(
+        r"repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/actions/artifacts\?per_page=25&page=[1-9][0-9]*",
+        endpoint,
+    ):
+        raise ValueError("artifact listing endpoint is invalid")
+    url = "%s/%s" % (GITHUB_API_ROOT, endpoint)
+    request = urllib.request.Request(
+        url,
+        headers={
+            "Accept": "application/vnd.github+json",
+            "Authorization": "Bearer %s" % token,
+            "User-Agent": "openeuler-riscv-dashboard-evidence",
+            "X-GitHub-Api-Version": "2022-11-28",
+        },
+    )
+    opener = urllib.request.build_opener(NoRedirect)
+    try:
+        with opener.open(request, timeout=30) as response:
+            if response.status != 200 or response.geturl() != url:
+                raise ValueError("artifact listing response changed URL or status")
+            length = response.headers.get("Content-Length")
+            if length is not None and int(length) > MAX_ARTIFACT_PAGE_BYTES:
+                raise ValueError("artifact page exceeds the response bound")
+            payload = response.read(MAX_ARTIFACT_PAGE_BYTES + 1)
+    except urllib.error.HTTPError as error:
+        if error.code in {408, 429, 500, 502, 503, 504}:
+            raise RuntimeError("GitHub artifact listing returned transient HTTP %d" % error.code) from error
+        raise ValueError("GitHub artifact listing returned HTTP %d" % error.code) from error
+    except (urllib.error.URLError, TimeoutError, OSError, http.client.IncompleteRead) as error:
+        raise RuntimeError("GitHub artifact listing transport failed") from error
+    if len(payload) > MAX_ARTIFACT_PAGE_BYTES:
+        raise ValueError("artifact page exceeds the response bound")
+    return payload
 
 
 def safe_basename(value: str) -> str:
@@ -117,6 +171,49 @@ def select_artifacts(artifacts: List[Dict[str, Any]]) -> tuple[List[Dict[str, An
     return selected, eligible_count
 
 
+def list_artifacts(repository: str) -> tuple[List[Dict[str, Any]], int, int]:
+    """Fetch bounded JSON pages independently so a truncated page can be retried.
+
+    The Actions API lists newest artifacts first. Fetch through the first short
+    page rather than trusting a changing total_count during concurrent CI runs.
+    A repeated malformed or incomplete page fails the Dashboard build closed.
+    """
+    artifacts: List[Dict[str, Any]] = []
+    seen_ids: set[int] = set()
+    retries = 0
+    for page_number in range(1, MAX_ARTIFACT_PAGES + 1):
+        endpoint = (
+            "repos/%s/actions/artifacts?per_page=%d&page=%d"
+            % (repository, ARTIFACT_PAGE_SIZE, page_number)
+        )
+        for attempt in range(ARTIFACT_PAGE_ATTEMPTS):
+            try:
+                document = json.loads(github_artifact_page(endpoint).decode("utf-8"))
+                if not isinstance(document, dict) or not isinstance(document.get("artifacts"), list):
+                    raise ValueError("artifact page has an invalid shape")
+                page = document["artifacts"]
+                if len(page) > ARTIFACT_PAGE_SIZE or not all(isinstance(item, dict) for item in page):
+                    raise ValueError("artifact page has invalid entries")
+                break
+            except (RuntimeError, UnicodeDecodeError, json.JSONDecodeError) as error:
+                if attempt + 1 == ARTIFACT_PAGE_ATTEMPTS:
+                    raise RuntimeError("artifact page %d failed after %d attempts: %s" % (
+                        page_number, ARTIFACT_PAGE_ATTEMPTS, error
+                    )) from error
+                retries += 1
+                time.sleep(attempt + 1)
+        for artifact in page:
+            artifact_id = artifact.get("id")
+            if not isinstance(artifact_id, int) or artifact_id <= 0:
+                raise ValueError("artifact page has an invalid artifact id")
+            if artifact_id not in seen_ids:
+                seen_ids.add(artifact_id)
+                artifacts.append(artifact)
+        if len(page) < ARTIFACT_PAGE_SIZE:
+            return artifacts, page_number, retries
+    raise RuntimeError("artifact listing exceeded the %d-page safety bound" % MAX_ARTIFACT_PAGES)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", required=True)
@@ -125,11 +222,7 @@ def main() -> int:
     repository = os.environ.get("GITHUB_REPOSITORY") or os.environ.get("GH_REPOSITORY")
     if not repository or not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository):
         parser.error("GITHUB_REPOSITORY or GH_REPOSITORY must name owner/repository")
-    pages = json.loads(str(gh("api", "--paginate", "--slurp", "repos/%s/actions/artifacts?per_page=100" % repository)))
-    artifacts: List[Dict[str, Any]] = []
-    for page in pages if isinstance(pages, list) else []:
-        if isinstance(page, dict) and isinstance(page.get("artifacts"), list):
-            artifacts.extend(item for item in page["artifacts"] if isinstance(item, dict))
+    artifacts, page_count, listing_retries = list_artifacts(repository)
     selected, eligible_count = select_artifacts(artifacts)
     output = pathlib.Path(args.output_dir)
     output.mkdir(parents=True, exist_ok=True)
@@ -153,6 +246,8 @@ def main() -> int:
         "kind": "dashboard-evidence-collection",
         "repository": repository,
         "eligible_artifact_count": eligible_count,
+        "listing_page_count": page_count,
+        "listing_retries": listing_retries,
         "selected_artifact_count": len(selected),
         "selection_strategy": "latest-per-package-kind-publication-first",
         "extracted_json_count": len(extracted),
