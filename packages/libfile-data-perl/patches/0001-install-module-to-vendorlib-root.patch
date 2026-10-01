@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Fri, 2 Oct 2026 00:00:00 +0000
+Subject: [PATCH] install File::Data under the Perl library root
+
+ExtUtils::MakeMaker sets INST_LIBDIR to the File/ package subdirectory for
+NAME=File::Data. Appending File/Data.pm there installs File/File/Data.pm,
+which cannot be loaded as File::Data. Use INST_LIB as the root instead.
+The upstream test loads the source tree with `use lib lib`, so retain that
+test and additionally check a staged installation in package CI.
+
+Patch-Source: Verified File::Data 1.20 upstream Makefile.PL and local
+ source/staging path inspection on 2026-10-02.
+Patch-License: GPL-1.0-or-later OR Artistic-1.0-Perl
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: Upstream installs File/Data.pm below the library root.
+---
+diff --git a/Makefile.PL b/Makefile.PL
+index 52b5dc0..9e5e10c 100644
+--- a/Makefile.PL
++++ b/Makefile.PL
+@@ -11,5 +11,5 @@ WriteMakefile(
+         Fcntl           => 1.11,
+         FileHandle      => 2.02,
+     },
+-    'PM'                => { 'lib/File/Data.pm' => '$(INST_LIBDIR)/File/Data.pm' },
++    'PM'                => { 'lib/File/Data.pm' => '$(INST_LIB)/File/Data.pm' },
+ );
