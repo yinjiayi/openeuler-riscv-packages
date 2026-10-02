@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "liburi-todisk-perl",
+  "rpm": {
+    "name": "perl-URI-ToDisk",
+    "summary": "Map Perl URIs to filesystem paths",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "liburi-todisk-perl",
+    "homepage": "https://metacpan.org/dist/URI-ToDisk",
+    "source_repository": "https://metacpan.org/dist/URI-ToDisk",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/",
+    "release_regex": "URI-ToDisk-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/URI-ToDisk-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.12",
+    "release": "1",
+    "latest_detected": "1.12"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "liburi-todisk-perl",
+        "package_base": "liburi-todisk-perl",
+        "source_version": "1.12-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/liburi-todisk-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "liburi-todisk-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact inventory key maps to Ubuntu 1.12-3 and official CPAN 1.12. Publisher CHECKSUMS SHA-256, safe archive and included Perl dual license verified. Official SP3 RVA23 primary lacks same-name RPM/module provider and supplies Clone, Params::Util, URI, List::Util, File::Spec and Test::More. All four unchanged default tests ran locally: 130 assertions passed; two author-only files skipped by upstream default policy. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
