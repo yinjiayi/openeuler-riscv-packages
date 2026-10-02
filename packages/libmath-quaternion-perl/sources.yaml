@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-quaternion-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Quaternion-0.07.tar.gz",
+      "version": "0.07",
+      "url": "https://cpan.metacpan.org/authors/id/J/JC/JCHIN/Math-Quaternion-0.07.tar.gz",
+      "digests": {
+        "sha256": "de5b0c411c7bd03578090cf10f8b4c1783348beebd00b22a04fceb7402258ef8"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD explicitly grant the same terms as Perl for this distribution; contributors are credited for patches and no file has a conflicting license notice. Publisher J/JC/JCHIN/CHECKSUMS pins this archive SHA-256."
+      }
+    }
+  ]
+}
