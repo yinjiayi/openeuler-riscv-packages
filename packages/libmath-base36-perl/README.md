@@ -16,7 +16,11 @@ Adam Kennedy, Audrey Tang, and Brian Ingerson, all under Artistic or GPL-1+
 terms. No file has a conflicting notice. The bundled Module::Install helper
 is used only to configure the build: a local staged MakeMaker installation
 contained the module and its man page, not the `inc/` tree; the RPM file
-list likewise excludes `inc/`.
+list likewise excludes `inc/`. Upstream's `Makefile.PL` imports
+`inc::Module::Install` from that tree. Perl 5.38 excludes the current
+directory from `@INC` by default, so the SPEC adds the source directory to
+`PERL5LIB` only for the configuration command while retaining any existing
+`PERL5LIB`; the upstream source and test files remain unchanged.
 
 `%check` runs all five unchanged original `t/*.t` files, with target
 BuildRequires enabling both optional POD tests. A local source run passed

@@ -30,7 +30,9 @@ including optional zero padding.
 %autosetup -n Math-Base36-%{version} -p1
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
+# Upstream uses inc::Module::Install from this source tree; Perl 5.38 omits
+# the current directory from @INC. Keep any existing PERL5LIB for configure.
+PERL5LIB="$PWD${PERL5LIB:+:$PERL5LIB}" %{__perl} Makefile.PL INSTALLDIRS=vendor
 %make_build
 
 %install
