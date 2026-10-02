@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-streamserializer-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-StreamSerializer-0.07.tar.gz",
+      "version": "0.07",
+      "url": "https://cpan.metacpan.org/authors/id/U/UN/UNERA/Data-StreamSerializer-0.07.tar.gz",
+      "digests": {
+        "sha256": "73334df3360c91dd480072fa5b4df790db83e79e31d9a6bdd5032d378b619668"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the independent HTTPS archive. Bundled debian/copyright, maintained by copyright holder Dmitry E. Oboukhov, grants Files: * Artistic or GPL-1+; ppport.h separately grants the same terms as Perl. The installed module POD repeats the same-Perl grant."
+      }
+    }
+  ]
+}
