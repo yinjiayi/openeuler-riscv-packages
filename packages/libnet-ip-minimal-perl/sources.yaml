@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-ip-minimal-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Net-IP-Minimal-0.06.tar.gz",
+      "version": "0.06",
+      "url": "https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Net-IP-Minimal-0.06.tar.gz",
+      "digests": {
+        "sha256": "734767e83620eadd80dc466b67102cc55643a2278d20c304b75d401f075fbd13"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE explicitly grants GPL-1-or-later or Artistic terms for this distribution; README and module POD repeat the same Perl grant, with no contradictory shipped-file notice. Official CPAN publisher CHECKSUMS SHA-256 matches the archive."
+      }
+    }
+  ]
+}
