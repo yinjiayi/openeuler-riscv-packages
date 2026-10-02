@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-yaml-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-YAML-0.0.7.tar.gz",
+      "version": "0.0.7",
+      "url": "https://cpan.metacpan.org/authors/id/A/AN/ANDYA/Data-YAML-0.0.7.tar.gz",
+      "digests": {
+        "sha256": "b82b53f5e5164cb7938cc3105a0ccaefb4fadcbf07d75ebb3578df9e2026deba"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Copyright holder Andy Armstrong explicitly grants redistribution under Perl's terms in README and all three installed PM files. Reader credits Adam Kennedy's YAML::Tiny template and regexes; Kennedy's official YAML::Tiny POD gives the same grant. Publisher CHECKSUMS matches the independently downloaded official HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
