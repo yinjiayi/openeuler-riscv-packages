@@ -22,6 +22,12 @@ The official openEuler 24.03 LTS SP3 riscv64/RVA23 primary has no
 `perl-Class-Adapter` package or module provider. It supplies Scalar::Util
 1.63, Carp, base, constant, CPAN::Meta, EUMM, File::Spec and Test::More.
 All eight unchanged default files locally passed 65 assertions without a
-skip. Target CI must prove the same suite, physical RPM/SRPM, DNF install
-and installed object delegation. No local RPM or QEMU build was run, and PR
-CI is not repository publication.
+skip. The first target run `37064550331` also ran all eight files/65
+assertions without skips and reported `Result: PASS`, but RPM build failed
+afterward because an extra SPEC check wrongly expected verbose `prove` to
+print the `t/07_destroy.t` header and final `ok` on one line. Verbose output
+prints TAP between them. Release 2 checks the file header while retaining
+the exact aggregate, overall PASS and no-skip assertions; no upstream test
+was altered. A new exact-head CI run must prove physical RPM/SRPM, DNF
+install and installed object delegation. No local RPM or QEMU build was run,
+and PR CI is not repository publication.

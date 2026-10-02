@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-Class-Adapter
 Version:        1.09
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Adapt Perl objects to another class interface
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Class-Adapter
@@ -48,7 +48,9 @@ fi
 cat upstream-tests.log
 grep -q '^Result: PASS$' upstream-tests.log
 grep -Eq '^Files=8, Tests=65,' upstream-tests.log
-grep -Eq '^t/07_destroy\.t[[:space:].]+ok$' upstream-tests.log
+# TEST_VERBOSE=1 prints the file header, TAP, and final "ok" separately.
+# Overall PASS and exact aggregate above still require the whole suite to pass.
+grep -Eq '^t/07_destroy\.t[[:space:]]' upstream-tests.log
 if grep -Eiq 'skipped:|# SKIP' upstream-tests.log; then
   echo 'A default upstream test was skipped' >&2
   exit 1
@@ -65,5 +67,8 @@ fi
 %{_mandir}/man3/Class::Adapter::Clear.3*
 
 %changelog
+* Fri Oct 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.09-2
+- Keep the complete verbose upstream suite and recognize its split file header.
+
 * Fri Oct 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.09-1
 - Package the official CPAN release with all default upstream tests.

@@ -17,7 +17,7 @@
   },
   "version": {
     "current": "1.09",
-    "release": "1",
+    "release": "2",
     "latest_detected": "1.09"
   },
   "discovery": {
@@ -55,7 +55,7 @@
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "Frozen Debian 1.09-2 maps to official stable CPAN Class-Adapter 1.09. Publisher CHECKSUMS matches the fixed HTTPS archive. All three installed PM PODs directly grant same-as-Perl redistribution by Adam Kennedy; README/LICENSE agree and no vendor or contrary test notice appears. Official SP3 RVA23 primary has no collision and supplies all runtime/build/test providers. All eight unchanged default files locally passed 65 assertions, no skips; target CI must prove the same, physical products and installed delegation."
+    "notes": "Frozen Debian 1.09-2 maps to official stable CPAN Class-Adapter 1.09. Publisher CHECKSUMS matches the fixed HTTPS archive. All three installed PM PODs directly grant same-as-Perl redistribution by Adam Kennedy; README/LICENSE agree and no vendor or contrary test notice appears. Official SP3 RVA23 primary has no collision and supplies all runtime/build/test providers. Initial target run 37064550331 ran all eight unchanged default files and 65 assertions with no skips and Result: PASS, but an extra package SPEC grep incorrectly expected verbose prove to put the test-file header and ok on one line, so RPM build failed after tests. Release 2 corrects only that grep; target CI must prove full suite, physical products and installed delegation."
   },
   "updates": {
     "enabled": true,
