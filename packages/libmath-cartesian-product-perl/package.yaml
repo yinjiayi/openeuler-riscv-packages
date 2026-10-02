@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-cartesian-product-perl",
+  "rpm": {
+    "name": "perl-Math-Cartesian-Product",
+    "summary": "Generate Cartesian products of Perl lists",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-cartesian-product-perl",
+    "homepage": "https://metacpan.org/dist/Math-Cartesian-Product",
+    "source_repository": "https://metacpan.org/dist/Math-Cartesian-Product",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PR/PRBRENAN/",
+    "release_regex": "Math-Cartesian-Product-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PR/PRBRENAN/Math-Cartesian-Product-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.009",
+    "release": "1",
+    "latest_detected": "1.009"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-cartesian-product-perl",
+        "package_base": "libmath-cartesian-product-perl",
+        "source_version": "1.009-4",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libmath-cartesian-product-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-cartesian-product-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.009-4 lineage matches official CPAN stable 1.009. Publisher CHECKSUMS pins source SHA-256; module POD and README contain the copyright holder's Perl-terms grant, while Build.PL/META.json declare perl licensing. No standalone LICENSE is shipped. The complete one-file 88-assertion default test is retained. Official target metadata has no same-name RPM or module provider and has Module::Build/Test::More providers. Target build and installed smoke require exact-head hosted CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
