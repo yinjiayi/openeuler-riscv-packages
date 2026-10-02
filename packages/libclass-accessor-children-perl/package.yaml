@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-accessor-children-perl",
+  "rpm": {
+    "name": "perl-Class-Accessor-Children",
+    "summary": "Generate child classes with normal and fast accessors",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclass-accessor-children-perl",
+    "homepage": "https://metacpan.org/dist/Class-Accessor-Children",
+    "source_repository": "https://metacpan.org/dist/Class-Accessor-Children",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KA/KAWASAKI/",
+    "release_regex": "Class-Accessor-Children-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KA/KAWASAKI/Class-Accessor-Children-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.02",
+    "release": "1",
+    "latest_detected": "0.02"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libclass-accessor-children-perl",
+        "package_base": "libclass-accessor-children-perl",
+        "source_version": "0.02-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libclass-accessor-children-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclass-accessor-children-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu 0.02-3 key maps to official CPAN Class-Accessor-Children 0.02. Publisher CHECKSUMS matches the fixed HTTPS archive. Both installed PM files explicitly grant same-as-Perl redistribution by Yusuke Kawasaki, matching README and META; no bundled third-party code is present. The old inventory license-blocked decision is resolved for this exact archive by these primary-source grants. Official SP3 RVA23 primary has no name/module collision and supplies Class::Accessor and Class::Accessor::Fast 0.51, EUMM, Test::More and Test::Pod 1.52. All eight unchanged default t files, including the conditional POD test and normal/fast branches, passed locally with 112 assertions and zero skips. Target CI must prove the same suite, physical RPM/SRPM, DNF installation and both installed accessor branches."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
