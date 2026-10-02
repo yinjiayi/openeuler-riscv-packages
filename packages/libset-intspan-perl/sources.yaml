@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libset-intspan-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Set-IntSpan-1.19.tar.gz",
+      "version": "1.19",
+      "url": "https://cpan.metacpan.org/authors/id/S/SW/SWMCD/Set-IntSpan-1.19.tar.gz",
+      "digests": {
+        "sha256": "11b7549b13ec5d87cc695dd4c777cd02983dd5fe9866012877fb530f48b3dfd0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The sole installed module and README grant Perl GPL/Artistic terms; official SWMCD CPAN CHECKSUMS SHA-256 matches an independent HTTPS source download."
+      }
+    }
+  ]
+}
