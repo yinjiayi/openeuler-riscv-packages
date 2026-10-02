@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-random-free-perl",
+  "rpm": {
+    "name": "perl-Math-Random-Free",
+    "summary": "Non-cryptographic random distribution functions in Perl",
+    "license": "BSD-3-Clause"
+  },
+  "upstream": {
+    "component": "libmath-random-free-perl",
+    "homepage": "https://metacpan.org/dist/Math-Random-Free",
+    "source_repository": "https://github.com/merkys/math-random-free",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/ME/MERKYS/",
+    "release_regex": "Math-Random-Free-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/ME/MERKYS/Math-Random-Free-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2.0",
+    "release": "1",
+    "latest_detected": "0.2.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-random-free-perl",
+        "package_base": "libmath-random-free-perl",
+        "source_version": "0.2.0-2",
+        "evidence_url": "https://packages.ubuntu.com/resolute/arm64/libmath-random-free-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-random-free-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.2.0-2 lineage; official CPAN archive pinned to publisher CHECKSUMS. README names Andrius Merkys and BSD-3-Clause; bundled LICENSE carries Regents template copyright with the same three-clause terms, both retained. No module/test-specific conflicting notice. Official target primary has no same-name RPM/provider and supplies Digest::SHA, List::Util, Test::More and MakeMaker. Default MakeMaker test retains original t/01_basic.t and four assertions without skips."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
