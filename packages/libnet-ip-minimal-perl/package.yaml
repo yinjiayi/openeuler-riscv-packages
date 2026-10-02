@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-ip-minimal-perl",
+  "rpm": {
+    "name": "perl-Net-IP-Minimal",
+    "summary": "Minimal IPv4 and IPv6 classification functions for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libnet-ip-minimal-perl",
+    "homepage": "https://metacpan.org/dist/Net-IP-Minimal",
+    "source_repository": "https://metacpan.org/dist/Net-IP-Minimal",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BI/BINGOS/",
+    "release_regex": "Net-IP-Minimal-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Net-IP-Minimal-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.06",
+    "release": "1",
+    "latest_detected": "0.06"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libnet-ip-minimal-perl",
+        "package_base": "libnet-ip-minimal-perl",
+        "source_version": "0.06-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libnet-ip-minimal-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libnet-ip-minimal-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu 0.06-2 and official CPAN 0.06. Publisher CHECKSUMS SHA-256 and included LICENSE with Perl GPL-1-or-later/Artistic terms verified. Official SP3 RVA23 primary lacks same-name RPM/module provider; build dependencies are target-available and runtime uses Perl core Exporter. All four unchanged default upstream files ran locally: six assertions passed and two release-only files skipped by upstream default policy. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
