@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-pond-perl",
+  "rpm": {
+    "name": "perl-Data-Pond",
+    "summary": "Perl-based open notation for data",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-pond-perl",
+    "homepage": "https://metacpan.org/dist/Data-Pond",
+    "source_repository": "https://github.com/Grinnz/Data-Pond",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DB/DBOOK/",
+    "release_regex": "Data-Pond-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DB/DBOOK/Data-Pond-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.006",
+    "release": "1",
+    "latest_detected": "0.006"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-pond-perl",
+        "package_base": "libdata-pond-perl",
+        "source_version": "0.006-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-pond-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-pond-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu 0.006-1 key maps to official CPAN Data-Pond 0.006. Publisher CHECKSUMS matches the independent HTTPS SHA-256. Publisher META.json and Build.PL declare the distribution's Perl 5 license; README and installed PM explicitly name PhotoBox Ltd and Andrew Main and grant same-Perl redistribution. The notice-free bundled Local::ModuleBuild shim has no contrary attribution and is covered by the distribution-level grant. The SP3 RVA23 primary has no name/module collision and provides riscv64 compiler, Perl development ABI, XSLoader, Params::Classify, Module::Build and CBuilder. The unchanged default tests have 493 assertions across seven functional files, including XS and forced pure-Perl pairs, plus two upstream AUTHOR_TESTING-only skips. Target CI must verify the XS backend is actually loaded."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
