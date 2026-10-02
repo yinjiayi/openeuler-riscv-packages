@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-find-perl",
+  "rpm": {
+    "name": "perl-Data-Find",
+    "summary": "Search nested Perl data structures",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-find-perl",
+    "homepage": "https://metacpan.org/dist/Data-Find",
+    "source_repository": "https://metacpan.org/dist/Data-Find",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AN/ANDYA/",
+    "release_regex": "Data-Find-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AN/ANDYA/Data-Find-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.03",
+    "release": "1",
+    "latest_detected": "0.03"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libdata-find-perl",
+        "package_base": "libdata-find-perl",
+        "source_version": "0.03-2.1",
+        "evidence_url": "https://packages.debian.org/source/stable/libdata-find-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-find-perl",
+        "package_base": "libdata-find-perl",
+        "source_version": "0.03-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-find-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-find-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Debian/Ubuntu key maps to the official CPAN Data-Find 0.03 release. Official CHECKSUMS and independent HTTPS SHA-256 agree; README and sole installed PM grant Perl's GPL/Artistic terms. Official SP3 RVA23 primary has no same-name RPM or module provider; it uniquely supplies Module::Build, Data::Dumper, Scalar::Util, Test::More, Test::Pod and Test::Pod::Coverage. All four default upstream test files are preserved. Local macOS passes 10 assertions with only POD-coverage self-skip due absent optional module; hard target BuildRequires must prove no skip in exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
