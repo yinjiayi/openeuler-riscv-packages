@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libset-tiny-perl",
+  "rpm": {
+    "name": "perl-Set-Tiny",
+    "summary": "Small pure-Perl set implementation",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libset-tiny-perl",
+    "homepage": "https://metacpan.org/dist/Set-Tiny",
+    "source_repository": "https://github.com/haarg/Set-Tiny",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/",
+    "release_regex": "Set-Tiny-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Set-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.06",
+    "release": "1",
+    "latest_detected": "0.06"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libset-tiny-perl",
+        "package_base": "libset-tiny-perl",
+        "source_version": "0.06-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libset-tiny-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libset-tiny-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu 0.06-1 package maps to official CPAN Set-Tiny 0.06. Publisher CHECKSUMS matches the HTTPS archive SHA-256. Source LICENSE, installed PM POD, README, dist.ini and META consistently grant Perl 5 GPL-1+ or Artistic terms by Stanis Trendelenburg; no third-party code library is bundled. Official SP3 RVA23 primary has no same-name or module provider and supplies all default-test requirements, including CPAN::Meta for prereq-verification coverage. All four unchanged default tests passed locally with 68 assertions and zero skips; author/release xt tests are not part of upstream's default make test. Target CI must prove the same four files and installed set operations, physical RPM/SRPM and DNF installation."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
