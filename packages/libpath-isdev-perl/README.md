@@ -25,6 +25,10 @@ All 39 upstream default test files remain unchanged. A fresh local Perl
 File::HomeDir; the only observed exception was `Can't locate File/HomeDir.pm`,
 with subsequent missing assertions caused by that exception. The SPEC
 declares the verified target provider as both a build and runtime dependency.
-The target build, complete tests, installed smoke and physical RPM/SRPM
-products remain unverified until exact-head CI. PR artifacts are not public
-publication.
+The first PR head built successfully on the target with all 39 default test
+files and 111 assertions passing, but its installed smoke failed: DNF installed
+the RPM, then `Path::IsDev::Result` could not load `Path::Tiny`. The RPM
+dependency generator missed this lazy runtime import. The SPEC now explicitly
+requires the verified official `perl(Path::Tiny)` provider in addition to its
+build dependency. The repaired head still requires exact-head installed smoke
+and physical-product verification. PR artifacts are not public publication.

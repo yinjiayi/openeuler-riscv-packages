@@ -22,6 +22,7 @@ BuildRequires:  perl(Role::Tiny::With)
 BuildRequires:  perl(Sub::Exporter)
 BuildRequires:  perl(Test::Fatal)
 Requires:       perl(File::HomeDir)
+Requires:       perl(Path::Tiny)
 
 %description
 Path::IsDev detects whether a filesystem path resembles a Perl development
