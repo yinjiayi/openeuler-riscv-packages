@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libhttp-headers-fast-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "HTTP-Headers-Fast-0.22.tar.gz",
+      "version": "0.22",
+      "url": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/HTTP-Headers-Fast-0.22.tar.gz",
+      "digests": {
+        "sha256": "cc431db68496dd884db4bc0c0b7112c1f4a4f1dc68c4f5a3caa757a1e7481b48"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Distribution LICENSE explicitly grants GPL-1-or-later or Artistic-1.0 Perl terms; module POD and README agree, META says perl_5, and text-only tests/tools have no conflicting notices. Official HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
