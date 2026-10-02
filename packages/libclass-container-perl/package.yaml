@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-container-perl",
+  "rpm": {
+    "name": "perl-Class-Container",
+    "summary": "Glue object frameworks together transparently",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclass-container-perl",
+    "homepage": "https://metacpan.org/dist/Class-Container",
+    "source_repository": "https://metacpan.org/dist/Class-Container",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/",
+    "release_regex": "(?<![A-Za-z0-9])Class-Container-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Class-Container-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.13",
+    "release": "1",
+    "latest_detected": "0.13"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libclass-container-perl",
+        "package_base": "libclass-container-perl",
+        "source_version": "0.13-2",
+        "evidence_url": "https://sources.debian.org/src/libclass-container-perl/0.13-2/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "perl-Class-Container",
+        "package_base": "perl-Class-Container",
+        "source_version": "0.13-24.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Class-Container/perl-Class-Container/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclass-container-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian, Fedora and openSUSE lineage maps to official stable CPAN Class-Container 0.13. Publisher CHECKSUMS matches the fixed HTTPS archive. Distribution LICENSE and the installed PM both grant same-as-Perl rights; PM credits Ken Williams and Dave Rolsky for original HTML::Mason work, with no contrary file notice. Official SP3 RVA23 primary has no name/provider collision and all required providers. Upstream default suite has two functional files/92 assertions plus one author-critic file self-skipped unless AUTHOR_TESTING; local run passes 92 assertions with two taint-mode require warnings. Target CI must prove both functional files, 92 assertions, the expected author-only skip, physical products and installed object-containment smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
