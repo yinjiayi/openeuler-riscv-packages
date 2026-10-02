@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-password-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Password-1.12.tar.gz",
+      "version": "1.12",
+      "url": "https://cpan.metacpan.org/authors/id/R/RA/RAZINF/Data-Password-1.12.tar.gz",
+      "digests": {
+        "sha256": "830cde81741ff384385412e16faba55745a54a7cc019dd23d7ed4f05d551a961"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Copyright holder Raz Information Systems Ltd. explicitly grants distribution under Perl's terms in the official release README and sole installed module POD. Publisher CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
