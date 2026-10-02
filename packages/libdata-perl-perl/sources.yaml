@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-perl-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Perl-0.002011.tar.gz",
+      "version": "0.002011",
+      "url": "https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/Data-Perl-0.002011.tar.gz",
+      "digests": {
+        "sha256": "8d34dbe314cfa2d99bd9aae546bbde94c38bb05b74b07c89bde1673a6f6c55f4"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Bundled LICENSE, release README, and each installed PM POD grant redistribution under Perl 5 terms from copyright holder Matthew Phillips. The bundled LICENSE spells out GPL 1 or later or Artistic 1.0. Publisher CHECKSUMS matches the independently downloaded official HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
