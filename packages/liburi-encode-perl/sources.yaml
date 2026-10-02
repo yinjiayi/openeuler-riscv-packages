@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liburi-encode-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "URI-Encode-v1.1.1.tar.gz",
+      "version": "1.1.1",
+      "url": "https://cpan.metacpan.org/authors/id/M/MI/MITHUN/URI-Encode-v1.1.1.tar.gz",
+      "digests": {
+        "sha256": "4bb9ce4e7016c0138cf9c2375508595286efa1c8dc15b45baa4c47281c08243b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The distribution LICENSE explicitly grants Perl 5 GPL-1-or-later or Artistic-1.0 terms; module POD and README repeat the Perl terms, Build.PL/META agree, and the two text-only tests have no conflicting notice. Official HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
