@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-random-free-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Random-Free-0.2.0.tar.gz",
+      "version": "0.2.0",
+      "url": "https://cpan.metacpan.org/authors/id/M/ME/MERKYS/Math-Random-Free-0.2.0.tar.gz",
+      "digests": {
+        "sha256": "6dd10b241d08fded923359cf09f028d9ab6a8664f391740e90a7b0836d6548ed"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official README by Andrius Merkys explicitly grants BSD-3-Clause; bundled LICENSE has the same terms with Regents template attribution. Both are retained in the RPM, and no source/test file has conflicting terms. Publisher M/ME/MERKYS/CHECKSUMS pins the archive SHA-256."
+      }
+    }
+  ]
+}
