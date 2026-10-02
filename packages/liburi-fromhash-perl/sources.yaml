@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liburi-fromhash-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "URI-FromHash-0.05.tar.gz",
+      "version": "0.05",
+      "url": "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/URI-FromHash-0.05.tar.gz",
+      "digests": {
+        "sha256": "a7cac5bccee9f2e2d8ad0f605400163712cd0ac64df2fb834f760fb49f2f6fd0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Bundled LICENSE, README and module POD grant Artistic License 2.0 for the distribution; regular text-only test/build files have no contradictory notice. Official HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
