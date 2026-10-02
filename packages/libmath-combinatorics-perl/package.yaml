@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-combinatorics-perl",
+  "rpm": {
+    "name": "perl-Math-Combinatorics",
+    "summary": "Combinations and permutations in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-combinatorics-perl",
+    "homepage": "https://metacpan.org/dist/Math-Combinatorics",
+    "source_repository": "https://metacpan.org/dist/Math-Combinatorics",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AL/ALLENDAY/",
+    "release_regex": "Math-Combinatorics-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AL/ALLENDAY/Math-Combinatorics-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.09",
+    "release": "1",
+    "latest_detected": "0.09"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-combinatorics-perl",
+        "package_base": "libmath-combinatorics-perl",
+        "source_version": "0.09-6",
+        "evidence_url": "https://packages.ubuntu.com/resolute/arm64/libmath-combinatorics-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-combinatorics-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.09-6 lineage; official CPAN 0.09 archive pinned to publisher CHECKSUMS. README and module POD grant Perl terms for the distribution; no conflicting file-specific notice. Official target primary has no same-name RPM/provider and supplies Data::Dumper, Test::More and MakeMaker. Default MakeMaker test retains all three original t files and 25 assertions without skips."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
