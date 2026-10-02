@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmodule-optional-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Module-Optional-0.03.tar.gz",
+      "version": "0.03",
+      "url": "https://cpan.metacpan.org/authors/id/I/IV/IVORW/Module-Optional-0.03.tar.gz",
+      "digests": {
+        "sha256": "971170aa63cbfa7f55a8d6f6e4d3d4e77449aa3a5a3ee6650518d36bbca134a8"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The distribution LICENSE grants Perl dual terms; the official CPAN HTTPS source digest matches the publisher CHECKSUMS entry."
+      }
+    }
+  ]
+}
