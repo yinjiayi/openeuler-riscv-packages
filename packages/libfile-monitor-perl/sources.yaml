@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-monitor-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Monitor-1.00.tar.gz",
+      "version": "1.00",
+      "url": "https://cpan.metacpan.org/authors/id/A/AN/ANDYA/File-Monitor-1.00.tar.gz",
+      "digests": {
+        "sha256": "32e3df1cef2ba4932c3e0e6f7baedb01d3dd472aebc238cdadbd6635414ffaef"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and all shipped File::Monitor module POD grant Perl dual terms; no conflicting source notice or third-party binary fixture; official HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
