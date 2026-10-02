@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libset-infinite-perl",
+  "rpm": {
+    "name": "perl-Set-Infinite",
+    "summary": "Sets of finite and infinite intervals for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libset-infinite-perl",
+    "homepage": "https://metacpan.org/dist/Set-Infinite",
+    "source_repository": "https://metacpan.org/dist/Set-Infinite",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/F/FG/FGLOCK/",
+    "release_regex": "Set-Infinite-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/F/FG/FGLOCK/Set-Infinite-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.65",
+    "release": "1",
+    "latest_detected": "0.65"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libset-infinite-perl",
+        "package_base": "libset-infinite-perl",
+        "source_version": "0.65-3",
+        "evidence_url": "https://packages.debian.org/source/stable/libset-infinite-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "perl-Set-Infinite",
+        "package_base": "perl-Set-Infinite",
+        "source_version": "0.65-44.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Set-Infinite/perl-Set-Infinite/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libset-infinite-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian/Fedora Set-Infinite 0.65 lineage maps to official FGLOCK CPAN bytes. Publisher CHECKSUMS pins SHA-256. Three installed modules carry the same author and Perl GPL/Artistic grant, with no conflicting notice; the original LICENSE is packaged. All 11 unchanged default tests passed locally, 446 assertions and zero skips. Verified official RVA23 primary metadata has no same-name RPM or Set::Infinite module provider and does contain required Perl dependencies. Exact-head target CI must verify tests and installed interval behavior."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
