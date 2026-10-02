@@ -15,6 +15,8 @@ BuildRequires:  perl-Scalar-List-Utils
 BuildRequires:  perl-bignum
 BuildRequires:  perl-Test-Simple
 BuildRequires:  perl-generators
+# Class::Struct creates this base class at load time, not as a separate file.
+Provides:       perl(Net::IPTrie::_Node) = %{version}
 Requires:       perl(NetAddr::IP) >= 4.007
 Requires:       perl(Scalar::Util) >= 1.21
 Requires:       perl(Class::Struct) >= 0.63

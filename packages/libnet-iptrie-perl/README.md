@@ -25,3 +25,12 @@ warnings and no lookup errors. One IPv6 /32 insertion and lookup emitted
 suppress them. Installed-RPM smoke checks IPv4 and IPv6 closest-prefix
 lookup. Target CI must establish RPM build, original test, and installed
 smoke results; none of this establishes native RISC-V or performance behavior.
+
+The first PR head built and passed 28 original assertions but DNF installation
+failed twice before smoke: RPM auto-Requires detected
+`perl(Net::IPTrie::_Node)` from the `use base` in `Node.pm`, while no separate
+file supplies an auto-generated Provides. `Class::Struct` actually creates
+`Net::IPTrie::_Node` at module load time (`BEGIN` in `Node.pm`), confirmed
+by loading the unchanged module and calling its generated constructor.
+The SPEC therefore explicitly Provides that exact dynamically created class.
+This does not remove the dependency or change the upstream source/tests.
