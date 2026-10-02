@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-convexhull-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-ConvexHull-1.04.tar.gz",
+      "version": "1.04",
+      "url": "https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Math-ConvexHull-1.04.tar.gz",
+      "digests": {
+        "sha256": "b9041f08d58792308f204455a67a265799e88b279e5c2f54e3f8dee9594c0852"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The module POD and README explicitly grant the Perl 5 terms, with no conflicting notices in the other release files; official CPAN CHECKSUMS and an independent HTTPS archive share this SHA-256."
+      }
+    }
+  ]
+}
