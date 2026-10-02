@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-ldap-filterbuilder-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Net-LDAP-FilterBuilder-1.200002.tar.gz",
+      "version": "1.200002",
+      "url": "https://cpan.metacpan.org/authors/id/O/OL/OLIVER/Net-LDAP-FilterBuilder-1.200002.tar.gz",
+      "digests": {
+        "sha256": "773c94398f0d4d4ebe712db1f11ca5fe50cd5ec44d36f1e168582c3f9749020a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official OLIVER/CHECKSUMS full SHA-256 matches the 1.200002 archive. Distribution-wide LICENSE names the University of Oxford and explicitly permits redistribution under the Perl 5 terms: GPL version 1 or later OR Artistic License 1.0. The only module's POD and README repeat the same grant; original tests, example and build metadata have no conflicting notices. No vendored code or third-party data are present."
+      }
+    }
+  ]
+}
