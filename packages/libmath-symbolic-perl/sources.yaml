@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-symbolic-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Symbolic-0.613.tar.gz",
+      "version": "0.613",
+      "url": "https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Math-Symbolic-0.613.tar.gz",
+      "digests": {
+        "sha256": "d735febf9464fb9e0b1a5a803ba835db7ac71454340e9bc1af6d1fc86e8b4003"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official SMUELLER CHECKSUMS pins the archive. README and module grant Perl 5 terms; the bundled Parse::Yapp-derived parser reproduces Francois Desarmenien's GPL-or-Artistic redistribution grant and required copyright notice in Parser.pm and retains the embedded driver notice."
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-symbolic-perl",
+  "rpm": {
+    "name": "perl-Math-Symbolic",
+    "summary": "Symbolic mathematics for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-symbolic-perl",
+    "homepage": "https://metacpan.org/dist/Math-Symbolic",
+    "source_repository": "https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/",
+    "release_regex": "Math-Symbolic-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Math-Symbolic-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.613",
+    "release": "1",
+    "latest_detected": "0.613"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-symbolic-perl",
+        "package_base": "libmath-symbolic-perl",
+        "source_version": "0.613-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libmath-symbolic-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-symbolic-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.613-1 lineage and official SMUELLER CPAN CHECKSUMS pin the archive. Upstream README and module grant Perl 5 terms; bundled standalone Parse::Yapp parser preserves Francois Desarmenien's separate GPL-or-Artistic notice and driver text. Target primary lacks this RPM/module, but supplies Parse::RecDescent, Memoize, Data::Dumper and Test::More. The unchanged upstream default suite passed 23 files/436 assertions with zero skips locally; installed smoke covers both parsers."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
