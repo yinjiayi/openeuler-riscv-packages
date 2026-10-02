@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-transformer-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Transformer-0.04.tar.gz",
+      "version": "0.04",
+      "url": "https://cpan.metacpan.org/authors/id/B/BA/BALDUR/Data-Transformer-0.04.tar.gz",
+      "digests": {
+        "sha256": "8223c9feca78d094f45cc07f491855919d8499c53c4b424679eca19b8dc747bb"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Copyright holder Baldur Kristinsson explicitly grants redistribution under Perl's terms in the installed module POD and README; the bundled LICENSE states GPL version 1 or later or Artistic 1.0. Publisher CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
