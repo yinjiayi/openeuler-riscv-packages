@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-Time-Tiny
 Version:        1.08
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Lightweight Perl time object
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Time-Tiny
 Source0:        Time-Tiny-%{version}.tar.gz
+Patch0:         0001-test-accept-datetime-locale-135-c-alias.patch
 
 BuildArch:      noarch
 BuildRequires:  findutils
@@ -63,5 +64,8 @@ fi
 %{_mandir}/man3/Time::Tiny.3*
 
 %changelog
+* Fri Oct 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.08-2
+- Keep all DateTime assertions while expecting the 1.35 C-locale alias.
+
 * Fri Oct 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.08-1
 - Package the official CPAN release with both default upstream tests.

@@ -1,0 +1,24 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Test the DateTime::Locale 1.35 C alias explicitly
+
+DateTime::Locale 1.35 canonicalizes the C locale as en-US, whereas the
+older 1.00-1.34 range used en-US-POSIX. The upstream test assumes every
+version at least 1.00 returns the older identifier, so its locale
+assertion fails on the fixed openEuler SP3 provider even though all
+DateTime conversion fields and the timezone pass. Keep assertion 11 and
+its concrete expected value; add the 1.35 branch without skipping or
+reducing any of the 15 assertions in this file.
+
+---
+ t/02_main.t | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/t/02_main.t b/t/02_main.t
+--- a/t/02_main.t
++++ b/t/02_main.t
+@@ -65,2 +65,3 @@
+-	# DateTime::Locale version 1.00 changes "C" to "en-US-POSIX".
+-	my $expected = eval { DateTime::Locale->VERSION(1) } ? "en-US-POSIX" : "C";
++	# DateTime::Locale 1.35 changes "C" from "en-US-POSIX" to "en-US".
++	my $expected = eval { DateTime::Locale->VERSION(1.35) } ? "en-US"
++	             : eval { DateTime::Locale->VERSION(1) } ? "en-US-POSIX" : "C";
