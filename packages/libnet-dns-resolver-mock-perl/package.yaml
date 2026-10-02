@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-dns-resolver-mock-perl",
+  "rpm": {
+    "name": "perl-Net-DNS-Resolver-Mock",
+    "summary": "Mock Net::DNS resolver backed by local zone data",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libnet-dns-resolver-mock-perl",
+    "homepage": "https://metacpan.org/dist/Net-DNS-Resolver-Mock",
+    "source_repository": "https://github.com/marcbradshaw/Net-DNS-Resolver-Mock",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MB/MBRADSHAW/",
+    "release_regex": "Net-DNS-Resolver-Mock-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MB/MBRADSHAW/Net-DNS-Resolver-Mock-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.20230216",
+    "release": "1",
+    "latest_detected": "1.20230216"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libnet-dns-resolver-mock-perl",
+        "package_base": "libnet-dns-resolver-mock-perl",
+        "source_version": "1.20230216-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libnet-dns-resolver-mock-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libnet-dns-resolver-mock-perl",
+        "package_base": "libnet-dns-resolver-mock-perl",
+        "source_version": "1.20230216-1",
+        "evidence_url": "https://packages.debian.org/source/stable/libnet-dns-resolver-mock-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libnet-dns-resolver-mock-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu resolute/universe and Debian stable 1.20230216-1 identify the release; MBRADSHAW/CHECKSUMS verifies the official CPAN archive. Top-level LICENSE and module POD grant Perl 5 dual terms. The only zone fixture uses synthetic example.net names and documentation IPs; generated author-only tests derive from Perl-5-licensed Dist::Zilla plugins. Official SP3 RVA23 primary lacks this package/provider and supplies Net::DNS and Test::Exception. Keep all five default t/*.t files: 41 functional assertions and two upstream author-only self-skips on local macOS; target exact-head CI must settle target behavior. Installed smoke uses only in-memory zones and makes no external DNS request."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
