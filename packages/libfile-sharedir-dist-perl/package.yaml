@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-sharedir-dist-perl",
+  "rpm": {
+    "name": "perl-File-ShareDir-Dist",
+    "summary": "Locate per-distribution shared files in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-sharedir-dist-perl",
+    "homepage": "https://metacpan.org/dist/File-ShareDir-Dist",
+    "source_repository": "https://metacpan.org/dist/File-ShareDir-Dist",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/",
+    "release_regex": "File-ShareDir-Dist-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/File-ShareDir-Dist-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.07",
+    "release": "1",
+    "latest_detected": "0.07"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-sharedir-dist-perl",
+        "package_base": "libfile-sharedir-dist-perl",
+        "source_version": "0.07-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-sharedir-dist-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-sharedir-dist-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.07-1 maps to official CPAN 0.07. Archive SHA-256 matches publisher CHECKSUMS; safe regular-file archive. LICENSE explicitly grants GPL-1-or-later OR Artistic-1.0 and README plus all four shipped modules state Perl 5 terms; no conflicting notices. Official SP3 RVA23 primary lacks this RPM and all four module Provides, while File::Copy and Test::More are available. Six unchanged default test files passed 19 assertions locally; exact-head RISC-V CI must verify target build, tests and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
