@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-faker-perl",
+  "rpm": {
+    "name": "perl-Data-Faker",
+    "summary": "Generate realistic-looking sample data in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-faker-perl",
+    "homepage": "https://metacpan.org/dist/Data-Faker",
+    "source_repository": "https://metacpan.org/dist/Data-Faker",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/W/WS/WSHELDAHL/",
+    "release_regex": "Data-Faker-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/W/WS/WSHELDAHL/Data-Faker-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.10",
+    "release": "1",
+    "latest_detected": "0.10"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-faker-perl",
+        "package_base": "libdata-faker-perl",
+        "source_version": "0.10",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-faker-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-faker-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official CPAN Data-Faker 0.10 and publisher CHECKSUMS agree on SHA-256. Distribution README and all seven installed module PODs grant Perl GPL/Artistic terms; bundled CLI is by the same author. SP3 RVA23 primary lacks the RPM/module and uniquely supplies all hard dependencies. All eight unchanged default upstream test files pass 27 assertions without skips."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
