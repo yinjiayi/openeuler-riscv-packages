@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-counterfile-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-CounterFile-1.04.tar.gz",
+      "version": "1.04",
+      "url": "https://cpan.metacpan.org/authors/id/G/GA/GAAS/File-CounterFile-1.04.tar.gz",
+      "digests": {
+        "sha256": "3fd6d66ffa92b884fc9feb4f200daf47250570520c6955fdca7e717fd4a6ac1f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD expressly grant same terms as Perl; no shipped notice conflicts; official HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
