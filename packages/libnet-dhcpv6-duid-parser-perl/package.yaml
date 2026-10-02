@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-dhcpv6-duid-parser-perl",
+  "rpm": {
+    "name": "perl-Net-DHCPv6-DUID-Parser",
+    "summary": "Parse DHCPv6 unique identifiers in Perl",
+    "license": "BSD-2-Clause-Views"
+  },
+  "upstream": {
+    "component": "libnet-dhcpv6-duid-parser-perl",
+    "homepage": "https://metacpan.org/dist/Net-DHCPv6-DUID-Parser",
+    "source_repository": "https://metacpan.org/dist/Net-DHCPv6-DUID-Parser",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TW/TWRIGHT/",
+    "release_regex": "Net-DHCPv6-DUID-Parser-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TW/TWRIGHT/Net-DHCPv6-DUID-Parser-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.01",
+    "release": "1",
+    "latest_detected": "1.01"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libnet-dhcpv6-duid-parser-perl",
+        "package_base": "libnet-dhcpv6-duid-parser-perl",
+        "source_version": "1.01-4",
+        "evidence_url": "https://sources.debian.org/src/libnet-dhcpv6-duid-parser-perl/1.01-4/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libnet-dhcpv6-duid-parser-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Debian 1.01-4 and official CPAN 1.01. Publisher CHECKSUMS SHA-256 verified. Upstream META.yml marks license unknown, but README gives the complete author grant, repeated verbatim in Parser.pm, matching SPDX BSD-2-Clause-Views; test and build files have no conflicting notice. Official SP3 RVA23 primary lacks same-name RPM/module provider; runtime uses Perl core Carp. The sole unchanged default test passed all 46 assertions locally. Target RPM and installed smoke remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
