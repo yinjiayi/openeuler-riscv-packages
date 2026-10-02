@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-munge-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Munge-0.111.tar.gz",
+      "version": "0.111",
+      "url": "https://cpan.metacpan.org/authors/id/M/MA/MAUKE/Data-Munge-0.111.tar.gz",
+      "digests": {
+        "sha256": "086face7ee925d49782a0dc6c699d27e1ac3c5cc6dfc6e99d3e7d892d2038d9b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The copyright holder's archive README and sole installed PM POD explicitly grant GPL/Artistic redistribution; official CPAN CHECKSUMS and independent HTTPS download match the pinned SHA-256."
+      }
+    }
+  ]
+}
