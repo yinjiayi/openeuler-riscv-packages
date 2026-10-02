@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-sah-normalize-perl",
+  "rpm": {
+    "name": "perl-Data-Sah-Normalize",
+    "summary": "Normalize Sah schemas and clause sets",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-sah-normalize-perl",
+    "homepage": "https://metacpan.org/dist/Data-Sah-Normalize",
+    "source_repository": "https://github.com/perlancar/perl-Data-Sah-Normalize",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/",
+    "release_regex": "Data-Sah-Normalize-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/Data-Sah-Normalize-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.051",
+    "release": "1",
+    "latest_detected": "0.051"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-sah-normalize-perl",
+        "package_base": "libdata-sah-normalize-perl",
+        "source_version": "0.051-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-sah-normalize-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-sah-normalize-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu 0.051-2 key maps to official stable CPAN Data-Sah-Normalize 0.051. The HTTPS archive SHA-256 matches publisher CHECKSUMS. Bundled LICENSE, README and sole installed PM POD grant same-Perl redistribution from perlancar; no conflicting third-party file is bundled. SP3 RVA23 primary has no same-name or module provider and uniquely provides all hard runtime/default-test dependencies. The unchanged default suite has two functional files with six assertions passing; three author-only POD/critic files self-skip unless AUTHOR_TESTING is set. Target CI must retain and report all five files and pass installed normalization/error smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
