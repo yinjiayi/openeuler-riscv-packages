@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-basecalc-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-BaseCalc-1.019.tar.gz",
+      "version": "1.019",
+      "url": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Math-BaseCalc-1.019.tar.gz",
+      "digests": {
+        "sha256": "c74e2ba80ada8514b91134c7602e72b2cd330731c589597e951bf4a026efe9b8"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included LICENSE expressly grants GPL-1-or-later or Artistic-1.0-Perl terms; official CPAN CHECKSUMS and independently fetched HTTPS archive have the same SHA-256."
+      }
+    }
+  ]
+}
