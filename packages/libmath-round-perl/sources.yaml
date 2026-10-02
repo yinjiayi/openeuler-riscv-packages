@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-round-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Round-0.08.tar.gz",
+      "version": "0.08",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Math-Round-0.08.tar.gz",
+      "digests": {
+        "sha256": "7b4d2775ad3b859a5fd61f7f3fc5cfba42b1a10df086d2ed15a0ae712c8fd402"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included LICENSE expressly grants GPL-1-or-later or Artistic-1.0-Perl terms; official CPAN CHECKSUMS and independently fetched HTTPS archive have the same SHA-256."
+      }
+    }
+  ]
+}
