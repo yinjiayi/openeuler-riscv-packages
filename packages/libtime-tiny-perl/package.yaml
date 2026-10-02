@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtime-tiny-perl",
+  "rpm": {
+    "name": "perl-Time-Tiny",
+    "summary": "Lightweight Perl time object",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtime-tiny-perl",
+    "homepage": "https://metacpan.org/dist/Time-Tiny",
+    "source_repository": "https://metacpan.org/dist/Time-Tiny",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_regex": "(?<![A-Za-z0-9])Time-Tiny-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Time-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.08",
+    "release": "1",
+    "latest_detected": "1.08"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libtime-tiny-perl",
+        "package_base": "libtime-tiny-perl",
+        "source_version": "1.08-3",
+        "evidence_url": "https://sources.debian.org/src/libtime-tiny-perl/1.08-3/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtime-tiny-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian 1.08-3 maps to official stable CPAN Time-Tiny 1.08. Publisher CHECKSUMS matches the fixed HTTPS archive. Installed PM, README and LICENSE directly grant same-as-Perl redistribution by Adam Kennedy; no vendored code or contrary default-test notice. Official SP3 RVA23 primary has no collision and supplies all required providers, including DateTime/Locale/TimeZone for the optional test branch. Both unchanged default files locally passed 16 assertions including all seven DateTime assertions with no skips. Target CI must prove full suite, physical products and installed time-object roundtrip; DateTime remains optional at runtime."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
