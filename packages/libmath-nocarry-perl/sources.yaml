@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-nocarry-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-NoCarry-1.117.tar.gz",
+      "version": "1.117",
+      "url": "https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/Math-NoCarry-1.117.tar.gz",
+      "digests": {
+        "sha256": "599cf98b030befe2fbf00ce5746cc1776b6e7f0fe6af9b61c7b3dae94ffee78a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included LICENSE and module POD expressly grant Artistic-2.0; official CPAN CHECKSUMS and independently fetched HTTPS archive have the same SHA-256."
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-nocarry-perl",
+  "rpm": {
+    "name": "perl-Math-NoCarry",
+    "summary": "No-carry arithmetic functions for Perl",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "libmath-nocarry-perl",
+    "homepage": "https://metacpan.org/dist/Math-NoCarry",
+    "source_repository": "https://github.com/briandfoy/math-nocarry",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/",
+    "release_regex": "Math-NoCarry-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/Math-NoCarry-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.117",
+    "release": "1",
+    "latest_detected": "1.117"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-nocarry-perl",
+        "package_base": "libmath-nocarry-perl",
+        "source_version": "1.117-1",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libmath-nocarry-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-nocarry-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.117-1 lineage matches official CPAN stable 1.117. Publisher CHECKSUMS pins source SHA-256; LICENSE and module POD grant Artistic-2.0. All six default t files are retained; target BuildRequires run both optional POD tests. Official target metadata has no same-name RPM or module provider. Target build and installed smoke require exact-head hosted CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
