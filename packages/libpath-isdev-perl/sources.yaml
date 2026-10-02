@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libpath-isdev-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Path-IsDev-1.001003.tar.gz",
+      "version": "1.001003",
+      "url": "https://cpan.metacpan.org/authors/id/K/KE/KENTNL/Path-IsDev-1.001003.tar.gz",
+      "digests": {
+        "sha256": "37d66bfe205d7916824a46ad6290b8fb170fc602c16f8dc8169576f2ad682949"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive matches publisher CHECKSUMS; LICENSE explicitly grants Perl GPL-1-or-later or Artistic-1.0 terms for the distribution."
+      }
+    }
+  ]
+}
