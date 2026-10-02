@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-ldap-sid-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Net-LDAP-SID-0.001.tar.gz",
+      "version": "0.001",
+      "url": "https://cpan.metacpan.org/authors/id/K/KA/KARMAN/Net-LDAP-SID-0.001.tar.gz",
+      "digests": {
+        "sha256": "a8c2cd40679097fc3b842576e1b53ec35fd43481a86a50383eeb4e24ebbcd6d6"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher KARMAN/CHECKSUMS matches the complete source archive. Author-controlled README and the sole Perl module each explicitly grant redistribution and modification under Artistic License 2.0; Makefile.PL first says artistic_2 but conditionally emits broader perl metadata on modern MakeMaker, so this package conservatively uses only the direct Artistic-2.0 grant. The three author-only and two functional tests have no separate conflicting notice, and there is no vendored code or data fixture."
+      }
+    }
+  ]
+}
