@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "package_id": "libtime-period-perl",
+  "rpm": {"name": "perl-Time-Period", "summary": "Test whether a time belongs to a named period", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "libtime-period-perl",
+    "homepage": "https://metacpan.org/dist/Time-Period",
+    "source_repository": "https://metacpan.org/dist/Time-Period",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PB/PBOYD/",
+    "release_regex": "(?<![A-Za-z0-9])Time-Period-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PB/PBOYD/Time-Period-{version}.tar.gz"
+  },
+  "version": {"current": "1.25", "release": "1", "latest_detected": "1.25"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "libtime-period-perl", "package_base": "libtime-period-perl", "source_version": "1.25-3", "evidence_url": "https://packages.debian.org/source/sid/libtime-period-perl", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libtime-period-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian libtime-period-perl 1.25-3 lineage maps to official PB OYD stable CPAN Time-Period 1.25. Publisher CHECKSUMS matches the fixed HTTPS archive. Top-level LICENSE grants GPL-1-or-later or Artistic-1.0 for 'This software' and the only installed PM/README repeat same-as-Perl; Paul Boyd is credited for bug fixes in the PM and as release coauthor, with no contrary file notice. No vendored code. Target SHA-bound SP3 RVA23 primary has no same-name/Time::Period provider and supplies Exporter, POSIX, ExtUtils::MakeMaker, Test::More and perl-generators. All ten original tests/213 assertions pass locally without skips using fixed 2011 dates; target %check requires the same."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
