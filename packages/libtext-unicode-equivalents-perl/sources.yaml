@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-unicode-equivalents-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Unicode-Equivalents-0.05.tar.gz",
+      "version": "0.05",
+      "url": "https://cpan.metacpan.org/authors/id/B/BH/BHALLISSY/Text-Unicode-Equivalents-0.05.tar.gz",
+      "digests": {
+        "sha256": "a53862f7f935c1f894ff23d4fd2834573f6c537f05efd876612a3abcc7a0a3d6"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official HTTPS CPAN release matches publisher CHECKSUMS; readme.txt and module POD explicitly publish the package under the Perl Artistic License."
+      }
+    }
+  ]
+}
