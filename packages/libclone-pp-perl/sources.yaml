@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libclone-pp-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Clone-PP-1.09.tar.gz",
+      "version": "1.09",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Clone-PP-1.09.tar.gz",
+      "digests": {
+        "sha256": "4bb44697ef82105bd8d6204e550796a1eea89ce7108a98e0b7bf3ae4700d1c34"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official HTTPS CPAN release matches publisher CHECKSUMS; README and module POD grant use, modification and distribution of this software under Perl's terms."
+      }
+    }
+  ]
+}
