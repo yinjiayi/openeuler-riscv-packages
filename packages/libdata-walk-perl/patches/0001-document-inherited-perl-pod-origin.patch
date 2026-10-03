@@ -1,0 +1,89 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: 2026-10-04
+Subject: [PATCH] Document inherited File::Find prose and original Perl grant
+
+Documentation only. Preserve the executable prefix, full original POD,
+all default tests and the original source archive. New notice modifications
+are freely available under the Artistic-1.0-Perl terms for inherited prose.
+No executable change or source relicensing.
+
+--- a/lib/Data/Walk.pm
++++ b/lib/Data/Walk.pm
+@@ -481,6 +481,27 @@
+ Data::Dumper(3pm), Storable(3pm), File::Find(3pm), perl(1)
+-
++
++=head1 DOWNSTREAM DOCUMENTATION NOTICE
++
++openEuler packaging, 2026-10-04: this notice documents the inherited
++File::Find options, preprocess/postprocess and wanted-function POD.
++Adaptations rename find/finddepth to walk/walkdepth and describe data nodes
++instead of files; filesystem-only options are ignored. No executable code
++or default test is changed. Guido Flohr's own LGPL-2.0-or-later grant is
++retained; inherited Perl prose is not relicensed to LGPL.
++
++Original Perl copyright (C) 1993-2005 by Larry Wall and others.
++All rights reserved. The inherited prose remains under GPL version 1 or
++later OR the Artistic License. It is supplied WITHOUT ANY WARRANTY,
++including MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++The byte-exact original copyright/grant/disclaimer and full terms are in
++perl-5.8.7-README, perl-5.8.7-Artistic and perl-5.8.7-Copying.
++See PERL-POD-ORIGIN for the scope, differences and freely available
++modification/source route (Artistic 3(a), 4(b)).
++Reference, not proof of exact ancestry: official Perl 5.8.7 commit
++3eef4faaf8d7fa185749184afd7dc737b8039f42, lib/File/Find.pm:
++L<https://github.com/Perl/perl5/blob/3eef4faaf8d7fa185749184afd7dc737b8039f42/lib/File/Find.pm>.
++
+ =cut
+-
++
+ #Local Variables:
+ #mode: perl
+--- /dev/null
++++ b/PERL-POD-ORIGIN
+@@ -0,0 +1,45 @@
++openEuler packaging notice, 2026-10-04
++====================================
++
++Data::Walk 2.01 keeps Guido Flohr's GNU Library GPL version 2 or later grant.
++Its adapted File::Find POD remains subject to the original Perl terms,
++GPL version 1 or later OR the Artistic License. No LGPL relicensing of that
++inherited prose is asserted. Original Source0 and every executable/test byte
++are unchanged; the downstream patch only adds documentation and this notice.
++
++Comparison reference: official Perl 5.8.7, File::Find 1.09, immutable commit
++3eef4faaf8d7fa185749184afd7dc737b8039f42:
++https://github.com/Perl/perl5/blob/3eef4faaf8d7fa185749184afd7dc737b8039f42/lib/File/Find.pm
++This is a contemporaneous reference, not proof of the precise ancestor copied.
++
++Scope before the documentation-only patch:
++- Walk.pm lines 252-266 / File::Find lines 68-82: options and callback argument.
++- Walk.pm lines 274-277 / File::Find lines 91-96: preprocess callback sequence.
++- Walk.pm lines 305-308 / File::Find lines 104-107: postprocess callback.
++- Walk.pm lines 328-335 / File::Find lines 192-202: wanted-function description.
++- Related wanted-function wording and surrounding adapted descriptions.
++
++The derivative renames find/finddepth to walk/walkdepth and substitutes data
++nodes/containers for files/directories; data traversal ignores filesystem-only
++options, uses its own variables, and has explicit cyclic-reference behavior.
++These differences are documented in Walk.pm; no executable behavior is changed
++by this packaging notice.
++
++Original Perl copyright:
++Copyright (C) 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
++2003, 2004, 2005 by Larry Wall and others. All rights reserved.
++Original grant and no-warranty disclaimer are retained verbatim in
++perl-5.8.7-README, with full original Artistic and GPL text in
++perl-5.8.7-Artistic and perl-5.8.7-Copying, fetched byte-exact from the same
++immutable official Perl commit and installed beside this notice.
++This program is distributed in the hope that it will be useful,
++but WITHOUT ANY WARRANTY; without even the implied warranty of
++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++
++For inherited prose, the packaging route uses Artistic section 3(a):
++modifications and preferred source are freely available as the public package
++PR/patch and SRPM, under the original Artistic terms. Section 4(b) is addressed
++by accompanying machine-readable modified sources in the SRPM; this package
++does not ship an interpreter or any renamed/non-standard executable.
++This scoped accounting does not replace any original notice or assert legal
++certainty. The original archive's obsolete SIGNATURE is retained, not verified.
