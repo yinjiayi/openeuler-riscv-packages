@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-trigger-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Class-Trigger-0.15.tar.gz",
+      "version": "0.15",
+      "url": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/Class-Trigger-0.15.tar.gz",
+      "digests": {
+        "sha256": "b7a878d44dea67d64df2ca18020d9d868a95596debd16f1a264874209332b07f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official MIYAGAWA CHECKSUMS matches the fixed HTTPS archive. Top-level LICENSE grants same-as-Perl rights for this software and installed module/README repeat a whole-library grant. They credit original idea to Tony Bowden, code to Tatsuhiko Miyagawa and a contribution to Jesse Vincent; no file asserts a conflicting license or contains vendored code."
+      }
+    }
+  ]
+}
