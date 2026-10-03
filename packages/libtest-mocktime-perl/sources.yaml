@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-mocktime-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Test-MockTime-0.17.tar.gz",
+      "version": "0.17",
+      "url": "https://cpan.metacpan.org/authors/id/D/DD/DDICK/Test-MockTime-0.17.tar.gz",
+      "digests": {
+        "sha256": "3363e118b2606f1d6abc956f22b0d09109772b7086155fb5c9c7f983350602f9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD grant the same terms as Perl, Makefile.PL declares Perl licensing, and official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
