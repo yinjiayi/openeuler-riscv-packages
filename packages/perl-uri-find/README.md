@@ -15,6 +15,24 @@ matching the publisher `CHECKSUMS` in the same directory. The archive contains
 only ordinary files and directories under one root. Its `LICENSE` grants the
 same terms as Perl: GPL-1.0-or-later or Artistic-1.0-Perl.
 
+This draft is held for a source-redistribution evidence gap. The archive also
+contains `t/urifind/sciencenews`, a 4,638-byte third-party Science News e-letter
+dated July 5, 2003. Its headers include `X-No-Archive: yes`, and no fixture-specific
+license or provenance permission was identified. `t/urifind/find.t` uses this
+fixture; the raw source is included in SRPM. The software's general LICENSE does
+not establish the third-party fixture's rights. This is a missing-evidence hold,
+not a definitive legal conclusion. `LicenseRef-Science-News-Fixture-Unresolved`
+names that gap, not an approved redistribution license. Source redistribution
+is marked false; automatic updates are disabled. Do not merge or publish until
+rightsholder evidence or a verifiably unrestricted upstream source resolves it.
+No source fixture, notice, pin or upstream test is removed to bypass the hold.
+
+Prior head `79fa4f361a403b86dfa14b72289020a1efb384a5` passed CI run
+`37131658733` with all eight files / 619 assertions and installed smoke. That
+technical result does not clear this licensing gap or apply automatically to
+this correction. This holding commit skips remote CI to avoid another source or
+product upload; after clearance, a new exact-head complete run remains required.
+
 The checksum-bound official openEuler SP3 RVA23 `everything` primary metadata
 (`fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a`)
 has `perl-Module-Build` and `perl-URI`, but no `perl-URI-Find` RPM or

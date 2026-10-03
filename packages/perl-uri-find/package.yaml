@@ -4,7 +4,7 @@
   "rpm": {
     "name": "perl-URI-Find",
     "summary": "Find URI references in arbitrary text",
-    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND LicenseRef-Science-News-Fixture-Unresolved"
   },
   "upstream": {
     "component": "metacpan.org-release-uri-find",
@@ -53,12 +53,12 @@
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
-    "status": "active",
+    "status": "update-disabled",
     "maintainers": ["yinjiayi"],
-    "notes": "The frozen inventory has duplicate aliases perl-URI-Find (release) and perl-uri-find (module POD); this package owns the latter slug and canonical perl-URI-Find RPM, not URI-Find-Simple or URI-Find-Delimited. Official CPAN source SHA-256 matches publisher CHECKSUMS and dual-license text was reviewed. Official openEuler SP3 RVA23 primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a contains Module::Build and URI but no same-name RPM or perl(URI::Find) provider. All eight default upstream tests, including the conditional POD test with its dependency installed, remain in %check. Target run, installed smoke and PR products require exact-head CI; no public RPM is claimed."
+    "notes": "LICENSE REVIEW HOLD: the pinned source includes t/urifind/sciencenews, a third-party Science News newsletter fixture with no identified file-specific redistribution grant; t/urifind/find.t uses it and the raw source is included in SRPM. LicenseRef-Science-News-Fixture-Unresolved denotes missing rights evidence, not a legal finding or redistribution permission. The software Perl dual-license grant and source SHA do not establish third-party fixture clearance. This draft must not merge/publish; updates disabled pending rightsholder provenance or an unrestricted upstream source. Preserve all eight tests and source bytes. Frozen perl-URI-Find/perl-uri-find aliases identify one distribution. Official target has no same RPM/provider. Prior head79fa4f36 CI success is technical-only evidence; no current-head or public product success is inferred."
   },
   "updates": {
-    "enabled": true,
+    "enabled": false,
     "last_checked_at": null,
     "last_successful_check_at": null,
     "release_provider": "official-cpan-directory"

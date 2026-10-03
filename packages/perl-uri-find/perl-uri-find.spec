@@ -3,7 +3,7 @@ Name:           perl-URI-Find
 Version:        20160806
 Release:        1%{?dist}
 Summary:        Find URI references in arbitrary text
-License:        GPL-1.0-or-later OR Artistic-1.0-Perl
+License:        (GPL-1.0-or-later OR Artistic-1.0-Perl) AND LicenseRef-Science-News-Fixture-Unresolved
 URL:            https://metacpan.org/dist/URI-Find
 Source0:        URI-Find-%{version}.tar.gz
 
