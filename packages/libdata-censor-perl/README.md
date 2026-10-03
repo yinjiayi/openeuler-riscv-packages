@@ -23,3 +23,12 @@ hard build/runtime dependency so the four clone assertions cannot silently
 skip. Local macOS lacks Ref::Util, so no local upstream suite result is
 claimed. Exact-head hosted CI must prove the target suite and installed
 smoke; this PR does not merge or publish the package.
+
+The first target Release 1 run (`37104083687`) did execute all functional
+and POD tests successfully: four default files, 15 assertions, four active
+Clone assertions, and only the upstream author-only manifest self-skip.
+Packaging nonetheless failed because `%check` expected non-verbose file
+summary lines while `TEST_VERBOSE=1` emits the file header and TAP `ok` on
+separate lines. Release 2 changes only that log assertion, adds an explicit
+four-line Clone TAP check, and leaves every upstream test unchanged. A new
+exact-head target run must establish final build and installed smoke success.

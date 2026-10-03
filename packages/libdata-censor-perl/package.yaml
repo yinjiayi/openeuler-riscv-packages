@@ -11,7 +11,7 @@
     "release_regex": "(?<![A-Za-z0-9])Data-Censor-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
     "source_url_template": "https://cpan.metacpan.org/authors/id/B/BI/BIGPRESH/Data-Censor-{version}.tar.gz"
   },
-  "version": {"current": "0.04", "release": "1", "latest_detected": "0.04"},
+  "version": {"current": "0.04", "release": "2", "latest_detected": "0.04"},
   "discovery": {
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
     "lineage": [
@@ -23,7 +23,7 @@
   "files": {"spec": "libdata-censor-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
   "maintenance": {
     "status": "active", "maintainers": ["yinjiayi"],
-    "notes": "Frozen Fedora Everything-source 0.04-3.fc44 lineage maps to the official BIGPRESH stable CPAN tar with publisher CHECKSUMS SHA-256. README and sole installed PM directly grant Artistic-2.0 for this program, including code the same author says he extracted from Dancer; META.json unknown is explicitly not treated as a grant. SHA-bound official SP3 RVA23 primary lacks this RPM/module and supplies Ref::Util 0.204 plus its Ref::Util::XS dependency, Clone 0.46, Test::Pod 1.52, Test::More and build tools. All four original default files are unchanged; manifest.t intentionally self-skips unless RELEASE_TESTING is set. Target %check requires the other three files and 15 assertions, including all four optional Clone assertions with no functional skip. The Mac screening host lacks Ref::Util, so no local upstream test pass is claimed. Installed smoke must verify both in-place and clone-and-censor paths."
+    "notes": "Frozen Fedora Everything-source 0.04-3.fc44 lineage maps to the official BIGPRESH stable CPAN tar with publisher CHECKSUMS SHA-256. README and sole installed PM directly grant Artistic-2.0 for this program, including code the same author says he extracted from Dancer; META.json unknown is explicitly not treated as a grant. SHA-bound official SP3 RVA23 primary lacks this RPM/module and supplies Ref::Util 0.204 plus its Ref::Util::XS dependency, Clone 0.46, Test::Pod 1.52, Test::More and build tools. All four original default files are unchanged; manifest.t intentionally self-skips unless RELEASE_TESTING is set. Target %check requires the other three files and 15 assertions, including all four Clone TAP lines with no functional skip. Release 1 target suite itself passed 4 files/15 assertions, but packaging failed only because %check expected a one-line non-verbose file summary; Release 2 matches the actual verbose headers. The Mac screening host lacks Ref::Util, so no local upstream test pass is claimed. Installed smoke must verify both in-place and clone-and-censor paths."
   },
   "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
 }

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-Data-Censor
 Version:        0.04
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Censor sensitive fields in Perl data structures
 License:        Artistic-2.0
 URL:            https://metacpan.org/dist/Data-Censor
@@ -46,8 +46,9 @@ cat upstream-tests.log
 grep -q '^Result: PASS$' upstream-tests.log
 grep -q '^Files=4, Tests=15,' upstream-tests.log
 for name in 00-load 01-basic pod; do
-  grep -Eq "^t/${name}\\.t[[:space:].]+ok$" upstream-tests.log
+  grep -Eq "^t/${name}\\.t[[:space:].]*$" upstream-tests.log
 done
+test "$(grep -Ec '^ok (8|9|10|11) - clone_and_censor' upstream-tests.log)" -eq 4
 grep -Eq '^t/manifest\.t[[:space:]]+skipped: Author tests not required for installation$' upstream-tests.log
 if grep -E '^t/.*skipped:' upstream-tests.log | grep -Ev '^t/manifest\.t[[:space:]]+skipped: Author tests not required for installation$'; then
   echo 'A non-author upstream test skipped unexpectedly' >&2
@@ -64,5 +65,8 @@ fi
 %{_mandir}/man3/Data::Censor.3*
 
 %changelog
+* Sat Oct 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.04-2
+- Match the upstream verbose test headers without weakening test assertions.
+
 * Sat Oct 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.04-1
 - Package official CPAN release and retain all default upstream tests.
