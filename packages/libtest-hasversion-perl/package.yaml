@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-hasversion-perl",
+  "rpm": {
+    "name": "perl-Test-HasVersion",
+    "summary": "Test that Perl modules have version numbers",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtest-hasversion-perl",
+    "homepage": "https://metacpan.org/dist/Test-HasVersion",
+    "source_repository": "https://github.com/aferreira/cpan-Test-HasVersion",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/",
+    "release_regex": "Test-HasVersion-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Test-HasVersion-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.014",
+    "release": "1",
+    "latest_detected": "0.014"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtest-hasversion-perl",
+        "package_base": "libtest-hasversion-perl",
+        "source_version": "0.014-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtest-hasversion-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtest-hasversion-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu libtest-hasversion-perl 0.014-3 maps to official FERREIRA CPAN SHA-256 0555bb7ac67d839747056054669065e1305ff4b4e7283d9ac43b7a62cd007cbd, matching publisher CHECKSUMS. Distribution LICENSE and installed module grant Perl terms. Official target primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same RPM/module and supplies direct dependencies. All eight default tests remain; local 20 assertions passed with optional POD coverage self-skipped only because local Test::Pod::Coverage is missing. Target BuildRequires must run that file, and exact-head DNF and installed CLI smoke must pass. PR CI is not public publication."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
