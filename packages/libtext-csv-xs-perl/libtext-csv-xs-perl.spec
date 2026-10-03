@@ -3,7 +3,9 @@ Name:           perl-Text-CSV_XS
 Version:        1.64
 Release:        2%{?dist}
 Summary:        Fast XS parser and writer for comma-separated values
-License:        GPL-1.0-or-later OR Artistic-1.0-Perl
+# LicenseRef-Unresolved-Fixture marks unresolved bundled fixture provenance;
+# it is not a grant and this draft must not be built or redistributed.
+License:        (GPL-1.0-or-later OR Artistic-1.0-Perl) AND LicenseRef-Unresolved-Fixture
 URL:            https://metacpan.org/dist/Text-CSV_XS
 Source0:        Text-CSV_XS-%{version}.tgz
 

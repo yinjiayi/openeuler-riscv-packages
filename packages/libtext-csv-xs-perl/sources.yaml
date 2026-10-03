@@ -13,8 +13,8 @@
       },
       "signature": null,
       "redistribution": {
-        "allowed": true,
-        "reason": "README and module POD grant the same terms as Perl; official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+        "allowed": false,
+        "reason": "Conservative evidence hold, not a legal finding: the exact archive includes t/70_rt.t vehicle-review prose with unresolved third-party redistribution provenance and LOVE_LETTER.md with incomplete Xan origin notices/aggregate accounting. The code's Perl dual grant and verified Xan Unlicense OR MIT grant do not alone close those archive-level gaps. Preserve source pin and tests; do not redistribute or rebuild/upload until review clears the hold. SECURITY.md is not a blocking item."
       }
     }
   ]

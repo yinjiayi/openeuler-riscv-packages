@@ -4,7 +4,7 @@
   "rpm": {
     "name": "perl-Text-CSV_XS",
     "summary": "Fast XS parser and writer for comma-separated values",
-    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND LicenseRef-Unresolved-Fixture"
   },
   "upstream": {
     "component": "libtext-csv-xs-perl",
@@ -53,12 +53,12 @@
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
-    "status": "active",
+    "status": "update-disabled",
     "maintainers": ["yinjiayi"],
-    "notes": "This is an explicit newer-version supplier for official openEuler SP3 RVA23 perl-Text-CSV_XS 1.48, not a claim that the target lacks that package. Verified primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a and existing PR #2296 show Text::CSV 2.04 requires XS >=1.53 for its XS backend. Official stable CPAN 1.64 source SHA-256 matches publisher CHECKSUMS; safe archive and Perl dual-license text reviewed. All 35 default upstream t/*.t tests remain in %check. Target build, upgrade, installed XS smoke and wrapper integration require exact-head CI; #2296 cannot be called fixed until a compatible supplier is publicly resolvable and its own full CI passes."
+    "notes": "Source-redistribution hold: LicenseRef-Unresolved-Fixture is an evidence-gap marker, not a license grant or a finding of infringement. Perl code has the stated dual grant, but t/70_rt.t lines 527-531 contain attributed third-party vehicle-review prose without resolved redistribution provenance. Bundled LOVE_LETTER.md also needs preserved Xan origin license notices and aggregate accounting; its verified upstream Unlicense OR MIT grant makes this a fixable notice gap, not proof of absent permission. SECURITY.md is not a hold: the official CPANSec guide permits resulting policies under the software license. Preserve exact source SHA, all 35 tests and wrapper regression. No new source/product distribution, update, merger or publication until provenance and notices are reviewed and complete new-head target CI passes. Historical f2b10bf CI is technical evidence only; upgrade over official 1.48 and dependent #2296 remain unverified."
   },
   "updates": {
-    "enabled": true,
+    "enabled": false,
     "last_checked_at": null,
     "last_successful_check_at": null,
     "release_provider": "official-cpan-directory"
