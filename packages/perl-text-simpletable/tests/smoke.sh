@@ -5,6 +5,7 @@ set -euo pipefail
 rpm -q -- perl-Text-SimpleTable
 rpm -q --whatprovides 'perl(Text::SimpleTable)'
 perl -MUnicode::GCString -MMIME::Charset -MText::SimpleTable -e '
+  use utf8;
   die "unexpected Text::SimpleTable version\n"
     unless $Text::SimpleTable::VERSION eq "2.07";
   my $ascii = Text::SimpleTable->new(3, 3);
