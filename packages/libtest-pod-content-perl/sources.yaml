@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-pod-content-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Test-Pod-Content-v0.0.6.tar.gz",
+      "version": "0.0.6",
+      "url": "https://cpan.metacpan.org/authors/id/M/MK/MKUTTER/Test-Pod-Content-v0.0.6.tar.gz",
+      "digests": {
+        "sha256": "752bd838c75e113c176e36cb4a5f41b4b34b44bd13d607a92dc7bdf3c903975c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD grant Perl terms and Build.PL declares Perl licensing; official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
