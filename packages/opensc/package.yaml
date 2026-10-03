@@ -1,0 +1,348 @@
+{
+  "schema_version": 1,
+  "package_id": "opensc",
+  "rpm": {
+    "name": "opensc",
+    "summary": "Smart card library and applications with repaired OpenSSL3 RSA import",
+    "license": "LGPL-2.1-or-later AND Apache-2.0 AND MIT AND ISC AND BSD-3-Clause AND LicenseRef-OpenSC-pkcs11-header AND LicenseRef-OpenSC-Windows-icon-unresolved"
+  },
+  "upstream": {
+    "component": "opensc",
+    "homepage": "https://github.com/OpenSC/OpenSC",
+    "source_repository": "https://github.com/OpenSC/OpenSC",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/OpenSC/OpenSC/releases",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/OpenSC/OpenSC/releases/download/{version}/opensc-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.23.0",
+    "release": "8",
+    "latest_detected": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "opensc",
+        "package_base": "opensc",
+        "source_version": "0.27.0~rc1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/opensc",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "opensc.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-correct_left_length_calculation_to_fix_buffer.patch",
+        "sha256": "312713bda45a22469d7624e4118d2b8b961383fe63aad3ddb22b6ada8ec611d9",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0001-correct_left_length_calculation_to_fix_buffer.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0001-correct_left_length_calculation_to_fix_buffer.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0002-Prevent_stack_buffer_overflow_when_empty_ACL_is_returned.patch",
+        "sha256": "3cbcd49317c16a247afc6c7fb442d3ecb0e76eda940bb07996ca1e676908279c",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0002-Prevent_stack_buffer_overflow_when_empty_ACL_is_returned.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0002-Prevent_stack_buffer_overflow_when_empty_ACL_is_returned.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0003-opensc-CVE-2023-40660-1of2.patch",
+        "sha256": "093fb8d6f34d8c62595af54b81a14ca996532306a4a610cd2aca2165a1621f1d",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0003-opensc-CVE-2023-40660-1of2.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0003-opensc-CVE-2023-40660-1of2.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0004-opensc-CVE-2023-40660-2of2.patch",
+        "sha256": "4117add51f16b4e035703e9d62272828606dca112954a867083d9473422a8c5c",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0004-opensc-CVE-2023-40660-2of2.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0004-opensc-CVE-2023-40660-2of2.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0005-opensc-NULL_pointer_fix.patch",
+        "sha256": "7bf7ffb08bc5f2d1da4e5ad94d80f3f0695c38cd04787d37d2503a9bac39b4ca",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0005-opensc-NULL_pointer_fix.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0005-opensc-NULL_pointer_fix.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0006-opensc-CVE-2023-4535.patch",
+        "sha256": "3577867453d1d6f6b5227392879028305ea3d401848af5c9fce7f344a83bacbe",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0006-opensc-CVE-2023-4535.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0006-opensc-CVE-2023-4535.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0007-opensc-CVE-2023-40661-1of12.patch",
+        "sha256": "f3abc6f85a917ad2fd4572b34c18542fbf284b076a73cae9ea8b7cadc156f79e",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0007-opensc-CVE-2023-40661-1of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0007-opensc-CVE-2023-40661-1of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0008-opensc-CVE-2023-40661-2of12.patch",
+        "sha256": "bedd07b03904608d35c9988ec5e897c0b6bc299b252046a40dd97476c3d33397",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0008-opensc-CVE-2023-40661-2of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0008-opensc-CVE-2023-40661-2of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0009-opensc-CVE-2023-40661-3of12.patch",
+        "sha256": "1987339c0abdc994c936756762eb9ac85ef0d6f5e2db8ed91191f013400d958f",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0009-opensc-CVE-2023-40661-3of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0009-opensc-CVE-2023-40661-3of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0010-opensc-CVE-2023-40661-4of12.patch",
+        "sha256": "65db4ecde85373c64e57872d5286a90873821edb156101f8e759996f043f2197",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0010-opensc-CVE-2023-40661-4of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0010-opensc-CVE-2023-40661-4of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0011-opensc-CVE-2023-40661-5of12.patch",
+        "sha256": "289e0b208520425e3fffb16fdb5a97faf4a80affe162bb8efda4edd7ea6e205a",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0011-opensc-CVE-2023-40661-5of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0011-opensc-CVE-2023-40661-5of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0012-opensc-CVE-2023-40661-6of12.patch",
+        "sha256": "a1f15f534df5b7d46a20838a5cd525d8d405818c30a1f156c372fc3e17f81136",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0012-opensc-CVE-2023-40661-6of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0012-opensc-CVE-2023-40661-6of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0013-opensc-CVE-2023-40661-7of12.patch",
+        "sha256": "29cb005a2486214c70b31922603cb1b98309ef585e49d69cbdbfbc9f6a63be22",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0013-opensc-CVE-2023-40661-7of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0013-opensc-CVE-2023-40661-7of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0014-opensc-CVE-2023-40661-8of12.patch",
+        "sha256": "da32e4668689512b60fad6cffd2f17889bae282ac985eaad69708677f4dbe64e",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0014-opensc-CVE-2023-40661-8of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0014-opensc-CVE-2023-40661-8of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0015-opensc-CVE-2023-40661-9of12.patch",
+        "sha256": "ad2dd4e475e02ea461f0e3346f09ef033f56a35f924764250d234aa26934677d",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0015-opensc-CVE-2023-40661-9of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0015-opensc-CVE-2023-40661-9of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0016-opensc-CVE-2023-40661-10of12.patch",
+        "sha256": "6cc4c53edd2c0386373ba491bee0284ee1c658f3348f5f22777a569088b824a5",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0016-opensc-CVE-2023-40661-10of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0016-opensc-CVE-2023-40661-10of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0017-opensc-CVE-2023-40661-11of12.patch",
+        "sha256": "7602783f17ed883617103f5f807698d460ddde6d300a31e5e1ffd7a99169a0ea",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0017-opensc-CVE-2023-40661-11of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0017-opensc-CVE-2023-40661-11of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0018-opensc-CVE-2023-40661-12of12.patch",
+        "sha256": "c8ddf5ffa0dad4d86257301f0768a4838caccae0a9f27fb564621092e4fc3d9c",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0018-opensc-CVE-2023-40661-12of12.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0018-opensc-CVE-2023-40661-12of12.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0019-opensc-CVE-2023-5992.patch",
+        "sha256": "07205b43a3c5f48d9de0b46e11e458ed8c7dbe8c97b9a5c76b70a0c9bc89ba16",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0019-opensc-CVE-2023-5992.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0019-opensc-CVE-2023-5992.patch",
+        "license": "LGPL-2.1-or-later AND Apache-2.0",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0020-backport-avoid-calling-functions-without-prototype.patch",
+        "sha256": "ab87de71ca98b84d946c1a29e95929ee7819f5f2f01d728b56f017582beb817f",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: 0020-backport-avoid-calling-functions-without-prototype.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/0020-backport-avoid-calling-functions-without-prototype.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0021-opensc-CVE-2024-45615.patch",
+        "sha256": "64c75773ceb5f5e6d648a18af4cd4f3f67f75dc76fce0f25d5862241081a2b8e",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: opensc-CVE-2024-45615.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/opensc-CVE-2024-45615.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0022-opensc-CVE-2024-45616.patch",
+        "sha256": "ed2be7b15bd55dc58e5c71776d9521107e20262bfacc13ecef86f8b6e22644bd",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: opensc-CVE-2024-45616.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/opensc-CVE-2024-45616.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0023-opensc-CVE-2024-45617.patch",
+        "sha256": "0d597e363cee9aa1e625e059a02a994401d5a301da6ddb5eca97115b5ea058f5",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: opensc-CVE-2024-45617.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/opensc-CVE-2024-45617.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0024-opensc-CVE-2024-45618.patch",
+        "sha256": "de6d134ab51b0fe0461bfdccfb308992bbdc5ba6ed8ae4e550bd0ad864b739a7",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: opensc-CVE-2024-45618.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/opensc-CVE-2024-45618.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0025-opensc-CVE-2024-45619.patch",
+        "sha256": "af012c577081d2e2b608ece62cfa9ad52508f84552522e32392fe3c587861c18",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: opensc-CVE-2024-45619.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/opensc-CVE-2024-45619.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0026-opensc-CVE-2024-45620.patch",
+        "sha256": "d21c07d05358bcbde639b1d782d2e0964068172c248c8db2d02f8058ba4e1edb",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: opensc-CVE-2024-45620.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/opensc-CVE-2024-45620.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0027-opensc-CVE-2024-8443.patch",
+        "sha256": "05b92303f68e6d5c99a3af14434e78f221381d9840d6ca70d611201705da258d",
+        "purpose": "Preserve official SP3 release 7 security/compatibility baseline: opensc-CVE-2024-8443.patch",
+        "source": "https://gitee.com/src-openeuler/opensc/raw/394b93896f473d4c3cbcf0540d76b46abccc43b5/opensc-CVE-2024-8443.patch",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Only after a separately reviewed stable source contains the same fix and preserves the entire official SP3 security baseline."
+      },
+      {
+        "file": "patches/0028-upstream-rsa-private-import.patch",
+        "sha256": "308ca1aca25300eb99026dcfa00ef9170d15ccc2d2f029ae5734ece54fdf9784",
+        "purpose": "Correct RSA private exponent and CRT coefficient lookup under OpenSSL3.",
+        "source": "https://github.com/OpenSC/OpenSC/commit/99f7b82f187ca3512ceae6270c391243d018fdac",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Remove only when equivalent upstream implementation, license attribution and retained test coverage exist in a separately reviewed security baseline."
+      },
+      {
+        "file": "patches/0029-upstream-rsa-import-followup.patch",
+        "sha256": "8439aed5bd5304fec3654a6d8160f654656bc804dd18912d4946c596c946eb90",
+        "purpose": "Required syntax/error-reporting followup to upstream RSA import fix.",
+        "source": "https://github.com/OpenSC/OpenSC/commit/cff91cf6167743bdd59285150c4ef19802ed2644",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "released",
+        "remove_when": "Remove only when equivalent upstream implementation, license attribution and retained test coverage exist in a separately reviewed security baseline."
+      },
+      {
+        "file": "patches/0030-restore-openssl-constant-time-license.patch",
+        "sha256": "df3169f54b131696d11820eaa7362ac2c473f04e41946f89115adfec7b93a046",
+        "purpose": "Restore original notice, derivative notice and full license for baseline Apache2 OpenSSL helpers.",
+        "source": "https://github.com/openssl/openssl/blob/9890cc42daff5e2d0cad01ac4bf78c391f599a6e/include/internal/constant_time.h",
+        "license": "Apache-2.0",
+        "upstream_status": "downstream-only",
+        "remove_when": "Remove only when equivalent upstream implementation, license attribution and retained test coverage exist in a separately reviewed security baseline."
+      },
+      {
+        "file": "patches/0031-rsa-import-regression.patch",
+        "sha256": "888113695cbdcff88ae2c4178518d1ada274648a16accdcac3aa34c498a85a84",
+        "purpose": "Add mandatory software-token OpenSSL3 PKCS1 import/sign/verify regression to original default test suite.",
+        "source": "Package-local regression for the upstream OpenSC RSA import defect; no original test removed.",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "downstream-only",
+        "remove_when": "Remove only when equivalent upstream implementation, license attribution and retained test coverage exist in a separately reviewed security baseline."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "update-disabled",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "SOURCE RIGHTS HOLD: win32/DDORes.dll_14_2302.ico is explicitly extracted from DDORes.dll in immutable upstream c57c9c36bf40c9dd6fee645e83fdc044f54051a4; independent redistribution permission is unverified, not a finding of legal infringement. Source redistribution is false and PR remains draft. Initial aggregate omitted ISC/BSD3/pkcs11-header notices; required notice supplement remains incomplete. No repack/source deletion authorized. Preserve official SP3 27 security patches, baseline features and full original make check plus mandatory RSA import regression. Physical-card/native coverage, upgrade, public availability and dependent2080 repair remain unverified."
+  },
+  "updates": {
+    "enabled": false,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}
