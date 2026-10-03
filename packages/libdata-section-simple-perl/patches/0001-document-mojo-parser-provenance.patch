@@ -1,0 +1,41 @@
+# SPDX-License-Identifier: Apache-2.0
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Document Mojo DATA parser origin and derivative differences
+Upstream-Status: Inappropriate [downstream packaging provenance]
+
+This adds only a packaging provenance document; no Perl code or tests change.
+
+--- /dev/null
++++ b/MOJO-PROVENANCE
+@@ -0,0 +1,31 @@
++Data::Section::Simple: Mojo-derived DATA parser provenance
++
++Upstream Data::Section::Simple 0.07 credits Tatsuhiko Miyagawa (2010-)
++and Sebastian Riedel (2008-2010) in its module POD and README.
++The DATA extraction code is adapted from Mojo::Command::get_all_data.
++
++Contemporaneous official Mojo source:
++https://github.com/mojolicious/mojo/tree/3387874bbd0e8e8eadc8c8c2b9bb6903e7164fb6
++lib/Mojo/Command.pm:89-123 contains the original parser.
++Makefile.PL:24 declares artistic_2; the original LICENSE is Artistic 2.0.
++LICENSE.Mojo preserves that license and its disclaimer byte-for-byte.
++SHA-256: 685e534b60d4e2b4fbb1a259a83b5a86e877a919bbb9efc95994276f706a3a71
++
++Differences from the Mojo standard version are recorded here for
++Artistic-2.0 section 4: Data::Section::Simple uses its own package name,
++Exporter functional API and object interface; handles a zero file descriptor
++using defined fileno, returns undef for absent data, and uses a non-greedy
++section-name match. Its get_data_section combines lookup and extraction.
++It does not include the rest of Mojo::Command's command/renderer machinery.
++
++The installed module is Data/Section/Simple.pm, not Mojo/Command.pm.
++No Mojo namespace/file/executable is installed or overwritten by this RPM.
++The standard Mojo package may remain installed or be installed independently.
++This separately named module and installation boundary document the
++Artistic-2.0 section 4(b) path; no alternate upstream grant is invented.
++
++Downstream packaging adds this provenance document and the original
++Artistic-2.0 text, while leaving the pinned CPAN source archive, module code,
++upstream copyright notices, test fixtures and complete test suite unchanged.
++The aggregate RPM expression records both the upstream Perl terms and
++Artistic-2.0 origin terms. This is licensing evidence, not legal advice.
