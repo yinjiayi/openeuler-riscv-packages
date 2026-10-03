@@ -7,7 +7,12 @@ archive and its official `CHECKSUMS` entry both have SHA-256
 `64268e15983a9df47e1d9199a491f394e89f542e54afb33f4b78f3f318e09ab9`.
 Archive entries are under one top-level tree, without traversal paths,
 links or special files. The bundled `LICENSE` explicitly grants either
-GPL version 1 or later, or Perl Artistic License terms.
+GPL version 1 or later, or the generic nine-clause Artistic License 1.0.
+Its text matches [Artistic-1.0](https://spdx.org/licenses/Artistic-1.0.html),
+not the distinct Perl-kit Artistic-1.0-Perl variant. Release 2 corrects the
+SPEC/package metadata identifier to `GPL-1.0-or-later OR Artistic-1.0`.
+The original bundled LICENSE bytes and module copyright/disclaimers remain
+unchanged; this correction does not relicense or modify the upstream source.
 
 The official openEuler 24.03 LTS SP3 RVA23 `everything` primary metadata,
 `primary.xml.zst` SHA-256
@@ -24,3 +29,10 @@ are not counted as passed. One requires Pod::Coverage::TrustPod, absent in
 the reviewed target primary. Installed-RPM smoke tests exact line wrapping
 and the module provider. Target CI must prove the RPM build and smoke; PR
 artifacts alone do not establish public RPM repository publication.
+
+The release-2 correction changes only license accounting and the RPM release.
+Source pins, patches, all default tests, `%check` and installed smoke remain
+unchanged. The earlier local-test statement above is historical evidence, not
+a release-2 local rerun. Fresh exact-head target CI and physical RPM/SRPM
+verification are required before claiming release-2 build acceptance; no
+author-only tests, native RISC-V validation or public publication are claimed.
