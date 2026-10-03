@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-Data-Censor
 Version:        0.04
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Censor sensitive fields in Perl data structures
 License:        Artistic-2.0
 URL:            https://metacpan.org/dist/Data-Censor
@@ -49,8 +49,8 @@ for name in 00-load 01-basic pod; do
   grep -Eq "^t/${name}\\.t[[:space:].]*$" upstream-tests.log
 done
 test "$(grep -Ec '^ok (8|9|10|11) - clone_and_censor' upstream-tests.log)" -eq 4
-grep -Eq '^t/manifest\.t[[:space:]]+skipped: Author tests not required for installation$' upstream-tests.log
-if grep -E '^t/.*skipped:' upstream-tests.log | grep -Ev '^t/manifest\.t[[:space:]]+skipped: Author tests not required for installation$'; then
+grep -Eq '^t/manifest\.t[[:space:].]+skipped: Author tests not required for installation$' upstream-tests.log
+if grep -E '^t/.*skipped:' upstream-tests.log | grep -Ev '^t/manifest\.t[[:space:].]+skipped: Author tests not required for installation$'; then
   echo 'A non-author upstream test skipped unexpectedly' >&2
   exit 1
 fi
@@ -65,6 +65,9 @@ fi
 %{_mandir}/man3/Data::Censor.3*
 
 %changelog
+* Sat Oct 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.04-3
+- Match the author's skipped-file verbose padding exactly and keep its allowlist strict.
+
 * Sat Oct 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.04-2
 - Match the upstream verbose test headers without weakening test assertions.
 

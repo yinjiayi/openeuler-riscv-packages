@@ -32,3 +32,9 @@ summary lines while `TEST_VERBOSE=1` emits the file header and TAP `ok` on
 separate lines. Release 2 changes only that log assertion, adds an explicit
 four-line Clone TAP check, and leaves every upstream test unchanged. A new
 exact-head target run must establish final build and installed smoke success.
+
+Release 2 target run (`37105482709`) again passed all original 15 assertions
+and all four Clone lines, but `%check` then failed at the author-only skip
+line because the verbose harness inserts dots before `skipped:`. Release 3
+matches that observed dotted padding in both the positive author check and
+the negative unexpected-skip check. No source test or assertion is removed.
