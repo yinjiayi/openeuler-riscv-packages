@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-patch-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Patch-1.8.tar.gz",
+      "version": "1.8",
+      "url": "https://cpan.metacpan.org/authors/id/C/CA/CADE/Text-Patch-1.8.tar.gz",
+      "digests": {
+        "sha256": "eaf18e61ba6a3e143846a7cc66f08ce58a0c4fbda92acb31aede25cb3b5c3dcc"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official HTTPS CPAN release matches publisher CHECKSUMS; README grants redistribution under the included GPL-2.0 license text."
+      }
+    }
+  ]
+}
