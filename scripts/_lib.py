@@ -44,6 +44,22 @@ class ToolError(Exception):
         self.exit_code = exit_code
 
 
+class SourceRedistributionError(ToolError):
+    """An explicit source-rights denial, not an inferred license judgment."""
+
+
+def require_source_redistribution(entry: Mapping[str, Any]) -> None:
+    """Reject a declared boolean denial before fetching or materializing bytes.
+
+    Absence is not interpreted as a new denial: schema validation owns malformed
+    metadata, and this gate does not parse licenses or establish legal rights.
+    The free-form reason is deliberately excluded from errors/logs.
+    """
+    redistribution = entry.get("redistribution")
+    if isinstance(redistribution, Mapping) and redistribution.get("allowed") is False:
+        raise SourceRedistributionError("source redistribution is explicitly disallowed", 1)
+
+
 def utc_now() -> dt.datetime:
     return dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
 

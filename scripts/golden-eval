@@ -12,12 +12,14 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
 from _lib import (
     SCHEMA_VERSION,
+    SourceRedistributionError,
     ToolError,
     canonical_tar_gz,
     emit_json,
     isoformat,
     load_json,
     parse_now,
+    require_source_redistribution,
     run_main,
     sha256_file,
     tree_digest,
@@ -84,13 +86,18 @@ def safe_repo_path(repo_root: pathlib.Path, value: str) -> pathlib.Path:
 
 def fixture_config(manifest: Mapping[str, Any], repo_root: pathlib.Path) -> Dict[str, Any]:
     fixture = manifest.get("fixture") if isinstance(manifest.get("fixture"), Mapping) else {}
+    require_source_redistribution(fixture)
     package_id = str(manifest.get("package_id") or manifest.get("id") or manifest.get("name"))
     source_dir = fixture.get("source_dir") or fixture.get("path") or manifest.get("fixture_path")
     official_source = manifest.get("source") if isinstance(manifest.get("source"), Mapping) else None
+    if official_source is not None:
+        require_source_redistribution(official_source)
+    package_sources_path = repo_root / "packages" / package_id / "sources.yaml"
+    sources = load_json(package_sources_path).get("sources", []) if package_sources_path.exists() else []
+    for entry in sources:
+        require_source_redistribution(entry)
     if not source_dir:
-        package_sources_path = repo_root / "packages" / package_id / "sources.yaml"
         if package_sources_path.exists():
-            sources = load_json(package_sources_path).get("sources", [])
             if sources and str(sources[0].get("url", "")).startswith("fixture://"):
                 url = str(sources[0]["url"])[len("fixture://") :].lstrip("/")
                 source_dir = url
@@ -123,11 +130,20 @@ def fixture_config(manifest: Mapping[str, Any], repo_root: pathlib.Path) -> Dict
 def command_materialize(args: argparse.Namespace) -> int:
     repo_root = pathlib.Path(args.repo_root).resolve()
     output_dir = pathlib.Path(args.output_dir).resolve()
-    output_dir.mkdir(parents=True, exist_ok=True)
     reports: List[Dict[str, Any]] = []
+    fixtures: List[Dict[str, Any]] = []
     valid = True
     for manifest in manifests(pathlib.Path(args.manifests_dir)):
-        fixture = fixture_config(manifest, repo_root)
+        try:
+            fixtures.append(fixture_config(manifest, repo_root))
+        except SourceRedistributionError as error:
+            reports.append({"package_id": str(manifest.get("package_id") or manifest.get("id") or manifest.get("name")), "materialized": False, "valid": False, "errors": [str(error)]})
+            valid = False
+    if not valid:
+        emit_json({"schema_version": SCHEMA_VERSION, "kind": "golden-materialization", "generated_at": isoformat(parse_now(args.now)), "valid": False, "fixtures": reports}, args.output)
+        return 1
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for fixture in fixtures:
         if fixture["kind"] == "official-source":
             errors: List[str] = []
             if not str(fixture.get("url", "")).startswith("https://"):

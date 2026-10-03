@@ -139,6 +139,17 @@ scripts/validate-package-index
 
 Verify and materialize one package's pinned source without building it:
 
+A **source redistribution denial** is an explicit boolean
+`redistribution.allowed=false` in declared source metadata. It is a review hold,
+not an automated finding about a license or legal infringement. `build-rpm`
+rejects the whole source set before any download, source/cache write or compile,
+including `--verify-only`, `--plan` and offline reuse. Direct source
+materialization and Golden materialization also enforce the denial; failures
+produce ordinary failed build/invalid Golden evidence. The free-form reason is
+not echoed. `allowed=true` keeps the existing HTTPS/checksum, target and network
+policies; missing or malformed declarations remain the schema validator's
+responsibility. Passing this gate does not itself establish redistribution rights.
+
 ```sh
 scripts/build-rpm \
   --package-dir packages/golden-success-hello \
