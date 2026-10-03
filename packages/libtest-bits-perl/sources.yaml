@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-bits-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Test-Bits-0.02.tar.gz",
+      "version": "0.02",
+      "url": "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Test-Bits-0.02.tar.gz",
+      "digests": {
+        "sha256": "a9826f56483a27e2c63156590f328a3633e30375c10dfc89f6690e3929de0bc3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Archive LICENSE and module POD explicitly grant Artistic License 2.0; official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
