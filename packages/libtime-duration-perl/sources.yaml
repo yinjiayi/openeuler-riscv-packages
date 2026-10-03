@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package_id": "libtime-duration-perl",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release", "filename": "Time-Duration-1.21.tar.gz", "version": "1.21",
+    "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Time-Duration-1.21.tar.gz",
+    "digests": {"sha256": "fe340eba8765f9263694674e5dff14833443e19865e5ff427bbd79b7b5f8a9b8"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "Official NEILB CHECKSUMS verifies the fixed HTTPS source. Top-level LICENSE/README grant same-as-Perl for this software. The only installed PM explicitly attributes both Sean M Burke and Avi Finkel and itself grants same-as-Perl rights for the program; no contrary or vendored file notice was found."}
+  }]
+}
