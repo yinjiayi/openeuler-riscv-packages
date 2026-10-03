@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "libdevel-argnames-perl",
+  "rpm": {"name": "perl-Devel-ArgNames", "summary": "Identify variable names passed to Perl subroutines", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "upstream": {"component": "metacpan.org-release-devel-argnames", "homepage": "https://metacpan.org/dist/Devel-ArgNames", "source_repository": "https://metacpan.org/release/Devel-ArgNames", "release_channel": "stable", "release_api": "https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/", "release_regex": "Devel-ArgNames-(?P<version>[0-9.]+)\\.tar\\.gz", "source_url_template": "https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/Devel-ArgNames-{version}.tar.gz"},
+  "version": {"current": "0.03", "release": "1", "latest_detected": "0.03"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "ubuntu", "package_name": "libdevel-argnames-perl", "package_base": "libdevel-argnames-perl", "source_version": "0.03-3", "evidence_url": "https://archive.ubuntu.com/ubuntu/dists/resolute/universe/source/Sources.xz", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libdevel-argnames-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official CPAN archive SHA-256 matches author CHECKSUMS. Module POD explicitly grants Perl terms despite META.yml license null; all source/test/build files inspected without conflicting notices. Embedded legacy SHA1 SIGNATURE is retained but not independently signature-verified; source identity uses publisher-matched SHA-256. Official target primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks RPM/provider but supplies PadWalker 2.5 and Test::use::ok via Test-Simple. Retain the sole default upstream test file and add installed lexical-name smoke. This supplier is not available to dependent packages until protected publication; no public products or native validation claimed."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
