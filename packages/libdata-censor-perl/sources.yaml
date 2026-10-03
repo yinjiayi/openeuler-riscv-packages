@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-censor-perl",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release", "filename": "Data-Censor-0.04.tar.gz", "version": "0.04",
+    "url": "https://cpan.metacpan.org/authors/id/B/BI/BIGPRESH/Data-Censor-0.04.tar.gz",
+    "digests": {"sha256": "b713694b004362ba799baca9ee96a5d1c45a5e297711e3312f741ef511e2cc83"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "Official BIGPRESH CHECKSUMS verifies the fixed HTTPS archive. README and the sole installed module, both authored by David Precious, explicitly grant this program under Artistic License 2.0. The module says its original Dancer project code was written by the same author; no contrary notice appears in test, build, fixture or metadata files. The META.json unknown value is not used as a license grant."}
+  }]
+}
