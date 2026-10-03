@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-walk-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Walk-2.01.tar.gz",
+      "version": "2.01",
+      "url": "https://cpan.metacpan.org/authors/id/G/GU/GUIDO/Data-Walk-2.01.tar.gz",
+      "digests": {
+        "sha256": "88461561839fcbfebe1121cebee9bade20e609a12f8c7cb386eac22c8c54334a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original explicit Guido LibraryGPL2-or-later grant plus separately inherited FileFind Perl GPL1-or-later OR Artistic prose. Dated documentation-only patch identifies original copyright/disclaimer/origin/differences; immutable original Perl notice supplements installed. Source0/obsolete SIGNATURE/default tests remain unchanged; signature is not verified. Artistic3a freely available patch/source and4b corresponding SRPM route, no LGPL relicensing or legal certainty claim."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "perl-5.8.7-README",
+      "version": "5.8.7",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/3eef4faaf8d7fa185749184afd7dc737b8039f42/README",
+      "digests": {
+        "sha256": "2facb36fac40a6c53964b1459d909d72a65665b95cb3bb1e531cd1dc74af39a2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Byte-exact original Perl5.8.7 copyright/grant/disclaimer or license text from official immutable release commit; original GPL1-or-later OR Artistic grant allows copying with notices retained. Notice supplement only: schema upstream-release denotes release-origin notice, not software build/test dependency or new license text."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "filename": "perl-5.8.7-Artistic",
+      "version": "5.8.7",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/3eef4faaf8d7fa185749184afd7dc737b8039f42/Artistic",
+      "digests": {
+        "sha256": "b7fd9b73ea99602016a326e0b62e6646060d18febdd065ceca8bb482208c3d88"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Byte-exact original Perl5.8.7 copyright/grant/disclaimer or license text from official immutable release commit; original GPL1-or-later OR Artistic grant allows copying with notices retained. Notice supplement only: schema upstream-release denotes release-origin notice, not software build/test dependency or new license text."
+      }
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "filename": "perl-5.8.7-Copying",
+      "version": "5.8.7",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/3eef4faaf8d7fa185749184afd7dc737b8039f42/Copying",
+      "digests": {
+        "sha256": "9e57f5bc2cfc54e08afc80163c29006f38d9f9c890ebd4efe3c25f0d48b65a52"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Byte-exact original Perl5.8.7 copyright/grant/disclaimer or license text from official immutable release commit; original GPL1-or-later OR Artistic grant allows copying with notices retained. Notice supplement only: schema upstream-release denotes release-origin notice, not software build/test dependency or new license text."
+      }
+    }
+  ]
+}

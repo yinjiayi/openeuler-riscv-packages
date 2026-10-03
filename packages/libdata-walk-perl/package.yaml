@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-walk-perl",
+  "rpm": {
+    "name": "perl-Data-Walk",
+    "summary": "Traverse Perl data structures with callbacks",
+    "license": "LGPL-2.0-or-later AND (GPL-1.0-or-later OR Artistic-1.0-Perl)"
+  },
+  "upstream": {
+    "component": "libdata-walk-perl",
+    "homepage": "https://metacpan.org/dist/Data-Walk",
+    "source_repository": "https://metacpan.org/release/Data-Walk",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/G/GU/GUIDO/",
+    "release_regex": "Data-Walk-(?P<version>[0-9.]+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/G/GU/GUIDO/Data-Walk-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.01",
+    "release": "1",
+    "latest_detected": "2.01"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-walk-perl",
+        "package_base": "libdata-walk-perl",
+        "source_version": "2.01-2",
+        "evidence_url": "https://archive.ubuntu.com/ubuntu/dists/resolute/universe/source/Sources.xz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-walk-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-document-inherited-perl-pod-origin.patch",
+        "license": "Artistic-1.0-Perl",
+        "purpose": "Dated documentation-only original Perl origin/grant/disclaimer and derivative-differences accounting for inherited File::Find POD; no executable or default test change.",
+        "remove_when": "Upstream carries equivalent original origin copyright, grant, disclaimer and derivative-difference notices.",
+        "sha256": "fe3bbed5021ce7c864cfb4fea5c0c14ef49c8faade6a32a35b85ef9cc3cdbea1",
+        "source": "Official Perl 5.8.7 File::Find and README/Artistic/Copying at immutable 3eef4faaf8d7fa185749184afd7dc737b8039f42; original Data::Walk 2.01 POD.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Raw official CPAN SHA256/size match author CHECKSUMS/API; 22 files reviewed independently. Own LibraryGPL2-or-later and inherited FileFind Perl terms separately accounted; docs-only fuzz0 patch adds original notice/mapping, immutable original terms are Source1-3 and installed byte-exact. No executable/tests rewrite or raw archive repack. Original obsolete SIGNATURE preserved, PGP unverified: 1 match/9 mismatch/12 missing old TC/TS paths, not current signed-source success. Target primary fdb1663 has no package/provider; ScalarUtil1.63 satisfies1.38. Preserve all8 defaulttests/266 plannedassertions plus mandatoryHarness, no semanticcoverage or target/native/publication success inferred."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
