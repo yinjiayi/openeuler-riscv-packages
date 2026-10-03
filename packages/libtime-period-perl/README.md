@@ -25,3 +25,10 @@ The installed RPM smoke separately checks a matching weekday and year,
 a nonmatching weekday and malformed period handling. Exact-head hosted
 CI must establish target test, physical RPM/SRPM and DNF smoke results;
 no local RPM/QEMU build or publication occurred.
+
+Initial target run `37088055350` did run all ten original files and 213
+assertions without a skip, but rpmbuild then failed because Release 1
+listed `Changes` as a document although the official archive has no such
+file. Release 2 removes only that nonexistent `%doc` entry; it does not
+change source, functionality or any upstream test. Release 1 produced no
+RPM/SRPM or installed-smoke success evidence.

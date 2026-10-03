@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-Time-Period
 Version:        1.25
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Test whether a time belongs to a named period
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Time-Period
@@ -54,10 +54,13 @@ fi
 
 %files
 %license LICENSE
-%doc README Changes
+%doc README
 %{perl_vendorlib}/Time/Period.pm
 %{_mandir}/man3/Time::Period.3*
 
 %changelog
+* Sat Oct 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.25-2
+- List only the README document present in the official release archive.
+
 * Sat Oct 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.25-1
 - Package official CPAN release with all ten default upstream tests.
