@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-csv-xs-perl",
+  "rpm": {
+    "name": "perl-Text-CSV_XS",
+    "summary": "Fast XS parser and writer for comma-separated values",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-csv-xs-perl",
+    "homepage": "https://metacpan.org/dist/Text-CSV_XS",
+    "source_repository": "https://github.com/Tux/Text-CSV_XS",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/H/HM/HMBRAND/",
+    "release_regex": "Text-CSV_XS-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/H/HM/HMBRAND/Text-CSV_XS-{version}.tgz"
+  },
+  "version": {
+    "current": "1.64",
+    "release": "1",
+    "latest_detected": "1.64"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-csv-xs-perl",
+        "package_base": "libtext-csv-xs-perl",
+        "source_version": "1.61",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-csv-xs-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-csv-xs-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "This is an explicit newer-version supplier for official openEuler SP3 RVA23 perl-Text-CSV_XS 1.48, not a claim that the target lacks that package. Verified primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a and existing PR #2296 show Text::CSV 2.04 requires XS >=1.53 for its XS backend. Official stable CPAN 1.64 source SHA-256 matches publisher CHECKSUMS; safe archive and Perl dual-license text reviewed. All 35 default upstream t/*.t tests remain in %check. Target build, upgrade, installed XS smoke and wrapper integration require exact-head CI; #2296 cannot be called fixed until a compatible supplier is publicly resolvable and its own full CI passes."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

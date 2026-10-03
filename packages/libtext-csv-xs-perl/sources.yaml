@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-csv-xs-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-CSV_XS-1.64.tgz",
+      "version": "1.64",
+      "url": "https://cpan.metacpan.org/authors/id/H/HM/HMBRAND/Text-CSV_XS-1.64.tgz",
+      "digests": {
+        "sha256": "65c5662d4fe8ef3039a1b32f641634d0aae6ab10eabbb24f740c75332f2caf30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD grant the same terms as Perl; official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
