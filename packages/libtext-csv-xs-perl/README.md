@@ -19,7 +19,11 @@ dual-license expression.
 
 The SPEC keeps all 35 default upstream `t/*.t` files in `%check`, including
 the memory-regression test, and installs the XS module plus its examples as
-documentation. Its installed-RPM smoke verifies the module provider,
+documentation. An additional build-time integration assertion requires the
+official target Text::CSV 2.04 wrapper and verifies that its default preference
+selects the newly built XS 1.64 backend and correctly parses a quoted record.
+Text::CSV is a test dependency only. Its installed-RPM smoke verifies the module
+provider,
 version, quoted CSV parse and serialization. This is functional QEMU-user
 coverage, not a native RISC-V, memory-performance or security claim.
 
