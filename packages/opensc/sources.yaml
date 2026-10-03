@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "opensc",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "opensc-0.23.0.tar.gz",
+      "version": "0.23.0",
+      "url": "https://github.com/OpenSC/OpenSC/releases/download/0.23.0/opensc-0.23.0.tar.gz",
+      "digests": {
+        "sha256": "a4844a6ea03a522ecf35e49659716dacb6be03f7c010a1a583aaf3eb915ed2e0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official stable OpenSC source with LGPL-2.1-or-later COPYING and retained per-file notices; bytes match the official openEuler SP3 committed source baseline. Preserved downstream CVE patch adds Apache-2.0 OpenSSL helpers; a supplementary patch restores their original attribution and license."
+      }
+    }
+  ]
+}

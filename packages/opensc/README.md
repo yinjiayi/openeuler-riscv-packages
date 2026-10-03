@@ -1,0 +1,13 @@
+# OpenSC 0.23.0 RSA import supplier
+
+This package preserves the official openEuler 24.03 LTS SP3 OpenSC 0.23.0 release 7 source and all 27 applied security/compatibility patches from immutable commit `394b93896f473d4c3cbcf0540d76b46abccc43b5`. Release 8 corrects OpenSSL 3 RSA private import using upstream commits `99f7b82f187ca3512ceae6270c391243d018fdac` and required followup `cff91cf6167743bdd59285150c4ef19802ed2644`. It supplies an existing target dependency, rather than claiming OpenSC is absent.
+
+The official tarball SHA-256 is `a4844a6ea03a522ecf35e49659716dacb6be03f7c010a1a583aaf3eb915ed2e0`, matching the source archived in the official SP3 tree. The frozen inventory's OpenSC 0.27.0~rc1 record is a prerelease; this deliberately maintains the stable SP3 security baseline. Automated version replacement is disabled pending a full security-patch/features review.
+
+The original full `make check` remains, with cmocka and tests enabled, all baseline features retained, and an additional SoftHSM/OpenSSL 3 traditional PKCS#1 private-import/sign/verify regression. The original two `XFAIL_TESTS` remain upstream expected failures; target CI must report actual PASS/XFAIL/XPASS outcomes. PC/SC smart-card drivers remain compiled, but neither software-token tests nor installed CLI smoke establish physical-card or native RISC-V coverage. Hardware regression/p11test programs that upstream does not register in default `make check` are not claimed executed.
+
+The baseline CVE-2023-5992 patch imports OpenSSL constant-time helpers from Apache-2.0 commit `9890cc42daff5e2d0cad01ac4bf78c391f599a6e`; its original notice and full license are restored by a supplementary attribution patch while all 27 security patch bytes remain unchanged. Source COPYING, compatibility notices and Apache license are installed as license documentation.
+
+The bundled getopt compatibility implementation has an MIT grant, included in the aggregate license and installed license documents. Canonical unified diff files retain upstream whitespace and exact SHA-256 values; package-local Git attributes avoid treating required diff context prefixes as source indentation errors. Metadata hash verification and strict patch application check these assets; normal whitespace checks continue for the other package files.
+
+Installed smoke verifies release 8 and shipped CLI/module files. The PR's fresh installation is not evidence that upgrading an existing 0.23.0-7 target succeeds. The supplier must be publicly available, then a separate libp11 #2080 full-suite rerun must pass before that dependent PR is considered repaired; its earlier fork/signal timeout remains unresolved.
