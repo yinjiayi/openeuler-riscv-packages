@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-csv-xs-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-CSV_XS-1.64.tgz",
+      "version": "1.64",
+      "url": "https://cpan.metacpan.org/authors/id/H/HM/HMBRAND/Text-CSV_XS-1.64.tgz",
+      "digests": {
+        "sha256": "65c5662d4fe8ef3039a1b32f641634d0aae6ab10eabbb24f740c75332f2caf30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": false,
+        "reason": "Conservative evidence hold, not a legal finding: the exact archive includes t/70_rt.t vehicle-review prose with unresolved third-party redistribution provenance and LOVE_LETTER.md with incomplete Xan origin notices/aggregate accounting. The code's Perl dual grant and verified Xan Unlicense OR MIT grant do not alone close those archive-level gaps. Preserve source pin and tests; do not redistribute or rebuild/upload until review clears the hold. SECURITY.md is not a blocking item."
+      }
+    }
+  ]
+}
