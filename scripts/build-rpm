@@ -27,6 +27,7 @@ from _lib import (
     load_json,
     parse_now,
     package_identifier,
+    require_source_redistribution,
     run_main,
     sha256_bytes,
     sha256_file,
@@ -151,6 +152,7 @@ def materialize_source(
     retries: int,
     offline: bool,
 ) -> Dict[str, Any]:
+    require_source_redistribution(entry)
     url = str(entry.get("url") or "")
     filename = pathlib.PurePosixPath(str(entry.get("filename") or "")).name
     if not filename or not re.fullmatch(r"[A-Za-z0-9._+~-]+", filename):
@@ -401,13 +403,17 @@ def main() -> int:
         build_result["package_id"] = package_id
         version_data = metadata.get("version") if isinstance(metadata.get("version"), Mapping) else {}
         build_result["package_version"] = version_data.get("current") or metadata.get("version")
-        topdir = prepare_dirs(work)
-        build_result["work_dir"] = str(work)
-        cache_dir = pathlib.Path(args.cache_dir) if args.cache_dir else work / "download-cache"
         entries = sources.get("sources", [])
         if not isinstance(entries, list) or not entries:
             raise ToolError("sources.yaml must contain at least one source")
         build_result["phase"] = "source-verify"
+        # Preflight the entire source set, so a denied later entry cannot allow
+        # an earlier one to populate SOURCES or the shared download cache.
+        for entry in entries:
+            require_source_redistribution(entry)
+        topdir = prepare_dirs(work)
+        build_result["work_dir"] = str(work)
+        cache_dir = pathlib.Path(args.cache_dir) if args.cache_dir else work / "download-cache"
         verifications = [
             materialize_source(
                 entry,

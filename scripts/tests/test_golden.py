@@ -3,13 +3,52 @@ from __future__ import annotations
 
 import json
 import pathlib
+import runpy
+import sys
 import tempfile
 import unittest
+from unittest import mock
 
-from helpers import SCRIPTS, run_tool
+from helpers import SCRIPTS, run_tool, write_json
+
+sys.path.insert(0, str(SCRIPTS))
 
 
 class GoldenTests(unittest.TestCase):
+    def test_explicit_denial_preflights_all_golden_sources_before_archive_writes(self) -> None:
+        namespace = runpy.run_path(str(SCRIPTS / "golden-eval"))
+        command = namespace["command_materialize"]
+        for denial in ("manifest-source", "manifest-fixture", "package-source"):
+            with self.subTest(denial=denial), tempfile.TemporaryDirectory() as temporary:
+                root = pathlib.Path(temporary)
+                manifests = root / "manifests"
+                for package_id in ("golden-success-hello", "golden-riscv-inline-asm", "golden-needs-native-kmod"):
+                    fixture = root / package_id
+                    fixture.mkdir()
+                    (fixture / "fixture.txt").write_text("fixture\n")
+                    manifest = {"package_id": package_id, "fixture": {"source_dir": package_id}}
+                    if package_id == "golden-success-hello":
+                        denied = {"allowed": False, "reason": "untrusted reason must not be echoed"}
+                        if denial == "manifest-fixture":
+                            manifest["fixture"]["redistribution"] = denied
+                        elif denial == "manifest-source":
+                            manifest["source"] = {"url": "https://example.org/source.tar.gz", "redistribution": denied}
+                        else:
+                            write_json(root / "packages" / package_id / "sources.yaml", {"sources": [{"redistribution": {"allowed": True}}, {"redistribution": denied}]})
+                    write_json(manifests / (package_id + ".yaml"), manifest)
+                output = root / "result.json"
+                args = namespace["parser"]().parse_args(["materialize", "--repo-root", str(root), "--manifests-dir", str(manifests), "--output-dir", str(root / "archives"), "--output", str(output)])
+                archive = mock.Mock(side_effect=AssertionError("no source bytes may be materialized"))
+                with mock.patch.dict(command.__globals__, {"canonical_tar_gz": archive}):
+                    self.assertEqual(command(args), 1)
+                archive.assert_not_called()
+                self.assertFalse((root / "archives").exists())
+                report = json.loads(output.read_text())
+                self.assertFalse(report["valid"])
+                self.assertFalse(report["fixtures"][0]["materialized"])
+                self.assertIn("explicitly disallowed", report["fixtures"][0]["errors"][0])
+                self.assertNotIn("untrusted reason", output.read_text())
+
     def test_repository_manifests_validate_and_sources_materialize(self) -> None:
         repo = SCRIPTS.parent
         with tempfile.TemporaryDirectory() as temporary:
