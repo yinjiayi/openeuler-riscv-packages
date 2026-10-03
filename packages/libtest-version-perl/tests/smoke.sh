@@ -5,7 +5,9 @@ set -euo pipefail
 rpm -q -- perl-Test-Version
 rpm -q --whatprovides 'perl(Test::Version)'
 perl -MTest::Version=version_ok -e '
+  use Test::More;
   Test::Version->VERSION("2.09");
   my $path = $INC{"Test/Version.pm"} or die "installed module path missing\n";
   version_ok($path) or die "installed module version rejected\n";
+  done_testing();
 '
