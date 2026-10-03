@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-section-simple-perl",
+  "rpm": {"name": "perl-Data-Section-Simple", "summary": "Read named sections from Perl DATA handles", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "upstream": {"component": "metacpan.org-release-data-section-simple", "homepage": "https://metacpan.org/dist/Data-Section-Simple", "source_repository": "https://github.com/miyagawa/Data-Section-Simple", "release_channel": "stable", "release_api": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/", "release_regex": "Data-Section-Simple-(?P<version>[0-9.]+)\\.tar\\.gz", "source_url_template": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/Data-Section-Simple-{version}.tar.gz"},
+  "version": {"current": "0.07", "release": "1", "latest_detected": "0.07"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "ubuntu", "package_name": "libdata-section-simple-perl", "package_base": "libdata-section-simple-perl", "source_version": "0.07-4", "evidence_url": "https://archive.ubuntu.com/ubuntu/dists/resolute/universe/source/Sources.xz", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libdata-section-simple-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official CPAN source matches author CHECKSUMS. Bundled LICENSE, README and module POD consistently grant Perl GPL/Artistic terms; source, tests and helper files were inspected for conflicting file-specific restrictions. Frozen Ubuntu 0.07-4 lineage maps to official 0.07, not openSUSE's 0.70.0 packaging normalization. Official SP3 RVA23 primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks this RPM/provider and supplies Test::Requires and Test::Pod. All five default tests retained with RELEASE_TESTING=1; target CI and installed smoke required, no public publication claim."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
