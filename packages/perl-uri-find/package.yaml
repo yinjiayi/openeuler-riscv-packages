@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-uri-find",
+  "rpm": {
+    "name": "perl-URI-Find",
+    "summary": "Find URI references in arbitrary text",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-uri-find",
+    "homepage": "https://metacpan.org/dist/URI-Find",
+    "source_repository": "https://github.com/schwern/URI-Find",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/",
+    "release_regex": "URI-Find-(?P<version>[0-9]+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/URI-Find-{version}.tar.gz"
+  },
+  "version": {
+    "current": "20160806",
+    "release": "1",
+    "latest_detected": "20160806"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "liburi-find-perl",
+        "package_base": "liburi-find-perl",
+        "source_version": "20160806-3",
+        "evidence_url": "https://packages.debian.org/source/sid/liburi-find-perl",
+        "observed_at": "2026-10-03T14:45:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "perl-uri-find.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory has duplicate aliases perl-URI-Find (release) and perl-uri-find (module POD); this package owns the latter slug and canonical perl-URI-Find RPM, not URI-Find-Simple or URI-Find-Delimited. Official CPAN source SHA-256 matches publisher CHECKSUMS and dual-license text was reviewed. Official openEuler SP3 RVA23 primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a contains Module::Build and URI but no same-name RPM or perl(URI::Find) provider. All eight default upstream tests, including the conditional POD test with its dependency installed, remain in %check. Target run, installed smoke and PR products require exact-head CI; no public RPM is claimed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
