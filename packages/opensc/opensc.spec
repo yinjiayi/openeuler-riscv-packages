@@ -5,10 +5,14 @@
 Name:            opensc
 Version:         0.23.0
 Release:         8
-License:         LGPL-2.1-or-later AND Apache-2.0 AND MIT
+License:         LGPL-2.1-or-later AND Apache-2.0 AND MIT AND ISC AND BSD-3-Clause AND LicenseRef-OpenSC-pkcs11-header AND LicenseRef-OpenSC-Windows-icon-unresolved
 Summary:         Smart card library and applications
 URL:             https://github.com/OpenSC/OpenSC/wiki
 Source0:         https://github.com/OpenSC/OpenSC/releases/download/%{version}/%{name}-%{version}.tar.gz
+# SOURCE-RIGHTS-HOLD: the source archive includes win32/DDORes.dll_14_2302.ico.
+# Immutable upstream c57c9c36bf40c9dd6fee645e83fdc044f54051a4 identifies it as
+# extracted from DDORes.dll; independent redistribution permission is unverified.
+# The LicenseRef records an evidence gap, not a legal infringement determination.
 Patch0:          0001-correct_left_length_calculation_to_fix_buffer.patch
 Patch1:          0002-Prevent_stack_buffer_overflow_when_empty_ACL_is_returned.patch
 # PATCH-FIX-UPSTREAM: CVE-2023-40660: PIN bypass when card tracks its own login state

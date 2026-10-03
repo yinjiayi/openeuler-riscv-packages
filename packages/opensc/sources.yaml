@@ -13,8 +13,8 @@
       },
       "signature": null,
       "redistribution": {
-        "allowed": true,
-        "reason": "Official stable OpenSC source with LGPL-2.1-or-later COPYING and retained per-file notices; bytes match the official openEuler SP3 committed source baseline. Preserved downstream CVE patch adds Apache-2.0 OpenSSL helpers; a supplementary patch restores their original attribution and license."
+        "allowed": false,
+        "reason": "SOURCE RIGHTS HOLD: archive member win32/DDORes.dll_14_2302.ico was introduced as a Smartcard icon extracted from DDORes.dll by immutable OpenSC commit c57c9c36bf40c9dd6fee645e83fdc044f54051a4. Independent redistribution authorization has not been verified; this is an evidence gap, not a legal infringement finding. Official source and all27 SP3 patch bytes remain intact. Required BSD3/ISC/pkcs11-header notice supplement is incomplete. Obtain authorization or an explicitly approved feature/test/security-preserving source repack before source verification, build, merge or publication."
       }
     }
   ]

@@ -4,7 +4,7 @@
   "rpm": {
     "name": "opensc",
     "summary": "Smart card library and applications with repaired OpenSSL3 RSA import",
-    "license": "LGPL-2.1-or-later AND Apache-2.0 AND MIT"
+    "license": "LGPL-2.1-or-later AND Apache-2.0 AND MIT AND ISC AND BSD-3-Clause AND LicenseRef-OpenSC-pkcs11-header AND LicenseRef-OpenSC-Windows-icon-unresolved"
   },
   "upstream": {
     "component": "opensc",
@@ -333,11 +333,11 @@
     "smoke_test": "tests/smoke.sh"
   },
   "maintenance": {
-    "status": "active",
+    "status": "update-disabled",
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Explicit stable SP3 supplier defect correction, not absent-provider onboarding or prerelease adoption. Preserve official0.23.0-7 security/compatibility patches and default features; use release8. Full original make check plus mandatory SoftHSM OpenSSL3 RSA-import/signature regression retained; upstream2 XFAIL classifications retained and actual target results required. Physical-card/native tests remain unverified. Supplementary attribution patch restores Apache2 notice for baseline constant-time helpers. Fresh install does not prove upgrade from existing SP3 provider, public supplier availability or dependent#2080 repair; separate upgrade/publication/full dependent suite evidence required."
+    "notes": "SOURCE RIGHTS HOLD: win32/DDORes.dll_14_2302.ico is explicitly extracted from DDORes.dll in immutable upstream c57c9c36bf40c9dd6fee645e83fdc044f54051a4; independent redistribution permission is unverified, not a finding of legal infringement. Source redistribution is false and PR remains draft. Initial aggregate omitted ISC/BSD3/pkcs11-header notices; required notice supplement remains incomplete. No repack/source deletion authorized. Preserve official SP3 27 security patches, baseline features and full original make check plus mandatory RSA import regression. Physical-card/native coverage, upgrade, public availability and dependent2080 repair remain unverified."
   },
   "updates": {
     "enabled": false,
