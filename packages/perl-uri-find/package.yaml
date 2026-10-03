@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-uri-find",
+  "rpm": {
+    "name": "perl-URI-Find",
+    "summary": "Find URI references in arbitrary text",
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND LicenseRef-Science-News-Fixture-Unresolved"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-uri-find",
+    "homepage": "https://metacpan.org/dist/URI-Find",
+    "source_repository": "https://github.com/schwern/URI-Find",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/",
+    "release_regex": "URI-Find-(?P<version>[0-9]+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/URI-Find-{version}.tar.gz"
+  },
+  "version": {
+    "current": "20160806",
+    "release": "1",
+    "latest_detected": "20160806"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "liburi-find-perl",
+        "package_base": "liburi-find-perl",
+        "source_version": "20160806-3",
+        "evidence_url": "https://packages.debian.org/source/sid/liburi-find-perl",
+        "observed_at": "2026-10-03T14:45:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "perl-uri-find.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "update-disabled",
+    "maintainers": ["yinjiayi"],
+    "notes": "LICENSE REVIEW HOLD: the pinned source includes t/urifind/sciencenews, a third-party Science News newsletter fixture with no identified file-specific redistribution grant; t/urifind/find.t uses it and the raw source is included in SRPM. LicenseRef-Science-News-Fixture-Unresolved denotes missing rights evidence, not a legal finding or redistribution permission. The software Perl dual-license grant and source SHA do not establish third-party fixture clearance. This draft must not merge/publish; updates disabled pending rightsholder provenance or an unrestricted upstream source. Preserve all eight tests and source bytes. Frozen perl-URI-Find/perl-uri-find aliases identify one distribution. Official target has no same RPM/provider. Prior head79fa4f36 CI success is technical-only evidence; no current-head or public product success is inferred."
+  },
+  "updates": {
+    "enabled": false,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
