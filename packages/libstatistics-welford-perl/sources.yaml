@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstatistics-welford-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Statistics-Welford-0.02.tar.gz",
+      "version": "0.02",
+      "url": "https://cpan.metacpan.org/authors/id/K/KA/KAARE/Statistics-Welford-0.02.tar.gz",
+      "digests": {
+        "sha256": "f70cd4a3240b3d32fcee821dad3dbcb4d06017f56f17227f9970815709477043"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The sole upstream module's COPYRIGHT POD grants redistribution under Perl 5 terms, consistent with Build.PL and META.yml. There is no vendored code or third-party data. KAARE publisher CHECKSUMS confirms the full SHA-256."
+      }
+    }
+  ]
+}
