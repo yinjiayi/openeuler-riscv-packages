@@ -38,6 +38,7 @@ target performance claims.
 find %{buildroot} -type f -name .packlist -delete
 find %{buildroot} -type f -name perllocal.pod -delete
 mv %{buildroot}%{_bindir}/benchmark.pl %{buildroot}%{_bindir}/net-statsd-benchmark
+mv %{buildroot}%{_mandir}/man1/benchmark.pl.1 %{buildroot}%{_mandir}/man1/net-statsd-benchmark.1
 
 %check
 # Retain the four unchanged upstream default files, including local UDP and
@@ -49,8 +50,10 @@ mv %{buildroot}%{_bindir}/benchmark.pl %{buildroot}%{_bindir}/net-statsd-benchma
 %doc Changes README README.pod
 %{perl_vendorlib}/Net/Statsd.pm
 %{_bindir}/net-statsd-benchmark
+%{_mandir}/man1/net-statsd-benchmark.1*
 %{_mandir}/man3/Net::Statsd.3*
 
 %changelog
 * Sat Oct 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.13-1
 - Package official CPAN release with all four default upstream test files.
+- Retain the upstream benchmark manual under the package-specific command name.

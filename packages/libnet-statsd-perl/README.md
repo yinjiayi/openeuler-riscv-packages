@@ -27,6 +27,7 @@ sampling regression, and malformed-metric rejection. Target `%check` runs
 the same complete default suite. Installed smoke verifies an actual UDP
 counter packet on loopback and the injection guard. The upstream benchmark
 script is retained as `net-statsd-benchmark` to avoid a generic executable
-name collision, but it is not used as native RISC-V performance evidence.
+name collision; its generated manual is renamed with it. Neither is used as
+native RISC-V performance evidence.
 QEMU-user functional results cannot prove native RISC-V timing, performance,
 or public repository publication.
