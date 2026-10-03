@@ -37,8 +37,20 @@ copyright/grant; no substitute license notice is invented.
 cover load, normal methods, inherited dynamic callbacks, `can`, missing-method
 errors, changing import and overridden `can`. There is no optional dependency,
 skip or TODO branch. The upstream traditional Makefile.PL is used as intended,
-with no source/test change. Installed smoke separately checks inherited dynamic
+with no source/test change. The legacy `test.pl` failure branch only prints
+`not ok`, without making the Perl process exit nonzero. Therefore release 2
+preserves the original `make test` and additionally requires `Test::Harness`
+evaluation of the unchanged complete test.pl with its built `blib` paths.
+Official target `perl-Test-Harness` 2:3.48-1.oe2403sp3 is an explicit BuildRequires.
+Installed smoke separately checks inherited dynamic
 dispatch, the returned `can` callback and missing-method failure.
+
+Historical [CI 37145223071](https://github.com/yinjiayi/openeuler-riscv-packages/actions/runs/37145223071)
+at `52e4ec1a2a42da0ee7ae361c1a297ba867dd4b35` printed twenty `ok` assertions
+and installed smoke passed, but that run did not enforce TAP failure. Its
+products are release 1 and do not validate release 2's mandatory Harness gate.
+Fresh exact-current-head target CI and release 2 product-byte audit are required;
+historical green is not current-head clearance.
 
 Local checks verify source identity, static metadata and repository tests only;
 no local RPM, QEMU or upstream build is performed. Target test/install/product

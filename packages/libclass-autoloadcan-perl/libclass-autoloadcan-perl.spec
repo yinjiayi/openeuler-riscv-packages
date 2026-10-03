@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-Class-AutoloadCAN
 Version:        0.03
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cooperate between Perl AUTOLOAD, can and inheritance
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Class-AutoloadCAN
@@ -13,6 +13,7 @@ BuildRequires:  make
 BuildRequires:  perl
 BuildRequires:  perl-Carp
 BuildRequires:  perl-ExtUtils-MakeMaker
+BuildRequires:  perl-Test-Harness
 BuildRequires:  perl-generators
 
 %description
@@ -35,6 +36,8 @@ find %{buildroot} -type f -name perllocal.pod -delete
 %check
 # Preserve the entire default test.pl and its twenty assertions.
 %make_build test
+# Legacy test.pl only prints failing TAP; enforce TAP failure as nonzero too.
+PERL5LIB="$PWD/blib/lib:$PWD/blib/arch" %{__perl} -MTest::Harness -e 'runtests("test.pl")'
 
 %files
 %license lib/Class/AutoloadCAN.pm
@@ -43,5 +46,7 @@ find %{buildroot} -type f -name perllocal.pod -delete
 %{_mandir}/man3/Class::AutoloadCAN.3*
 
 %changelog
+* Sun Oct 04 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.03-2
+- Enforce unchanged legacy TAP test failures through Test::Harness.
 * Sun Oct 04 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.03-1
 - Package official CPAN source with the unchanged complete upstream test.
