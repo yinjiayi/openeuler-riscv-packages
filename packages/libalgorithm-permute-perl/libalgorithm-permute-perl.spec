@@ -3,7 +3,7 @@ Name:           perl-Algorithm-Permute
 Version:        0.17
 Release:        1%{?dist}
 Summary:        Generate list permutations with Perl XS
-License:        GPL-1.0-or-later OR Artistic-1.0-Perl
+License:        LicenseRef-Algorithm-Permute-CDROM-Commercial-Restriction
 URL:            https://metacpan.org/dist/Algorithm-Permute
 Source0:        Algorithm-Permute-%{version}.tar.gz
 
@@ -21,6 +21,8 @@ BuildRequires:  perl-generators
 %description
 Algorithm::Permute implements permutation iterators and a callback interface
 using Perl XS. It supports choosing a subset length and resetting iterators.
+This draft is held for unresolved file-specific commercial-media restrictions;
+the LicenseRef records that notice and does not establish redistribution approval.
 
 %prep
 %autosetup -n Algorithm-Permute-%{version} -p1
@@ -48,3 +50,4 @@ AUTHOR_TESTING=1 MEMORY_TEST=1 %make_build test
 %changelog
 * Sat Oct 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.17-1
 - Package official XS release with complete functional, POD and leak tests.
+- Record unresolved file-specific commercial-media restriction; hold publication.
