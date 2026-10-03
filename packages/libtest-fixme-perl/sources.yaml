@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-fixme-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Test-Fixme-0.17.tar.gz",
+      "version": "0.17",
+      "url": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Test-Fixme-0.17.tar.gz",
+      "digests": {
+        "sha256": "9ef8580420b0551f11e81541a22006837c9bdf26524d0b8bf35aa286acca878e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS; distribution-wide LICENSE grants GPL-1.0-or-later OR Artistic-1.0-Perl with no separately vendored code."
+      }
+    }
+  ]
+}
