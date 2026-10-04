@@ -4,7 +4,7 @@
 %global __provides_exclude ^perl[(]Logfile::Rotate[)]([[:space:]]|$)
 Name:           perl-Logfile-Rotate
 Version:        1.04
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Rotate private log files with callbacks and optional gzip compression
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Logfile-Rotate
@@ -12,6 +12,7 @@ Source0:        Logfile-Rotate-%{version}.tar.gz
 Source1:        perl-5.8.7-README
 Source2:        perl-5.8.7-Artistic
 Source3:        perl-5.8.7-Copying
+Patch0:         0001-observe-persist-file-metadata.patch
 
 BuildArch:      noarch
 BuildRequires:  coreutils
@@ -41,7 +42,8 @@ the explicit Perl capability records. The target lexical provider scanner
 extracts Revision 1.5 incorrectly, so only this automatic capability is filtered.
 
 %prep
-%autosetup -n Logfile-Rotate-%{version} -p1
+%autosetup -n Logfile-Rotate-%{version} -N
+%patch -P 0 -p1 -F 0
 cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} .
 
 %build
@@ -70,6 +72,8 @@ rpm -qf /usr/bin/gzip
 %{_mandir}/man3/Logfile::Rotate.3*
 
 %changelog
+* Sun Oct 04 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.04-3
+- Add test-only STDERR metadata observation; preserve all assertions and runtime.
 * Sun Oct 04 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.04-2
 - Correct the generated Perl capability to the unchanged runtime VERSION 1.05.
 * Sun Oct 04 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.04-1
