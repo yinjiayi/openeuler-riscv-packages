@@ -54,6 +54,10 @@ grep -F 'POST' server-and-client.log
 %{_libdir}/cmake/httplib/
 
 %changelog
+* Sun Oct 04 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.59.0-1
+- Align installed version assertion, package metadata and documentation with the pinned 0.59.0 update.
+- Retain the header-only feature selection and loopback example check unchanged.
+
 * Wed Sep 02 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.54.1-2
 - Synchronize the installed smoke assertion and package documentation with 0.54.1.
 
