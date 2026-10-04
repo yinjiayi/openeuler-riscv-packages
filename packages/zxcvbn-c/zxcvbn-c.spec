@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           zxcvbn-c
-Version:        2.6
+Version:        2.7
 Release:        1%{?dist}
 Summary:        C and C++ password strength estimator
 License:        MIT
 URL:            https://github.com/tsyrogit/zxcvbn-c
-Source0:        zxcvbn-c-2.6.tar.gz
+Source0:        v2.7.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
