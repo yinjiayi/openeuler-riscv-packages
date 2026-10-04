@@ -14,9 +14,19 @@ verified (`signature: null`); the API's unknown license is not a grant.
 An archive version names the author's published distribution; an embedded
 module version is the module's own `$VERSION` used by Perl providers. Here
 the official archive/API and RPM are **1.04**, while unchanged `Rotate.pm`
-contains `$Revision: 1.5`, calculating module **1.05**. Automatic
+contains `$Revision: 1.5`, calculating module **1.05**. Explicit
 `perl(Logfile::Rotate)` Provides and installed smoke use that actual 1.05.
 This is disclosed upstream inconsistency, not a version uplift or source fix.
+
+The first target CI built and installed the RPM but failed the strict provider
+assertion: target perl-generators 1.10-11 lexically extracts `$Revision` as 1.5,
+ignoring the module's zero-padding expression. Release 2 filters only that exact
+automatic capability and declares the unchanged runtime version 1.05 explicitly.
+All other automatic Requires/Provides, source bytes, and complete tests remain.
+The [RPM dependency-generator documentation](https://rpm.org/docs/4.20.x/manual/dependency_generators.html)
+defines the generated-string filter used here. This corrects package metadata,
+not upstream code; the new exact-head CI must still establish the runtime value
+and full installed behavior. The first failed run is not product acceptance.
 
 Actual main764 package paths/RPM/module aliases, all OPEN PR paths, and the
 checksum-bound official openEuler RVA23 primary lack this component/provider.

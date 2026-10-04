@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
+# The target lexical scanner mistakes Revision 1.5 for runtime VERSION 1.05.
+# Filter only this generated capability; retain all other dependency generation.
+%global __provides_exclude ^perl[(]Logfile::Rotate[)]([[:space:]]|$)
 Name:           perl-Logfile-Rotate
 Version:        1.04
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Rotate private log files with callbacks and optional gzip compression
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Logfile-Rotate
@@ -28,12 +31,14 @@ Requires:       perl-Carp
 Requires:       perl-File-Temp
 Requires:       perl-IO-Compress
 Requires:       util-linux
+Provides:       perl(Logfile::Rotate) = 1.05
 
 %description
 Logfile::Rotate provides private-file rotation, retention, callbacks,
 relocation, and library or external gzip compression. The official archive
 and RPM version are 1.04; its unchanged module declares VERSION 1.05, which
-the Perl automatic provider generator retains. Both are intentional facts.
+the explicit Perl capability records. The target lexical provider scanner
+extracts Revision 1.5 incorrectly, so only this automatic capability is filtered.
 
 %prep
 %autosetup -n Logfile-Rotate-%{version} -p1
@@ -65,5 +70,7 @@ rpm -qf /usr/bin/gzip
 %{_mandir}/man3/Logfile::Rotate.3*
 
 %changelog
+* Sun Oct 04 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.04-2
+- Correct the generated Perl capability to the unchanged runtime VERSION 1.05.
 * Sun Oct 04 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.04-1
 - Preserve official source/module-version distinction and complete default suite.
