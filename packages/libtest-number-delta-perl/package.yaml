@@ -7,7 +7,7 @@
     "license": "Apache-2.0"
   },
   "upstream": {
-    "component": "libtest-number-delta-perl",
+    "component": "metacpan.org-release-test-number-delta",
     "homepage": "https://metacpan.org/dist/Test-Number-Delta",
     "source_repository": "https://metacpan.org/dist/Test-Number-Delta",
     "release_channel": "stable",
@@ -28,8 +28,8 @@
         "package_name": "libtest-number-delta-perl",
         "package_base": "libtest-number-delta-perl",
         "source_version": "1.06-4",
-        "evidence_url": "https://packages.debian.org/source/sid/libtest-number-delta-perl",
-        "observed_at": "2026-10-03T00:55:00Z"
+        "evidence_url": "https://deb.debian.org/debian/dists/stable/main/source/Sources.xz",
+        "observed_at": "2026-08-08T16:50:00Z"
       }
     ]
   },
@@ -55,7 +55,7 @@
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "Frozen inventory exact key libtest-number-delta-perl. Official CPAN CHECKSUMS pins source SHA-256 535430919e6fdf6ce55ff76e9892afccba3b7d4160db45f3ac43b0f92ffcd049. The release-wide LICENSE and module notice grant Apache-2.0; no vendored code. Official SP3 RVA23 primary lacks both perl-Test-Number-Delta and perl(Test::Number::Delta); its Test::Builder, Test::Builder::Tester, Test::More and core prerequisites are present. All 12 default upstream tests and 72 local assertions are retained; target results require exact-head CI."
+    "notes": "The immutable snapshot's canonical component metacpan.org-release-test-number-delta contains Debian stable/main libtest-number-delta-perl 1.06-4, fetched 2026-08-08T16:50:00Z. Its separate exact inventory key libtest-number-delta-perl is an Ubuntu resolute/universe row, not Debian lineage. The official CPAN release identifies the same Test-Number-Delta 1.06 upstream component; distribution rows are discovery clues, not upstream checksum or license proof. Official CPAN CHECKSUMS pins SHA-256 535430919e6fdf6ce55ff76e9892afccba3b7d4160db45f3ac43b0f92ffcd049. The original LICENSE and module grant Apache-2.0. Official SP3 RVA23 primary lacks perl-Test-Number-Delta and perl(Test::Number::Delta), while mandatory suppliers are present. All 12 default upstream tests are retained. Hosted run 37380981794:1 at head 21f527bd433f99836f413985ba2fa19d3c006b28 passed 72 assertions and installed smoke; that earlier result does not accept a replacement head or prove publication."
   },
   "updates": {
     "enabled": true,
