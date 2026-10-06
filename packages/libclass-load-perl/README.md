@@ -45,6 +45,16 @@ captured verbose raw TAP, also bounded180s plus10s. All three Harness return map
 are checked, not guessed counters. Each actual positive plan/order/count is bound
 to its file; dynamic plans are summed at runtime, not a fabricated fixed total.
 
+A **formatter envelope** is Harness3.48 Console's output around the original TAP,
+including its exact final standalone "ok" success line. The **TAP payload** used
+by the strict assertions is that output with exactly one validated terminal
+formatter line removed; full raw output remains printed and captured. No other
+unnumbered assertion, malformed plan or test line is discarded. On initial
+head 61a44bb9f0aa5d6c57429e2516ad3457afe9aa06, the original full make test
+passed 16 files/127 planned assertions, but the strict reporter count falsely
+included that formatter line and failed. This package-only parsing correction
+does not establish a successful repaired strict suite, installed smoke or product.
+
 A **logical Harness pass** counts planned TODOs under the original TAP semantics;
 it is not necessarily a positive assertion. Exactly `t/010-isa-false-positive.t`
 retains six assertions and the original TODO positions2/4 with reason
