@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "package_id": "libio-tiecombine-perl",
+  "rpm": {
+    "name": "perl-IO-TieCombine",
+    "summary": "Produce separate tied output variables with combined output",
+    "license": "Artistic-1.0 AND Artistic-1.0-Perl AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-io-tiecombine",
+    "homepage": "https://metacpan.org/dist/IO-TieCombine",
+    "source_repository": "https://github.com/rjbs/IO-TieCombine",
+    "release_channel": "stable",
+    "release_api": "https://fastapi.metacpan.org/v1/release/IO-TieCombine",
+    "release_regex": null,
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/IO-TieCombine-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.005",
+    "release": "1",
+    "latest_detected": "1.005"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libio-tiecombine-perl",
+        "package_base": "libio-tiecombine-perl",
+        "source_version": "1.005-3",
+        "evidence_url": "https://deb.debian.org/debian/dists/stable/main/source/Sources.xz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libio-tiecombine-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Original official 1.005 source and all default/extra tests retained unchanged. Distribution selects existing generic Artistic and Perl Artistic branches, with separately retained complete Apache template and historical notice texts. Exact oldest Jerome parser and original loaded LAX version remain bounded historical uncertainties. Target CI, two-file seven-outer plus one nested default TAP, installed smoke and physical artifacts are pending; no native or public release evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-metacpan-api"
+  }
+}
