@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-table-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Table-1.135.tar.gz",
+      "version": "1.135",
+      "url": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Text-Table-1.135.tar.gz",
+      "digests": {
+        "sha256": "fca3c16e83127f7c44dde3d3f7e3c73ea50d109a1054445de8082fea794ca5d2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE grants ISC redistribution and modification; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

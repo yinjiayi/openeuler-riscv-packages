@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-configdir-perl",
+  "rpm": {
+    "name": "perl-File-ConfigDir",
+    "summary": "Discover configuration file directories in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-configdir-perl",
+    "homepage": "https://metacpan.org/dist/File-ConfigDir",
+    "source_repository": "https://github.com/perl5-utils/File-ConfigDir",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RE/REHSACK/",
+    "release_regex": "File-ConfigDir-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RE/REHSACK/File-ConfigDir-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.021",
+    "release": "1",
+    "latest_detected": "0.021"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-configdir-perl",
+        "package_base": "libfile-configdir-perl",
+        "source_version": "0.021-4",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-configdir-perl",
+        "observed_at": "2026-09-29T01:19:58Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-configdir-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-configdir-perl maps to official latest CPAN 0.021. CPAN CHECKSUMS SHA-256 6b405a14f69ce49d4982ed9b75400a445d0f6224fd7687fb907e79c5578314c6, safe archive, and bundled Perl dual-license texts resolve automated unverified-upstream decision. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has neither same-name RPM nor perl(File::ConfigDir) Provide and does have perl-Test-Without-Module. The complete six-file default suite (60 assertions) and installed configuration directory smoke are retained. Target compatibility is unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

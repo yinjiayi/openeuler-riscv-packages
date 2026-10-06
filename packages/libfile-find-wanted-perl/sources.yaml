@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-find-wanted-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Find-Wanted-1.00.tar.gz",
+      "version": "1.00",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/File-Find-Wanted-1.00.tar.gz",
+      "digests": {
+        "sha256": "3d41caadd1d4df785ef3eb269c667c656d864df79a490137f9cab33b8d244886"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README.md and Wanted.pm explicitly grant Artistic-2.0 redistribution and modification; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}

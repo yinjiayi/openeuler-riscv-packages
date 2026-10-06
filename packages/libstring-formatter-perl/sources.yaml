@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-formatter-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Formatter-1.235.tar.gz",
+      "version": "1.235",
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/String-Formatter-1.235.tar.gz",
+      "digests": {
+        "sha256": "08236a913b911ce652cf08598e7c07d2df3f369fc47bf401a485a504a1660783"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE, README, module POD and META grant GPL-2.0-only; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

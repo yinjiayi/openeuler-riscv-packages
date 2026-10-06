@@ -55,7 +55,7 @@
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "The frozen inventory's exact libarray-utils-perl key maps to official CPAN Array-Utils 0.5. CPAN CHECKSUMS SHA-256, safe archive, explicit Perl GPL/Artistic dual license in Utils.pm POD despite unknown MetaCPAN license metadata, and the full one-file/17-assertion upstream suite were reviewed. Target primary has no same-name RPM or module provider. Target RPM/QEMU and installed smoke require exact-head CI."
+    "notes": "Exact frozen libarray-utils-perl key and separate canonical metacpan.org-release-array-utils lineage map to authorized/latest released ZMIJ Array-Utils 0.5. Fresh 2712-byte official archive agrees with API and publisher CHECKSUMS SHA-256; all nine safe members/seven regular files, modes and first-column MANIFEST fully reviewed. Original Utils.pm GPL/Artistic grant as specified in Perl README, Sergei Fedorov copyright/warranty and Laszlo Forro credit remain intact; full pinned Perl GPL1 and ten-clause Artistic notices are installed separately. Original one-file/17-assertion no_plan default suite runs whole, then a bounded strict second whole-suite Harness gate requires 17 passes and zero skips/TODO/bonus/failures. No source/test rewrite or local upstream/RPM/QEMU execution in this refresh. Current complete official RVA23 primary has no matching RPM or module provider and supplies unchanged prerequisites plus Test::Harness. Historical prior-head CI success is not acceptance of the refreshed head; fresh hosted CI and physical products are required, and PR artifacts never prove public publication."
   },
   "updates": {
     "enabled": true,

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-interpolate-named-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Interpolate-Named-1.06.tar.gz",
+      "version": "1.06",
+      "url": "https://cpan.metacpan.org/authors/id/J/JV/JV/String-Interpolate-Named-1.06.tar.gz",
+      "digests": {
+        "sha256": "012cca57baf8335b163c734b789d5966dde47f0bd8a579433f4852ca666fffe2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD explicitly grant the same terms as Perl itself; official CPAN HTTPS source SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
