@@ -18,6 +18,7 @@ BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(File::Path)
 BuildRequires:  perl(Test::Harness)
+BuildRequires:  perl(TAP::Parser)
 BuildRequires:  perl(sigtrap)
 BuildRequires:  perl-generators
 Requires:       coreutils
@@ -51,8 +52,45 @@ find %{buildroot} -type f -name perllocal.pod -delete
 # Fresh source/build directory in the disposable CI PID namespace; no host PID use.
 %{__perl} -MExtUtils::MakeMaker -MTest::Harness -MFile::Basename -MFile::Path -e 'require sigtrap; die "root test identity" unless $< == 10001 && $> == 10001; print "Default test identity UID=$< EUID=$> GID=$( EGID=$)\n"; die "stale default fixture" if -e "pids/test.pid" || -e "ignore.tmp"; die "original helper mode" unless -x "sample/test.pl"; print "Original default test/helper prerequisites verified\n";'
 # GNU timeout owns a process group, including unchanged fork/exec helper children.
-# Never use --foreground or reuse pids/test.pid; MakeMaker Harness parses not-ok.
-timeout --kill-after=10s 180s %make_build test
+# Legacy MakeMaker invokes test.pl directly; its caught error may still exit zero.
+# Keep that exact default execution, then parse its captured TAP without rerunning it.
+check_log=$(mktemp "$PWD/.app-control-default.XXXXXX")
+if timeout --kill-after=10s 180s %make_build test >"$check_log" 2>&1; then
+    cat "$check_log"
+else
+    check_status=$?
+    cat "$check_log"
+    exit "$check_status"
+fi
+timeout --kill-after=10s 30s %{__perl} -MTAP::Parser - "$check_log" <<'APP_CONTROL_TAP'
+use strict;
+use warnings;
+open my $log, "<", $ARGV[0] or die "default output: $!";
+local $/;
+my $tap = <$log>;
+close $log or die "close default output: $!";
+my $parser = TAP::Parser->new({ tap => $tap });
+my ($plans, $tests) = (0, 0);
+while (my $result = $parser->next) {
+    die "default suite bailed out" if $result->is_bailout;
+    if ($result->is_plan) {
+        ++$plans;
+        die "wrong original plan" unless $result->tests_planned == 2;
+    }
+    if ($result->is_test) {
+        ++$tests;
+        die "failed or directed original assertion"
+            unless $result->is_actual_ok && !$result->has_skip && !$result->has_todo;
+        die "wrong original assertion number"
+            unless $result->number == $tests && $result->raw =~ /^ok\s+$tests(?:\s|$)/;
+    }
+}
+die "incomplete or malformed original TAP"
+    unless $plans == 1 && $tests == 2 && $parser->tests_planned == 2
+        && $parser->tests_run == 2 && !$parser->has_problems
+        && !$parser->skip_all && !$parser->parse_errors;
+print "Strict original default TAP: 2 assertions passed, no skip/TODO\n";
+APP_CONTROL_TAP
 
 %files
 %license README perl538-Copying perl538-Artistic
@@ -64,3 +102,4 @@ timeout --kill-after=10s 180s %make_build test
 * Tue Oct 06 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.07-1
 - Preserve official source, both complete default assertions and original notices.
 - Bound the unchanged child-process suite; keep installed smoke constructor-only.
+- Parse the same legacy default output strictly; do not trust its raw exit status.

@@ -52,8 +52,13 @@ one module-load assertion and one aggregation of constructor, start/status/stop,
 restart, HUP, PID-file and ignore-file behavior. The actual helper forks/executes
 and sleeps until signalled. There is no skip or TODO branch; the complete original
 test and helper remain, not a load-only substitute or invented comparison suite.
-MakeMaker's Test::Harness parses the original `not ok` failure output; a bare
-Perl exit code alone would not reliably propagate the caught error.
+The first hosted build demonstrated that legacy MakeMaker runs `test.pl`
+directly, not through Test::Harness. Its two actual assertions passed, but its
+caught-error path can print `not ok 2` and still return zero. Packaging therefore
+captures that same unchanged default run and uses TAP::Parser to require one
+two-test plan, both numbered assertions actually successful, and no skip, TODO,
+bailout or parse error. It does not execute the suite a second time or manufacture
+an upstream test. The parser has a separate finite deadline; its failure is fatal.
 
 Target `%check` requires the fixed ordinary UID 10001 and a fresh private build
 directory without old `pids/test.pid` or `ignore.tmp`, inside the disposable CI
