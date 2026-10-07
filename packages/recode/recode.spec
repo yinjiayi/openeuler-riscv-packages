@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 Name:           recode
-Version:        3.7.16
+Version:        3.7.17
 Release:        1%{?dist}
 Summary:        Character set conversion utility and library
 License:        GPL-3.0-or-later AND LGPL-3.0-or-later AND BSD-2-Clause AND LicenseRef-OFSFDL
 URL:            https://github.com/rrthomas/recode
-Source0:        recode-3.7.16.tar.gz
+Source0:        recode-3.7.17.tar.gz
 
 BuildRequires:  flex
 BuildRequires:  gcc
