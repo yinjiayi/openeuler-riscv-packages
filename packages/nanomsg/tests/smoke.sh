@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- nanomsg nanomsg-devel
-rpm -q --provides nanomsg | grep -F 'libnanomsg.so.6()(64bit)'
+rpm -q --provides nanomsg | grep -F 'libnanomsg.so.7()(64bit)'
 nanocat --help >/dev/null
 
 smoke_dir=$(mktemp -d)
