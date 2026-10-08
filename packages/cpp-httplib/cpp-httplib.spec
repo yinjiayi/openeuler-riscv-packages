@@ -3,7 +3,7 @@
 
 Name:           cpp-httplib
 Version:        0.60.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Header-only C++ HTTP and HTTPS library
 License:        MIT
 URL:            https://github.com/yhirose/cpp-httplib
