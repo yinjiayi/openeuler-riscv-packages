@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- recode recode-devel recode-help
-recode --version | grep -F 'recode 3.7.16'
+recode --version | grep -F 'recode 3.7.17'
 
 converted=$(printf '\351\n' | recode ISO-8859-1..UTF-8 | od -An -tx1 | tr -d ' \n')
 test "$converted" = 'c3a90a'
