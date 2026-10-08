@@ -139,7 +139,7 @@ perl -Iblib/lib -Iblib/arch -MXML::Simple -MYAML -MYAML::Any -MConfig::IniFiles 
 '
 # The entire default MakeMaker selector remains untouched, including dynamic POD.
 timeout --kill-after=10s 240s make test
-timeout --kill-after=10s 240s perl -Iblib/lib -Iblib/arch -MTest::Harness -e '
+timeout --kill-after=10s 240s perl -I"$PWD/blib/lib" -I"$PWD/blib/arch" -MTest::Harness -e '
   die "unexpected Harness interface" unless $Test::Harness::VERSION eq "3.48";
   my @tests = sort glob("t/*.t");
   die "default suite changed" unless join(" ", @tests) eq "t/00_load.t t/01_OO.t t/02_parse.t t/03_invalid.t t/04_magic.t t/05_rt69984.t t/06_const_it.t t/07_rt91891.t t/20_XML_unvailable.t t/99_pod.t";
