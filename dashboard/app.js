@@ -6,6 +6,7 @@ let dashboard = null;
 let inventory = null;
 let inventoryPage = 0;
 let searchTimer = null;
+let historyPage = 0;
 
 function node(tag, text, className) {
   const element = document.createElement(tag);
@@ -44,24 +45,97 @@ function statusSort(a, b) {
   return (left < 0 ? 999 : left) - (right < 0 ? 999 : right) || a.localeCompare(b);
 }
 
+function gapSummary(reasons) {
+  const groups = new Map();
+  for (const item of reasons || []) {
+    const label = String(typeof item === 'string' ? item : item.reason || 'unspecified gap').slice(0, 100);
+    const count = typeof item === 'object' && Number.isInteger(item.count) && item.count > 0 ? item.count : 1;
+    groups.set(label, (groups.get(label) || 0) + count);
+  }
+  return [...groups.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([label, count]) => `${label}: ${count}`).join('; ');
+}
+
 function renderSummary() {
   const container = document.querySelector('#summary');
   container.replaceChildren();
   const counts = inventory.status_counts || {};
+  const history = dashboard.build_history || {};
+  const metrics = history.metrics || {};
   const totals = [
     ['Inventory entries', inventory.entries.length],
     ['Managed', dashboard.packages.length],
-    ['Published', counts.published || 0],
-    ['Build succeeded', counts['build-succeeded'] || 0],
-    ['Open / repairing', (counts['open-pr'] || 0) + (counts['pr-open'] || 0) + (counts['repair-queued'] || 0) + (counts['codex-repairing'] || 0)],
-    ['Needs native RISC-V', counts['needs-native-riscv'] || 0],
+    ['Cumulative build + smoke success', history.source_generated_at ? `${history.lower_bound ? '≥ ' : ''}${metrics.cumulative_success_packages}` : 'unknown'],
+    ['Current main recipe ever succeeded', history.source_generated_at ? `${history.lower_bound ? '≥ ' : ''}${metrics.current_main_success_packages}` : 'unknown'],
+    ['Current open PR success', history.source_generated_at && history.current_pr_source_available ? `${history.lower_bound ? '≥ ' : ''}${metrics.current_pr_success_packages}` : 'unknown'],
+    ['Published packages', metrics.published_packages === null || metrics.published_packages === undefined ? (metrics.observed_published_packages ? `≥ ${metrics.observed_published_packages} (partial)` : 'unknown') : metrics.published_packages],
+    ['Open / repairing inventory rows', (counts['open-pr'] || 0) + (counts['pr-open'] || 0) + (counts['repair-queued'] || 0) + (counts['codex-repairing'] || 0)],
+    ['Needs native inventory rows', counts['needs-native-riscv'] || 0],
   ];
   for (const [label, value] of totals) {
     const card = node('article', null, 'card');
-    card.append(node('strong', compact(value)), node('span', label));
+    card.append(node('strong', typeof value === 'number' ? compact(value) : value), node('span', label));
     card.title = String(value);
     container.append(card);
   }
+  const reasons = gapSummary(history.reasons);
+  const publicationFiles = history.publication_files || {};
+  const publicationGaps = gapSummary(history.publication_gaps);
+  document.querySelector('#history-coverage').textContent = `History collected ${timeText(history.source_generated_at)} · cutoff ${timeText(history.cutoff)} · ${history.coverage_complete ? 'available-history scan complete' : 'partial / unavailable history, counts are lower bounds'}. Current PR snapshot: ${history.current_pr_source_available ? timeText(history.current_pr_source_generated_at) : 'unavailable / incomplete; count unknown'}. Publication coverage: ${history.publication_coverage || 'unavailable'}, collected ${timeText(history.publication_source_generated_at)}, verified files ${publicationFiles.verified_files ?? 'unknown'} / ${publicationFiles.rpm_files == null || publicationFiles.srpm_files == null ? 'unknown' : publicationFiles.rpm_files + publicationFiles.srpm_files}. Counts do not restore deleted Actions history or remove the self-hosted fleet trust gate.`;
+  document.querySelector('#coverage-gap-summary').textContent = `History gap records ${(history.reasons || []).length}, top categories: ${reasons || 'none'}. Publication gap records ${(history.publication_gaps || []).length}, top categories: ${publicationGaps || 'none'}. Full unabridged records, including run/head and payload checksums, remain in the downloadable evidence JSON.`;
+}
+
+function renderBuildHistory() {
+  const history = dashboard.build_history || {};
+  const query = document.querySelector('#history-search').value.trim().toLowerCase();
+  const filter = document.querySelector('#history-evidence').value;
+  const all = history.packages || [];
+  const rows = all.filter(item => (!query || `${item.package_id}\n${item.name}`.toLowerCase().includes(query)) && (!filter || (filter === 'ever' && item.ever_succeeded) || (filter === 'main' && item.current_main_recipe_succeeded) || (filter === 'pr' && item.current_pr_status === 'passed') || (filter === 'published' && item.published)));
+  const pageCount = Math.max(1, Math.ceil(rows.length / 100));
+  historyPage = Math.min(historyPage, pageCount - 1);
+  const body = document.querySelector('#history-rows');
+  body.replaceChildren();
+  for (const item of rows.slice(historyPage * 100, (historyPage + 1) * 100)) {
+    const row = node('tr');
+    const identity = node('td', item.package_id);
+    identity.append(node('small', item.on_current_main ? 'on current main' : 'historical / PR-only; not on current main'));
+    const main = node('td', `${item.current_main_recipe_succeeded ? 'recipe historically succeeded' : 'recipe success not observed'} · latest known CI: ${item.current_main_status}`);
+    if (item.current_recipe_tree_sha) main.append(node('small', `tree ${item.current_recipe_tree_sha}`));
+    const pr = node('td', item.current_pr_status);
+    if (item.current_pr_head_sha) pr.append(node('small', `head ${item.current_pr_head_sha}`));
+    const evidence = node('td', timeText(item.last_success_at));
+    evidence.append(safeLink('Last successful run', item.last_success_run_url));
+    if ((item.observations || []).length) {
+      const details = node('details');
+      details.append(node('summary', `${item.success_observation_count} successful observations (not package count)`));
+      details.addEventListener('toggle', () => {
+        if (!details.open || details.dataset.loaded) return;
+        for (const observation of item.observations) {
+          const fact = node('p');
+          fact.append(safeLink(`Run ${observation.run_id}, attempt ${observation.run_attempt}`, observation.run_url), node('small', `${timeText(observation.completed_at)} · ${observation.event} / ${observation.head_branch || 'unknown branch'} · ${observation.evidence_strength} · recipe ${observation.recipe_tree_sha} · head ${observation.head_sha}`));
+          for (const kind of ['build', 'smoke']) {
+            const job = observation.jobs && observation.jobs[kind];
+            if (job && Number.isInteger(job.id) && job.id > 0 && observation.run_url) fact.append(safeLink(`${kind} job`, `${observation.run_url}/job/${job.id}`), document.createTextNode(' · '));
+          }
+          details.append(fact);
+        }
+        details.dataset.loaded = 'true';
+      });
+      evidence.append(details);
+    }
+    const publication = node('td', item.published ? 'verified live availability (any version)' : 'unavailable / unverified');
+    if (item.published) {
+      publication.append(node('small', (item.publication.versions || []).map(version => `${version.epoch}:${version.version}-${version.release}`).join(', ')));
+      publication.append(safeLink('Generation state', item.publication.state));
+      for (const url of item.publication.srpm || []) publication.append(safeLink('SRPM', url));
+      for (const url of item.publication.rpm || []) publication.append(safeLink('RPM', url));
+    }
+    [identity, node('td', item.ever_succeeded ? 'succeeded at least once' : 'not observed'), main, pr, publication, evidence].forEach(cell => row.append(cell));
+    body.append(row);
+  }
+  document.querySelector('#history-empty').hidden = rows.length !== 0;
+  document.querySelector('#history-result-count').textContent = `${rows.length} matching canonical packages · page ${historyPage + 1}/${pageCount}`;
+  document.querySelector('#history-prev').disabled = historyPage === 0;
+  document.querySelector('#history-next').disabled = historyPage >= pageCount - 1;
 }
 
 function renderHealth() {
@@ -71,9 +145,9 @@ function renderHealth() {
   const coverage = Number(health.coverage_percent || 0);
   const items = [
     ['Schedule', timeText(health.last_scheduled_at)],
-    ['Coverage', `${health.checked || 0}/${health.expected || 0} (${coverage.toFixed(1)}%)`],
-    ['Failed shards', health.failed_shards || 0],
-    ['Pending backfill', health.due_rechecks || 0],
+    ['Coverage', health.source_available ? `${health.checked || 0}/${health.expected || 0} (${coverage.toFixed(1)}%)` : 'unknown'],
+    ['Failed shards', health.source_available ? health.failed_shards || 0 : 'unknown'],
+    ['Pending backfill', health.source_available ? health.due_rechecks || 0 : 'unknown'],
     ['Completed', timeText(health.last_completed_at)],
   ];
   for (const [label, value] of items) {
@@ -81,7 +155,7 @@ function renderHealth() {
     item.append(node('span', label), node('strong', value));
     container.append(item);
   }
-  container.dataset.complete = String((health.failed_shards || 0) === 0 && (health.due_rechecks || 0) === 0);
+  container.dataset.complete = health.source_available ? String((health.failed_shards || 0) === 0 && (health.due_rechecks || 0) === 0) : 'unknown';
 }
 
 function fillSelect(selector, values) {
@@ -211,11 +285,12 @@ async function start() {
   if (!inventoryResponse.ok) throw new Error(`inventory request failed: ${inventoryResponse.status}`);
   inventory = await inventoryResponse.json();
   document.querySelector('#coverage-note').textContent = dashboard.coverage_claim === 'full-package-inventory'
-    ? `${inventory.entries.length.toLocaleString()} inventory entries from the committed snapshot; build and publication states require matching CI evidence.`
+    ? `${inventory.entries.length.toLocaleString()} inventory entries from the committed snapshot plus managed/PR identity overlays; build steps and public payloads have separate evidence gates.`
     : 'Only observed managed packages are available; full inventory input was missing.';
   document.querySelector('#generated-at').textContent = `Dashboard generated ${timeText(dashboard.generated_at)}`;
   document.querySelector('#snapshot-note').textContent = `Inventory snapshot ${inventory.source.snapshot_id || 'unknown'} · source generated ${timeText(inventory.source.generated_at)}`;
   renderSummary();
+  renderBuildHistory();
   renderHealth();
   fillFilters();
   renderInventoryRows();
@@ -226,6 +301,10 @@ async function start() {
   document.querySelector('#inventory-next').addEventListener('click', () => { inventoryPage += 1; renderInventoryRows(); });
   document.querySelector('#managed-filters').addEventListener('input', renderManagedRows);
   document.querySelector('#managed-filters').addEventListener('reset', () => window.setTimeout(renderManagedRows, 0));
+  document.querySelector('#history-filters').addEventListener('input', () => { historyPage = 0; renderBuildHistory(); });
+  document.querySelector('#history-filters').addEventListener('reset', () => window.setTimeout(() => { historyPage = 0; renderBuildHistory(); }, 0));
+  document.querySelector('#history-prev').addEventListener('click', () => { historyPage -= 1; renderBuildHistory(); });
+  document.querySelector('#history-next').addEventListener('click', () => { historyPage += 1; renderBuildHistory(); });
 }
 
 start().catch(error => {
