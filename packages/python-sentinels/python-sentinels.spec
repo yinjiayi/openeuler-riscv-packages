@@ -31,6 +31,29 @@ Sentinels provides named singleton objects for special Python values.
 
 %build
 # The pinned sdist includes PKG-INFO for hatch-vcs version resolution.
+# Wheel ZIP timestamps cannot precede 1980-01-01 UTC. Use a deterministic floor
+# only for unset/earlier epochs; retain later caller-supplied epochs verbatim.
+source_date_epoch=${SOURCE_DATE_EPOCH-0}
+case "$source_date_epoch" in
+  ''|*[!0-9]*)
+    printf '%s\n' 'SOURCE_DATE_EPOCH must be a nonnegative decimal integer' >&2
+    exit 1
+    ;;
+esac
+# Strip leading zeroes only for comparison; avoid overflowing shell integers.
+epoch_compare=$source_date_epoch
+while [ "${epoch_compare#0}" != "$epoch_compare" ]; do
+  epoch_compare=${epoch_compare#0}
+done
+epoch_compare=${epoch_compare:-0}
+if [ "${#epoch_compare}" -lt 9 ] || \
+   { [ "${#epoch_compare}" -eq 9 ] && [ "$epoch_compare" -lt 315532800 ]; }; then
+  SOURCE_DATE_EPOCH=315532800
+else
+  SOURCE_DATE_EPOCH=$source_date_epoch
+fi
+export SOURCE_DATE_EPOCH
+printf '%s\n' "Wheel build SOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH"
 export PIP_NO_INDEX=1 PIP_DISABLE_PIP_VERSION_CHECK=1
 %{__python3} -m pip wheel --no-build-isolation --no-deps --wheel-dir dist .
 

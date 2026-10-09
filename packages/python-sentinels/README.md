@@ -47,6 +47,25 @@ pinned sdist's `PKG-INFO` supports hatch-vcs version resolution without Git or
 network. Wheel build uses `--no-build-isolation --no-deps` and `PIP_NO_INDEX=1`;
 installation uses only the locally built wheel.
 
+The first exact-head CI run (`37950539984`, commit
+`88d739fc2036f03fd3cac556845ef02f67a74641`) failed during hatchling's wheel
+metadata build: Python `ZipInfo` rejected a timestamp before 1980. `%install`,
+the default pytest/pylint checks and installed smoke were not reached, and no
+RPM/SRPM products were recorded. Protected-main `ci/Containerfile.riscv64`
+declares `SOURCE_DATE_EPOCH=0`, which is consistent with that failure; the
+effective runtime epoch was not separately printed in the failed log.
+
+The package's wheel build now applies a **deterministic ZIP timestamp floor**:
+an unset epoch is treated as zero, and a nonnegative decimal epoch below
+`315532800` is raised to that value (1980-01-01 UTC). Values at or above the
+floor are preserved, including their original representation; empty, negative
+or nondecimal values fail rather than being silently replaced. This controls
+wheel member timestamps, not source release dates, provenance or evidence of
+a successful build. The selected value is logged before wheel creation.
+No source patch, dependency, offline-build option, default test/lint command or
+installed smoke changes. Fresh exact-head CI must still validate the wheel,
+full default checks, physical RPM/SRPM and installation.
+
 `%check` preserves both unfiltered upstream CI commands: `pytest -v tests`
 (the README doctest test) and `pylint --rcfile=.pylintrc sentinels tests`. It does
 not suppress lint errors or remove tests. Installed distribution metadata is
