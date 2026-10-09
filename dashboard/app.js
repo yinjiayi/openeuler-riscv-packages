@@ -61,12 +61,14 @@ function renderSummary() {
   const counts = inventory.status_counts || {};
   const history = dashboard.build_history || {};
   const metrics = history.metrics || {};
+  const selectionPartial = history.current_pr_source_complete !== true;
+  const selectionGaps = history.current_pr_selection_gaps || [];
   const totals = [
     ['Inventory entries', inventory.entries.length],
     ['Managed', dashboard.packages.length],
     ['Cumulative build + smoke success', history.source_generated_at ? `${history.lower_bound ? '≥ ' : ''}${metrics.cumulative_success_packages}` : 'unknown'],
     ['Current main recipe ever succeeded', history.source_generated_at ? `${history.lower_bound ? '≥ ' : ''}${metrics.current_main_success_packages}` : 'unknown'],
-    ['Current open PR success', history.source_generated_at && history.current_pr_source_available ? `${history.lower_bound ? '≥ ' : ''}${metrics.current_pr_success_packages}` : 'unknown'],
+    ['Current open PR success', history.source_generated_at && history.current_pr_source_available ? `${history.lower_bound || selectionPartial ? '≥ ' : ''}${metrics.current_pr_success_packages}${selectionPartial ? ' (partial)' : ''}` : 'unknown'],
     ['Published packages', metrics.published_packages === null || metrics.published_packages === undefined ? (metrics.observed_published_packages ? `≥ ${metrics.observed_published_packages} (partial)` : 'unknown') : metrics.published_packages],
     ['Open / repairing inventory rows', (counts['open-pr'] || 0) + (counts['pr-open'] || 0) + (counts['repair-queued'] || 0) + (counts['codex-repairing'] || 0)],
     ['Needs native inventory rows', counts['needs-native-riscv'] || 0],
@@ -80,8 +82,9 @@ function renderSummary() {
   const reasons = gapSummary(history.reasons);
   const publicationFiles = history.publication_files || {};
   const publicationGaps = gapSummary(history.publication_gaps);
-  document.querySelector('#history-coverage').textContent = `History collected ${timeText(history.source_generated_at)} · cutoff ${timeText(history.cutoff)} · ${history.coverage_complete ? 'available-history scan complete' : 'partial / unavailable history, counts are lower bounds'}. Current PR snapshot: ${history.current_pr_source_available ? timeText(history.current_pr_source_generated_at) : 'unavailable / incomplete; count unknown'}. Publication coverage: ${history.publication_coverage || 'unavailable'}, collected ${timeText(history.publication_source_generated_at)}, verified files ${publicationFiles.verified_files ?? 'unknown'} / ${publicationFiles.rpm_files == null || publicationFiles.srpm_files == null ? 'unknown' : publicationFiles.rpm_files + publicationFiles.srpm_files}. Counts do not restore deleted Actions history or remove the self-hosted fleet trust gate.`;
-  document.querySelector('#coverage-gap-summary').textContent = `History gap records ${(history.reasons || []).length}, top categories: ${reasons || 'none'}. Publication gap records ${(history.publication_gaps || []).length}, top categories: ${publicationGaps || 'none'}. Full unabridged records, including run/head and payload checksums, remain in the downloadable evidence JSON.`;
+  const currentCoverage = history.current_pr_source_available ? `${timeText(history.current_pr_source_generated_at)} · ${selectionPartial ? 'partial current-check selection; count is a lower bound' : 'current-check selection complete'}` : 'unavailable / incomplete; count unknown';
+  document.querySelector('#history-coverage').textContent = `History collected ${timeText(history.source_generated_at)} · cutoff ${timeText(history.cutoff)} · ${history.coverage_complete ? 'available-history scan complete' : 'partial / unavailable history, counts are lower bounds'}. Current PR snapshot: ${currentCoverage}. Publication coverage: ${history.publication_coverage || 'unavailable'}, collected ${timeText(history.publication_source_generated_at)}, verified files ${publicationFiles.verified_files ?? 'unknown'} / ${publicationFiles.rpm_files == null || publicationFiles.srpm_files == null ? 'unknown' : publicationFiles.rpm_files + publicationFiles.srpm_files}. Counts do not restore deleted Actions history or remove the self-hosted fleet trust gate.`;
+  document.querySelector('#coverage-gap-summary').textContent = `History gap records ${(history.reasons || []).length}, top categories: ${reasons || 'none'}. Current PR selection gap records ${selectionGaps.length}, top categories: ${gapSummary(selectionGaps) || 'none'}. Publication gap records ${(history.publication_gaps || []).length}, top categories: ${publicationGaps || 'none'}. Full unabridged records, including run/head and payload checksums, remain in the downloadable evidence JSON.`;
 }
 
 function renderBuildHistory() {
