@@ -41,7 +41,9 @@ Headers, CMake integration, pkg-config metadata, and link libraries for Catch2.
 %cmake_install
 
 %check
-ctest --output-on-failure --force-new-ctest-process -j1
+# Run the full unfiltered suite in the CMake build tree; reject empty suites.
+ctest --test-dir "%{_vpath_builddir}" --no-tests=error \
+  --output-on-failure --force-new-ctest-process -j1
 
 %files
 %license LICENSE.txt
