@@ -11,6 +11,11 @@ on:
       - scripts/generate-dashboard
       - ci/collect-dashboard-evidence.py
       - ci/collect-github-state.sh
+      - ci/collect-github-state.py
+      - ci/collect-build-history.py
+      - ci/collect-published-state.py
+      - schemas/build-history.schema.json
+      - schemas/dashboard-published-state.schema.json
       - .github/workflows/dashboard.yml
   schedule:
     - cron: '17 * * * *'
@@ -29,7 +34,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Check out the default branch only
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -38,6 +43,8 @@ jobs:
           persist-credentials: false
       - name: Configure GitHub Pages metadata
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - name: Install pinned collector validation dependency
+        run: python3 -m pip install 'jsonschema==4.25.1'
       - name: Collect current PR and Actions facts
         env:
           GH_TOKEN: ${{ github.token }}
@@ -53,6 +60,26 @@ jobs:
           python3 ci/collect-dashboard-evidence.py \
             --output-dir artifacts/build-results \
             --result artifacts/dashboard/evidence-collection.json
+      - name: Refresh durable exhaustive available build history
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          python3 ci/collect-build-history.py --repository "$GITHUB_REPOSITORY" \
+            --repo-root . --raw-dir work/dashboard-private/history \
+            --seed dashboard/build-history-ledger.json \
+            --published-seed-url https://yinjiayi.github.io/openeuler-riscv-packages/build-history-ledger.json \
+            --output artifacts/dashboard/build-history-ledger.json --workers 6 --max-requests 4000
+          result=$?
+          set -e
+          # Exit 2 is an explicit schema-valid lower bound, not full history.
+          # Missing durable seed or unexpected failure must block deployment.
+          [[ $result == 0 || $result == 2 ]]
+          test -s artifacts/dashboard/build-history-ledger.json
+      - name: Verify fixed published repository generation
+        run: |
+          python3 ci/collect-published-state.py --repo-root . \
+            --output work/published-state.json --workers 6
       - name: Generate factual static dashboard
         run: |
           args=(
@@ -60,6 +87,8 @@ jobs:
             --output-dir public
             --github-state artifacts/dashboard/github-state.json
             --build-results artifacts/build-results
+            --build-history artifacts/dashboard/build-history-ledger.json
+            --published-state work/published-state.json
             --package-inventory catalog/package-index.json.gz
             --output artifacts/dashboard/generator-result.json
           )

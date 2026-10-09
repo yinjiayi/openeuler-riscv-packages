@@ -298,7 +298,7 @@ class RepairDashboardTests(unittest.TestCase):
                 self.assertNotIn("rpm", row["links"])
                 self.assertNotIn("srpm", row["links"])
 
-    def test_dashboard_publishes_links_only_for_matching_verified_generation(self) -> None:
+    def test_dashboard_does_not_publish_links_from_unverified_retained_envelopes(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
             (root / "dashboard").mkdir()
@@ -329,9 +329,10 @@ class RepairDashboardTests(unittest.TestCase):
             self.assertEqual(schema_errors(full, inventory_schema, inventory_schema), [])
             self.assertEqual(data["coverage_claim"], "full-package-inventory")
             self.assertEqual(data["inventory"]["entry_count"], 1)
-            self.assertEqual(full["entries"][0]["status"], "published")
-            self.assertEqual(full["entries"][0]["links"]["rpm"], ["http://2.27.148.101:38080/generations/%s/riscv64/Packages/demo-1.0-1.riscv64.rpm" % generation])
-            self.assertEqual(full["entries"][0]["links"]["srpm"], ["http://2.27.148.101:38080/generations/%s/source/Packages/demo-1.0-1.src.rpm" % generation])
+            self.assertEqual(full["entries"][0]["status"], "build-succeeded")
+            self.assertEqual(full["entries"][0]["links"].get("rpm", []), [])
+            self.assertEqual(full["entries"][0]["links"].get("srpm", []), [])
+            self.assertIsNone(data["build_history"]["metrics"]["published_packages"])
             verification.unlink()
             second_output = root / "public-without-verification"
             arguments[3] = str(second_output)
