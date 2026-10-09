@@ -84,7 +84,9 @@
     "spec": "jbigkit.spec"
   },
   "maintenance": {
-    "maintainers": ["yinjiayi"],
+    "maintainers": [
+      "yinjiayi"
+    ],
     "notes": "Official Cambridge JBIG-KIT 2.1 release bytes are SHA-256 pinned. Ubuntu's upstream-authored CVE-2017-9937 and truncated-marker security fixes are backported with exact patch hashes. The complete T.82/T.85 and PBM functional test suite remains enabled and runs serially because upstream test targets share temporary filenames. Shared objects retain the target's libjbig.so.2.1 and libjbig85.so.2.1 SONAMEs. AUR was read-only RPC metadata only; no external packaging content was executed.",
     "status": "active"
   },
@@ -104,7 +106,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-10-09T23:31:02Z",
     "last_successful_check_at": null,
     "release_provider": "official-cambridge-release-page"
   },
@@ -118,8 +120,8 @@
     "source_url_template": "https://www.cl.cam.ac.uk/~mgk25/jbigkit/download/jbigkit-{version}.tar.gz"
   },
   "version": {
-    "current": "2.1",
-    "latest_detected": "2.1",
+    "current": "2.2",
+    "latest_detected": "2.2",
     "release": "1"
   }
 }

@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           jbigkit
-Version:        2.1
+Version:        2.2
 Release:        1%{?dist}
 Summary:        JBIG1 lossless image compression tools
 License:        GPL-2.0-or-later
 URL:            https://www.cl.cam.ac.uk/~mgk25/jbigkit/
-Source0:        jbigkit-%{version}.tar.gz
+Source0:        jbigkit-2.2.tar.gz
 Patch0:         0001-cve-2017-9937-limit-decoded-image-size.patch
 Patch1:         0002-jbg-newlen-check-marker-length.patch
 
