@@ -12,8 +12,9 @@ QUERY = '''query($owner:String!,$name:String!,$cursor:String){repository(owner:$
  headRefName headRefOid baseRefName baseRefOid author{login} autoMergeRequest{enabledAt}
  labels(first:100){totalCount nodes{name}}
  headRef{target{... on Commit{oid statusCheckRollup{state contexts(first:30){totalCount pageInfo{hasNextPage endCursor}
- nodes{... on CheckRun{name status conclusion detailsUrl checkSuite{commit{oid}}}
- ... on StatusContext{context state targetUrl}}}}}}}
+ nodes{... on CheckRun{databaseId name status conclusion startedAt completedAt detailsUrl
+ checkSuite{databaseId createdAt app{databaseId} commit{oid} workflowRun{databaseId runAttempt}}}
+ ... on StatusContext{id context state targetUrl createdAt updatedAt commit{oid} creator{login}}}}}}}}
  headRepository{nameWithOwner} files(first:100){totalCount pageInfo{hasNextPage endCursor} nodes{path}}}}}}'''
 
 
@@ -108,14 +109,30 @@ def collect(repository: str, root: pathlib.Path, raw: pathlib.Path) -> dict:
         rollup = target.get("statusCheckRollup") or {}
         contexts = rollup.get("contexts") or {"totalCount": 0, "nodes": [], "pageInfo": {"hasNextPage": False}}
         row["checks_complete"] = target.get("oid") == node["headRefOid"] and contexts["totalCount"] == len(contexts["nodes"]) and not contexts["pageInfo"]["hasNextPage"]
+        row["check_selection_version"] = 1
         row["check_runs"] = [{"name": c["name"], "status": c["status"].lower(),
             "conclusion": c["conclusion"].lower() if c.get("conclusion") else None,
-            "head_sha": c["checkSuite"]["commit"]["oid"], "html_url": c["detailsUrl"]}
+            "head_sha": c["checkSuite"]["commit"]["oid"], "html_url": c["detailsUrl"],
+            "check_run_id": c.get("databaseId"), "app_id": (c["checkSuite"].get("app") or {}).get("databaseId"),
+            "check_suite_id": c["checkSuite"].get("databaseId"), "check_suite_created_at": c["checkSuite"].get("createdAt"),
+            "started_at": c.get("startedAt"), "completed_at": c.get("completedAt"),
+            "workflow_run_id": (c["checkSuite"].get("workflowRun") or {}).get("databaseId"),
+            "workflow_run_attempt": (c["checkSuite"].get("workflowRun") or {}).get("runAttempt")}
             for c in contexts["nodes"] if "name" in c]
         if any(c["head_sha"] != node["headRefOid"] for c in row["check_runs"]):
             row["checks_complete"] = False
-        row["status_contexts"] = [{"context": c["context"], "state": c["state"].lower(), "target_url": c["targetUrl"]}
+        row["status_contexts"] = [{"context": c["context"], "state": c["state"].lower(), "target_url": c["targetUrl"],
+            "id": c.get("id"), "head_sha": (c.get("commit") or {}).get("oid"),
+            "creator_login": (c.get("creator") or {}).get("login"),
+            "created_at": c.get("createdAt"), "updated_at": c.get("updatedAt")}
                                     for c in contexts["nodes"] if "context" in c]
+        if any(c["head_sha"] != node["headRefOid"] for c in row["status_contexts"]):
+            row["checks_complete"] = False
+        row["check_selection_metadata_complete"] = row["checks_complete"] and all(
+            all(type(c.get(key)) is int and c[key] > 0 for key in ("check_run_id", "app_id", "check_suite_id"))
+            and isinstance(c.get("check_suite_created_at"), str) and bool(c["check_suite_created_at"])
+            for c in row["check_runs"]
+        ) and all(all(isinstance(c.get(key), str) and c[key] for key in ("id", "head_sha", "creator_login", "created_at", "updated_at")) for c in row["status_contexts"])
         row["check_rollup_state"] = rollup.get("state")
         if complete:
             try: row["canonical_package_id"] = H["canonical_package"](paths)
@@ -125,7 +142,7 @@ def collect(repository: str, root: pathlib.Path, raw: pathlib.Path) -> dict:
         pid = row["canonical_package_id"]; head = node["headRefOid"]
         row["package_id"] = pid
         row["canonical_identity_verified"] = bool(pid and complete)
-        if node["state"] == "OPEN" and pid and (not row["checks_complete"] or not row["labels_complete"]):
+        if node["state"] == "OPEN" and pid and (not row["checks_complete"] or not row["check_selection_metadata_complete"] or not row["labels_complete"]):
             errors.append({"pr": node["number"], "reason": "current canonical PR check/label connection incomplete; current status is a lower bound"})
         if pid and H["SHA"].fullmatch(head):
             tree = H["git_read"](root, ["rev-parse", head + ":packages/" + pid])
