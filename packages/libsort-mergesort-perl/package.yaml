@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/release/Sort-MergeSort",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Sort-MergeSort",
+        "package_name": "perl-Sort-MergeSort",
+        "source": "fedora",
+        "source_version": "0.31-31.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-sort-mergesort.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Frozen discovery /rejections/169062 Fedora Everything-source perl-Sort-MergeSort 0.31-31.fc44 identifies this official CPAN release; archive SHA matches author CHECKSUMS and release API. All 9 original files and both default tests inspected without execution. Separate main Artistic2/LGPL2.1 and Iterator/scoped adapted-test Perl grants are retained with 8 whole unmodified notice/term files. Origin distribution Build.PL/Iterator and shared test body support scoped Perl attribution, not exact intermediate revision or legal clearance; historical origin author CHECKSUMS lacks a backpan stanza, while separately fixed origin notices equal API-bound archive bytes. Official checksum-bound SP3 RVA23 primary metadata lacks both module Provides and candidate RPM aliases; declared Test::NoWarnings runtime dependency retained. No source patches or locally executed upstream/default suite; target build/install/smoke and payload/license acceptance await exact-head hosted CI. Nothing is added to the shared reviewed registry.",
+    "status": "active"
+  },
+  "package_id": "libsort-mergesort-perl",
+  "rpm": {
+    "license": "(Artistic-2.0 OR LGPL-2.1-only) AND (GPL-1.0-or-later OR Artistic-1.0-Perl)",
+    "name": "perl-Sort-MergeSort",
+    "summary": "Merge pre-sorted input streams with Perl iterators"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-sort-mergesort",
+    "homepage": "https://metacpan.org/release/Sort-MergeSort",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/",
+    "release_channel": "stable",
+    "release_regex": "Sort-MergeSort-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/muir/Sort-MergeSort",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Sort-MergeSort-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.31",
+    "latest_detected": "0.31",
+    "release": "1"
+  }
+}
