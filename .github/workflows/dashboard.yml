@@ -43,8 +43,8 @@ jobs:
           persist-credentials: false
       - name: Configure GitHub Pages metadata
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-      - name: Install pinned collector validation dependency
-        run: python3 -m pip install 'jsonschema==4.25.1'
+      - name: Install pinned collector validation dependencies
+        run: python3 -m pip install 'jsonschema==4.25.1' 'rfc3339-validator==0.1.4'
       - name: Collect current PR and Actions facts
         env:
           GH_TOKEN: ${{ github.token }}

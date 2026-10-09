@@ -94,8 +94,8 @@ class BuildHistoryTests(unittest.TestCase):
         self.assertNotIn("debianutils", result["aliases"])
         self.assertNotIn("which-git", result["aliases"])
 
-    def test_incomplete_or_duplicate_seed_checkpoint_rejected(self):
-        seed = {"schema_version": 1, "kind": "package-build-history", "repository": "a/b",
+    def seed_fixture(self):
+        return {"schema_version": 1, "kind": "package-build-history", "repository": "a/b",
             "generated_at": "2026-10-09T00:00:00Z", "snapshot": {"cutoff": "2026-10-09T00:00:00Z",
              "started_at": "2026-10-09T00:00:00Z", "coverage_complete": False, "lower_bound": True, "reasons": [],
              "listed_run_count": 0, "expected_attempt_count": 0, "processed_attempt_count": 0,
@@ -103,11 +103,38 @@ class BuildHistoryTests(unittest.TestCase):
             "observations": [], "attempts": [{"id": "42:1:" + H, "run_id": 42, "run_attempt": 1,
              "head_sha": H, "terminal": True, "status": "not-successful", "api_raw_sha256": ["a"*64]}],
             "summary": {"distinct_package_count": 0, "distinct_recipe_count": 0, "success_tuple_count": 0}, "limitations": []}
+    def test_incomplete_or_duplicate_seed_checkpoint_rejected(self):
+        seed = self.seed_fixture()
         M["merge_seed"](seed, "a/b")
         bad = copy.deepcopy(seed); del bad["attempts"][0]["api_raw_sha256"]
         with self.assertRaises(Exception): M["merge_seed"](bad, "a/b")
         bad = copy.deepcopy(seed); bad["attempts"].append(copy.deepcopy(bad["attempts"][0]))
         with self.assertRaisesRegex(ValueError, "duplicate"): M["merge_seed"](bad, "a/b")
+
+    def test_seed_requires_valid_rfc3339_generated_at(self):
+        import jsonschema
+        M["validate_seed"](self.seed_fixture(), "a/b")
+        for value in ["", "not a time", "2026-10-09", "2026-10-09T00:00:00", "2026-10-09 00:00:00Z"]:
+            with self.subTest(value=value):
+                bad = self.seed_fixture(); bad["generated_at"] = value
+                with self.assertRaises(jsonschema.ValidationError):
+                    M["validate_seed"](bad, "a/b")
+
+    def test_seed_rejects_missing_required_format_handler(self):
+        import jsonschema
+        checker = jsonschema.FormatChecker()
+        checker.checkers.pop("date-time", None)
+        with patch.object(jsonschema, "FormatChecker", return_value=checker):
+            with self.assertRaisesRegex(ValueError, "format handlers unavailable: date-time"):
+                M["validate_seed"](self.seed_fixture(), "a/b")
+
+    def test_required_formats_include_nested_and_future_schema_formats(self):
+        checker = M["required_format_checker"]({"allOf": [{"properties": {"x": {"format": "date-time"}}}]})
+        self.assertIn("date-time", checker.checkers)
+        with self.assertRaisesRegex(ValueError, "format handlers unavailable: future-history-format"):
+            M["required_format_checker"]({"$defs": {"x": {"format": "future-history-format"}}})
+        # A format-less schema does not require unrelated optional plugins.
+        M["required_format_checker"]({"type": "object"})
 
     def test_generated_paths_are_selected_package_specific(self):
         f = M["canonical_package"]
