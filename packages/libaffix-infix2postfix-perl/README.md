@@ -66,3 +66,13 @@ The upstream README carries a historical token-prefix `BUGS` warning;
 without claiming that either describes a freshly verified modern failure.
 No default tests are removed, no RISC-V patch is invented, and target
 RPM build/install/smoke remains pending exact hosted CI evidence.
+
+The first hosted attempt, PR 2492 head
+`37f49e277a1f781edd31ead71c191e40b8100ada`, passed the original source
+hashes and complete default test but failed RPM file-list parsing:
+`File must begin with "/": 0ir`. RPM expands `%%dir` to `%dir`; using
+that as the shell `printf` format interprets `%d` instead of printing the
+literal directive. The packaging-only correction uses a fixed `%s` format
+and passes each file-list entry as data. Source, default tests and installed
+smoke are unchanged. This diagnosis is not a successful repaired build;
+the updated exact head still requires complete hosted build/install evidence.

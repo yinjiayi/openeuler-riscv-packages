@@ -52,8 +52,8 @@ find %{buildroot} -type f -name perllocal.pod -delete
 # Include only its package-specific tree if MakeMaker actually emits it.
 : > .affix-auto.files
 if test -d %{buildroot}%{perl_vendorlib}/auto/Affix/Infix2Postfix; then
-    printf '%%dir %{perl_vendorlib}/auto/Affix\n' >> .affix-auto.files
-    printf '%{perl_vendorlib}/auto/Affix/Infix2Postfix/\n' >> .affix-auto.files
+    printf '%s\n' '%%dir %{perl_vendorlib}/auto/Affix' >> .affix-auto.files
+    printf '%s\n' '%{perl_vendorlib}/auto/Affix/Infix2Postfix/' >> .affix-auto.files
 fi
 
 %check
