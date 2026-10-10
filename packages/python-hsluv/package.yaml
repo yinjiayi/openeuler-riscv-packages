@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.hsluv.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-hsluv",
+        "package_name": "python-hsluv",
+        "source": "arch-extra",
+        "source_version": "5.0.4-4"
+      },
+      {
+        "evidence_url": "https://www.hsluv.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-hsluv",
+        "package_name": "python-hsluv",
+        "source": "debian",
+        "source_version": "5.0.4-1"
+      },
+      {
+        "evidence_url": "https://www.hsluv.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-hsluv",
+        "package_name": "python-hsluv",
+        "source": "fedora",
+        "source_version": "5.0.4-9.fc44"
+      },
+      {
+        "evidence_url": "https://www.hsluv.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-hsluv",
+        "package_name": "python-hsluv",
+        "source": "opensuse-tumbleweed",
+        "source_version": "5.0.4-1.12"
+      },
+      {
+        "evidence_url": "https://www.hsluv.org",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-hsluv",
+        "package_name": "python-hsluv",
+        "source": "ubuntu",
+        "source_version": "5.0.4-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-hsluv.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official PyPI 5.0.4 and matching unsigned GitHub stable release commit archive verified by SHA-256 and all 11 Git blob identities. Full upstream sdist packaging round-trip and unfiltered setup.py test retained for target Python 3.11: both original methods include all 4096 snapshot colors and complete RGB grids/tolerances. Excluded unrelated node-hsluv 0.1.0 lineage from an overly broad historical catalog association. Complete official/supplemental filelists show no conflicting top-level hsluv owner; nbxmpp's private third_party/hsluv.py is a separate namespace. No source patch or local upstream/backend/test/RPM/QEMU execution; target status unknown pending exact-head CI.",
+    "status": "active"
+  },
+  "package_id": "python-hsluv",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-hsluv",
+    "summary": "Human-friendly HSLuv and HPLuv color conversion"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-pypi"
+  },
+  "upstream": {
+    "component": "github.com-hsluv-hsluv-python",
+    "homepage": "https://www.hsluv.org",
+    "release_api": "https://pypi.org/pypi/hsluv/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/hsluv/hsluv-python",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "5.0.4",
+    "latest_detected": "5.0.4",
+    "release": "1"
+  }
+}
