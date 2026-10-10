@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liburi-nested-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "URI-Nested-0.10.tar.gz",
+      "version": "0.10",
+      "url": "https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/URI-Nested-0.10.tar.gz",
+      "digests": {
+        "sha256": "e1971339a65fbac63ab87142d4b59d3d259d51417753c77cb58ea31a8233efaf"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD grant the same terms as Perl 5; Build.PL/release metadata agree, and the text-only tests have no conflicting notice. Official HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

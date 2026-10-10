@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "liburi-nested-perl",
+  "rpm": {
+    "name": "perl-URI-Nested",
+    "summary": "Represent nested URI schemes in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "liburi-nested-perl",
+    "homepage": "https://metacpan.org/dist/URI-Nested",
+    "source_repository": "https://metacpan.org/dist/URI-Nested",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/",
+    "release_regex": "URI-Nested-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/URI-Nested-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.10",
+    "release": "1",
+    "latest_detected": "0.10"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "liburi-nested-perl",
+        "package_base": "liburi-nested-perl",
+        "source_version": "0.10-4",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/liburi-nested-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "liburi-nested-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-load-direct-runtime-dependencies.patch",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "purpose": "Load URI and Carp for documented direct URI::Nested use rather than relying on caller imports.",
+        "remove_when": "Upstream URI::Nested loads URI and Carp itself.",
+        "sha256": "6d8e85f13c6d8ae761c88f98200e0d7e7c1d14e912d26de7ea73db277426a543",
+        "source": "URI-Nested-0.10 exact source direct-import reproduction",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.10-4 maps to official CPAN 0.10 and publisher CHECKSUMS. README/POD grant Perl 5 dual terms, with no contradictory notices. Official SP3 primary lacks URI::Nested and supplies URI, URI::QueryParam, Carp, Module::Build and Test::More. Two-line package-local patch loads already-declared runtime modules for direct use; original two default tests remain unchanged and pass 87 assertions. Extra direct-import regression covers the upstream test gap. Exact-head target CI and physical product audit remain acceptance evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
