@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-showtable-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-ShowTable-4.6.tar.gz",
+      "version": "4.6",
+      "url": "https://cpan.metacpan.org/authors/id/A/AK/AKSTE/Data-ShowTable-4.6.tar.gz",
+      "digests": {
+        "sha256": "8f8958b99b1480104f7cbde877a5204c5cc6990a00ded07886cb43eb72527ba3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release Copyright and GNU-LICENSE state GPL version 2 or later; installed module and CLI headers repeat that grant. The publisher's author-directory CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
