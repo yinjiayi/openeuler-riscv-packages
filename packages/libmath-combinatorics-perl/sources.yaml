@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-combinatorics-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Combinatorics-0.09.tar.gz",
+      "version": "0.09",
+      "url": "https://cpan.metacpan.org/authors/id/A/AL/ALLENDAY/Math-Combinatorics-0.09.tar.gz",
+      "digests": {
+        "sha256": "6ef15a1003fe4d7f49d54380b5d7995f5950d799e46aad285d758a12e36da647"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD explicitly grant the same terms as Perl for this distribution; no bundled file has a conflicting notice. Publisher A/AL/ALLENDAY/CHECKSUMS pins this archive SHA-256."
+      }
+    }
+  ]
+}
