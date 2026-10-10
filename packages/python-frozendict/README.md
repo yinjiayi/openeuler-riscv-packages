@@ -35,6 +35,16 @@ fallback remain pending real CI, not claimed as successful locally. Preserve
 the backend's architecture-specific wheel policy; do not assert a noarch
 payload before target build evidence.
 
+The initial exact-head CI run `38086896843` on `18fe80b0156502de423e8d4bac21b60ba3504ac7`
+observed the original optional-C fallback and completed all 262 runtime pytest
+items, 100% branch coverage and the original mypy checker. RPM packaging then
+failed because its automatic debuginfo subpackage had an empty `debugfiles.list`;
+no RPM/SRPM or installed-smoke success followed. This recipe suppresses only
+that inapplicable debug subpackage for the pinned target's Python-only payload,
+not the optional C attempt, backend or tests. Re-evaluate this packaging choice
+when a future source/target actually builds an ELF extension. A repaired head
+still requires its own complete target build/install and physical artifacts.
+
 The entire upstream target-3.11 sdist default suite is retained: pytest with
 100% branch coverage, followed by the original `test/run_type_checker.py`
 mypy command. No tests, flags or gates are removed or patched. The upstream

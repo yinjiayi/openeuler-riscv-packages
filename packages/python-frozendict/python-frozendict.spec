@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
+# Pinned target Python 3.11 uses upstream's optional-C fallback, with no ELF
+# payload; an automatic debuginfo subpackage would have an empty files list.
+%global debug_package %{nil}
 Name:           python-frozendict
 Version:        2.4.7
 Release:        1%{?dist}
