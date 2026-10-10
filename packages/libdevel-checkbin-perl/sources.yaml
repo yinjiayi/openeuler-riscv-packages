@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdevel-checkbin-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Devel-CheckBin-0.04.tar.gz",
+      "version": "0.04",
+      "url": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/Devel-CheckBin-0.04.tar.gz",
+      "digests": {
+        "sha256": "157f3db59c29ed1d49133a469cee772c885ad4ee64e8692a91b3ebfdbe2fe3e4"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official publisher CHECKSUMS matches the independently downloaded HTTPS archive. Installed Devel/CheckBin.pm, README and LICENSE grant same-as-Perl redistribution by tokuhirom; the default tests have no contrary notice and the distribution contains no vendored code."
+      }
+    }
+  ]
+}
