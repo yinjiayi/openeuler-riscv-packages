@@ -1,0 +1,21 @@
+{
+  "package_id": "cryptmount",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5ea65c48e854f486116230ea0fb092bdd731d36148e8083b2817a7696e28d688"
+      },
+      "filename": "cryptmount-6.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rwpenney/cryptmount/archive/refs/tags/v6.4.0.tar.gz",
+      "version": "6.4.0"
+    }
+  ]
+}
