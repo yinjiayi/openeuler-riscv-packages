@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "figlet",
+  "rpm": {"name": "figlet", "summary": "Render large text banners using FIGlet fonts", "license": "BSD-3-Clause"},
+  "upstream": {
+    "component": "figlet.org",
+    "homepage": "https://github.com/cmatsuoka/figlet",
+    "source_repository": "https://github.com/cmatsuoka/figlet.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/cmatsuoka/figlet/tags",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)*)$",
+    "source_url_template": "https://github.com/cmatsuoka/figlet/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {"current": "2.2.5", "release": "1", "latest_detected": "2.2.5"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "figlet", "package_base": "figlet", "source_version": "2.2.5-3", "evidence_url": "https://packages.debian.org/source/trixie/figlet", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "figlet.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official 2.2.5 tag resolves to 38518633367046425e63fc3328888352ccaae9a3 and its HTTPS archive is SHA-256 pinned. Upstream make check runs 26 font/rendering cases and vercheck checks version references. Target CI determines actual RISC-V build and installed behavior."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"}
+}
