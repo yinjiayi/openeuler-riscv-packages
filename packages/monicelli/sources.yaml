@@ -1,0 +1,21 @@
+{
+  "package_id": "monicelli",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3e7580c7d85b81ab369d2c8f03063a3c7ae47aae46a84a5f1db598657d272181"
+      },
+      "filename": "monicelli-2.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/esseks/monicelli/archive/refs/tags/v2.3.0.tar.gz",
+      "version": "2.3.0"
+    }
+  ]
+}
