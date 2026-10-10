@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import argparse
+import datetime
 import runpy
 import pathlib
 import re
@@ -207,8 +208,82 @@ def published_links(
 
 def pr_checks(pr: Mapping[str, Any]) -> List[Mapping[str, Any]]:
     checks = list(pr.get("statusCheckRollup") or pr.get("checks") or pr.get("check_runs") or [])
-    checks.extend({"name": item.get("context"), "conclusion": item.get("state"), "status": item.get("state")} for item in pr.get("status_contexts", []) if isinstance(item, Mapping))
-    return checks
+    # Legacy display fixtures are not current-head acceptance evidence.
+    if "checks_complete" not in pr:
+        checks.extend({"name": item.get("context"), "conclusion": item.get("state"), "status": item.get("state")} for item in pr.get("status_contexts", []) if isinstance(item, Mapping))
+        return [dict(item, _current_check_verified=False) for item in checks if isinstance(item, Mapping)]
+    unknown = [{"name": "current-checks-unverified", "status": "unknown", "conclusion": None, "_current_check_verified": False}]
+    if pr.get("check_selection_version") != 1 or pr.get("check_selection_metadata_complete") is not True or pr.get("checks_complete") is not True or pr.get("snapshot_head_current") is not True:
+        return unknown
+    head = pr_head(pr)
+    if not re.fullmatch(r"[a-f0-9]{40}", head):
+        return unknown
+    def timestamp(value: Any) -> datetime.datetime:
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})", value):
+            raise ValueError("missing or malformed current-check timestamp")
+        return datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    groups: Dict[Tuple[Any, ...], List[Tuple[Any, Mapping[str, Any]]]] = {}
+    identities: Dict[Tuple[str, Any], Mapping[str, Any]] = {}
+    try:
+        for item in checks:
+            if not isinstance(item, Mapping) or item.get("head_sha") != head or not isinstance(item.get("name"), str) or not item["name"]:
+                raise ValueError("unbound CheckRun")
+            for field in ("check_run_id", "app_id", "check_suite_id"):
+                if type(item.get(field)) is not int or item[field] <= 0:
+                    raise ValueError("missing CheckRun identity")
+            created = timestamp(item.get("check_suite_created_at"))
+            started = timestamp(item["started_at"]) if item.get("started_at") is not None else None
+            completed = timestamp(item["completed_at"]) if item.get("completed_at") is not None else None
+            if started and started < created or completed and completed < (started or created):
+                raise ValueError("inconsistent CheckRun chronology")
+            if item.get("status") not in {"completed", "queued", "pending", "requested", "waiting", "in_progress"}:
+                raise ValueError("unknown CheckRun status")
+            if item.get("status") == "completed" and (completed is None or not item.get("conclusion")):
+                raise ValueError("incomplete terminal CheckRun")
+            identity = ("check-run", item["check_run_id"])
+            if identity in identities:
+                if identities[identity] != item:
+                    raise ValueError("conflicting CheckRun identity")
+                continue
+            identities[identity] = item
+            key = ("check-run", item["name"], item["app_id"])
+            groups.setdefault(key, []).append(((created, started, item["check_run_id"]), dict(item, _current_check_verified=True)))
+        for item in pr.get("status_contexts", []):
+            if not isinstance(item, Mapping) or item.get("head_sha") != head or not all(isinstance(item.get(field), str) and item[field] for field in ("id", "context", "creator_login")):
+                raise ValueError("unbound StatusContext")
+            created, updated = timestamp(item.get("created_at")), timestamp(item.get("updated_at"))
+            if updated < created or item.get("state") not in {"success", "failure", "error", "pending"}:
+                raise ValueError("invalid StatusContext chronology/state")
+            identity = ("status-context", item["id"])
+            if identity in identities:
+                if identities[identity] != item:
+                    raise ValueError("conflicting StatusContext identity")
+                continue
+            identities[identity] = item
+            key = ("status-context", item["context"], item["creator_login"])
+            state = item["state"]
+            groups.setdefault(key, []).append(((created, updated, item["id"]), dict(item, name=item["context"], conclusion=None if state == "pending" else ("failure" if state == "error" else state), status="queued" if state == "pending" else "completed", _current_check_verified=True)))
+        selected = []
+        for key, values in sorted(groups.items()):
+            # A suite can be reused by a later rerun: its creation is not run order.
+            if key[0] == "check-run":
+                if len(values) > 1 and any(order[1] is None for order, _ in values):
+                    raise ValueError("ambiguous unstarted CheckRun ordering across suites/reruns")
+                minimum = datetime.datetime.min.replace(tzinfo=datetime.timezone.utc)
+                latest = max(order[1] or minimum for order, _ in values)
+                candidates = [item for order, item in values if (order[1] or minimum) == latest]
+                if len(candidates) != 1:
+                    raise ValueError("ambiguous tied CheckRun start times")
+                selected.append(candidates[0])
+            else:
+                latest = max(order[:2] for order, _ in values)
+                candidates = [item for order, item in values if order[:2] == latest]
+                if len(candidates) != 1:
+                    raise ValueError("ambiguous tied StatusContext times")
+                selected.append(candidates[0])
+        return selected or unknown
+    except (ValueError, TypeError, KeyError):
+        return unknown
 
 
 def pr_state(pr: Mapping[str, Any]) -> str:
@@ -236,15 +311,15 @@ def pr_state(pr: Mapping[str, Any]) -> str:
         return "building"
     if any(value in {"queued", "pending", "requested", "waiting"} for value in statuses):
         return "ci-queued"
-    if checks and conclusions and all(value in {"success", "neutral", "skipped"} for value in conclusions):
+    if checks and conclusions and all(check.get("_current_check_verified") is True for check in checks) and all(value in {"success", "neutral", "skipped"} for value in conclusions):
         return "passed"
     return "pr-open"
 
 
 def current_pr_success_checks(pr: Mapping[str, Any]) -> bool:
     checks = pr_checks(pr)
-    names = {str(check.get("name")): str(check.get("conclusion") or "").lower() for check in checks if isinstance(check, Mapping)}
-    return pr.get("checks_complete") is True and pr.get("snapshot_head_current") is True and pr_state(pr) == "passed" and all(names.get(name) == "success" for name in ("rpmbuild-riscv64", "rpm-install-smoke"))
+    names = {str(check.get("name")): str(check.get("conclusion") or "").lower() for check in checks if check.get("app_id") == 15368}
+    return pr.get("checks_complete") is True and pr.get("snapshot_head_current") is True and all(check.get("_current_check_verified") is True for check in checks) and pr_state(pr) == "passed" and all(names.get(name) == "success" for name in ("rpmbuild-riscv64", "rpm-install-smoke"))
 
 
 def latest_prs(prs: Iterable[Mapping[str, Any]]) -> Dict[str, Mapping[str, Any]]:
@@ -281,8 +356,33 @@ def http_link(value: Any) -> Optional[str]:
     if not value:
         return None
     text = str(value)
-    parsed = urllib.parse.urlparse(text)
-    return text if parsed.scheme in {"http", "https"} and bool(parsed.netloc) else None
+    # Catalog strings are untrusted IRIs, not already-safe browser URIs.
+    # Unresolved packaging placeholders are not real upstream locations.
+    if any(ord(char) < 32 or ord(char) == 127 for char in text) or any(char in text for char in "{}\\"):
+        return None
+    if re.search(r"%(?![0-9a-fA-F]{2})", text):
+        return None
+    try:
+        parsed = urllib.parse.urlsplit(text)
+        if parsed.scheme not in {"http", "https"} or not parsed.hostname or parsed.username is not None or parsed.password is not None:
+            return None
+        if any(char.isspace() for char in parsed.netloc):
+            return None
+        host = parsed.hostname.encode("idna").decode("ascii")
+        if parsed.netloc.startswith("[") and ":" not in host:
+            # Unsupported IPvFuture must not be reinterpreted as a DNS name.
+            return None
+        if ":" in host:
+            host = "[" + host + "]"
+        port = parsed.port  # Invalid and out-of-range ports fail closed.
+        authority = host + (":" + str(port) if port is not None else "")
+        safe = "/:@!$&'()*+,;=-._~%"
+        return urllib.parse.urlunsplit((parsed.scheme, authority,
+            urllib.parse.quote(parsed.path, safe=safe),
+            urllib.parse.quote(parsed.query, safe=safe + "?"),
+            urllib.parse.quote(parsed.fragment, safe=safe + "?")))
+    except (ValueError, UnicodeError):
+        return None
 
 
 def verified_build(entry: Optional[Mapping[str, Any]], pr: Optional[Mapping[str, Any]], build: Optional[Mapping[str, Any]]) -> Optional[Mapping[str, Any]]:
@@ -461,7 +561,8 @@ def inventory_row(
         "aliases": names[1:] or None,
         "component_ids": sorted({str(value) for value in entry.get("component_ids", []) if value}) or None,
         "summary": str(managed.get("summary")) if managed.get("summary") else None,
-        "decisions": sorted(str(key) for key in entry.get("decisions", {}) if key) or None,
+        "decisions": sorted({str(key) for key in entry.get("decisions", {}) if key} |
+            ({"invalid-upstream-link"} if any(value and http_link(value) is None for value in entry.get("upstream_urls", [])) else set())) or None,
         "updated_at": max((value for value in timestamps if value), default=None),
     }
     row.update({key: value for key, value in optional.items() if value is not None})
@@ -735,11 +836,18 @@ def history_view(
             "publication": published,
         })
     snapshot = history.get("snapshot", {})
+    # Raw connection coverage is not proof that current contexts can be ordered.
+    selection_gaps = []
+    for current in (github_state or {}).get("pull_requests", []):
+        if current.get("canonical_identity_verified") is True and str(current.get("state") or "").lower() in {"open", "opened"}:
+            if not all(check.get("_current_check_verified") is True for check in pr_checks(current)):
+                selection_gaps.append({"pr": current.get("number"), "head_sha": pr_head(current), "reason": "current-check identity, ordering, or snapshot completeness unverified"})
     return {
         "url": "build-history.json", "source_generated_at": history.get("generated_at"), "cutoff": snapshot.get("cutoff"),
         "current_pr_source_available": bool(github_state and github_state.get("generated_at") and github_state.get("coverage", {}).get("complete") is True and isinstance(github_state.get("pull_requests"), list)),
         "current_pr_source_generated_at": github_state.get("generated_at") if github_state else None,
-        "current_pr_source_complete": bool(github_state and github_state.get("coverage", {}).get("complete") is True),
+        "current_pr_source_complete": bool(github_state and github_state.get("coverage", {}).get("complete") is True and not selection_gaps),
+        "current_pr_selection_gaps": selection_gaps,
         "coverage_complete": snapshot.get("coverage_complete") is True,
         "lower_bound": snapshot.get("lower_bound") is not False,
         "reasons": list(snapshot.get("reasons", [])),

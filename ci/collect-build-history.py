@@ -538,10 +538,33 @@ def valid_observation(row: dict) -> bool:
             and all(isinstance(row["jobs"][k].get("step_number"), int) and row["jobs"][k]["step_number"] > 0 for k in ("build", "smoke")))
 
 
+def required_format_checker(schema: dict):
+    """Fail closed if this schema declares formats without installed handlers."""
+    import jsonschema
+    formats = set()
+
+    def visit(node):
+        if isinstance(node, dict):
+            if isinstance(node.get("format"), str):
+                formats.add(node["format"])
+            for value in node.values():
+                visit(value)
+        elif isinstance(node, list):
+            for value in node:
+                visit(value)
+
+    visit(schema)
+    checker = jsonschema.FormatChecker()
+    missing = formats - checker.checkers.keys()
+    if missing:
+        raise ValueError("history schema format handlers unavailable: " + ", ".join(sorted(missing)))
+    return checker
+
+
 def validate_seed(seed: dict, repository: str) -> None:
     import jsonschema
     schema = json.loads((pathlib.Path(__file__).resolve().parents[1] / "schemas/build-history.schema.json").read_text())
-    jsonschema.Draft202012Validator(schema, format_checker=jsonschema.FormatChecker()).validate(seed)
+    jsonschema.Draft202012Validator(schema, format_checker=required_format_checker(schema)).validate(seed)
     if seed["repository"] != repository:
         raise ValueError("history repository mismatch")
     cutoff = timestamp(seed["snapshot"]["cutoff"])

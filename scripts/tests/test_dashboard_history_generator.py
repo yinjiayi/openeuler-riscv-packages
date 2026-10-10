@@ -18,6 +18,18 @@ SHA = "a" * 40
 TREE = "b" * 40
 
 
+def current_check(name, number, conclusion="success", status="completed", time="2026-10-09T00:01:00Z", app=15368, suite_time="2026-10-09T00:00:00Z"):
+    return {"name": name, "check_run_id": number, "app_id": app, "head_sha": SHA,
+            "check_suite_id": number, "check_suite_created_at": suite_time,
+            "started_at": time, "completed_at": time if status == "completed" else None,
+            "status": status, "conclusion": conclusion}
+
+
+def current_pr(checks):
+    return {"state": "OPEN", "headRefOid": SHA, "checks_complete": True, "snapshot_head_current": True,
+            "check_selection_version": 1, "check_selection_metadata_complete": True, "check_runs": checks}
+
+
 def observation(package_id="libdemo-perl", run_id=1, head=SHA, tree=TREE, event="pull_request", branch="onboard/libdemo-perl-1.0"):
     job = {"id": 1, "name": "rpmbuild-riscv64", "step_name": "Build SRPM and RPM with verified source networking", "step_number": 1, "completed_at": "2026-10-09T00:00:00Z", "runner_labels": ["ubuntu-latest"]}
     return {"id": f"{run_id}:1:{head}:{package_id}", "package_id": package_id, "head_sha": head, "recipe_tree_sha": tree, "recipe_blob_sha": "c" * 40,
@@ -111,12 +123,12 @@ class DashboardHistoryGeneratorTests(unittest.TestCase):
 
     def test_current_pr_needs_actual_identity_and_repair_state_takes_precedence(self):
         item = observation()
-        pr = {"state": "OPEN", "headRefOid": SHA, "checks_complete": True, "snapshot_head_current": True, "statusCheckRollup": [{"name": name, "conclusion": "SUCCESS", "status": "COMPLETED"} for name in ("rpmbuild-riscv64", "rpm-install-smoke")]}
+        pr = current_pr([current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)])
         self.assertEqual(view([item], {item["package_id"]: pr})["metrics"]["current_pr_success_packages"], 0)
-        pr["statusCheckRollup"] = [{"name": name, "conclusion": "SKIPPED"} for name in ("rpmbuild-riscv64", "rpm-install-smoke")]
+        pr["check_runs"] = [current_check(name, number, "skipped") for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)]
         pr["canonical_identity_verified"] = True
         self.assertEqual(view([item], {item["package_id"]: pr})["metrics"]["current_pr_success_packages"], 0)
-        pr["statusCheckRollup"] = [{"name": name, "conclusion": "SUCCESS"} for name in ("rpmbuild-riscv64", "rpm-install-smoke")]
+        pr["check_runs"] = [current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)]
         self.assertEqual(view([item], {item["package_id"]: pr})["metrics"]["current_pr_success_packages"], 1)
         for label in ("repair-queued", "codex-repairing", "needs-human"):
             pr["labels"] = [label]
@@ -168,9 +180,164 @@ class DashboardHistoryGeneratorTests(unittest.TestCase):
         opened = {"package_id": "demo", "state": "OPEN", "updated_at": "2026-10-08T00:00:00Z", "number": 1}
         closed = dict(opened, state="CLOSED", updated_at="2026-10-09T00:00:00Z", number=2)
         self.assertEqual(GEN["latest_prs"]([opened, closed])["demo"]["number"], 1)
-        pr = {"checks_complete": True, "snapshot_head_current": True, "statusCheckRollup": [{"name": name, "conclusion": "SUCCESS", "status": "COMPLETED"} for name in ("rpmbuild-riscv64", "rpm-install-smoke")] + [{"name": "policy", "status": "QUEUED"}]}
+        pr = current_pr([current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)] + [current_check("policy", 3, None, "queued")])
         self.assertEqual(GEN["pr_state"](pr), "ci-queued")
         self.assertFalse(GEN["current_pr_success_checks"](pr))
+
+    def test_latest_context_ignores_old_cancelled_but_not_latest_failure(self):
+        build = [current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)]
+        older = current_check("configure", 3, "cancelled", time="2026-10-09T00:00:00Z")
+        newer = current_check("configure", 4, time="2026-10-09T00:02:00Z")
+        for order in ([older, newer], [newer, older]):
+            pr = current_pr(build + order)
+            self.assertEqual(GEN["pr_state"](pr), "passed")
+            self.assertTrue(GEN["current_pr_success_checks"](pr))
+        for conclusion, status, expected in (("failure", "completed", "failed"), ("cancelled", "completed", "failed"), (None, "in_progress", "building"), (None, "queued", "ci-queued")):
+            pr = current_pr(build + [older, dict(newer, conclusion=conclusion, status=status, completed_at=newer["completed_at"] if status == "completed" else None)])
+            self.assertEqual(GEN["pr_state"](pr), expected)
+            self.assertFalse(GEN["current_pr_success_checks"](pr))
+
+    def test_missing_conflicting_or_unbound_current_checks_fail_closed(self):
+        base = [current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)]
+        for field in ("check_run_id", "app_id", "head_sha", "check_suite_id", "check_suite_created_at", "completed_at"):
+            checks = copy.deepcopy(base);checks[0].pop(field)
+            self.assertFalse(GEN["current_pr_success_checks"](current_pr(checks)), field)
+            self.assertEqual(GEN["pr_state"](current_pr(checks)), "pr-open")
+        for changes in ({"head_sha": "f"*40}, {"app_id": 777}, {"check_suite_created_at": "bad time"}, {"status": "invented"}):
+            checks = [dict(base[0], **changes), base[1]]
+            self.assertFalse(GEN["current_pr_success_checks"](current_pr(checks)))
+        pr = current_pr(base + [dict(base[0], conclusion="failure")])
+        self.assertEqual(GEN["pr_state"](pr), "pr-open")
+        self.assertFalse(GEN["current_pr_success_checks"](pr))
+        for flag in ("checks_complete", "snapshot_head_current", "check_selection_metadata_complete"):
+            pr = current_pr(base);pr[flag] = False
+            self.assertEqual(GEN["pr_state"](pr), "pr-open")
+        legacy = {"checks_complete": True, "snapshot_head_current": True, "headRefOid": SHA, "check_runs": base}
+        self.assertEqual(GEN["pr_state"](legacy), "pr-open")
+        self.assertFalse(GEN["current_pr_success_checks"](legacy))
+        self.assertEqual(GEN["pr_state"]({"checks": [{"name": "build", "conclusion": "success"}]}), "pr-open")
+
+    def test_distinct_apps_and_unstarted_checks_cannot_hide_latest_result(self):
+        checks = [current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)]
+        failed = current_check("rpmbuild-riscv64", 3, "failure", time="2026-10-09T00:02:00Z")
+        foreign = current_check("rpmbuild-riscv64", 4, app=777, time="2026-10-09T00:03:00Z")
+        self.assertEqual(GEN["pr_state"](current_pr(checks+[failed, foreign])), "failed")
+        old_unstarted = current_check("configure", 5, "cancelled", suite_time="2026-10-08T00:00:00Z", time="2026-10-08T00:01:00Z");old_unstarted["started_at"] = None
+        newer = current_check("configure", 6)
+        # An older suite may have been reused: absence of an individual start
+        # cannot prove that its cancelled check happened before the newer suite.
+        self.assertEqual(GEN["pr_state"](current_pr(checks+[old_unstarted,newer])), "pr-open")
+        self.assertFalse(GEN["current_pr_success_checks"](current_pr(checks+[old_unstarted,newer])))
+        newest = dict(newer, check_run_id=7, status="queued", conclusion=None, started_at=None, completed_at=None)
+        self.assertEqual(GEN["pr_state"](current_pr(checks+[newer,newest])), "pr-open")
+        self.assertFalse(GEN["current_pr_success_checks"](current_pr(checks+[newer,newest])))
+        latest_cancel = dict(old_unstarted, check_run_id=8, check_suite_created_at="2026-10-10T00:00:00Z", started_at="2026-10-10T00:00:30Z", completed_at="2026-10-10T00:01:00Z")
+        self.assertEqual(GEN["pr_state"](current_pr(checks+[newer,latest_cancel])), "failed")
+
+    def test_older_suite_later_rerun_never_hides_failure_or_pending(self):
+        build = [current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)]
+        newer_suite = current_check("configure", 10, suite_time="2026-10-09T00:02:00Z", time="2026-10-09T00:03:00Z")
+        for conclusion, status, expected in (("failure", "completed", "failed"), (None, "in_progress", "building"), (None, "queued", "ci-queued")):
+            old_suite_rerun = current_check("configure", 11, conclusion, status, time="2026-10-09T00:04:00Z")
+            old_suite_rerun.update(check_suite_id=99, workflow_run_attempt=2)
+            for order in ([newer_suite, old_suite_rerun], [old_suite_rerun, newer_suite]):
+                pr = current_pr(build + order)
+                self.assertEqual(GEN["pr_state"](pr), expected)
+                self.assertFalse(GEN["current_pr_success_checks"](pr))
+                selected = [check for check in GEN["pr_checks"](pr) if check["name"] == "configure"]
+                self.assertEqual(selected[0]["check_run_id"], 11)
+            # Real queued reruns often have no startedAt. The old suite's
+            # creation/ID cannot establish the individual rerun's ordering.
+            old_suite_rerun.update(started_at=None)
+            for order in ([newer_suite, old_suite_rerun], [old_suite_rerun, newer_suite]):
+                pr = current_pr(build + order)
+                self.assertEqual(GEN["pr_state"](pr), "pr-open")
+                self.assertFalse(GEN["current_pr_success_checks"](pr))
+
+    def test_observed_two_pr_configure_sequences_still_select_latest_green(self):
+        # Minimal immutable October 9 #2494/#2495 check chronology, not a new
+        # hosted run or target acceptance. Full raw snapshots accompany review.
+        cases = (
+            ("19e72e255985cb42a3ffa341b86ce7f2225e91d5", "2026-10-09T17:21:06Z",
+             ((113939157271, "17:21:04", "17:21:05"), (113939164454, "17:21:05", "17:21:06"), (113939173514, "17:21:07", "17:21:07")),
+             113939182215, "17:21:10", "17:21:20"),
+            ("ade25896b3b69bc08710369f732693ee04c775bd", "2026-10-09T18:31:47Z",
+             ((113967215859, "18:31:46", "18:31:47"),), 113967225854, "18:31:49", "18:32:00"),
+        )
+        for head, suite_created, cancelled, number, started, completed in cases:
+            build = [current_check(name, n) for n, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)]
+            old = [dict(current_check("configure", n, "cancelled", time="2026-10-09T"+start+"Z"), completed_at="2026-10-09T"+end+"Z") for n, start, end in cancelled]
+            latest = dict(current_check("configure", number, time="2026-10-09T"+started+"Z", suite_time=suite_created), completed_at="2026-10-09T"+completed+"Z")
+            for order in (old+[latest], [latest]+list(reversed(old))):
+                pr = current_pr([dict(check, head_sha=head) for check in build+order]);pr["headRefOid"] = head
+                self.assertEqual(GEN["pr_state"](pr), "passed")
+                self.assertTrue(GEN["current_pr_success_checks"](pr))
+
+    def test_legacy_status_contexts_have_separate_latest_identity(self):
+        checks = [current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)]
+        context = {"id": "SC1", "context": "lint", "creator_login": "provider", "head_sha": SHA,
+                   "created_at": "2026-10-09T00:00:00Z", "updated_at": "2026-10-09T00:00:00Z", "state": "failure"}
+        latest = dict(context, id="SC2", state="success", created_at="2026-10-09T00:01:00Z", updated_at="2026-10-09T00:01:00Z")
+        pr = current_pr(checks);pr["status_contexts"] = [latest, context]
+        self.assertTrue(GEN["current_pr_success_checks"](pr))
+        pr["status_contexts"].append(dict(latest, id="SC3", state="pending", created_at="2026-10-09T00:02:00Z", updated_at="2026-10-09T00:02:00Z"))
+        self.assertEqual(GEN["pr_state"](pr), "ci-queued")
+        self.assertFalse(GEN["current_pr_success_checks"](pr))
+
+    def test_check_start_ties_are_unknown_but_identical_records_deduplicate(self):
+        build = [current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)]
+        first = current_check("configure", 10)
+        for conclusion in ("failure", "success"):
+            tied = dict(first, check_run_id=11, check_suite_id=99, conclusion=conclusion)
+            for order in ([first,tied], [tied,first]):
+                pr = current_pr(build+order)
+                self.assertEqual(GEN["pr_state"](pr), "pr-open")
+                self.assertFalse(GEN["current_pr_success_checks"](pr))
+            later = current_check("configure", 12, time="2026-10-09T00:02:00Z")
+            self.assertTrue(GEN["current_pr_success_checks"](current_pr(build+[first,tied,later])))
+        pr = current_pr(build+[first,copy.deepcopy(first)])
+        self.assertTrue(GEN["current_pr_success_checks"](pr))
+        self.assertEqual(len(GEN["pr_checks"](pr)), 3)
+        cancelled = dict(first, conclusion="cancelled", started_at=None)
+        self.assertEqual(GEN["pr_state"](current_pr(build+[cancelled,copy.deepcopy(cancelled)])), "failed")
+
+    def test_status_time_ties_are_unknown_but_identical_records_deduplicate(self):
+        build = [current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)]
+        first = {"id":"SC1", "context":"lint", "creator_login":"provider", "head_sha":SHA,
+                 "created_at":"2026-10-09T00:01:00Z", "updated_at":"2026-10-09T00:01:00Z", "state":"success"}
+        for state in ("failure", "success"):
+            tied = dict(first, id="SC2", state=state)
+            for order in ([first,tied], [tied,first]):
+                pr = current_pr(build);pr["status_contexts"] = order
+                self.assertEqual(GEN["pr_state"](pr), "pr-open")
+                self.assertFalse(GEN["current_pr_success_checks"](pr))
+            pr["status_contexts"].append(dict(first, id="SC3", created_at="2026-10-09T00:02:00Z", updated_at="2026-10-09T00:02:00Z"))
+            self.assertTrue(GEN["current_pr_success_checks"](pr))
+        pr = current_pr(build);pr["status_contexts"] = [first,copy.deepcopy(first)]
+        self.assertTrue(GEN["current_pr_success_checks"](pr))
+        self.assertEqual(len(GEN["pr_checks"](pr)), 3)
+
+    def test_raw_connection_complete_is_not_current_selection_complete(self):
+        item = observation()
+        legacy = {"number": 9, "state": "open", "headRefOid": SHA, "canonical_identity_verified": True,
+                  "checks_complete": True, "snapshot_head_current": True,
+                  "check_runs": [{"name": "rpmbuild-riscv64", "conclusion": "success"}]}
+        source = {"generated_at": "2026-10-09T00:00:00Z", "coverage": {"complete": True}, "pull_requests": [legacy]}
+        resolver = GEN["CanonicalPackages"]();resolver.add(item["package_id"], [])
+        def result(): return GEN["history_view"](history([item]), resolver, {}, {}, {item["package_id"]: source["pull_requests"][0]}, {}, {}, {}, source)
+        value = result()
+        self.assertTrue(value["current_pr_source_available"])
+        self.assertFalse(value["current_pr_source_complete"])
+        self.assertEqual(value["current_pr_selection_gaps"][0]["pr"], 9)
+        self.assertEqual(value["metrics"]["cumulative_success_packages"], 1)
+        self.assertEqual(value["metrics"]["current_pr_success_packages"], 0)
+        good = current_pr([current_check(name, number) for number, name in enumerate(("rpmbuild-riscv64", "rpm-install-smoke"), 1)])
+        good.update(number=9, canonical_identity_verified=True);source["pull_requests"] = [good]
+        self.assertTrue(result()["current_pr_source_complete"])
+        self.assertEqual(result()["current_pr_selection_gaps"], [])
+        good["check_runs"].append(dict(good["check_runs"][0], check_run_id=3, status="queued", conclusion=None, started_at=None, completed_at=None))
+        self.assertFalse(result()["current_pr_source_complete"])
+        self.assertEqual(result()["metrics"]["current_pr_success_packages"], 0)
 
     def test_successful_ledger_requires_actual_job_step_semantics(self):
         with tempfile.TemporaryDirectory() as temporary:
