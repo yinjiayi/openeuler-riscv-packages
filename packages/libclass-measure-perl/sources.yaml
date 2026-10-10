@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-measure-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Class-Measure-0.10.tar.gz",
+      "version": "0.10",
+      "url": "https://cpan.metacpan.org/authors/id/B/BL/BLUEFEET/Class-Measure-0.10.tar.gz",
+      "digests": {
+        "sha256": "c0b79eb09a66cc41fb83aadbd24874372b465a74407b96e0722994eefbfd24ca"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official BLUEFEET CHECKSUMS matches the fixed HTTPS archive. Top-level LICENSE grants same-as-Perl redistribution for this software; README and both installed modules repeat that grant. Named contributor is acknowledged without a contrary file notice; there is no vendored code."
+      }
+    }
+  ]
+}
