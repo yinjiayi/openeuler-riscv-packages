@@ -1,0 +1,19 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 300},
+  "discovery": {"lineage": [
+    {"evidence_url": "https://archlinux.org/packages/extra/x86_64/cppcheck/", "observed_at": "2026-08-12T08:00:00Z", "package_base": "cppcheck", "package_name": "cppcheck", "source": "arch-extra", "source_version": "2.21.1-1"},
+    {"evidence_url": "https://packages.debian.org/trixie/cppcheck", "observed_at": "2026-08-12T08:00:00Z", "package_base": "cppcheck", "package_name": "cppcheck", "source": "debian", "source_version": "2.17.1-2"},
+    {"evidence_url": "https://packages.fedoraproject.org/pkgs/cppcheck/cppcheck/", "observed_at": "2026-08-12T08:00:00Z", "package_base": "cppcheck", "package_name": "cppcheck", "source": "fedora", "source_version": "2.21.1-1.fc44"},
+    {"evidence_url": "https://software.opensuse.org/package/cppcheck", "observed_at": "2026-08-12T08:00:00Z", "package_base": "cppcheck", "package_name": "cppcheck", "source": "opensuse-tumbleweed", "source_version": "2.20.0"},
+    {"evidence_url": "https://packages.ubuntu.com/source/resolute/cppcheck", "observed_at": "2026-08-12T08:00:00Z", "package_base": "cppcheck", "package_name": "cppcheck", "source": "ubuntu", "source_version": "2.19.0-3"}
+  ], "snapshot_id": "discovery-20260808T074348Z-31246813686"},
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "cppcheck.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "Official stable tag bytes are pinned; all upstream unit and validation gates are retained. No distribution or AUR recipe is executed.", "status": "active"},
+  "package_id": "cppcheck",
+  "rpm": {"license": "GPL-3.0-or-later", "name": "cppcheck", "summary": "Static analysis tool for C and C++ code"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"},
+  "upstream": {"component": "cppcheck-opensource-cppcheck", "homepage": "https://cppcheck.sourceforge.io/", "release_api": "https://api.github.com/repos/cppcheck-opensource/cppcheck/tags?per_page=100", "release_channel": "stable", "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$", "source_repository": "https://github.com/cppcheck-opensource/cppcheck", "source_url_template": "https://github.com/cppcheck-opensource/cppcheck/archive/refs/tags/{version}.tar.gz"},
+  "version": {"current": "2.21.1", "latest_detected": "2.21.1", "release": "1"}
+}
