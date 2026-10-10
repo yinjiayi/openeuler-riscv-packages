@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-c3-adopt-next-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Class-C3-Adopt-NEXT-0.14.tar.gz",
+      "version": "0.14",
+      "url": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Class-C3-Adopt-NEXT-0.14.tar.gz",
+      "digests": {
+        "sha256": "85676225aadb76e8666a6abe2e0659d40eb4581ad6385b170eea4e1d6bf34bf7"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official ETHER CHECKSUMS matches the fixed HTTPS archive. Top-level LICENSE expressly grants same-as-Perl rights for this software; installed PM and README repeat the grant. Default tests, fixtures and generated build metadata have no contrary notices or vendored code."
+      }
+    }
+  ]
+}
