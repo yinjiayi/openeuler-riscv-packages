@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-factory-util-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Class-Factory-Util-1.7.tar.gz",
+      "version": "1.7",
+      "url": "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Class-Factory-Util-1.7.tar.gz",
+      "digests": {
+        "sha256": "6c516b445b44f87363fb3a148431d31e9ecb5e6f21fb6481c89b2406b6692e26"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the independently downloaded official HTTPS archive. Installed Class/Factory/Util.pm and README explicitly grant same-as-Perl redistribution by Dave Rolsky. The original Alzabo 0.59 Alzabo::Util module names Dave Rolsky and its LICENSE grants the same terms; Alzabo 0.92 Changes credits Terrence Brannon for separating it. The test fixtures are small in-distribution classes with no contrary notice or third-party code copy."
+      }
+    }
+  ]
+}
