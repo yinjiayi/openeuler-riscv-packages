@@ -1,0 +1,21 @@
+{
+  "package_id": "choco-fontviewer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "699f5156fb0319cb48dc2f23160f1f7c1be00ed3df580923219a919910528b00"
+      },
+      "filename": "choco-fontviewer-1.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/chocolateimage/fontviewer/archive/refs/tags/v1.3.0.tar.gz",
+      "version": "1.3.0"
+    }
+  ]
+}
