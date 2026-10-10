@@ -1,0 +1,21 @@
+{
+  "package_id": "intel-metee",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "055550837a1294aacc1709cc7ea34d2b790972688371c15dd842108de2afd59d"
+      },
+      "filename": "intel-metee-6.2.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/intel/metee/archive/refs/tags/6.2.5.tar.gz",
+      "version": "6.2.5"
+    }
+  ]
+}
