@@ -1,0 +1,51 @@
+{
+  "package_id": "python-aenum",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b4fbd11dc2444b2b10d6ceb211441878e2fc0d39881a4fdda369514eea8b425d"
+      },
+      "filename": "aenum-3.1.17-fixed.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ethanfurman/aenum/archive/f0f6fd8e2ac0bb379eb11f6029023d2bad88732a.tar.gz",
+      "version": "3.1.17"
+    },
+    {
+      "digests": {
+        "sha256": "a969a4516b194895de72c875ece355f17c0d272146f7fda346ef74f93cf4d5ba"
+      },
+      "filename": "aenum-3.1.17.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original same-version BSD release documents only; library and test files are not copied."
+      },
+      "signature": null,
+      "url": "https://files.pythonhosted.org/packages/07/e9/8b283567c1fef7c24d1f390b37daede8b61593d8cdaffb8e95d571699e83/aenum-3.1.17.tar.gz",
+      "version": "3.1.17"
+    },
+    {
+      "digests": {
+        "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+      },
+      "filename": "cpython-LICENSE.txt",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full official CPython notice restored conservatively; exact copied revision unknown."
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/python/cpython/8b6ee5ba3bd08368ba3c763cea28ce1464a88e62/LICENSE",
+      "version": "3.11.6"
+    }
+  ]
+}
