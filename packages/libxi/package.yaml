@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libxi",
+  "rpm": {
+    "name": "libXi",
+    "summary": "X11 Input extension client library",
+    "license": "HPND AND MIT AND MIT-open-group"
+  },
+  "upstream": {
+    "component": "xorg.freedesktop.org-lib-libxi",
+    "homepage": "https://gitlab.freedesktop.org/xorg/lib/libXi",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libXi.git",
+    "release_channel": "stable",
+    "release_api": "https://xorg.freedesktop.org/archive/individual/lib/",
+    "release_regex": "libXi-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://xorg.freedesktop.org/archive/individual/lib/libXi-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.8.3",
+    "release": "1",
+    "latest_detected": "1.8.3"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libxi",
+        "package_base": "libxi",
+        "source_version": "2:1.8.2-1",
+        "evidence_url": "https://packages.debian.org/trixie/source/libxi",
+        "observed_at": null
+      },
+      {
+        "source": "arch-extra",
+        "package_name": "libxi",
+        "package_base": "libxi",
+        "source_version": "1.8.3-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libxi/",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libXi.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The exact libxi inventory key maps to X.Org/RPM libXi 1.8.3. The official release checksum is independently verified. Upstream Automake registers no tests; installed smoke checks version, public headers, library loading, and symbol linkage, not X-server protocol operations. Extra DocBook specs are disabled but pre-generated manpages are retained."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
