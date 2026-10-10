@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-number-delta-perl",
+  "rpm": {
+    "name": "perl-Test-Number-Delta",
+    "summary": "Compare numbers within a specified tolerance in Perl tests",
+    "license": "Apache-2.0"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-test-number-delta",
+    "homepage": "https://metacpan.org/dist/Test-Number-Delta",
+    "source_repository": "https://metacpan.org/dist/Test-Number-Delta",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_regex": "Test-Number-Delta-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Test-Number-Delta-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.06",
+    "release": "1",
+    "latest_detected": "1.06"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libtest-number-delta-perl",
+        "package_base": "libtest-number-delta-perl",
+        "source_version": "1.06-4",
+        "evidence_url": "https://deb.debian.org/debian/dists/stable/main/source/Sources.xz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtest-number-delta-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The immutable snapshot's canonical component metacpan.org-release-test-number-delta contains Debian stable/main libtest-number-delta-perl 1.06-4, fetched 2026-08-08T16:50:00Z. Its separate exact inventory key libtest-number-delta-perl is an Ubuntu resolute/universe row, not Debian lineage. The official CPAN release identifies the same Test-Number-Delta 1.06 upstream component; distribution rows are discovery clues, not upstream checksum or license proof. Official CPAN CHECKSUMS pins SHA-256 535430919e6fdf6ce55ff76e9892afccba3b7d4160db45f3ac43b0f92ffcd049. The original LICENSE and module grant Apache-2.0. Official SP3 RVA23 primary lacks perl-Test-Number-Delta and perl(Test::Number::Delta), while mandatory suppliers are present. All 12 default upstream tests are retained. Hosted run 37380981794:1 at head 21f527bd433f99836f413985ba2fa19d3c006b28 passed 72 assertions and installed smoke; that earlier result does not accept a replacement head or prove publication."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
