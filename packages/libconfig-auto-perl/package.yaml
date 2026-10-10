@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "package_id": "libconfig-auto-perl",
+  "rpm": {"name": "perl-Config-Auto", "summary": "Detect and parse configuration file formats in Perl", "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND GPL-3.0-only"},
+  "upstream": {
+    "component": "metacpan.org-release-config-auto",
+    "homepage": "https://metacpan.org/dist/Config-Auto",
+    "source_repository": "https://github.com/jib/config-auto",
+    "release_channel": "stable",
+    "release_api": "https://fastapi.metacpan.org/v1/release/Config-Auto",
+    "release_regex": null,
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Config-Auto-{version}.tar.gz"
+  },
+  "version": {"current": "0.44", "release": "1", "latest_detected": "0.44"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{"source": "debian", "package_name": "libconfig-auto-perl", "package_base": "libconfig-auto-perl", "source_version": "0.44-2", "evidence_url": "https://deb.debian.org/debian/dists/stable/main/source/Sources.xz", "observed_at": "2026-08-08T16:50:00Z"}]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libconfig-auto-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Official BINGOS stable0.44 source16668B/SHAe960e04d, authorized release metadata and publisher CHECKSUMS agree. Preserve all22 original files/modes/MANIFEST, ten default tests, every original supported parsing feature and credited notices. Aggregate source license accounts for original library GPL1-or-later OR Artistic1-Perl and separately GPL3-only copied Makefile.PL WriteMakefile1 v0.21; it does not relicense the entire runtime GPL3. Whole exact AppEUMMUpgrade0.21 module notice and full GPL3 plus immutable full Perl terms are fixed HTTPS/SHA supplements. No generator/inc implementation is imported. Original positive XML/YAML/INI supplier and TestPod>=1.14/fstab guards prevent optional skips; original negative XML fixture remains. Complete original MakeMaker suite then strict ten-file zero-failure/skip/TODO/bonus repeat; nine functional suites statically378 assertions plus dynamic POD, exact total remains target evidence. Ordinary10001 isolated installed smoke checks original module/full notices, supported parsing/unsupported bind-irssi and DisablePerl behavior. Local metadata/source-only review is not target CI, DNF installation, legal certainty, native/security acceptance or publication."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-metacpan-api"}
+}
