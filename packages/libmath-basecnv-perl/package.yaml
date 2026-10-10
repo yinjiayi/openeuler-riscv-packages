@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-basecnv-perl",
+  "rpm": {
+    "name": "perl-Math-BaseCnv",
+    "summary": "Convert values between numeric bases in Perl",
+    "license": "GPL-3.0-or-later"
+  },
+  "upstream": {
+    "component": "libmath-basecnv-perl",
+    "homepage": "https://metacpan.org/dist/Math-BaseCnv",
+    "source_repository": "https://metacpan.org/dist/Math-BaseCnv",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PI/PIP/",
+    "release_regex": "Math-BaseCnv-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PI/PIP/Math-BaseCnv-{version}.tgz"
+  },
+  "version": {
+    "current": "1.14",
+    "release": "1",
+    "latest_detected": "1.14"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-basecnv-perl",
+        "package_base": "libmath-basecnv-perl",
+        "source_version": "1.14-3",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libmath-basecnv-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-basecnv-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.14-3 original archive MD5 equals official CPAN 1.14; publisher CHECKSUMS pins SHA-256. Upstream source licenses GPL-3-or-later, with Debian source copyright covering all original files. Official target primary lacks same-name RPM/provider and supplies runtime and test dependencies. The cnv tool is retained. All three original t files run via default MakeMaker target, with target POD dependencies explicitly installed; local macOS skipped POD coverage, so target CI must prove execution."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
