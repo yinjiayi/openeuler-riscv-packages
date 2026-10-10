@@ -1,0 +1,21 @@
+{
+  "package_id": "libverto",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b1005607e58961bf74945b87f36b8bdb94266a692685998b09a63190e3994dc1"
+      },
+      "filename": "libverto-0.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/latchset/libverto/archive/refs/tags/0.3.2.tar.gz",
+      "version": "0.3.2"
+    }
+  ]
+}
