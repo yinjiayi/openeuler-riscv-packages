@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/hyprwm/hyprland-guiutils",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyprland-guiutils",
+        "package_name": "hyprland-guiutils",
+        "source": "arch-extra",
+        "source_version": "0.2.2-2"
+      },
+      {
+        "evidence_url": "https://github.com/hyprwm/hyprland-guiutils",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyprland-guiutils",
+        "package_name": "hyprland-guiutils",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.2.1-1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "hyprland-guiutils.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "hyprland-guiutils",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "hyprland-guiutils",
+    "summary": "Hyprland GUI utilities"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-hyprwm-hyprland-guiutils",
+    "homepage": "https://github.com/hyprwm/hyprland-guiutils",
+    "release_api": "https://api.github.com/repos/hyprwm/hyprland-guiutils/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/hyprwm/hyprland-guiutils",
+    "source_url_template": "https://github.com/hyprwm/hyprland-guiutils/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2.2",
+    "latest_detected": "0.2.2",
+    "release": "1"
+  }
+}
