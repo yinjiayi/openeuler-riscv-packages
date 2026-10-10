@@ -47,6 +47,84 @@ def golden_package(root: pathlib.Path, package_id: str, digest: str, profile: st
 
 
 class BuildAndClassifyTests(unittest.TestCase):
+    def test_explicit_source_denial_blocks_every_mode_before_side_effects(self) -> None:
+        namespace = runpy.run_path(str(SCRIPTS / "build-rpm"))
+        main = namespace["main"]
+        schema = json.loads((SCRIPTS.parent / "schemas" / "build-result.schema.json").read_text())
+        schema_errors = runpy.run_path(str(SCRIPTS / "validate-metadata"))["schema_errors"]
+        for mode in ([], ["--verify-only"], ["--plan"], ["--verify-only", "--offline"]):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as temporary:
+                root = pathlib.Path(temporary)
+                package = golden_package(root, "golden-denied", "a" * 64)
+                sources = json.loads((package / "sources.yaml").read_text())
+                # A later denial must prevent even the first permitted fetch.
+                denied = dict(sources["sources"][0])
+                denied.update({"id": "source1", "url": "https://example.org/denied.tar.gz", "redistribution": {"allowed": False, "reason": "untrusted reason must not be echoed"}})
+                sources["sources"].append(denied)
+                write_json(package / "sources.yaml", sources)
+                result = root / "result.json"
+                argv = ["--package-dir", str(package), "--repo-root", str(root), "--work-dir", str(root / "work"), "--cache-dir", str(root / "cache"), "--result", str(result), "--commit-sha", "a" * 40] + mode
+                operations = {name: mock.Mock(side_effect=AssertionError(name + " must not run")) for name in ("prepare_dirs", "materialize_source", "stage_package", "build_requires", "environment_check", "run_logged")}
+                with mock.patch.dict(main.__globals__, operations), mock.patch.object(sys, "argv", ["build-rpm"] + argv):
+                    self.assertEqual(main(), 1)
+                for operation in operations.values():
+                    operation.assert_not_called()
+                document = json.loads(result.read_text())
+                self.assertEqual(document["status"], "failed")
+                self.assertEqual(document["phase"], "source-verify")
+                self.assertEqual(document["commit_sha"], "a" * 40)
+                self.assertEqual(document["source_verification"], [])
+                self.assertEqual(document["commands"], [])
+                self.assertEqual(document["artifacts"], [])
+                self.assertEqual(schema_errors(document, schema, schema), [])
+                self.assertIn("explicitly disallowed", document["failure"]["message"])
+                self.assertNotIn("untrusted reason", result.read_text())
+                self.assertFalse((root / "work").exists())
+                self.assertFalse((root / "cache").exists())
+                # Exercise the real CLI failure envelope as well, including the
+                # nullable provenance field when no exact commit is provided.
+                cli_result = root / "cli-result.json"
+                run_tool("build-rpm", ["--package-dir", str(package), "--repo-root", str(root), "--work-dir", str(root / "cli-work"), "--result", str(cli_result)] + mode, root, expected=1)
+                cli_document = json.loads(cli_result.read_text())
+                self.assertIsNone(cli_document["commit_sha"])
+                self.assertEqual(cli_document["phase"], "source-verify")
+                self.assertEqual(schema_errors(cli_document, schema, schema), [])
+                self.assertFalse((root / "cli-work").exists())
+
+    def test_direct_materialization_denial_blocks_download_fixture_and_offline_reuse(self) -> None:
+        namespace = runpy.run_path(str(SCRIPTS / "build-rpm"))
+        materialize = namespace["materialize_source"]
+        from _lib import SourceRedistributionError
+        for url, offline in (("https://example.org/source.tar.gz", False), ("fixture://fixture", False), ("https://example.org/source.tar.gz", True)):
+            with self.subTest(url=url, offline=offline), tempfile.TemporaryDirectory() as temporary:
+                root = pathlib.Path(temporary)
+                (root / "source.tar.gz").write_bytes(b"stale source must remain untouched")
+                operations = {name: mock.Mock(side_effect=AssertionError(name + " must not run")) for name in ("fetch_url", "canonical_tar_gz", "fixture_path", "sha256_file", "verify_signature")}
+                with mock.patch.dict(materialize.__globals__, operations):
+                    with self.assertRaises(SourceRedistributionError):
+                        materialize({"url": url, "filename": "source.tar.gz", "digests": {"sha256": "a" * 64}, "redistribution": {"allowed": False}}, package_id="golden-denied", repo_root=root, sources_dir=root, cache_dir=root / "cache", timeout=1, retries=1, offline=offline)
+                for operation in operations.values():
+                    operation.assert_not_called()
+                self.assertEqual((root / "source.tar.gz").read_bytes(), b"stale source must remain untouched")
+                self.assertFalse((root / "cache").exists())
+
+    def test_allowed_source_download_retains_checksum_and_cache_contract(self) -> None:
+        namespace = runpy.run_path(str(SCRIPTS / "build-rpm"))
+        materialize = namespace["materialize_source"]
+        from _lib import sha256_bytes
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            url = "https://example.org/source.tar.gz"
+            content = b"verified permitted source"
+            fetch = mock.Mock(return_value=(content, {"url": url}))
+            entry = {"id": "source0", "url": url, "filename": "source.tar.gz", "digests": {"sha256": sha256_bytes(content)}, "redistribution": {"allowed": True}}
+            with mock.patch.dict(materialize.__globals__, {"fetch_url": fetch}):
+                result = materialize(entry, package_id="demo", repo_root=root, sources_dir=root, cache_dir=root / "cache", timeout=7, retries=2, offline=False)
+            fetch.assert_called_once_with(url, timeout=7, retries=2, cache_dir=root / "cache", max_bytes=2 * 1024 * 1024 * 1024)
+            self.assertTrue(result["verified"])
+            self.assertEqual(result["sha256"], sha256_bytes(content))
+            self.assertEqual((root / "source.tar.gz").read_bytes(), content)
+
     def test_first_error_ignores_zero_automake_counter(self) -> None:
         namespace = runpy.run_path(str(SCRIPTS / "build-rpm"))
         first_error = namespace["first_error"]
