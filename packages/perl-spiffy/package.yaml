@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-spiffy",
+  "rpm": {
+    "name": "perl-Spiffy",
+    "summary": "Spiffy Perl interface framework",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-spiffy",
+    "homepage": "https://metacpan.org/dist/Spiffy",
+    "source_repository": "https://metacpan.org/dist/Spiffy",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/I/IN/INGY/",
+    "release_regex": "Spiffy-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/I/IN/INGY/Spiffy-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.46",
+    "release": "1",
+    "latest_detected": "0.46"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "perl-spiffy",
+        "package_base": "perl-spiffy",
+        "source_version": "0.46-5",
+        "evidence_url": "https://archlinux.org/packages/extra/any/perl-spiffy/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libspiffy-perl",
+        "package_base": "libspiffy-perl",
+        "source_version": "0.46-1",
+        "evidence_url": "https://packages.debian.org/source/trixie/libspiffy-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "perl-Spiffy",
+        "package_base": "perl-Spiffy",
+        "source_version": "0.46-34.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/perl-Spiffy/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "perl-Spiffy",
+        "package_base": "perl-Spiffy",
+        "source_version": "0.46-1.37",
+        "evidence_url": "https://software.opensuse.org/package/perl-Spiffy",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libspiffy-perl",
+        "package_base": "libspiffy-perl",
+        "source_version": "0.46-1build1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libspiffy-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "perl-spiffy.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen canonical `perl-spiffy` component aliases Ubuntu/Debian libspiffy-perl. Official CPAN CHECKSUMS SHA-256, safe archive and complete Perl dual LICENSE verified. SP3 primary has no exact RPM/module provider but supplies Filter, Scalar::Util, Data::Dumper and YAML for optional features. 31 functional default files/198 assertions pass locally; one release-only POD file skips by upstream design. Target RPM/install smoke remain CI evidence; Test::Base still requires this supplier to be published."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
