@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/wroberts/pytimeparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pytimeparse",
+        "package_name": "python-pytimeparse",
+        "source": "arch-extra",
+        "source_version": "1.1.8-11"
+      },
+      {
+        "evidence_url": "https://github.com/wroberts/pytimeparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pytimeparse",
+        "package_name": "python-pytimeparse",
+        "source": "debian",
+        "source_version": "1.1.5-4"
+      },
+      {
+        "evidence_url": "https://github.com/wroberts/pytimeparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pytimeparse",
+        "package_name": "python-pytimeparse",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.1.8-4.4"
+      },
+      {
+        "evidence_url": "https://github.com/wroberts/pytimeparse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pytimeparse",
+        "package_name": "python-pytimeparse",
+        "source": "ubuntu",
+        "source_version": "1.1.5-4build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-pytimeparse.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official PyPI 1.1.9 and matching unsigned GitHub release commit archive independently verified by SHA-256 and all 12 Git blob identities. Complete original nose.collector suite (57 unittest methods including doctest) retained using official target python3-pynose; direct collector invocation avoids obsolete setup.py tests_require online resolution, not test filtering. No source patch or local upstream/backend/RPM/QEMU execution; target status remains unknown pending exact-head CI.",
+    "status": "active"
+  },
+  "package_id": "python-pytimeparse",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-pytimeparse",
+    "summary": "Parse human-readable time expressions in Python"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-pypi"
+  },
+  "upstream": {
+    "component": "github.com-wroberts-pytimeparse",
+    "homepage": "https://github.com/wroberts/pytimeparse",
+    "release_api": "https://pypi.org/pypi/pytimeparse/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/wroberts/pytimeparse",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.1.9",
+    "latest_detected": "1.1.9",
+    "release": "1"
+  }
+}
