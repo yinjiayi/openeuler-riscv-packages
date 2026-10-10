@@ -57,7 +57,9 @@
     "spec": "patchelf.spec"
   },
   "maintenance": {
-    "maintainers": ["yinjiayi"],
+    "maintainers": [
+      "yinjiayi"
+    ],
     "notes": "Committed immutable snapshot discovery-20260808T165000Z-9a89920c269462cd exactly replays the recorded Arch, Debian, Fedora, openSUSE, and Ubuntu raw lineage tuples at 2026-08-08T16:50:00Z; it contains no AUR row for the canonical PatchELF component. Official PatchELF 0.19.1 stable release bytes were reviewed separately and independently SHA-256 pinned. No AUR recipe or distribution spec was executed. The complete upstream ELF mutation and regression suite remains enabled.",
     "status": "active"
   },
@@ -77,7 +79,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-10-01T22:39:02Z",
     "last_successful_check_at": null,
     "release_provider": "github-releases"
   },
@@ -90,5 +92,9 @@
     "source_repository": "https://github.com/NixOS/patchelf",
     "source_url_template": "https://github.com/NixOS/patchelf/releases/download/{version}/patchelf-{version}.tar.bz2"
   },
-  "version": {"current": "0.19.1", "latest_detected": "0.19.1", "release": "1"}
+  "version": {
+    "current": "0.19.2",
+    "latest_detected": "0.19.2",
+    "release": "1"
+  }
 }
