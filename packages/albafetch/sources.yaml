@@ -1,0 +1,21 @@
+{
+  "package_id": "albafetch",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3eafc627b00489198ef460451da6ce337c9659a3921b6f0ce193780e380d85e4"
+      },
+      "filename": "albafetch-4.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/alba4k/albafetch/archive/refs/tags/v4.3.tar.gz",
+      "version": "4.3"
+    }
+  ]
+}
