@@ -1,0 +1,21 @@
+{
+  "package_id": "osgxr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bf748c5ab425a482dfa0affa2c6e1ff0039deb0ba4b1d5b9dab6fefae503a268"
+      },
+      "filename": "osgxr-0.5.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/amalon/osgXR/archive/refs/tags/0.5.6.tar.gz",
+      "version": "0.5.6"
+    }
+  ]
+}
