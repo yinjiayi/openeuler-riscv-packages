@@ -1,0 +1,21 @@
+{
+  "package_id": "python-dicttoxml",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6f36ce644881db5cd8940bee9b7cb3f3f6b7b327ba8a67d83d3e2caa0538bf9d"
+      },
+      "filename": "dicttoxml-1.7.16.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream README expressly selects GNU GPL version 2; the complete LICENCE.txt and Ryan McGreal copyright are retained in the official source release and installed RPM."
+      },
+      "signature": null,
+      "url": "https://files.pythonhosted.org/packages/ee/c9/3132427f9e64d572688e6a1cbe3d542d1a03f676b81fb600f3d1fd7d2ec5/dicttoxml-1.7.16.tar.gz",
+      "version": "1.7.16"
+    }
+  ]
+}
