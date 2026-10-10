@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 Name:           recode
-Version:        3.7.16
-Release:        1%{?dist}
+Version:        3.7.17
+Release:        2%{?dist}
 Summary:        Character set conversion utility and library
 License:        GPL-3.0-or-later AND LGPL-3.0-or-later AND BSD-2-Clause AND LicenseRef-OFSFDL
 URL:            https://github.com/rrthomas/recode
-Source0:        recode-3.7.16.tar.gz
+Source0:        recode-3.7.17.tar.gz
 
 BuildRequires:  flex
 BuildRequires:  gcc
@@ -58,23 +58,27 @@ rm -f %{buildroot}%{_infodir}/dir
 %make_build check
 
 %files -f %{name}.lang
-%license COPYING COPYING-LIB
+%license COPYING COPYING-LIB src/ansellat1.l src/iso5426lat1.l src/merged.c
 %{_bindir}/recode
 %{_libdir}/librecode.so.3*
 
 %files devel
-%license COPYING COPYING-LIB
+%license COPYING COPYING-LIB src/ansellat1.l src/iso5426lat1.l src/merged.c
 %{_includedir}/recode.h
 %{_includedir}/recodext.h
 %{_libdir}/librecode.a
 %{_libdir}/librecode.so
 
 %files help
-%license COPYING COPYING-LIB
+%license COPYING COPYING-LIB src/ansellat1.l src/iso5426lat1.l src/merged.c
 %doc AUTHORS ChangeLog NEWS README THANKS TODO
 %{_infodir}/recode.info*
 %{_mandir}/man1/recode.1*
 
 %changelog
+* Thu Oct 08 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.7.17-2
+- Preserve complete upstream BSD and mixed-license notices in all ordinary subpackages.
+- Verify package-owned installed license files by whole-file SHA-256 in smoke.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 3.7.15-1
 - Rebuild Recode for openEuler RISC-V from Fedora 44 and frozen cross-distribution evidence.
