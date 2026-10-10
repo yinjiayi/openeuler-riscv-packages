@@ -25,6 +25,7 @@ test "$(python3 -m crccheck Crc32IsoHdlc -H vector)" = 0xCBF43926
 cp -a /usr/share/python-crccheck/tests .
 cp /usr/share/python-crccheck/.coveragerc .
 export COVERAGE_FILE="$smoke_dir/.coverage-installed"
-python3 -m coverage run --branch -m unittest discover
+# Coverage defaults exclude site-packages; explicitly measure the RPM-owned tree.
+python3 -m coverage run --branch --source="${module_path%/__init__.py}" -m unittest discover
 python3 -m coverage report
 python3 -m coverage html

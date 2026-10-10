@@ -49,7 +49,12 @@ release/publish targets are not substituted for, or counted as, default tests.
 Installed smoke verifies the installed module's path and actual RPM ownership,
 release metadata, two known CRC vectors and the module CLI. It then copies only
 the unchanged tests and .coveragerc into a fresh directory and repeats all three
-default commands against the installed module. Coverage is consequently a
+default commands against the installed module. The installed coverage run
+explicitly selects the already RPM-owned module directory with `--source`:
+coverage 7.3.2 otherwise excludes third-party site-packages, leaving only copied
+tests which the unchanged original report configuration omits. This selection
+does not change the original tests, exclusions, `%check`, branch measurement,
+report/HTML commands or their failure exits. Coverage is consequently a
 declared test-support runtime requirement, not an upstream library dependency.
 
 ## Admission and validation boundary
@@ -65,5 +70,10 @@ checked for the canonical component; a fresh fence is required before submission
 
 Only trusted repository validation and source verification may run locally.
 No upstream module, backend, default test, RPM or QEMU has run locally. Actual
-target build, default-suite result, physical RPM/SRPM and install smoke remain
-pending CI; this recipe makes no build-success or publication claim.
+target results are commit-bound CI evidence, not local validation. The initial
+PR head `08ec86d3d5ea7f597e8c7333c8b25e684c88d293` completed the original 79-test
+source suite and coverage report/HTML, and produced RPM/SRPM. Installed tests
+also passed all 79 cases, but coverage report failed with `No data to report.`
+because installed code was not selected. The package-local source-selection
+repair still requires new-head full build/install CI; it is not an installed
+coverage success, merge or publication claim.
