@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "package_id": "libgetopt-long-descriptive-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Getopt-Long-Descriptive-0.117.tar.gz",
+      "version": "0.117",
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Getopt-Long-Descriptive-0.117.tar.gz",
+      "digests": {
+        "sha256": "18cba2392a0b7550bbc3d7c98c6fc5d81f6699d308e4a17e1a143ba4521005a3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unmodified complete official authorized stable 0.117 archive. Distribution selects the existing ten-clause Perl Artistic branch; original GPL alternatives and every source/default/extra file remain unchanged. Exact copied-template notices are retained separately; no full legal genealogy or signature verification claim."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "report-prereqs-0.029-LICENSE.txt",
+      "version": "0.029",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.029/LICENSE",
+      "digests": {
+        "sha256": "be3dd240eaa427092a00d91655f56e2f49eb73c543eafc6ab1b65a8e6e6ae94d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "filename": "report-prereqs-0.029-README.txt",
+      "version": "0.029",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.029/README",
+      "digests": {
+        "sha256": "84cc2aa5dcce178c2618df4dd265837a8df22ddcf584325c72c26181122e947f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "filename": "changes-0.011-LICENSE.txt",
+      "version": "0.011",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-CheckChangesHasContent-0.011/LICENSE",
+      "digests": {
+        "sha256": "b9edff2945afbd8a4482d6d09ed49fe64f65be61d355feeb7328ab53487cd5b4"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    },
+    {
+      "id": "source4",
+      "kind": "upstream-release",
+      "filename": "changes-0.011-README.txt",
+      "version": "0.011",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-CheckChangesHasContent-0.011/README",
+      "digests": {
+        "sha256": "f75ccf813c752850aa21aabff3dced2b53792b0657b387e0f47cb341629728ea"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    },
+    {
+      "id": "source5",
+      "kind": "upstream-release",
+      "filename": "version-0.9909-README.txt",
+      "version": "0.9909",
+      "url": "https://fastapi.metacpan.org/v1/source/JPEACOCK/version-0.9909/README",
+      "digests": {
+        "sha256": "2281261147b4fc710bd1920d48e78aa44bc181306dba919ad98cb121a0c8ad21"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    },
+    {
+      "id": "source6",
+      "kind": "upstream-release",
+      "filename": "historical-perl-Copying.txt",
+      "version": "perl5@d2c3426b4ccfd6a61af7f4e904f371945d63fdc8",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/d2c3426b4ccfd6a61af7f4e904f371945d63fdc8/Copying",
+      "digests": {
+        "sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    },
+    {
+      "id": "source7",
+      "kind": "upstream-release",
+      "filename": "historical-perl-Artistic.txt",
+      "version": "perl5@d2c3426b4ccfd6a61af7f4e904f371945d63fdc8",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/d2c3426b4ccfd6a61af7f4e904f371945d63fdc8/Artistic",
+      "digests": {
+        "sha256": "8e6beb9ca0ffbc4b9c6550d56f622ecd33d5635ee8af9a8f269fd81f40fb6801"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    },
+    {
+      "id": "source8",
+      "kind": "upstream-release",
+      "filename": "checkbreaks-0.020-LICENCE.txt",
+      "version": "0.020",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-CheckBreaks-0.020/LICENCE",
+      "digests": {
+        "sha256": "6f8e00a769896f6c4091c8a97664497e4efed491f1af8729a3c767acd079b6cb"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    },
+    {
+      "id": "source9",
+      "kind": "upstream-release",
+      "filename": "checkbreaks-0.020-README.txt",
+      "version": "0.020",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-CheckBreaks-0.020/README",
+      "digests": {
+        "sha256": "dc5d7e39c47390b4844f41301acad6fd65b3b6b2afbe7edca43d78fca601dd5a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    },
+    {
+      "id": "source10",
+      "kind": "upstream-release",
+      "filename": "compile-2.059-LICENCE.txt",
+      "version": "2.059",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-Compile-2.059/LICENCE",
+      "digests": {
+        "sha256": "de32f9928e097dc201258a53ab3c3f003b555ae886fb19e9f4c165923ed5e45f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    },
+    {
+      "id": "source11",
+      "kind": "upstream-release",
+      "filename": "compile-2.059-README.txt",
+      "version": "2.059",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-Compile-2.059/README",
+      "digests": {
+        "sha256": "c985bcc4e0eb88ea427b14e19047d5c6320073aae1c736f712bb96bb39d297d8"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, physically verified against its authorized archive or immutable Perl commit. Notice data only, not an executable dependency. LAX reference establishes normalized grammar match, not originally loaded version or oldest genealogy."
+      }
+    }
+  ]
+}

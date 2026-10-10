@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "package_id": "libgetopt-long-descriptive-perl",
+  "rpm": {
+    "name": "perl-Getopt-Long-Descriptive",
+    "summary": "Describe and validate command-line options with generated usage",
+    "license": "Artistic-1.0-Perl AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-getopt-long-descriptive",
+    "homepage": "https://metacpan.org/dist/Getopt-Long-Descriptive",
+    "source_repository": "https://github.com/rjbs/Getopt-Long-Descriptive",
+    "release_channel": "stable",
+    "release_api": "https://fastapi.metacpan.org/v1/release/Getopt-Long-Descriptive",
+    "release_regex": null,
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Getopt-Long-Descriptive-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.117",
+    "release": "1",
+    "latest_detected": "0.117"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libgetopt-long-descriptive-perl",
+        "package_base": "libgetopt-long-descriptive-perl",
+        "source_version": "0.116-2",
+        "evidence_url": "https://archive.ubuntu.com/ubuntu/dists/resolute/universe/source/Sources.xz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "aur",
+        "package_name": "perl-getopt-long-descriptive",
+        "package_base": "perl-getopt-long-descriptive",
+        "source_version": "0.117-1",
+        "evidence_url": "https://aur.archlinux.org/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libgetopt-long-descriptive-perl",
+        "package_base": "libgetopt-long-descriptive-perl",
+        "source_version": "0.116-2",
+        "evidence_url": "https://deb.debian.org/debian/dists/stable/main/source/Sources.xz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "perl-Getopt-Long-Descriptive",
+        "package_base": "perl-Getopt-Long-Descriptive",
+        "source_version": "0.117-1.fc44",
+        "evidence_url": "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/source/tree/repodata/repomd.xml",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "perl-Getopt-Long-Descriptive",
+        "package_base": "perl-Getopt-Long-Descriptive",
+        "source_version": "0.117.0-1.3",
+        "evidence_url": "https://download.opensuse.org/tumbleweed/repo/oss/repodata/repomd.xml",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libgetopt-long-descriptive-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Unmodified official 0.117 and all four default/three author-release test files retained. Exact generator full notices installed separately; original GPL alternatives unchanged. Target test acceptance requires 80 outer/20 nested planned results, no core failures/skips/TODO/bonus, and only the original single optional Moose::Conflicts compatibility skip when unavailable (79 positive outer plus one skip, otherwise 80 positive). TestWarnings 0.031 static count guard. Hosted CI/installed semantics/physical RPM-SRPM pending, not a build, native, shell-completion integration or public release claim."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-metacpan-api"
+  }
+}
