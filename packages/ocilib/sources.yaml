@@ -1,0 +1,21 @@
+{
+  "package_id": "ocilib",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "dcaffe0766d9517ae2234e285dd07cae604c792c4016a9834584674f00e9b2ca"
+      },
+      "filename": "ocilib-4.8.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/vrogier/ocilib/archive/refs/tags/v4.8.0.tar.gz",
+      "version": "4.8.0"
+    }
+  ]
+}
