@@ -1,0 +1,21 @@
+{
+  "package_id": "packagekit-qt6",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bbb8398d0f98c46e2ed7fd3ce526d4f7fc8476f5a449e89269f01b1bc751c4ad"
+      },
+      "filename": "packagekit-qt6-1.1.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/hughsie/PackageKit-Qt/archive/refs/tags/v1.1.4.tar.gz",
+      "version": "1.1.4"
+    }
+  ]
+}
