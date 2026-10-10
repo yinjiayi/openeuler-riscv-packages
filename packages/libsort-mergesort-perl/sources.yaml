@@ -1,0 +1,58 @@
+{
+  "package_id": "libsort-mergesort-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ad25e7c8d9a9ac8417d6de96c764ced9f477108490dfb960ae02a3db0a9c6efe"
+      },
+      "filename": "Sort-MergeSort-0.31.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Whole original main module grants Artistic2 OR LGPL2.1; original nested Iterator and scoped adapted test use Perl terms. Separate grants/notices and complete terms retained unchanged; official release API/archive/author CHECKSUMS exact SHA match."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/M/MU/MUIR/modules/Sort-MergeSort-0.31.tar.gz",
+      "version": "0.31"
+    },
+    {
+      "id": "source1", "kind": "upstream-release", "version": "5547d3b487925e3e3809fda3c138fc513f98eaa2",
+      "filename": "Artistic-2.0-full-original.md",
+      "url": "https://raw.githubusercontent.com/tpf/perlfoundation.org/5547d3b487925e3e3809fda3c138fc513f98eaa2/content/artistic-license-20.md",
+      "digests": {"sha256": "3020f5d30b72430ef9a4346b0dcf8c7c57a96685f4e148e2108dcb50804692e7"}, "signature": null,
+      "redistribution": {"allowed": true, "reason": "Whole original Artistic2 terms from official TPF website's linked repository, exact immutable Git commit/blob; installed only as unchanged non-executable license notice."}
+    },
+    {
+      "id": "source2", "kind": "upstream-release", "version": "2.1", "filename": "LGPL-2.1-full-original.txt",
+      "url": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt",
+      "digests": {"sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"}, "signature": null,
+      "redistribution": {"allowed": true, "reason": "Whole original GNU LGPL2.1 text permits verbatim distribution; fixed version-specific official URL and SHA, installed unchanged as license notice."}
+    },
+    {
+      "id": "source3", "kind": "upstream-release", "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f", "filename": "Perl-Artistic-full-original.txt",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"}, "signature": null,
+      "redistribution": {"allowed": true, "reason": "Whole Perl Artistic terms from immutable official Perl source; unchanged non-executable documentation for the separate Perl component grant, not a substituted runtime."}
+    },
+    {
+      "id": "source4", "kind": "upstream-release", "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f", "filename": "Perl-Copying-full-original.txt",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"}, "signature": null,
+      "redistribution": {"allowed": true, "reason": "Whole GPL1/later-option Perl Copying terms from immutable official Perl source; verbatim distribution permitted, installed only as separate license terms."}
+    },
+    {
+      "id": "source5", "kind": "upstream-release", "version": "v0.1.0", "filename": "Object-Relation-Build-original.txt",
+      "url": "https://fastapi.metacpan.org/v1/source/DWHEELER/Object-Relation-v0.1.0/Build.PL",
+      "digests": {"sha256": "34a818107140c7b621a5fd737a6587059a661bd289cdd3fb6a40edbc9873ebe3"}, "signature": null,
+      "redistribution": {"allowed": true, "reason": "Whole original Object-Relation distribution Perl-license declaration and author context; fixed official source endpoint equals API-SHA-bound archive member. Historical author CHECKSUMS lacks this backpan stanza. Inert unchanged attribution document only, never executed/imported/build dependency."}
+    },
+    {
+      "id": "source6", "kind": "upstream-release", "version": "v0.1.0", "filename": "Object-Relation-Iterator-original.txt",
+      "url": "https://fastapi.metacpan.org/v1/source/DWHEELER/Object-Relation-v0.1.0/lib/Object/Relation/Iterator.pm",
+      "digests": {"sha256": "2022105dec955a04eeb0d300f406e9f1a592457f24cc8e67eff846e3274671b3"}, "signature": null,
+      "redistribution": {"allowed": true, "reason": "Whole original Iterator copyright and same-Perl grant from fixed official source endpoint equals API-SHA-bound origin archive member. Historical author CHECKSUMS gap explicit. Inert unchanged attribution only, not installed as an origin module or executed source."}
+    }
+  ]
+}
