@@ -1,0 +1,21 @@
+{
+  "package_id": "xva-img",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "89667ea86a5ec8cbf670966eea9d758f4571a92004c798d8df3e1aa0eaea9235"
+      },
+      "filename": "xva-img-1.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/eriklax/xva-img/archive/refs/tags/1.5.tar.gz",
+      "version": "1.5"
+    }
+  ]
+}
