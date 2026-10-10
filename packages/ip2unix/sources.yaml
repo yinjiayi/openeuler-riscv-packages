@@ -1,0 +1,21 @@
+{
+  "package_id": "ip2unix",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9f50a9533dd0e58eeb0ee25d2140133c666cf5b8e895e7e53c0019e16f8ba2c0"
+      },
+      "filename": "ip2unix-2.2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nixcloud/ip2unix/archive/refs/tags/v2.2.2.tar.gz",
+      "version": "2.2.2"
+    }
+  ]
+}
