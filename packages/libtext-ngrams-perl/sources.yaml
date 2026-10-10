@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-ngrams-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Ngrams-2.007.tar.gz",
+      "version": "2.007",
+      "url": "https://cpan.metacpan.org/authors/id/V/VL/VLADO/Text-Ngrams-2.007.tar.gz",
+      "digests": {
+        "sha256": "0d64bd8b72b31bfeaf06212a8878a8000432a091f8c2bf2d9dc9e7ecbd5f6995"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches CHECKSUMS; README, module and CLI POD grant the same license terms as Perl and credit contributors."
+      }
+    }
+  ]
+}
