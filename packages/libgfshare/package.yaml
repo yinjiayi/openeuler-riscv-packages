@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "package_id": "libgfshare",
+  "rpm": {"name": "libgfshare", "summary": "Shamir secret-sharing library and tools", "license": "MIT"},
+  "upstream": {
+    "component": "github.com-kinnison-libgfshare",
+    "homepage": "https://github.com/kinnison/libgfshare",
+    "source_repository": "https://github.com/kinnison/libgfshare.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/kinnison/libgfshare/tags",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/kinnison/libgfshare/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {"current": "2.0.0", "release": "1", "latest_detected": "2.0.0"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "libgfshare", "package_base": "libgfshare", "source_version": "2.0.0-5", "evidence_url": "https://archlinux.org/packages/extra/x86_64/libgfshare/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "libgfshare", "package_base": "libgfshare", "source_version": "2.0.0-7", "evidence_url": "https://packages.debian.org/source/stable/libgfshare", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "libgfshare", "package_base": "libgfshare", "source_version": "2.0.0-8", "evidence_url": "https://packages.ubuntu.com/source/resolute/libgfshare", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libgfshare.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official stable 2.0.0 tag resolves to immutable commit da0566422af4e0ad5c9e17cfe21f563e4274338d. The SHA-256-pinned tag archive includes MIT COPYRIGHT, two C tests and the split/combine shell test; all three upstream Automake TESTS remain enabled. Generated Autotools files are regenerated from the official tag; no downstream patch is needed."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"}
+}
