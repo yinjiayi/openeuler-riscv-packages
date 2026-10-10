@@ -1,0 +1,21 @@
+{
+  "package_id": "cash-register",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "70e0d1844492d68cc2dfc3b3d2dce15505a71236743d9f18655a67233067221c"
+      },
+      "filename": "cash-register-0.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Brigio/cash-register/archive/refs/tags/v0.3.2.tar.gz",
+      "version": "0.3.2"
+    }
+  ]
+}
