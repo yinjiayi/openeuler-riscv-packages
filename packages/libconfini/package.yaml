@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libconfini",
+  "rpm": {
+    "name": "libconfini",
+    "summary": "INI file parser library for C",
+    "license": "GPL-3.0-or-later"
+  },
+  "upstream": {
+    "component": "libconfini",
+    "homepage": "https://madmurphy.github.io/libconfini/",
+    "source_repository": "https://github.com/madmurphy/libconfini",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/madmurphy/libconfini/releases",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/madmurphy/libconfini/releases/download/{version}/libconfini-{version}-with-configure.tar.gz"
+  },
+  "version": {
+    "current": "1.16.4",
+    "release": "1",
+    "latest_detected": "1.16.4"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libconfini",
+        "package_base": "libconfini",
+        "source_version": "1.16.4-1",
+        "evidence_url": "https://aur.archlinux.org/packages/libconfini",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libconfini.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official 1.16.4 release asset with generated configure is SHA-256 pinned. Its complete default make check suite and a stronger installed parser smoke test remain enabled. CC includes -fPIC because upstream configure temporarily clears distro CFLAGS and otherwise fails its fopen link probe under target RISC-V PIE hardening. Exact-head CI run 36437944271 then compiled, installed and passed upstream checks but failed RPM ownership for two compatibility headers; the devel manifest now includes them and the duplicate README directive is removed. The AUR snapshot is discovery lineage only; no external packaging recipe is executed. QEMU user mode does not validate native RISC-V performance."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}
