@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "notes": "Official stable fast_float 8.3.2 and test-only doctest 2.5.2 archives are pinned in the current sources.yaml. Discovery and earlier catalog release versions remain historical lineage, not current-release checksum evidence. Maintained C++17 tests and installed consumer smoke are retained; optional mutable supplemental data is excluded. External distribution packaging was not executed.",
     "status": "active"
   },
   "package_id": "fast-float",

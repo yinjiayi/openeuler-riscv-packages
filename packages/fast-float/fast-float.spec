@@ -45,6 +45,10 @@ of decimal strings into binary floating-point values.
 %{_datadir}/cmake/FastFloat/
 
 %changelog
+* Sat Oct 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 8.3.2-1
+- Update to the pinned official stable 8.3.2 release.
+- Retain the maintained C++17 suite, pinned doctest and installed consumer smoke.
+
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 8.2.10-1
 - Run the upstream test suite offline with a pinned doctest release.
 - Exclude only supplemental data fetched from an unpinned mutable branch.
