@@ -1,0 +1,21 @@
+{
+  "package_id": "ephepm-iaarasru",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "54ce7632739e40f7d0fc9859fd9fbb5c798520b209185ae521b8b8c05e5fc856"
+      },
+      "filename": "ephepm-iaarasru-2.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ProfessorNavigator/eph-epm/archive/refs/tags/v2.3.2.tar.gz",
+      "version": "2.3.2"
+    }
+  ]
+}
