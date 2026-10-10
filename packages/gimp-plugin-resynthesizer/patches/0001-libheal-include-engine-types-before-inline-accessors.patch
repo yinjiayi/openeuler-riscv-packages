@@ -1,0 +1,37 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 00:00:00 +0000
+Subject: [PATCH] libheal: include engine types before inline accessors
+
+License: GPL-3.0-or-later
+Upstream-Status: downstream-only
+Origin: openEuler RISC-V packaging
+
+The optional libheal target compiles imageSynth.c separately.  That translation
+unit includes mapIndex.h and adaptSimple.h, whose inline functions use Pixelel
+and Coordinates, without first including the headers that define those types.
+The normal plugin engine happens to establish that order in engine.c, so the
+problem was hidden while libheal and its functional harness remained disabled.
+
+Include the two type headers before map.h and the inline accessors.  This is the
+same dependency order already used by engine.c and changes no runtime logic.
+
+Remove this patch when upstream's libheal target provides the type definitions
+before mapIndex.h and adaptSimple.h, or registers an equivalent maintained test
+target that supersedes testHealLib.
+
+---
+ lib/imageSynth.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/lib/imageSynth.c b/lib/imageSynth.c
+--- a/lib/imageSynth.c
++++ b/lib/imageSynth.c
+@@ -46,6 +46,8 @@
+ #include "glibProxy.h"  // glibProxy.c
+ 
+ #include "imageFormat.h"
++#include "engineTypes2.h"
++#include "coordinates.h"
+ #include "imageFormatIndicies.h"
+ #include "map.h"  // header for mapOps.h included by engine.c
+ #include "engineParams.h" // engineParams.c
