@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libwbxml",
+  "rpm": {
+    "name": "libwbxml",
+    "summary": "Library and tools for Wireless Binary XML",
+    "license": "LGPL-2.1-or-later"
+  },
+  "upstream": {
+    "component": "github.com-libwbxml-libwbxml",
+    "homepage": "https://github.com/libwbxml/libwbxml",
+    "source_repository": "https://github.com/libwbxml/libwbxml.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/libwbxml/libwbxml/tags",
+    "release_regex": "^libwbxml-(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/libwbxml/libwbxml/archive/refs/tags/libwbxml-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.11.10",
+    "release": "1",
+    "latest_detected": "0.11.10"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libwbxml",
+        "package_base": "libwbxml",
+        "source_version": "0.11.10-1",
+        "evidence_url": "https://aur.archlinux.org/packages/libwbxml",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libwbxml.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The exact inventory key maps to the official stable 0.11.10 release. The pinned tag archive SHA-256 is independently verified. Check-devel enables the upstream API suite; the complete registered CTest set, including XML corpus round-trips and malformed-input regressions, runs in %check. The library and both converters retain upstream defaults. The packaged binaries are LGPL-2.1-or-later; the archive also includes unused GPL/BSD/MIT material."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}
