@@ -1,0 +1,19 @@
+{
+  "package_id": "libtiff",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "4996f0c4f93094719b1ca5c6279b20e588773ba8a247533e486416fb662ddb88"},
+      "filename": "tiff-4.7.2.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "LibTIFF source is fetched from its official OSGeo release archive in CI under the libtiff license."
+      },
+      "signature": null,
+      "url": "https://download.osgeo.org/libtiff/tiff-4.7.2.tar.xz",
+      "version": "4.7.2"
+    }
+  ]
+}
