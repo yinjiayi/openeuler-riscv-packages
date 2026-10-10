@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-next-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Next-1.18.tar.gz",
+      "version": "1.18",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/File-Next-1.18.tar.gz",
+      "digests": {
+        "sha256": "f900cb39505eb6e168a9ca51a10b73f1bbde1914b923a09ecd72d9c02e6ec2ef"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN archive declares Artistic License 2.0 and is fetched over HTTPS with the official CPAN CHECKSUMS SHA-256."
+      }
+    }
+  ]
+}
