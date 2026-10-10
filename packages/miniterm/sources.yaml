@@ -1,0 +1,21 @@
+{
+  "package_id": "miniterm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c5a2f93978826a978f952c20b7b68a7f4f670891075195268c93ab80d5753541"
+      },
+      "filename": "miniterm-1.7.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/laelath/miniterm/archive/refs/tags/v1.7.0.tar.gz",
+      "version": "1.7.0"
+    }
+  ]
+}
