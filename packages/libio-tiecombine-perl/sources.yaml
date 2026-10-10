@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "package_id": "libio-tiecombine-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "IO-TieCombine-1.005.tar.gz",
+      "version": "1.005",
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/IO-TieCombine-1.005.tar.gz",
+      "digests": {
+        "sha256": "402d4db8300b3d271632f4995e0ade329d89280a7e47f2badf8b38af6e5569af"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unchanged complete official IO-TieCombine 1.005 archive; original same-Perl dual grant retained, distribution selects its generic Artistic branch. Copied generated tests and LAX fragment are separately accounted by full original scoped notices, not relicensed."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "changes-LICENSE.txt",
+      "version": "0.008",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-CheckChangesHasContent-0.008/LICENSE",
+      "digests": {
+        "sha256": "632db868186eb8245ea6a320775af4b79d495077cf0524fcb9339d5b1375dede"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified original notice text; not an executable dependency or replacement release. Official fixed historical-release HTTPS text physically equal to its verified archive member."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "filename": "changes-README.txt",
+      "version": "0.008",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-CheckChangesHasContent-0.008/README",
+      "digests": {
+        "sha256": "e83d7f71a2e2620e2cf1c0f281a7f70086640ddceef44602bb06303ec8320d20"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified original notice text; not an executable dependency or replacement release. Official fixed historical-release HTTPS text physically equal to its verified archive member."
+      }
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "filename": "jerome-LICENSE.txt",
+      "version": "2.036",
+      "url": "https://fastapi.metacpan.org/v1/source/CJM/Dist-Zilla-Plugin-Git-2.036/LICENSE",
+      "digests": {
+        "sha256": "0fd88c56cd3e37e30f4072d8cac8c76b80e3be189c7fb74b7d5e6cacf4d9b340"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified original notice text; not an executable dependency or replacement release. Official fixed historical-release HTTPS text physically equal to its verified archive member. Jerome 2009 family grant and credits context only; exact oldest copied parser is unproven."
+      }
+    },
+    {
+      "id": "source4",
+      "kind": "upstream-release",
+      "filename": "jerome-README.txt",
+      "version": "2.036",
+      "url": "https://fastapi.metacpan.org/v1/source/CJM/Dist-Zilla-Plugin-Git-2.036/README",
+      "digests": {
+        "sha256": "74ed6ef9c20f06e7c7ac6e56290e9d87310b28588767cfe46bd08b859595e146"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified original notice text; not an executable dependency or replacement release. Official fixed historical-release HTTPS text physically equal to its verified archive member. Jerome 2009 family grant and credits context only; exact oldest copied parser is unproven."
+      }
+    },
+    {
+      "id": "source5",
+      "kind": "upstream-release",
+      "filename": "reporter-LICENSE.txt",
+      "version": "0.021",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.021/LICENSE",
+      "digests": {
+        "sha256": "4c5f87ffa218ebe4027858643dad7133fcb8401f842cfaa4f425393fae1ddea2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified original notice text; not an executable dependency or replacement release. Official fixed historical-release HTTPS text physically equal to its verified archive member. Reporter 0.021 authorized historical API SHA matches its official archive; its current publisher CHECKSUMS entry is absent."
+      }
+    },
+    {
+      "id": "source6",
+      "kind": "upstream-release",
+      "filename": "reporter-README.txt",
+      "version": "0.021",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.021/README",
+      "digests": {
+        "sha256": "4aefd1fd2fbd04f53e33200815c36a40060bf118a2d77605ca019e8bf39ea541"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified original notice text; not an executable dependency or replacement release. Official fixed historical-release HTTPS text physically equal to its verified archive member. Reporter 0.021 authorized historical API SHA matches its official archive; its current publisher CHECKSUMS entry is absent."
+      }
+    },
+    {
+      "id": "source7",
+      "kind": "upstream-release",
+      "filename": "version-Artistic.txt",
+      "version": "perl5@d2c3426b4ccfd6a61af7f4e904f371945d63fdc8",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/d2c3426b4ccfd6a61af7f4e904f371945d63fdc8/Artistic",
+      "digests": {
+        "sha256": "8e6beb9ca0ffbc4b9c6550d56f622ecd33d5635ee8af9a8f269fd81f40fb6801"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified original notice text; not an executable dependency or replacement release. Complete historical Perl terms pinned to the exact official commit, supporting the version 0.9909 LAX reference; not a member of the version distribution archive."
+      }
+    },
+    {
+      "id": "source8",
+      "kind": "upstream-release",
+      "filename": "version-Copying.txt",
+      "version": "perl5@d2c3426b4ccfd6a61af7f4e904f371945d63fdc8",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/d2c3426b4ccfd6a61af7f4e904f371945d63fdc8/Copying",
+      "digests": {
+        "sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified original notice text; not an executable dependency or replacement release. Complete historical Perl terms pinned to the exact official commit, supporting the version 0.9909 LAX reference; not a member of the version distribution archive."
+      }
+    },
+    {
+      "id": "source9",
+      "kind": "upstream-release",
+      "filename": "version-README.txt",
+      "version": "0.9909",
+      "url": "https://fastapi.metacpan.org/v1/source/JPEACOCK/version-0.9909/README",
+      "digests": {
+        "sha256": "2281261147b4fc710bd1920d48e78aa44bc181306dba919ad98cb121a0c8ad21"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified original notice text; not an executable dependency or replacement release. Official fixed historical-release HTTPS text physically equal to its verified archive member. Historical normalized LAX grammar match, not proof of the originally loaded version."
+      }
+    }
+  ]
+}
