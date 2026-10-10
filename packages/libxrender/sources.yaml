@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxrender",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libXrender-0.9.12.tar.xz",
+      "version": "0.9.12",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXrender-0.9.12.tar.xz",
+      "digests": {
+        "sha256": "b832128da48b39c8d608224481743403ad1691bf4e554e4be9c174df171d1b97"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official permissively licensed X.Org release archive is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}
