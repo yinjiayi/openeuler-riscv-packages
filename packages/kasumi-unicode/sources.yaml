@@ -1,0 +1,21 @@
+{
+  "package_id": "kasumi-unicode",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a7a416d7df1776dbf32be3c779627ad4061867b54b0f2b48bc29ea2c01959246"
+      },
+      "filename": "kasumi-unicode-2.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fujiwarat/kasumi-unicode/archive/refs/tags/2.6.tar.gz",
+      "version": "2.6"
+    }
+  ]
+}
