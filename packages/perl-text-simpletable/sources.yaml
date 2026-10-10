@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-text-simpletable",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-SimpleTable-2.07.tar.gz",
+      "version": "2.07",
+      "url": "https://cpan.metacpan.org/authors/id/M/MR/MRAMBERG/Text-SimpleTable-2.07.tar.gz",
+      "digests": {
+        "sha256": "256d3f38764e96333158b14ab18257b92f3155c60d658cafb80389f72f4619ed"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included Artistic License 2.0 grants redistribution of the complete package; the module POD and metadata agree. The official CPAN SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
