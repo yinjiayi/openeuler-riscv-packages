@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/intel/lms",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "intel-lms",
+        "package_name": "intel-lms",
+        "source": "aur",
+        "source_version": "2625.0.0.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "intel-lms.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. The verified v2625.0.0.0 GitHub archive extracts under lms-2625.0.0.0, so the SPEC names that root explicitly during prep. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "intel-lms",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "intel-lms",
+    "summary": "Allows applications to access the Intel AMT firmware via the Intel MEI"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-intel-lms",
+    "homepage": "https://github.com/intel/lms",
+    "release_api": "https://api.github.com/repos/intel/lms/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/intel/lms",
+    "source_url_template": "https://github.com/intel/lms/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2625.0.0.0",
+    "latest_detected": "2625.0.0.0",
+    "release": "2"
+  }
+}
