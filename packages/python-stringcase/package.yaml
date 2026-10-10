@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/okunishinishi/python-stringcase",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-stringcase",
+        "package_name": "python-stringcase",
+        "source": "ubuntu",
+        "source_version": "1.2.0~git20230617.57aae96-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-normalize-alphanumcase-input.patch",
+      "sha256": "acf372b3bc5516be816bae5fa1d4026017a9548a2456b884df1a218ed18f5abf",
+      "purpose": "Normalize alphanumcase input like other converters to honor the unchanged original None test; no test exclusions.",
+      "source": "Repository-authored against official release-associated commit be60b723753d4796983729d49ef825826e0f882d.",
+      "license": "MIT",
+      "upstream_status": "not-submitted",
+      "remove_when": "A verified stable upstream release normalizes this input and passes its unchanged default suite without the patch."
+    }, {
+      "file": "patches/0002-preserve-string-conversion-contracts.patch",
+      "sha256": "e436d5d13e830d657d6de14d015d65c961c3308bf4b64a467dadd842a670177e",
+      "purpose": "Repair the observed original camelcase/pascalcase interior separator loss and alphanumcase underscore retention; preserve all 13 original tests, coverage and installed acceptance.",
+      "source": "Repository-authored two-line correction against official MIT commit be60b723753d4796983729d49ef825826e0f882d after Patch0. Official newer 57aae96649f5cf7fc98e50b1d62479456d492715 inspected, not adopted because its broader rewrite/Unicode behavior does not preserve this stable contract.",
+      "license": "MIT",
+      "upstream_status": "not-submitted",
+      "remove_when": "A verified stable upstream release preserves leading/interior separator and ASCII alphanumeric contracts and passes complete unchanged original/default tests without this patch."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-stringcase.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official PyPI latest stable 1.2.0, not the newer Ubuntu git-derived discovery version. All five non-generated PyPI sdist members exactly match fixed official commit be60b723753d4796983729d49ef825826e0f882d; all 12 full-archive Git blobs match. No Git tag or timestamp-only release inference. MIT notices retained. Full original 13-test unittest suite, coverage run and HTML report preserved; coveralls is post-success external upload, not a functional gate. Package-local Patch0 normalizes alphanumcase input with str() like other converters to honor the unchanged original None test. Exact-head CI d38fcff00a142a29336ee521d91ab3ce6ba8a08d run38073173149:1 ran 13 original cases with three failures; dependency preparation passed, no RPM/installed acceptance success. Separate Patch1 minimally preserves interior separators and documented ASCII alphanumerics; no original tests changed or excluded, not a RISC-V workaround. Original distutils setup uses target Python 3.11 with offline setuptools/wheel/pip. Both target and installed acceptance isolate historical .coverage with a new COVERAGE_FILE. Current complete official/supplemental provider and namespace scans find no ownership conflict. No local upstream/backend/test/RPM/QEMU execution. Repaired-head target status remains unknown pending fresh exact-head CI.",
+    "status": "active"
+  },
+  "package_id": "python-stringcase",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-stringcase",
+    "summary": "Convert strings between common naming conventions"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-pypi"
+  },
+  "upstream": {
+    "component": "github.com-okunishinishi-python-stringcase",
+    "homepage": "https://github.com/okunishinishi/python-stringcase",
+    "release_api": "https://pypi.org/pypi/stringcase/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/okunishinishi/python-stringcase",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.2.0",
+    "latest_detected": "1.2.0",
+    "release": "1"
+  }
+}

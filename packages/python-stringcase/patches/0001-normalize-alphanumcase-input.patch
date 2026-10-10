@@ -1,0 +1,21 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Normalize alphanumcase input like the other conversion functions
+
+The original 1.2.0 test_alphanumcase expects alphanumcase(None) == 'None'.
+Passing None directly to re.sub raises TypeError; the other converters already
+normalize inputs with str(). Preserve the original test and make this converter
+follow that established contract. No tests are removed or changed.
+
+Source: repository-authored against official release-associated commit
+be60b723753d4796983729d49ef825826e0f882d. Underlying source license: MIT.
+Upstream status: local packaging fix, not submitted upstream.
+Removal: drop when a future verified stable release normalizes this input and
+its unchanged original/default tests pass without the patch.
+
+--- a/stringcase.py
++++ b/stringcase.py
+@@ -245,3 +245,3 @@ def alphanumcase(string):
+     """
+     # return filter(str.isalnum, str(string))
+-    return re.sub("\W+", "", string)
++    return re.sub("\W+", "", str(string))

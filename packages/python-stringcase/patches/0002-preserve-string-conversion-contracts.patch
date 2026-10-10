@@ -1,0 +1,30 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Preserve interior separators and ASCII alphanumeric contracts
+
+Exact-head target CI ran all 13 original tests and found three failures. The
+first camelcase substitution deletes the letters around an interior separator
+(foo-bar becomes foar); pascalcase inherits this error. Strip only leading
+separators, retaining the existing interior separator-to-uppercase pass and
+the original leading underscore/dot expectations. In alphanumcase, \W retains
+underscores despite the documented 0-9, a-z and A-Z contract. Use that explicit
+ASCII complement while retaining Patch0's str(input) normalization.
+
+Source: repository-authored against official release-associated MIT commit
+be60b723753d4796983729d49ef825826e0f882d, applied after Patch0. The newer official
+57aae96649f5cf7fc98e50b1d62479456d492715 was reviewed, but its broader camelcase
+rewrite and Unicode isalnum behavior do not preserve this stable contract.
+Upstream status: local packaging fix, not submitted upstream.
+Removal: drop when a verified stable upstream release preserves these contracts
+and passes its complete unchanged original/default suite without this patch.
+No original tests, coverage commands or installed acceptance are changed.
+
+--- a/stringcase.py
++++ b/stringcase.py
+@@ -19 +19 @@ def camelcase(string):
+-    string = re.sub(r"\w[\s\W]+\w", '', str(string))
++    string = re.sub(r'^[\-_\.]+', '', str(string))
+@@ -245,3 +245,3 @@ def alphanumcase(string):
+     """
+     # return filter(str.isalnum, str(string))
+-    return re.sub("\W+", "", str(string))
++    return re.sub(r'[^0-9a-zA-Z]+', "", str(string))
