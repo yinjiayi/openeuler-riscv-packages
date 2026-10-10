@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/python-pyluach",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pyluach",
+        "package_name": "python-pyluach",
+        "source": "aur",
+        "source_version": "2.2.0-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/pyluach",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pyluach",
+        "package_name": "python-pyluach",
+        "source": "debian",
+        "source_version": "2.2.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-pyluach.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v2.3.0 fixed Git source and complete MIT notice verified. Original flit_core backend and full default pytest/cov tests retained, including bs4 fixtures. Historical discovery stale/license-blocked decisions are preserved and reconsidered using fresh official source evidence, not changed license text. RISC-V CI is pending; no local RPM/QEMU/upstream execution.",
+    "status": "active"
+  },
+  "package_id": "python-pyluach",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-pyluach",
+    "summary": "Hebrew calendar dates and Hebrew Gregorian conversion for Python"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-simlist-pyluach",
+    "homepage": "https://github.com/simlist/pyluach",
+    "release_api": "https://api.github.com/repos/simlist/pyluach/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/simlist/pyluach",
+    "source_url_template": "https://github.com/simlist/pyluach/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.3.0",
+    "latest_detected": "2.3.0",
+    "release": "1"
+  }
+}
