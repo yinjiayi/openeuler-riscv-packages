@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-sharedir-tiny-perl",
+  "rpm": {
+    "name": "perl-File-ShareDir-Tiny",
+    "summary": "Locate shared files for Perl modules and distributions",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-sharedir-tiny-perl",
+    "homepage": "https://metacpan.org/dist/File-ShareDir-Tiny",
+    "source_repository": "https://metacpan.org/dist/File-ShareDir-Tiny",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/",
+    "release_regex": "File-ShareDir-Tiny-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/File-ShareDir-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.001",
+    "release": "1",
+    "latest_detected": "0.001"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-sharedir-tiny-perl",
+        "package_base": "libfile-sharedir-tiny-perl",
+        "source_version": "0.001-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/arm64/misc/libfile-sharedir-tiny-perl",
+        "observed_at": "2026-09-30T04:00:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-sharedir-tiny-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-sharedir-tiny-perl maps to official stable CPAN 0.001. Source SHA-256 16d6e0352d02402cdd46bc8d7c426c66cd8488d7066878b250e50a6a34e47b58 matches CPAN CHECKSUMS; safe 23-entry archive and full LICENSE explicitly grant Perl GPL-1-or-later OR Artistic terms. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(File::ShareDir::Tiny) Provide. Default upstream three files/35 tests pass on local Perl 5.34.1; optional xt/author tests are not the default suite. Target QEMU remains unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

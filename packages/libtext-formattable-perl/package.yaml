@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-formattable-perl",
+  "rpm": {
+    "name": "perl-Text-FormatTable",
+    "summary": "Format text tables in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-formattable-perl",
+    "homepage": "https://metacpan.org/dist/Text-FormatTable",
+    "source_repository": "https://metacpan.org/dist/Text-FormatTable",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TR/TREY/",
+    "release_regex": "Text-FormatTable-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TR/TREY/Text-FormatTable-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.03",
+    "release": "1",
+    "latest_detected": "1.03"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-formattable-perl",
+        "package_base": "libtext-formattable-perl",
+        "source_version": "1.03-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-formattable-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-formattable-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Exact frozen-inventory Ubuntu libtext-formattable-perl 1.03 orig-tar MD5 matches official CPAN Text-FormatTable 1.03 byte-for-byte. CPAN CHECKSUMS SHA-256, safe archive and Perl dual license were reviewed. Complete default test.pl runs five functional assertions locally. The example is preserved as RPM documentation rather than upstream MakeMaker's incidental generic vendorlib Text/example.pl copy. Official RVA23 primary has no same-name RPM or module provider."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

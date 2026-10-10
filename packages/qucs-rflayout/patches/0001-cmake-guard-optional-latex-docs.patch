@@ -1,0 +1,30 @@
+From 6f02b5ac35a87412c45bfc484168fe20f2da36b4 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 8 Sep 2026 09:00:00 +0800
+Subject: [PATCH] cmake: guard optional LaTeX documentation
+
+Latex.cmake deliberately searches for XeLaTeX without REQUIRED, but the GUI
+target still depends unconditionally on the generated document target.  This
+turns an absent optional tool into an invalid XELATEX_COMPILER-NOTFOUND build
+command.  Add the dependency only when CMake found the compiler.  The regular
+documentation, application, installation, and unit-test targets are unchanged.
+---
+ doc/latex/CMakeLists.txt | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/doc/latex/CMakeLists.txt b/doc/latex/CMakeLists.txt
+index 0912baf..cfb425d 100644
+--- a/doc/latex/CMakeLists.txt
++++ b/doc/latex/CMakeLists.txt
+@@ -49,7 +49,6 @@
+ add_dependencies( "doc" "oems_mesh" )
+-
+-if( NOT QRFL_MINIMAL )
+-	add_dependencies( ${PROJECT_NAME} "doc" )
+-endif( NOT QRFL_MINIMAL )
+-
++# Generated diagrams are optional when XeLaTeX is unavailable.
++if( NOT QRFL_MINIMAL AND XELATEX_COMPILER )
++  add_dependencies( ${PROJECT_NAME} "doc" )
++endif()
+ install(

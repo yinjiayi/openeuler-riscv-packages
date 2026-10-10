@@ -1,0 +1,21 @@
+{
+  "package_id": "session-lock-qt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e5dd5680e0d6c7d23d7d72e804fb1790a05373ca2cbd505b618d0aed622d7050"
+      },
+      "filename": "session-lock-qt-2.1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/waycrate/qt-session-lock/archive/refs/tags/v2.1.0.tar.gz",
+      "version": "2.1.0"
+    }
+  ]
+}

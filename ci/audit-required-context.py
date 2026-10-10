@@ -188,7 +188,7 @@ def verify_bridge_context(
         or bound_base != graph_base
     ):
         raise AuditError("bridge CheckRun external_id does not bind the exact PR snapshot")
-    details_url = f"https://github.com/{repository}/actions/runs/{bridge_id}"
+    details_url = f"https://github.com/{repository}/runs/{check_id}"
     if (
         check.get("id") != check_id
         or check.get("name") != "configure"
@@ -268,7 +268,7 @@ def verify_bridge_context(
         or IMAGE_BRANCH.fullmatch(pull_head["ref"]) is None
         or require_dict(pull_head.get("repo"), "bridge head repository").get("full_name") != repository
         or require_dict(pull_base.get("repo"), "bridge base repository").get("full_name") != repository
-        or pull.get("changed_files") != 1
+        or pull.get("changed_files") != 2
     ):
         raise AuditError("bridge pull-request identity, state, or exact lease is invalid")
     pages = rest_json([
@@ -277,14 +277,17 @@ def verify_bridge_context(
     if not isinstance(pages, list) or any(not isinstance(page, list) for page in pages):
         raise AuditError("bridge pull-request files are not fully paginated arrays")
     files = [entry for page in pages for entry in page]
+    expected_paths = ["ci/image.lock", "ops/actions-runner-fleet/cleanup-image.lock"]
+    if any(not isinstance(item, dict) for item in files):
+        raise AuditError("bridge pull-request file entry is malformed")
+    files = sorted(files, key=lambda item: str(item.get("filename") or ""))
     if (
-        len(files) != 1
-        or not isinstance(files[0], dict)
-        or files[0].get("filename") != "ci/image.lock"
-        or files[0].get("status") != "modified"
-        or files[0].get("previous_filename") is not None
+        len(files) != 2
+        or [item.get("filename") for item in files] != expected_paths
+        or any(item.get("status") != "modified" for item in files)
+        or any(item.get("previous_filename") is not None for item in files)
     ):
-        raise AuditError("bridge pull request is not one modified ci/image.lock")
+        raise AuditError("bridge pull request is not the exact two-lock update")
     repo = require_dict(rest_json([f"repos/{repository}"]), "bridge repository readback")
     ref = require_dict(rest_json([f"repos/{repository}/git/ref/heads/main"]), "bridge main ref")
     ref_object = require_dict(ref.get("object"), "bridge main ref object")

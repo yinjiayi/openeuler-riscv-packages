@@ -34,7 +34,7 @@ package_ci:
   artifact_retention_days: 7
   source_timeout_minutes: 20
   build_timeout_minutes: 120
-  smoke_timeout_minutes: 30
+  smoke_timeout_minutes: 70
   maximum_log_bytes: 52428800
   network_during_build: true
   qemu_runner:

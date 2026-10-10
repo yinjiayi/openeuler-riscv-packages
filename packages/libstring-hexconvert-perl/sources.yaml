@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-hexconvert-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-HexConvert-0.02.tar.gz",
+      "version": "0.02",
+      "url": "https://cpan.metacpan.org/authors/id/A/AH/AHERNIT/String-HexConvert-0.02.tar.gz",
+      "digests": {
+        "sha256": "10105a512be930961c1f5d95d64aa9e5e0d321b7ca4f594eae17f91369d1282b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Archive LICENSE and README explicitly state LGPL version 3 and include its text; official CPAN HTTPS source SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

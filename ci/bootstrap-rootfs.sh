@@ -11,6 +11,34 @@ die() {
   exit 2
 }
 
+download_verified_resumable() {
+  local url=$1
+  local expected_sha256=$2
+  local output=$3
+  local partial=${output}.partial
+  local attempt
+
+  [[ $expected_sha256 =~ ^[0-9a-f]{64}$ ]] || die "invalid expected download checksum"
+  rm -f -- "$output" "$partial"
+  for attempt in 1 2 3 4 5; do
+    if curl --fail --location --proto '=https' --tlsv1.2 \
+      --continue-at - --connect-timeout 20 --max-time 300 \
+      "$url" -o "$partial"; then
+      printf '%s  %s\n' "$expected_sha256" "$partial" \
+        | sha256sum --check --strict \
+        || die "completed repository download failed its authenticated checksum"
+      mv -f -- "$partial" "$output"
+      return 0
+    fi
+    if (( attempt < 5 )); then
+      printf 'bootstrap-rootfs: resumable download attempt %d/5 failed; retrying in 2 seconds\n' \
+        "$attempt" >&2
+      sleep 2
+    fi
+  done
+  die "authenticated repository download failed after five resumable attempts"
+}
+
 [[ $rootfs == /rootfs ]] || die "the build root must be exactly /rootfs"
 [[ -f $repo_file ]] || die "repository file is missing: $repo_file"
 grep -Fqx "baseurl=${repo_url}" "$repo_file" || die "repository URL differs from the approved RVA23 repository"
@@ -49,9 +77,8 @@ PY
 )
 [[ $primary_href == repodata/* && $primary_href != *..* ]] || die "unsafe primary_db path"
 [[ $primary_checksum =~ ^[0-9a-f]{64}$ ]] || die "invalid primary_db checksum"
-curl --fail --location --proto '=https' --tlsv1.2 \
-  --retry 4 --retry-delay 2 --connect-timeout 20 --max-time 300 \
-  "${repo_url}${primary_href}" -o /evidence/primary.sqlite.bz2
+download_verified_resumable \
+  "${repo_url}${primary_href}" "$primary_checksum" /evidence/primary.sqlite.bz2
 printf '%s  %s\n' "$primary_checksum" /evidence/primary.sqlite.bz2 | sha256sum --check --strict
 bzip2 -dc /evidence/primary.sqlite.bz2 > /evidence/primary.sqlite
 
@@ -71,9 +98,8 @@ PY
 )
 [[ $key_href == Packages/* && $key_href != *..* ]] || die "unsafe signing-key RPM path"
 [[ $key_checksum =~ ^[0-9a-f]{64}$ ]] || die "invalid signing-key RPM checksum"
-curl --fail --location --proto '=https' --tlsv1.2 \
-  --retry 4 --retry-delay 2 --connect-timeout 20 --max-time 300 \
-  "${repo_url}${key_href}" -o /evidence/openEuler-gpg-keys.rpm
+download_verified_resumable \
+  "${repo_url}${key_href}" "$key_checksum" /evidence/openEuler-gpg-keys.rpm
 printf '%s  %s\n' "$key_checksum" /evidence/openEuler-gpg-keys.rpm | sha256sum --check --strict
 install -d -m 0755 /bootstrap/key-rpm /bootstrap/repos
 (cd /bootstrap/key-rpm && rpm2cpio /evidence/openEuler-gpg-keys.rpm | cpio -idm --quiet)
@@ -91,15 +117,24 @@ packages=(
   python3 rpm rpm-build sed shadow tar unzip util-linux which xz
 )
 
-dnf -y \
-  --installroot "$rootfs" \
-  --forcearch riscv64 \
-  --setopt reposdir=/bootstrap/repos \
-  --setopt install_weak_deps=False \
-  --setopt keepcache=False \
-  --disablerepo='*' \
-  --enablerepo=openeuler-rva23 \
-  install "${packages[@]}"
+# The official endpoint is bandwidth-constrained and has repeatedly reset
+# concurrent HTTP/2 streams. Serialize payloads and retain completed downloads
+# across two bounded transaction attempts; the disposable cache is removed below.
+/bootstrap/run-dnf-transaction \
+  --evidence /evidence/bootstrap-dnf-transaction.json \
+  --budget-seconds 7300 \
+  --attempt-timeouts-seconds 4200,3000 \
+  --retry-delay-seconds 5 \
+  --kill-after-seconds 30 \
+  -- dnf -y \
+    --installroot "$rootfs" \
+    --forcearch riscv64 \
+    --setopt reposdir=/bootstrap/repos \
+    --setopt install_weak_deps=False \
+    --setopt keepcache=True \
+    --disablerepo='*' \
+    --enablerepo=openeuler-rva23 \
+    install "${packages[@]}"
 
 # Record the database path actually used by the bootstrap RPM implementation.
 # The target stage never copies this backend-specific database. It imports the
@@ -161,6 +196,8 @@ cmp -s /evidence/rpmdb-header-list.bin /evidence/rpmdb-header-list-roundtrip.bin
   || die "portable RPM database header stream is not an exact round trip"
 
 install -d -m 0755 "$rootfs/usr/share/openeuler-riscv-ci" "$rootfs/etc/yum.repos.d"
+install -m 0644 /evidence/bootstrap-dnf-transaction.json \
+  "$rootfs/usr/share/openeuler-riscv-ci/bootstrap-dnf-transaction.json"
 root_key=$(find "$rootfs/etc/pki/rpm-gpg" -type f -name 'RPM-GPG-KEY-openEuler*' -print -quit)
 [[ -n $root_key ]] || die "installed rootfs does not contain the openEuler signing key"
 root_key_path=${root_key#"$rootfs"}
