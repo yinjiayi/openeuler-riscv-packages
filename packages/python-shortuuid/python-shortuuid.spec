@@ -35,6 +35,12 @@ available when it is imported.
 
 %install
 %{__python3} -m pip install --no-deps --no-index --ignore-installed --no-compile --root %{buildroot} --prefix %{_prefix} dist/shortuuid-%{version}-*.whl
+# Poetry includes a redundant license at wheel root. Keep the full original
+# COPYING in %%license, not an unowned generic site-packages/COPYING path.
+test -f "%{buildroot}%{python3_sitelib}/COPYING"
+test ! -L "%{buildroot}%{python3_sitelib}/COPYING"
+cmp -- "%{buildroot}%{python3_sitelib}/COPYING" COPYING
+rm -- "%{buildroot}%{python3_sitelib}/COPYING"
 
 %check
 # Current upstream test.yml selects the complete default pytest collection.

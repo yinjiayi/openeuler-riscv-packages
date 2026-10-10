@@ -65,3 +65,23 @@ is not patched or reported as 1.0.13.
 No local upstream/backend/test/RPM/QEMU execution was performed. Repository
 validation and source verification do not establish target build success;
 exact-head riscv64 build/install/smoke and physical artifacts remain CI gates.
+
+## Duplicate wheel-license packaging repair
+
+[The initial CI run](https://github.com/yinjiayi/openeuler-riscv-packages/actions/runs/38071774458)
+for head `3a0d99d15396225db1c9c146ec6fbcc0011ac34b` built and installed the
+original Poetry wheel and passed all 19 upstream runtime cases, but RPM's
+final file check rejected an unowned `/usr/lib/python3.11/site-packages/COPYING`.
+The wheel includes the original license at that generic root path. `%install`
+now requires the redundant installed file to be regular and not a symlink,
+compares its bytes with the unchanged original `COPYING`, and removes only
+that equal duplicate. The complete original `COPYING` remains packaged by
+`%license`; no global site-packages license path is claimed or upstream file
+modified. Build dependencies, backend, default tests and smoke are unchanged.
+
+The earlier `find: debug: No such file or directory` was nonfatal: subsequent
+tests and file processing ran. The stored first-error summary selected that
+noise; the terminal unpackaged-file error is the repair's causal evidence.
+The failed head's install smoke did not execute. This packaging-only change
+still needs replacement exact-head CI and physical RPM/install verification;
+passing tests in a failed build is not RPM build or publication success.
