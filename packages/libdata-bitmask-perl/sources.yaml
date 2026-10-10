@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-bitmask-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-BitMask-1.00.tar.gz",
+      "version": "1.00",
+      "url": "https://cpan.metacpan.org/authors/id/T/TE/TEVERETT/Data-BitMask-1.00.tar.gz",
+      "digests": {
+        "sha256": "11a5775ca7d7ef2452e2a6a96a4d91f92e31131ea47c24d0d99975e8aed584ae"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the official CPAN archive full SHA-256. The copyright holder's README and module explicitly grant redistribution/modification under the same terms as Perl; the first-party Build.PL declares license perl."
+      }
+    }
+  ]
+}
