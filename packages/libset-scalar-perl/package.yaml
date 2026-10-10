@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libset-scalar-perl",
+  "rpm": {
+    "name": "perl-Set-Scalar",
+    "summary": "Set operations on Perl scalars",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libset-scalar-perl",
+    "homepage": "https://metacpan.org/dist/Set-Scalar",
+    "source_repository": "https://github.com/daoswald/Set-Scalar",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAVIDO/",
+    "release_regex": "Set-Scalar-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAVIDO/Set-Scalar-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.29",
+    "release": "1",
+    "latest_detected": "1.29"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libset-scalar-perl",
+        "package_base": "libset-scalar-perl",
+        "source_version": "1.29-3",
+        "evidence_url": "https://packages.debian.org/source/stable/libset-scalar-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "perl-Set-Scalar",
+        "package_base": "perl-Set-Scalar",
+        "source_version": "1.29-32.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Set-Scalar/perl-Set-Scalar/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libset-scalar-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian and Fedora source-lineage rows map to official DAVIDO CPAN Set-Scalar 1.29. CPAN CHECKSUMS pins the SHA-256. The distribution's Set::Scalar.pm POD grants the whole library the same terms as Perl; its seven related submodules and original tests have no conflicting third-party notice. All 22 unchanged default tests passed locally with 2,652 assertions and zero skips. The current official RVA23 primary metadata has no same-name RPM or Set::Scalar module provider. Exact-head target CI must confirm the full suite and installed set-algebra smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
