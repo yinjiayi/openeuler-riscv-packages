@@ -12,7 +12,8 @@ cat >"$smoke_dir/smoke.c" <<'EOF'
 #include <jbig85.h>
 
 int main(void) {
-    if (JBG_VERSION_MAJOR != 2 || JBG_VERSION_MINOR != 1)
+    if (JBG_VERSION_MAJOR != 2 || JBG_VERSION_MINOR != 2 ||
+        JBG85_VERSION_MAJOR != 2 || JBG85_VERSION_MINOR != 2)
         return 1;
     if (jbg_strerror(JBG_EOK) == 0 || jbg85_strerror(0) == 0)
         return 2;
@@ -22,6 +23,11 @@ EOF
 
 cc "$smoke_dir/smoke.c" -ljbig -ljbig85 -o "$smoke_dir/smoke"
 "$smoke_dir/smoke"
+
+# Verify that clients can still link the pre-update library names.
+cc "$smoke_dir/smoke.c" -Wl,-l:libjbig.so.2.1 -Wl,-l:libjbig85.so.2.1 \
+    -o "$smoke_dir/compat-smoke"
+"$smoke_dir/compat-smoke"
 
 printf 'P4\n8 1\n\252' >"$smoke_dir/input.pbm"
 pbmtojbg "$smoke_dir/input.pbm" "$smoke_dir/image.jbg"
