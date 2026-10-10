@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "libtime-tiny-perl",
+  "rpm": {
+    "name": "perl-Time-Tiny",
+    "summary": "Lightweight Perl time object",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtime-tiny-perl",
+    "homepage": "https://metacpan.org/dist/Time-Tiny",
+    "source_repository": "https://metacpan.org/dist/Time-Tiny",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_regex": "(?<![A-Za-z0-9])Time-Tiny-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Time-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.08",
+    "release": "2",
+    "latest_detected": "1.08"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libtime-tiny-perl",
+        "package_base": "libtime-tiny-perl",
+        "source_version": "1.08-3",
+        "evidence_url": "https://sources.debian.org/src/libtime-tiny-perl/1.08-3/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtime-tiny-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-test-accept-datetime-locale-135-c-alias.patch",
+        "sha256": "6ede931d0ab226a85532597188f8cc95cbf3440b4857fd980cd0cfbcb341e507",
+        "purpose": "Preserve the original DateTime locale assertion with a concrete en-US expectation for DateTime::Locale 1.35 while retaining all 16 default assertions and zero skips.",
+        "source": "Downstream diagnosis of exact-head target Package CI 37061993495 against official Time-Tiny 1.08 SHA-256 00f7b231dedf170067903584c6e9b5e3ae9d11c4a66ac20ce0eb3d38b7d19282 and independently executed official DateTime::Locale 1.35 source.",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream Time::Tiny tests use an equivalent explicit DateTime::Locale 1.35 C-alias expectation."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian 1.08-3 maps to official stable CPAN Time-Tiny 1.08. Publisher CHECKSUMS matches the fixed HTTPS archive. Installed PM, README and LICENSE directly grant same-as-Perl redistribution by Adam Kennedy; no vendored code or contrary default-test notice. Official SP3 RVA23 primary has no collision and supplies all required providers, including DateTime/Locale/TimeZone for the optional test branch. Initial exact-head target run 37061993495 failed only original t/02_main.t locale assertion 11: DateTime::Locale 1.35 maps C to en-US, not the old en-US-POSIX expected by its version heuristic. A narrow package-local patch preserves both default files, all 16 assertions and zero skips while adding a concrete 1.35 expectation; original 1.25 branch remains en-US-POSIX. Target CI must prove the repaired full suite, physical products and installed time-object roundtrip; DateTime remains optional at runtime."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
