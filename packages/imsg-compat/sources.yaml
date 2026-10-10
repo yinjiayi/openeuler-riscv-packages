@@ -1,0 +1,21 @@
+{
+  "package_id": "imsg-compat",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5e87b828af6c42a1234044ff94b2948bd5802c161c837adb1dece5cfe875aefd"
+      },
+      "filename": "imsg-compat-8.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bsd-ac/imsg-compat/archive/refs/tags/8.0.0.tar.gz",
+      "version": "8.0.0"
+    }
+  ]
+}
