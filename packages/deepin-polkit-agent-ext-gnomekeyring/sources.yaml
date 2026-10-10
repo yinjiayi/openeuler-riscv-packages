@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-polkit-agent-ext-gnomekeyring",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f31c305cc356abcf7b5e37cc053569caeb5216646a32f4f39ced576b5f504dd9"
+      },
+      "filename": "deepin-polkit-agent-ext-gnomekeyring-6.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dpa-ext-gnomekeyring/archive/refs/tags/6.0.1.tar.gz",
+      "version": "6.0.1"
+    }
+  ]
+}
