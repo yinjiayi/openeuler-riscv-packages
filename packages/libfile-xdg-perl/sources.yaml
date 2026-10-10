@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-xdg-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-XDG-1.03.tar.gz",
+      "version": "1.03",
+      "url": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/File-XDG-1.03.tar.gz",
+      "digests": {
+        "sha256": "88bd7c1458cb763beced6e7bd0c11972a156b1e39232984f8a7a8be4206bf7ce"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The bundled LICENSE explicitly grants Perl GPL/Artistic redistribution and modification terms; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}
