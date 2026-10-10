@@ -27,6 +27,14 @@
       "license": "MIT",
       "upstream_status": "not-submitted",
       "remove_when": "A verified stable upstream release normalizes this input and passes its unchanged default suite without the patch."
+    }, {
+      "file": "patches/0002-preserve-string-conversion-contracts.patch",
+      "sha256": "e436d5d13e830d657d6de14d015d65c961c3308bf4b64a467dadd842a670177e",
+      "purpose": "Repair the observed original camelcase/pascalcase interior separator loss and alphanumcase underscore retention; preserve all 13 original tests, coverage and installed acceptance.",
+      "source": "Repository-authored two-line correction against official MIT commit be60b723753d4796983729d49ef825826e0f882d after Patch0. Official newer 57aae96649f5cf7fc98e50b1d62479456d492715 inspected, not adopted because its broader rewrite/Unicode behavior does not preserve this stable contract.",
+      "license": "MIT",
+      "upstream_status": "not-submitted",
+      "remove_when": "A verified stable upstream release preserves leading/interior separator and ASCII alphanumeric contracts and passes complete unchanged original/default tests without this patch."
     }],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
@@ -36,7 +44,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official PyPI latest stable 1.2.0, not the newer Ubuntu git-derived discovery version. All five non-generated PyPI sdist members exactly match fixed official commit be60b723753d4796983729d49ef825826e0f882d; all 12 full-archive Git blobs match. No Git tag or timestamp-only release inference. MIT notices retained. Full original 13-test unittest suite, coverage run and HTML report preserved; coveralls is post-success external upload, not a functional gate. Package-local Patch0 normalizes alphanumcase input with str() like other converters to honor the unchanged original None test; source repair, not RISC-V workaround. Original distutils setup uses target Python 3.11 with offline setuptools/wheel/pip. Both target and installed acceptance isolate historical .coverage with a new COVERAGE_FILE. Current complete official/supplemental provider and namespace scans find no ownership conflict. No local upstream/backend/test/RPM/QEMU execution. Target status remains unknown pending exact-head CI.",
+    "notes": "Official PyPI latest stable 1.2.0, not the newer Ubuntu git-derived discovery version. All five non-generated PyPI sdist members exactly match fixed official commit be60b723753d4796983729d49ef825826e0f882d; all 12 full-archive Git blobs match. No Git tag or timestamp-only release inference. MIT notices retained. Full original 13-test unittest suite, coverage run and HTML report preserved; coveralls is post-success external upload, not a functional gate. Package-local Patch0 normalizes alphanumcase input with str() like other converters to honor the unchanged original None test. Exact-head CI d38fcff00a142a29336ee521d91ab3ce6ba8a08d run38073173149:1 ran 13 original cases with three failures; dependency preparation passed, no RPM/installed acceptance success. Separate Patch1 minimally preserves interior separators and documented ASCII alphanumerics; no original tests changed or excluded, not a RISC-V workaround. Original distutils setup uses target Python 3.11 with offline setuptools/wheel/pip. Both target and installed acceptance isolate historical .coverage with a new COVERAGE_FILE. Current complete official/supplemental provider and namespace scans find no ownership conflict. No local upstream/backend/test/RPM/QEMU execution. Repaired-head target status remains unknown pending fresh exact-head CI.",
     "status": "active"
   },
   "package_id": "python-stringcase",

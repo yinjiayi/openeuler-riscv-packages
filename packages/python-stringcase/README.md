@@ -46,6 +46,25 @@ verified stable release normalizes this input and passes its unchanged default
 suite without the patch. Inert dry-run/apply and AST review verify the one-line
 change; actual target execution remains required.
 
+The first exact-head target run of PR #2508 (`d38fcff00a142a29336ee521d91ab3ce6ba8a08d`,
+run `38073173149:1`) reached all 13 original tests and failed three assertions:
+`foo-bar` became `foar`/`Foar` in camelcase/pascalcase, and alphanumcase retained
+the underscore in `_Foo., Bar`. Dependency preparation passed; the earlier
+find-debuginfo warning was nonterminal. No RPM or installed acceptance succeeded.
+Patch1 changes only two source lines: strip leading `-`, `_` and `.` without
+deleting interior letter/separator groups, and remove the explicit complement
+of ASCII `0-9`, `a-z` and `A-Z`, retaining Patch0's `str()` normalization.
+The unchanged interior separator-to-uppercase pass and all original expectations
+remain intact. This is an upstream-generic contract repair, not architecture policy.
+The official git commit identified by the Ubuntu discovery clue,
+`57aae96649f5cf7fc98e50b1d62479456d492715`, was inspected as inert source: its
+broader camelcase rewrite and Unicode `isalnum` alternative are not adopted.
+Patch1 is repository-authored against the fixed MIT source, not submitted upstream;
+remove it after a verified stable release preserves these contracts and passes the
+complete unchanged defaults without it. Source0, Patch0 and the original test bytes
+are unchanged. Inert patch application does not prove target execution; fresh
+repaired-head CI must run all 13 tests, coverage and installed acceptance.
+
 ## Original default acceptance
 
 The fixed source's Travis script runs `python -m unittest -v stringcase_test.py`,

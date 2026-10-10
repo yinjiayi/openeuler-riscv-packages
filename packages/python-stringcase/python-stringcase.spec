@@ -7,6 +7,7 @@ License:        MIT
 URL:            https://github.com/okunishinishi/python-stringcase
 Source0:        stringcase-1.2.0-official.tar.gz
 Patch0:         0001-normalize-alphanumcase-input.patch
+Patch1:         0002-preserve-string-conversion-contracts.patch
 BuildArch:      noarch
 BuildRequires:  python3-devel >= 3.11
 BuildRequires:  python3-setuptools
@@ -93,3 +94,4 @@ PY
 * Sat Oct 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.0-1
 - Onboard fixed release-associated official source and retain original test defaults.
 - Normalize alphanumcase input to honor the original None test without exclusions.
+- Preserve interior camelcase separators and the documented ASCII alphanumeric contract.
