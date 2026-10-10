@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-multivalue-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Hash-MultiValue-0.16.tar.gz",
+      "version": "0.16",
+      "url": "https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/Hash-MultiValue-0.16.tar.gz",
+      "digests": {
+        "sha256": "66181df7aa68e2786faf6895c88b18b95c800a8e4e6fb4c07fd176410a3c73f4"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Bundled LICENSE explicitly contains Perl GPL-1-or-later/Artistic terms, with README, module, Makefile.PL and META.json agreeing; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
