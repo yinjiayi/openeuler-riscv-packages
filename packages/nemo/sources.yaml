@@ -1,0 +1,21 @@
+{
+  "package_id": "nemo",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "258807feb2e7bac523707d6b3daf2d9439e7135123cbe795183d5aaa6fd691ed"
+      },
+      "filename": "nemo-6.6.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxmint/nemo/archive/refs/tags/6.6.4.tar.gz",
+      "version": "6.6.4"
+    }
+  ]
+}
