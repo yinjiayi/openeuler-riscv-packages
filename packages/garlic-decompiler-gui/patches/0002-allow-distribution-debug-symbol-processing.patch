@@ -1,0 +1,24 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] build: allow packagers to retain debug symbols until install
+
+The unconditional post-build strip removes all debug information before RPM
+can extract its debuginfo package. Keep upstream's default standalone behavior
+but allow distribution builds to defer stripping to their packaging tools.
+No source, optimization, feature, or test is removed.
+
+SPDX-License-Identifier: Apache-2.0
+Upstream-Status: Pending
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -387,7 +387,8 @@
+ # ==============================================================================
+ # Strip debug symbols on Linux only.
+ # Excluded on macOS: stripping before code signing invalidates the signature.
+-if (UNIX AND NOT APPLE)
++option(GARLIC_STRIP_BINARY "Strip the standalone binary after building" ON)
++if (UNIX AND NOT APPLE AND GARLIC_STRIP_BINARY)
+     add_custom_command(
+         TARGET GarlicGUI POST_BUILD
+         COMMAND strip $<TARGET_FILE:GarlicGUI>

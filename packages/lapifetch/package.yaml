@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/asunyan-dev/lapifetch",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lapifetch",
+        "package_name": "lapifetch",
+        "source": "aur",
+        "source_version": "1.4.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-link-x11-randr.patch",
+        "sha256": "a828bab963d20fd9fbadfbd598d6300481e958f9fb6f884363d45ffa991a5f9a",
+        "purpose": "Link the X11 and RandR libraries used directly by system.cpp and already declared by upstream's Makefile and Nix packaging.",
+        "source": "openEuler RISC-V package CI failure analysis",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "An upstream release links the lapifetch CMake target with X11 and Xrandr."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "lapifetch.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 configures CMake explicitly with the RPM macro build directory so configure, build, install, and test use the same tree. Release 3 declares the X11 and RandR development providers and carries a minimal MIT patch matching upstream's Makefile and Nix link libraries.",
+    "status": "active"
+  },
+  "package_id": "lapifetch",
+  "rpm": {
+    "license": "MIT",
+    "name": "lapifetch",
+    "summary": "Simple bunny-themed Linux fetch utility"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-asunyan-dev-lapifetch",
+    "homepage": "https://github.com/asunyan-dev/lapifetch",
+    "release_api": "https://api.github.com/repos/asunyan-dev/lapifetch/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/asunyan-dev/lapifetch",
+    "source_url_template": "https://github.com/asunyan-dev/lapifetch/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.4.0",
+    "latest_detected": "1.4.0",
+    "release": "3"
+  }
+}

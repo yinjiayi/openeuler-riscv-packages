@@ -14,19 +14,17 @@ import pathlib
 import re
 import subprocess
 import sys
-import time
 import uuid
 
 PACKAGE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 CAPABILITY = re.compile(r"^[A-Za-z0-9_+.:()/%{}~<>= -]+$")
 IMAGE_REF = re.compile(r"^ghcr\.io/yinjiayi/openeuler-riscv64-rpmbuild@sha256:[a-f0-9]{64}$")
 DERIVED_TAG = re.compile(r"^[a-z0-9][a-z0-9._-]{0,127}:[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$")
-DNF_NETWORK_OPTIONS = [
-    "--setopt=retries=20",
-    "--setopt=timeout=60",
-    "--setopt=minrate=1",
-    "--setopt=max_parallel_downloads=1",
-]
+DNF_TRANSACTION_CONTAINER_PATH = "/usr/local/libexec/openeuler-run-dnf-transaction"
+DNF_TRANSACTION_BUDGET_SECONDS = 3300
+DNF_ATTEMPT_TIMEOUTS_SECONDS = "2100,1100"
+DNF_RETRY_DELAY_SECONDS = 10
+DNF_KILL_AFTER_SECONDS = 10
 BUILD_USERS = {"root", "unprivileged"}
 BASELINE_ANCHORS = frozenset({"bash", "rpm", "rpm-build", "gcc", "gcc-c++", "make", "python3"})
 TARGET_BUILD_USER = "rpmbuild"
@@ -58,34 +56,6 @@ def run(argv: list[str], *, capture: bool = False) -> str:
         stdout=subprocess.PIPE if capture else None,
     )
     return completed.stdout if capture else ""
-
-
-def run_with_retries(
-    argv: list[str],
-    *,
-    attempts: int = 3,
-    delays: tuple[int, ...] = (5, 15),
-) -> int:
-    """Run a networked dependency transaction with bounded cache-preserving retries."""
-    if attempts < 1 or not delays or any(delay < 0 for delay in delays):
-        raise ValueError("retry policy is invalid")
-    last: subprocess.CompletedProcess[str] | None = None
-    for attempt in range(1, attempts + 1):
-        print(f"dependency install attempt {attempt}/{attempts}", flush=True)
-        last = subprocess.run(argv, check=False, text=True)
-        if last.returncode == 0:
-            return attempt
-        if attempt < attempts:
-            delay = delays[min(attempt - 1, len(delays) - 1)]
-            print(
-                f"dependency install attempt {attempt} failed with exit {last.returncode}; "
-                f"retrying after {delay}s with the same DNF cache",
-                file=sys.stderr,
-                flush=True,
-            )
-            time.sleep(delay)
-    assert last is not None
-    raise subprocess.CalledProcessError(last.returncode, argv)
 
 
 def root_exec(container: str, *argv: str) -> list[str]:
@@ -515,6 +485,7 @@ def main() -> int:
     package_dir = pathlib.Path(args.package_dir).resolve()
     work_dir = pathlib.Path(args.work_dir).resolve()
     output = pathlib.Path(args.output).resolve()
+    dnf_transaction_runner = root / "ci" / "run-dnf-transaction"
     supplemental_repo = pathlib.Path(args.supplemental_repo_file).resolve()
     supplemental_evidence_path = pathlib.Path(args.supplemental_evidence).resolve()
     package_id = package_dir.name
@@ -528,6 +499,8 @@ def main() -> int:
         raise SystemExit("supplemental repository file must be a regular non-symlink file")
     if not supplemental_evidence_path.is_file() or supplemental_evidence_path.is_symlink():
         raise SystemExit("supplemental repository evidence must be a regular non-symlink file")
+    if not dnf_transaction_runner.is_file() or dnf_transaction_runner.is_symlink():
+        raise SystemExit("bounded DNF transaction runner must be a regular non-symlink file")
     supplemental_evidence = json.loads(supplemental_evidence_path.read_text(encoding="utf-8"))
     repository_text = supplemental_repo.read_text(encoding="utf-8")
     try:
@@ -540,6 +513,7 @@ def main() -> int:
     output.parent.mkdir(parents=True, exist_ok=True)
     plan_path = output.parent / "dependency-plan.json"
     baseline_path = output.parent / "rpm-baseline.json"
+    transaction_path = output.parent / "dnf-transaction.json"
 
     # Planning runs with no network. Only the package, trusted shared scripts,
     # and dedicated output/work directories are mounted.  The evidence mount
@@ -594,7 +568,7 @@ def main() -> int:
     if supplemental_available:
         enabled_repositories.append("--enablerepo=openeuler-riscv-project")
     planned_network_install_argv = [
-        "dnf", "-y", "--setopt=install_weak_deps=False", *DNF_NETWORK_OPTIONS,
+        "dnf", "-y", "--setopt=install_weak_deps=False",
         "--disablerepo=*", *enabled_repositories, "install", "--", *dependencies,
     ]
 
@@ -643,6 +617,8 @@ def main() -> int:
             "--memory", "6g", "--cpus", "2", "--pids-limit", "1024",
             "--security-opt", "no-new-privileges",
             "--mount", f"type=bind,src={supplemental_repo},dst=/etc/yum.repos.d/openeuler-riscv-project.repo,readonly",
+            "--mount", f"type=bind,src={dnf_transaction_runner},dst={DNF_TRANSACTION_CONTAINER_PATH},readonly",
+            "--mount", f"type=bind,src={output.parent},dst=/evidence",
             "--user", "0:0",
             args.base_image, "/bin/bash", "-c", "while :; do sleep 3600; done",
         ], capture=True).strip()
@@ -691,10 +667,33 @@ def main() -> int:
             baseline["network_install_started"] = True
             baseline["network_phase"] = "exclusive-egress-verified-before-install"
             write_json_atomic(baseline_path, baseline)
-            executed_install_argv = planned_network_install_argv
-            install_attempts = run_with_retries(
-                root_exec(container_id, *executed_install_argv)
-            )
+            run(root_exec(
+                container_id,
+                "python3",
+                DNF_TRANSACTION_CONTAINER_PATH,
+                "--evidence", "/evidence/dnf-transaction.json",
+                "--budget-seconds", str(DNF_TRANSACTION_BUDGET_SECONDS),
+                "--attempt-timeouts-seconds", DNF_ATTEMPT_TIMEOUTS_SECONDS,
+                "--retry-delay-seconds", str(DNF_RETRY_DELAY_SECONDS),
+                "--kill-after-seconds", str(DNF_KILL_AFTER_SECONDS),
+                "--",
+                *planned_network_install_argv,
+            ))
+            transaction_record = json.loads(transaction_path.read_text(encoding="utf-8"))
+            if (
+                transaction_record.get("kind") != "dnf-transaction"
+                or transaction_record.get("status") != "passed"
+                or transaction_record.get("exit_code") != 0
+                or not isinstance(transaction_record.get("attempts"), list)
+                or not transaction_record["attempts"]
+            ):
+                raise SystemExit("bounded DNF transaction evidence is invalid or incomplete")
+            executed_install_argv = transaction_record.get("command")
+            if not isinstance(executed_install_argv, list) or not all(
+                isinstance(item, str) for item in executed_install_argv
+            ):
+                raise SystemExit("bounded DNF transaction command evidence is invalid")
+            install_attempts = len(transaction_record["attempts"])
             run(["docker", "network", "disconnect", egress_network_id, container_id])
             validate_container_networks(
                 inspect_container(container_id),
@@ -769,6 +768,7 @@ def main() -> int:
         "planned_install_argv": planned_argv,
         "executed_install_argv": executed_install_argv,
         "dependency_install_attempts": install_attempts,
+        "dependency_install_transaction": transaction_record if dependencies else None,
         "network_lifecycle": {
             "session": session,
             "phase": baseline["network_phase"],

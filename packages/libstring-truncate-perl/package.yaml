@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-truncate-perl",
+  "rpm": {
+    "name": "perl-String-Truncate",
+    "summary": "Truncate and elide Perl strings to a target length",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-truncate-perl",
+    "homepage": "https://metacpan.org/dist/String-Truncate",
+    "source_repository": "https://metacpan.org/dist/String-Truncate",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/",
+    "release_regex": "String-Truncate-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/String-Truncate-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.100603",
+    "release": "1",
+    "latest_detected": "1.100603"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-truncate-perl",
+        "package_base": "libstring-truncate-perl",
+        "source_version": "1.100603-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-truncate-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-truncate-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu 1.100603-1 and official stable CPAN 1.100603. Publisher CHECKSUMS SHA-256, safe archive, and included LICENSE GPL-1-or-later/Artistic-1.0 texts verified despite historical unknown-license metadata. Official target primary lacks same-name RPM/provider and supplies ExtUtils::MakeMaker 7.70, Sub::Exporter 0.990, Sub::Install 0.929. All four unmodified default suites/65 assertions passed locally. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
