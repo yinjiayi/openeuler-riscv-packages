@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-calendar",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8f5d7302fbf91a0fc308329ca5b5fdda046aa1427dfa5f0c831f348d2f5ac6aa"
+      },
+      "filename": "deepin-calendar-6.5.42.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dde-calendar/archive/refs/tags/6.5.42.tar.gz",
+      "version": "6.5.42"
+    }
+  ]
+}
