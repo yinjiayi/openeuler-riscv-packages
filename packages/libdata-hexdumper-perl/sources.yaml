@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-hexdumper-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Hexdumper-3.0001.tar.gz",
+      "version": "3.0001",
+      "url": "https://cpan.metacpan.org/authors/id/D/DC/DCANTRELL/Data-Hexdumper-3.0001.tar.gz",
+      "digests": {
+        "sha256": "f9243cbe8affed5045fe4df505726a7a7289471e30c51ac065b3ed6ce0d1a604"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the independently downloaded official HTTPS archive. The installed Data::Hexdumper module POD grants redistribution under GPL version 2 or the Artistic License, both included in the release as GPL2.txt and ARTISTIC.txt. No contrary per-file grant was found."
+      }
+    }
+  ]
+}
