@@ -1,0 +1,145 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Stabilize single-precision DSP tests
+
+The NCQO zero checks used the library's 1e-15 threshold even when SUFLOAT is
+float. This is much smaller than float precision both after accumulating
+131072 samples and when evaluating sin(pi), whose positive and negative
+round-off produces a small non-zero peak-to-peak value. Give only those
+zero-valued assertions precision-appropriate tolerances.
+
+The NCQO phase setter changed phi without refreshing its cached quadrature
+values, so the first sample after a phase change still came from the old
+phase. Refresh both cached components as part of the setter.
+
+The synthetic channel tests left the detector in its default spectrum-only
+mode. That mode computes the spectrum but never discovers or registers a
+channel, so both valid-channel lookups necessarily failed. Select discovery
+mode explicitly. Finally, validate the processed AGC output instead of the
+unprocessed falling-amplitude input.
+
+These changes retain all 18 upstream tests and their functional assertions.
+
+--- a/src/tests/agc.c
++++ b/src/tests/agc.c
+@@ -270,7 +270,7 @@
+   /* TODO: Improve levels */
+   SU_TEST_ASSERT(su_test_check_peak(
+       ctx,
+-      input,
++      output,
+       ctx->params->buffer_size,
+       2 * SU_TEST_AGC_WINDOW,
+       SU_AGC_RESCALE * 0.9,
+--- a/sigutils/ncqo.c
++++ b/sigutils/ncqo.c
+@@ -102,8 +102,10 @@
+   }
+ #endif /* SU_NCQO_USE_PRECALC_BUFFER */
+-
+   self->phi = phi - 2 * PI * SU_FLOOR(phi / (2 * PI));
++  self->cos_updated = SU_FALSE;
++  self->sin_updated = SU_FALSE;
++  __su_ncqo_assert_cos(self);
++  __su_ncqo_assert_sin(self);
+ }
+-
+ SU_METHOD(su_ncqo, SUFLOAT, get_i)
+ {
+--- a/src/tests/detect.c
++++ b/src/tests/detect.c
+@@ -71,6 +71,7 @@
+   params.samp_rate = 250000;
+   params.alpha = 1e-1;
+   params.window_size = 4096;
++  params.mode = SU_CHANNEL_DETECTOR_MODE_DISCOVERY;
+ 
+   /* Initialize buffers */
+   SU_TEST_ASSERT(input = su_test_ctx_getc(ctx, "x"));
+--- a/src/tests/ncqo.c
++++ b/src/tests/ncqo.c
+@@ -23,6 +23,7 @@
+ #include <sigutils/pll.h>
+ #include <sigutils/sampling.h>
+ #include <sigutils/sigutils.h>
++#include <float.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+@@ -30,6 +31,14 @@
+ #include "test_list.h"
+ #include "test_param.h"
+ 
++#ifdef _SU_SINGLE_PRECISION
++#  define SU_TEST_MEAN_TOLERANCE 1e-6f
++#  define SU_TEST_ZERO_PP_TOLERANCE (4 * FLT_EPSILON)
++#else
++#  define SU_TEST_MEAN_TOLERANCE 1e-12
++#  define SU_TEST_ZERO_PP_TOLERANCE (4 * DBL_EPSILON)
++#endif
++
+ SUBOOL
+ su_test_ncqo(su_test_context_t *ctx)
+ {
+@@ -48,9 +57,9 @@
+   for (p = 0; p < SU_TEST_SIGNAL_BUFFER_SIZE; ++p)
+     buffer[p] = su_ncqo_read_i(&ncqo);
+ 
+-  SU_TEST_ASSERT(SUFLOAT_EQUAL(
++  SU_TEST_ASSERT(sufeq(
+       su_test_buffer_mean(buffer, SU_TEST_SIGNAL_BUFFER_SIZE),
+-      0));
++      0, SU_TEST_MEAN_TOLERANCE));
+ 
+   SU_TEST_ASSERT(
+       SUFLOAT_EQUAL(su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE), 2));
+@@ -59,34 +68,35 @@
+   for (p = 0; p < SU_TEST_SIGNAL_BUFFER_SIZE; ++p)
+     buffer[p] = su_ncqo_read_q(&ncqo);
+ 
+-  SU_TEST_ASSERT(SUFLOAT_EQUAL(
++  SU_TEST_ASSERT(sufeq(
+       su_test_buffer_mean(buffer, SU_TEST_SIGNAL_BUFFER_SIZE),
+-      0));
++      0, SU_TEST_MEAN_TOLERANCE));
+-
+   SU_TEST_ASSERT(
+-      SUFLOAT_EQUAL(su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE), 0));
+-
+-  /* Modify phase */
++      sufeq(
++          su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE),
++          0,
++          SU_TEST_ZERO_PP_TOLERANCE));
++  /* Rotate by pi/2 and repeat the zero and full-amplitude checks. */
+   su_ncqo_set_phase(&ncqo, PI / 2);
+-
+   /* Test in-phase signal */
+   for (p = 0; p < SU_TEST_SIGNAL_BUFFER_SIZE; ++p)
+     buffer[p] = su_ncqo_read_i(&ncqo);
+ 
+-  SU_TEST_ASSERT(SUFLOAT_EQUAL(
++  SU_TEST_ASSERT(sufeq(
+       su_test_buffer_mean(buffer, SU_TEST_SIGNAL_BUFFER_SIZE),
+-      0));
++      0, SU_TEST_MEAN_TOLERANCE));
+-
+   SU_TEST_ASSERT(
+-      SUFLOAT_EQUAL(su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE), 0));
+-
+-  /* Test quadrature signal */
++      sufeq(
++          su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE),
++          0,
++          SU_TEST_ZERO_PP_TOLERANCE));
++  /* The quadrature component must retain full amplitude. */
+   for (p = 0; p < SU_TEST_SIGNAL_BUFFER_SIZE; ++p)
+     buffer[p] = su_ncqo_read_q(&ncqo);
+ 
+-  SU_TEST_ASSERT(SUFLOAT_EQUAL(
++  SU_TEST_ASSERT(sufeq(
+       su_test_buffer_mean(buffer, SU_TEST_SIGNAL_BUFFER_SIZE),
+-      0));
++      0, SU_TEST_MEAN_TOLERANCE));
+ 
+   SU_TEST_ASSERT(
+       SUFLOAT_EQUAL(su_test_buffer_pp(buffer, SU_TEST_SIGNAL_BUFFER_SIZE), 2));
