@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-vector-real-perl",
+  "rpm": {
+    "name": "perl-Math-Vector-Real",
+    "summary": "Real vector arithmetic for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-vector-real-perl",
+    "homepage": "https://metacpan.org/dist/Math-Vector-Real",
+    "source_repository": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/",
+    "release_regex": "Math-Vector-Real-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/Math-Vector-Real-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.18",
+    "release": "1",
+    "latest_detected": "0.18"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-vector-real-perl",
+        "package_base": "libmath-vector-real-perl",
+        "source_version": "0.18-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libmath-vector-real-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-vector-real-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.18-3 lineage. CPAN publisher CHECKSUMS pins the 0.18 source. Upstream README and main module attribute Salvador Fandino and expressly grant the terms of Perl 5.10.0 or later; the bundled test-helper module is part of that library and no file has a contrary notice. Official SP3 RVA23 primary lacks the RPM and both module providers while supplying MakeMaker, Test::More and Test::Builder::Module. The sole unchanged default test has 29 assertions, zero skips; its upstream t/dont_use_xs explicitly exercises the pure-Perl implementation."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
