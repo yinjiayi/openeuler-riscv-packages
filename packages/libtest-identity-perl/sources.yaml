@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-identity-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Test-Identity-0.01.tar.gz",
+      "version": "0.01",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Test-Identity-0.01.tar.gz",
+      "digests": {
+        "sha256": "2f0205009aed152668182aafa16357ab1f47b4cbc001e89871b67387ef8e5f23"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS; archive LICENSE and installed module grant redistribution under the same terms as Perl."
+      }
+    }
+  ]
+}
