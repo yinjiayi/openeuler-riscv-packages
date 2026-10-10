@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": "The complete upstream root tests write trusted.* extended attributes to symbolic links, which requires CAP_SYS_ADMIN and compatible filesystem namespace semantics. The current unprivileged QEMU container returns EPERM, so validation requires a controlled privileged native RISC-V environment; native hardware alone does not guarantee the required privileges or filesystem behavior.",
+    "network_during_build": false,
+    "profile": "needs-native-riscv",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/attr/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "attr",
+        "package_name": "attr",
+        "source": "arch-core",
+        "source_version": "2.6.0-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/stable/attr",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "attr",
+        "package_name": "attr",
+        "source": "debian",
+        "source_version": "1:2.5.2-3"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/attr/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "attr",
+        "package_name": "attr",
+        "source": "fedora",
+        "source_version": "2.5.2-8.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/attr",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "attr",
+        "package_name": "attr",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.6.0-1.2"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/attr",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "attr",
+        "package_name": "attr",
+        "source": "ubuntu",
+        "source_version": "1:2.5.2-4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "attr.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 2.6.0 archive independently pinned from the immutable discovery snapshot. Fedora and AUR packaging content was not executed; attr-git was retained only as an excluded VCS clue.",
+    "status": "active"
+  },
+  "package_id": "attr",
+  "rpm": {
+    "license": "GPL-2.0-or-later AND LGPL-2.1-or-later",
+    "name": "attr",
+    "summary": "Filesystem extended attribute utilities and library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "savannah.nongnu.org-projects-attr",
+    "homepage": "https://savannah.nongnu.org/projects/attr",
+    "release_api": "https://download.savannah.nongnu.org/releases/attr/",
+    "release_channel": "stable",
+    "release_regex": "attr-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://git.savannah.nongnu.org/git/attr.git",
+    "source_url_template": "https://download.savannah.nongnu.org/releases/attr/attr-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.6.0",
+    "latest_detected": "2.6.0",
+    "release": "1"
+  }
+}
