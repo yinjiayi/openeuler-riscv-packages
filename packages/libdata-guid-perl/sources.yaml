@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-guid-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-GUID-0.051.tar.gz",
+      "version": "0.051",
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Data-GUID-0.051.tar.gz",
+      "digests": {
+        "sha256": "68ea77c73fca891382f206e12449094501b6fbf2e57f54902d5064227cfd8e2e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release LICENSE and sole installed module POD explicitly grant redistribution under Perl's GPL/Artistic terms. Publisher CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
