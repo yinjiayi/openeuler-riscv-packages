@@ -29,7 +29,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official 20260824 release bytes are SHA-256 pinned and archive-safe. The full upstream boot-strap test operation remains mandatory. Target BuildRequires include ksh, tcsh, and Lua so shell cases and check-expect.lua are available. The fixed unprivileged build identity keeps the upstream objdir-writable permission test enabled; no network is needed after verified source and RPM dependencies have been acquired. The installed-RPM smoke test verifies the executable version against RPM metadata so version updates retain this check.",
+    "notes": "Official NetBSD 20260912 release bytes are SHA-256 pinned in sources.yaml. Metadata release 1 agrees with the committed SPEC; this reconciliation does not bump the upstream version or the actual RPM release. The full upstream boot-strap test operation remains mandatory. Target BuildRequires include ksh, tcsh, and Lua so shell cases and check-expect.lua are available. The fixed unprivileged build identity keeps the upstream objdir-writable permission test enabled; no network is needed by upstream operations after verified source and RPM dependencies have been acquired. The installed-RPM smoke test verifies the executable version against installed RPM metadata. Historical Darwin and previously published product evidence do not establish current-head target CI, native validation, trusted-fleet recovery or new publication.",
     "status": "active"
   },
   "package_id": "bmake",
@@ -64,6 +64,6 @@
   "version": {
     "current": "20260912",
     "latest_detected": "20260912",
-    "release": "2"
+    "release": "1"
   }
 }
