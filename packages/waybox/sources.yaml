@@ -1,0 +1,21 @@
+{
+  "package_id": "waybox",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5c28f67691d2c6cf368be5cbf2b3266d50aa1eb706f55565f4221b149714021f"
+      },
+      "filename": "waybox-0.2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/wizbright/waybox/archive/refs/tags/0.2.2.tar.gz",
+      "version": "0.2.2"
+    }
+  ]
+}
