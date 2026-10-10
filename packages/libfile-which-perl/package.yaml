@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-which-perl",
+  "rpm": {
+    "name": "perl-File-Which",
+    "summary": "Perl API for finding executable programs in search paths",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-which-perl",
+    "homepage": "https://metacpan.org/dist/File-Which",
+    "source_repository": "https://github.com/uperl/File-Which",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/",
+    "release_regex": "File-Which-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/File-Which-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.27",
+    "release": "1",
+    "latest_detected": "1.27"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-which-perl",
+        "package_base": "libfile-which-perl",
+        "source_version": "1.27-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-which-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-which-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libfile-which-perl key maps to official stable CPAN File-Which 1.27. CPAN CHECKSUMS SHA-256, archive safety, bundled Perl dual license, all three default test files, and Env test dependency were reviewed. Target build/install results await exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
