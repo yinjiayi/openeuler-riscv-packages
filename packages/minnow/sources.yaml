@@ -1,0 +1,21 @@
+{
+  "package_id": "minnow",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3abf7472bbf9981a1bc68713ad07504d7592a9a8d1ad18663ab6d38f803ffce6"
+      },
+      "filename": "minnow-0.1.5.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/minnowfm/minnow/archive/refs/tags/v0.1.5.3.tar.gz",
+      "version": "0.1.5.3"
+    }
+  ]
+}
