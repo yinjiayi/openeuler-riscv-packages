@@ -1,0 +1,21 @@
+{
+  "package_id": "aws-c-cal",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "215dd31c12ea49c4f40aa7882a800f9648e4095cfcb2d6abdd27e957574ad6e2"
+      },
+      "filename": "aws-c-cal-0.9.15.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/awslabs/aws-c-cal/archive/refs/tags/v0.9.15.tar.gz",
+      "version": "0.9.15"
+    }
+  ]
+}
