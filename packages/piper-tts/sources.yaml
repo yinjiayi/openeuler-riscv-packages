@@ -1,0 +1,21 @@
+{
+  "package_id": "piper-tts",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "36ed00fc85b3d9e62fa25ba8085c472a64bff07700e7826fd49092965264a8dc"
+      },
+      "filename": "piper-tts-1.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/OHF-Voice/piper1-gpl/archive/refs/tags/v1.5.0.tar.gz",
+      "version": "1.5.0"
+    }
+  ]
+}
