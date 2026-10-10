@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxt",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libXt-1.3.1.tar.xz",
+      "version": "1.3.1",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXt-1.3.1.tar.xz",
+      "digests": {
+        "sha256": "e0a774b33324f4d4c05b199ea45050f87206586d81655f8bef4dba434d931288"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official X.Org release is distributed over HTTPS and its SHA-256 is published in the release announcement."
+      }
+    }
+  ]
+}
