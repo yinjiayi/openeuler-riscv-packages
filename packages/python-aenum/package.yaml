@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/python-aenum",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-aenum",
+        "package_name": "python-aenum",
+        "source": "aur",
+        "source_version": "3.1.16-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/python-aenum",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-aenum",
+        "package_name": "python-aenum",
+        "source": "debian",
+        "source_version": "3.1.15-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/python-aenum",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-aenum",
+        "package_name": "python-aenum",
+        "source": "fedora",
+        "source_version": "3.1.16-3.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/python-aenum",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-aenum",
+        "package_name": "python-aenum",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.1.16-1.2"
+      },
+      {
+        "evidence_url": "https://launchpad.net/ubuntu/+source/python-aenum",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-aenum",
+        "package_name": "python-aenum",
+        "source": "ubuntu",
+        "source_version": "3.1.15-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-aenum.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 3.1.17 fixed tag archive retains all 19 Git blobs, including default test_v37 omitted by PyPI sdist. Same-version PyPI supplies only original README/PDF docs; full conservative fixed CPython notice accompanies unchanged BSD source. Original python3 -m aenum.test retains load_tests/doctest, test_v3/v37 and tempdir handling; supplied pyparsing retains optional default cases. Auxiliary stdlib tests retained, not falsely added to original default. No patches or local upstream/RPM execution; target CI pending.",
+    "status": "active"
+  },
+  "package_id": "python-aenum",
+  "rpm": {
+    "license": "BSD-3-Clause AND Python-2.0",
+    "name": "python-aenum",
+    "summary": "Advanced Enumerations (compatible with Python's stdlib Enum)"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-ethanfurman-aenum",
+    "homepage": "https://github.com/ethanfurman/aenum",
+    "release_api": "https://api.github.com/repos/ethanfurman/aenum/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/ethanfurman/aenum",
+    "source_url_template": "https://github.com/ethanfurman/aenum/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.1.17",
+    "latest_detected": "3.1.17",
+    "release": "1"
+  }
+}
