@@ -1,0 +1,21 @@
+{
+  "package_id": "obs-source-profiler",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e2d99cd0032ea50f68b798b42c003147baba393a299cb885ac5f1b1051c43d33"
+      },
+      "filename": "obs-source-profiler-0.0.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/exeldro/obs-source-profiler/archive/refs/tags/0.0.9.tar.gz",
+      "version": "0.0.9"
+    }
+  ]
+}
