@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/gnuit/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gnuit",
+        "package_name": "gnuit",
+        "source": "aur",
+        "source_version": "4.9.5-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gnuit.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "gnuit",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "gnuit",
+    "summary": "A set of interactive text-mode tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-gnuit",
+    "homepage": "https://www.gnu.org/software/gnuit/",
+    "release_api": "https://ftp.gnu.org/gnu/gnuit/",
+    "release_channel": "stable",
+    "release_regex": "gnuit-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/gnuit/",
+    "source_url_template": "https://ftp.gnu.org/gnu/gnuit/gnuit-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.9.5",
+    "latest_detected": "4.9.5",
+    "release": "1"
+  }
+}
