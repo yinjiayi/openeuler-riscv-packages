@@ -1,0 +1,21 @@
+{
+  "package_id": "repose",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c23e93aca416e08e80b4d17a98fd593e6345d7da8806bdd3c5484977ac2c800d"
+      },
+      "filename": "repose-7.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/vodik/repose/archive/refs/tags/7.1.tar.gz",
+      "version": "7.1"
+    }
+  ]
+}
