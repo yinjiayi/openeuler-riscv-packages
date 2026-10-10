@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "libbgpdump",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/RIPE-NCC/bgpdump/tar.gz/63fe1c50c7d07bb4c57d4fcc690696adc9b3c306",
+      "filename": "libbgpdump-1.6.2.tar.gz",
+      "version": "1.6.2",
+      "digests": {"sha256": "c9519a520d781a0745c0c01612f3e50ce6685da397fa8397451f7cd5ec22b280"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The official HPND and GPL-2.0-or-later source terms permit redistribution with the included notices and license text."}
+    }
+  ]
+}

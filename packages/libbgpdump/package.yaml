@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "package_id": "libbgpdump",
+  "rpm": {"name": "libbgpdump", "summary": "BGP MRT dump parsing library and tool", "license": "HPND AND GPL-2.0-or-later"},
+  "upstream": {
+    "component": "github.com-ripe-ncc-bgpdump",
+    "homepage": "https://github.com/RIPE-NCC/bgpdump",
+    "source_repository": "https://github.com/RIPE-NCC/bgpdump.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/RIPE-NCC/bgpdump/releases/latest",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/RIPE-NCC/bgpdump/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "1.6.2", "release": "1", "latest_detected": "1.6.2"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "bgpdump", "package_base": "bgpdump", "source_version": "1.6.2-3", "evidence_url": "https://packages.debian.org/source/stable/bgpdump", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "libbgpdump", "package_base": "libbgpdump", "source_version": "1.6.2-8.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/libbgpdump/libbgpdump/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "bgpdump", "package_base": "bgpdump", "source_version": "1.6.2-3build1", "evidence_url": "https://packages.ubuntu.com/source/resolute/bgpdump", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libbgpdump.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official v1.6.2 tag resolves to commit 63fe1c50c7d07bb4c57d4fcc690696adc9b3c306. The release asset omits test fixtures; the SHA-256-pinned official tag commit archive retains all 13 test inputs and expectations. Both default and optional -u regression passes remain enabled. The upstream COPYING and source headers contain HPND terms and disclose code derived from GPL-licensed GNU Zebra."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-releases"}
+}
