@@ -1,0 +1,21 @@
+{
+  "package_id": "wstroke",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8324efeea450b3bf5670b66f15a2a02ba87654fbd66752b1d57248a23f12da19"
+      },
+      "filename": "wstroke-2.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dkondor/wstroke/archive/refs/tags/v2.4.0.tar.gz",
+      "version": "2.4.0"
+    }
+  ]
+}
