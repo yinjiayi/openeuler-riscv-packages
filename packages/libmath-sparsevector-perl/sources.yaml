@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-sparsevector-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-SparseVector-0.04.tar.gz",
+      "version": "0.04",
+      "url": "https://cpan.metacpan.org/authors/id/T/TP/TPEDERSE/Math-SparseVector-0.04.tar.gz",
+      "digests": {
+        "sha256": "8f6285132507fc88e9fe1c5c53c47dd25c94b1783cd4cc301833fc9e9e446823"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The source module, README and installed INSTALL.pod explicitly grant GPL version 2 or later to the attributed original and distribution authors; no bundled file contradicts that grant. Official CPAN publisher CHECKSUMS pins the archive SHA-256."
+      }
+    }
+  ]
+}
