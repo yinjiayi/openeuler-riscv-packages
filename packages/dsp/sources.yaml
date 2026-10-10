@@ -1,0 +1,21 @@
+{
+  "package_id": "dsp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1da8e1d4a560535c511283838ea2a22e5199c0945e9bb938dce890bdcb67ca8e"
+      },
+      "filename": "dsp-2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bmc0/dsp/archive/refs/tags/v2.0.tar.gz",
+      "version": "2.0"
+    }
+  ]
+}
