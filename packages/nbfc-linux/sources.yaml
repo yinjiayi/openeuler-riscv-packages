@@ -1,0 +1,21 @@
+{
+  "package_id": "nbfc-linux",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fd395f49da23a5cfc1ac6a11047f82cc588fd47b3450f678f2462090a53e9931"
+      },
+      "filename": "nbfc-linux-0.4.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nbfc-linux/nbfc-linux/archive/refs/tags/0.4.1.tar.gz",
+      "version": "0.4.1"
+    }
+  ]
+}
