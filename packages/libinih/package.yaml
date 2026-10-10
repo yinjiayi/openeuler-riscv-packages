@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "libinih",
+  "rpm": {"name": "libinih", "summary": "Lightweight INI file parser for C and C++", "license": "BSD-3-Clause"},
+  "upstream": {
+    "component": "github.com-benhoyt-inih",
+    "homepage": "https://github.com/benhoyt/inih",
+    "source_repository": "https://github.com/benhoyt/inih.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/benhoyt/inih/tags",
+    "release_regex": "^r(?P<version>[0-9]+)$",
+    "source_url_template": "https://github.com/benhoyt/inih/archive/refs/tags/r{version}.tar.gz"
+  },
+  "version": {"current": "62", "release": "1", "latest_detected": "62"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-core", "package_name": "libinih", "package_base": "libinih", "source_version": "62-2", "evidence_url": "https://archlinux.org/packages/core/x86_64/libinih/", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libinih.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official r62 tag resolves to 26254ee9de7681f8825433415443e7116ff24b98 and its HTTPS archive is SHA-256 pinned. Meson builds and runs all 15 C parser configurations and the C++ INIReader example test; installed smoke loads both shared libraries and parses a sample INI string. CI determines actual RISC-V build and installed behavior."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"}
+}

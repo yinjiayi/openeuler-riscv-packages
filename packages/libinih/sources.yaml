@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "libinih",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/benhoyt/inih/archive/refs/tags/r62.tar.gz",
+      "filename": "inih-r62.tar.gz",
+      "version": "62",
+      "digests": {"sha256": "9c15fa751bb8093d042dae1b9f125eb45198c32c6704cd5481ccde460d4f8151"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The upstream LICENSE.txt grants BSD-3-Clause redistribution with attribution, disclaimers, and non-endorsement conditions."}
+    }
+  ]
+}
