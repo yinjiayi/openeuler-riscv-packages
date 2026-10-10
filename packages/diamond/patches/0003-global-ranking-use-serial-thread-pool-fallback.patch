@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 00:00:00 +0000
+Subject: [PATCH] align: provide a pool during global-ranking extension
+
+The ordinary alignment path owns cfg.thread_pool while its workers extend
+queries, then clears it.  Global-ranking post-processing instead extends
+queries from a separate SimpleThreadPool after cfg.thread_pool has been
+cleared.  extend_chunk nevertheless dereferences cfg.thread_pool
+unconditionally, which aborts global-ranking tests when libstdc++ assertions
+are enabled and is undefined behavior otherwise.
+
+Use a per-call serial ThreadPool fallback when there is no outer alignment
+pool.  Its pop-before-enqueue mode executes nested DP tasks on the calling
+global-ranking worker, preserving the feature and results without sharing a
+single nested task queue among concurrent query workers.
+
+Patch-Source: downstream adaptation of DIAMOND 2.2.4 alignment code
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+---
+ src/align/extend.cpp | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/align/extend.cpp b/src/align/extend.cpp
+--- a/src/align/extend.cpp
++++ b/src/align/extend.cpp
+@@ -219,7 +219,10 @@ static vector<Target> extend_chunk(BlockId query_id,
+ 	if (!flag_any(flags, DP::Flags::PARALLEL))
+ 		stat.inc(Statistics::TIME_CHAINING, timer.microseconds());
+ 
+-	auto ret = align(targets, query_seq, cfg.query->ids()[query_id], query_cb, source_query_len, flags, hsp_values, cfg.extension_mode, *cfg.thread_pool, cfg, stat, pool);
++	ThreadPool serial_pool([](ThreadPool&, int64_t) {}, 0, 0, true);
++	ThreadPool& thread_pool = cfg.thread_pool ? *cfg.thread_pool : serial_pool;
++	auto ret = align(targets, query_seq, cfg.query->ids()[query_id], query_cb, source_query_len,
++		flags, hsp_values, cfg.extension_mode, thread_pool, cfg, stat, pool);
+ 	return ret;
+ }
+ 
+-- 
+2.50.1
