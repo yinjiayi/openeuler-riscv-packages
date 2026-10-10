@@ -1,0 +1,21 @@
+{
+  "package_id": "libdicom",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c753179bc41f4efede3a56f4fab33bc1997bdc9c11036f8b75c4700f20b06524"
+      },
+      "filename": "libdicom-1.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ImagingDataCommons/libdicom/archive/refs/tags/v1.3.0.tar.gz",
+      "version": "1.3.0"
+    }
+  ]
+}
