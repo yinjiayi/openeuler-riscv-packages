@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/okunishinishi/python-stringcase",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-stringcase",
+        "package_name": "python-stringcase",
+        "source": "ubuntu",
+        "source_version": "1.2.0~git20230617.57aae96-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-normalize-alphanumcase-input.patch",
+      "sha256": "acf372b3bc5516be816bae5fa1d4026017a9548a2456b884df1a218ed18f5abf",
+      "purpose": "Normalize alphanumcase input like other converters to honor the unchanged original None test; no test exclusions.",
+      "source": "Repository-authored against official release-associated commit be60b723753d4796983729d49ef825826e0f882d.",
+      "license": "MIT",
+      "upstream_status": "not-submitted",
+      "remove_when": "A verified stable upstream release normalizes this input and passes its unchanged default suite without the patch."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-stringcase.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official PyPI latest stable 1.2.0, not the newer Ubuntu git-derived discovery version. All five non-generated PyPI sdist members exactly match fixed official commit be60b723753d4796983729d49ef825826e0f882d; all 12 full-archive Git blobs match. No Git tag or timestamp-only release inference. MIT notices retained. Full original 13-test unittest suite, coverage run and HTML report preserved; coveralls is post-success external upload, not a functional gate. Package-local Patch0 normalizes alphanumcase input with str() like other converters to honor the unchanged original None test; source repair, not RISC-V workaround. Original distutils setup uses target Python 3.11 with offline setuptools/wheel/pip. Both target and installed acceptance isolate historical .coverage with a new COVERAGE_FILE. Current complete official/supplemental provider and namespace scans find no ownership conflict. No local upstream/backend/test/RPM/QEMU execution. Target status remains unknown pending exact-head CI.",
+    "status": "active"
+  },
+  "package_id": "python-stringcase",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-stringcase",
+    "summary": "Convert strings between common naming conventions"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-pypi"
+  },
+  "upstream": {
+    "component": "github.com-okunishinishi-python-stringcase",
+    "homepage": "https://github.com/okunishinishi/python-stringcase",
+    "release_api": "https://pypi.org/pypi/stringcase/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/okunishinishi/python-stringcase",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.2.0",
+    "latest_detected": "1.2.0",
+    "release": "1"
+  }
+}
