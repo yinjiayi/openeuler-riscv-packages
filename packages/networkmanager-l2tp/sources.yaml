@@ -1,0 +1,21 @@
+{
+  "package_id": "networkmanager-l2tp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0d72bab16238f59004108940fd5f96dd4a0b6ea0c459698b771f2c1f897221a8"
+      },
+      "filename": "networkmanager-l2tp-1.52.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nm-l2tp/NetworkManager-l2tp/archive/refs/tags/1.52.2.tar.gz",
+      "version": "1.52.2"
+    }
+  ]
+}
