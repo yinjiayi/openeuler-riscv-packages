@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-intspan-perl",
+  "rpm": {
+    "name": "perl-Array-IntSpan",
+    "summary": "Arrays of values indexed by integer ranges",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "libarray-intspan-perl",
+    "homepage": "https://metacpan.org/dist/Array-IntSpan",
+    "source_repository": "https://github.com/dod38fr/array-intspan-perl",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/",
+    "release_regex": "Array-IntSpan-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/Array-IntSpan-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.004",
+    "release": "1",
+    "latest_detected": "2.004"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libarray-intspan-perl",
+        "package_base": "libarray-intspan-perl",
+        "source_version": "2.004-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libarray-intspan-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libarray-intspan-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libarray-intspan-perl key maps to official CPAN Array-IntSpan 2.004. CPAN CHECKSUMS SHA-256, safe archive, Artistic-2.0 LICENSE/source headers, all eight upstream t/ files (178 assertions), and target no-duplicate metadata were reviewed. Target full RPM/QEMU build and smoke require exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
