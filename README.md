@@ -13,10 +13,14 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - A **lineage promotion** is a reviewed selector that maps one exact raw lineage row in an immutable snapshot to a canonical official upstream component. It records the frozen component key, distribution source, original name, package base, version, and relationship; it neither rewrites the snapshot nor turns AUR metadata or a functional provider into source evidence.
 - A **build result** is the schema-valid `build-result.json` tied to an exact Git commit SHA. It is evidence, not a self-reported success claim.
 - A **network-enabled target build** is a target-architecture build container with
-  outbound Docker bridge networking. It may retrieve only the declared sources;
-  each source remains bound to its committed SHA-256 and is verified before
-  `rpmbuild` starts. Network availability does not make unpinned source bytes
-  acceptable.
+  outbound Docker bridge networking, retained for the unchanged upstream checks.
+  A **checksum-reverified source cache** is the same-run downloaded `SOURCES/`
+  artifact rehashed against every entry of the exact package's committed
+  `sources.yaml` before `rpmbuild`, with required signatures rechecked. CI's
+  `--offline` flag applies only to source materialization: missing, corrupt,
+  malformed or symlinked cache inputs fail without a network fallback. It does
+  not disable container networking or skip any package test; an artifact receipt
+  is not a substitute for the committed SHA-256/signature policy.
 - A **per-run dependency network** is a uniquely named, session-labelled Docker
   bridge used by exactly one BuildRequires container. CI first checks the live
   RPM baseline in a separate one-shot container whose network mode stays
@@ -78,7 +82,7 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - Arch stable `core`/`extra` and AUR are primary discovery indexes. AUR data is untrusted metadata: no workflow executes a `PKGBUILD`.
 - Pure AUR `-bin` entries and entries older than 730 days are excluded by default. VCS/nightly variants are discovery clues only.
 - Supplementary discovery resolves the current stable openSUSE Tumbleweed snapshot, latest Fedora GA, Debian `stable`, and latest Ubuntu GA release in standard support. Rawhide, testing/unstable, staging, multilib, development, and prerelease feeds are excluded.
-- An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. Target build containers may retrieve the pinned source over HTTPS and verify that digest again before `rpmbuild` starts.
+- An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. The hosted source job fetches these bytes once; CI's target container rehashes the same-run source cache against that committed digest before `rpmbuild`, without a second fetch.
 - Required native-kernel or hardware validation becomes `needs-native-riscv`. The self-hosted fleet accelerates protected-main QEMU user-mode builds on x86_64 only; it is never treated as native RISC-V validation, and pull-request/merge-queue jobs remain on disposable GitHub-hosted runners.
 - Repair runs only on a maintainer's local Codex through local `gh` authentication or an explicitly authorized process-scoped `GH_TOKEN`. Using that token for local `gh`/Git operations is permitted; persisting or publishing its value in repository content, commits, PR text/comments, logs, artifacts, Actions configuration, or Pages is forbidden. `scripts/github-credential-guard` checks the active token against repository, staged, and publication content without printing it. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`; a claimed lease changes that state to `codex-repairing`. These labels mean the exact head is awaiting or undergoing a maintainer repair, and both make the evaluation-only policy ineligible until a maintainer verifies the replacement head and explicitly releases the repair state.
 - The only custom Actions secret is `RPM_REPO_SSH_PRIVATE_KEY`. It is a forced-command, write-only `rrsync` deployment identity for `/opt/openeuler-riscv-rpm-repo/incoming`; it cannot run a shell, delete or overwrite remote files, and is never available to build commands. It is not an OpenAI/Codex credential.
@@ -160,7 +164,7 @@ scripts/build-rpm \
   --verify-only
 ```
 
-The full build is intentionally run by `package-ci.yml` inside the locked RISC-V OCI after a separate audited BuildRequires stage. The target build container has network access so it can retrieve declared sources, and `scripts/build-rpm` verifies every pinned SHA-256 before invoking `rpmbuild`.
+The full build is intentionally run by `package-ci.yml` inside the locked RISC-V OCI after a separate audited BuildRequires stage. The hosted source job fetches and verifies the declared sources once, then CI invokes `scripts/build-rpm --offline` to rehash the downloaded same-run cache and recheck required signatures before `rpmbuild`. Container bridge networking and the complete upstream checks remain enabled. The manual CLI above still supports online source retrieval when `--offline` is omitted; cache-only mode never falls back to a download.
 
 Resolve and verify the exact supplemental repository generation that would be
 mounted into dependency installation and installed-RPM smoke:
