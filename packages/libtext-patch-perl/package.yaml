@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-patch-perl",
+  "rpm": {
+    "name": "perl-Text-Patch",
+    "summary": "Apply unified, context, and old-style diffs to text",
+    "license": "GPL-2.0-only"
+  },
+  "upstream": {
+    "component": "libtext-patch-perl",
+    "homepage": "https://metacpan.org/dist/Text-Patch",
+    "source_repository": "https://metacpan.org/dist/Text-Patch",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CA/CADE/",
+    "release_regex": "Text-Patch-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CA/CADE/Text-Patch-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.8",
+    "release": "1",
+    "latest_detected": "1.8"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-patch-perl",
+        "package_base": "libtext-patch-perl",
+        "source_version": "1.8-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-patch-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-patch-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.8-3 lineage maps to official CPAN 1.8. Publisher CHECKSUMS matches archive SHA-256 eaf18e61ba6a3e143846a7cc66f08ce58a0c4fbda92acb31aede25cb3b5c3dcc; 10 safe archive entries. README explicitly identifies included COPYING as the GPL license; no contrary file notice found. Official SP3 RVA23 primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks perl-Text-Patch and perl(Text::Patch), but supplies perl(Text::Diff) 1.45 and core build/test providers. Unmodified upstream default t/test.t passes one placeholder assertion then exits; its own comment says substantive tests are disabled for a Text::Diff newline issue. The installed RPM smoke adds an actual unified-diff functional assertion without treating the placeholder as coverage. Target CI remains unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
