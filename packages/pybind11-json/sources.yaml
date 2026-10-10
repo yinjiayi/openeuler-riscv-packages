@@ -1,0 +1,21 @@
+{
+  "package_id": "pybind11-json",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9a4a1494549a2db27bc4c5a16743a5c88ebc18e13c73019c56f399ae0310baf2"
+      },
+      "filename": "pybind11-json-0.2.15.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/pybind/pybind11_json/archive/refs/tags/0.2.15.tar.gz",
+      "version": "0.2.15"
+    }
+  ]
+}
