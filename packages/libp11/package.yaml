@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "package_id": "libp11",
+  "rpm": {
+    "name": "libp11",
+    "summary": "PKCS#11 wrapper library and OpenSSL integration modules",
+    "license": "LGPL-2.1-or-later"
+  },
+  "upstream": {
+    "component": "github.com-opensc-libp11",
+    "homepage": "https://github.com/OpenSC/libp11",
+    "source_repository": "https://github.com/OpenSC/libp11",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/OpenSC/libp11/releases/latest",
+    "release_regex": null,
+    "source_url_template": "https://github.com/OpenSC/libp11/releases/download/libp11-{version}/libp11-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.4.21",
+    "release": "2",
+    "latest_detected": "0.4.21"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libp11",
+        "package_base": "libp11",
+        "source_version": "0.4.19-2",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libp11/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libp11",
+        "package_base": "libp11",
+        "source_version": "0.4.13-1",
+        "evidence_url": "https://packages.debian.org/source/stable/libp11",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "openssl-pkcs11",
+        "package_base": "openssl-pkcs11",
+        "source_version": "0.4.13-4.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/openssl-pkcs11/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libp11",
+        "package_base": "libp11",
+        "source_version": "0.4.17-1.5",
+        "evidence_url": "https://software.opensuse.org/package/libp11",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libp11",
+        "package_base": "libp11",
+        "source_version": "0.4.18-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libp11",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libp11.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-report-failed-softhsm-test-logs.patch",
+        "license": "GPL-2.0-or-later",
+        "purpose": "Emit bounded failed SoftHSM test logs before the target CI timeout without changing tests or failure status.",
+        "remove_when": "Target CI captures individual failed test logs before timeout.",
+        "sha256": "23b3fd580b671d807d8aa4aa13d4c8a0d53bab261acdcb8dc0ab8419caa60a26",
+        "source": "openEuler RISC-V package CI run 36424142097 and upstream Automake test-driver",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official stable release asset and GitHub-reported SHA-256 independently verified. Full upstream SoftHSM-backed make check remains enabled, with no hardware requirement. Target CI run 36424142097 timed out after 180 minutes with nine RSA test failures and no build artifacts. Release 2 is diagnostic only: it emits bounded failed-test logs while preserving every test and nonzero failure status."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}
