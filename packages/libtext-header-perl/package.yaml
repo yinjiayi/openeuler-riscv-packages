@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-header-perl",
+  "rpm": {
+    "name": "perl-Text-Header",
+    "summary": "Perl helpers for constructing and parsing text headers",
+    "license": "GPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "libtext-header-perl",
+    "homepage": "https://metacpan.org/dist/Text-Header",
+    "source_repository": "https://metacpan.org/dist/Text-Header",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NW/NWIGER/",
+    "release_regex": "Text-Header-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NW/NWIGER/Text-Header-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.03",
+    "release": "1",
+    "latest_detected": "1.03"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-header-perl",
+        "package_base": "libtext-header-perl",
+        "source_version": "1.03+pristine-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-header-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-header-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.03+pristine-2 maps to official CPAN release 1.03; +pristine is downstream packaging version text. Publisher CHECKSUMS SHA-256 and safe single-root archive verified. The sole module top notice expressly grants GPL version 2 or later; module POD and README additionally refer to an unversioned Artistic option, so RPM metadata selects only the explicit GPL-2.0-or-later path. Official target primary lacks same-name RPM/provider. One unmodified upstream default test.pl remains enabled; installed smoke checks header round-trip. Target build, test and install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
