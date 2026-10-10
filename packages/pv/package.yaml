@@ -1,0 +1,110 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/pv/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pv",
+        "package_name": "pv",
+        "source": "arch-extra",
+        "source_version": "1.11.0-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/pv",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pv",
+        "package_name": "pv",
+        "source": "debian",
+        "source_version": "1.9.31-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/pv/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pv",
+        "package_name": "pv",
+        "source": "fedora",
+        "source_version": "1.10.4-1.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/pv",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pv",
+        "package_name": "pv",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.11.0-1.3"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/pv",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pv",
+        "package_name": "pv",
+        "source": "ubuntu",
+        "source_version": "1.10.3-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-tests-report-valgrind-log-on-any-failure.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Emit the temporary Valgrind log for every nonzero wrapper result before upstream test cleanup while preserving the real failure status.",
+        "remove_when": "Upstream preserves the Valgrind work log for every nonzero result or carries an equivalent diagnostic.",
+        "sha256": "fb0e70819ad3b4afd889ba4407d85bc3a9cd5f4cab626ecefbd9542d3ef98ea3",
+        "source": "Downstream diagnostic from exact-head openEuler RISC-V Package CI run 33707672244 and the pinned pv 1.11.0 source.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "pv.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official Codeberg v1.11.0 tag bytes are SHA-256 pinned. All 52 upstream checks run with valgrind and tmux available; the check HOME prevents user shell configuration from contaminating tmux's detached-width probe. Exact-name AUR RPC returned no result and no external packaging recipe was read or executed. Exact-head Package CI run 33704850223 at 1d6b4f7fb6150570cc16192afae7e3314fed8c82 compiled and installed successfully, had 10,258 seconds of build budget remaining, and passed 47 of 52 checks. The five failures were exactly the five tests that source tests/run-valgrind.sh. Release 2 run 33707672244 at cbaff73805392e1fdc0e5d17e82c99db297bd30c reproduced those failures with 10,279 seconds remaining. Its retained Automake logs contained only status 1 and no valgrind.out because upstream deletes the temporary workFile4 log for every result other than the configured memory-error status 125. Release 3 keeps all tests and Valgrind enabled and preserves every failure status while a downstream diagnostic-only patch emits at most 2,000 lines of that temporary log for any nonzero result.",
+    "status": "active"
+  },
+  "package_id": "pv",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "pv",
+    "summary": "Monitor data through a pipe"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-codeberg-tags"
+  },
+  "upstream": {
+    "component": "ivarch.com-programs-pv.shtml",
+    "homepage": "https://www.ivarch.com/programs/pv.shtml",
+    "release_api": "https://codeberg.org/api/v1/repos/ivarch/pv/tags",
+    "release_channel": "stable",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://codeberg.org/ivarch/pv",
+    "source_url_template": "https://codeberg.org/ivarch/pv/archive/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.11.0",
+    "latest_detected": "1.11.0",
+    "release": "3"
+  }
+}
