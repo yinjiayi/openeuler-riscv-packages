@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-csv-xs-perl",
+  "rpm": {
+    "name": "perl-Text-CSV_XS",
+    "summary": "Fast XS parser and writer for comma-separated values",
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND LicenseRef-Unresolved-Fixture"
+  },
+  "upstream": {
+    "component": "libtext-csv-xs-perl",
+    "homepage": "https://metacpan.org/dist/Text-CSV_XS",
+    "source_repository": "https://github.com/Tux/Text-CSV_XS",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/H/HM/HMBRAND/",
+    "release_regex": "Text-CSV_XS-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/H/HM/HMBRAND/Text-CSV_XS-{version}.tgz"
+  },
+  "version": {
+    "current": "1.64",
+    "release": "2",
+    "latest_detected": "1.64"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-csv-xs-perl",
+        "package_base": "libtext-csv-xs-perl",
+        "source_version": "1.61",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-csv-xs-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-csv-xs-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "update-disabled",
+    "maintainers": ["yinjiayi"],
+    "notes": "Source-redistribution hold: LicenseRef-Unresolved-Fixture is an evidence-gap marker, not a license grant or a finding of infringement. Perl code has the stated dual grant, but t/70_rt.t lines 527-531 contain attributed third-party vehicle-review prose without resolved redistribution provenance. Bundled LOVE_LETTER.md also needs preserved Xan origin license notices and aggregate accounting; its verified upstream Unlicense OR MIT grant makes this a fixable notice gap, not proof of absent permission. SECURITY.md is not a hold: the official CPANSec guide permits resulting policies under the software license. Preserve exact source SHA, all 35 tests and wrapper regression. No new source/product distribution, update, merger or publication until provenance and notices are reviewed and complete new-head target CI passes. Historical f2b10bf CI is technical evidence only; upgrade over official 1.48 and dependent #2296 remain unverified."
+  },
+  "updates": {
+    "enabled": false,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
