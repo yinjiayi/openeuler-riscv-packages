@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-find-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Find-0.03.tar.gz",
+      "version": "0.03",
+      "url": "https://cpan.metacpan.org/authors/id/A/AN/ANDYA/Data-Find-0.03.tar.gz",
+      "digests": {
+        "sha256": "a7e6bf23edca99cbdd86f0809bb439a87417614c91e66ce384ee09ecee00f016"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The copyright holder's archive README and the sole installed module POD explicitly grant redistribution under Perl's GPL/Artistic terms; official CPAN CHECKSUMS and independent HTTPS download agree on the pinned SHA-256."
+      }
+    }
+  ]
+}
