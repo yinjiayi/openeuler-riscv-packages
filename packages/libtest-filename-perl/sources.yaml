@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-filename-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Test-Filename-0.03.tar.gz",
+      "version": "0.03",
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Test-Filename-0.03.tar.gz",
+      "digests": {
+        "sha256": "6a450cc4c6281ed1129f32a1c0741f228967feda2e32a2915ff621c36525fcbe"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS; archive LICENSE and module POD grant Apache-2.0 with no separately vendored code."
+      }
+    }
+  ]
+}
