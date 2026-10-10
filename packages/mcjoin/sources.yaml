@@ -1,0 +1,21 @@
+{
+  "package_id": "mcjoin",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "61ff39154194db69bf193ed6bde340f12b3163eef5cc22854970ed43292762be"
+      },
+      "filename": "mcjoin-2.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/troglobit/mcjoin/archive/refs/tags/v2.12.tar.gz",
+      "version": "2.12"
+    }
+  ]
+}
