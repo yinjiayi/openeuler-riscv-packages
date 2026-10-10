@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
+# Keep the existing shared-library ABI names independent of the source version.
+%global jbig_soversion 2.1
+
 Name:           jbigkit
 Version:        2.2
 Release:        1%{?dist}
@@ -6,8 +9,6 @@ Summary:        JBIG1 lossless image compression tools
 License:        GPL-2.0-or-later
 URL:            https://www.cl.cam.ac.uk/~mgk25/jbigkit/
 Source0:        jbigkit-2.2.tar.gz
-Patch0:         0001-cve-2017-9937-limit-decoded-image-size.patch
-Patch1:         0002-jbg-newlen-check-marker-length.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -40,15 +41,15 @@ JBIG-KIT.
   CFLAGS="%{optflags} -fPIC -W -Wno-unused-result"
 
 %{__cc} %{optflags} %{build_ldflags} -shared \
-  -Wl,-soname,libjbig.so.%{version} \
-  -o libjbig/libjbig.so.%{version} \
+  -Wl,-soname,libjbig.so.%{jbig_soversion} \
+  -o libjbig/libjbig.so.%{jbig_soversion} \
   libjbig/jbig.o libjbig/jbig_ar.o
 %{__cc} %{optflags} %{build_ldflags} -shared \
-  -Wl,-soname,libjbig85.so.%{version} \
-  -o libjbig/libjbig85.so.%{version} \
+  -Wl,-soname,libjbig85.so.%{jbig_soversion} \
+  -o libjbig/libjbig85.so.%{jbig_soversion} \
   libjbig/jbig85.o libjbig/jbig_ar.o
-ln -s libjbig.so.%{version} libjbig/libjbig.so
-ln -s libjbig85.so.%{version} libjbig/libjbig85.so
+ln -s libjbig.so.%{jbig_soversion} libjbig/libjbig.so
+ln -s libjbig85.so.%{jbig_soversion} libjbig/libjbig85.so
 
 %{__cc} %{optflags} %{build_ldflags} -o pbmtools/pbmtojbg \
   pbmtools/pbmtojbg.o -Llibjbig -ljbig
@@ -60,12 +61,12 @@ ln -s libjbig85.so.%{version} libjbig/libjbig85.so
   pbmtools/jbgtopbm85.o -Llibjbig -ljbig85
 
 %install
-install -Dpm0755 libjbig/libjbig.so.%{version} \
-  %{buildroot}%{_libdir}/libjbig.so.%{version}
-install -Dpm0755 libjbig/libjbig85.so.%{version} \
-  %{buildroot}%{_libdir}/libjbig85.so.%{version}
-ln -s libjbig.so.%{version} %{buildroot}%{_libdir}/libjbig.so
-ln -s libjbig85.so.%{version} %{buildroot}%{_libdir}/libjbig85.so
+install -Dpm0755 libjbig/libjbig.so.%{jbig_soversion} \
+  %{buildroot}%{_libdir}/libjbig.so.%{jbig_soversion}
+install -Dpm0755 libjbig/libjbig85.so.%{jbig_soversion} \
+  %{buildroot}%{_libdir}/libjbig85.so.%{jbig_soversion}
+ln -s libjbig.so.%{jbig_soversion} %{buildroot}%{_libdir}/libjbig.so
+ln -s libjbig85.so.%{jbig_soversion} %{buildroot}%{_libdir}/libjbig85.so
 
 install -Dpm0644 libjbig/jbig.h %{buildroot}%{_includedir}/jbig.h
 install -Dpm0644 libjbig/jbig85.h %{buildroot}%{_includedir}/jbig85.h
@@ -94,8 +95,8 @@ LD_LIBRARY_PATH="$PWD/libjbig${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" \
 %files libs
 %license COPYING
 %doc ANNOUNCE CHANGES TODO
-%{_libdir}/libjbig.so.%{version}
-%{_libdir}/libjbig85.so.%{version}
+%{_libdir}/libjbig.so.%{jbig_soversion}
+%{_libdir}/libjbig85.so.%{jbig_soversion}
 
 %files devel
 %{_includedir}/jbig.h
@@ -105,6 +106,11 @@ LD_LIBRARY_PATH="$PWD/libjbig${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" \
 %{_libdir}/libjbig85.so
 
 %changelog
+* Sat Oct 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2-1
+- Update to the official 2.2 release, which absorbs both security backports.
+- Retain the existing 2.1 library SONAMEs and complete serial upstream tests.
+- Check both installed 2.2 codec headers and the compatibility library names.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.1-1
 - Initial openEuler RISC-V package from Fedora 44 and frozen cross-distribution evidence.
 - Backport the Ubuntu/upstream denial-of-service fixes for CVE-2017-9937.
