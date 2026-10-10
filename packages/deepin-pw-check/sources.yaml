@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-pw-check",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bfc50320307b53c88a4cd6b82bb256340d639dba03b216664953bde55ba206c0"
+      },
+      "filename": "deepin-pw-check-6.0.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/deepin-pw-check/archive/refs/tags/6.0.12.tar.gz",
+      "version": "6.0.12"
+    }
+  ]
+}
