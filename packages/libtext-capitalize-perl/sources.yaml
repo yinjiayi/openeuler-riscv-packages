@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-capitalize-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Capitalize-1.5.tar.gz",
+      "version": "1.5",
+      "url": "https://cpan.metacpan.org/authors/id/D/DO/DOOM/Text-Capitalize-1.5.tar.gz",
+      "digests": {
+        "sha256": "e01bf82325415538e02b4acf4a22d08e0afd63864a56c7d9c84b53367f37ab38"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches CHECKSUMS; README and module POD expressly grant GPL-or-Artistic redistribution and modification terms."
+      }
+    }
+  ]
+}
