@@ -1,0 +1,21 @@
+{
+  "package_id": "ddrescue",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2264622d309d6c87a1cfc19148292b8859a688e9bc02d4702f5cd4f288745542"
+      },
+      "filename": "ddrescue-1.30.tar.lz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/ddrescue/ddrescue-1.30.tar.lz",
+      "version": "1.30"
+    }
+  ]
+}
