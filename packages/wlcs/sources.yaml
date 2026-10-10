@@ -1,0 +1,21 @@
+{
+  "package_id": "wlcs",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6faaa0ac942d388bbabfac8840949a0548d351400005adca008df6291ee99819"
+      },
+      "filename": "wlcs-1.8.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/canonical/wlcs/archive/refs/tags/v1.8.1.tar.gz",
+      "version": "1.8.1"
+    }
+  ]
+}
