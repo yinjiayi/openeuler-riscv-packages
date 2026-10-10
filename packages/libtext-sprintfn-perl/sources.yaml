@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-sprintfn-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-sprintfn-0.090.tar.gz",
+      "version": "0.090",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/Text-sprintfn-0.090.tar.gz",
+      "digests": {
+        "sha256": "1ff9cfbb6a2d3b667109a4751b8421bd81802166c7be2fc367df57dd7a39fcdc"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE and module POD grant Perl GPL/Artistic terms; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}
