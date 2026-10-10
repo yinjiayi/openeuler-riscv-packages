@@ -1,0 +1,21 @@
+{
+  "package_id": "kdocker",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "575ca18ba7121fdfcb109e5b962e5ef3aaf8e85307edcaff3790a5e0c13d73da"
+      },
+      "filename": "kdocker-6.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/user-none/KDocker/archive/refs/tags/6.2.tar.gz",
+      "version": "6.2"
+    }
+  ]
+}
