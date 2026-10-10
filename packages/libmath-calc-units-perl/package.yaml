@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-calc-units-perl",
+  "rpm": {
+    "name": "perl-Math-Calc-Units",
+    "summary": "Unit-aware calculator for Perl",
+    "license": "GPL-2.0-only OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-calc-units-perl",
+    "homepage": "https://metacpan.org/dist/Math-Calc-Units",
+    "source_repository": "https://cpan.metacpan.org/authors/id/S/SF/SFINK/",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SF/SFINK/",
+    "release_regex": "Math-Calc-Units-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SF/SFINK/Math-Calc-Units-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.07",
+    "release": "1",
+    "latest_detected": "1.07"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libmath-calc-units-perl",
+        "package_base": "libmath-calc-units-perl",
+        "source_version": "1.07-2.1",
+        "evidence_url": "https://packages.debian.org/source/trixie/libmath-calc-units-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-calc-units-perl",
+        "package_base": "libmath-calc-units-perl",
+        "source_version": "1.07-2.1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libmath-calc-units-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-calc-units-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian/Ubuntu 1.07-2.1 lineage and official SFINK CHECKSUMS pin the archive. Upstream LICENSE grants GPL version 2 or Artistic; the bundled standalone Parse::Yapp 1.04 driver retains Francois Desarmenien's notice and his original GPL-or-Artistic grant is directly verified. The unchanged upstream default MakeMaker suite passed 2 files/79 assertions with zero skips locally, including POD. Target primary lacks this RPM/module and provides the core runtime and Test::Pod dependencies."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
