@@ -1,0 +1,21 @@
+{
+  "package_id": "pies",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6528b4d16982ea2978f9a4a886a14aaca8eda7ac455d813b2084465701661d6c"
+      },
+      "filename": "pies-1.8.tar.bz2",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/pies/pies-1.8.tar.bz2",
+      "version": "1.8"
+    }
+  ]
+}
