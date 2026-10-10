@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdate-leapyear-perl",
+  "rpm": {
+    "name": "perl-Date-Leapyear",
+    "summary": "Determine whether a year is a leap year",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdate-leapyear-perl",
+    "homepage": "https://metacpan.org/dist/Date-Leapyear",
+    "source_repository": "https://metacpan.org/dist/Date-Leapyear",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RB/RBOW/",
+    "release_regex": "(?<![A-Za-z0-9])Date-Leapyear-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RB/RBOW/Date-Leapyear-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.72",
+    "release": "1",
+    "latest_detected": "1.72"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libdate-leapyear-perl",
+        "package_base": "libdate-leapyear-perl",
+        "source_version": "1.72-3",
+        "evidence_url": "https://sources.debian.org/src/libdate-leapyear-perl/1.72-3/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdate-leapyear-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian 1.72-3 maps to official stable CPAN Date-Leapyear 1.72. Publisher CHECKSUMS matches the fixed HTTPS archive. The explicit top-level LICENSE grants same-as-Perl redistribution for this sole Rich Bowen-authored module; META.yml license unknown is not used as evidence, and no file has a contrary notice or vendored code. Official SP3 RVA23 primary has no package/module collision and supplies all build/test/runtime providers. All three unchanged default files locally passed 764 fixed-table assertions without skips. Target CI must prove the same, physical products and installed boundary-year smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
