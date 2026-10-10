@@ -1,0 +1,21 @@
+{
+  "package_id": "intel-metrics-library",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "725fa7eef91aea8fb65d499213dec26ded73f12e54c31043c2b4110c8d39ba24"
+      },
+      "filename": "intel-metrics-library-1.0.231.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/intel/metrics-library/archive/refs/tags/1.0.231.tar.gz",
+      "version": "1.0.231"
+    }
+  ]
+}
