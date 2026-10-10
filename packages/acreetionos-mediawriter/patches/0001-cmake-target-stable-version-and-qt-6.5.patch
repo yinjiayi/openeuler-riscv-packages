@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Mon, 7 Sep 2026 00:00:00 +0000
+Subject: [PATCH] cmake: target the stable release and Qt 6.5
+
+The official v5.3.1 archive still identifies itself as the 5.3.50
+development series.  Report the tagged stable version instead.
+
+openEuler 24.03 LTS SP3 provides Qt 6.5.2.  The upstream change that raised
+the minimum to Qt 6.6 only raised versioned QML imports; the v5.3.1 archive
+has since converted those imports to versionless form.  Accept the target
+Qt release without disabling any MediaWriter component.
+
+Patch-Source: downstream review of official v5.3.1 and upstream commit 662756df424374c2c0b1a2edced475737ea6e18e
+Patch-License: GPL-2.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: The packaged upstream release reports its stable version and supports the target Qt release directly, or openEuler supplies Qt 6.6 or newer.
+---
+ CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -12 +12 @@ set(MEDIAWRITER_MINOR_VERSION "3")
+-set(MEDIAWRITER_MICRO_VERSION "50")
++set(MEDIAWRITER_MICRO_VERSION "1")
+@@ -15 +15 @@ set(MEDIAWRITER_VERSION "${MEDIAWRITER_MAJOR_VERSION}.${MEDIAWRITER_MINOR_VERSION}
+-set(QT_MIN_VERSION "6.6.0")
++set(QT_MIN_VERSION "6.5.2")
+--
+2.50.1
