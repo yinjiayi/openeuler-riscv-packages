@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "opensc",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "opensc-0.23.0.tar.gz",
+      "version": "0.23.0",
+      "url": "https://github.com/OpenSC/OpenSC/releases/download/0.23.0/opensc-0.23.0.tar.gz",
+      "digests": {
+        "sha256": "a4844a6ea03a522ecf35e49659716dacb6be03f7c010a1a583aaf3eb915ed2e0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": false,
+        "reason": "SOURCE RIGHTS HOLD: archive member win32/DDORes.dll_14_2302.ico was introduced as a Smartcard icon extracted from DDORes.dll by immutable OpenSC commit c57c9c36bf40c9dd6fee645e83fdc044f54051a4. Independent redistribution authorization has not been verified; this is an evidence gap, not a legal infringement finding. Official source and all27 SP3 patch bytes remain intact. Required BSD3/ISC/pkcs11-header notice supplement is incomplete. Obtain authorization or an explicitly approved feature/test/security-preserving source repack before source verification, build, merge or publication."
+      }
+    }
+  ]
+}
