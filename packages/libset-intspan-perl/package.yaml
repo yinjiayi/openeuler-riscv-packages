@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libset-intspan-perl",
+  "rpm": {
+    "name": "perl-Set-IntSpan",
+    "summary": "Run-length encoded integer sets for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libset-intspan-perl",
+    "homepage": "https://metacpan.org/dist/Set-IntSpan",
+    "source_repository": "https://metacpan.org/dist/Set-IntSpan",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SW/SWMCD/",
+    "release_regex": "Set-IntSpan-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SW/SWMCD/Set-IntSpan-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.19",
+    "release": "1",
+    "latest_detected": "1.19"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libset-intspan-perl",
+        "package_base": "libset-intspan-perl",
+        "source_version": "1.19-3",
+        "evidence_url": "https://packages.debian.org/source/stable/libset-intspan-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "perl-Set-IntSpan",
+        "package_base": "perl-Set-IntSpan",
+        "source_version": "1.19-37.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Set-IntSpan/perl-Set-IntSpan/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libset-intspan-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian and Fedora Set-IntSpan 1.19 lineage maps to official SWMCD CPAN bytes pinned by publisher CHECKSUMS. The sole installed module and README explicitly grant Perl GPL/Artistic terms; no contradictory file notice was found. All 20 unchanged default tests passed locally, 1,947 assertions and zero skips. Verified official RVA23 primary metadata has no same-name RPM or module provider and has MakeMaker and Perl. Exact-head target CI must verify all tests and installed set-algebra behavior."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
