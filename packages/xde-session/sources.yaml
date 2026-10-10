@@ -1,0 +1,21 @@
+{
+  "package_id": "xde-session",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e6072f4f637f4e31bf7e55fc98aa204e9fa0cce32b8e8dcda4bdba2f0253fdab"
+      },
+      "filename": "xde-session-1.14.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bbidulock/xde-session/archive/refs/tags/1.14.tar.gz",
+      "version": "1.14"
+    }
+  ]
+}
