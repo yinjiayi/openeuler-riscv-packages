@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libhtp",
+  "rpm": {
+    "name": "libhtp",
+    "summary": "Security-aware HTTP protocol parser library",
+    "license": "BSD-3-Clause AND LicenseRef-Public-Domain"
+  },
+  "upstream": {
+    "component": "github.com-oisf-libhtp",
+    "homepage": "https://github.com/OISF/libhtp",
+    "source_repository": "https://github.com/OISF/libhtp",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/OISF/libhtp/releases",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.5.53",
+    "release": "1",
+    "latest_detected": "0.5.53"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libhtp",
+        "package_base": "libhtp",
+        "source_version": "0.5.52-1",
+        "evidence_url": "https://aur.archlinux.org/packages/libhtp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libhtp",
+        "package_base": "libhtp",
+        "source_version": "1:0.5.52-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libhtp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libhtp.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libhtp key maps to official OISF stable release 0.5.53. Its annotated tag resolves to immutable commit 16e23594c61f7719f8cb1cd19ca69bbafb37a0eb; CI fetches a SHA-256-pinned archive. Unmodified upstream make check runs the registered test_all parser suite and compiles test_fuzz without executing fuzz input. Installed smoke exercises the public configuration API. Vendored Google Test is built only for upstream tests; the upstream LZMA decoder is part of the library and marked public domain."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}
