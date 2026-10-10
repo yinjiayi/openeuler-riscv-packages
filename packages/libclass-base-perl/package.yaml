@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-base-perl",
+  "rpm": {
+    "name": "perl-Class-Base",
+    "summary": "Base class for deriving Perl modules",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclass-base-perl",
+    "homepage": "https://metacpan.org/dist/Class-Base",
+    "source_repository": "https://metacpan.org/dist/Class-Base",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/Y/YA/YANICK/",
+    "release_regex": "Class-Base-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/Y/YA/YANICK/Class-Base-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.09",
+    "release": "1",
+    "latest_detected": "0.09"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libclass-base-perl",
+        "package_base": "libclass-base-perl",
+        "source_version": "0.09-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libclass-base-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclass-base-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu 0.09-2 key maps to official CPAN Class-Base 0.09. Publisher CHECKSUMS matches the fixed HTTPS archive. The installed PM, bundled LICENSE and README grant same-as-Perl redistribution by Andy Wardley; t/test.t repeats the grant, and no third-party code is bundled. Official SP3 RVA23 primary has no name/module collision and supplies Clone, EUMM, Test::More and CPAN::Meta. All three unchanged default t files passed locally with 47 assertions and no skips, including the CPAN::Meta prereq branch. Target CI must prove the same suite, physical RPM/SRPM and DNF-installed Class::Base behavior."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
