@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "libcli",
+  "rpm": {
+    "name": "libcli",
+    "summary": "Cisco-style command-line interface library",
+    "license": "LGPL-2.1-only"
+  },
+  "upstream": {
+    "component": "github.com-dparrish-libcli",
+    "homepage": "https://github.com/dparrish/libcli",
+    "source_repository": "https://github.com/dparrish/libcli",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/dparrish/libcli/releases/latest",
+    "release_regex": "V(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://codeload.github.com/dparrish/libcli/tar.gz/refs/tags/V{version}"
+  },
+  "version": {
+    "current": "1.10.7",
+    "release": "1",
+    "latest_detected": "1.10.7"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "fedora",
+        "package_name": "libcli",
+        "package_base": "libcli",
+        "source_version": "1.10.7-13.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libcli/libcli/",
+        "observed_at": "2026-09-28T15:05:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libcli.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-calloc-argument-order.patch",
+        "sha256": "6f086c9a25211679e2e8f143cdbf2037a36cfbe1ea61927e0319d016654a056c",
+        "purpose": "Keep the upstream -Werror build passing under GCC 14 by placing calloc element count before element size at nine equivalent allocation sites.",
+        "source": "Downstream review of official libcli V1.10.7 source and exact-head RISC-V CI run 36443146056.",
+        "license": "LGPL-2.1-only",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream fixes the nine calloc argument order warnings in a released version."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official V1.10.7 release tag resolves to commit 0f8d257612a5c62000a55fd00e79a35f813f0375. Its HTTPS archive is SHA-256 pinned and safety inspected. COPYING contains LGPL version 2.1 terms. The target base requires libxcrypt-devel below 4.5 until supplemental repository versions are reconciled. A narrow downstream patch swaps equivalent calloc arguments at nine sites diagnosed by GCC 14 while retaining upstream -Werror. Upstream has no automated make test target; its clitest example is built by the default target and the installed consumer smoke exercises command registration and dispatch. Fedora metadata is discovery lineage only; no external recipe is executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}
