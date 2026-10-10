@@ -1,0 +1,21 @@
+{
+  "package_id": "python-durationpy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "30b03223035e7902b388bedad81ed2837eac066abdd105c378a9e49a50166838"
+      },
+      "filename": "durationpy-0.11-official.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Whole original MIT LICENSE grants redistribution subject to retaining 2017 Ilia Choly copyright and full permission/warranty notice. Exact official 0.11 Git commit SSH signature verified locally with official icholy account signing key; recursive tree/blob/mode/object hashes bind all 13 source files including unchanged test.py. This is not a PyPI sdist signature or OpenPGP verification; signature null because this schema represents OpenPGP only, while CI enforces the pinned archive SHA-256."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/icholy/durationpy/tar.gz/3df7a337a852f0b432f73c4892c4b48590a01bd0",
+      "version": "0.11"
+    }
+  ]
+}
