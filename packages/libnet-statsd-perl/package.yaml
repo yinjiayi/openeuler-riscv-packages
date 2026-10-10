@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-statsd-perl",
+  "rpm": {
+    "name": "perl-Net-Statsd",
+    "summary": "UDP client for the statsd metric collector",
+    "license": "GPL-1.0-or-later"
+  },
+  "upstream": {
+    "component": "libnet-statsd-perl",
+    "homepage": "https://metacpan.org/dist/Net-Statsd",
+    "source_repository": "https://github.com/cosimo/perl5-net-statsd",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CO/COSIMO/",
+    "release_regex": "Net-Statsd-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CO/COSIMO/Net-Statsd-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.13",
+    "release": "1",
+    "latest_detected": "0.13"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libnet-statsd-perl",
+        "package_base": "libnet-statsd-perl",
+        "source_version": "0.12-4",
+        "evidence_url": "https://packages.debian.org/trixie/source/libnet-statsd-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libnet-statsd-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian trixie 0.12-4 lineage; current official COSIMO CPAN 0.13 matches publisher CHECKSUMS and Debian sid 0.13-1. Distribution-wide Perl 5 terms permit GPL-1.0-or-later. All four original default t/*.t files remain unchanged, including the CVE-2026-46739 input-guard regression. Localhost UDP and the benchmark utility do not establish native RISC-V or performance behavior."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
