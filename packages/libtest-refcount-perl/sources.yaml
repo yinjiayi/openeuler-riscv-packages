@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-refcount-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Test-Refcount-0.10.tar.gz",
+      "version": "0.10",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Test-Refcount-0.10.tar.gz",
+      "digests": {
+        "sha256": "0457c20a4956473d157c4faaff8814154bc93f6e2b543c2812a19ff8e3370eb2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS; LICENSE, module and Build.PL grant the same terms as Perl without separately vendored code."
+      }
+    }
+  ]
+}
