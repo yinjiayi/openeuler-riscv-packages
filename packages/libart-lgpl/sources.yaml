@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "libart-lgpl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://download.gnome.org/sources/libart_lgpl/2.3/libart_lgpl-2.3.21.tar.bz2",
+      "filename": "libart_lgpl-2.3.21.tar.bz2",
+      "version": "2.3.21",
+      "digests": {"sha256": "fdc11e74c10fc9ffe4188537e2b370c0abacca7d89021d4d303afdf7fd7476fa"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Upstream COPYING and source headers grant LGPL-2.0-or-later redistribution with notices and corresponding source."}
+    }
+  ]
+}
