@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "package_id": "libcall-context-perl",
+  "rpm": {"name": "perl-Call-Context", "summary": "Sanity-check Perl calling context", "license": "MIT"},
+  "upstream": {
+    "component": "metacpan.org-dist-call-context",
+    "homepage": "https://metacpan.org/dist/Call-Context",
+    "source_repository": "https://github.com/FGasper/p5-Call-Context",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/F/FE/FELIPE/",
+    "release_regex": "Call-Context-(?P<version>[0-9.]+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/F/FE/FELIPE/Call-Context-{version}.tar.gz"
+  },
+  "version": {"current": "0.05", "release": "1", "latest_detected": "0.05"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{"source": "ubuntu", "package_name": "libcall-context-perl", "package_base": "libcall-context-perl", "source_version": "0.05-1", "evidence_url": "https://archive.ubuntu.com/ubuntu/dists/resolute/universe/source/Sources.xz", "observed_at": "2026-08-08T16:50:00Z"}]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libcall-context-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official CPAN source SHA-256 matches publisher CHECKSUMS; bundled MIT grant reviewed. Inventory Ubuntu, Debian and Fedora aliases represent one distribution. Official target primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no perl-Call-Context RPM or perl(Call::Context) provider. Retain all three default upstream tests; target build and installed smoke require CI, and no publication is claimed."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
