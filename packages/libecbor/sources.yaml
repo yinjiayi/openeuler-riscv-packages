@@ -1,0 +1,21 @@
+{
+  "package_id": "libecbor",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2796fb64d09bf3461e9042acb8305a16ee54196ae636a8cb765940241600a0c6"
+      },
+      "filename": "libecbor-1.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rimio/libecbor/archive/refs/tags/v1.0.3.tar.gz",
+      "version": "1.0.3"
+    }
+  ]
+}
