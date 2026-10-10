@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-adapter-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Class-Adapter-1.09.tar.gz",
+      "version": "1.09",
+      "url": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Class-Adapter-1.09.tar.gz",
+      "digests": {
+        "sha256": "5a19e99da44a9d6e1dc7160e23cfe912d42fb49386d6b5af6184c4ac0741bb27"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official publisher CHECKSUMS matches the independently downloaded HTTPS archive. All three installed Class/Adapter*.pm modules directly grant same-as-Perl redistribution by Adam Kennedy in POD; README and LICENSE agree, default tests have no contrary notice, and there is no vendored code."
+      }
+    }
+  ]
+}
