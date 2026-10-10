@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "package_id": "libdevel-simpletrace-perl",
+  "rpm": {"name": "perl-Devel-SimpleTrace", "summary": "Add Perl stack traces to warnings and exceptions", "license": "GPL-2.0-only OR Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "libdevel-simpletrace-perl",
+    "homepage": "https://metacpan.org/dist/Devel-SimpleTrace",
+    "source_repository": "https://metacpan.org/dist/Devel-SimpleTrace",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SA/SAPER/",
+    "release_regex": "(?<![A-Za-z0-9])Devel-SimpleTrace-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SA/SAPER/Devel-SimpleTrace-{version}.tar.gz"
+  },
+  "version": {"current": "0.08", "release": "1", "latest_detected": "0.08"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "ubuntu", "package_name": "libdevel-simpletrace-perl", "package_base": "libdevel-simpletrace-perl", "source_version": "0.08-4", "evidence_url": "https://packages.ubuntu.com/source/resolute/libdevel-simpletrace-perl", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libdevel-simpletrace-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu resolute/universe 0.08-4 lineage maps to the official SAPER stable CPAN tar with matching publisher CHECKSUMS SHA-256. Top-level LICENSE expressly covers the program under same-as-Perl, with Artistic and GPL texts; README and installed PM agree, and no contrary file notice was found. SHA-bound official SP3 RVA23 primary lacks this RPM/module provider and supplies Module::Build, Data::Dumper, Test, Test::More, Test::Distribution and its hard deps, Test::Pod, Test::Pod::Coverage, and Test::Portability::Files. The ten original default files are unchanged. Local Mac passed 17 assertions over seven active files; three optional author/distribution checks self-skipped only because local modules are absent. Target hard BuildRequires and %check require all ten files with zero skips; installed smoke verifies actual exception stack tracing."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
