@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-session-ui",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d4e8524b8730ecf756a65fe92fcf0fdd09607d779b0a935a3c922a5510de4e81"
+      },
+      "filename": "deepin-session-ui-6.0.45.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dde-session-ui/archive/refs/tags/6.0.45.tar.gz",
+      "version": "6.0.45"
+    }
+  ]
+}
