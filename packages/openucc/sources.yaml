@@ -1,0 +1,21 @@
+{
+  "package_id": "openucc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1fc0b7c5d6e5592ae1efff13705ff5cee2e67eba67914c2c70039e6854310b67"
+      },
+      "filename": "openucc-1.8.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/openucx/ucc/archive/refs/tags/v1.8.0.tar.gz",
+      "version": "1.8.0"
+    }
+  ]
+}
