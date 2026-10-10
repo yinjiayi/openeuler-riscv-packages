@@ -1,0 +1,124 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/fujiwarat/ibus-input-pad",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ibus-input-pad",
+        "package_name": "ibus-input-pad",
+        "source": "debian",
+        "source_version": "1.5.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/fujiwarat/ibus-input-pad",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "input-pad",
+        "package_name": "input-pad",
+        "source": "debian",
+        "source_version": "1.1.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/fujiwarat/ibus-input-pad",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ibus-input-pad",
+        "package_name": "ibus-input-pad",
+        "source": "fedora",
+        "source_version": "1.5.0-3.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/fujiwarat/ibus-input-pad",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "input-pad",
+        "package_name": "input-pad",
+        "source": "fedora",
+        "source_version": "1.1.0-5.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/fujiwarat/ibus-input-pad",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ibus-input-pad",
+        "package_name": "ibus-input-pad",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.4.99.20140916-2.10"
+      },
+      {
+        "evidence_url": "https://github.com/fujiwarat/ibus-input-pad",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "input-pad",
+        "package_name": "input-pad",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.0.99.20210817-1.8"
+      },
+      {
+        "evidence_url": "https://github.com/fujiwarat/ibus-input-pad",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ibus-input-pad",
+        "package_name": "ibus-input-pad",
+        "source": "ubuntu",
+        "source_version": "1.5.0-1build2"
+      },
+      {
+        "evidence_url": "https://github.com/fujiwarat/ibus-input-pad",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "input-pad",
+        "package_name": "input-pad",
+        "source": "ubuntu",
+        "source_version": "1.1.0-1build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "ibus-input-pad.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "ibus-input-pad",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "ibus-input-pad",
+    "summary": "Input Pad for IBus"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-fujiwarat-input-pad",
+    "homepage": "https://github.com/fujiwarat/ibus-input-pad",
+    "release_api": "https://api.github.com/repos/fujiwarat/ibus-input-pad/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/fujiwarat/ibus-input-pad",
+    "source_url_template": "https://github.com/fujiwarat/ibus-input-pad/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.5.0",
+    "latest_detected": "1.5.0",
+    "release": "1"
+  }
+}
