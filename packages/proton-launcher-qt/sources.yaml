@@ -1,0 +1,21 @@
+{
+  "package_id": "proton-launcher-qt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5ccd06180906dda9da42cfb89a229be5d82aef877fed874d756be73b6f68d954"
+      },
+      "filename": "proton-launcher-qt-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Instellate/proton-launcher/archive/refs/tags/v1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
