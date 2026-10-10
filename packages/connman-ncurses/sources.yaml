@@ -1,0 +1,21 @@
+{
+  "package_id": "connman-ncurses",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "724604787b51cd3bd2ba5d2291f5f2efe0558a1ec78d92d3c92ebc78f6c63219"
+      },
+      "filename": "connman-ncurses-1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/eurogiciel-oss/connman-json-client/archive/refs/tags/v1.0.tar.gz",
+      "version": "1.0"
+    }
+  ]
+}
