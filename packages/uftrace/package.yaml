@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/namhyung/uftrace",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uftrace",
+        "package_name": "uftrace",
+        "source": "aur",
+        "source_version": "0.19-1"
+      },
+      {
+        "evidence_url": "https://github.com/namhyung/uftrace",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uftrace",
+        "package_name": "uftrace",
+        "source": "debian",
+        "source_version": "0.17-1"
+      },
+      {
+        "evidence_url": "https://github.com/namhyung/uftrace",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uftrace",
+        "package_name": "uftrace",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.19-1.4"
+      },
+      {
+        "evidence_url": "https://github.com/namhyung/uftrace",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uftrace",
+        "package_name": "uftrace",
+        "source": "ubuntu",
+        "source_version": "0.18.1-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-symbol-fix-elf-comment-iterator.patch",
+        "sha256": "7aaab1c3a3d4ac78b5eacbcc00dafcba0e3cd4bafe4c5a40dd6ccc3312d7bd37",
+        "purpose": "Fix the raw ELF comment iterator's strcmp call so uftrace builds when libelf is unavailable.",
+        "source": "Upstream commit 498d3c6cb974f778dea76c27eb770a4821e1a5da",
+        "license": "GPL-2.0-or-later",
+        "upstream_status": "accepted",
+        "remove_when": "Updating past upstream commit 498d3c6cb974f778dea76c27eb770a4821e1a5da."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "uftrace.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "uftrace",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "uftrace",
+    "summary": "Function graph tracer for C/C++/Rust"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-namhyung-uftrace",
+    "homepage": "https://uftrace.github.io/slide/",
+    "release_api": "https://api.github.com/repos/namhyung/uftrace/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/namhyung/uftrace",
+    "source_url_template": "https://github.com/namhyung/uftrace/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.19",
+    "latest_detected": "0.19",
+    "release": "2"
+  }
+}
