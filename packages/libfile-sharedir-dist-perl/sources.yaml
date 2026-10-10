@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-sharedir-dist-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-ShareDir-Dist-0.07.tar.gz",
+      "version": "0.07",
+      "url": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/File-ShareDir-Dist-0.07.tar.gz",
+      "digests": {
+        "sha256": "8d7fe5d0ee22351f41ef95adc22dbd56c31ffa2a9b2c1984300e92ff7e9fe86d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive matches publisher CHECKSUMS; LICENSE explicitly grants Perl GPL-1-or-later or Artistic-1.0 terms for the distribution."
+      }
+    }
+  ]
+}
