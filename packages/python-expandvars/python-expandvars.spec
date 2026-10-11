@@ -36,7 +36,8 @@ are support for installed acceptance, not library runtime dependencies.
 %autosetup -n expandvars-%{upstream_commit}
 
 %build
-python3 -m hatchling build -t wheel
+# Wheel ZIP timestamps start in 1980; keep a fixed epoch only for this backend.
+SOURCE_DATE_EPOCH=315532800 python3 -m hatchling build -t wheel
 
 %install
 python3 -m pip install --no-index --no-deps --no-compile --root %{buildroot} --prefix %{_prefix} dist/expandvars-%{version}-py3-none-any.whl
