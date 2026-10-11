@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/realpython/pytest-mypy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pytest-mypy",
+        "package_name": "python-pytest-mypy",
+        "source": "arch-extra",
+        "source_version": "1.0.1-2"
+      },
+      {
+        "evidence_url": "https://github.com/realpython/pytest-mypy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pytest-mypy",
+        "package_name": "python-pytest-mypy",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.0.1-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-pytest-mypy.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official pytest-mypy 1.0.1 sdist and whole matching formal Git tree reviewed. Preserve original full pytest/default branch-coverage100 gate and upstream skip/xfail. No local source/default/backend/target execution; compatibility awaits CI.",
+    "status": "active"
+  },
+  "package_id": "python-pytest-mypy",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-pytest-mypy",
+    "summary": "Mypy static type checker plugin for pytest"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-pypi"
+  },
+  "upstream": {
+    "component": "github.com-realpython-pytest-mypy",
+    "homepage": "https://github.com/realpython/pytest-mypy",
+    "release_api": "https://pypi.org/pypi/pytest-mypy/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/realpython/pytest-mypy",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.0.1",
+    "latest_detected": "1.0.1",
+    "release": "1"
+  }
+}
