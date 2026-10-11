@@ -1,8 +1,16 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0
-"""Current all-PR state with canonical identity from actual changed paths."""
+"""Current all-PR state with canonical identity from actual changed paths.
+
+A snapshot drift is an observed change to the live PR population, main, or
+paginated PR identity while a complete snapshot is being read. Only explicitly
+typed drift may restart the entire collection, at most once. Attempts never
+share pages or immutable-recipe caches. Authentication, schema and identity
+failures remain fatal. A public attempt receipt contains fixed reason codes,
+not private queries, response bodies, tokens, exception text or raw paths.
+"""
 from __future__ import annotations
-import argparse, datetime, hashlib, json, os, pathlib, re, runpy, subprocess, time
+import argparse, datetime, hashlib, json, os, pathlib, re, runpy, subprocess, tempfile, time
 
 HERE = pathlib.Path(__file__).resolve().parent
 H = runpy.run_path(str(HERE / "collect-build-history.py"))
@@ -16,6 +24,21 @@ QUERY = '''query($owner:String!,$name:String!,$cursor:String){repository(owner:$
  checkSuite{databaseId createdAt app{databaseId} commit{oid} workflowRun{databaseId runAttempt}}}
  ... on StatusContext{id context state targetUrl createdAt updatedAt commit{oid} creator{login}}}}}}}}
  headRepository{nameWithOwner} files(first:100){totalCount pageInfo{hasNextPage endCursor} nodes{path}}}}}}'''
+
+MAX_SNAPSHOT_ATTEMPTS = 2
+
+
+class SnapshotDrift(ValueError):
+    """A specific changed-input fence, not arbitrary API or schema failure."""
+    REASONS = {"main-during-pages", "pr-population-during-pages", "pr-head-during-files",
+               "pr-files-population", "main-after-recipes", "pr-population-at-frontier",
+               "pr-frontier-reordered"}
+
+    def __init__(self, reason: str):
+        if reason not in self.REASONS:
+            raise ValueError("unknown snapshot drift reason")
+        self.reason = reason
+        super().__init__(reason)
 
 
 def collect(repository: str, root: pathlib.Path, raw: pathlib.Path) -> dict:
@@ -55,10 +78,10 @@ def collect(repository: str, root: pathlib.Path, raw: pathlib.Path) -> dict:
         response = graphql(QUERY, {"owner": owner, "name": name, "cursor": cursor}, "pr-page-%03d" % page)
         head = response["defaultBranchRef"]["target"]["oid"]
         if main is not None and head != main:
-            raise ValueError("main changed during current snapshot")
+            raise SnapshotDrift("main-during-pages")
         main = head; connection = response["pullRequests"]
         if expected is not None and expected != connection["totalCount"]:
-            raise ValueError("PR population changed during pagination")
+            raise SnapshotDrift("pr-population-during-pages")
         expected = connection["totalCount"]; nodes.extend(connection["nodes"])
         for node in connection["nodes"]:
             node["checks_observed_at"] = H["iso"](datetime.datetime.now(datetime.timezone.utc))
@@ -84,10 +107,10 @@ def collect(repository: str, root: pathlib.Path, raw: pathlib.Path) -> dict:
                                 "pr-%d-files-%d" % (node["number"], len(paths)))
                 current = reply["pullRequest"]
                 if current["headRefOid"] != node["headRefOid"]:
-                    raise ValueError("PR head changed during actual-files pagination")
+                    raise SnapshotDrift("pr-head-during-files")
                 files = current["files"]
                 if files["totalCount"] != node["files"]["totalCount"]:
-                    raise ValueError("PR changed-files population changed")
+                    raise SnapshotDrift("pr-files-population")
                 paths.extend(f["path"] for f in files["nodes"])
                 newer = files["pageInfo"]["endCursor"]
                 if files["pageInfo"]["hasNextPage"] and (not newer or newer == file_cursor):
@@ -178,7 +201,7 @@ def collect(repository: str, root: pathlib.Path, raw: pathlib.Path) -> dict:
     final = graphql('query($owner:String!,$name:String!){repository(owner:$owner,name:$name){defaultBranchRef{name target{oid}}}}',
                     {"owner": owner, "name": name}, "main-after")
     if final["defaultBranchRef"]["target"]["oid"] != main:
-        raise ValueError("main changed after PR recipe collection")
+        raise SnapshotDrift("main-after-recipes")
     # Updated-at fence: any PR mutation since that PR's first read puts its
     # current-head/check association on hold; do not backfill from old success.
     by_number = {row["number"]: row for row in prs}
@@ -191,10 +214,10 @@ def collect(repository: str, root: pathlib.Path, raw: pathlib.Path) -> dict:
            {"owner": owner, "name": name, "cursor": fence_cursor}, "pr-freshness-after-%03d" % fence_page)
         connection = frontier["pullRequests"]
         if connection["totalCount"] != expected:
-            raise ValueError("PR population changed at freshness fence")
+            raise SnapshotDrift("pr-population-at-frontier")
         for item in connection["nodes"]:
             if item["number"] in fence_ids:
-                raise ValueError("PR freshness frontier reordered during pagination")
+                raise SnapshotDrift("pr-frontier-reordered")
             fence_ids.add(item["number"])
             row = by_number[item["number"]]
             if row["head"]["sha"] != item["headRefOid"] or row["updated_at"] != item["updatedAt"]:
@@ -223,17 +246,72 @@ def collect(repository: str, root: pathlib.Path, raw: pathlib.Path) -> dict:
             "raw_receipts": receipts + api.receipts}
 
 
+def collect_snapshot(repository: str, root: pathlib.Path, raw: pathlib.Path,
+                     receipt_path: pathlib.Path) -> dict:
+    """Two whole attempts at most, inside the existing 30-minute Pages timeout.
+
+    A newly created private run directory also isolates repeated CLI invocations;
+    never reuse partial pages from an earlier attempt or overwrite private proof.
+    The safe receipt is written before each attempt so cancellation still leaves
+    a truthful collecting state rather than missing evidence or claimed success.
+    """
+    raw.mkdir(parents=True, exist_ok=True)
+    run_raw = pathlib.Path(tempfile.mkdtemp(prefix="snapshot-", dir=raw))
+    receipt = {"schema_version": 1, "repository": repository, "status": "collecting",
+               "maximum_attempts": MAX_SNAPSHOT_ATTEMPTS, "attempts": []}
+    for number in range(1, MAX_SNAPSHOT_ATTEMPTS + 1):
+        attempt = {"attempt": number, "status": "collecting",
+                   "started_at": H["iso"](datetime.datetime.now(datetime.timezone.utc))}
+        receipt["attempts"].append(attempt)
+        H["save"](receipt_path, receipt)
+        try:
+            result = collect(repository, root, run_raw / ("attempt-%02d" % number))
+        except SnapshotDrift as error:
+            attempt.update(status="snapshot-drift", reason=error.reason,
+                           completed_at=H["iso"](datetime.datetime.now(datetime.timezone.utc)))
+            receipt["status"] = "collecting" if number < MAX_SNAPSHOT_ATTEMPTS else "failed"
+            H["save"](receipt_path, receipt)
+            if number == MAX_SNAPSHOT_ATTEMPTS:
+                raise
+        except Exception:
+            # Do not copy arbitrary API/schema exception text to a public artifact.
+            attempt.update(status="fatal", reason="fatal-input-or-api-error",
+                           completed_at=H["iso"](datetime.datetime.now(datetime.timezone.utc)))
+            receipt["status"] = "failed"
+            H["save"](receipt_path, receipt)
+            raise
+        else:
+            H["save"](run_raw / ("attempt-%02d" % number) / "receipt.json", result)
+            attempt.update(status="collected",
+                           completed_at=H["iso"](datetime.datetime.now(datetime.timezone.utc)))
+            receipt["status"] = "collected"
+            receipt["accepted_attempt"] = number
+            H["save"](receipt_path, receipt)
+            return result
+    raise AssertionError("unreachable snapshot attempt limit")
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--repository", default=os.environ.get("GITHUB_REPOSITORY") or os.environ.get("GH_REPOSITORY"))
     p.add_argument("--repo-root", type=pathlib.Path, default=HERE.parent)
     p.add_argument("--raw-dir", type=pathlib.Path, required=True)
     p.add_argument("--output", type=pathlib.Path, required=True)
+    p.add_argument("--receipt", type=pathlib.Path, required=True,
+                   help="secret-safe collection attempt evidence; never raw API data")
     args = p.parse_args()
     if not args.repository or not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", args.repository): p.error("invalid repository")
-    result = collect(args.repository, args.repo_root, args.raw_dir)
-    # Raw paths/queries stay outside the public safe snapshot.
-    H["save"](args.raw_dir / "receipt.json", result)
+    if args.output.exists() or args.receipt.exists():
+        p.error("output and receipt must be fresh paths")
+    if args.output.resolve() == args.receipt.resolve():
+        p.error("output and receipt must be distinct paths")
+    try:
+        result = collect_snapshot(args.repository, args.repo_root, args.raw_dir, args.receipt)
+    except Exception:
+        # The safe summary survives for always-upload evidence; private attempts
+        # retain the exact raw bodies for an authorized operator, not Pages.
+        p.exit(1, "Current snapshot failed; see secret-safe collection receipt.\n")
+    # Raw paths/queries and accepted raw receipt stay in the private attempt.
     result.pop("raw_receipts")
     H["save"](args.output, result)
     return 0

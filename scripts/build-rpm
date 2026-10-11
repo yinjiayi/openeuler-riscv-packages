@@ -10,6 +10,7 @@ import pathlib
 import platform
 import re
 import shutil
+import stat
 import subprocess
 import time
 import urllib.parse
@@ -76,10 +77,81 @@ def parser() -> argparse.ArgumentParser:
 
 
 def prepare_dirs(work: pathlib.Path) -> Dict[str, pathlib.Path]:
+    if work.is_symlink():
+        raise ToolError("work directory must not be a symlink: %s" % work)
     result = {name: work / name for name in ("BUILD", "BUILDROOT", "RPMS", "SOURCES", "SPECS", "SRPMS", "logs", "home")}
+    for path in result.values():
+        if path.is_symlink():
+            raise ToolError("work directory entry must not be a symlink: %s" % path)
     for path in result.values():
         path.mkdir(parents=True, exist_ok=True)
     return result
+
+
+def work_path(path: pathlib.Path, repo_root: pathlib.Path) -> pathlib.Path:
+    """Preserve the cache path long enough to reject linked workspace parents."""
+    candidate = path.absolute()
+    try:
+        relative = candidate.relative_to(repo_root)
+    except ValueError:
+        # External work roots are explicit operator inputs, not artifact paths.
+        if candidate.is_symlink():
+            raise ToolError("work directory must not be a symlink: %s" % candidate)
+        return candidate
+    current = repo_root
+    for part in relative.parts:
+        if part == "..":
+            raise ToolError("work path must not traverse parent directories")
+        current = current / part
+        if current.is_symlink():
+            raise ToolError("work path must not contain symlink ancestors: %s" % current)
+    return candidate
+
+
+def regular_input(path: pathlib.Path, boundary: pathlib.Path) -> pathlib.Path:
+    """Reject linked ancestors and non-regular downloaded or signature inputs."""
+    try:
+        relative = path.relative_to(boundary)
+    except ValueError as exc:
+        raise ToolError("source input escapes its declared root: %s" % path) from exc
+    if ".." in relative.parts:
+        raise ToolError("source input escapes its declared root: %s" % path)
+    current = boundary
+    for part in (None, *relative.parts):
+        if part is not None:
+            current = current / part
+        try:
+            mode = current.lstat().st_mode
+        except OSError as exc:
+            raise ToolError("source input is missing or unreadable: %s" % current, 1) from exc
+        expected = stat.S_ISREG if current == path else stat.S_ISDIR
+        if stat.S_ISLNK(mode) or not expected(mode):
+            raise ToolError("source input must be a regular file/directory without symlinks: %s" % current, 1)
+    return path
+
+
+def source_entries(document: Any, package_id: str) -> List[Mapping[str, Any]]:
+    if not isinstance(document, Mapping) or document.get("package_id") != package_id:
+        raise ToolError("sources.yaml must identify the exact selected package")
+    entries = document.get("sources")
+    if not isinstance(entries, list) or not entries:
+        raise ToolError("sources.yaml must contain at least one source")
+    filenames: set[str] = set()
+    identifiers: set[str] = set()
+    for entry in entries:
+        if not isinstance(entry, Mapping):
+            raise ToolError("source entry must be an object")
+        name = entry.get("filename")
+        identifier = entry.get("id")
+        if not isinstance(name, str) or name in {".", ".."} or not re.fullmatch(r"[A-Za-z0-9._+~-]+", name):
+            raise ToolError("source filename is missing or unsafe")
+        if not isinstance(identifier, str) or not re.fullmatch(r"[A-Za-z0-9_.-]+", identifier):
+            raise ToolError("source id is missing or unsafe")
+        if name in filenames or identifier in identifiers:
+            raise ToolError("source filenames and ids must be unique")
+        filenames.add(name)
+        identifiers.add(identifier)
+    return entries
 
 
 def fixture_path(url: str, repo_root: pathlib.Path) -> pathlib.Path:
@@ -96,6 +168,8 @@ def fixture_path(url: str, repo_root: pathlib.Path) -> pathlib.Path:
 
 
 def verify_signature(entry: Mapping[str, Any], source: pathlib.Path, repo_root: pathlib.Path, offline: bool) -> Dict[str, Any]:
+    if entry.get("signature") is not None and not isinstance(entry["signature"], Mapping):
+        raise ToolError("source signature policy must be an object or null")
     signature = entry.get("signature") if isinstance(entry.get("signature"), Mapping) else {}
     policy = str(signature.get("policy") or "not-provided")
     if policy in {"not-provided", "optional", "none"}:
@@ -115,15 +189,10 @@ def verify_signature(entry: Mapping[str, Any], source: pathlib.Path, repo_root: 
     fingerprint = str(signature.get("fingerprint") or signature.get("key_fingerprint") or "").replace(" ", "").upper()
     if not signature_path or not keyring_path or not re.fullmatch(r"[0-9A-F]{40,64}", fingerprint):
         raise ToolError("required signature policy needs path, keyring, and a 40-64 hex fingerprint")
-    sig = (repo_root / str(signature_path)).resolve()
-    keyring = (repo_root / str(keyring_path)).resolve()
+    sig = repo_root / str(signature_path)
+    keyring = repo_root / str(keyring_path)
     for candidate in (sig, keyring):
-        try:
-            candidate.relative_to(repo_root.resolve())
-        except ValueError as exc:
-            raise ToolError("signature material escapes repository root") from exc
-        if not candidate.is_file():
-            raise ToolError("signature material is missing: %s" % candidate)
+        regular_input(candidate, repo_root)
     gpgv = shutil.which("gpgv")
     if not gpgv:
         raise ToolError("gpgv is required by source signature policy", 1)
@@ -152,8 +221,8 @@ def materialize_source(
     offline: bool,
 ) -> Dict[str, Any]:
     url = str(entry.get("url") or "")
-    filename = pathlib.PurePosixPath(str(entry.get("filename") or "")).name
-    if not filename or not re.fullmatch(r"[A-Za-z0-9._+~-]+", filename):
+    filename = str(entry.get("filename") or "")
+    if filename in {".", ".."} or not re.fullmatch(r"[A-Za-z0-9._+~-]+", filename):
         raise ToolError("source filename is missing or unsafe")
     digests = entry.get("digests") if isinstance(entry.get("digests"), Mapping) else {}
     expected = str(digests.get("sha256") or entry.get("sha256") or "").lower()
@@ -161,12 +230,20 @@ def materialize_source(
         raise ToolError("source %s has no valid SHA-256" % filename)
     destination = sources_dir / filename
     materialization: Dict[str, Any] = {}
-    if offline:
-        if not destination.is_file():
-            raise ToolError("verified source cache is incomplete in offline mode: %s" % destination, 1)
-    elif url.startswith("fixture://"):
+    # The committed source manifest remains authoritative in either mode;
+    # artifact receipts never replace HTTPS/provenance or digest validation.
+    if url.startswith("fixture://"):
         if not package_id.startswith("golden-"):
             raise ToolError("fixture:// sources are restricted to golden packages")
+    else:
+        validate_https_url(url, allow_file=package_id.startswith("golden-"))
+        parsed = urllib.parse.urlsplit(url)
+        if parsed.hostname and parsed.hostname.lower() == "aur.archlinux.org":
+            raise ToolError("AUR package archives are metadata evidence, not official build sources")
+    if offline:
+        regular_input(destination, sources_dir.parent)
+        materialization = {"cache_reverified": True, "size": destination.stat().st_size}
+    elif url.startswith("fixture://"):
         source = fixture_path(url, repo_root)
         if source.is_dir():
             prefix = str(entry.get("archive_root") or "%s-%s" % (package_id, entry.get("version", "fixture")))
@@ -177,10 +254,6 @@ def materialize_source(
         else:
             raise ToolError("fixture source does not exist: %s" % source)
     else:
-        validate_https_url(url, allow_file=package_id.startswith("golden-"))
-        parsed = urllib.parse.urlsplit(url)
-        if parsed.hostname and parsed.hostname.lower() == "aur.archlinux.org":
-            raise ToolError("AUR package archives are metadata evidence, not official build sources")
         data, fetch_meta = fetch_url(
             url,
             timeout=timeout,
@@ -369,7 +442,7 @@ def main() -> int:
     started = parse_now(args.now)
     package_dir = pathlib.Path(args.package_dir).resolve()
     repo_root = pathlib.Path(args.repo_root).resolve()
-    work = pathlib.Path(args.work_dir).resolve()
+    work = pathlib.Path(args.work_dir).absolute()
     result_path = pathlib.Path(args.result)
     build_result: Dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
@@ -389,6 +462,7 @@ def main() -> int:
     try:
         if args.timeout <= 0:
             raise ToolError("timeout must be positive")
+        work = work_path(work, repo_root)
         if not package_dir.is_dir():
             raise ToolError("package directory does not exist: %s" % package_dir)
         try:
@@ -404,9 +478,7 @@ def main() -> int:
         topdir = prepare_dirs(work)
         build_result["work_dir"] = str(work)
         cache_dir = pathlib.Path(args.cache_dir) if args.cache_dir else work / "download-cache"
-        entries = sources.get("sources", [])
-        if not isinstance(entries, list) or not entries:
-            raise ToolError("sources.yaml must contain at least one source")
+        entries = source_entries(sources, package_id)
         build_result["phase"] = "source-verify"
         verifications = [
             materialize_source(
