@@ -56,7 +56,9 @@ export PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1
 # and pytester subprocesses use the installed buildroot distribution/entry point.
 export PYTHONPATH=%{buildroot}%{python3_sitelib}
 python3 -c 'import pytest_mypy; assert pytest_mypy.__file__.startswith("%{buildroot}%{python3_sitelib}/pytest_mypy/")'
-pytest -p no:mypy --cov pytest_mypy --cov-branch --cov-fail-under 100 --cov-report term-missing -n auto
+# Outer CLI verbosity only; never inject options into nested pytester processes.
+# Persist running/failing node IDs without changing original tests or gates.
+pytest -p no:mypy --cov pytest_mypy --cov-branch --cov-fail-under 100 --cov-report term-missing -n auto -vv -rA
 
 %files
 %license LICENSE

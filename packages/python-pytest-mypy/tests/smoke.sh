@@ -52,4 +52,6 @@ cp -R /usr/share/python-pytest-mypy/source/tests "$scratch/tests"
 cp /usr/share/python-pytest-mypy/source/tox.ini "$scratch/tox.ini"
 test ! -e "$scratch/pytest_mypy"
 test ! -e "$scratch/src"
-pytest -p no:mypy --cov pytest_mypy --cov-branch --cov-fail-under 100 --cov-report term-missing -n auto
+# Outer CLI verbosity only, matching source %check; nested pytester is unchanged.
+# Retain whole original tests, xdist, branch coverage and existing deadlines.
+pytest -p no:mypy --cov pytest_mypy --cov-branch --cov-fail-under 100 --cov-report term-missing -n auto -vv -rA

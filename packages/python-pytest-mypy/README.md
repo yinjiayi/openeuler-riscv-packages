@@ -23,6 +23,13 @@ or permission to remove tests. The original tox file remains unchanged.
 Other Python-version environments, Python-3.12 static analysis and Twine upload
 are separate upstream development/publication contexts, not native-target claims.
 No local upstream, backend, default-test, RPM or QEMU execution was performed.
-Real target build/install results remain pending CI; no artifact URL is invented.
+CI run 38167854174 (head 03b77733ba3c3868c00ca7a28acbea88bb236bf7)
+collected 84 target items with four xdist workers, showed a failure, then hit the
+existing build deadline (inner exit 124). The retained log lacks failing node IDs
+and a traceback; installation did not run. No source root cause is claimed.
+Both source and installed whole defaults now append only outer CLI `-vv -rA`
+for running/failing node diagnostics; no options are exported to nested pytester.
+Original tests, skip/xfail, xdist, 100% branch-coverage gate and deadlines remain
+unchanged. This is not a repair-success claim; the new head needs full fresh CI.
 
 External source retains the MIT license. Apache-2.0 covers original packaging only.
