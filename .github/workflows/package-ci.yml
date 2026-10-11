@@ -241,7 +241,7 @@ jobs:
             --output artifacts/scope/qemu-runner-policy.json
       - name: Upload scope evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: package-ci-scope-${{ steps.scope.outputs.package_id }}-${{ github.run_id }}
           path: artifacts/scope/
@@ -283,7 +283,7 @@ jobs:
             --output artifacts/metadata/ci-static-validation.json
       - name: Upload metadata evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: package-ci-metadata-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: artifacts/metadata/
@@ -336,7 +336,7 @@ jobs:
           fi
       - name: Upload patch-policy evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: package-ci-patch-policy-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: artifacts/patch-policy/
@@ -396,7 +396,7 @@ jobs:
           fi
       - name: Upload verified sources and evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: package-ci-source-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: |
@@ -449,7 +449,7 @@ jobs:
           fi
       - name: Upload immutable repository evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: package-ci-repository-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: artifacts/repository/
@@ -495,7 +495,7 @@ jobs:
             > artifacts/merge-policy/result.json
       - name: Upload merge-policy evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: package-ci-merge-policy-${{ github.run_id }}
           path: artifacts/merge-policy/
@@ -716,7 +716,7 @@ jobs:
             --output-dir "$RUNNER_TEMP/package-ci-build-upload"
       - name: Upload build products and complete logs
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: package-ci-build-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: ${{ runner.temp }}/package-ci-build-upload/
@@ -875,7 +875,7 @@ jobs:
           ci/compose-build-result.py "${args[@]}"
       - name: Upload installation and test evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: package-ci-smoke-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: artifacts/smoke/
@@ -977,7 +977,7 @@ jobs:
           exit 1
       - name: Upload repository publication evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: rpm-repository-publish-${{ needs.prepare.outputs.package_id }}-${{ github.run_id }}
           path: artifacts/repository-publish/

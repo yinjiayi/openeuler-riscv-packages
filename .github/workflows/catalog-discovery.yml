@@ -105,7 +105,7 @@ jobs:
           scripts/discover-packages "${args[@]}"
       - name: Upload immutable discovery inputs, decisions, and summary
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: discovery-snapshot-${{ steps.paths.outputs.snapshot_id }}
           path: |
@@ -164,7 +164,7 @@ jobs:
           printf 'Auto-merge is disabled; an explicit maintainer squash merge is required for %s\n' "$pr_url"
       - name: Upload bot-PR check bridge evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: discovery-persist-${{ needs.discover.outputs.snapshot_id }}
           path: artifacts/discovery-persist/
