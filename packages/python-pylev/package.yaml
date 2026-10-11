@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/any/python-pylev/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pylev",
+        "package_name": "python-pylev",
+        "source": "arch-extra",
+        "source_version": "1.4.0-10"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/pylev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pylev",
+        "package_name": "pylev",
+        "source": "debian",
+        "source_version": "1.4.0-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/python-pylev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pylev",
+        "package_name": "python-pylev",
+        "source": "fedora",
+        "source_version": "1.3.0-28.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/python-pylev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pylev",
+        "package_name": "python-pylev",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.4.0-3.4"
+      },
+      {
+        "evidence_url": "https://launchpad.net/ubuntu/+source/pylev",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pylev",
+        "package_name": "pylev",
+        "source": "ubuntu",
+        "source_version": "1.4.0-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-pylev.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official PyPI 1.4.0 sdist and complete original tests.py from fixed release commit 06760f3a5e40aa284cb8077762f630f1df210698 are SHA-256 pinned. All 22 original default unittest cases retained for source and RPM-owned installed tests, with complete BSD-3-Clause license. Complete target supplier and canonical namespace checks passed; no architecture-specific patch needed. Target build/install pending remote CI; no local upstream/backend/default/RPM/QEMU execution.",
+    "status": "active"
+  },
+  "package_id": "python-pylev",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "python-pylev",
+    "summary": "Pure Python Levenshtein distance implementation"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-toastdriven-pylev",
+    "homepage": "https://github.com/toastdriven/pylev",
+    "release_api": "https://api.github.com/repos/toastdriven/pylev/tags",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/toastdriven/pylev",
+    "source_url_template": "https://github.com/toastdriven/pylev/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.4.0",
+    "latest_detected": "1.4.0",
+    "release": "1"
+  }
+}
