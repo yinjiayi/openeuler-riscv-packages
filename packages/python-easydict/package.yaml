@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/python-easydict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-easydict",
+        "package_name": "python-easydict",
+        "source": "aur",
+        "source_version": "1.13-3"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/easydict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "easydict",
+        "package_name": "easydict",
+        "source": "debian",
+        "source_version": "1.13-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/python-easydict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-easydict",
+        "package_name": "python-easydict",
+        "source": "fedora",
+        "source_version": "1.10-11.fc44"
+      },
+      {
+        "evidence_url": "https://launchpad.net/ubuntu/+source/easydict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "easydict",
+        "package_name": "easydict",
+        "source": "ubuntu",
+        "source_version": "1.13-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-easydict.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Latest official stable 1.13 tag resolves to fixed commit; all eight Git files, original Ruff check and complete original module doctests remain unchanged. Four frozen discovery lineages retained. Original script does not propagate doctest failures; preserve it and add the full doctest CLI nonzero failure gate, including installed RPM-owned bytes. Full LGPL3 and incorporated fixed GPL3 notice ship in license payload. Python3.11/setuptools68/Ruff0.7 suppliers verified; target build and installed acceptance pending, no local upstream/backend/default/RPM/QEMU execution.",
+    "status": "active"
+  },
+  "package_id": "python-easydict",
+  "rpm": {
+    "license": "LGPL-3.0-only",
+    "name": "python-easydict",
+    "summary": "Access dictionary values as attributes recursively"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-makinacorpus-easydict",
+    "homepage": "https://github.com/makinacorpus/easydict",
+    "release_api": "https://api.github.com/repos/makinacorpus/easydict/tags",
+    "release_channel": "stable",
+    "release_regex": "^v?([0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/makinacorpus/easydict",
+    "source_url_template": "https://github.com/makinacorpus/easydict/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.13",
+    "latest_detected": "1.13",
+    "release": "1"
+  }
+}
