@@ -1,0 +1,41 @@
+{
+  "package_id": "python-grapheme",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "44c2b9f21bbe77cfb05835fec230bd435954275267fea1858013b102f8603cca"
+      },
+      "filename": "grapheme-0.6.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://files.pythonhosted.org/packages/ce/e7/bbaab0d2a33e07c8278910c1d0d8d4f3781293dfbc70b5c38197159046bf/grapheme-0.6.0.tar.gz",
+      "version": "0.6.0"
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://github.com/alvinlindstam/grapheme/archive/66f07ca02fc64a9ea2f9b4ad66593b226d473adb.tar.gz",
+      "filename": "grapheme-0.6.0-original-suite.tar.gz",
+      "version": "0.6.0",
+      "digests": {"sha256": "1cfb4997d0f3d1c513b19170d7eb7217d26ac6529d4178aaf8ed426471b4842a"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Full original MIT notice and Unicode data permission notice retained. Fixed official supplementary source matches all released library/data/setup bytes."}
+    },
+    {
+      "id": "source2",
+      "kind": "test-dependency",
+      "url": "https://raw.githubusercontent.com/unicode-org/icu/5f681ecbc75898a6484217b322f3883b6d1b2049/icu4c/LICENSE",
+      "filename": "LICENSE-Unicode-data.txt",
+      "version": "Unicode13-notice-ICU66",
+      "digests": {"sha256": "25e21013a7bc2fad735e28c5278a120e4c7f1c327c8c8b9b4df1751748cddbb2"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Unmodified official Unicode1991-2020 copyright and permission notice for Data Files, complete notice file retained; unrelated ICU third-party sections do not assert included ICU software."}
+    }
+  ]
+}
