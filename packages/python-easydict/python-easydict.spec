@@ -34,8 +34,11 @@ cp -p %{SOURCE1} GPL-3.0.txt
 %py3_install
 
 %check
-# Preserve the complete original workflow lint and doctest entrypoint.
-ruff check
+# Preserve upstream's unconfigured Ruff defaults, not ancestor repo settings.
+# A unique writable cache prevents inheriting /workspace's read-only cache.
+# The cache belongs to this isolated target check and is not reused.
+ruff_cache_dir=$(mktemp -d /tmp/easydict-ruff.XXXXXX)
+ruff check --isolated --cache-dir "$ruff_cache_dir"
 %{__python3} easydict/__init__.py -v
 # The original script ignores testmod's failure count; the unchanged full
 # doctest CLI supplies an explicit nonzero failure gate without dropping cases.

@@ -16,8 +16,10 @@ metadata is not overlaid. GitHub API reports verified signed commit (`valid`);
 this is not local PGP verification of the archive. Sources have SHA-256 binding.
 
 The original default suite means the unchanged workflow's `ruff check` and
-`python easydict/__init__.py -v`, both retained in `%check`. The module has 60
-statically counted doctest examples, not an observed passing runtime count.
+`python easydict/__init__.py -v`, retained in `%check`. Ruff uses `--isolated`
+and a unique writable `/tmp/easydict-ruff.XXXXXX` cache to retain its original
+unconfigured defaults instead of ancestor repository settings. The module has
+60 statically counted doctest examples, not an observed passing runtime count.
 Its original `doctest.testmod()` ignores failed-case counts. The complete
 unchanged `python3 -m doctest -v easydict/__init__.py` is therefore also run to
 propagate failures; no cases, source files, Ruff settings or features are
@@ -53,6 +55,18 @@ Ubuntu 1.13-1build1) remain historical lineage. Their discovery decision was
 source identity without pretending the frozen distributions were current.
 The canonical upstream is `github.com-makinacorpus-easydict`, distinct from
 the binary RPM name `python3-easydict` and discovery directory `python-easydict`.
+
+The first PR #2523 head `f1ca0d780f3402277e7958c247c35260dc43874e`,
+Package CI run `38102104494`, failed before lint diagnostics or doctests:
+Ruff 0.7.0 could not initialize `/workspace/.ruff_cache` on the read-only
+repository mount. Prep, build and install phases had completed, but this is
+not successful package acceptance. The original eight-file release has no
+Ruff configuration. Official Ruff 0.7.0 source confirms `--isolated` ignores
+all configuration files and uses unconfigured defaults, including the full
+`E4`, `E7`, `E9`, `F` rule selection and no ignored rules; `--cache-dir` only
+changes cache storage. This package-local environment repair does not alter
+source, rule selection, discovered file inputs, or either complete doctest
+gate. New-head target results remain pending; no lint/doctest pass is inferred.
 
 Preparation executed only trusted repository validation and source-only
 verification, not upstream imports, backend, doctests, Ruff, RPM or QEMU.
