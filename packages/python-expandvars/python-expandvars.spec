@@ -55,6 +55,7 @@ PYTHONPATH=. python3 -m pytest --cov --cov-report=html --cov-fail-under=100
 %license LICENSE
 %doc README.md
 %{python3_sitelib}/expandvars.py
+%{python3_sitelib}/__pycache__/expandvars*.pyc
 %{python3_sitelib}/expandvars-*.dist-info/
 %{_datadir}/python-expandvars/
 
