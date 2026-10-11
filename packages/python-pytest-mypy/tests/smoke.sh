@@ -54,4 +54,5 @@ test ! -e "$scratch/pytest_mypy"
 test ! -e "$scratch/src"
 # Outer CLI verbosity only, matching source %check; nested pytester is unchanged.
 # Retain whole original tests, xdist, branch coverage and existing deadlines.
-pytest -p no:mypy --cov pytest_mypy --cov-branch --cov-fail-under 100 --cov-report term-missing -n auto -vv -rA
+# Non-exiting outer worker stack dump, not a test timeout or nested option.
+pytest -p no:mypy --cov pytest_mypy --cov-branch --cov-fail-under 100 --cov-report term-missing -n auto -vv -rA -o faulthandler_timeout=300

@@ -32,4 +32,20 @@ for running/failing node diagnostics; no options are exported to nested pytester
 Original tests, skip/xfail, xdist, 100% branch-coverage gate and deadlines remain
 unchanged. This is not a repair-success claim; the new head needs full fresh CI.
 
+The replacement head `276cb00107408469d9c52468eda04a917a9354f8` also
+timed out in run 38178063989: all 84 items were collected, with 21 passes and
+one original xfail before the unchanged deadline. No failed node or traceback
+was reported. Four last-running worker nodes are inferred from completion
+order, not proven hung operations; the earlier find-debuginfo warning did not
+stop execution before `%check` and is not the timeout cause.
+Both outer commands now add only `-o faulthandler_timeout=300`: pytest's
+non-exiting, per-item Python stack dump after 300 seconds, not a test deadline.
+The official target pytest7.4.4/xdist3.3.1/execnet2.0.2 sources support propagation
+to outer workers and their original stderr. Original nested pytester arguments
+and output assertions remain unchanged; no environment options or hooks are
+injected. Target stack retention is an expected path awaiting new-head CI,
+not an observed result. Outer stacks may show a subprocess wait without proving
+its child's internal cause. No source repair, native-only classification,
+test selection change, worker-count change or deadline extension is claimed.
+
 External source retains the MIT license. Apache-2.0 covers original packaging only.
