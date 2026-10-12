@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-hexdumper-perl",
+  "rpm": {
+    "name": "perl-Data-Hexdumper",
+    "summary": "Format binary data as readable hexadecimal dumps",
+    "license": "GPL-2.0-only OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-hexdumper-perl",
+    "homepage": "https://metacpan.org/dist/Data-Hexdumper",
+    "source_repository": "https://github.com/DrHyde/perl-modules-Data-Hexdumper",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DC/DCANTRELL/",
+    "release_regex": "Data-Hexdumper-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DC/DCANTRELL/Data-Hexdumper-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.0001",
+    "release": "1",
+    "latest_detected": "3.0001"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-hexdumper-perl",
+        "package_base": "libdata-hexdumper-perl",
+        "source_version": "3.0001-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-hexdumper-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-hexdumper-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu 3.0001-2 key maps to the official CPAN Data-Hexdumper 3.0001 release. The HTTPS source SHA-256 matches publisher CHECKSUMS. The installed module POD explicitly grants GPL version 2 or Artistic License redistribution, with both full license texts bundled; META's generic 'other' label is not a conflicting license. Official SP3 riscv64/RVA23 primary has no name or module provider collision and supplies all hard and default-test dependencies including Test::Pod and Test::Pod::Coverage. All five original t/*.t files remain unchanged. Local macOS ran four functional/POD files and 28 assertions with t/pod-coverage.t self-skipped only because Test::Pod::Coverage is absent locally. Target CI hard-requires that provider and must prove all five files, at least 29 assertions, zero skips and installed hexdump smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
