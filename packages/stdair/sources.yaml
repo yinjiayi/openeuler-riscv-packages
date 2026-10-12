@@ -1,0 +1,21 @@
+{
+  "package_id": "stdair",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "193cd0f5659d707bb028bc73c797dbd680abb3ea2259da6a134aa54277693b37"
+      },
+      "filename": "stdair-1.00.26.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/airsim/stdair/archive/refs/tags/v1.00.26.tar.gz",
+      "version": "1.00.26"
+    }
+  ]
+}
