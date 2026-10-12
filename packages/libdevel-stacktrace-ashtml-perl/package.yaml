@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "package_id": "libdevel-stacktrace-ashtml-perl",
+  "rpm": {"name": "perl-Devel-StackTrace-AsHTML", "summary": "Render Perl stack traces as HTML", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "libdevel-stacktrace-ashtml-perl",
+    "homepage": "https://metacpan.org/dist/Devel-StackTrace-AsHTML",
+    "source_repository": "https://github.com/miyagawa/Devel-StackTrace-AsHTML",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/",
+    "release_regex": "(?<![A-Za-z0-9])Devel-StackTrace-AsHTML-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/Devel-StackTrace-AsHTML-{version}.tar.gz"
+  },
+  "version": {"current": "0.15", "release": "1", "latest_detected": "0.15"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "libdevel-stacktrace-ashtml-perl", "package_base": "libdevel-stacktrace-ashtml-perl", "source_version": "0.15-2", "evidence_url": "https://packages.debian.org/source/sid/libdevel-stacktrace-ashtml-perl", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libdevel-stacktrace-ashtml-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian libdevel-stacktrace-ashtml-perl 0.15-2 lineage maps to official MIYAGAWA stable CPAN source, fixed by publisher CHECKSUMS SHA-256. Top LICENSE grants same-as-Perl for this software; README explicitly applies its copyright notice to all distribution files. HTML generation acknowledges code derived from CGI::ExceptionManager by Tokuhiro Matsuno and Kazuho Oku; the earlier official CGI::ExceptionManager 0.06 distribution directly grants same-as-Perl rights for that library. No contrary notice found. SHA-bound SP3 RVA23 primary has no same-name or module provider and supplies the runtime/default-test closure. Original seven test files remain unchanged: three functional files/four assertions pass, while four author/release-only files self-skip by upstream design; target check enforces exactly that scope. Installed smoke covers actual HTML rendering and escaping."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
