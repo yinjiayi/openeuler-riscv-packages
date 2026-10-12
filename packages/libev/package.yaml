@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "package_id": "libev",
+  "rpm": {
+    "name": "libev",
+    "summary": "High-performance event loop library",
+    "license": "BSD-2-Clause OR GPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "software.schmorp.de-pkg-libev.html",
+    "homepage": "https://software.schmorp.de/pkg/libev.html",
+    "source_repository": "https://cvs.schmorp.de/libev/",
+    "release_channel": "stable",
+    "release_api": "https://dist.schmorp.de/libev/",
+    "release_regex": "libev-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://dist.schmorp.de/libev/libev-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.33",
+    "release": "1",
+    "latest_detected": "4.33"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libev",
+        "package_base": "libev",
+        "source_version": "4.33-5",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libev/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libev",
+        "package_base": "libev",
+        "source_version": "1:4.33-2.1",
+        "evidence_url": "https://packages.debian.org/source/stable/libev",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libev",
+        "package_base": "libev",
+        "source_version": "4.33-15.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/libev/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libev",
+        "package_base": "libev",
+        "source_version": "4.33-6.5",
+        "evidence_url": "https://software.opensuse.org/package/libev",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libev",
+        "package_base": "libev",
+        "source_version": "1:4.33-2.1build2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libev",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libev.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official stable archive downloaded over HTTPS and SHA-256 pinned. Upstream ships no executable test suite; package checks exercise a real timer callback both before and after installation."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
