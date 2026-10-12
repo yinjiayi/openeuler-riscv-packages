@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-modified-perl",
+  "rpm": {
+    "name": "perl-File-Modified",
+    "summary": "Perl module for detecting changes to files",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-modified-perl",
+    "homepage": "https://metacpan.org/dist/File-Modified",
+    "source_repository": "https://github.com/neilbowers/File-Modified",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_regex": "File-Modified-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/File-Modified-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.10",
+    "release": "1",
+    "latest_detected": "0.10"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-modified-perl",
+        "package_base": "libfile-modified-perl",
+        "source_version": "0.10-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-modified-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-modified-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libfile-modified-perl key maps to official stable CPAN File-Modified 0.10. Official CPAN CHECKSUMS SHA-256, archive safety, and bundled Perl GPL/Artistic dual license were reviewed. The full one-file upstream default suite tests signatures, digest methods when available, temp-file modification detection, and its declared TODO; optional Digest modules govern upstream SKIP branches. Target outcome awaits exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
