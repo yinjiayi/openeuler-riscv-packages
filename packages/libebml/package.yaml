@@ -1,0 +1,66 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libebml",
+        "package_base": "libebml",
+        "source_version": "1.4.5-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libebml",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libebml.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official Matroska LibEBML 1.4.6 archive is pinned by SHA-256 and corroborated with the publisher SHA-512 manifest. Its CMake-required utf8cpp 3.2.5 source is separately SHA-256 pinned and supplied locally to FetchContent. Upstream has no executable test suite; RPM check and installed smoke exercise the C++ API. No external distribution packaging recipe is executed.",
+    "status": "active"
+  },
+  "package_id": "libebml",
+  "rpm": {
+    "license": "LGPL-2.1-or-later AND BSL-1.0",
+    "name": "libebml",
+    "summary": "C++ library for Extensible Binary Meta Language"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libebml",
+    "homepage": "https://www.matroska.org/",
+    "release_api": "https://dl.matroska.org/downloads/libebml/",
+    "release_channel": "stable",
+    "release_regex": "libebml-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://github.com/Matroska-Org/libebml",
+    "source_url_template": "https://dl.matroska.org/downloads/libebml/libebml-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.4.6",
+    "latest_detected": "1.4.6",
+    "release": "1"
+  }
+}
