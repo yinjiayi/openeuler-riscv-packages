@@ -59,7 +59,43 @@ python3 -c 'import pytest_mypy; assert pytest_mypy.__file__.startswith("%{buildr
 # Outer CLI verbosity only; never inject options into nested pytester processes.
 # Persist running/failing node IDs without changing original tests or gates.
 # Non-exiting outer worker stack dump; original subprocess args stay unchanged.
-pytest -p no:mypy --cov pytest_mypy --cov-branch --cov-fail-under 100 --cov-report term-missing -n auto -vv -rA -o faulthandler_timeout=300
+# Flush complete failed reports from the outer controller before the deadline.
+# The explicit plugin object is not exported to workers or pytester children.
+python3 - -p no:mypy --cov pytest_mypy --cov-branch --cov-fail-under 100 --cov-report term-missing -n auto -vv -rA -o faulthandler_timeout=300 <<'OE_REPORT_PY'
+import datetime
+import json
+import os
+import sys
+import pytest
+
+class ImmediateFailureReporter:
+    def __init__(self, stream):
+        self.stream = stream
+
+    def pytest_runtest_logreport(self, report):
+        if not report.failed:
+            return
+        record = {
+            "at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "nodeid": report.nodeid,
+            "when": report.when,
+            "outcome": report.outcome,
+            "duration": report.duration,
+            "longreprtext": report.longreprtext,
+            "sections": list(report.sections),
+        }
+        self.stream.write("OE_PYTEST_FAILURE_REPORT " + json.dumps(record, ensure_ascii=True) + "\n")
+        self.stream.flush()
+
+def main():
+    descriptor = os.dup(2)
+    os.set_inheritable(descriptor, False)
+    with os.fdopen(descriptor, "w", encoding="utf-8", errors="backslashreplace") as stream:
+        return int(pytest.main(sys.argv[1:], plugins=[ImmediateFailureReporter(stream)]))
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+OE_REPORT_PY
 
 %files
 %license LICENSE

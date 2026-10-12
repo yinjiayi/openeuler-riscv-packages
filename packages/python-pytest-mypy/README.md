@@ -48,4 +48,23 @@ not an observed result. Outer stacks may show a subprocess wait without proving
 its child's internal cause. No source repair, native-only classification,
 test selection change, worker-count change or deadline extension is claimed.
 
+Run 38186267156, exact head `1c8e763b2130437c7363237e90a88b673fe42f2f`,
+collected all 84 items and completed 23 passes, two original xfails and a failure
+in `test_mypy_encoding_warnings` before the existing build deadline. Outer
+faulthandler stacks show pytester subprocess waits; some such waits later passed,
+so a stack alone is not a deadlock or native-only diagnosis. The failed warning
+test's assertion traceback was not retained before the deadline.
+
+Both outer launchers now call public `pytest.main` with exactly the same argv
+and an explicit controller-only report object. On each failed report it writes
+the full traceback and captured sections as an ASCII-safe JSON record to a
+flushed duplicate of the original stderr descriptor. The descriptor is marked
+non-inheritable; the object is not exported to xdist workers or nested pytester
+children. Original source, child arguments, all 84 items/29 test functions,
+skip/xfail markers, xdist, 100% branch coverage and deadlines remain unchanged.
+This is a concrete diagnostic input, not a source fix or CI-success claim.
+Four fake-report tests verify only this reporting code's forwarding and output
+contract; they are not target pytest execution. Full replacement-head CI is
+still required, and child-process root cause remains unresolved.
+
 External source retains the MIT license. Apache-2.0 covers original packaging only.
