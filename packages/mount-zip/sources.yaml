@@ -1,0 +1,21 @@
+{
+  "package_id": "mount-zip",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c01a0fca5b5a3aeadcd255ef44ac6c81ce881beb5b9b269f9a4c8aa3dcf900ec"
+      },
+      "filename": "mount-zip-1.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/google/mount-zip/archive/refs/tags/v1.12.tar.gz",
+      "version": "1.12"
+    }
+  ]
+}
