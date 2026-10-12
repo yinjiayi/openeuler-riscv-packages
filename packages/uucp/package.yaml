@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/uucp/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uucp",
+        "package_name": "uucp",
+        "source": "arch-extra",
+        "source_version": "1.07-8"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/uucp/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uucp",
+        "package_name": "uucp",
+        "source": "debian",
+        "source_version": "1.07-30"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/uucp/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uucp",
+        "package_name": "uucp",
+        "source": "fedora",
+        "source_version": "1.07-111.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/uucp/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uucp",
+        "package_name": "uucp",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.07-10.1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/uucp/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uucp",
+        "package_name": "uucp",
+        "source": "ubuntu",
+        "source_version": "1.07-31build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "uucp.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "uucp",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "uucp",
+    "summary": "Taylor UUCP is a free implementation of UUCP and is the standard UUCP used on the GNU system"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-uucp",
+    "homepage": "https://www.gnu.org/software/uucp/",
+    "release_api": "https://ftp.gnu.org/gnu/uucp/",
+    "release_channel": "stable",
+    "release_regex": "uucp-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/uucp/",
+    "source_url_template": "https://ftp.gnu.org/gnu/uucp/uucp-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.07",
+    "latest_detected": "1.07",
+    "release": "1"
+  }
+}
