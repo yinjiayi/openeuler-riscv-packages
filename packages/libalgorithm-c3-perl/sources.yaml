@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-c3-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Algorithm-C3-0.11.tar.gz",
+      "version": "0.11",
+      "url": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Algorithm-C3-0.11.tar.gz",
+      "digests": {
+        "sha256": "aaf48467765deea6e48054bc7d43e46e4d40cbcda16552c629d37be098289309"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included LICENSE grants the same GPL/Artistic choice as Perl; the official CPAN archive is fetched over HTTPS with SHA-256 verification."
+      }
+    }
+  ]
+}
