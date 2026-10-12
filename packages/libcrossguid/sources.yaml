@@ -1,0 +1,21 @@
+{
+  "package_id": "libcrossguid",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "48321928473c682b0cdc7e17bbd3390f79f4b98ab22fef3b81a852dda81fd195"
+      },
+      "filename": "libcrossguid-0.2.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/graeme-hill/crossguid/archive/refs/tags/v0.2.2.tar.gz",
+      "version": "0.2.2"
+    }
+  ]
+}

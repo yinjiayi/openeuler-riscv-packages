@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/graeme-hill/crossguid",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcrossguid",
+        "package_name": "libcrossguid",
+        "source": "arch-extra",
+        "source_version": "1:0.2.2-5"
+      },
+      {
+        "evidence_url": "https://github.com/graeme-hill/crossguid",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "crossguid",
+        "package_name": "crossguid",
+        "source": "debian",
+        "source_version": "0.0+git200150803-6"
+      },
+      {
+        "evidence_url": "https://github.com/graeme-hill/crossguid",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "crossguid",
+        "package_name": "crossguid",
+        "source": "fedora",
+        "source_version": "0-0.28.20160908gitfef89a4.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/graeme-hill/crossguid",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "crossguid2",
+        "package_name": "crossguid2",
+        "source": "fedora",
+        "source_version": "0.2.2-23.20190529gitca1bf4b.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/graeme-hill/crossguid",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "crossguid",
+        "package_name": "crossguid",
+        "source": "ubuntu",
+        "source_version": "0.0+git200150803-7build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libcrossguid.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libcrossguid",
+  "rpm": {
+    "license": "MIT",
+    "name": "libcrossguid",
+    "summary": "Lightweight cross platform C++ GUID/UUID library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-graeme-hill-crossguid",
+    "homepage": "https://github.com/graeme-hill/crossguid",
+    "release_api": "https://api.github.com/repos/graeme-hill/crossguid/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/graeme-hill/crossguid",
+    "source_url_template": "https://github.com/graeme-hill/crossguid/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2.2",
+    "latest_detected": "0.2.2",
+    "release": "1"
+  }
+}
