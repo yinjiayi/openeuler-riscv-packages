@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-microtemplate-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-MicroTemplate-0.24.tar.gz",
+      "version": "0.24",
+      "url": "https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/Text-MicroTemplate-0.24.tar.gz",
+      "digests": {
+        "sha256": "32801e71f35ee8aaa0d576cec125cee46b3d4915ae642bc64962120d4f97b4c8"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Main module POD grants the same terms as Perl and META/Makefile.PL declare perl licensing; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
