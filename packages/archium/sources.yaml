@@ -1,0 +1,21 @@
+{
+  "package_id": "archium",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a08fed8eef8420f580a4d2bc90ad05206ef2993d33b1e6f66192b47974ef5e33"
+      },
+      "filename": "archium-1.10.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/keircn/archium/archive/refs/tags/v1.10.4.tar.gz",
+      "version": "1.10.4"
+    }
+  ]
+}
