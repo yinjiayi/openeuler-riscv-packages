@@ -1,0 +1,21 @@
+{
+  "package_id": "adwm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1d2ca56526b261cdecd992008268bc2eb732930c0355757285c76d317bcde88d"
+      },
+      "filename": "adwm-0.7.17.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bbidulock/adwm/archive/refs/tags/0.7.17.tar.gz",
+      "version": "0.7.17"
+    }
+  ]
+}
