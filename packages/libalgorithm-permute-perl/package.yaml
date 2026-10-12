@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-permute-perl",
+  "rpm": {"name": "perl-Algorithm-Permute", "summary": "Generate list permutations with Perl XS", "license": "LicenseRef-Algorithm-Permute-CDROM-Commercial-Restriction"},
+  "upstream": {"component": "metacpan.org-release-algorithm-permute", "homepage": "https://metacpan.org/dist/Algorithm-Permute", "source_repository": "https://github.com/iynehz/perl5-Algorithm-Permute", "release_channel": "stable", "release_api": "https://cpan.metacpan.org/authors/id/S/SL/SLOYD/", "release_regex": "Algorithm-Permute-(?P<version>[0-9.]+)\\.tar\\.gz", "source_url_template": "https://cpan.metacpan.org/authors/id/S/SL/SLOYD/Algorithm-Permute-{version}.tar.gz"},
+  "version": {"current": "0.17", "release": "1", "latest_detected": "0.17"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "debian", "package_name": "libalgorithm-permute-perl", "package_base": "libalgorithm-permute-perl", "source_version": "0.17-1", "evidence_url": "https://deb.debian.org/debian/dists/stable/main/source/Sources.xz", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libalgorithm-permute-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "update-disabled", "maintainers": ["yinjiayi"], "notes": "HELD FOR LICENSE REVIEW: archive SHA-256 matches author CHECKSUMS, but Permute.xs, coollex.c, coollex.h and lib/Algorithm/Permute.pm prohibit CD-ROM or similar-media commercial distribution without author approval. Generic bundled LICENSE grants Perl terms; no author evidence resolves that contradiction. LicenseRef-Algorithm-Permute-CDROM-Commercial-Restriction names this unresolved file-specific notice and is not an approved redistribution grant. Automatic updates disabled; this draft must not merge or publish pending author clarification or an independently verified clarified release. Earlier exact-head target CI succeeded technically, but does not establish license clearance. Preserve all original notices, tests and pinned bytes. Official target primary lacks this RPM/provider; no public product claim."},
+  "updates": {"enabled": false, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
