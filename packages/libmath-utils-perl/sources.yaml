@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-utils-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Utils-1.14.tar.gz",
+      "version": "1.14",
+      "url": "https://cpan.metacpan.org/authors/id/J/JG/JGAMBLE/Math-Utils-1.14.tar.gz",
+      "digests": {
+        "sha256": "88a20ae0736a622671b92bb2a350969af424d7610284530b277c8020235f2695"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The current included LICENSE expressly grants Perl GPL-1-or-later or Artistic-1.0 terms; official CPAN CHECKSUMS and independently fetched HTTPS archive have the same SHA-256."
+      }
+    }
+  ]
+}

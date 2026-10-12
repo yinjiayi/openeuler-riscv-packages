@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-utils-perl",
+  "rpm": {
+    "name": "perl-Math-Utils",
+    "summary": "Additional mathematical utility functions for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-utils-perl",
+    "homepage": "https://metacpan.org/dist/Math-Utils",
+    "source_repository": "https://github.com/jgamble/Math-Utils",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JG/JGAMBLE/",
+    "release_regex": "Math-Utils-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JG/JGAMBLE/Math-Utils-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.14",
+    "release": "1",
+    "latest_detected": "1.14"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-utils-perl",
+        "package_base": "libmath-utils-perl",
+        "source_version": "1.14-2",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libmath-utils-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-utils-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.14-2 lineage matches official CPAN stable 1.14. Publisher CHECKSUMS pins source SHA-256; current LICENSE and module POD/README grant Perl GPL-1+/Artistic-1. All 22 default t files retained, including POD via available target Test::Pod. The original release-author t/manifest.t intentionally skips without RELEASE_TESTING and Test::CheckManifest is absent from target. Official target metadata has no same-name RPM or module provider. Target build and installed smoke require exact-head hosted CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
