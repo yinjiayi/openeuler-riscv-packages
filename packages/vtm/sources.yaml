@@ -1,0 +1,21 @@
+{
+  "package_id": "vtm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c3da8b3dd3757a6ab6dd2f7757df6365c2122ed64a43645157bcbff48ab0f3e7"
+      },
+      "filename": "vtm-2026.07.30.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/directvt/vtm/archive/refs/tags/v2026.07.30.tar.gz",
+      "version": "2026.07.30"
+    }
+  ]
+}
