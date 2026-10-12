@@ -1,0 +1,21 @@
+{
+  "package_id": "zalc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "384a1af3cb48cf9da1a950732946142b8466df556f78487063a709cb732fed07"
+      },
+      "filename": "zalc-1.2.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ziggi/zalc/archive/refs/tags/1.2.5.tar.gz",
+      "version": "1.2.5"
+    }
+  ]
+}
