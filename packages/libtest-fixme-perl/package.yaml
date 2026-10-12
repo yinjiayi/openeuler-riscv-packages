@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-fixme-perl",
+  "rpm": {
+    "name": "perl-Test-Fixme",
+    "summary": "Check project files for unresolved FIXME markers",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtest-fixme-perl",
+    "homepage": "https://metacpan.org/dist/Test-Fixme",
+    "source_repository": "https://github.com/uperl/Test-Fixme",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/",
+    "release_regex": "Test-Fixme-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Test-Fixme-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.17",
+    "release": "1",
+    "latest_detected": "0.17"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtest-fixme-perl",
+        "package_base": "libtest-fixme-perl",
+        "source_version": "0.17-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtest-fixme-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "perl-Test-Fixme",
+        "package_base": "perl-Test-Fixme",
+        "source_version": "0.17-3.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Test-Fixme/perl-Test-Fixme/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtest-fixme-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu and Fedora Test::Fixme 0.17 lineage maps to official PLICEASE CPAN SHA-256 9ef8580420b0551f11e81541a22006837c9bdf26524d0b8bf35aa286acca878e, matching publisher CHECKSUMS. Distribution LICENSE grants GPL-1.0-or-later OR Artistic-1.0-Perl for this software. Official target primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks this provider and supplies direct dependencies. All ten default test files remain; local 94 assertions passed and skip_all.t intentionally self-skipped. Target DNF and installed behavior must still pass; PR CI is not public publication."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
