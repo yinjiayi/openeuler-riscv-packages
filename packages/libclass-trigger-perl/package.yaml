@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-trigger-perl",
+  "rpm": {
+    "name": "perl-Class-Trigger",
+    "summary": "Inheritable callbacks for Perl classes",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclass-trigger-perl",
+    "homepage": "https://metacpan.org/dist/Class-Trigger",
+    "source_repository": "https://metacpan.org/dist/Class-Trigger",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/",
+    "release_regex": "(?<![A-Za-z0-9])Class-Trigger-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/Class-Trigger-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.15",
+    "release": "1",
+    "latest_detected": "0.15"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libclass-trigger-perl",
+        "package_base": "libclass-trigger-perl",
+        "source_version": "0.15-2",
+        "evidence_url": "https://packages.debian.org/source/sid/perl/libclass-trigger-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclass-trigger-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian libclass-trigger-perl 0.15-2 lineage maps to official stable CPAN Class-Trigger 0.15. Publisher CHECKSUMS matches fixed HTTPS archive. Top-level LICENSE grants same-as-Perl rights for this software and PM/README grant the same for this library; the LICENSE mechanically labels original-idea credit to Tony Bowden as copyright, while PM/README credit Tatsuhiko Miyagawa for code and Jesse Vincent for a contribution. These are attribution roles, not conflicting license notices; there is no vendored code. Target SP3 RVA23 has no package/provider collision and supplies IO::Scalar 2.113, IO::WrapTie 2.113, Test::Pod 1.52 and remaining hard dependencies. Unmodified default suite has ten functional files/51 assertions plus one author POD self-skip; AUTHOR_TESTING=1 runs all eleven files/52 assertions without skips locally and is required in target %check."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
