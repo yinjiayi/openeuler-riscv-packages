@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-rmap-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Rmap-0.65.tar.gz",
+      "version": "0.65",
+      "url": "https://cpan.metacpan.org/authors/id/B/BO/BOWMANBS/Data-Rmap-0.65.tar.gz",
+      "digests": {
+        "sha256": "d076317d29365420a06223b1638451dc012ce2ae77d56c7a9a25bb378953dcf3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The sole installed module's copyright-holder POD explicitly grants redistribution under the same GPL/Artistic terms as Perl; official CPAN CHECKSUMS and independent HTTPS download agree on the pinned SHA-256."
+      }
+    }
+  ]
+}
