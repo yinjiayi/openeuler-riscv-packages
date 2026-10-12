@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-mac-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Net-MAC-2.103622.tar.gz",
+      "version": "2.103622",
+      "url": "https://cpan.metacpan.org/authors/id/O/OL/OLIVER/Net-MAC-2.103622.tar.gz",
+      "digests": {
+        "sha256": "8a27d222b6f675a4f638039e59d3257095d5b90c7c1cb54920659f0bf1fe1f30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The distribution LICENSE and README identify Karl Ward and explicitly grant GNU GPL version 2 for the software; module POD repeats that grant and the module header permits GPL version 2 or later. GPL-2.0-only is the common supported choice for all shipped source, tests, and generated test fixtures. Official publisher CHECKSUMS SHA-256 matches the archive."
+      }
+    }
+  ]
+}
