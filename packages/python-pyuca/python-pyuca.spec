@@ -44,10 +44,10 @@ check_dir=$(mktemp -d)
 tar -xf %{SOURCE0} --strip-components=1 -C "$check_dir"
 cd "$check_dir"
 flake8 .
-coverage run --branch --source pyuca test.py
-coverage run --append --branch --source pyuca -m doctest pyuca/utils.py
-coverage run --append --branch --source pyuca full_test.py
-coverage report
+python3 -m coverage run --branch --source pyuca test.py
+python3 -m coverage run --append --branch --source pyuca -m doctest pyuca/utils.py
+python3 -m coverage run --append --branch --source pyuca full_test.py
+python3 -m coverage report
 
 %files
 %license LICENSE LICENSE-allkeys

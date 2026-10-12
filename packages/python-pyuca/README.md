@@ -34,3 +34,11 @@ closure are reviewed separately. Metadata feasibility is not a DNF transaction,
 ABI proof or successful target execution. Local checks are repository/static and
 offline source-only; package build, installation and full defaults run in CI.
 No RPM/SRPM URL or publication status is asserted before physical verification.
+
+Target command mapping: official openEuler python3-coverage 7.3.2 installs
+versioned console scripts, not an unversioned `coverage` executable. Both
+source and installed checks invoke the same `coverage.cmdline.main` through
+`python3 -m coverage`, preserving every original subcommand and argument.
+The first CI failed before unit/doctest/conformance execution; this corrects
+only the target CLI entrypoint, not upstream code or default checks. All 40
+original files, five full Unicode fixtures, skips and license notices remain.

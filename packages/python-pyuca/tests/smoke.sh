@@ -96,13 +96,13 @@ builtins.__import__ = checked
     (guard / 'sitecustomize.py').write_text(guard_code)
     env = dict(os.environ, PYTHONPATH=str(guard), PYTHONDONTWRITEBYTECODE='1', PYTHONNOUSERSITE='1')
     commands = [
-        ['coverage', 'run', '--branch', '--source', 'pyuca', 'test.py'],
-        ['coverage', 'run', '--append', '--branch', '--source', 'pyuca', '-m', 'doctest', 'pyuca/utils.py'],
-        ['coverage', 'run', '--append', '--branch', '--source', 'pyuca', 'full_test.py'],
+        ['python3', '-m', 'coverage', 'run', '--branch', '--source', 'pyuca', 'test.py'],
+        ['python3', '-m', 'coverage', 'run', '--append', '--branch', '--source', 'pyuca', '-m', 'doctest', 'pyuca/utils.py'],
+        ['python3', '-m', 'coverage', 'run', '--append', '--branch', '--source', 'pyuca', 'full_test.py'],
     ]
     for command in commands:
         subprocess.run(command, cwd=scratch, env=env, check=True)
-    subprocess.run(['coverage', 'report'], cwd=scratch, env=env, check=True)
+    subprocess.run(['python3', '-m', 'coverage', 'report'], cwd=scratch, env=env, check=True)
     for rel, expected in blobs.items():
         assert digest(lint / rel) == expected
     for rel, expected in runtime.items():
