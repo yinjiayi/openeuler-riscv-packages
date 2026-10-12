@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-string-ttylength",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-TtyLength-0.03.tar.gz",
+      "version": "0.03",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/String-TtyLength-0.03.tar.gz",
+      "digests": {
+        "sha256": "4fedaf72028511d80eb6afba523993e9aaa245d7af558345d5d4ed46e2e82ce1"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included distribution-wide LICENSE and module POD grant the terms of Perl 5, including an explicit GPL version 1 or later path. The source archive contains no vendored code or third-party data; publisher CHECKSUMS confirms the full SHA-256."
+      }
+    }
+  ]
+}
