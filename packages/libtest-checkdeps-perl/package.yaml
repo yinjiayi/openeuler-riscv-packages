@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-checkdeps-perl",
+  "rpm": {
+    "name": "perl-Test-CheckDeps",
+    "summary": "Check Perl distribution dependencies in tests",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtest-checkdeps-perl",
+    "homepage": "https://metacpan.org/dist/Test-CheckDeps",
+    "source_repository": "https://github.com/Leont/test-checkdeps",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/",
+    "release_regex": "Test-CheckDeps-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-CheckDeps-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.010",
+    "release": "1",
+    "latest_detected": "0.010"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtest-checkdeps-perl",
+        "package_base": "libtest-checkdeps-perl",
+        "source_version": "0.010-6",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtest-checkdeps-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtest-checkdeps-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu libtest-checkdeps-perl 0.010-6 maps to official LEONT CPAN SHA-256 66fccca6c6f330e7ecc898bd6a51846e2145b3e02d78c4997ba6b7de23b551ee, matching publisher CHECKSUMS. LICENSE and installed module grant Perl terms. Official target primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same provider and supplies direct dependencies. All four default upstream tests remain; local 14 assertions passed with two upstream release-only POD files self-skipped because RELEASE_TESTING was unset. Target DNF and installed functional smoke must pass; PR CI is not public publication."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
