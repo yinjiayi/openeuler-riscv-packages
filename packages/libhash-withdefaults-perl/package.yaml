@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-withdefaults-perl",
+  "rpm": {
+    "name": "perl-Hash-WithDefaults",
+    "summary": "Tied Perl hashes with case handling and inherited defaults",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libhash-withdefaults-perl",
+    "homepage": "https://metacpan.org/dist/Hash-WithDefaults",
+    "source_repository": "https://cpan.metacpan.org/authors/id/J/JE/JENDA/",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JE/JENDA/",
+    "release_regex": "Hash-WithDefaults-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JE/JENDA/Hash-WithDefaults-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.05",
+    "release": "1",
+    "latest_detected": "0.05"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libhash-withdefaults-perl",
+        "package_base": "libhash-withdefaults-perl",
+        "source_version": "0.05-4",
+        "evidence_url": "https://packages.ubuntu.com/noble/libhash-withdefaults-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libhash-withdefaults-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.05-4 lineage; official CPAN archive pinned to publisher CHECKSUMS. Upstream README and module POD attribute Jan/Jenda Krynicky and grant the same terms as Perl, with no contrary per-file notice; the README is installed as license. Official SP3 RVA23 primary lacks this package/provider and supplies MakeMaker, Test::More, Test::Pod, Test::Pod::Coverage, Pod::Coverage and their dependencies. All five unchanged default test files, including POD syntax and coverage, ran locally with 685 assertions and zero skips using official checksum-verified temporary test modules."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
