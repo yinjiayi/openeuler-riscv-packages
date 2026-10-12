@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-random-isaac-perl",
+  "rpm": {
+    "name": "perl-Math-Random-ISAAC",
+    "summary": "Perl interface to the ISAAC pseudorandom number generator",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "libmath-random-isaac-perl",
+    "homepage": "https://metacpan.org/dist/Math-Random-ISAAC",
+    "source_repository": "https://github.com/jawnsy/Math-Random-ISAAC",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JA/JAWNSY/",
+    "release_regex": "Math-Random-ISAAC-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JA/JAWNSY/Math-Random-ISAAC-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.004",
+    "release": "1",
+    "latest_detected": "1.004"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-random-isaac-perl",
+        "package_base": "libmath-random-isaac-perl",
+        "source_version": "1.004-2",
+        "evidence_url": "https://packages.ubuntu.com/noble/libmath-random-isaac-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-random-isaac-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.004-2 lineage; official CPAN archive pinned to publisher CHECKSUMS. Jonathan Yu's distribution-wide LICENSE explicitly grants an MIT alternative; README and both modules repeat the author's public-domain intent without a contrary per-file grant. Official SP3 RVA23 primary lacks this package/provider and optional XS, and supplies MakeMaker, Test::More, Test::NoWarnings and Test::LeakTrace. Original 11-file default suite is unchanged; Test::LeakTrace is installed for its two memory checks, while author/release and unavailable-XS tests retain their upstream skip conditions."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-random-isaac-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Random-ISAAC-1.004.tar.gz",
+      "version": "1.004",
+      "url": "https://cpan.metacpan.org/authors/id/J/JA/JAWNSY/Math-Random-ISAAC-1.004.tar.gz",
+      "digests": {
+        "sha256": "2773f02fbf207e9745e76a037df08bf5a8cc987ed23c57040ce7f7b1561f2b7c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Jonathan Yu's distribution-wide LICENSE expressly offers MIT/X11 as an alternative to public-domain dedication and includes the MIT text; README and both installed modules carry matching authorship/public-domain notices. The bundled tests and examples have no contrary grant. Publisher J/JA/JAWNSY/CHECKSUMS pins the archive SHA-256."
+      }
+    }
+  ]
+}
