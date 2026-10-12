@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "package_id": "libmseed",
+  "rpm": {"name": "libmseed", "summary": "miniSEED seismic record library", "license": "Apache-2.0"},
+  "upstream": {
+    "component": "github.com-earthscope-libmseed",
+    "homepage": "https://earthscope.github.io/libmseed/",
+    "source_repository": "https://github.com/EarthScope/libmseed.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/EarthScope/libmseed/releases/latest",
+    "release_regex": "v(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/EarthScope/libmseed/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "3.5.4", "release": "1", "latest_detected": "3.5.4"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "aur", "package_name": "libmseed", "package_base": "libmseed", "source_version": "3.1.3-1", "evidence_url": "https://aur.archlinux.org/packages/libmseed", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "libmseed", "package_base": "libmseed", "source_version": "2.19.8-1", "evidence_url": "https://packages.debian.org/source/stable/libmseed", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "libmseed", "package_base": "libmseed", "source_version": "2.19.8-1ubuntu3", "evidence_url": "https://packages.ubuntu.com/source/resolute/libmseed", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libmseed.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official v3.5.4 tag resolves to immutable commit d6e6ad306de5b7bdde072e5a5e3d58ddcc11abd8. Frozen Debian/Ubuntu rows described old 2.x releases and omitted licenses; the official 3.5.4 LICENSE is Apache-2.0. All 11 upstream CTest cases and examples are enabled with libcurl URL support, without removing any test."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-releases"}
+}
