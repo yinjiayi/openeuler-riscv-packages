@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libhttp-tiny-multipart-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "HTTP-Tiny-Multipart-0.08.tar.gz",
+      "version": "0.08",
+      "url": "https://cpan.metacpan.org/authors/id/R/RE/RENEEB/HTTP-Tiny-Multipart-0.08.tar.gz",
+      "digests": {
+        "sha256": "ed0d43d470797c236be7f83e414e31561560ef3f88fab1ec09def20d98c361d6"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The distribution LICENSE and module POD explicitly grant Artistic-2.0; Makefile.PL/META agree and text-only tests have no conflicting notice. Official HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

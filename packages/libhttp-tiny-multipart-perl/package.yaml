@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libhttp-tiny-multipart-perl",
+  "rpm": {
+    "name": "perl-HTTP-Tiny-Multipart",
+    "summary": "Multipart POST helper for HTTP::Tiny",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "libhttp-tiny-multipart-perl",
+    "homepage": "https://metacpan.org/dist/HTTP-Tiny-Multipart",
+    "source_repository": "https://github.com/reneeb/HTTP-Tiny-Multipart",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RE/RENEEB/",
+    "release_regex": "HTTP-Tiny-Multipart-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RE/RENEEB/HTTP-Tiny-Multipart-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.08",
+    "release": "1",
+    "latest_detected": "0.08"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libhttp-tiny-multipart-perl",
+        "package_base": "libhttp-tiny-multipart-perl",
+        "source_version": "0.08-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libhttp-tiny-multipart-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libhttp-tiny-multipart-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.08-2 maps to official CPAN 0.08; publisher CHECKSUMS matches the complete tarball SHA-256. Distribution LICENSE and module POD explicitly grant Artistic-2.0, consistent with release metadata. Official SP3 primary lacks the RPM/module provider and supplies HTTP::Tiny, Carp, File::Basename, MIME::Base64, MakeMaker and Test::More. All six upstream default test files remain unchanged; four functional tests mock request without network, while two author-only files self-skip unless AUTHOR_TESTING. Hosted exact-head target CI and physical products remain acceptance evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
