@@ -1,0 +1,21 @@
+{
+  "package_id": "tripwire",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "18d40b85f04b8822717d9a3e987887600840a3753f0e9a9f6ab77692d5658450"
+      },
+      "filename": "tripwire-2.4.3.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Tripwire/tripwire-open-source/archive/refs/tags/2.4.3.7.tar.gz",
+      "version": "2.4.3.7"
+    }
+  ]
+}
