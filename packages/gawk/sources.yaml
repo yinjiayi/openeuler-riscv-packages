@@ -1,0 +1,21 @@
+{
+  "package_id": "gawk",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37"
+      },
+      "filename": "gawk-5.4.1.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/gawk/gawk-5.4.1.tar.xz",
+      "version": "5.4.1"
+    }
+  ]
+}
