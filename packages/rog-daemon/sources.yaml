@@ -1,0 +1,21 @@
+{
+  "package_id": "rog-daemon",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fbba57ef03b720a13971cfdec68cafdf80a2373d1792f7cbff15c755cdc2e090"
+      },
+      "filename": "rog-daemon-2.1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/mechakotik/rog-daemon/archive/refs/tags/v2.1.0.tar.gz",
+      "version": "2.1.0"
+    }
+  ]
+}
