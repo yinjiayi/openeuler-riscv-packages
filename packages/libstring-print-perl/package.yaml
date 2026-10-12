@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-print-perl",
+  "rpm": {
+    "name": "perl-String-Print",
+    "summary": "Extended string interpolation and printf alternatives",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-print-perl",
+    "homepage": "https://metacpan.org/dist/String-Print",
+    "source_repository": "https://github.com/markov2/perl5-String-Print",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MA/MARKOV/",
+    "release_regex": "String-Print-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MA/MARKOV/String-Print-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.02",
+    "release": "1",
+    "latest_detected": "1.02"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-print-perl",
+        "package_base": "libstring-print-perl",
+        "source_version": "1.02-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-print-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-print-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.02-1 maps to official stable CPAN 1.02. Publisher CHECKSUMS full SHA-256 and 33 safe single-root archive entries verified. Main module has explicit Artistic-1.0-Perl OR GPL-1.0-or-later SPDX and Perl 5 terms; OODoc is development metadata only. Official SP3 primary lacks same-name RPM/provider and supplies all declared module dependencies. All 19 default t/*.t files remain in check; xt/99pod.t and MARKOV_DEVEL date assertions are not default and are not claimed. Target build/test/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
