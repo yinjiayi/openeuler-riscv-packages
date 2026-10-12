@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-validate-ip-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Validate-IP-0.31.tar.gz",
+      "version": "0.31",
+      "url": "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Data-Validate-IP-0.31.tar.gz",
+      "digests": {
+        "sha256": "734aff86b6f9cad40e1c4da81f28faf18e0802c76a566d95e5613d4318182fc1"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official archive LICENSE grants distribution under Perl 5 terms (GPL version 1 or later, or Artistic 1.0); the installed module POD and README repeat it. Publisher CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
