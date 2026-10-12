@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "libshine",
+  "rpm": {
+    "name": "libshine",
+    "summary": "Fixed-point MP3 encoder library and command-line encoder",
+    "license": "LGPL-2.0-only"
+  },
+  "upstream": {
+    "component": "github.com-toots-shine",
+    "homepage": "https://github.com/toots/shine",
+    "source_repository": "https://github.com/toots/shine",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/toots/shine/releases/latest",
+    "release_regex": null,
+    "source_url_template": "https://github.com/toots/shine/releases/download/{version}/shine-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.1.1",
+    "release": "1",
+    "latest_detected": "3.1.1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libshine",
+        "package_base": "libshine",
+        "source_version": "3.1.1",
+        "evidence_url": "https://github.com/toots/shine",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libshine.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-pkgconfig-libdir.patch",
+        "sha256": "f5d1e6a125981a3a2c223bcb384071204b5ae1d0fbf792265794ad13da8bd472",
+        "purpose": "Use the configured multilib directory in the installed pkg-config file.",
+        "source": "Downstream review of the official Shine 3.1.1 source tarball.",
+        "license": "LGPL-2.0-only",
+        "upstream_status": "not-submitted",
+        "remove_when": "An upstream release generates the pkg-config libdir from @libdir@."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official 3.1.1 release tarball and COPYING reviewed. Native Automake check registers no tests; package functional encode check and installed C API/CLI smoke preserve explicit target evidence. JavaScript Emscripten/Node/browser tests are outside native RPM scope. CI outcome not yet known."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}

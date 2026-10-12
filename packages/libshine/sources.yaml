@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libshine",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/toots/shine/releases/download/3.1.1/shine-3.1.1.tar.gz",
+      "filename": "shine-3.1.1.tar.gz",
+      "version": "3.1.1",
+      "digests": {
+        "sha256": "58e61e70128cf73f88635db495bfc17f0dde3ce9c9ac070d505a0cd75b93d384"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The reviewed upstream COPYING contains GNU Library GPL version 2."
+      }
+    }
+  ]
+}
