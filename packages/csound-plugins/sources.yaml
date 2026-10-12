@@ -1,0 +1,21 @@
+{
+  "package_id": "csound-plugins",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8c2f0625ad1d38400030f414b92d82cfdec5c04b7dc178852f3e1935abf75d30"
+      },
+      "filename": "csound-plugins-1.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/csound/plugins/archive/refs/tags/1.0.2.tar.gz",
+      "version": "1.0.2"
+    }
+  ]
+}
