@@ -24,3 +24,9 @@ echo command from hiding a failed version invocation. The patch-level check
 preserves the official three-line file and asserts its final numeric line,
 rather than comparing the header and number together against 3. All build
 and test phases are offline. Target CI success is required after refresh.
+
+The RPM owns the upstream-installed INSTALL and all three original HTML
+manuals as documentation. The generated shared Info directory index is
+removed from the isolated buildroot rather than being owned by this package;
+the three Readline/History Info manuals remain packaged. This manifest fix
+does not alter upstream source, the complete check routes, or installed smoke.

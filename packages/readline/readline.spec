@@ -44,6 +44,8 @@ patch -p0 < %{SOURCE3}
 %install
 %make_install SHLIB_LIBS=-lncurses
 rm -f %{buildroot}%{_libdir}/*.a
+# install-info generates a shared directory index, not a Readline-owned file.
+rm -f %{buildroot}%{_infodir}/dir
 
 %check
 %make_build check
@@ -58,7 +60,7 @@ test "$(tail -n1 patchlevel)" = 3
 
 %files
 %license COPYING
-%doc CHANGES NEWS README USAGE
+%doc CHANGES NEWS README USAGE INSTALL doc/history.html doc/readline.html doc/rluserman.html
 %{_libdir}/libhistory.so.8*
 %{_libdir}/libreadline.so.8*
 
