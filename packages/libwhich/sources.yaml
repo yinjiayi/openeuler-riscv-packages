@@ -1,0 +1,21 @@
+{
+  "package_id": "libwhich",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "853e843824ee8b20b0192d45bf9837c860ef41cce4a10bd14c59860753e5fa0b"
+      },
+      "filename": "libwhich-1.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/vtjnash/libwhich/archive/refs/tags/v1.3.0.tar.gz",
+      "version": "1.3.0"
+    }
+  ]
+}
