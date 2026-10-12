@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-yaml-perl",
+  "rpm": {
+    "name": "perl-Data-YAML",
+    "summary": "Lightweight YAML serialization of Perl data structures",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-yaml-perl",
+    "homepage": "https://metacpan.org/dist/Data-YAML",
+    "source_repository": "https://metacpan.org/dist/Data-YAML",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AN/ANDYA/",
+    "release_regex": "Data-YAML-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AN/ANDYA/Data-YAML-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.0.7",
+    "release": "1",
+    "latest_detected": "0.0.7"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-yaml-perl",
+        "package_base": "libdata-yaml-perl",
+        "source_version": "0.0.7-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-yaml-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-yaml-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu libdata-yaml-perl 0.0.7-3 key maps to official CPAN Data-YAML 0.0.7. The publisher CHECKSUMS and independent HTTPS archive SHA-256 agree. README and all three installed modules explicitly grant same-Perl terms. Reader credits Adam Kennedy's YAML::Tiny template and regular expressions; the original author's POD also grants same-Perl terms. The SP3 RVA23 primary has no same-name RPM or Data::YAML module provider and uniquely supplies hard build/test providers, including POD coverage. All seven unchanged default upstream test files pass locally (296 assertions), except the POD-coverage file is skipped because Test::Pod::Coverage is absent locally; target CI must run it without skip."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
