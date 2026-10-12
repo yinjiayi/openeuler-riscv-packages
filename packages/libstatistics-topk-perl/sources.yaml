@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstatistics-topk-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Statistics-TopK-0.02.tar.gz",
+      "version": "0.02",
+      "url": "https://cpan.metacpan.org/authors/id/G/GR/GRAY/Statistics-TopK-0.02.tar.gz",
+      "digests": {
+        "sha256": "9b83f0012f18034c906f8d10bcfcd72976529375fd9edc9b5d1c2b9d7e6f8955"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The sole module POD grants Perl 5 terms and upstream metadata agrees; Debian Files:* records GPL-1-or-later or Artistic. No vendored code or third-party datasets. GRAY publisher CHECKSUMS confirms the full SHA-256."
+      }
+    }
+  ]
+}
