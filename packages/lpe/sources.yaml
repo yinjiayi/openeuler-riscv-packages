@@ -1,0 +1,21 @@
+{
+  "package_id": "lpe",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "008b0862d837ef48fb04f5bc1dc24bb6c25f1e111a645b12fc70c579022697b6"
+      },
+      "filename": "lpe-1.2.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/AdamMajer/lpe/archive/refs/tags/v1.2.8.tar.gz",
+      "version": "1.2.8"
+    }
+  ]
+}
