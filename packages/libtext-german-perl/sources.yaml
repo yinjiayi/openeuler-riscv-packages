@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-german-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-German-0.06.tar.gz",
+      "version": "0.06",
+      "url": "https://cpan.metacpan.org/authors/id/U/UL/ULPFR/Text-German-0.06.tar.gz",
+      "digests": {
+        "sha256": "922d4f19012d9773b11f4a6f642105e9f913f5866f4461b6059ca674d5bb07dd"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and German.pod grant the same GPL/Artistic choice as Perl; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}
