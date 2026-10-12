@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "liblqr",
+  "rpm": {
+    "name": "liblqr",
+    "summary": "Seam-carving library for content-aware image resizing",
+    "license": "LGPL-3.0-only"
+  },
+  "upstream": {
+    "component": "liblqr.wikidot.com",
+    "homepage": "https://liblqr.wikidot.com/",
+    "source_repository": "https://github.com/carlobaldassi/liblqr",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/carlobaldassi/liblqr/tags?per_page=100",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/carlobaldassi/liblqr/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.4.3",
+    "release": "1",
+    "latest_detected": "0.4.3"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "liblqr",
+        "package_base": "liblqr",
+        "source_version": "0.4.3-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/liblqr/",
+        "observed_at": "2026-09-28T00:00:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "liblqr.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official 0.4.3 tag resolves to commit 704a3194a9a0df7aaddbfa40306583b23407a88b. Its HTTPS archive is SHA-256 pinned and has 233 safe single-root entries. Upstream has no registered test suite; build and installed-package checks exercise a representative resize through the public API. Arch Extra lineage was cross-checked live without running its recipe."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}
