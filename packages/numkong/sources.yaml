@@ -1,0 +1,21 @@
+{
+  "package_id": "numkong",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ad4f9d1bebda21cf56eb3da1f2d9a1818d86fb07b8170cab91568c57178dc4e1"
+      },
+      "filename": "numkong-7.7.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ashvardanian/NumKong/archive/refs/tags/v7.7.1.tar.gz",
+      "version": "7.7.1"
+    }
+  ]
+}
