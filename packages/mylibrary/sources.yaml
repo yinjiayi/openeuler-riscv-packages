@@ -1,0 +1,21 @@
+{
+  "package_id": "mylibrary",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "67c267548e2b8940ea76b6267c90c1c54c1efa6ca992cafd027d4d96529728db"
+      },
+      "filename": "mylibrary-5.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ProfessorNavigator/mylibrary/archive/refs/tags/v5.1.tar.gz",
+      "version": "5.1"
+    }
+  ]
+}
