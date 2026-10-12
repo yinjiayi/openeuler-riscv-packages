@@ -1,0 +1,33 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Sat, 12 Sep 2026 00:00:00 +0000
+Subject: [PATCH] cmake: link the display target to yaml-cpp
+
+TerminalDisplay.h includes Config.h, which includes yaml-cpp headers. The
+display target currently receives no yaml-cpp usage requirements: only the
+final contour executable links that dependency. This breaks the display's
+own compilation when yaml-cpp is fetched instead of installed globally.
+
+Reuse the existing target selection for namespaced and legacy yaml-cpp
+providers. Preserve the display target's existing plain linkage signature,
+and guard the link for configurations without the GUI target.
+
+Patch-Source: downstream adaptation of contour 0.6.3.8249 src/contour/CMakeLists.txt
+Patch-License: Apache-2.0
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Applies-To: contour 0.6.3.8249
+Remove-When: upstream propagates yaml-cpp usage requirements to ContourTerminalDisplay
+---
+ src/contour/CMakeLists.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/contour/CMakeLists.txt b/src/contour/CMakeLists.txt
+--- a/src/contour/CMakeLists.txt
++++ b/src/contour/CMakeLists.txt
+@@ -175,3 +175,7 @@
+ endif()
++if (TARGET ContourTerminalDisplay)
++    target_link_libraries(ContourTerminalDisplay ${YAML_CPP_LIBRARIES})
++endif()
++
+
+ target_link_libraries(contour
