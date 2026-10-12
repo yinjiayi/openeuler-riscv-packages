@@ -1,0 +1,21 @@
+{
+  "package_id": "zbar",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "212dfab527894b8bcbcc7cd1d43d63f5604a07473d31a5f02889e372614ebe28"
+      },
+      "filename": "zbar-0.23.93.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/mchehab/zbar/archive/refs/tags/0.23.93.tar.gz",
+      "version": "0.23.93"
+    }
+  ]
+}
