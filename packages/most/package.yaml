@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "most",
+  "rpm": {"name": "most", "summary": "Terminal pager with multi-window navigation", "license": "GPL-2.0-or-later"},
+  "upstream": {
+    "component": "most",
+    "homepage": "https://www.jedsoft.org/most/",
+    "source_repository": "https://github.com/jedsoft/most.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/jedsoft/most/tags",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)*)$",
+    "source_url_template": "https://github.com/jedsoft/most/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "5.2.0", "release": "1", "latest_detected": "5.2.0"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "most", "package_base": "most", "source_version": "5.2.0-1.1", "evidence_url": "https://packages.debian.org/source/trixie/most", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "most.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official v5.2.0 tag resolves to 8fd49788d22ef3733b4a78e7c2f752c656695af8 and its HTTPS archive is SHA-256 pinned. Upstream supplies manual testfiles but no automated check target; %check and installed smoke cover stdin and file paging. The target openEuler SP3 RVA23 repository lists slang-devel 2.3.3-3. Target CI determines actual RISC-V build and installed behavior."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"}
+}
