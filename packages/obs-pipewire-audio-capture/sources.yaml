@@ -1,0 +1,21 @@
+{
+  "package_id": "obs-pipewire-audio-capture",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "70107cafd2020437fc0b663fdf6a94598b474942a0582b24719a0e76a9f73a50"
+      },
+      "filename": "obs-pipewire-audio-capture-1.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dimtpap/obs-pipewire-audio-capture/archive/refs/tags/1.2.1.tar.gz",
+      "version": "1.2.1"
+    }
+  ]
+}
