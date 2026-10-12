@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-errorhandler-perl",
+  "rpm": {
+    "name": "perl-Class-ErrorHandler",
+    "summary": "Base class for Perl error handling",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclass-errorhandler-perl",
+    "homepage": "https://metacpan.org/dist/Class-ErrorHandler",
+    "source_repository": "https://metacpan.org/dist/Class-ErrorHandler",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/",
+    "release_regex": "Class-ErrorHandler-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/Class-ErrorHandler-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04",
+    "release": "1",
+    "latest_detected": "0.04"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libclass-errorhandler-perl",
+        "package_base": "libclass-errorhandler-perl",
+        "source_version": "0.04-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libclass-errorhandler-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclass-errorhandler-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu 0.04-3 key maps to official CPAN Class-ErrorHandler 0.04. Publisher CHECKSUMS matches the fixed HTTPS archive. The installed PM and README explicitly grant same-as-Perl redistribution by original copyright holder Benjamin Trott, matching bundled LICENSE; no third-party code is present. Official SP3 RVA23 primary has no name/module collision and supplies EUMM, Test and base. Both unchanged default t files passed locally with 10 assertions and no skips. Target CI must prove the same suite, physical RPM/SRPM, DNF installation and both class/object error branches."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
