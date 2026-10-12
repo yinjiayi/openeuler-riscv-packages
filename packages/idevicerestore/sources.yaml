@@ -1,0 +1,21 @@
+{
+  "package_id": "idevicerestore",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2c83c60b8b7027b3730d63c3ebbdede5b0b43bd5ab1e54caaa52b3b1268881e5"
+      },
+      "filename": "idevicerestore-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libimobiledevice/idevicerestore/archive/refs/tags/1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
