@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstatistics-contingency-perl",
+  "rpm": {
+    "name": "perl-Statistics-Contingency",
+    "summary": "Precision and recall metrics from contingency tables",
+    "license": "GPL-1.0-or-later"
+  },
+  "upstream": {
+    "component": "libstatistics-contingency-perl",
+    "homepage": "https://metacpan.org/dist/Statistics-Contingency",
+    "source_repository": "https://github.com/kenahoo/Statistics-Contingency",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/",
+    "release_regex": "Statistics-Contingency-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Statistics-Contingency-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.09",
+    "release": "1",
+    "latest_detected": "0.09"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libstatistics-contingency-perl",
+        "package_base": "libstatistics-contingency-perl",
+        "source_version": "0.09-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/libstatistics-contingency-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstatistics-contingency-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian trixie 0.09-2 lineage and official KWILLIAMS CPAN source matching publisher CHECKSUMS. Archive-wide LICENSE grants Perl 5 dual terms; RPM chooses GPL-1.0-or-later. Both original default test files remain; the author critic test self-skips unless AUTHOR_TESTING is enabled."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
