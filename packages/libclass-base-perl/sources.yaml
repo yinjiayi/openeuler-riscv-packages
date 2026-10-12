@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-base-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Class-Base-0.09.tar.gz",
+      "version": "0.09",
+      "url": "https://cpan.metacpan.org/authors/id/Y/YA/YANICK/Class-Base-0.09.tar.gz",
+      "digests": {
+        "sha256": "e1a5bdde52505802664a9108a515c9e8e502cb7229a49de94f4081b1b2aeed84"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the independently downloaded official HTTPS archive. The installed Class/Base.pm, bundled LICENSE and README grant same-as-Perl redistribution by copyright holder Andy Wardley; the functional t/test.t repeats that grant. Remaining generated default tests are covered by the distribution-wide LICENSE, with no third-party code copy."
+      }
+    }
+  ]
+}
