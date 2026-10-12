@@ -1,0 +1,21 @@
+{
+  "package_id": "mistserver",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8dc2d61a1c086d2a7bfb77592e4ffb425279abe782e15896b1a6d74c54c99853"
+      },
+      "filename": "mistserver-3.11.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/DDVTECH/mistserver/archive/refs/tags/3.11.1.tar.gz",
+      "version": "3.11.1"
+    }
+  ]
+}
