@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "libdate-tiny-perl",
+  "rpm": {
+    "name": "perl-Date-Tiny",
+    "summary": "Lightweight Perl date object",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdate-tiny-perl",
+    "homepage": "https://metacpan.org/dist/Date-Tiny",
+    "source_repository": "https://metacpan.org/dist/Date-Tiny",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_regex": "(?<![A-Za-z0-9])Date-Tiny-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Date-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.07",
+    "release": "1",
+    "latest_detected": "1.07"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libdate-tiny-perl",
+        "package_base": "libdate-tiny-perl",
+        "source_version": "1.07-2",
+        "evidence_url": "https://sources.debian.org/src/libdate-tiny-perl/1.07-2/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdate-tiny-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-test-accept-datetime-locale-135-c-alias.patch",
+        "sha256": "c04d4a4c50b0245855b472ef066b408d4af4dc0a4dce19f68874d7d51e108ae1",
+        "purpose": "Preserve the original DateTime locale assertion with a concrete en-US expectation for DateTime::Locale 1.35 while retaining all 20 default assertions and zero skips.",
+        "source": "Independent reproduction against official Date-Tiny 1.07 SHA-256 6d7539e0be273d789575544f00c8ba1aa857d22f41d2cb3f40fa8681dc6f3b8e, local DateTime::Locale 1.25 and official target 1.35 source; same C-alias transition as Time::Tiny target CI 37061993495.",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream Date::Tiny tests use an equivalent explicit DateTime::Locale 1.35 C-alias expectation."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian 1.07-2 maps to official stable CPAN Date-Tiny 1.07. Publisher CHECKSUMS matches the fixed HTTPS archive. The installed PM directly grants same-as-Perl rights and top-level LICENSE explicitly covers the distribution, including unchanged generated default tests/build metadata without contrary notices. Official SP3 RVA23 primary has no collision and supplies all required providers including DateTime/Locale/TimeZone for the optional test branch. Unpatched original 2/20 tests pass with local Locale 1.25 but reproduce assertion 10 failure with official 1.35: C canonicalizes to en-US, not old en-US-POSIX. A narrow package-local test patch preserves both files/all 20 assertions and adds a concrete 1.35 expectation; both version branches pass independently with zero skips. Target CI must prove full suite, physical products and installed date roundtrip; DateTime remains optional at runtime."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
