@@ -1,0 +1,21 @@
+{
+  "package_id": "qat-zstd-plugin",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "00f2611719f0a1c9585965c6c3c1fe599119aa8e932a569041b1876ffc944fb3"
+      },
+      "filename": "qat-zstd-plugin-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/intel/QAT-ZSTD-Plugin/archive/refs/tags/v1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
