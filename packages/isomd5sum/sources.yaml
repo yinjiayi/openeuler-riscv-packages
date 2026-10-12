@@ -1,0 +1,21 @@
+{
+  "package_id": "isomd5sum",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b4ffe78a8277b28f7c4528989c55af3eec87d48245f362229c213c704b8c2b97"
+      },
+      "filename": "isomd5sum-1.2.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rhinstaller/isomd5sum/archive/refs/tags/1.2.5.tar.gz",
+      "version": "1.2.5"
+    }
+  ]
+}
