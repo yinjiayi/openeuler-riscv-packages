@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-expression-evaluator-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Expression-Evaluator-v0.3.2.tar.gz",
+      "version": "0.3.2",
+      "url": "https://cpan.metacpan.org/authors/id/M/MO/MORITZ/Math-Expression-Evaluator-v0.3.2.tar.gz",
+      "digests": {
+        "sha256": "21b03869abd963be14c1acd1df824a22ba3a1f8e2a3fd8bd6fe1e6997472886a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official MORITZ CHECKSUMS pins this archive. The upstream modules grant Perl 5 terms; the Parser.pm borrowed regex retains Damian Conway and Abigail attribution, and their official Regexp::Common source directly grants Artistic, BSD and MIT redistribution terms."
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-expression-evaluator-perl",
+  "rpm": {
+    "name": "perl-Math-Expression-Evaluator",
+    "summary": "Parse and evaluate mathematical expressions in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-expression-evaluator-perl",
+    "homepage": "https://metacpan.org/dist/Math-Expression-Evaluator",
+    "source_repository": "https://cpan.metacpan.org/authors/id/M/MO/MORITZ/",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MO/MORITZ/",
+    "release_regex": "Math-Expression-Evaluator-v(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MO/MORITZ/Math-Expression-Evaluator-v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.3.2",
+    "release": "1",
+    "latest_detected": "0.3.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "fedora",
+        "package_name": "perl-Math-Expression-Evaluator",
+        "package_base": "perl-Math-Expression-Evaluator",
+        "source_version": "0.3.2-39.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/perl-Math-Expression-Evaluator",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-expression-evaluator-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Fedora 0.3.2-39.fc44 lineage and official MORITZ CHECKSUMS pin the archive. Upstream modules grant Perl 5 terms. Parser.pm credits a borrowed floating-point regex to Damian Conway and Abigail; the official Regexp::Common source directly grants Artistic-1.0-Perl, Artistic-2.0, BSD and MIT terms. Target primary lacks this RPM/module and provides the runtime and POD-test dependency closure. The unchanged upstream MakeMaker default suite passed 19 files/337 assertions with zero skips locally, including POD coverage."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
