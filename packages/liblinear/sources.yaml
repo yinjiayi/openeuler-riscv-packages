@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "liblinear",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/cjlin1/liblinear/tar.gz/491c9f1188b97ba70847c70a68be363d186ddf9d",
+      "filename": "liblinear-2.50.tar.gz",
+      "version": "2.50",
+      "digests": {"sha256": "ad9c824a631e48fd57fe21ab23e87e9de0413cf0558d0fa9dd89685aec76c185"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The upstream BSD-3-Clause license permits source and binary redistribution under its terms."}
+    }
+  ]
+}
