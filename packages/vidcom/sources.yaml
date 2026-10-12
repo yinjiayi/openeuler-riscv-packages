@@ -1,0 +1,21 @@
+{
+  "package_id": "vidcom",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c4dd2fc558b0ff34507a59431bbb3bd94a2f6749b9bf41693c3d278a2624e6bd"
+      },
+      "filename": "vidcom-0.82.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/seja-arctic-fox/vidcom/archive/refs/tags/v0.82.tar.gz",
+      "version": "0.82"
+    }
+  ]
+}
