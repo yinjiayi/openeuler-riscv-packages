@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-header-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Header-1.03.tar.gz",
+      "version": "1.03",
+      "url": "https://cpan.metacpan.org/authors/id/N/NW/NWIGER/Text-Header-1.03.tar.gz",
+      "digests": {
+        "sha256": "84cd282fd52066ed4240f41ba90e345e81670088667b46d40e58f000cd664856"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Header.pm top notice grants GPL version 2 or later for the module; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
