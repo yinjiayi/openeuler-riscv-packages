@@ -1,0 +1,15 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Make regression failures visible to automated builds
+
+The upstream script prints failed cases but exits zero. Keep every case and
+return a failing status when setup or any comparison fails.
+
+--- a/src/test/regression/test.pl
++++ b/src/test/regression/test.pl
+@@ -26,2 +26,1 @@
+-		print "***> cd failed!\n";
+-		next;
++		die "***> cd failed for $prog: $!\n";
+@@ -74,0 +74,2 @@
++	die "***> $f regression cases failed for $prog\n" if $f;
++	chdir($stdir) or die "***> cd back failed: $!\n";
