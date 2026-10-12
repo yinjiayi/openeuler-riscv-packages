@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libxfixes",
+  "rpm": {
+    "name": "libXfixes",
+    "summary": "X Fixes extension client library",
+    "license": "HPND-sell-variant AND MIT"
+  },
+  "upstream": {
+    "component": "xorg.freedesktop.org-lib-libxfixes",
+    "homepage": "https://gitlab.freedesktop.org/xorg/lib/libxfixes",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libxfixes.git",
+    "release_channel": "stable",
+    "release_api": "https://xorg.freedesktop.org/archive/individual/lib/",
+    "release_regex": "libXfixes-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://xorg.freedesktop.org/archive/individual/lib/libXfixes-{version}.tar.xz"
+  },
+  "version": {
+    "current": "6.0.2",
+    "release": "1",
+    "latest_detected": "6.0.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libxfixes",
+        "package_base": "libxfixes",
+        "source_version": null,
+        "evidence_url": "https://packages.debian.org/trixie/source/libxfixes",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libXfixes.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official X.Org 6.0.2 tarball matches its announced SHA-256 and supersedes frozen discovery version 6.0.0. Upstream Meson registers no tests, so installed smoke exercises the public display-free XFixesVersion API but not server operations. The lowercase discovery key maps to upstream/RPM libXfixes."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
