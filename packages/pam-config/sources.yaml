@@ -1,0 +1,21 @@
+{
+  "package_id": "pam-config",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a9008a379473f8a487e761b37848e4a878e7e47499c58d41e3f3d858446476a8"
+      },
+      "filename": "pam-config-2.14.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/SUSE/pam-config/archive/refs/tags/v2.14.tar.gz",
+      "version": "2.14"
+    }
+  ]
+}
