@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liburi-todisk-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "URI-ToDisk-1.12.tar.gz",
+      "version": "1.12",
+      "url": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/URI-ToDisk-1.12.tar.gz",
+      "digests": {
+        "sha256": "b2d9a645a54c5c153fc032a4db19d0c6c8fc4eac41b6b7614ef6c8184a6dfc95"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE explicitly grants GPL-1-or-later or Artistic terms; README and module POD confirm this grant. The eight bundled inc/Module/Install Perl files derive from official Module-Install 0.68, whose own LICENSE grants the same terms; comparison found only generated #line markers and removed POD/comments. Official CPAN publisher CHECKSUMS SHA-256 matches the URI-ToDisk archive."
+      }
+    }
+  ]
+}
