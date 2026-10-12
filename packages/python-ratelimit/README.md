@@ -15,6 +15,12 @@ term-missing and HTML coverage are preserved. All4 static unittest methods
 use the original deterministic Clock; four is not a local test-pass claim.
 No newly added test filters, skips, or coverage waiver is used.
 
+Before the unchanged source default runs, generated setuptools `build/`
+copies are temporarily isolated outside the official source tree and restored
+on shell exit. These copies are packaging outputs, not any of the15 original
+Git blobs. This avoids duplicate-module doctest import mismatches without
+changing pytest.ini, runtime, tests, command, coverage, or installed smoke.
+
 Original requirements.txt retains pytest==2.6.4, pytest-cov==2.5.1 and
 pylint==1.7.2. These are historical development pins, not install_requires;
 Travis invokes py.test and has no pip-r step. The actual supplied target tools

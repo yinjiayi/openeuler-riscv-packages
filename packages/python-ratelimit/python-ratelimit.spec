@@ -44,6 +44,12 @@ export PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1
 unset PYTHONHOME PYTHONPATH
 # Original Travis command and pytest.ini defaults, without new filters/skips.
 # Target supplied tools, not the unsatisfied historical dev-pin equalities.
+# Generated setuptools copies are not upstream doctest inputs. Preserve them
+# outside this source tree during whole original default collection, then restore.
+test ! -L build && test -d build/lib/ratelimit
+generated_build="$(mktemp -d "%{_builddir}/%{name}-generated-build.XXXXXX")"
+mv -- build "$generated_build/build"
+trap 'mv -- "$generated_build/build" build; rmdir -- "$generated_build"' 0
 py.test
 
 %files
