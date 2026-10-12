@@ -1,0 +1,26 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Keep the nested Hash full-clone result
+
+The two assignments in the conditional expression let the original value
+overwrite the recursive clone. Assign the result of the conditional once.
+This is an upstream-generic correctness fix, not a RISC-V-specific change.
+
+---
+ lib/Class/Gomor/Hash.pm | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/lib/Class/Gomor/Hash.pm b/lib/Class/Gomor/Hash.pm
+--- a/lib/Class/Gomor/Hash.pm
++++ b/lib/Class/Gomor/Hash.pm
+@@ -32,9 +32,8 @@ sub cgFullClone {
+    my %new;
+    for my $k (keys %$self) {
+       my $v = $self->{$k};
+-      (ref($v) && UNIVERSAL::isa($v, 'Class::Gomor'))
+-         ? $new{$k} = $v->cgFullClone
+-         : $new{$k} = $v;
++      $new{$k} = (ref($v) && UNIVERSAL::isa($v, 'Class::Gomor'))
++         ? $v->cgFullClone : $v;
+    }
+    bless(\%new, $class);
+ }
