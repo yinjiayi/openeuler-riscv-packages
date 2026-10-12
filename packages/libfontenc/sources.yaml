@@ -1,0 +1,21 @@
+{
+  "package_id": "libfontenc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9d8392705cb10803d5fe1d27d236cbab3f664e26841ce01916bbbe430cf273e2"
+      },
+      "filename": "libfontenc-1.1.9.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official X.Org archive contains MIT core code and an ISC-licensed reallocarray compatibility fallback."
+      },
+      "signature": null,
+      "url": "https://xorg.freedesktop.org/releases/individual/lib/libfontenc-1.1.9.tar.xz",
+      "version": "1.1.9"
+    }
+  ]
+}

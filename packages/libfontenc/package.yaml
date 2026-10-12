@@ -1,0 +1,74 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libfontenc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfontenc",
+        "package_name": "libfontenc",
+        "source": "debian",
+        "source_version": "1:1.1.8-1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfontenc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfontenc",
+        "package_name": "libfontenc",
+        "source": "ubuntu",
+        "source_version": "1:1.1.8-1build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libfontenc.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official X.Org 1.1.9 release reviewed: main code is MIT and bundled reallocarray fallback is ISC. Upstream registers no automated tests; %check and installed smoke each exercise the built-in ISO-8859-1 public mapping API.",
+    "status": "active"
+  },
+  "package_id": "libfontenc",
+  "rpm": {
+    "license": "MIT AND ISC",
+    "name": "libfontenc",
+    "summary": "Font encoding library for X.Org applications"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libfontenc",
+    "homepage": "https://www.x.org/",
+    "release_api": "https://xorg.freedesktop.org/releases/individual/lib/",
+    "release_channel": "stable",
+    "release_regex": "libfontenc-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libfontenc",
+    "source_url_template": "https://xorg.freedesktop.org/releases/individual/lib/libfontenc-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.1.9",
+    "latest_detected": "1.1.9",
+    "release": "1"
+  }
+}
