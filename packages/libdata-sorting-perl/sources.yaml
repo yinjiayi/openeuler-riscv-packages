@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-sorting-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Sorting-0.9.tar.gz",
+      "version": "0.9",
+      "url": "https://cpan.metacpan.org/authors/id/E/EV/EVO/Data-Sorting-0.9.tar.gz",
+      "digests": {
+        "sha256": "055d83c70b200ce98e9177a7382f08afd72bf6f98c84ebca8570f1600288b386"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release README and sole installed module POD explicitly permit use, modification, and distribution on Perl's terms, with both historical copyright holders credited. Publisher CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}

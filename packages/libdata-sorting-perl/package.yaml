@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-sorting-perl",
+  "rpm": {
+    "name": "perl-Data-Sorting",
+    "summary": "Multi-key sorting of Perl data structures",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-sorting-perl",
+    "homepage": "https://metacpan.org/dist/Data-Sorting",
+    "source_repository": "https://metacpan.org/dist/Data-Sorting",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/EV/EVO/",
+    "release_regex": "Data-Sorting-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/EV/EVO/Data-Sorting-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.9",
+    "release": "1",
+    "latest_detected": "0.9"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-sorting-perl",
+        "package_base": "libdata-sorting-perl",
+        "source_version": "0.9",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libdata-sorting-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-sorting-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official CPAN Data-Sorting 0.9 and publisher CHECKSUMS agree on SHA-256. Although release metadata says unknown, the distribution README and sole installed module POD explicitly grant Perl-term use, modification, and distribution while crediting both historical copyright holders. SP3 RVA23 primary lacks the RPM/module and uniquely supplies hard dependencies. All seven unchanged default test files pass 58 local assertions without skips."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
