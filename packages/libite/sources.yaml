@@ -1,0 +1,21 @@
+{
+  "package_id": "libite",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "47346fac08ac69cb64eec34478d5aec5787ec96524209d1394417e32d66213b4"
+      },
+      "filename": "libite-2.6.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/troglobit/libite/archive/refs/tags/v2.6.2.tar.gz",
+      "version": "2.6.2"
+    }
+  ]
+}
