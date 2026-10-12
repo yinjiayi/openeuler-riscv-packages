@@ -1,0 +1,21 @@
+{
+  "package_id": "k4dirstat",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f595ef6d1b316d44cdf5a536b94ea68664345cfe0bbce324030da27ed172a338"
+      },
+      "filename": "k4dirstat-3.4.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jeromerobert/k4dirstat/archive/refs/tags/3.4.3.tar.gz",
+      "version": "3.4.3"
+    }
+  ]
+}
