@@ -1,0 +1,21 @@
+{
+  "package_id": "fprobe-ulog",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3555da05b3a432c4b4f0e69bed870c19f50746888caebf7724047339e8963abb"
+      },
+      "filename": "fprobe-ulog-1.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/opoplawski/fprobe-ulog/archive/refs/tags/v1.2.tar.gz",
+      "version": "1.2"
+    }
+  ]
+}
