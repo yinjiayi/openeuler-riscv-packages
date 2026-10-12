@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-peek-perl",
+  "rpm": {
+    "name": "perl-Data-Peek",
+    "summary": "Low-level Perl debugging and inspection functions",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-peek-perl",
+    "homepage": "https://metacpan.org/dist/Data-Peek",
+    "source_repository": "https://github.com/Tux/Data-Peek",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/H/HM/HMBRAND/",
+    "release_regex": "Data-Peek-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/H/HM/HMBRAND/Data-Peek-{version}.tgz"
+  },
+  "version": {
+    "current": "0.54",
+    "release": "1",
+    "latest_detected": "0.54"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-peek-perl",
+        "package_base": "libdata-peek-perl",
+        "source_version": "0.54-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-peek-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-peek-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu 0.54-1 key maps to official CPAN Data-Peek 0.54. The HTTPS archive SHA-256 matches publisher CHECKSUMS. README, PM and XS grant same-Perl terms from H.Merijn Brand; bundled Devel::PPPort ppport.h names its original rightsholders and grants the same terms. SP3 RVA23 has no name/module collision and provides the Perl 5.38 XS ABI, GCC and all hard/default-test dependencies including Perl::Tidy and Test::Pod::Coverage. The unchanged upstream 15-file suite passed 272 assertions locally with one local POD-coverage skip and an unexercised optional Perl::Tidy branch; target CI hard-requires both providers and must prove zero skips, a true DPeek XSUB, full functional tests and installed XS smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
