@@ -16,9 +16,6 @@ from pathlib import Path
 import subprocess
 import tarfile
 import tempfile
-import test.test_argparse
-
-assert inspect.getsource(test.test_argparse)
 assert importlib.metadata.version('ConfigArgParse') == '1.8.0'
 archive = Path('/usr/share/python-configargparse/upstream.tar.gz')
 digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
@@ -33,6 +30,13 @@ with tempfile.TemporaryDirectory(prefix='configargparse-original-') as temp:
     top = Path(temp)
     original = top / 'original'
     original.mkdir()
+    initial_cwd = Path.cwd()
+    try:
+        os.chdir(original)
+        import test.test_argparse
+        assert inspect.getsource(test.test_argparse)
+    finally:
+        os.chdir(initial_cwd)
     blobs = {}
     with tarfile.open(archive, 'r:gz') as stream:
         members = stream.getmembers()

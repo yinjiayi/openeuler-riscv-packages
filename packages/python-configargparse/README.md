@@ -48,3 +48,13 @@ No upstream/default/backend/target/RPM/QEMU runs locally. Trusted repository
 validation and source-only verification precede the PR. Exact-head CI must
 still build/install/run all original tests and verify real RPM/SRPM before
 merging. QEMU is not native RISC-V, ABI or production evidence. No Auto-merge.
+
+Installed preflight requires a writable scratch working directory: the target
+stdlib `test.test_argparse` import performs `os_helper.can_chmod()` using a
+relative temporary file. Exact-head CI initially reached this import from a
+read-only container directory and failed before the installed default suite.
+The required import now runs inside the existing fresh scratch directory and
+restores the initial working directory afterward. No exception is suppressed,
+no test or dependency is removed, and the full original coverage argv, SPEC,
+source archive and all17 original source blobs remain unchanged. A fresh-head
+CI run must verify the repair; local static/source-only checks are not that run.
