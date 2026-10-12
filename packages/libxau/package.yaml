@@ -1,0 +1,74 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libxau",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxau",
+        "package_name": "libxau",
+        "source": "debian",
+        "source_version": "1:1.0.11-1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libxau",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxau",
+        "package_name": "libxau",
+        "source": "ubuntu",
+        "source_version": "1:1.0.11-1build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libXau.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official X.Org 1.0.12 source pinned to SHA-256. The X.Org upstream Autest is retained, supplemented by an installed write/read roundtrip because its return expression does not report write failure.",
+    "status": "active"
+  },
+  "package_id": "libxau",
+  "rpm": {
+    "license": "MIT",
+    "name": "libXau",
+    "summary": "X Window System authorization data library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libxau",
+    "homepage": "https://www.x.org/",
+    "release_api": "https://xorg.freedesktop.org/releases/individual/lib/",
+    "release_channel": "stable",
+    "release_regex": "libXau-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libxau",
+    "source_url_template": "https://xorg.freedesktop.org/releases/individual/lib/libXau-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.0.12",
+    "latest_detected": "1.0.12",
+    "release": "1"
+  }
+}
