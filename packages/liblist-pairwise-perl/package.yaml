@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "liblist-pairwise-perl",
+  "rpm": {
+    "name": "perl-List-Pairwise",
+    "summary": "Pairwise mapping, filtering, and search helpers for Perl lists",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "liblist-pairwise-perl",
+    "homepage": "https://metacpan.org/dist/List-Pairwise",
+    "source_repository": "https://metacpan.org/dist/List-Pairwise",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TD/TDRUGEON/",
+    "release_regex": "List-Pairwise-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TD/TDRUGEON/List-Pairwise-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.03",
+    "release": "1",
+    "latest_detected": "1.03"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "perl-list-pairwise",
+        "package_base": "perl-list-pairwise",
+        "source_version": "1.03-1",
+        "evidence_url": "https://aur.archlinux.org/packages/perl-list-pairwise",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "liblist-pairwise-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen AUR metadata is stale and used only as lineage; official CPAN stable 1.03 archive and publisher CHECKSUMS agree. Embedded POD grants Perl 5 terms, consistent with metadata. Target primary has unique MakeMaker and Test::More providers, with no same-module RPM/provider. Unmodified local default suite passed 12 files/183 assertions; warn3.t intentionally skips on modern Perl. Target build and smoke require hosted PR CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
