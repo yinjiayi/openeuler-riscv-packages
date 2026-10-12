@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-ldap-sid-perl",
+  "rpm": {
+    "name": "perl-Net-LDAP-SID",
+    "summary": "LDAP security identifier conversion for Perl",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "libnet-ldap-sid-perl",
+    "homepage": "https://metacpan.org/dist/Net-LDAP-SID",
+    "source_repository": "https://github.com/karpet/net-ldap-sid",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KA/KARMAN/",
+    "release_regex": "Net-LDAP-SID-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KA/KARMAN/Net-LDAP-SID-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.001",
+    "release": "1",
+    "latest_detected": "0.001"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libnet-ldap-sid-perl",
+        "package_base": "libnet-ldap-sid-perl",
+        "source_version": "0.001-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libnet-ldap-sid-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libnet-ldap-sid-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu resolute/universe 0.001-2 maps to official CPAN 0.001, with publisher CHECKSUMS SHA-256. README and module explicitly grant Artistic License 2.0; Makefile.PL's conditional perl metadata is broader and not relied on. Official SP3 RVA23 primary lacks the package/module and supplies Perl, Carp, MakeMaker and Test::More. Local original default suite: five files, 19 assertions pass; three author-only files self-skip per unchanged upstream gate. Installed smoke checks text/binary round-trip. Exact-head target CI remains separate evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
