@@ -1,0 +1,21 @@
+{
+  "package_id": "samconf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d341234514dd3f43daa3b39f5a23a1299e3830e9eaa3ed01e366cb390ef6b20a"
+      },
+      "filename": "samconf-0.75.14.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Elektrobit/samconf/archive/refs/tags/samconf-0.75.14.tar.gz",
+      "version": "0.75.14"
+    }
+  ]
+}
