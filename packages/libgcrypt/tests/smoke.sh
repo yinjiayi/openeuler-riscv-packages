@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
 rpm -q -- libgcrypt libgcrypt-devel
-test "$(pkg-config --modversion libgcrypt)" = 1.12.2
+expected_version=$(rpm -q --qf '%{VERSION}' libgcrypt)
+test "$(pkg-config --modversion libgcrypt)" = "$expected_version"
 smoke_dir=$(mktemp -d)
 trap 'rm -rf -- "$smoke_dir"' EXIT
 cat >"$smoke_dir/smoke.c" <<'EOF'
@@ -10,7 +11,7 @@ cat >"$smoke_dir/smoke.c" <<'EOF'
 
 int main(void)
 {
-    if (!gcry_check_version("1.12.2")) {
+    if (!gcry_check_version(GCRYPT_VERSION)) {
         return 1;
     }
     gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
