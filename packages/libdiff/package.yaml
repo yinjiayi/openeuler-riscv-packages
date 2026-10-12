@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdiff",
+  "rpm": {
+    "name": "libdiff",
+    "summary": "Shortest edit script and sequence difference library",
+    "license": "MIT AND BSD-3-Clause AND ISC"
+  },
+  "upstream": {
+    "component": "github.com-kristapsdz-libdiff",
+    "homepage": "https://github.com/kristapsdz/libdiff",
+    "source_repository": "https://github.com/kristapsdz/libdiff",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/kristapsdz/libdiff/tags",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.1.0",
+    "release": "1",
+    "latest_detected": "0.1.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libdiff",
+        "package_base": "libdiff",
+        "source_version": "0.1.0-4",
+        "evidence_url": "https://aur.archlinux.org/packages/libdiff",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdiff.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "update-disabled",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official VERSION_0_1_0 tag resolves to 9f98d020c65e31946edc058494b605ddef26d295. The 2018 release remains the newest official tag as checked on 2026-09-28. Its unusual underscore tag naming is not representable by the automatic source URL version template, so automated updates are disabled pending manual review. AUR discovery was stale and is lineage only; no AUR recipe was executed. Upstream tests.c is configure feature detection, not an application test suite; package checks exercise diffchars and diffwords, and installed smoke exercises the C API. The source has MIT core code and BSD-3-Clause/ISC compatibility code and build script notices."
+  },
+  "updates": {
+    "enabled": false,
+    "last_checked_at": "2026-09-28T15:25:00Z",
+    "last_successful_check_at": "2026-09-28T15:25:00Z",
+    "release_provider": null
+  }
+}
