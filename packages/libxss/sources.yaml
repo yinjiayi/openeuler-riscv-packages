@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxss",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libXScrnSaver-1.2.5.tar.xz",
+      "version": "1.2.5",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXScrnSaver-1.2.5.tar.xz",
+      "digests": {
+        "sha256": "5057365f847253e0e275871441e10ff7846c8322a5d88e1e187d326de1cd8d00"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official permissively licensed X.Org release archive is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}
