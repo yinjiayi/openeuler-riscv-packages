@@ -1,0 +1,21 @@
+{
+  "package_id": "openxr-explorer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2f0a15f2a4aa6707ccac28e0a0d8f71692ad0e9b456bc654db50e64fb27d709f"
+      },
+      "filename": "openxr-explorer-1.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/maluoi/openxr-explorer/archive/refs/tags/v1.7.tar.gz",
+      "version": "1.7"
+    }
+  ]
+}
