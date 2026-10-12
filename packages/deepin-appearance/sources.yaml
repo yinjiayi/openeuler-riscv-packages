@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-appearance",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f2a55e1f15c7f0244cf178c74b93c7a1d9eb5285b528a8c6eb922b486f4da03c"
+      },
+      "filename": "deepin-appearance-1.1.84.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/dde-appearance/archive/refs/tags/1.1.84.tar.gz",
+      "version": "1.1.84"
+    }
+  ]
+}
