@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-greeking-perl",
+  "rpm": {
+    "name": "perl-Text-Greeking",
+    "summary": "Generate placeholder text for layout design",
+    "license": "Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-greeking-perl",
+    "homepage": "https://metacpan.org/dist/Text-Greeking",
+    "source_repository": "https://github.com/neilb/Text-Greeking",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_regex": "Text-Greeking-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Greeking-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.15",
+    "release": "1",
+    "latest_detected": "0.15"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-greeking-perl",
+        "package_base": "libtext-greeking-perl",
+        "source_version": "0.15-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-greeking-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-greeking-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libtext-greeking-perl had historical license-blocked/unverified-upstream markers. The official 0.15 archive README, LICENSE, Makefile.PL and POD explicitly grant Artistic License 1.0; no Perl dual-license claim is made. Official CPAN CHECKSUMS matches SHA-256 b4657a0044bf0db6b79957bcb13b63653fa070bc23a725ab5b0aca649a75b540. Official RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks perl-Text-Greeking and perl(Text::Greeking), and provides target POD test modules. All three default tests retained; local automated suite ran compile and POD syntax, but POD coverage skipped because its module is absent locally. Target CI must prove complete suite and installed generation smoke; public publication unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
