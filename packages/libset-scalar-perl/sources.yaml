@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libset-scalar-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Set-Scalar-1.29.tar.gz",
+      "version": "1.29",
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAVIDO/Set-Scalar-1.29.tar.gz",
+      "digests": {
+        "sha256": "a3dc1526f3dde72d3c64ea00007b86ce608cdcd93567cf6e6e42dc10fdc4511d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The original library POD grants redistribution under Perl's GPL/Artistic choice, and the DAVIDO CPAN CHECKSUMS SHA-256 matches an independent HTTPS source download."
+      }
+    }
+  ]
+}
