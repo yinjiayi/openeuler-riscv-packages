@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libeconf",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libeconf-0.8.4.tar.gz",
+      "version": "0.8.4",
+      "url": "https://codeload.github.com/openSUSE/libeconf/tar.gz/4f951d11b1ec5dcea9fd6b4fbe192226d93050c5",
+      "digests": {
+        "sha256": "b1c213e07472cecff888d6255348e8e15956bf6b4ba018ad237f340fbc00888d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official upstream repository distributes this source under the included MIT license."
+      }
+    }
+  ]
+}
