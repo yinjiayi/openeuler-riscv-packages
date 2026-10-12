@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-csv-encoded-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-CSV-Encoded-0.25.tar.gz",
+      "version": "0.25",
+      "url": "https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/Text-CSV-Encoded-0.25.tar.gz",
+      "digests": {
+        "sha256": "248a5983a20dd57786639e88dafdd654f3b93925490120d6d712da6b2be5b9d0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Archive LICENSE, README and all four Perl modules grant Perl 5 dual-license terms; official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
