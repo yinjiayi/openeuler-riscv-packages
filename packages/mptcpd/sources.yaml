@@ -1,0 +1,21 @@
+{
+  "package_id": "mptcpd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "34810a09d167370c64b5766687b2eb4f6d3f7a1ab33ee71d821cdac819552be1"
+      },
+      "filename": "mptcpd-0.14.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/multipath-tcp/mptcpd/archive/refs/tags/v0.14.tar.gz",
+      "version": "0.14"
+    }
+  ]
+}
