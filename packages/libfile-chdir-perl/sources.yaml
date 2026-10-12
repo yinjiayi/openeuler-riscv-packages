@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-chdir-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-chdir-0.1011.tar.gz",
+      "version": "0.1011",
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/File-chdir-0.1011.tar.gz",
+      "digests": {
+        "sha256": "31ebf912df48d5d681def74b9880d78b1f3aca4351a0ed1fe3570b8e03af6c79"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN source includes a Perl dual-license file and is fetched over HTTPS with its official SHA-256 checksum."
+      }
+    }
+  ]
+}
