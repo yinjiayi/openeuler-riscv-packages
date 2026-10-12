@@ -1,0 +1,21 @@
+{
+  "package_id": "tesseract-matrix",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "31cdb698c7bef1d2e3a68e96494f03b0fbc288d6f0e2dee6ddc76f1ab9dffb7c"
+      },
+      "filename": "tesseract-matrix-0.8.16.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/surakin/tesseract/archive/refs/tags/v0.8.16.tar.gz",
+      "version": "0.8.16"
+    }
+  ]
+}
