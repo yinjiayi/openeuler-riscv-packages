@@ -1,0 +1,21 @@
+{
+  "package_id": "libopnmidi",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "83f8942929d8c922a1931248ea2757e443ac278a2f4fcb705aa77d29c669547b"
+      },
+      "filename": "libopnmidi-1.6.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Wohlstand/libOPNMIDI/archive/refs/tags/v1.6.1.tar.gz",
+      "version": "1.6.1"
+    }
+  ]
+}
