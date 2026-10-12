@@ -1,0 +1,21 @@
+{
+  "package_id": "vipsdisp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8937a1e4b44adf7a742ae5ea771bc797003d20500d23e8d83d522333f745c8cf"
+      },
+      "filename": "vipsdisp-4.1.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jcupitt/vipsdisp/archive/refs/tags/v4.1.4.tar.gz",
+      "version": "4.1.4"
+    }
+  ]
+}
