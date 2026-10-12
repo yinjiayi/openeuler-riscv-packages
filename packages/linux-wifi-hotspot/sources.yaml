@@ -1,0 +1,21 @@
+{
+  "package_id": "linux-wifi-hotspot",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4c85d8c333454da6fd5f03abcf207bb5375387a95acb852b8d7629fcab65326c"
+      },
+      "filename": "linux-wifi-hotspot-4.7.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/lakinduakash/linux-wifi-hotspot/archive/refs/tags/v4.7.2.tar.gz",
+      "version": "4.7.2"
+    }
+  ]
+}
