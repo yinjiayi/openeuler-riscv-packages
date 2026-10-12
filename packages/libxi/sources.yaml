@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxi",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libXi-1.8.3.tar.xz",
+      "version": "1.8.3",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXi-1.8.3.tar.xz",
+      "digests": {
+        "sha256": "7ad60056f01af4f786cfe93b3a7707447711626fc8da2637bec71a90409babe5"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official X.Org stable tarball is fetched over HTTPS and verified against the checksum published in its release announcement."
+      }
+    }
+  ]
+}
