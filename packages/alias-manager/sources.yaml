@@ -1,0 +1,21 @@
+{
+  "package_id": "alias-manager",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1ae31d1ef0999406e42b6921fd4580bd9aba0f3d67139321bc5621bfd1ff0b9d"
+      },
+      "filename": "alias-manager-2.3.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kazetachinuu/alias_manager/archive/refs/tags/v2.3.1.tar.gz",
+      "version": "2.3.1"
+    }
+  ]
+}
