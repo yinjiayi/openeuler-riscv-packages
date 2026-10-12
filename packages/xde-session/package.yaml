@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/bbidulock/xde-session",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xde-session",
+        "package_name": "xde-session",
+        "source": "aur",
+        "source_version": "1.14-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "xde-session.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Exact-head CI run 33671434719 at e5bbca16ecd6bff5fbc8be2a7756b65293cd592b completed dependency installation, then configure failed because pkg-config could not resolve x11. Release 2 adds the openEuler libX11-devel build dependency, whose riscv64 repository metadata provides pkgconfig(x11). Exact-head CI run 33673288095 at f6d368fbb6990fdf49f9070026325a37bad7bf28 passed that x11 check, then stopped at the next mandatory xext check. Release 3 adds libXext-devel, the repository-verified provider of pkgconfig(xext). Exact-head CI run 33674836307 at 0cf30b59dd429a510dfd91a90127120eecb4a4d0 passed the x11, xext, and xau checks, then stopped because pkg-config could not resolve the next mandatory module, xscrnsaver. Release 4 adds libXScrnSaver-devel, which the target repository metadata records as the provider of pkgconfig(xscrnsaver). Exact-head CI run 33676559117 at f06fd3b9b863405a83852868cbccdfd46e209901 passed x11, xext, xau, and xscrnsaver, then stopped because pkg-config could not resolve the next mandatory module, xdmcp. Release 5 adds libXdmcp-devel, whose official openEuler 24.03 LTS SP3 riscv64 repository metadata provides pkgconfig(xdmcp). Exact-head CI run 33678893917 at d541f7f070a0e0c9999878a9902520212f9ea552 passed the mandatory x11, xext, xau, xscrnsaver, and xdmcp checks, then stopped because pkg-config could not resolve the next mandatory module, ice. Release 6 adds libICE-devel; the checksum-verified official openEuler 24.03 LTS SP3 riscv64 repository metadata records it as the provider of pkgconfig(ice). Exact-head CI run 33680898395 at 4825263171f0492fbca916faf19a8938907c275f passed the mandatory x11, xext, xau, xscrnsaver, xdmcp, and ice checks, then stopped because pkg-config could not resolve the next mandatory module, sm. Release 7 adds libSM-devel; the checksum-verified official target repository metadata records version 1.2.4-1.oe2403sp3 for riscv64 as the provider of pkgconfig(sm). Exact-head CI run 33683303705 at efd15ba7c1000d66925e7b670d82f50d5a1b3f01 passed the mandatory x11, xext, xau, xscrnsaver, xdmcp, ice, and sm checks, then stopped because pkg-config could not resolve the next mandatory module, xft. Release 8 adds libXft-devel; the checksum-verified official target repository metadata records version 2.3.8-1.oe2403sp3 for riscv64 as the provider of pkgconfig(xft). Exact-head CI run 33685505230 at 2ee16a28c5a9502c0741d1e5af7a8e58653b00ed passed all preceding mandatory X11 module checks, then stopped because pkg-config could not resolve gdk-pixbuf-xlib-2.0. Release 9 adds gdk-pixbuf-xlib; the checksum-verified official target repository metadata records version 2.40.2-2.oe2403sp3 for riscv64 as the provider of pkgconfig(gdk-pixbuf-xlib-2.0). Exact-head CI run 33688066321 at 165efa00ccfcd3cff4417ae70c5f2e088f7a9d9f passed the preceding mandatory module checks, including gdk-pixbuf-xlib-2.0, then stopped because pkg-config could not resolve gtk+-2.0. Release 10 adds gtk2-devel; the checksum-verified official target repository metadata records version 2.24.33-10.oe2403sp3 for riscv64 as the provider of pkgconfig(gtk+-2.0).",
+    "status": "active"
+  },
+  "package_id": "xde-session",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "xde-session",
+    "summary": "X Desktop Environment Display and Session Management"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-bbidulock-xde-session",
+    "homepage": "https://github.com/bbidulock/xde-session",
+    "release_api": "https://api.github.com/repos/bbidulock/xde-session/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/bbidulock/xde-session",
+    "source_url_template": "https://github.com/bbidulock/xde-session/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.14",
+    "latest_detected": "1.14",
+    "release": "10"
+  }
+}
