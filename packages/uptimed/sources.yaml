@@ -1,0 +1,21 @@
+{
+  "package_id": "uptimed",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2f669d2968ca1d0865b7a97791c9dbcca759631a1afc5d6702964f070a57252b"
+      },
+      "filename": "uptimed-0.4.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rpodgorny/uptimed/archive/refs/tags/v0.4.7.tar.gz",
+      "version": "0.4.7"
+    }
+  ]
+}
