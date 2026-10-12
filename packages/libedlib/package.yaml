@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "package_id": "libedlib",
+  "rpm": {
+    "name": "libedlib",
+    "summary": "Edit-distance sequence alignment library",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "github.com-martinsos-edlib",
+    "homepage": "https://github.com/Martinsos/edlib",
+    "source_repository": "https://github.com/Martinsos/edlib",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/Martinsos/edlib/releases/latest",
+    "release_regex": "v(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://codeload.github.com/Martinsos/edlib/tar.gz/refs/tags/v{version}"
+  },
+  "version": {
+    "current": "1.2.7",
+    "release": "1",
+    "latest_detected": "1.2.7"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libedlib",
+        "package_base": "libedlib",
+        "source_version": "1.2.7-6",
+        "evidence_url": "https://packages.debian.org/source/stable/libedlib",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libedlib",
+        "package_base": "libedlib",
+        "source_version": "1.2.7-7build1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libedlib",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libedlib.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-cmake-release-version.patch",
+        "sha256": "63f32021e4a139539a612089151666b5f473aa82c66a8b82016df87c8942c5c5",
+        "purpose": "Use the tagged 1.2.7 release version in generated shared-library, CMake and pkg-config metadata instead of upstream's stale 1.2.6 CMake declaration.",
+        "source": "Downstream review of the official edlib v1.2.7 tag.",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream corrects its CMake project version in a released archive."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official v1.2.7 release tag resolves to ec2310eda1841ab48c14cd3d866778a4f5eb1491 and the latest official release API still reports v1.2.7. The source LICENSE is MIT; this resolves the frozen inventory's license-blocked decision. The HTTPS archive is SHA-256 pinned and safety inspected. A minimal patch corrects the stale CMake project version. The full upstream CTest suite (six default 100-case randomized groups and specific tests) remains enabled, with installed C API smoke. Debian/Ubuntu entries are discovery lineage only; no external recipe is executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}
