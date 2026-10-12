@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtime-tiny-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Time-Tiny-1.08.tar.gz",
+      "version": "1.08",
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Time-Tiny-1.08.tar.gz",
+      "digests": {
+        "sha256": "00f7b231dedf170067903584c6e9b5e3ae9d11c4a66ac20ce0eb3d38b7d19282"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official publisher CHECKSUMS matches the independently downloaded HTTPS archive. Installed Time/Tiny.pm, README and LICENSE directly grant same-as-Perl redistribution by Adam Kennedy; default tests and generated prerequisite data have no contrary notices, and no vendored code is present."
+      }
+    }
+  ]
+}
