@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-ldap-filterbuilder-perl",
+  "rpm": {
+    "name": "perl-Net-LDAP-FilterBuilder",
+    "summary": "Build LDAP filter expressions in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libnet-ldap-filterbuilder-perl",
+    "homepage": "https://metacpan.org/dist/Net-LDAP-FilterBuilder",
+    "source_repository": "https://github.com/ollyg/Net-LDAP-FilterBuilder",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/O/OL/OLIVER/",
+    "release_regex": "Net-LDAP-FilterBuilder-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/O/OL/OLIVER/Net-LDAP-FilterBuilder-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.200002",
+    "release": "1",
+    "latest_detected": "1.200002"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libnet-ldap-filterbuilder-perl",
+        "package_base": "libnet-ldap-filterbuilder-perl",
+        "source_version": "1.200002-4",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libnet-ldap-filterbuilder-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libnet-ldap-filterbuilder-perl",
+        "package_base": "libnet-ldap-filterbuilder-perl",
+        "source_version": "1.200002-4",
+        "evidence_url": "https://packages.debian.org/source/stable/libnet-ldap-filterbuilder-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libnet-ldap-filterbuilder-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu resolute/universe and Debian stable/main 1.200002-4 identify the release; publisher OLIVER/CHECKSUMS verifies official CPAN 1.200002. Direct LICENSE, module POD and README grant Perl 5 dual GPL-1.0-or-later or Artistic-1.0. Official SP3 RVA23 primary lacks the package/module and supplies Perl, overload, MakeMaker, Test::More, Test::Pod 1.52 and Test::Pod::Coverage 1.10. Keep all four default tests; both POD test providers are hard BuildRequires to avoid target skips. Local macOS suite passed 15 assertions with POD coverage self-skipped because unavailable locally; exact-head target CI must prove complete execution and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
