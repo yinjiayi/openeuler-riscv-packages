@@ -1,0 +1,21 @@
+{
+  "package_id": "shishi",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "95798ffd12dd01a4f88e0311ee03ca4a26e5cb4e5e9059a40e4fc4d9f2917e92"
+      },
+      "filename": "shishi-1.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/shishi/shishi-1.0.3.tar.gz",
+      "version": "1.0.3"
+    }
+  ]
+}
