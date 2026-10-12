@@ -1,0 +1,21 @@
+{
+  "package_id": "pcalc-lts",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fe752f9f791245a34ad37147d19ac80cf5c9e2ac2c643dd1e15a2c47458bbd39"
+      },
+      "filename": "pcalc-lts-0.8.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jurassiclizard/pcalc-lts/archive/refs/tags/v0.8.1.tar.gz",
+      "version": "0.8.1"
+    }
+  ]
+}
