@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-factory-util-perl",
+  "rpm": {
+    "name": "perl-Class-Factory-Util",
+    "summary": "Discover subclasses for Perl factory classes",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclass-factory-util-perl",
+    "homepage": "https://metacpan.org/dist/Class-Factory-Util",
+    "source_repository": "https://metacpan.org/dist/Class-Factory-Util",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/",
+    "release_regex": "Class-Factory-Util-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Class-Factory-Util-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.7",
+    "release": "1",
+    "latest_detected": "1.7"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libclass-factory-util-perl",
+        "package_base": "libclass-factory-util-perl",
+        "source_version": "1.7-5",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libclass-factory-util-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclass-factory-util-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu 1.7-5 key maps to official CPAN Class-Factory-Util 1.7. Publisher CHECKSUMS matches the fixed HTTPS archive. The installed PM and README grant same-as-Perl redistribution by Dave Rolsky; original Alzabo 0.59 Alzabo::Util and LICENSE show the same copyright holder and grant, while Alzabo 0.92 Changes credits Terrence Brannon for the separation. No contrary per-file notice or third-party copied fixture is present. Official SP3 RVA23 primary has no collision and supplies Module::Build, Test::Pod and Test::Pod::Coverage plus their provider closure. Local original default 3-file suite had 6 assertions and one Pod-coverage skip solely because that optional module is absent locally; target hard BuildRequires must prove all 3 files/7 assertions and zero skips."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
