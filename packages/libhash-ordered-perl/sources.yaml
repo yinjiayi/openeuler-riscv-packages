@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-ordered-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Hash-Ordered-0.014.tar.gz",
+      "version": "0.014",
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Hash-Ordered-0.014.tar.gz",
+      "digests": {
+        "sha256": "8dc36cd79155ae37ab8a3de5fd9120ffba9a31e409258c28529ec5251c59747b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Bundled LICENSE, README, module, Makefile.PL and META.json agree on Apache-2.0, and official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
