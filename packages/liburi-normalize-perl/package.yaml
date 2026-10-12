@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "liburi-normalize-perl",
+  "rpm": {
+    "name": "perl-URI-Normalize",
+    "summary": "Normalize URI paths in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "liburi-normalize-perl",
+    "homepage": "https://metacpan.org/dist/URI-Normalize",
+    "source_repository": "https://metacpan.org/dist/URI-Normalize",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/H/HA/HANENKAMP/",
+    "release_regex": "URI-Normalize-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/H/HA/HANENKAMP/URI-Normalize-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.002",
+    "release": "1",
+    "latest_detected": "0.002"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "liburi-normalize-perl",
+        "package_base": "liburi-normalize-perl",
+        "source_version": "0.002-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/liburi-normalize-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "liburi-normalize-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.002-2 maps to official CPAN 0.002; archive SHA-256 matches publisher CHECKSUMS. README, module POD and LICENSE grant Perl 5 dual terms without conflicting notices. Official SP3 primary has no same provider and supplies declared runtime/test dependencies. All three original default t/*.t files are retained; local default run passed 12 basic assertions while two author-only POD tests intentionally skipped without AUTHOR_TESTING. Exact-head target CI and physical products remain acceptance evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
