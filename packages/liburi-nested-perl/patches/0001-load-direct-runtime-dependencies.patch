@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Fri, 2 Oct 2026 00:00:00 +0000
+Subject: [PATCH] Load URI and Carp for direct URI::Nested consumers
+
+URI::Nested calls URI->new and Carp::croak but does not load either module.
+The upstream tests happen to import URI before exercising URI::Nested, so
+they pass while a fresh process using URI::Nested directly fails at new().
+Load the two already-declared runtime modules explicitly without changing
+the public API or URI behavior.
+
+Patch-Source: URI-Nested-0.10 exact source direct-import reproduction
+Patch-License: GPL-1.0-or-later OR Artistic-1.0-Perl
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: Upstream URI::Nested loads URI and Carp itself.
+---
+diff --git a/lib/URI/Nested.pm b/lib/URI/Nested.pm
+--- a/lib/URI/Nested.pm
++++ b/lib/URI/Nested.pm
+@@ -3,4 +3,6 @@
+ use strict;
++use URI;
++use Carp;
+ use 5.8.1;
+ our $VERSION = '0.10';
+ use overload '""' => 'as_string', fallback => 1;
