@@ -1,0 +1,21 @@
+{
+  "package_id": "aws-checksums",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "cb6509f75e42ee25c372a6d379e8582ce5179e5335183842e808f7d8abb0c314"
+      },
+      "filename": "aws-checksums-0.2.10.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/awslabs/aws-checksums/archive/refs/tags/v0.2.10.tar.gz",
+      "version": "0.2.10"
+    }
+  ]
+}
