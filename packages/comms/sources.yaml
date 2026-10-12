@@ -1,0 +1,21 @@
+{
+  "package_id": "comms",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1e844b90b09f95cb7f56785a3b5c70a0f84eca0a7101837b43d6e06ca4fff972"
+      },
+      "filename": "comms-5.2.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/commschamp/comms/archive/refs/tags/v5.2.7.tar.gz",
+      "version": "5.2.7"
+    }
+  ]
+}
