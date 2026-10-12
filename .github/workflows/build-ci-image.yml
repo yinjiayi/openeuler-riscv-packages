@@ -34,6 +34,11 @@ on:
         required: true
         type: boolean
         default: true
+      full_bootstrap:
+        description: Rebuild the rootfs instead of refreshing the locked image
+        required: true
+        type: boolean
+        default: false
 
 concurrency:
   group: build-ci-image-${{ github.ref }}
@@ -50,7 +55,7 @@ jobs:
   build-publish:
     name: build-and-verify-rva23-image
     runs-on: ubuntu-24.04
-    timeout-minutes: 180
+    timeout-minutes: 300
     permissions:
       contents: read
       packages: write
@@ -69,6 +74,7 @@ jobs:
           find work/image artifacts/image -mindepth 1 -delete
           ci/record-environment.sh artifacts/image/environment.json
           sha256sum ci/Containerfile.riscv64 > artifacts/image/Containerfile.sha256
+          sha256sum ci/image.lock > artifacts/image/image-lock.sha256
           sha256sum ci/bootstrap-rootfs.sh > artifacts/image/bootstrap-rootfs.sha256
           sha256sum ci/run-dnf-transaction > artifacts/image/dnf-transaction-runner.sha256
           sha256sum ci/finalize-target-rpmdb.sh > artifacts/image/finalize-target-rpmdb.sha256
@@ -85,6 +91,55 @@ jobs:
           cp /proc/sys/fs/binfmt_misc/qemu-riscv64 artifacts/image/binfmt-riscv64.txt
           docker image inspect tonistiigi/binfmt:qemu-v9.2.0 \
             --format '{{json .RepoDigests}}' > artifacts/image/binfmt-image-digests.json
+      - name: Select the bounded image build mode
+        id: mode
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PUSH_BASE_SHA: ${{ github.event.before }}
+          REQUEST_FULL_BOOTSTRAP: ${{ inputs.full_bootstrap }}
+        run: |
+          target=metadata-refresh
+          reason=locked-image-refresh
+          if [[ $REQUEST_FULL_BOOTSTRAP == true ]]; then
+            target=full-bootstrap
+            reason=manual-full-bootstrap
+          elif [[ $EVENT_NAME == pull_request ]]; then
+            git fetch --no-tags --depth=1 origin "$PR_BASE_SHA"
+            git fetch --no-tags --depth=1 origin "$PR_HEAD_SHA"
+            if git diff --name-only "$PR_BASE_SHA" "$PR_HEAD_SHA" -- \
+              ci/bootstrap-rootfs.sh ci/finalize-target-rpmdb.sh \
+              ci/rpm-manifest.sh ci/build-config.yaml \
+              | grep -q .; then
+              target=full-bootstrap
+              reason=bootstrap-contract-change
+            fi
+          elif [[ $EVENT_NAME == push \
+             && $PUSH_BASE_SHA =~ ^[0-9a-f]{40}$ \
+             && $PUSH_BASE_SHA != 0000000000000000000000000000000000000000 ]]; then
+            git fetch --no-tags --depth=1 origin "$PUSH_BASE_SHA"
+            if git diff --name-only "$PUSH_BASE_SHA" "$GITHUB_SHA" -- \
+              ci/bootstrap-rootfs.sh ci/finalize-target-rpmdb.sh \
+              ci/rpm-manifest.sh ci/build-config.yaml \
+              | grep -q .; then
+              target=full-bootstrap
+              reason=bootstrap-contract-change
+            fi
+          fi
+          printf 'target=%s\n' "$target" >>"$GITHUB_OUTPUT"
+          printf 'reason=%s\n' "$reason" >>"$GITHUB_OUTPUT"
+          printf 'target=%s\nreason=%s\n' "$target" "$reason" \
+            > artifacts/image/build-mode.txt
+      - name: Resolve the locked verified CI base image
+        id: base
+        run: |
+          ref=$(ci/image-ref.sh ci/image.lock)
+          [[ $ref =~ ^ghcr\.io/yinjiayi/openeuler-riscv64-rpmbuild@sha256:[0-9a-f]{64}$ ]]
+          docker pull --platform linux/riscv64 "$ref"
+          test "$(docker image inspect "$ref" --format '{{.Os}}/{{.Architecture}}')" = linux/riscv64
+          printf 'ref=%s\n' "$ref" >>"$GITHUB_OUTPUT"
+          printf '%s\n' "$ref" > artifacts/image/base-image.txt
       - name: Resolve the native bootstrap image digest
         id: bootstrap
         run: |
@@ -95,7 +150,9 @@ jobs:
           printf '%s\n' "$ref" > artifacts/image/bootstrap-image.txt
       - name: Build the riscv64 OCI image from the approved repository
         env:
+          BASE_REF: ${{ steps.base.outputs.ref }}
           BOOTSTRAP_REF: ${{ steps.bootstrap.outputs.ref }}
+          IMAGE_TARGET: ${{ steps.mode.outputs.target }}
         run: |
           docker buildx create --name openeuler-riscv-builder --driver docker-container \
             --driver-opt memory=6g --driver-opt cpu-quota=200000 \
@@ -104,6 +161,8 @@ jobs:
           build_date=$(git show -s --format=%cI HEAD)
           docker buildx build --load --platform linux/riscv64 --provenance=false \
             --file ci/Containerfile.riscv64 \
+            --target "$IMAGE_TARGET" \
+            --build-arg "BASE_IMAGE=$BASE_REF" \
             --build-arg "BOOTSTRAP_IMAGE=$BOOTSTRAP_REF" \
             --build-arg "BUILD_DATE=$build_date" \
             --build-arg "VCS_REF=$GITHUB_SHA" \
@@ -111,7 +170,8 @@ jobs:
             --metadata-file artifacts/image/buildx-metadata.json .
       - name: Run M0 target and RVA23 probes
         run: |
-          docker run --rm --platform linux/riscv64 --memory 1g --cpus 2 --pids-limit 256 \
+          docker run --rm --platform linux/riscv64 --network none \
+            --memory 1g --cpus 2 --pids-limit 256 \
             openeuler-riscv64-rpmbuild:m0 /usr/local/bin/verify-target \
             | tee artifacts/image/target-self-test.log
           container=$(docker create --platform linux/riscv64 openeuler-riscv64-rpmbuild:m0)

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-levenshtein-damerau-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Levenshtein-Damerau-0.41.tar.gz",
+      "version": "0.41",
+      "url": "https://cpan.metacpan.org/authors/id/U/UG/UGEXE/Text-Levenshtein-Damerau-0.41.tar.gz",
+      "digests": {
+        "sha256": "3e7d14fa97f31f4862eaf24fa5fa24892aaeb7b363e15222dcdcc82a7caf5e50"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE explicitly grants GPL-1.0-or-later OR Artistic-1.0-Perl; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

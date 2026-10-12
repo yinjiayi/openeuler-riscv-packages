@@ -65,7 +65,7 @@
         "license": "Apache-2.0",
         "purpose": "Replace CMake network downloads with checksum-pinned Unicode conformance files supplied by the build.",
         "remove_when": "Upstream supports caller-supplied offline Unicode conformance data for its test suite.",
-        "sha256": "a2ae4a3d8a5e2220f7b7852ed8d1d8fbe56b68b846726d11aa21a7693c8639a7",
+        "sha256": "340b96cbadea3545b28b87299deebd2d0d9ce2e66654605cd7e0255cda10d687",
         "source": "openEuler RISC-V packaging",
         "upstream_status": "downstream-only"
       }
@@ -97,7 +97,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-09-25T21:33:44Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
   },
@@ -111,8 +111,8 @@
     "source_url_template": "https://github.com/JuliaStrings/utf8proc/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "2.11.3",
-    "latest_detected": "2.11.3",
+    "current": "2.12.0",
+    "latest_detected": "2.12.0",
     "release": "1"
   }
 }

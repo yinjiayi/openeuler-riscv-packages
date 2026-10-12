@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           bitwise
-Version:        0.60
+Version:        0.70
 Release:        1%{?dist}
 Summary:        Interactive ncurses bitwise calculator
 License:        GPL-3.0-or-later AND BSD-2-Clause
 URL:            https://github.com/mellowcandle/bitwise
-Source0:        bitwise-v0.60.tar.gz
+Source0:        bitwise-v0.70.tar.gz
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -42,6 +42,9 @@ autoreconf -fi
 %{_mandir}/man1/bitwise.1*
 
 %changelog
+* Mon Sep 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.70-1
+- Update to 0.70.
+
 * Mon Aug 24 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.60-1
 - Update to 0.60 and use the upstream release asset.
 

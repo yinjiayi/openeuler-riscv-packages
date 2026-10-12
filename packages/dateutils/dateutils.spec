@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           dateutils
-Version:        0.4.11
+Version:        0.4.12
 Release:        1%{?dist}
 Summary:        Command-line tools for fast date and time calculations
 License:        BSD-3-Clause
 URL:            https://github.com/hroptatyr/dateutils
-Source0:        dateutils-%{version}.tar.xz
+Source0:        dateutils-0.4.12.tar.xz
 
 BuildRequires:  bison
 BuildRequires:  flex

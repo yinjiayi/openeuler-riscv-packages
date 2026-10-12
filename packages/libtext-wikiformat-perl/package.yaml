@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-wikiformat-perl",
+  "rpm": {
+    "name": "perl-Text-WikiFormat",
+    "summary": "Translate simple Wiki markup to formatted text",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-wikiformat-perl",
+    "homepage": "https://metacpan.org/dist/Text-WikiFormat",
+    "source_repository": "https://metacpan.org/dist/Text-WikiFormat",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CY/CYCLES/",
+    "release_regex": "Text-WikiFormat-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CY/CYCLES/Text-WikiFormat-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.81",
+    "release": "1",
+    "latest_detected": "0.81"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-wikiformat-perl",
+        "package_base": "libtext-wikiformat-perl",
+        "source_version": "0.81-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-wikiformat-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libtext-wikiformat-perl",
+        "package_base": "libtext-wikiformat-perl",
+        "source_version": "0.81-1",
+        "evidence_url": "https://packages.debian.org/source/trixie/libtext-wikiformat-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-wikiformat-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu/Debian 0.81-1 and official CPAN stable 0.81. Publisher CHECKSUMS SHA-256, archive safety, included ARTISTIC/GPL and module POD terms reviewed, resolving historical automated license marker. Official target primary lacks same-name RPM/provider and has required Perl module providers. All 14 default upstream test files ran locally: 142 TAP checks passed and one explicit upstream TODO embedded-links case failed as expected, not counted as a passed feature. Two non-default developer POD files not counted. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libprobe-perl-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Probe-Perl-0.03.tar.gz",
+      "version": "0.03",
+      "url": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Probe-Perl-0.03.tar.gz",
+      "digests": {
+        "sha256": "d9e4d21e2e77638559045fa09046b1b6fff6c403b949929db213e30abe8a3c31"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included LICENSE grants the same GPL/Artistic choice as Perl; the official CPAN archive is fetched over HTTPS with SHA-256 verification."
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-binary-interpolation-perl",
+  "rpm": {
+    "name": "perl-String-Binary-Interpolation",
+    "summary": "Interpolate byte values written as binary digits in Perl strings",
+    "license": "GPL-2.0-only OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-binary-interpolation-perl",
+    "homepage": "https://metacpan.org/dist/String-Binary-Interpolation",
+    "source_repository": "https://github.com/DrHyde/perl-modules-String-Binary-Interpolation",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DC/DCANTRELL/",
+    "release_regex": "String-Binary-Interpolation-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DC/DCANTRELL/String-Binary-Interpolation-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.1",
+    "release": "1",
+    "latest_detected": "1.0.1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-binary-interpolation-perl",
+        "package_base": "libstring-binary-interpolation-perl",
+        "source_version": "1.0.1-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-binary-interpolation-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-binary-interpolation-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official stable CPAN String-Binary-Interpolation 1.0.1. Publisher CHECKSUMS SHA-256 and 17-entry safe single-root archive verified. Module POD expressly grants GPL version 2 or archived Artistic License, and both texts are included, resolving the historical license-blocked marker despite META's unknown/open_source classification. Official RVA23 primary lacks same-name RPM or perl(String::Binary::Interpolation) and contains Test::Pod and Test::Pod::Coverage providers. All three unmodified default t/ files are retained; local Perl ran one byte interpolation and one POD assertion, while POD coverage skipped because Test::Pod::Coverage is unavailable locally. Target BuildRequires supplies it; target CI must prove complete default suite. Upstream functional coverage is thin (one byte); installed smoke checks 00, 44 and ff boundaries."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

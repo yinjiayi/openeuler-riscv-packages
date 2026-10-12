@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmailtools-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "MailTools-2.22.tar.gz",
+      "version": "2.22",
+      "url": "https://cpan.metacpan.org/authors/id/M/MA/MARKOV/MailTools-2.22.tar.gz",
+      "digests": {
+        "sha256": "3bf68bb212298fa699a52749dddff35583a74f36a92ca89c843b854f29d87c77"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN source is licensed under the same terms as Perl itself and is fetched over HTTPS with SHA-256 verification."
+      }
+    }
+  ]
+}

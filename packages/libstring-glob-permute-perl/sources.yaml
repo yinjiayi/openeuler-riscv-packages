@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-glob-permute-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Glob-Permute-0.01.tar.gz",
+      "version": "0.01",
+      "url": "https://cpan.metacpan.org/authors/id/M/MS/MSCHILLI/String-Glob-Permute-0.01.tar.gz",
+      "digests": {
+        "sha256": "1d449fe8156ab13d16d02d8c4ad8757165942e4e221d5952d06d02416cf7ecca"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Archive LICENSE.TXT contains the 1997 Perl Artistic License and the module, README and test copyright notices explicitly invoke it; official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

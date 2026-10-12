@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmime-tools-perl",
+  "rpm": {
+    "name": "perl-MIME-tools",
+    "summary": "Perl modules for MIME-compliant messages",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmime-tools-perl",
+    "homepage": "https://metacpan.org/dist/MIME-tools",
+    "source_repository": "https://metacpan.org/dist/MIME-tools",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DS/DSKOLL/",
+    "release_regex": "MIME-tools-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DS/DSKOLL/MIME-tools-{version}.tar.gz"
+  },
+  "version": {
+    "current": "5.519",
+    "release": "1",
+    "latest_detected": "5.519"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmime-tools-perl",
+        "package_base": "libmime-tools-perl",
+        "source_version": "5.517-1",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libmime-tools-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmime-tools-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libmime-tools-perl key maps to official CPAN MIME-tools 5.519. The official CPAN CHECKSUMS SHA-256, archive structure, Perl dual licensing, runtime dependencies, all 41 default test files, and the new concatenated-base64 security regression were reviewed. Upstream opt-in author quality checks remain conditional; target dependency availability remains subject to exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

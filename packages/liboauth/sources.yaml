@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "liboauth",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/x42/liboauth/tar.gz/07fc30bf6d44f5b431a943452f6083fbaf22bc8f",
+      "filename": "liboauth-1.0.3.tar.gz",
+      "version": "1.0.3",
+      "digests": {"sha256": "d6ec68003262f62024f91f790de287802948df23d99939d982a6efce88251ce1"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The upstream MIT license permits source and binary redistribution with its copyright notice."}
+    }
+  ]
+}
