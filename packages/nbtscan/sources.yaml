@@ -1,0 +1,21 @@
+{
+  "package_id": "nbtscan",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "00e61be7c05cd3a34d5fefedffff86dc6add02d4c728b22e13fb9fbeabba1984"
+      },
+      "filename": "nbtscan-1.7.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/resurrecting-open-source-projects/nbtscan/archive/refs/tags/1.7.2.tar.gz",
+      "version": "1.7.2"
+    }
+  ]
+}
