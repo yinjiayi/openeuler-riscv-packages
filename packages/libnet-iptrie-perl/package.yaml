@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-iptrie-perl",
+  "rpm": {
+    "name": "perl-Net-IPTrie",
+    "summary": "IPv4 and IPv6 prefix trie for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libnet-iptrie-perl",
+    "homepage": "https://metacpan.org/dist/Net-IPTrie",
+    "source_repository": "https://metacpan.org/dist/Net-IPTrie",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CV/CVICENTE/",
+    "release_regex": "Net-IPTrie-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CV/CVICENTE/Net-IPTrie-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.7",
+    "release": "1",
+    "latest_detected": "0.7"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libnet-iptrie-perl",
+        "package_base": "libnet-iptrie-perl",
+        "source_version": "0.7-4",
+        "evidence_url": "https://sources.debian.org/src/libnet-iptrie-perl/0.7-4/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libnet-iptrie-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Debian 0.7-4 and official CPAN 0.7. Publisher CHECKSUMS SHA-256 verified. README and both modules explicitly grant the same terms as Perl itself; no vendored third-party files. Official SP3 RVA23 primary lacks same-name RPM/module provider and supplies Module::Build, NetAddr::IP, Scalar::Util, Class::Struct and bigint. The unchanged default upstream test passed 28 assertions locally, but Node.pm:60 emits bounded duplicate-weak-reference warnings; no warnings are suppressed. Target RPM and installed smoke remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
