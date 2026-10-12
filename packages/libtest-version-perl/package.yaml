@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-version-perl",
+  "rpm": {
+    "name": "perl-Test-Version",
+    "summary": "Test that Perl module versions are sane",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "libtest-version-perl",
+    "homepage": "https://metacpan.org/dist/Test-Version",
+    "source_repository": "https://github.com/plicease/test-version",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/",
+    "release_regex": "Test-Version-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Test-Version-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.09",
+    "release": "1",
+    "latest_detected": "2.09"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libtest-version-perl",
+        "package_base": "libtest-version-perl",
+        "source_version": "2.09-2",
+        "evidence_url": "https://packages.debian.org/source/libtest-version-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtest-version-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian libtest-version-perl 2.09-2 lineage maps to official PLICEASE CPAN 2.09, whose SHA-256 9ce1dd2897a5f30e1b7f8966ec66f57d8d8f280f605f28c7ca221fa79aca38e0 matches publisher CHECKSUMS. Archive-wide LICENSE and installed module grant Artistic-2.0. Official SP3 primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or module provider; required providers are present. All 21 default tests remain; upstream mswin32.t self-skips on Linux. The local host lacks File::Find::Rule::Perl, so target CI must prove the suite and installed behavior. PR CI does not constitute public publication."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
