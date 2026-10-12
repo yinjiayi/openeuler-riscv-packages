@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/tenseleyFlow/tally",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tally",
+        "package_name": "tally",
+        "source": "aur",
+        "source_version": "0.2.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tally.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed. Release 2 runs upstream's complete make test target, including unit, golden parity, differential fuzz, and SIMD engagement checks, with its fixed tool and sanitizer dependencies declared. Exact-head run 33530707443 installed the full dependency closure and then exhausted the declared 60-minute build budget without a compiler, test, or packaging error; the package CI budget is therefore 180 minutes so the complete upstream test target can finish under QEMU.",
+    "status": "active"
+  },
+  "package_id": "tally",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "tally",
+    "summary": "From-scratch C reimplementation of GNU wc(1); byte-identical, faster on every measured workload"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-tenseleyflow-tally",
+    "homepage": "https://github.com/tenseleyFlow/tally",
+    "release_api": "https://api.github.com/repos/tenseleyFlow/tally/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/tenseleyFlow/tally",
+    "source_url_template": "https://github.com/tenseleyFlow/tally/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2.0",
+    "latest_detected": "0.2.0",
+    "release": "2"
+  }
+}
