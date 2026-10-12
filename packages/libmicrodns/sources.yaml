@@ -1,0 +1,21 @@
+{
+  "package_id": "libmicrodns",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9864a088ffef4d4255d5abf63c6f603d1dc343dfec2809ff0c3f1624045b80fa"
+      },
+      "filename": "libmicrodns-0.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official libmicrodns source archive is LGPL-2.1-or-later."
+      },
+      "signature": null,
+      "url": "https://github.com/videolabs/libmicrodns/archive/refs/tags/0.2.0.tar.gz",
+      "version": "0.2.0"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstatgrab",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/libstatgrab/libstatgrab/releases/download/LIBSTATGRAB_0_92_1/libstatgrab-0.92.1.tar.gz",
+      "filename": "libstatgrab-0.92.1.tar.gz",
+      "version": "0.92.1",
+      "digests": {
+        "sha256": "5688aa4a685547d7174a8a373ea9d8ee927e766e3cc302bdee34523c2c5d6c11"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release archive is distributed under the upstream LGPL-2.1-or-later and GPL-2.0-or-later licenses."
+      }
+    }
+  ]
+}

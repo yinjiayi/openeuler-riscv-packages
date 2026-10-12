@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "libvterm",
+  "rpm": {
+    "name": "libvterm",
+    "summary": "Abstract VT220/xterm/ECMA-48 terminal emulator library",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "leonerd.org.uk-code-libvterm",
+    "homepage": "https://www.leonerd.org.uk/code/libvterm/",
+    "source_repository": "https://github.com/neovim/libvterm.git",
+    "release_channel": "stable",
+    "release_api": "https://www.leonerd.org.uk/code/libvterm/",
+    "release_regex": "libvterm-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://www.leonerd.org.uk/code/libvterm/libvterm-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.3.3",
+    "release": "1",
+    "latest_detected": "0.3.3"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libvterm",
+        "package_base": "libvterm",
+        "source_version": "0.3.3-2",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libvterm/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libvterm",
+        "package_base": "libvterm",
+        "source_version": "0.3.3-3",
+        "evidence_url": "https://packages.debian.org/trixie/source/libvterm",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libvterm",
+        "package_base": "libvterm",
+        "source_version": "0.3.3-7.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libvterm/libvterm/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libvterm",
+        "package_base": "libvterm",
+        "source_version": "0.3.3-1.9",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libvterm",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libvterm",
+        "package_base": "libvterm",
+        "source_version": "0.3.3-3build1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libvterm",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libvterm.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official v0.3.3 tag resolves to immutable commit 9d6d2112335080312ef8c36667fa717ded4f7daf, whose commit archive is SHA-256 pinned and contains the complete 43-case strict upstream test corpus. Frozen Arch, Debian, Fedora 44, openSUSE, and Ubuntu evidence corroborates the lineage; read-only AUR RPC had no canonical row and no external packaging recipe was read or executed. The package is new to the fixed target and introduces libvterm.so.0."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

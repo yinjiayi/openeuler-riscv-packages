@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "package_id": "google-crc32c",
+  "rpm": {
+    "name": "google-crc32c",
+    "summary": "CRC32C implementation with hardware acceleration",
+    "license": "BSD-3-Clause"
+  },
+  "upstream": {
+    "component": "github.com-google-crc32c",
+    "homepage": "https://github.com/google/crc32c",
+    "source_repository": "https://github.com/google/crc32c",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/google/crc32c/tags",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/google/crc32c/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.1.2",
+    "release": "1",
+    "latest_detected": "1.1.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "google-crc32c-git",
+        "package_base": "google-crc32c-git",
+        "source_version": "1.1.2+r6+g2bbb3be-1",
+        "evidence_url": "https://aur.archlinux.org/packages/google-crc32c-git",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "google-crc32c",
+        "package_base": "google-crc32c",
+        "source_version": "1.1.2-13.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/google-crc32c/google-crc32c/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libcrc32c",
+        "package_base": "libcrc32c",
+        "source_version": "1.1.2-2.8",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libcrc32c",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "google-crc32c.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official tag archive reviewed and SHA-pinned; external packaging recipes were not executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}

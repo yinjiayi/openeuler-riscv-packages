@@ -1,0 +1,21 @@
+{
+  "package_id": "cpio",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "937610b97c329a1ec9268553fb780037bcfff0dcffe9725ebc4fd9c1aa9075db"
+      },
+      "filename": "cpio-2.15.tar.bz2",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/cpio/cpio-2.15.tar.bz2",
+      "version": "2.15"
+    }
+  ]
+}

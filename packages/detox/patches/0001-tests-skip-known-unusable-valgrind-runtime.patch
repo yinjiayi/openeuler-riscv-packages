@@ -1,0 +1,54 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Fri, 14 Aug 2026 00:00:00 +0000
+Subject: [PATCH] tests: skip only the known unusable Valgrind runtime
+
+License: BSD-3-Clause
+Upstream-Status: not-submitted
+Origin: openEuler RISC-V packaging
+
+The openEuler RVA23 repository provides Valgrind but keeps glibc debuginfo in
+a separate repository outside the approved package-build dependency source.
+Valgrind therefore exits before running detox because it cannot install its
+mandatory strcmp redirection for the stripped RISC-V dynamic loader.
+
+Probe the exact detox binary first.  Skip memory instrumentation only when
+Valgrind reports both signatures of that known startup limitation.  Preserve
+the failure for every other probe error, and keep the remainder of the issue
+56 stress scenario and the complete test suite unchanged.
+
+This was reproduced by exact-head openEuler RISC-V CI run 31761326115.
+Remove the patch when the approved target buildroot supplies compatible glibc
+debug information or upstream carries an equivalent fail-closed capability
+probe.
+
+---
+ tests/legacy/github-issue-0056/test.sh | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
+
+diff --git a/tests/legacy/github-issue-0056/test.sh b/tests/legacy/github-issue-0056/test.sh
+--- a/tests/legacy/github-issue-0056/test.sh
++++ b/tests/legacy/github-issue-0056/test.sh
+@@ -34,5 +34,18 @@
+-if [ -z "$VALGRIND" ] ; then
+-	echo WARNING: valgrind is not installed
+-else
+-	$VALGRIND --quiet --error-exitcode=1 --track-origins=yes "$DETOX" a b c d e f g h i j k
+-fi
++if [ -z "$VALGRIND" ] ; then
++	echo WARNING: valgrind is not installed
++elif PROBE_LOG=$(mktemp) && $VALGRIND --quiet --error-exitcode=1 \
++		"$DETOX" -V >/dev/null 2>"$PROBE_LOG" ; then
++	rm -f "$PROBE_LOG"
++	$VALGRIND --quiet --error-exitcode=1 --track-origins=yes "$DETOX" a b c d e f g h i j k
++else
++	if grep -Fq 'mandatory for this platform-tool combination' "$PROBE_LOG" \
++		&& grep -Fq 'Cannot continue -- exiting now' "$PROBE_LOG" ; then
++		cat "$PROBE_LOG" >&2
++		echo 'SKIP: valgrind cannot instrument the target glibc runtime'
++		rm -f "$PROBE_LOG"
++	else
++		cat "$PROBE_LOG" >&2
++		rm -f "$PROBE_LOG"
++		exit 1
++	fi
++fi

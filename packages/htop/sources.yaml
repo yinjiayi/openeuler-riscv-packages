@@ -1,0 +1,21 @@
+{
+  "package_id": "htop",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "225128e697c4a8c8a878fd0078c965ff8bd5fb24913bfc8473b8edbd50f843f8"
+      },
+      "filename": "htop-3.5.2.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/htop-dev/htop/releases/download/3.5.2/htop-3.5.2.tar.xz",
+      "version": "3.5.2"
+    }
+  ]
+}

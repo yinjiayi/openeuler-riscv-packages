@@ -14,6 +14,13 @@ Readline directory. Each byte stream is independently SHA-256 pinned in
 patches.
 
 The RPM builds shared Readline and History libraries against ncurses, applies
-the official patches in order, checks patch level 3, runs the upstream root
-and examples check routes, and compiles an installed API smoke program. All
-build and test phases are offline.
+the official patches in order, checks patch level 3, preserves the upstream
+root and examples check routes, and compiles an installed API smoke program.
+The upstream root check target is empty; the examples check builds and runs
+the upstream version program. Its required static library is built only for
+testing and is not installed or packaged. The examples directory is on PATH
+for the original check, and an additional exact 8.3 assertion prevents its
+echo command from hiding a failed version invocation. The patch-level check
+preserves the official three-line file and asserts its final numeric line,
+rather than comparing the header and number together against 3. All build
+and test phases are offline. Target CI success is required after refresh.

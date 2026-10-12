@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: use pkg-config for ALSA on Linux
+
+CMake cannot infer the compiler ABI under the QEMU user build route, so its
+generic FindALSA module omits the openEuler lib64 search path even though the
+official alsa-lib-devel package is installed. Resolve the same official ALSA
+development files through their pkg-config metadata and link its imported
+target.
+
+No bundled ALSA copy is fetched.
+
+Patch-Source: downstream adaptation of raptor 0.8.1 CMakeLists.txt
+Patch-License: GPL-2.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+---
+ CMakeLists.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -123,11 +123,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Android")
+         )
+ 
+ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+-    find_package(ALSA REQUIRED)
++    find_package(PkgConfig REQUIRED)
++    pkg_check_modules(ALSA REQUIRED IMPORTED_TARGET alsa)
+     add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
+     target_link_libraries(raptor
+         textscreen
+-        asound
++        PkgConfig::ALSA
+         SDL2::SDL2main
+         SDL2::SDL2
+         )
+-- 
+2.50.1

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtermkey",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/neovim/libtermkey/tar.gz/c97f926ddcd1ade551162272bd4c8cf69e0b7de2",
+      "filename": "libtermkey-0.22.tar.gz",
+      "version": "0.22",
+      "digests": {
+        "sha256": "ef0539fc1ac641f46d326c174243e82445ec7a7e14e3013575c4d0613d744078"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution and modification are permitted by the upstream MIT license."
+      }
+    }
+  ]
+}

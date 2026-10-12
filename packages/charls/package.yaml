@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "charls",
+  "rpm": {
+    "name": "CharLS",
+    "summary": "JPEG-LS image codec library",
+    "license": "BSD-3-Clause"
+  },
+  "upstream": {
+    "component": "github.com-team-charls-charls",
+    "homepage": "https://github.com/team-charls/charls",
+    "source_repository": "https://github.com/team-charls/charls.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/team-charls/charls/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/team-charls/charls/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.4.4",
+    "release": "1",
+    "latest_detected": "2.4.4"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "charls",
+        "package_base": "charls",
+        "source_version": "2.4.4-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/charls/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "charls",
+        "package_base": "charls",
+        "source_version": "2.4.2-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/charls",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "CharLS",
+        "package_base": "CharLS",
+        "source_version": "2.4.3-2.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/CharLS/CharLS/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "CharLS",
+        "package_base": "CharLS",
+        "source_version": "2.4.2-1.10",
+        "evidence_url": "https://software.opensuse.org/package/CharLS",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "charls",
+        "package_base": "charls",
+        "source_version": "2.4.2-2build3",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/charls",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "CharLS.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 2.4.4 tag bytes are pinned and archive-safe. Frozen Arch, Fedora 44, Debian, openSUSE, and Ubuntu lineage corroborates the component; AUR RPC had no exact package. EVR 2.4.4-1 exceeds target 2.4.2-1 while preserving CharLS/CharLS-devel topology and libcharls.so.2. The complete portable upstream charlstest registration remains enabled."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases-latest"
+  }
+}

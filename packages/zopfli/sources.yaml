@@ -1,0 +1,21 @@
+{
+  "package_id": "zopfli",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "09a9732e11975455921a7ec22cad75ca42ed3ea4c9cbe3ccff09750a77e03bcb"
+      },
+      "filename": "zopfli-1.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The immutable official tag commit archive is redistributable under Apache-2.0."
+      },
+      "signature": null,
+      "url": "https://github.com/google/zopfli/archive/bd64b2f0553d4f1ef4e6627647c5d9fc8c71ffc0/zopfli-1.0.3.tar.gz",
+      "version": "1.0.3"
+    }
+  ]
+}

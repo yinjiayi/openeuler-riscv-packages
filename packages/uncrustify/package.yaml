@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/uncrustify/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uncrustify",
+        "package_name": "uncrustify",
+        "source": "arch-extra",
+        "source_version": "0.83.0-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/uncrustify",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uncrustify",
+        "package_name": "uncrustify",
+        "source": "debian",
+        "source_version": "0.78.1+dfsg1-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/uncrustify/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uncrustify",
+        "package_name": "uncrustify",
+        "source": "fedora",
+        "source_version": "0.82.0-2.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/uncrustify",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uncrustify",
+        "package_name": "uncrustify",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.82.0-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/uncrustify",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "uncrustify",
+        "package_name": "uncrustify",
+        "source": "ubuntu",
+        "source_version": "0.78.1+dfsg1-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "uncrustify.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release asset 0.83.0 was archive-audited and pinned; all maintained upstream CTest suites stay enabled.",
+    "status": "active"
+  },
+  "package_id": "uncrustify",
+  "rpm": {
+    "license": "GPL-2.0-only",
+    "name": "uncrustify",
+    "summary": "Source-code beautifier for many programming languages"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "github.com-uncrustify-uncrustify",
+    "homepage": "https://github.com/uncrustify/uncrustify",
+    "release_api": "https://api.github.com/repos/uncrustify/uncrustify/releases/latest",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/uncrustify/uncrustify",
+    "source_url_template": "https://github.com/uncrustify/uncrustify/releases/download/uncrustify-{version}/uncrustify-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.83.0",
+    "latest_detected": "0.83.0",
+    "release": "1"
+  }
+}

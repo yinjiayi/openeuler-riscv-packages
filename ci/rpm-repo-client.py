@@ -31,6 +31,10 @@ MAX_STATE_BYTES = 4 * 1024 * 1024
 MAX_REPOMD_BYTES = 16 * 1024 * 1024
 
 
+class RepositoryUnavailable(ValueError):
+    """The fixed supplemental endpoint could not be contacted."""
+
+
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req: Any, fp: Any, code: int, msg: str, headers: Any, newurl: str) -> None:
         return None
@@ -66,8 +70,14 @@ def fetch(url: str, maximum: int) -> bytes:
             if length and int(length) > maximum:
                 raise ValueError("repository response exceeds the size limit")
             payload = response.read(maximum + 1)
+    except urllib.error.HTTPError as error:
+        if error.code in {408, 429, 500, 502, 503, 504}:
+            raise RepositoryUnavailable(
+                f"fixed supplemental repository endpoint returned transient HTTP {error.code}"
+            ) from error
+        raise ValueError(f"repository returned HTTP {error.code} for {url}") from error
     except (urllib.error.URLError, TimeoutError, OSError) as error:
-        raise ValueError(f"unable to fetch {url}: {error}") from error
+        raise RepositoryUnavailable("fixed supplemental repository endpoint is unavailable") from error
     if len(payload) > maximum:
         raise ValueError("repository response exceeds the size limit")
     return payload
@@ -165,10 +175,67 @@ def atomic_json(path: Path, value: dict[str, Any]) -> None:
     atomic_text(path, json.dumps(value, indent=2, sort_keys=True) + "\n")
 
 
+def unavailable_repo_text() -> str:
+    return "\n".join(
+        [
+            "# Supplemental repository unavailable; use the official repository only.",
+            "[openeuler-riscv-project]",
+            "name=openEuler RISC-V project packages (unavailable)",
+            f"baseurl={PUBLIC_ROOT}/",
+            "enabled=0",
+            "gpgcheck=0",
+            "repo_gpgcheck=0",
+            "metadata_expire=never",
+            "skip_if_unavailable=1",
+            "module_hotfixes=1",
+            "",
+        ]
+    )
+
+
+def write_unavailable_resolution(args: argparse.Namespace) -> None:
+    atomic_text(Path(args.repo_file), unavailable_repo_text())
+    atomic_json(
+        Path(args.output),
+        {
+            "schema_version": 1,
+            "kind": "supplemental-repository-resolution",
+            "status": "unavailable",
+            "resolved_at": utc_now(),
+            "state_url": args.state_url,
+            "state_sha256": None,
+            "generation": None,
+            "repositories": {},
+            "verified_repomd_sha256": {},
+            "reason": "endpoint-unavailable",
+            "fallback": {
+                "active_repository_ids": ["openeuler-rva23"],
+                "supplemental_repository_enabled": False,
+            },
+            "trust": {
+                "transport": "official openEuler HTTPS repository",
+                "rpm_gpgcheck": True,
+                "controls": [
+                    "supplemental repository explicitly disabled",
+                    "official repository only",
+                    "official repository GPG verification retained",
+                ],
+            },
+        },
+    )
+
+
 def resolve(args: argparse.Namespace) -> int:
     if args.state_url != STATE_URL:
         raise ValueError("resolve requires the fixed global state URL")
-    state, state_sha, repomd_hashes = load_and_verify_state(args.state_url)
+    try:
+        state, state_sha, repomd_hashes = load_and_verify_state(args.state_url)
+    except RepositoryUnavailable:
+        if not args.allow_unavailable:
+            raise
+        write_unavailable_resolution(args)
+        print("official-only")
+        return 0
     binary = state["repositories"]["riscv64"]
     repo_text = "\n".join(
         [
@@ -191,6 +258,7 @@ def resolve(args: argparse.Namespace) -> int:
         {
             "schema_version": 1,
             "kind": "supplemental-repository-resolution",
+            "status": "passed",
             "resolved_at": utc_now(),
             "state_url": args.state_url,
             "state_sha256": state_sha,
@@ -256,6 +324,11 @@ def main() -> int:
     resolve_parser.add_argument("--state-url", default=STATE_URL)
     resolve_parser.add_argument("--repo-file", required=True)
     resolve_parser.add_argument("--output", required=True)
+    resolve_parser.add_argument(
+        "--allow-unavailable",
+        action="store_true",
+        help="record an official-repository-only fallback when the fixed endpoint cannot be contacted",
+    )
     resolve_parser.set_defaults(function=resolve)
     verify_parser = subparsers.add_parser("verify-generation")
     verify_parser.add_argument("--state-url", required=True)

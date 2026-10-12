@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-escape-perl",
+  "rpm": {
+    "name": "perl-String-Escape",
+    "summary": "Perl string quoting, escaping and unescaping helpers",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-escape-perl",
+    "homepage": "https://metacpan.org/dist/String-Escape",
+    "source_repository": "https://metacpan.org/dist/String-Escape",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/EV/EVO/",
+    "release_regex": "String-Escape-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/EV/EVO/String-Escape-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2010.002",
+    "release": "1",
+    "latest_detected": "2010.002"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-escape-perl",
+        "package_base": "libstring-escape-perl",
+        "source_version": "2010.002-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-escape-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-escape-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu 2010.002-3 and official stable CPAN 2010.002. Publisher CHECKSUMS SHA-256 and safe archive verified. Module POD grants same terms as Perl; README expressly grants GPL or Artistic and Makefile.PL/META.yml identify Perl dual terms. Official target primary lacks same-name RPM/provider and supplies Test::Pod 1.52, Test::Pod::Coverage 1.10 and Pod::Coverage 0.23. Seven default suites/46 assertions passed locally; eighth POD coverage suite skipped locally for missing optional module and is required on target so it runs. Target RPM build/complete suite/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

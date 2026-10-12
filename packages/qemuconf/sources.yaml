@@ -1,0 +1,21 @@
+{
+  "package_id": "qemuconf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8b57872e6f7d281e7ed7d142ff05efb50e2fbe2c46e656a30fbb1705b4382548"
+      },
+      "filename": "qemuconf-0.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Gottox/qemuconf/archive/refs/tags/v0.2.1.tar.gz",
+      "version": "0.2.1"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/pwgen/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pwgen",
+        "package_name": "pwgen",
+        "source": "arch-extra",
+        "source_version": "2.08-3"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/pwgen-static",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pwgen-static",
+        "package_name": "pwgen-static",
+        "source": "aur",
+        "source_version": "2.08-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/pwgen",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pwgen",
+        "package_name": "pwgen",
+        "source": "debian",
+        "source_version": "2.08-2"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/pwgen/pwgen/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pwgen",
+        "package_name": "pwgen",
+        "source": "fedora",
+        "source_version": "2.08-18.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/pwgen",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pwgen",
+        "package_name": "pwgen",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.08-3.8"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/pwgen",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pwgen",
+        "package_name": "pwgen",
+        "source": "ubuntu",
+        "source_version": "2.08-2build3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "pwgen.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official pwgen 2.08 SourceForge bytes are SHA-256 pinned. Upstream ships no automated suite; secure-output and deterministic file-hash checks are added. GPL-2.0-only is stated in source headers and the bundled copyright file. AUR remained read-only RPC metadata.",
+    "status": "active"
+  },
+  "package_id": "pwgen",
+  "rpm": {
+    "license": "GPL-2.0-only",
+    "name": "pwgen",
+    "summary": "Generate memorable or secure passwords"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-sourceforge-files"
+  },
+  "upstream": {
+    "component": "github.com-tytso-pwgen",
+    "homepage": "https://sourceforge.net/projects/pwgen/",
+    "release_api": "https://sourceforge.net/projects/pwgen/files/pwgen/",
+    "release_channel": "stable",
+    "release_regex": "pwgen/(?P<version>[0-9]+(?:\\.[0-9]+)+)/",
+    "source_repository": "https://github.com/tytso/pwgen",
+    "source_url_template": "https://downloads.sourceforge.net/project/pwgen/pwgen/{version}/pwgen-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.08",
+    "latest_detected": "2.08",
+    "release": "1"
+  }
+}

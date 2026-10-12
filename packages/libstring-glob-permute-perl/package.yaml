@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-glob-permute-perl",
+  "rpm": {
+    "name": "perl-String-Glob-Permute",
+    "summary": "Expand glob-style string permutations without filesystem access",
+    "license": "Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-glob-permute-perl",
+    "homepage": "https://metacpan.org/dist/String-Glob-Permute",
+    "source_repository": "https://metacpan.org/dist/String-Glob-Permute",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MS/MSCHILLI/",
+    "release_regex": "String-Glob-Permute-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MS/MSCHILLI/String-Glob-Permute-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.01",
+    "release": "1",
+    "latest_detected": "0.01"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-glob-permute-perl",
+        "package_base": "libstring-glob-permute-perl",
+        "source_version": "0.01",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-glob-permute-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-glob-permute-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official stable CPAN 0.01. Publisher CHECKSUMS SHA-256 and safe single-root archive checked. LICENSE.TXT is the 1997 Perl Artistic License; module, README and tests explicitly license Yahoo-owned contents under that edition, resolving the historical license-blocked marker for this release. Official target primary lacks same-name RPM/provider. The one unchanged upstream default test file/15 assertions passed locally. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

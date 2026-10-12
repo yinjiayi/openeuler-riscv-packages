@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-koremutake-perl",
+  "rpm": {
+    "name": "perl-String-Koremutake",
+    "summary": "Convert integers to memorable Koremutake strings",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-koremutake-perl",
+    "homepage": "https://metacpan.org/dist/String-Koremutake",
+    "source_repository": "https://metacpan.org/dist/String-Koremutake",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/L/LB/LBROCARD/",
+    "release_regex": "String-Koremutake-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/L/LB/LBROCARD/String-Koremutake-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.30",
+    "release": "1",
+    "latest_detected": "0.30"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-koremutake-perl",
+        "package_base": "libstring-koremutake-perl",
+        "source_version": "0.30",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-koremutake-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-koremutake-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu and official CPAN 0.30. Publisher CHECKSUMS SHA-256, safe archive and README/POD same-as-Perl license grant verified despite historical license-blocked inventory decision. Target primary lacks same-name RPM/provider and has required Error, Test::Exception and Test::Pod::Coverage. The unchanged default suite has 34 functional checks and a POD check passing locally, while POD coverage skipped for a missing local optional test module; target BuildRequires makes it run. One upstream dies_ok assertion misspells koremutake_to_integer, so installed smoke separately checks the real invalid-input path and round trips. Target RPM evidence remains for CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

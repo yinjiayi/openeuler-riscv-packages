@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/miniz/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "miniz",
+        "package_name": "miniz",
+        "source": "arch-extra",
+        "source_version": "3.1.2-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/mingw-w64-miniz",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-miniz",
+        "package_name": "mingw-w64-miniz",
+        "source": "aur",
+        "source_version": "3.1.2-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/miniz/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "miniz",
+        "package_name": "miniz",
+        "source": "fedora",
+        "source_version": "3.1.1-1.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/miniz",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "miniz",
+        "package_name": "miniz",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.1.2-1.3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "miniz.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official current 3.1.2 release-tag source bytes are SHA-256 pinned. The tag archive is used instead of the reduced release asset so the registered Catch2 suite and all six examples remain available. AUR metadata was read only; no external packaging recipe was executed.",
+    "status": "active"
+  },
+  "package_id": "miniz",
+  "rpm": {
+    "license": "MIT AND Unlicense",
+    "name": "miniz",
+    "summary": "Lossless compression library implementing zlib and Deflate"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-richgel999-miniz",
+    "homepage": "https://github.com/richgel999/miniz",
+    "release_api": "https://api.github.com/repos/richgel999/miniz/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/richgel999/miniz",
+    "source_url_template": "https://github.com/richgel999/miniz/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.1.2",
+    "latest_detected": "3.1.2",
+    "release": "1"
+  }
+}

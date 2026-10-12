@@ -47,8 +47,14 @@ rm -f %{buildroot}%{_libdir}/*.a
 
 %check
 %make_build check
-%make_build -C examples check
-test "$(cat patchlevel)" = 3
+# The original examples check links ../libreadline.a even for shared-only RPMs.
+# Build that upstream prerequisite for testing, without installing static libs.
+%make_build static
+PATH="$PWD/examples:$PATH" %make_build -C examples check
+test "$(examples/rlversion)" = 8.3
+test "$(wc -l < patchlevel)" -eq 3
+test "$(head -n2 patchlevel)" = '# Do not edit -- exists only for use by patch'
+test "$(tail -n1 patchlevel)" = 3
 
 %files
 %license COPYING

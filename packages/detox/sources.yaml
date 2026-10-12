@@ -1,0 +1,21 @@
+{
+  "package_id": "detox",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b3dac4f7fcfaa621c6fc5950a2c7e5747cdc9d78aacb9041875fad916b838e60"
+      },
+      "filename": "detox-3.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official detox release asset is BSD-3-Clause."
+      },
+      "signature": null,
+      "url": "https://github.com/dharple/detox/releases/download/v3.0.1/detox-3.0.1.tar.gz",
+      "version": "3.0.1"
+    }
+  ]
+}

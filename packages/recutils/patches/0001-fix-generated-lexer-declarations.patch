@@ -1,0 +1,69 @@
+Provide declarations of the internal lexer functions.  They otherwise
+result in an implicit function declaration warning.
+
+There does not seem to be support for flex-generated headers in
+automake, and this appears to be the least bad option.  At least the
+prototype declarations are checked against the function definitions in
+the generated rec-sex-lec.c file.
+
+Submitted upstream:
+
+  <https://lists.gnu.org/archive/html/bug-recutils/2022-12/msg00000.html>
+
+diff --git a/src/rec-sex-lex.h b/src/rec-sex-lex.h
+new file mode 100644
+index 0000000..4bfc1dc
+--- /dev/null
++++ b/src/rec-sex-lex.h
+@@ -0,0 +1,7 @@
++/* Declarations exported from the generated lexer. */
++
++int sexlex_init (void **);
++void sexset_extra (void *, void *);
++int sexlex_destroy (void *);
++union YYSTYPE;
++int sexlex (union YYSTYPE *, void *);
+diff --git a/src/rec-sex-lex.l b/src/rec-sex-lex.l
+index 1e537bf..2d4a891 100644
+--- a/src/rec-sex-lex.l
++++ b/src/rec-sex-lex.l
+@@ -26,12 +26,12 @@
+ %option bison-bridge
+ %option extra-type="void *"
+ 
+-%option header-file="rec-sex-lex.h"
+ %option nounput
+ %option noinput
+ %top {
+    /* This code goes at the "top" of the generated file.  */
+    #include <config.h>
++   #include "rec-sex-lex.h"
+ }
+ 
+ %{
+diff --git a/src/rec-sex-parser.c b/src/rec-sex-parser.c
+index e5bcd33..4eb188a 100644
+--- a/src/rec-sex-parser.c
++++ b/src/rec-sex-parser.c
+@@ -25,7 +25,7 @@
+ 
+ #include <rec-sex-parser.h>
+ #include "rec-sex-tab.h"
+-/*#include "rec-sex-lex.h" */
++#include "rec-sex-lex.h"
+ 
+ struct rec_sex_parser_s
+ {
+diff --git a/src/rec-sex-tab.y b/src/rec-sex-tab.y
+index 6c31edd..f011bc4 100644
+--- a/src/rec-sex-tab.y
++++ b/src/rec-sex-tab.y
+@@ -33,7 +33,7 @@
+   #include <rec-sex-ast.h>
+   #include <rec-sex-parser.h>
+   #include "rec-sex-tab.h"
+-  /*  #include "rec-sex-lex.h" */
++  #include "rec-sex-lex.h"
+ 
+   void sexerror (rec_sex_parser_t context, const char *err)
+   {

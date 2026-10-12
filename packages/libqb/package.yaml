@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "libqb",
+  "rpm": {
+    "name": "libqb",
+    "summary": "High-performance logging, tracing, IPC, and poll library",
+    "license": "LGPL-2.1-or-later"
+  },
+  "upstream": {
+    "component": "github.com-ClusterLabs-libqb",
+    "homepage": "https://github.com/ClusterLabs/libqb",
+    "source_repository": "https://github.com/ClusterLabs/libqb.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/ClusterLabs/libqb/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/ClusterLabs/libqb/releases/download/v{version}/libqb-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.0.10",
+    "release": "1",
+    "latest_detected": "2.0.10"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libqb",
+        "package_base": "libqb",
+        "source_version": "2.0.10-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libqb/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libqb",
+        "package_base": "libqb",
+        "source_version": "2.0.8-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/libqb",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libqb",
+        "package_base": "libqb",
+        "source_version": "2.0.9-2.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libqb/libqb/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libqb",
+        "package_base": "libqb",
+        "source_version": "2.0.9+20250916.4b496d0-1.5",
+        "evidence_url": "https://software.opensuse.org/package/libqb",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libqb",
+        "package_base": "libqb",
+        "source_version": "2.0.9-1ubuntu1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libqb",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 240,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libqb.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 2.0.10 release bytes are pinned and archive-safe. Frozen Arch, Fedora 44, Debian, openSUSE, and Ubuntu lineage corroborates the component; AUR RPC had no exact package. EVR 2.0.10-1 exceeds target 2.0.8-6 while preserving libqb.so.100 and all four target subpackages. All 12 upstream tests, including slow checks, remain enabled."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases-latest"
+  }
+}

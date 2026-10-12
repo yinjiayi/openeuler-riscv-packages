@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 00:00:00 +0000
+Subject: [PATCH] libsent: restrict cpuid header to x86
+
+calc_dnn.c includes GCC's x86-only cpuid.h on every non-Windows target
+except ARM. RISC-V does not enable the x86 SIMD implementations and uses
+the existing scalar DNN path, so limit the header to the architectures
+that can use it.
+
+Patch-Source: openEuler RISC-V package CI failure analysis
+Patch-License: BSD-3-Clause
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+Remove-When: Upstream restricts cpuid.h to x86 targets in a stable release.
+---
+ libsent/src/phmm/calc_dnn.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/libsent/src/phmm/calc_dnn.c b/libsent/src/phmm/calc_dnn.c
+--- a/libsent/src/phmm/calc_dnn.c
++++ b/libsent/src/phmm/calc_dnn.c
+@@ -12,12 +12,9 @@
+ #ifdef _WIN32
+ #include <intrin.h>
+-#else
+-#if defined(__arm__) || TARGET_OS_IPHONE || defined(__aarch64__)
+-#else
++#elif defined(__i386__) || defined(__x86_64__)
+ #include <cpuid.h>
+ #endif
+-#endif	/* _WIN32 */
+-
++
+ #include <sent/stddefs.h>
+ #include <sent/htk_hmm.h>
+ #include <sent/htk_param.h>
+--
+2.50.1

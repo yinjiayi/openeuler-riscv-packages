@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-levenshtein-perl",
+  "rpm": {
+    "name": "perl-Text-Levenshtein",
+    "summary": "Calculate the Levenshtein edit distance between strings",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-levenshtein-perl",
+    "homepage": "https://metacpan.org/dist/Text-Levenshtein",
+    "source_repository": "https://github.com/neilbowers/Text-Levenshtein",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_regex": "Text-Levenshtein-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Levenshtein-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.15",
+    "release": "1",
+    "latest_detected": "0.15"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-levenshtein-perl",
+        "package_base": "libtext-levenshtein-perl",
+        "source_version": "0.15-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-levenshtein-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-levenshtein-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official CPAN 0.15. CPAN CHECKSUMS SHA-256 verified; Ubuntu orig compressed MD5 differs because repacked, but extracted trees are file-identical. Archive safe, GPL-1.0-or-later OR Artistic-1.0-Perl notices reviewed. Official target primary lacks same-name RPM or module provider and includes Unicode::Collate 1.31. All nine default upstream test files and 252 assertions passed locally; target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

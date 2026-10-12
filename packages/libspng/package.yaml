@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libspng/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspng",
+        "package_name": "libspng",
+        "source": "arch-extra",
+        "source_version": "0.7.4-4"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/libspng",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspng",
+        "package_name": "libspng",
+        "source": "debian",
+        "source_version": "0.7.4-2"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libspng/libspng/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspng",
+        "package_name": "libspng",
+        "source": "fedora",
+        "source_version": "0.7.4-10.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libspng",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspng",
+        "package_name": "libspng",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.7.4-1.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libspng",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspng",
+        "package_name": "libspng",
+        "source": "ubuntu",
+        "source_version": "0.7.4-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libspng.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official 0.7.4 release tag was independently downloaded, inspected, and SHA-256 pinned. The openEuler SP3 repository has no libspng package. The complete bundled Meson suite remains enabled; distribution metadata is lineage only and no external recipe was executed.",
+    "status": "active"
+  },
+  "package_id": "libspng",
+  "rpm": {
+    "license": "BSD-2-Clause AND libpng-2.0",
+    "name": "libspng",
+    "summary": "Simple and secure PNG decoding and encoding library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "github.com-randy408-libspng",
+    "homepage": "https://libspng.org",
+    "release_api": "https://api.github.com/repos/randy408/libspng/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/randy408/libspng",
+    "source_url_template": "https://github.com/randy408/libspng/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.7.4",
+    "latest_detected": "0.7.4",
+    "release": "1"
+  }
+}

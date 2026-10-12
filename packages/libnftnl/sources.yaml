@@ -1,0 +1,21 @@
+{
+  "package_id": "libnftnl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "607da28dba66fbdeccf8ef1395dded9077e8d19f2995f9a4d45a9c2f0bcffba8"
+      },
+      "filename": "libnftnl-1.3.1.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The publisher release archive is redistributable under GPL-2.0-or-later."
+      },
+      "signature": null,
+      "url": "https://www.netfilter.org/projects/libnftnl/files/libnftnl-1.3.1.tar.xz",
+      "version": "1.3.1"
+    }
+  ]
+}

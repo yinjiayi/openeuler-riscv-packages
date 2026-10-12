@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-parity-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Parity-1.34.tar.gz",
+      "version": "1.34",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/String-Parity-1.34.tar.gz",
+      "digests": {
+        "sha256": "c0ae3bd7a2862654ca6bc7b30c882687e9812c185fd944dfeea54a57d2a29694"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE expressly grants GPL-1-or-later or Artistic-1.0 terms; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/brofield/simpleini",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "simpleini",
+        "package_name": "simpleini",
+        "source": "aur",
+        "source_version": "4.26-3"
+      },
+      {
+        "evidence_url": "https://github.com/brofield/simpleini",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libsimpleini",
+        "package_name": "libsimpleini",
+        "source": "debian",
+        "source_version": "4.22+dfsg-2"
+      },
+      {
+        "evidence_url": "https://github.com/brofield/simpleini",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "simpleini",
+        "package_name": "simpleini",
+        "source": "fedora",
+        "source_version": "4.25-2.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/brofield/simpleini",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libsimpleini",
+        "package_name": "libsimpleini",
+        "source": "ubuntu",
+        "source_version": "4.22+dfsg-1ubuntu2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "simpleini.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Release 3 retains the matching system GoogleTest package and full registered CTest suite while raising the package timeout to 180 minutes. Exact-head run 33712645713 then compiled and passed the complete registered CTest suite, but RPM assembly failed because automatic debuginfo generation produced an empty file list for this header-only package. Release 4 disables only the inapplicable automatic debuginfo subpackage while preserving the complete test suite and library functionality. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head RPM and installed-smoke evidence.",
+    "status": "active"
+  },
+  "package_id": "simpleini",
+  "rpm": {
+    "license": "MIT",
+    "name": "simpleini",
+    "summary": "Cross-platform C++ library providing a simple API to read and write INI-style configuration files"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-brofield-simpleini",
+    "homepage": "https://github.com/brofield/simpleini",
+    "release_api": "https://api.github.com/repos/brofield/simpleini/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/brofield/simpleini",
+    "source_url_template": "https://github.com/brofield/simpleini/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.26",
+    "latest_detected": "4.26",
+    "release": "4"
+  }
+}

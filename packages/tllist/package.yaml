@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/tllist/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tllist",
+        "package_name": "tllist",
+        "source": "arch-extra",
+        "source_version": "1.1.0-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/tllist",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tllist",
+        "package_name": "tllist",
+        "source": "debian",
+        "source_version": "1.1.0-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/tllist/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tllist",
+        "package_name": "tllist",
+        "source": "fedora",
+        "source_version": "1.1.0-8.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/tllist",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tllist",
+        "package_name": "tllist",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.1.0-1.8"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/tllist",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tllist",
+        "package_name": "tllist",
+        "source": "ubuntu",
+        "source_version": "1.1.0-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tllist.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official Codeberg 1.1.0 tag bytes are SHA-256 pinned. The complete upstream C unit target remains enabled. Exact-name AUR RPC returned no result; no external packaging recipe was read or executed.",
+    "status": "active"
+  },
+  "package_id": "tllist",
+  "rpm": {
+    "license": "MIT",
+    "name": "tllist",
+    "summary": "Typed linked-list header for C"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-codeberg-tags"
+  },
+  "upstream": {
+    "component": "codeberg.org-dnkl-tllist",
+    "homepage": "https://codeberg.org/dnkl/tllist",
+    "release_api": "https://codeberg.org/api/v1/repos/dnkl/tllist/tags",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://codeberg.org/dnkl/tllist",
+    "source_url_template": "https://codeberg.org/dnkl/tllist/archive/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.1.0",
+    "latest_detected": "1.1.0",
+    "release": "1"
+  }
+}
