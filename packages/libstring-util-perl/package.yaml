@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-util-perl",
+  "rpm": {
+    "name": "perl-String-Util",
+    "summary": "String processing utility functions for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-util-perl",
+    "homepage": "https://metacpan.org/dist/String-Util",
+    "source_repository": "https://github.com/scottchiefbaker/String-Util",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BA/BAKERSCOT/",
+    "release_regex": "String-Util-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BA/BAKERSCOT/String-Util-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.36",
+    "release": "1",
+    "latest_detected": "1.36"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-util-perl",
+        "package_base": "libstring-util-perl",
+        "source_version": "1.35-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-util-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-util-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.35-1 inventory key advances to official latest stable CPAN 1.36. Publisher CHECKSUMS and downloaded HTTPS archive SHA-256 agree; 15 archive entries are safe and single-root. LICENSE and module POD explicitly grant GPL-1-or-later or Artistic-1.0-Perl, despite Makefile.PL/META's MIT label; the RPM follows the substantive source grant and includes LICENSE. Official SP3 RVA23 primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(String::Util) provider and includes declared build/test tools. Both default upstream files/92 assertions passed on local Perl 5.34.1; exact-head target CI must prove RPM build, complete tests and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

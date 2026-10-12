@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-util-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Util-1.36.tar.gz",
+      "version": "1.36",
+      "url": "https://cpan.metacpan.org/authors/id/B/BA/BAKERSCOT/String-Util-1.36.tar.gz",
+      "digests": {
+        "sha256": "517b1ab32566fd4d5e8be23d99339ce3bffee2912c5ff29f5dc95870ff4fcb0e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Archive LICENSE and module POD grant Perl dual terms; the official CPAN HTTPS source SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
