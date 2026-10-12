@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxxf86vm",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libXxf86vm-1.1.7.tar.xz",
+      "version": "1.1.7",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.7.tar.xz",
+      "digests": {
+        "sha256": "ae50c0f669e0af5a67cc4cd0f54f21d64a64d2660af883e80e95d3fe51b945d8"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official permissively licensed X.Org release archive is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}
