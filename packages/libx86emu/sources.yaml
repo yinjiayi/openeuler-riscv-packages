@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libx86emu",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libx86emu-3.7.tar.gz",
+      "version": "3.7",
+      "url": "https://codeload.github.com/wfeldt/libx86emu/tar.gz/ce81129c57fdfbf690bebc210a8db97d926cc5e7",
+      "digests": {
+        "sha256": "832665403200c51c79fafac008357705251058a86784541a4b220ab05ac7283a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The immutable official upstream commit archive is fetched over HTTPS and its source is redistributable under the upstream HPND-style license."
+      }
+    }
+  ]
+}

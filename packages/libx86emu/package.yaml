@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "libx86emu",
+  "rpm": {
+    "name": "libx86emu",
+    "summary": "Library for emulating x86 instructions",
+    "license": "HPND"
+  },
+  "upstream": {
+    "component": "github.com-wfeldt-libx86emu",
+    "homepage": "https://github.com/wfeldt/libx86emu",
+    "source_repository": "https://github.com/wfeldt/libx86emu.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/wfeldt/libx86emu/tags",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://codeload.github.com/wfeldt/libx86emu/tar.gz/refs/tags/{version}"
+  },
+  "version": {
+    "current": "3.7",
+    "release": "1",
+    "latest_detected": "3.7"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libx86emu",
+        "package_base": "libx86emu",
+        "source_version": null,
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libx86emu/",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libx86emu.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-test-remove-unused-x86-io-header.patch",
+        "sha256": "263ab835f0e8beb731c3e9edde553a80b7ec18c372aa218412678830becbe358",
+        "purpose": "Build the unchanged upstream test driver on riscv64 by removing an unused x86-only sys/io.h include.",
+        "source": "downstream riscv64 test-driver portability",
+        "license": "HPND",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream removes or conditionally includes the unused sys/io.h header."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The exact libx86emu inventory key maps to upstream tag 3.7 at immutable commit ce81129c57fdfbf690bebc210a8db97d926cc5e7. The official source archive lacks generated VERSION and git metadata, so the spec writes the tag version and disables the git2log generator. PR #2156 run 36480595492 built the library but failed at %check because an unused x86-only sys/io.h include is absent on riscv64; the test-only patch removes that include without changing any fixtures. Upstream make test executes all 60 instruction fixtures; 42 have checked .done expectations and 18 are run-only. Nasm/ndisasm are available in the target RVA23 repository."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-tags"
+  }
+}

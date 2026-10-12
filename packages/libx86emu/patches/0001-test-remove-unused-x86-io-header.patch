@@ -1,0 +1,20 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] test: remove unused x86-only sys/io.h include
+
+The test program does not call any function or macro from sys/io.h. Its only
+reference to iopl(3) is commented out. On riscv64 glibc does not provide
+this x86-only header, so remove the unused include without changing any
+test cases or expected results.
+
+--- a/test/x86test.c
++++ b/test/x86test.c
+@@ -43,8 +43,7 @@
+ #include <getopt.h>
+ #include <inttypes.h>
+ #include <x86emu.h>
+-#include <sys/io.h>
+-
++
+ typedef struct {
+   x86emu_t *emu;
+ } vm_t;
