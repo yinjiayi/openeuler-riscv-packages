@@ -1,0 +1,21 @@
+{
+  "package_id": "davinci-ffmpeg-encoder-plugin",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0588cdc8ff256c0aa6dc74a667d8517762f67c687202e83a4c8ffb2542ab835a"
+      },
+      "filename": "davinci-ffmpeg-encoder-plugin-1.3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/EdvinNilsson/ffmpeg_encoder_plugin/archive/refs/tags/v1.3.3.tar.gz",
+      "version": "1.3.3"
+    }
+  ]
+}
