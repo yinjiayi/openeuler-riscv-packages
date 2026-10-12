@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-adapter-perl",
+  "rpm": {
+    "name": "perl-Class-Adapter",
+    "summary": "Adapt Perl objects to another class interface",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclass-adapter-perl",
+    "homepage": "https://metacpan.org/dist/Class-Adapter",
+    "source_repository": "https://metacpan.org/dist/Class-Adapter",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/",
+    "release_regex": "(?<![A-Za-z0-9])Class-Adapter-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Class-Adapter-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.09",
+    "release": "2",
+    "latest_detected": "1.09"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libclass-adapter-perl",
+        "package_base": "libclass-adapter-perl",
+        "source_version": "1.09-2",
+        "evidence_url": "https://sources.debian.org/src/libclass-adapter-perl/1.09-2/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclass-adapter-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian 1.09-2 maps to official stable CPAN Class-Adapter 1.09. Publisher CHECKSUMS matches the fixed HTTPS archive. All three installed PM PODs directly grant same-as-Perl redistribution by Adam Kennedy; README/LICENSE agree and no vendor or contrary test notice appears. Official SP3 RVA23 primary has no collision and supplies all runtime/build/test providers. Initial target run 37064550331 ran all eight unchanged default files and 65 assertions with no skips and Result: PASS, but an extra package SPEC grep incorrectly expected verbose prove to put the test-file header and ok on one line, so RPM build failed after tests. Release 2 corrects only that grep; target CI must prove full suite, physical products and installed delegation."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
