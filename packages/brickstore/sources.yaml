@@ -1,0 +1,21 @@
+{
+  "package_id": "brickstore",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "64f160733a6014ea4e8b2e6104a2225bd425941801a1f7eb5a4a09c1c6f91e77"
+      },
+      "filename": "brickstore-2026.7.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rgriebl/brickstore/archive/refs/tags/v2026.7.1.tar.gz",
+      "version": "2026.7.1"
+    }
+  ]
+}
