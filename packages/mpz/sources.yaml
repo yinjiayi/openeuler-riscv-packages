@@ -1,0 +1,21 @@
+{
+  "package_id": "mpz",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ed43362713bfad392bfcdba6987271698c9b623d5d3d7274a2a63d71977d0e62"
+      },
+      "filename": "mpz-2.1.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/olegantonyan/mpz/archive/refs/tags/2.1.2.tar.gz",
+      "version": "2.1.2"
+    }
+  ]
+}
