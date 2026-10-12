@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "package_id": "liblaxjson",
+  "rpm": {"name": "liblaxjson", "summary": "Streaming permissive JSON parser library", "license": "MIT"},
+  "upstream": {
+    "component": "github.com-andrewrk-liblaxjson",
+    "homepage": "https://github.com/andrewrk/liblaxjson",
+    "source_repository": "https://github.com/andrewrk/liblaxjson.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/andrewrk/liblaxjson/tags",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/andrewrk/liblaxjson/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {"current": "1.0.5", "release": "1", "latest_detected": "1.0.5"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "aur", "package_name": "liblaxjson", "package_base": "liblaxjson", "source_version": "1.0.5-1", "evidence_url": "https://aur.archlinux.org/packages/liblaxjson", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "liblaxjson", "package_base": "liblaxjson", "source_version": "1.0.5-4", "evidence_url": "https://packages.debian.org/source/stable/liblaxjson", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "liblaxjson", "package_base": "liblaxjson", "source_version": "1.0.5-4build1", "evidence_url": "https://packages.ubuntu.com/source/resolute/liblaxjson", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "liblaxjson.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official annotated 1.0.5 tag resolves to immutable commit 9f55366a50c31c3be33705a3ee21d52eb77cb4ab. The frozen discovery row marked licensing unresolved because Debian/Ubuntu metadata lacked a license value; the official tag's COPYING and source headers unambiguously grant MIT. The sole upstream CTest remains enabled."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-tags"}
+}
