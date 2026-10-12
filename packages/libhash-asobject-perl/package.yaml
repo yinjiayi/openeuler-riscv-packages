@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-asobject-perl",
+  "rpm": {
+    "name": "perl-Hash-AsObject",
+    "summary": "Hashes with object-style accessors and mutators",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libhash-asobject-perl",
+    "homepage": "https://metacpan.org/dist/Hash-AsObject",
+    "source_repository": "https://metacpan.org/dist/Hash-AsObject",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NK/NKUITSE/",
+    "release_regex": "Hash-AsObject-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NK/NKUITSE/Hash-AsObject-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.13",
+    "release": "1",
+    "latest_detected": "0.13"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libhash-asobject-perl",
+        "package_base": "libhash-asobject-perl",
+        "source_version": "0.13-4",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libhash-asobject-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libhash-asobject-perl",
+        "package_base": "libhash-asobject-perl",
+        "source_version": "0.13-4",
+        "evidence_url": "https://packages.debian.org/source/stable/libhash-asobject-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libhash-asobject-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu/Debian 0.13-4 key maps to official stable CPAN Hash-AsObject 0.13. HTTPS archive SHA-256 matches publisher CHECKSUMS and has safe single-root entries. Frozen distribution license was unresolved; bundled README/module, Makefile.PL and META.yml independently agree on Perl terms. Official SP3 RVA23 primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or module provider and includes declared build/test and POD coverage dependencies. All ten default upstream files/98 assertions passed on local Perl 5.34.1 with four SHA-verified official CPAN test-only dependency archives in a temporary prefix; exact-head CI must prove target RPM build, full tests and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
