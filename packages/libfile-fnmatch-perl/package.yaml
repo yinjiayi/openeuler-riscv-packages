@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-fnmatch-perl",
+  "rpm": {
+    "name": "perl-File-FnMatch",
+    "summary": "Perl XS binding for POSIX fnmatch",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-fnmatch-perl",
+    "homepage": "https://metacpan.org/dist/File-FnMatch",
+    "source_repository": "https://metacpan.org/dist/File-FnMatch",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MJ/MJP/",
+    "release_regex": "File-FnMatch-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MJ/MJP/File-FnMatch-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.02",
+    "release": "1",
+    "latest_detected": "0.02"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-fnmatch-perl",
+        "package_base": "libfile-fnmatch-perl",
+        "source_version": "0.02-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-fnmatch-perl",
+        "observed_at": "2026-09-30T05:45:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-fnmatch-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-fnmatch-perl maps to official CPAN latest 0.02. Official HTTPS archive SHA-256 962454b8e86bea8b132bf8af35757d0c6a8f5d599015bd6a5d68cb7ae7a9e916 matches CPAN CHECKSUMS; paths are safe. Historical license-blocked and MetaCPAN unknown labels were resolved by direct inspection of README, FnMatch.pm and ppport.h, each explicitly granting Perl dual redistribution/modification terms. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(File::FnMatch) provider. Both default upstream t files/14 assertions passed in a native macOS Perl 5.34.1 source build; riscv64 QEMU build, tests and installed smoke are unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
