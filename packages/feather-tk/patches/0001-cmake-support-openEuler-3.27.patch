@@ -1,0 +1,25 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 8 Sep 2026 00:00:00 +0800
+Subject: [PATCH] cmake: support the openEuler 3.27 toolchain
+
+The normal feather-tk build uses policies and commands available in CMake
+3.27.  Lower its declared minimum so openEuler 24.03 LTS SP3 can configure
+the project with its CMake 3.27.9 package.  The separate SuperBuild is not
+used by the RPM build and retains its upstream minimum.
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 54a0848..65de69f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.31)
++cmake_minimum_required(VERSION 3.27)
+ cmake_policy(SET CMP0091 NEW)
+ cmake_policy(SET CMP0114 NEW)
+ if(POLICY CMP0135)
+--
+2.55.0
