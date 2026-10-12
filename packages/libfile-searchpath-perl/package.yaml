@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-searchpath-perl",
+  "rpm": {
+    "name": "perl-File-SearchPath",
+    "summary": "Perl module for locating files in path-like variables",
+    "license": "GPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "libfile-searchpath-perl",
+    "homepage": "https://metacpan.org/dist/File-SearchPath",
+    "source_repository": "https://github.com/timj/perl-File-SearchPath",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TJ/TJENNESS/",
+    "release_regex": "File-SearchPath-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TJ/TJENNESS/File-SearchPath-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.07",
+    "release": "1",
+    "latest_detected": "0.07"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-searchpath-perl",
+        "package_base": "libfile-searchpath-perl",
+        "source_version": "0.07-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-searchpath-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-searchpath-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libfile-searchpath-perl key maps to official stable CPAN File-SearchPath 0.07. CPAN CHECKSUMS SHA-256, archive safety, GPL-2.0-or-later source declarations, and the complete 16-assertion upstream test file were reviewed. Env::Path is an upstream recommendation only; the default test supports its absence. Target outcome awaits exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
