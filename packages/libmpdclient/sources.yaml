@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmpdclient",
+  "sources": [
+    {
+      "id": "source0",
+      "version": "2.26",
+      "url": "https://musicpd.org/download/libmpdclient/2/libmpdclient-2.26.tar.xz",
+      "filename": "libmpdclient-2.26.tar.xz",
+      "digests": {
+        "sha256": "35785c6d6318ade47e2c27b00fc6938f5e09d04714080fea3f5e5c522ba3e036"
+      },
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The publisher's BSD-2-Clause and BSD-3-Clause source archive permits redistribution."
+      }
+    }
+  ]
+}
