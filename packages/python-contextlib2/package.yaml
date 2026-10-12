@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "package_id": "python-contextlib2",
+  "rpm": {
+    "name": "python-contextlib2",
+    "summary": "Backports and enhancements for the contextlib module",
+    "license": "Python-2.0 AND Apache-2.0"
+  },
+  "version": {
+    "current": "21.6.0",
+    "latest_detected": "21.6.0",
+    "release": "1"
+  },
+  "upstream": {
+    "component": "github.com-jazzband-contextlib2",
+    "homepage": "https://github.com/jazzband/contextlib2",
+    "source_repository": "https://github.com/jazzband/contextlib2",
+    "release_api": "https://api.github.com/repos/jazzband/contextlib2/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "contextlib2",
+        "package_base": "contextlib2",
+        "source_version": "21.6.0-1build1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/c05dda74474d35c64f6c6e71dae539217b4879a5/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "files": {
+    "spec": "python-contextlib2.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "network_during_build": false,
+    "native_reason": null
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Full30 Git originals retained. Original PSF2 LICENSE and fixed typeshed Apache2 full legal text preserved separately. Complete original CPython tox coverage/unittest/stubtest commands on target3.11, all original support and allowlist unchanged. Legacy matrix, orchestration, external Codecov/PyPI retained/unclaimed. Target CI unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "official-github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  }
+}
