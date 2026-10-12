@@ -37,3 +37,18 @@ script is retained but not selected by original pytest defaults; no performance
 claim is made. Trusted repository checks and offline source-only verification
 are local; RPM/default/buildroot/installed execution belongs solely to real CI.
 Target CI success, RPM/SRPM links and publication are unverified at submission.
+
+CI run 38240848854 at head e4ee8d5f014314165f3633e0be121c4fa2ac6886
+passed the original buildroot routes (1 documentation, 14 module doctests,
+333 suite tests, 92% measured coverage) but installed preflight rejected
+`.pytest_cache/CACHEDIR.TAG` before any installed default test ran. The real
+RPM contains five generated pytest cache files: the absolute-module command
+selects the buildroot runtime directory as pytest's root and its original
+cache plugin writes there. After all original commands and coverage XML
+succeed, the SPEC now verifies that exact generated cache shape/tag, records
+its SHA-256 values, and moves it into the already fresh disposable scratch.
+It rechecks every original runtime hash before packaging. The installed
+strict ownership/hash/extra-file guard, all 62 original sources, original
+pytest configuration and command arguments remain unchanged. This is cache
+isolation, not acceptance of the failed installation or changed test defaults.
+Replacement exact-head CI and physical artifact acceptance remain required.

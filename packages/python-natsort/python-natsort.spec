@@ -94,6 +94,19 @@ with tempfile.TemporaryDirectory(prefix='python-natsort-defaults-') as scratch:
     for module,args in selected:
         code=guard+'\nimport runpy\nsys.argv='+repr([module]+args)+'\nrunpy.run_module('+repr(module)+',run_name="__main__")\n'
         subprocess.run([sys.executable,'-c',code],cwd=work,env=env,check=True)
+    if not installed:
+        generated = site/'natsort'/'.pytest_cache'
+        assert generated.is_dir() and not generated.is_symlink()
+        cache_files = {p.relative_to(generated).as_posix(): p for p in generated.rglob('*') if p.is_file()}
+        assert set(cache_files) == {'.gitignore', 'CACHEDIR.TAG', 'README.md', 'v/cache/nodeids', 'v/cache/stepwise'}
+        assert all(not p.is_symlink() for p in generated.rglob('*'))
+        assert cache_files['CACHEDIR.TAG'].read_text().startswith('Signature: 8a477f597d28d172789f06886806bc55\n')
+        cache_hashes = {name: digest(p) for name,p in cache_files.items()}
+        shutil.move(str(generated), str(pathlib.Path(scratch)/'generated-pytest-cache'))
+        assert not generated.exists()
+        for p,h in runtime.items():
+            assert digest(site/'natsort'/p) == h
+        print(json.dumps({'isolated_after_original_defaults': '.pytest_cache', 'generated_cache_sha256': cache_hashes}))
     print(json.dumps({'route':'original GitHub Python3.11 -> tox py311, no extras','original_files':len(manifest),'runtime_files':len(runtime),'commands':selected,'runtime_origin':str(site/'natsort'),'engine':'installed-RPM' if installed else 'buildroot-wheel','boundary':'Original skips/configs preserved; no claim about other interpreter/extras/static jobs or performance.'}))
 PY
 
