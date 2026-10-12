@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "package_id": "libsdl2-mixer",
+  "rpm": {
+    "name": "SDL2_mixer",
+    "summary": "Multi-channel audio mixer library for SDL 2",
+    "license": "Zlib"
+  },
+  "upstream": {
+    "component": "github.com-libsdl-org-sdl_mixer",
+    "homepage": "https://github.com/libsdl-org/SDL_mixer",
+    "source_repository": "https://github.com/libsdl-org/SDL_mixer",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/libsdl-org/SDL_mixer/tags?per_page=100",
+    "release_regex": "^release-(?P<version>2\\.[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/libsdl-org/SDL_mixer/releases/download/release-{version}/SDL2_mixer-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.8.2",
+    "release": "1",
+    "latest_detected": "2.8.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libsdl2-mixer",
+        "package_base": "libsdl2-mixer",
+        "source_version": "2.8.1+dfsg-5",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libsdl2-mixer",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "SDL2_mixer.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official current SDL 2 series 2.8.2 release asset is SHA-256 pinned and archive-safe. Frozen Ubuntu 26.04 source lineage identifies the inventory entry at 2.8.1; no external packaging recipe was executed. The build uses only fixed-repository SDL 2 and codec development providers, links the external codec libraries directly, keeps upstream Timidity support, and runs upstream's complete release-version consistency test."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}
