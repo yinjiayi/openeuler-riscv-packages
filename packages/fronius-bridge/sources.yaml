@@ -1,0 +1,21 @@
+{
+  "package_id": "fronius-bridge",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bf57b97a9db33f5ec49888ae528b3bfdfee85787503e12b23a053c61e6370212"
+      },
+      "filename": "fronius-bridge-1.6.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ahpohl/fronius-bridge/archive/refs/tags/v1.6.1.tar.gz",
+      "version": "1.6.1"
+    }
+  ]
+}
