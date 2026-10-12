@@ -1,0 +1,21 @@
+{
+  "package_id": "erlang-mqtree",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ea40b6679309bef1e589ea341adc04fb9aa5b588e0ec25ff4f072692e67d7f2e"
+      },
+      "filename": "erlang-mqtree-1.0.19.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/processone/mqtree/archive/refs/tags/1.0.19.tar.gz",
+      "version": "1.0.19"
+    }
+  ]
+}
