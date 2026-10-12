@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/gnugo/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gnugo",
+        "package_name": "gnugo",
+        "source": "arch-extra",
+        "source_version": "3.8-8"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gnugo/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gnugo",
+        "package_name": "gnugo",
+        "source": "debian",
+        "source_version": "3.8-13"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gnugo/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gnugo",
+        "package_name": "gnugo",
+        "source": "fedora",
+        "source_version": "3.8-38.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/gnugo/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "gnugo",
+        "package_name": "gnugo",
+        "source": "ubuntu",
+        "source_version": "3.8-13build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "gnugo.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "gnugo",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "gnugo",
+    "summary": "Program that plays the game of Go"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-gnugo",
+    "homepage": "https://www.gnu.org/software/gnugo/",
+    "release_api": "https://ftp.gnu.org/gnu/gnugo/",
+    "release_channel": "stable",
+    "release_regex": "gnugo-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://savannah.gnu.org/projects/gnugo/",
+    "source_url_template": "https://ftp.gnu.org/gnu/gnugo/gnugo-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.8",
+    "latest_detected": "3.8",
+    "release": "1"
+  }
+}
