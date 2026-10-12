@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-hexstring-perl",
+  "rpm": {
+    "name": "perl-Test-HexString",
+    "summary": "Compare Perl strings with hexadecimal diagnostics",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtest-hexstring-perl",
+    "homepage": "https://metacpan.org/dist/Test-HexString",
+    "source_repository": "https://metacpan.org/dist/Test-HexString/source",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PE/PEVANS/",
+    "release_regex": "Test-HexString-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Test-HexString-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.03",
+    "release": "1",
+    "latest_detected": "0.03"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtest-hexstring-perl",
+        "package_base": "libtest-hexstring-perl",
+        "source_version": "0.03-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtest-hexstring-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtest-hexstring-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu libtest-hexstring-perl 0.03-2 maps to official PEVANS CPAN SHA-256 7d4c4cdc192f2594dc78ff75eb2cf4d0561f794b36ee0eacee8c4a1aa8a03f40, matching publisher CHECKSUMS. LICENSE and installed module grant Perl terms, no vendored code. Official target primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same provider and supplies direct dependencies. All three default upstream tests remain; pristine local seven assertions and POD passed with no skip. Target DNF and installed binary-string smoke must pass; PR CI is not public publication."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
