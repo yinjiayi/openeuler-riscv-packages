@@ -3,7 +3,7 @@
 set -euo pipefail
 
 rpm -q -- gzip
-gzip --version | grep -F 'gzip 1.14'
+gzip --version | grep -F 'gzip 1.15'
 
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT

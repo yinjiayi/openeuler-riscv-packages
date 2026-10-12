@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gzip
-Version:        1.14
+Version:        1.15
 Release:        1%{?dist}
 Summary:        GNU data compression utility
 License:        GPL-3.0-or-later AND GFDL-1.3-only
 URL:            https://www.gnu.org/software/gzip/
-Source0:        gzip-%{version}.tar.xz
+Source0:        gzip-1.15.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  less
