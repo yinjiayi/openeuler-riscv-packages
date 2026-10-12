@@ -1,0 +1,10 @@
+diff --git a/Makefile b/Makefile
+index 36f5c80..ac21d91 100644
+--- a/Makefile
++++ b/Makefile
+@@ -74,2 +74,4 @@
+-$(SONAME): src/slz-pic.o
++# Export the same compressor, decoder and checksum APIs as the static library.
++# Omitting common/uslz leaves unresolved public symbols in libslz.so.
++$(SONAME): src/slz_common-pic.o src/slz-pic.o src/uslz-pic.o
+ ifneq ($(filter darwin%, $(PLATFORM)),)
