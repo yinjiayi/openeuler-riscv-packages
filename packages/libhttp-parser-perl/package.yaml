@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libhttp-parser-perl",
+  "rpm": {
+    "name": "perl-HTTP-Parser",
+    "summary": "Incremental HTTP request and response parser for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libhttp-parser-perl",
+    "homepage": "https://metacpan.org/dist/HTTP-Parser",
+    "source_repository": "https://metacpan.org/dist/HTTP-Parser",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/ED/EDECA/",
+    "release_regex": "HTTP-Parser-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ED/EDECA/HTTP-Parser-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.06",
+    "release": "1",
+    "latest_detected": "0.06"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libhttp-parser-perl",
+        "package_base": "libhttp-parser-perl",
+        "source_version": "0.06-4",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libhttp-parser-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libhttp-parser-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact inventory key maps to HTTP-Parser 0.06. Official CPAN publisher CHECKSUMS SHA-256, archive safety and Perl dual license notice verified. Official SP3 RVA23 primary lacks the same-name RPM and Perl module provider but supplies HTTP::Request, HTTP::Response, URI, MakeMaker and Test::More. One unchanged default test with 22 assertions passed in isolated source testing; target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
