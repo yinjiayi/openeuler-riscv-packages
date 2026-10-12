@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package_id": "libdevel-findperl-perl",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release", "filename": "Devel-FindPerl-0.016.tar.gz", "version": "0.016",
+    "url": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Devel-FindPerl-0.016.tar.gz",
+    "digests": {"sha256": "43a2bf2f787a3f1b881179063162b2aa3e7cb044f6e5e76ec6466ae90a861138"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "Official LEONT CHECKSUMS verifies the fixed HTTPS archive. Top-level LICENSE grants same-as-Perl redistribution for 'This software' and names both rightsholders Randy Sims and Leon Timmermans; only installed PM repeats the grant, without a conflicting or vendored file."}
+  }]
+}
