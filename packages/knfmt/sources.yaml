@@ -1,0 +1,21 @@
+{
+  "package_id": "knfmt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f981a19b5729adada206ea974907ebd0b21a092de6f0ea9eae83cbc8567868bf"
+      },
+      "filename": "knfmt-5.3.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/mptre/knfmt/archive/refs/tags/v5.3.1.tar.gz",
+      "version": "5.3.1"
+    }
+  ]
+}
