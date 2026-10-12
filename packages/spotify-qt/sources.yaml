@@ -1,0 +1,21 @@
+{
+  "package_id": "spotify-qt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "10656f4c980c8d4b90f11879a6a58fe542e8b0ef1212297a700bcde3d9a6e396"
+      },
+      "filename": "spotify-qt-4.0.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kraxarn/spotify-qt/archive/refs/tags/v4.0.4.tar.gz",
+      "version": "4.0.4"
+    }
+  ]
+}
