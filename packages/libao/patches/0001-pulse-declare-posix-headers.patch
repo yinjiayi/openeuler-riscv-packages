@@ -1,0 +1,25 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Mon, 28 Sep 2026 00:00:00 +0000
+Subject: [PATCH] pulse: declare nanosleep and errno explicitly
+
+License: GPL-2.0-or-later
+Upstream-Status: downstream-only
+Origin: openEuler RISC-V packaging
+
+The 1.2.0 PulseAudio driver calls nanosleep and checks errno without directly
+including their declaring headers. The hardened riscv64 compiler rejects the
+implicit declaration. Add the POSIX headers without changing the driver or
+disabling the plugin. Remove this patch when upstream includes them.
+
+---
+ src/plugins/pulse/ao_pulse.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/plugins/pulse/ao_pulse.c b/src/plugins/pulse/ao_pulse.c
+--- a/src/plugins/pulse/ao_pulse.c
++++ b/src/plugins/pulse/ao_pulse.c
+@@ -33 +33,3 @@
+-#include <limits.h>
++#include <limits.h>
++#include <errno.h>
++#include <time.h>
