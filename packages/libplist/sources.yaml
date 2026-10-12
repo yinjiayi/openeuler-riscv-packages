@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libplist",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "version": "2.7.0",
+      "filename": "libplist-2.7.0.tar.bz2",
+      "url": "https://github.com/libimobiledevice/libplist/releases/download/2.7.0/libplist-2.7.0.tar.bz2",
+      "digests": {
+        "sha256": "7ac42301e896b1ebe3c654634780c82baa7cb70df8554e683ff89f7c2643eb8b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release source is redistributable under LGPL-2.1-or-later and its bundled MIT component notices."
+      }
+    }
+  ]
+}
