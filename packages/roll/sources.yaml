@@ -1,0 +1,21 @@
+{
+  "package_id": "roll",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "353069df445bf363302e1a38e7a6a82b2985aa354ea7ad8339b31efc75600b69"
+      },
+      "filename": "roll-2.7.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/matteocorti/roll/archive/refs/tags/v2.7.0.tar.gz",
+      "version": "2.7.0"
+    }
+  ]
+}
