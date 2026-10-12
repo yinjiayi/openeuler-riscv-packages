@@ -1,0 +1,21 @@
+{
+  "package_id": "httptunnel",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "142f82b204876c2aa90f19193c7ff78d90bb4c2cba99dfd4ef625864aed1c556"
+      },
+      "filename": "httptunnel-3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/httptunnel/httptunnel-3.3.tar.gz",
+      "version": "3.3"
+    }
+  ]
+}
