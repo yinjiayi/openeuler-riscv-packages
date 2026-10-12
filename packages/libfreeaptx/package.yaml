@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "package_id": "libfreeaptx",
+  "rpm": {"name": "libfreeaptx", "summary": "Open-source aptX and aptX HD audio codec", "license": "LGPL-2.1-or-later"},
+  "upstream": {
+    "component": "github.com-regularhunter-libfreeaptx",
+    "homepage": "https://github.com/regularhunter/libfreeaptx",
+    "source_repository": "https://github.com/regularhunter/libfreeaptx.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/regularhunter/libfreeaptx/tags",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/regularhunter/libfreeaptx/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {"current": "0.2.2", "release": "1", "latest_detected": "0.2.2"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "libfreeaptx", "package_base": "libfreeaptx", "source_version": "0.2.2-1", "evidence_url": "https://archlinux.org/packages/extra/x86_64/libfreeaptx/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "libfreeaptx", "package_base": "libfreeaptx", "source_version": "0.2.2-1", "evidence_url": "https://packages.debian.org/source/stable/libfreeaptx", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "libfreeaptx", "package_base": "libfreeaptx", "source_version": "0.2.2-1build1", "evidence_url": "https://packages.ubuntu.com/source/resolute/libfreeaptx", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libfreeaptx.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official 0.2.2 tag resolves to immutable commit 6dee419f934ec781e531f885f7e8e740752e67d1. Source archive and LGPL-2.1-or-later headers reviewed. Upstream registers no automated tests; package checks exercise both standard and HD encoding/decoding from deterministic raw PCM and verify decoded byte counts."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-tags"}
+}
