@@ -1,0 +1,21 @@
+{
+  "package_id": "guile-ssh",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0a73ca82b549c2b41535f4e955c11370c7c97b6300128768c6439f4c8a12c685"
+      },
+      "filename": "guile-ssh-0.18.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/artyom-poptsov/guile-ssh/archive/refs/tags/v0.18.0.tar.gz",
+      "version": "0.18.0"
+    }
+  ]
+}
