@@ -1,0 +1,21 @@
+{
+  "package_id": "numatop",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c312d4b6cc10d12680aa8ff04db5a02fca7b39a5494b0f41d280a7e1772db9c8"
+      },
+      "filename": "numatop-2.5.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/intel/numatop/archive/refs/tags/v2.5.1.tar.gz",
+      "version": "2.5.1"
+    }
+  ]
+}
