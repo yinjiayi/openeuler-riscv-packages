@@ -1,0 +1,21 @@
+{
+  "package_id": "partup",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "00f076eb1cd36c668dfbca41d3e573a14477a1f14802edcc91c831d06a181088"
+      },
+      "filename": "partup-3.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/phytec/partup/archive/refs/tags/v3.0.1.tar.gz",
+      "version": "3.0.1"
+    }
+  ]
+}
