@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-streamserializer-perl",
+  "rpm": {
+    "name": "perl-Data-StreamSerializer",
+    "summary": "XS serializer for Perl data streams",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-streamserializer-perl",
+    "homepage": "https://metacpan.org/dist/Data-StreamSerializer",
+    "source_repository": "https://metacpan.org/dist/Data-StreamSerializer",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/U/UN/UNERA/",
+    "release_regex": "Data-StreamSerializer-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/U/UN/UNERA/Data-StreamSerializer-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.07",
+    "release": "1",
+    "latest_detected": "0.07"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libdata-streamserializer-perl",
+        "package_base": "libdata-streamserializer-perl",
+        "source_version": "0.07-3",
+        "evidence_url": "https://packages.debian.org/source/stable/libdata-streamserializer-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-streamserializer-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian 0.07-3 maps to the official CPAN 0.07 release. Its publisher CHECKSUMS matches the HTTPS archive SHA-256. Although META.yml says unknown and the inventory flagged license review, the archive's debian/copyright was authored by upstream maintainer Dmitry E. Oboukhov and explicitly grants Files: * Artistic or GPL-1+; bundled ppport.h has its own same-Perl grant. Official SP3 RVA23 primary has no name/module collision and supplies riscv64 GCC, Perl development ABI, ExtUtils::MakeMaker and all default-test modules. All five unchanged XS tests total 70 assertions. Initial macOS make test failed only because hardened dlopen rejects the upstream relative blib path; rerunning unchanged tests with absolute blib paths passed 70/70 and B::CV identified _next as an XSUB. Target CI must prove all five tests with no skips, active riscv64 XSUB, physical RPM/SRPM and installed DNF smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
