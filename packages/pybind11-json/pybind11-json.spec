@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pybind11-json
 Version:        0.2.15
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Using nlohmann::json with pybind11
 License:        BSD-3-Clause
 URL:            https://github.com/pybind/pybind11_json
@@ -23,7 +23,7 @@ Requires:       python3-devel
 Using nlohmann::json with pybind11
 
 %prep
-%autosetup -p1 -n pybind11_json-%{version}
+%autosetup -p1 -n pybind11_json-32043f433ed987b2c2ce99d689ec337bcbd4ba95
 
 %build
 %cmake_conf -DBUILD_TESTS=ON
@@ -43,6 +43,10 @@ test -x %{_vpath_builddir}/test/test_pybind11_json
 %doc README.md
 
 %changelog
+* Mon Oct 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.15-6
+- Pin the complete unchanged upstream release contents to an immutable Git
+  commit archive and select its exact source root; retain the full test suite.
+
 * Sun Sep 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.2.15-5
 - Require the Python development headers needed by installed pybind11_json
   consumers.
