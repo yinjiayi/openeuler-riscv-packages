@@ -1,0 +1,94 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 240
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/tre/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tre",
+        "package_name": "tre",
+        "source": "arch-extra",
+        "source_version": "0.9.0-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/tre",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tre",
+        "package_name": "tre",
+        "source": "debian",
+        "source_version": "0.9.0-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/tre/tre/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tre",
+        "package_name": "tre",
+        "source": "fedora",
+        "source_version": "0.9.0-3.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/tre",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tre",
+        "package_name": "tre",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.9.0-1.7"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/tre",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tre",
+        "package_name": "tre",
+        "source": "ubuntu",
+        "source_version": "0.9.0-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tre.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Committed immutable snapshot discovery-20260808T165000Z-9a89920c269462cd exactly replays the Arch, Debian, Fedora, openSUSE, and Ubuntu raw TRE lineage tuples at 2026-08-08T16:50:00Z; the canonical component contains no AUR row. Official TRE 0.9.0 stable release bytes were reviewed separately and independently SHA-256 pinned. No AUR recipe or distribution spec was executed. The complete byte, wide-character, approximate-regexp, string-source, and agrep suite remains enabled, with glibc-all-langpacks present so locale-dependent coverage is not silently reduced.",
+    "status": "active"
+  },
+  "package_id": "tre",
+  "rpm": {
+    "license": "BSD-2-Clause",
+    "name": "tre",
+    "summary": "Approximate regular expression matching library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  },
+  "upstream": {
+    "component": "github.com-laurikari-tre",
+    "homepage": "https://github.com/laurikari/tre",
+    "release_api": "https://api.github.com/repos/laurikari/tre/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "v(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/laurikari/tre",
+    "source_url_template": "https://github.com/laurikari/tre/releases/download/v{version}/tre-{version}.tar.gz"
+  },
+  "version": {"current": "0.9.0", "latest_detected": "0.9.0", "release": "1"}
+}
