@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-text-simpletable",
+  "rpm": {
+    "name": "perl-Text-SimpleTable",
+    "summary": "Create simple ASCII and Unicode tables",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "perl-text-simpletable",
+    "homepage": "https://metacpan.org/dist/Text-SimpleTable",
+    "source_repository": "https://metacpan.org/dist/Text-SimpleTable",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MR/MRAMBERG/",
+    "release_regex": "Text-SimpleTable-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MR/MRAMBERG/Text-SimpleTable-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.07",
+    "release": "1",
+    "latest_detected": "2.07"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "perl-text-simpletable",
+        "package_base": "perl-text-simpletable",
+        "source_version": "2.07-1",
+        "evidence_url": "https://aur.archlinux.org/packages/perl-text-simpletable",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-simpletable-perl",
+        "package_base": "libtext-simpletable-perl",
+        "source_version": "2.07-1build1",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libtext-simpletable-perl",
+        "observed_at": "2026-10-03T00:48:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "perl-text-simpletable.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen AUR row was marked stale, but official CPAN 2.07 and Ubuntu 2.07 provide independent current source lineage. Publisher CHECKSUMS verifies the official tarball. Artistic-2.0 is explicit in LICENSE, module POD and metadata. Target CJK and developer POD tests are made mandatory through verified official providers; target CI decides their outcome."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
