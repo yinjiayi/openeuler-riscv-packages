@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-monitor-perl",
+  "rpm": {
+    "name": "perl-File-Monitor",
+    "summary": "Poll files and directories for changes in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-monitor-perl",
+    "homepage": "https://metacpan.org/dist/File-Monitor",
+    "source_repository": "https://metacpan.org/dist/File-Monitor",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AN/ANDYA/",
+    "release_regex": "File-Monitor-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AN/ANDYA/File-Monitor-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.00",
+    "release": "1",
+    "latest_detected": "1.00"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-monitor-perl",
+        "package_base": "libfile-monitor-perl",
+        "source_version": "1.00-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-monitor-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-monitor-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.00-3 maps to official CPAN 1.00; SHA-256 matches publisher CHECKSUMS. README and shipped module POD grant Perl dual terms with no conflicting files. Official SP3 primary has no same provider and supplies core plus POD test dependencies. All eight original default tests retained; local 930 assertions passed with POD coverage skipped due local missing module, which target BuildRequires provides. Target exact-head tests, installed smoke and physical products remain CI evidence. No native RISC-V kernel/timing/performance or publication claim."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
