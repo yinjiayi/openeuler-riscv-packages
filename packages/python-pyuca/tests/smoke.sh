@@ -96,13 +96,36 @@ builtins.__import__ = checked
     (guard / 'sitecustomize.py').write_text(guard_code)
     env = dict(os.environ, PYTHONPATH=str(guard), PYTHONDONTWRITEBYTECODE='1', PYTHONNOUSERSITE='1')
     commands = [
-        ['python3', '-m', 'coverage', 'run', '--branch', '--source', 'pyuca', 'test.py'],
-        ['python3', '-m', 'coverage', 'run', '--append', '--branch', '--source', 'pyuca', '-m', 'doctest', 'pyuca/utils.py'],
-        ['python3', '-m', 'coverage', 'run', '--append', '--branch', '--source', 'pyuca', 'full_test.py'],
+        ['python3', '-m', 'coverage', 'run', '--branch', '--source', str(installed), 'test.py'],
+        ['python3', '-m', 'coverage', 'run', '--append', '--branch', '--source', str(installed), '-m', 'doctest', 'pyuca/utils.py'],
+        ['python3', '-m', 'coverage', 'run', '--append', '--branch', '--source', str(installed), 'full_test.py'],
     ]
+    # The scratch pyuca directory is only the original doctest argument's alias.
+    # Select the verified installed tree, not that existing scratch directory.
+    assert not (scratch / '.coverage').exists()
     for command in commands:
         subprocess.run(command, cwd=scratch, env=env, check=True)
     subprocess.run(['python3', '-m', 'coverage', 'report'], cwd=scratch, env=env, check=True)
+    report = scratch / 'installed-coverage.json'
+    assert not report.exists()
+    subprocess.run(['python3', '-m', 'coverage', 'json', '-o', str(report)], cwd=scratch, env=env, check=True)
+    measured = json.loads(report.read_text())
+    assert measured['meta']['version'] == '7.3.2' and measured['meta']['branch_coverage'] is True
+    expected_modules = {installed / rel: expected for rel, expected in runtime.items() if rel.endswith('.py')}
+    assert len(expected_modules) == 4
+    measured_modules = {}
+    for filename, details in measured['files'].items():
+        path = Path(filename)
+        path = (path if path.is_absolute() else scratch / path).resolve()
+        assert path in expected_modules and path not in measured_modules
+        assert digest(path) == expected_modules[path]
+        owned(path)
+        assert details['executed_lines'] and details['summary']['covered_lines'] > 0
+        measured_modules[path] = {'sha256': expected_modules[path], 'rpm_owner': 'python-pyuca', 'executed_lines': details['executed_lines'], 'summary': details['summary']}
+    assert set(measured_modules) == set(expected_modules)
+    assert measured['totals']['num_statements'] == 188 and measured['totals']['covered_lines'] > 0
+    assert measured['totals']['num_branches'] > 0 and measured['totals']['covered_branches'] > 0
+    print(json.dumps({'installed_measurement': 'fresh branch data for exact four SHA/RPM-owned modules', 'modules': {str(path): proof for path, proof in measured_modules.items()}, 'totals': measured['totals'], 'new_percentage_threshold': False}))
     for rel, expected in blobs.items():
         assert digest(lint / rel) == expected
     for rel, expected in runtime.items():
