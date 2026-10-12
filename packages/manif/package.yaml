@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/artivis/manif",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "manif",
+        "package_name": "manif",
+        "source": "aur",
+        "source_version": "0.0.5-1"
+      },
+      {
+        "evidence_url": "https://github.com/artivis/manif",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "manif",
+        "package_name": "manif",
+        "source": "debian",
+        "source_version": "0.0.5-6"
+      },
+      {
+        "evidence_url": "https://github.com/artivis/manif",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "manif",
+        "package_name": "manif",
+        "source": "ubuntu",
+        "source_version": "0.0.5-6ubuntu5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "manif.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "manif",
+  "rpm": {
+    "license": "MIT",
+    "name": "manif",
+    "summary": "A small C++11 header-only library for Lie theory."
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-artivis-manif",
+    "homepage": "https://artivis.github.io/manif",
+    "release_api": "https://api.github.com/repos/artivis/manif/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/artivis/manif",
+    "source_url_template": "https://github.com/artivis/manif/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.0.5",
+    "latest_detected": "0.0.5",
+    "release": "1"
+  }
+}
