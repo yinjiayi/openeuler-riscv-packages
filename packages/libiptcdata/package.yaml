@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "package_id": "libiptcdata",
+  "rpm": {"name": "libiptcdata", "summary": "IPTC metadata parsing and editing library", "license": "LGPL-2.0-or-later"},
+  "upstream": {
+    "component": "github.com-ianw-libiptcdata",
+    "homepage": "https://github.com/ianw/libiptcdata",
+    "source_repository": "https://github.com/ianw/libiptcdata.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/ianw/libiptcdata/releases",
+    "release_regex": "libiptcdata-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://github.com/ianw/libiptcdata/releases/download/release_1_0_5/libiptcdata-{version}.tar.gz"
+  },
+  "version": {"current": "1.0.5", "release": "1", "latest_detected": "1.0.5"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "fedora", "package_name": "libiptcdata", "package_base": "libiptcdata", "source_version": "1.0.5-24.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/libiptcdata/libiptcdata/", "observed_at": "2026-09-28T00:00:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libiptcdata.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Official GitHub release_1_0_5 asset is SHA-256 pinned. The upstream tarball has no registered library test program; %check retains make check and adds a caption serialization/parse round trip plus CLI version/list probes. Python bindings and gtk-doc generation are optional upstream features outside this initial C library/CLI package. The release asset tag embeds an underscored version; the URL template must be reviewed when a new release appears."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-releases"}
+}
