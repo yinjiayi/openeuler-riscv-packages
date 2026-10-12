@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-slurp-tiny-perl",
+  "rpm": {
+    "name": "perl-File-Slurp-Tiny",
+    "summary": "Small legacy Perl file slurping utilities",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-slurp-tiny-perl",
+    "homepage": "https://metacpan.org/dist/File-Slurp-Tiny",
+    "source_repository": "https://metacpan.org/dist/File-Slurp-Tiny",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/",
+    "release_regex": "File-Slurp-Tiny-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/File-Slurp-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.004",
+    "release": "1",
+    "latest_detected": "0.004"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-slurp-tiny-perl",
+        "package_base": "libfile-slurp-tiny-perl",
+        "source_version": "0.004-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/arm64/misc/libfile-slurp-tiny-perl",
+        "observed_at": "2026-09-30T04:14:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-slurp-tiny-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-slurp-tiny-perl maps to official CPAN 0.004. Source SHA-256 452995beeabf0e923e65fdc627a725dbb12c9e10c00d8018c16d10ba62757f1e matches CPAN CHECKSUMS; safe 26-entry archive and LICENSE grant Perl GPL-1-or-later OR Artistic terms. Upstream's Makefile.PL labels its abstract DISCOURAGED; this package preserves compatibility, not a recommendation for new consumers. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(File::Slurp::Tiny) Provide. Default upstream one file/10 tests pass on local Perl 5.34.1; xt author/release tests are optional and not run. Target QEMU remains unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
