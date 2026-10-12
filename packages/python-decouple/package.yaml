@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/HBNetwork/python-decouple",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-decouple",
+        "package_name": "python-decouple",
+        "source": "aur",
+        "source_version": "3.8-1"
+      },
+      {
+        "evidence_url": "https://github.com/henriquebastos/python-decouple",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-decouple",
+        "package_name": "python-decouple",
+        "source": "debian",
+        "source_version": "3.6-1"
+      },
+      {
+        "evidence_url": "https://github.com/henriquebastos/python-decouple",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-decouple",
+        "package_name": "python-decouple",
+        "source": "ubuntu",
+        "source_version": "3.6-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-decouple.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official 3.8 full Git release verified against formal PyPI source, MIT grant and unchanged whole py.test defaults. All original hidden fixtures preserved. Historical developer pins and interpreter matrices are not target claims.",
+    "status": "active"
+  },
+  "package_id": "python-decouple",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-decouple",
+    "summary": "Strict separation of settings from code"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-henriquebastos-python-decouple",
+    "homepage": "https://github.com/henriquebastos/python-decouple",
+    "release_api": "https://api.github.com/repos/henriquebastos/python-decouple/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/henriquebastos/python-decouple",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "3.8",
+    "latest_detected": "3.8",
+    "release": "1"
+  }
+}

@@ -1,0 +1,8 @@
+# python-decouple 3.8
+
+The official PyPI 3.8 sdist is SHA-256 `ba6e2657d4f376ecc46f77a3a615e058d93ba5e465c01bbe57289bfb7cce680f`.
+Source0 is the complete official Git release at immutable commit `860969c0bc7ea9f6815447b498cbaf206813865b`, SHA-256 `977b3479b3fe087e49ecfd9196cc49f1613a67b66a3e1cea069bcf916dcf2ec2`. Runtime, LICENSE and setup.py match the formal sdist. All 30 original files, including omitted tests and hidden fixture files, are retained. The full MIT grant resolves the old inventory's unknown-license observation; inventory labels are not executable provenance.
+
+Original `tox.ini` selects unpinned mock and pytest and runs `py.test`. GitHub's py310/py27 jobs install tox and select the same test command. This recipe keeps the entire command, all seven test modules and all fixtures on target Python 3.11. The 57 test functions are a static count, not a test-success claim. Historical Travis 2.7/3.6 and developer `requirements.txt` exact pins remain unchanged in the archive; no historical interpreter matrix or exact developer-pin environment is claimed.
+
+The installed smoke test verifies RPM ownership and source identity of the actual installed `decouple.py`, all 30 retained source files, and reruns the entire unchanged default suite from scratch without copying the source runtime. The fixture-relative paths remain intact even when original tests change cwd. Generated build/lib copies are not installed as test fixtures. No local upstream/default/backend/RPM/QEMU execution is used. CI must establish real target build, test, installation and artifact evidence; publication is separate.
