@@ -15,9 +15,9 @@ the included type hints are Apache2 as their original notice specifies.
 Their exact fixed typeshed license is separate Source1 with its full Apache2
 and conditional MIT text unchanged. These texts are installed as %license.
 Packaging change summary: this adds an offline RPM wheel recipe and origin
-verification wrapper and one declared test-only compatibility patch; upstream
-runtime, type hints, support, configuration and all original30 retained files
-stay unchanged. Only test_typo_enter/test_typo_exit in a separate compat copy
+verification wrapper and two declared compatibility patches. The runtime
+implementation, support, configuration and all original30 retained files stay
+unchanged. Only test_typo_enter/test_typo_exit in a separate compat copy
 select AttributeError below Python3.11 or TypeError with the exact upstream
 CPython3.11 message patterns on Python3.11+. Original author/legal notices and
 the complete pristine source archive remain intact.
@@ -36,6 +36,19 @@ release carries the same version-compatible assertions, then re-audit the
 whole source and full target defaults. The original PSF2 notice remains in
 both copies; this change summary satisfies its derivative notice requirement.
 
+The second patch changes only the shipped type-hint derivative of the fixed
+21.6.0 stub. It declares five already implemented concrete context-manager
+exit methods, and represents AsyncExitStack.__aenter__/__aexit__ as the actual
+coroutine methods rather than synchronous methods returning an Awaitable.
+The original mypy.stubtest failed under target mypy1.10.0 on these seven
+declarations after all125 original tests and coverage96% had succeeded.
+It is not a runtime change, mypy downgrade, allowlist extension or check waiver.
+The original Apache2 attribution and fixed legal text remain unchanged; this
+paragraph records the downstream derivative adjustment, not an upstream merge.
+Remove the patch when a selected official source supplies equivalent concrete
+exit/coroutine declarations, then re-audit the whole source and target defaults.
+Static source/AST/patch inspection does not claim new stubtest or build success.
+
 The complete selected original CPython tox defaults run on target Python3.11:
 coverage run -m unittest discover -t . -s test; coverage report; coverage xml;
 python -m mypy.stubtest --allowlist dev/mypy.allowlist contextlib2.
@@ -48,6 +61,10 @@ uploads are retained but not claimed validated. No pin or default is relaxed.
 Source %check tests the staged wheel, not its source runtime. Installed smoke
 repeats all four exact original commands against RPM-owned runtime with
 all3 runtime hashes, distribution/version and fail-closed import-origin checks.
+The implementation and py.typed retain their original hashes; the shipped stub
+uses the declared derivative SHA, independently checked against an RPM-owned
+compat copy, while its pristine original hash remains in original-files.json.
+Both exact declared patch files and the compat stub are SHA/RPM-owner checked.
 A fresh temporary test cwd includes pristine originals except for its absent
 source contextlib2 copy and the one SHA-verified/RPM-owned compatible test copy,
 preventing source shadowing without removing tests or masking runtime errors.
