@@ -43,7 +43,17 @@
   "files": {
     "spec": "python-contextlib2.spec",
     "sources": "sources.yaml",
-    "patches": ["patches/0001-python311-context-protocol-errors.patch"],
+    "patches": [
+      {
+        "file": "patches/0001-python311-context-protocol-errors.patch",
+        "sha256": "ad006efcb1fbaba5b7416ad24af9ab26ac3047f8f3e525df18f707800517b97c",
+        "purpose": "Preserve both original malformed-context tests and all default checks, selecting exact TypeError/message on Python 3.11+ and the original AttributeError below 3.11.",
+        "source": "Local test-only derivative of complete official Contextlib2 21.6.0 commit 94174bafebe58a79af6059883f604624ab087d18; semantic assertions verified against official CPython v3.11.6/v3.10.14 and Python 3.11 bpo-12022 language-change documentation.",
+        "license": "PSF-2.0",
+        "upstream_status": "not-submitted",
+        "remove_when": "A verified selected official release carries the same version-compatible original assertions, followed by a whole-source and complete target-default re-audit."
+      }
+    ],
     "smoke_test": "tests/smoke.sh"
   },
   "build": {
