@@ -15,8 +15,26 @@ the included type hints are Apache2 as their original notice specifies.
 Their exact fixed typeshed license is separate Source1 with its full Apache2
 and conditional MIT text unchanged. These texts are installed as %license.
 Packaging change summary: this adds an offline RPM wheel recipe and origin
-verification wrapper; it changes no upstream module, type hint, test, support,
-configuration or assertion. Original author/legal notices remain intact.
+verification wrapper and one declared test-only compatibility patch; upstream
+runtime, type hints, support, configuration and all original30 retained files
+stay unchanged. Only test_typo_enter/test_typo_exit in a separate compat copy
+select AttributeError below Python3.11 or TypeError with the exact upstream
+CPython3.11 message patterns on Python3.11+. Original author/legal notices and
+the complete pristine source archive remain intact.
+
+Python3.11 changed missing-context-protocol with-statement errors (bpo-12022),
+as documented at https://docs.python.org/3.11/whatsnew/3.11.html#other-language-changes
+and the same tests in https://github.com/python/cpython/blob/v3.11.6/Lib/test/test_contextlib.py
+(Python3.10 still expects AttributeError). This patch preserves the original
+negative-test intent, all discovered tests and the old-version assertion;
+it does not accept an exception tuple, catch-all, skip, xfail or waiver.
+The declared patch targets the fixed 21.6.0 source; its branch selects the
+documented Python3.11+ semantics and retains the pre-3.11 assertion, without
+claiming the legacy/PyPy matrix passed. It is a downstream test compatibility
+patch, not an upstream-merged change. Remove it when a selected official
+release carries the same version-compatible assertions, then re-audit the
+whole source and full target defaults. The original PSF2 notice remains in
+both copies; this change summary satisfies its derivative notice requirement.
 
 The complete selected original CPython tox defaults run on target Python3.11:
 coverage run -m unittest discover -t . -s test; coverage report; coverage xml;
@@ -30,8 +48,9 @@ uploads are retained but not claimed validated. No pin or default is relaxed.
 Source %check tests the staged wheel, not its source runtime. Installed smoke
 repeats all four exact original commands against RPM-owned runtime with
 all3 runtime hashes, distribution/version and fail-closed import-origin checks.
-A fresh temporary test cwd includes byte-identical originals except for its
-source contextlib2 copy, preventing source shadowing without removing tests.
+A fresh temporary test cwd includes pristine originals except for its absent
+source contextlib2 copy and the one SHA-verified/RPM-owned compatible test copy,
+preventing source shadowing without removing tests or masking runtime errors.
 All30 originals and the immutable source archive remain intact in the RPM.
 No local upstream/default/backend/RPM/QEMU execution is performed; local
 checks are trusted repository validators/tests/golden and source-only verify.

@@ -18,6 +18,9 @@ for p,h in runtime.items():
 archive=original.parent/'python-contextlib2-21.6.0.tar.gz';license_text=original.parent/'TYPESHED-LICENSE.txt'
 assert digest(archive)=='4c541b6043ab276d80b906783573a2d2d190843957858a7ae7917f94d906538b' and digest(license_text)=='b41b78f562a2e65b75cab44354335f6f435d4ef73065509600ac910cf4e22fe0'
 owned(archive);owned(license_text);owned(original.parent/'original-files.json')
+compatible=original.parent/'compat'/'test_contextlib.py'
+assert compatible.is_file() and not compatible.is_symlink() and digest(compatible)=='0b09b42b6666060b9657815309d4aac3ae3f7b60f4ee415149a0a9b78a80d760'
+owned(compatible);owned(original.parent/'compat'/'0001-python311-context-protocol-errors.patch')
 for base,expected in ((original,manifest),(site/'contextlib2',runtime)):
     for p in base.rglob('*'):
         if not p.is_file():continue
@@ -51,7 +54,8 @@ try:
     for n in list(sys.modules):
         if n=='contextlib2' or n.startswith('contextlib2.'):del sys.modules[n]
 except BaseException:fail_closed()
-# The original discovery imports its unchanged scratch test/support package.
+# Discovery imports all scratch test/support; only two declared exception
+# assertions select the Python 3.11 protocol semantics in the compat test copy.
 # It cannot import a source contextlib2 package because that copy is absent.
 """.replace('SITE_JSON',repr(str(site))).replace('RUNTIME_JSON',repr(json.dumps(runtime)))
 commands=[['coverage','run','-m','unittest','discover','-t','.','-s','test'],['coverage','report'],['coverage','xml'],['python','-m','mypy.stubtest','--allowlist','dev/mypy.allowlist','contextlib2']]
@@ -60,6 +64,7 @@ with tempfile.TemporaryDirectory(prefix='python-contextlib2-defaults-') as scrat
     for p in manifest:
         if p.startswith('contextlib2/'):continue
         dst=work/p;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(original/p,dst)
+    shutil.copyfile(compatible,work/'test'/'test_contextlib.py')
     assert not (work/'contextlib2').exists()
     env=dict(os.environ)
     for key in ('PYTHONHOME','PYTHONSTARTUP','COVERAGE_PROCESS_START','PYTEST_ADDOPTS','PYTEST_PLUGINS'):env.pop(key,None)
@@ -73,5 +78,5 @@ with tempfile.TemporaryDirectory(prefix='python-contextlib2-defaults-') as scrat
         else:module='mypy.stubtest';child_argv=['mypy.stubtest',*argv[3:]]
         code=guard+'\nimport runpy\nsys.argv='+repr(child_argv)+'\nrunpy.run_module('+repr(module)+',run_name="__main__")\n'
         subprocess.run([sys.executable,'-c',code],cwd=work,env=env,check=True)
-    print(json.dumps({'route':'Complete original CPython tox coverage/unittest/stubtest commands on target Python3.11','original_files':len(manifest),'runtime_files':len(runtime),'commands':commands,'distribution':'contextlib2','runtime_origin':str(site/'contextlib2'),'engine':'installed-RPM' if installed else 'buildroot-wheel','boundary':'All original unit tests, support, coverage settings and two-entry mypy allowlist retained byte-identical; no added filter, skip, xfail or waiver. Legacy interpreter matrix, CI orchestration and external Codecov/PyPI upload remain unclaimed.'}))
+    print(json.dumps({'route':'Complete original CPython tox coverage/unittest/stubtest commands on target Python3.11','original_files':len(manifest),'compatibility_test_sha256':digest(compatible),'runtime_files':len(runtime),'commands':commands,'distribution':'contextlib2','runtime_origin':str(site/'contextlib2'),'engine':'installed-RPM' if installed else 'buildroot-wheel','boundary':'All30 pristine originals retained byte-identical. One declared test-only patch selects the exact version-specific context protocol exception in two tests; all tests, support, coverage settings and two-entry mypy allowlist retained, no added filter, skip, xfail or waiver. Legacy interpreter matrix, CI orchestration and external Codecov/PyPI upload remain unclaimed.'}))
 PY

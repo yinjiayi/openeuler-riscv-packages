@@ -9,7 +9,7 @@
   "version": {
     "current": "21.6.0",
     "latest_detected": "21.6.0",
-    "release": "1"
+    "release": "2"
   },
   "upstream": {
     "component": "github.com-jazzband-contextlib2",
@@ -43,7 +43,7 @@
   "files": {
     "spec": "python-contextlib2.spec",
     "sources": "sources.yaml",
-    "patches": [],
+    "patches": ["patches/0001-python311-context-protocol-errors.patch"],
     "smoke_test": "tests/smoke.sh"
   },
   "build": {
@@ -57,7 +57,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Full30 Git originals retained. Original PSF2 LICENSE and fixed typeshed Apache2 full legal text preserved separately. Complete original CPython tox coverage/unittest/stubtest commands on target3.11, all original support and allowlist unchanged. Legacy matrix, orchestration, external Codecov/PyPI retained/unclaimed. Target CI unverified."
+    "notes": "Full30 Git originals retained. Original PSF2 LICENSE and fixed typeshed Apache2 full legal text preserved separately. One declared patch selects the exact Python3.11 TypeError/message versus older AttributeError in two malformed-context protocol tests; all tests and original four CPython tox commands remain, no skip/filter/waiver. Original support, allowlist, coverage and runtime unchanged. Legacy matrix, orchestration, external Codecov/PyPI retained/unclaimed. New target CI unverified."
   },
   "updates": {
     "enabled": true,
