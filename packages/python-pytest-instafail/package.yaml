@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "package_id": "python-pytest-instafail",
+  "rpm": {
+    "name": "python-pytest-instafail",
+    "summary": "Show pytest failures immediately",
+    "license": "BSD-3-Clause"
+  },
+  "version": {
+    "current": "0.5.0",
+    "latest_detected": "0.5.0",
+    "release": "1"
+  },
+  "upstream": {
+    "component": "github.com-pytest-dev-pytest-instafail",
+    "homepage": "https://github.com/pytest-dev/pytest-instafail",
+    "source_repository": "https://github.com/pytest-dev/pytest-instafail",
+    "release_api": "https://api.github.com/repos/pytest-dev/pytest-instafail/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "python-pytest-instafail",
+        "package_base": "python-pytest-instafail",
+        "source_version": "0.5.0-2",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/a769802c36d2b944a836f6057aa8ff4465253a3d/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "pytest-instafail",
+        "package_base": "pytest-instafail",
+        "source_version": "0.5.0-1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/a769802c36d2b944a836f6057aa8ff4465253a3d/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "python-pytest-instafail",
+        "package_base": "python-pytest-instafail",
+        "source_version": "0.5.0-3.2",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/a769802c36d2b944a836f6057aa8ff4465253a3d/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "files": {
+    "spec": "python-pytest-instafail.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "network_during_build": false,
+    "native_reason": null
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "All 11 fixed Git originals preserved. Full unfiltered bare pytest command with original color config/fixtures; source/buildroot and installed origin guarded. Legacy pytest5/6 tox/platform matrix and xdist workers are not claimed; target CI unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "official-github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  }
+}
