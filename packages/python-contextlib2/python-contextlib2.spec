@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           python-contextlib2
 Version:        21.6.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Backports and enhancements for the contextlib module
 License:        Python-2.0 AND Apache-2.0
 URL:            https://github.com/jazzband/contextlib2
@@ -10,6 +10,7 @@ Source1:        TYPESHED-LICENSE.txt
 Patch0:         0001-python311-context-protocol-errors.patch
 Patch1:         0002-context-manager-stub-signatures.patch
 Patch2:         0003-remaining-context-manager-stub-signatures.patch
+Patch3:         0004-abstract-context-manager-metaclasses.patch
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-pip
@@ -34,6 +35,7 @@ cp -a . ../contextlib2-pristine/
 %patch -P 0 -p1
 %patch -P 1 -p1
 %patch -P 2 -p1
+%patch -P 3 -p1
 
 %build
 # VERSION.txt is original21.6.0; no SCM substitution or backend patch.
@@ -49,6 +51,7 @@ install -m 0644 %{PATCH0} %{buildroot}%{_datadir}/python-contextlib2/compat/0001
 install -m 0644 contextlib2/__init__.pyi %{buildroot}%{_datadir}/python-contextlib2/compat/contextlib2.pyi
 install -m 0644 %{PATCH1} %{buildroot}%{_datadir}/python-contextlib2/compat/0002-context-manager-stub-signatures.patch
 install -m 0644 %{PATCH2} %{buildroot}%{_datadir}/python-contextlib2/compat/0003-remaining-context-manager-stub-signatures.patch
+install -m 0644 %{PATCH3} %{buildroot}%{_datadir}/python-contextlib2/compat/0004-abstract-context-manager-metaclasses.patch
 install -m 0644 %{SOURCE0} %{buildroot}%{_datadir}/python-contextlib2/python-contextlib2-21.6.0.tar.gz
 install -m 0644 %{SOURCE1} TYPESHED-LICENSE.txt
 install -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/python-contextlib2/TYPESHED-LICENSE.txt
@@ -62,7 +65,7 @@ import hashlib,importlib.metadata,json,os,pathlib,shutil,subprocess,sys,tempfile
 original=pathlib.Path(sys.argv[1]).resolve();site=pathlib.Path(sys.argv[2]).resolve();installed=sys.argv[3]=='installed'
 manifest=json.loads((original.parent/'original-files.json').read_text())
 runtime={p.removeprefix('contextlib2/'):h for p,h in manifest.items() if p.startswith('contextlib2/')}
-runtime['__init__.pyi']='3d3cee2822b243ccb780da830485b30ad8b64e9741f118db7ed3f854ad069b3d'
+runtime['__init__.pyi']='98e092783c966b9e8861060913f973de8cc8188624068d117b2a50ffbf491a98'
 def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def owned(p):
     if installed:assert subprocess.check_output(['rpm','-qf','--qf','%%{NAME}',str(p)],text=True)=='python-contextlib2'
@@ -80,7 +83,7 @@ owned(compatible);owned(original.parent/'compat'/'0001-python311-context-protoco
 compatible_stub=original.parent/'compat'/'contextlib2.pyi'
 assert compatible_stub.is_file() and not compatible_stub.is_symlink() and digest(compatible_stub)==runtime['__init__.pyi']
 owned(compatible_stub)
-for filename,expected_patch in [('0001-python311-context-protocol-errors.patch','ad006efcb1fbaba5b7416ad24af9ab26ac3047f8f3e525df18f707800517b97c'),('0002-context-manager-stub-signatures.patch','ed5365ef29249bc0d30d580260d2c81ae599305bd7faf624cc51066bc4b5f7f7'),('0003-remaining-context-manager-stub-signatures.patch','d5f770b4cffedc24a2fbabeb649856df0ae947bc376c409d3928a2135559dc66')]:
+for filename,expected_patch in [('0001-python311-context-protocol-errors.patch','ad006efcb1fbaba5b7416ad24af9ab26ac3047f8f3e525df18f707800517b97c'),('0002-context-manager-stub-signatures.patch','ed5365ef29249bc0d30d580260d2c81ae599305bd7faf624cc51066bc4b5f7f7'),('0003-remaining-context-manager-stub-signatures.patch','d5f770b4cffedc24a2fbabeb649856df0ae947bc376c409d3928a2135559dc66'),('0004-abstract-context-manager-metaclasses.patch','e8dda30109b22746268d90e870eaf6677665725d86a8b0256f458db0905a41f6')]:
     q=original.parent/'compat'/filename;assert q.is_file() and not q.is_symlink() and digest(q)==expected_patch;owned(q)
 for base,expected in ((original,manifest),(site/'contextlib2',runtime)):
     for p in base.rglob('*'):
@@ -141,7 +144,7 @@ with tempfile.TemporaryDirectory(prefix='python-contextlib2-defaults-') as scrat
         else:module='mypy.stubtest';child_argv=['mypy.stubtest',*argv[3:]]
         code=guard+'\nimport runpy\nsys.argv='+repr(child_argv)+'\nrunpy.run_module('+repr(module)+',run_name="__main__")\n'
         subprocess.run([sys.executable,'-c',code],cwd=work,env=env,check=True)
-    print(json.dumps({'route':'Complete original CPython tox coverage/unittest/stubtest commands on target Python3.11','original_files':len(manifest),'compatibility_test_sha256':digest(compatible),'compatibility_stub_sha256':digest(compatible_stub),'runtime_files':len(runtime),'commands':commands,'distribution':'contextlib2','runtime_origin':str(site/'contextlib2'),'engine':'installed-RPM' if installed else 'buildroot-wheel','boundary':'All30 pristine originals retained byte-identical. First declared test-only patch selects exact version-specific protocol errors in two tests; second and third additive stub-only patches declare thirteen existing runtime signatures and conditional GenericAlias typing support. Runtime implementation, all tests/support, coverage settings and two-entry mypy allowlist retained, no added filter, skip, xfail or waiver. Legacy interpreter matrix, CI orchestration and external Codecov/PyPI upload remain unclaimed.'}))
+    print(json.dumps({'route':'Complete original CPython tox coverage/unittest/stubtest commands on target Python3.11','original_files':len(manifest),'compatibility_test_sha256':digest(compatible),'compatibility_stub_sha256':digest(compatible_stub),'runtime_files':len(runtime),'commands':commands,'distribution':'contextlib2','runtime_origin':str(site/'contextlib2'),'engine':'installed-RPM' if installed else 'buildroot-wheel','boundary':'All30 pristine originals retained byte-identical. First declared test-only patch selects exact version-specific protocol errors in two tests; second and third additive stub-only patches declare thirteen existing runtime signatures and conditional GenericAlias typing support; the fourth imports abc and explicitly declares the two abstract metaclasses to match runtime ABC inheritance. Runtime implementation, all tests/support, coverage settings and two-entry mypy allowlist retained, no added filter, skip, xfail or waiver. Legacy interpreter matrix, CI orchestration and external Codecov/PyPI upload remain unclaimed.'}))
 PY
 
 %files
@@ -152,6 +155,9 @@ PY
 %{_datadir}/python-contextlib2/
 
 %changelog
+* Tue Oct 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 21.6.0-5
+- Declare both abstract context-manager metaclasses to match runtime ABCs.
+- Retain all original defaults and verify all four declared patch bytes.
 * Tue Oct 13 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 21.6.0-4
 - Declare the remaining subscription and coroutine signatures in shipped stubs.
 - Retain all original runtime/tests/defaults and independently hash all three patches.

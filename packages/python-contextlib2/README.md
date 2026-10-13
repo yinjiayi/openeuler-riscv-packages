@@ -15,7 +15,7 @@ the included type hints are Apache2 as their original notice specifies.
 Their exact fixed typeshed license is separate Source1 with its full Apache2
 and conditional MIT text unchanged. These texts are installed as %license.
 Packaging change summary: this adds an offline RPM wheel recipe and origin
-verification wrapper and three declared compatibility patches. The runtime
+verification wrapper and four declared compatibility patches. The runtime
 implementation, support, configuration and all original30 retained files stay
 unchanged. Only test_typo_enter/test_typo_exit in a separate compat copy
 select AttributeError below Python3.11 or TypeError with the exact upstream
@@ -64,6 +64,20 @@ supplies equivalent declarations, then repeat whole-source and all defaults.
 The Apache2 attribution/legal text and complete pristine originals remain intact;
 the new derivative SHA is guarded separately. No new target success is claimed.
 
+The fourth patch follows the exact head4bf6deb13b9ec2faab7d794a6913d2691451f153
+CI38368723785:1 failure: all125 original unit tests and coverage96% passed,
+but mypy.stubtest rejected abstract attributes in the two stub classes because
+their metaclass was implicit. The original runtime already inherits abc.ABC.
+This patch adds only import abc and explicit metaclass=abc.ABCMeta on the two
+abstract declarations. It changes no runtime methods, signatures, original
+tests/defaults, coverage rule or the two-entry allowlist. The original Apache2
+notice and full pristine source remain intact; this paragraph records the
+local downstream derivative, not upstream acceptance. Zero-fuzz/zero-offset
+patch application and AST equivalence were checked without executing upstream
+code or mypy locally. Remove it when selected official source supplies the
+equivalent declarations, then repeat whole-source and all target defaults.
+New target build, stubtest and installed-product success are not claimed.
+
 The complete selected original CPython tox defaults run on target Python3.11:
 coverage run -m unittest discover -t . -s test; coverage report; coverage xml;
 python -m mypy.stubtest --allowlist dev/mypy.allowlist contextlib2.
@@ -79,7 +93,7 @@ all3 runtime hashes, distribution/version and fail-closed import-origin checks.
 The implementation and py.typed retain their original hashes; the shipped stub
 uses the declared derivative SHA, independently checked against an RPM-owned
 compat copy, while its pristine original hash remains in original-files.json.
-All three exact declared patch files and the compat stub are SHA/RPM-owner checked.
+All four exact declared patch files and the compat stub are SHA/RPM-owner checked.
 A fresh temporary test cwd includes pristine originals except for its absent
 source contextlib2 copy and the one SHA-verified/RPM-owned compatible test copy,
 preventing source shadowing without removing tests or masking runtime errors.
