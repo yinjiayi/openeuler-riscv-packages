@@ -9,7 +9,7 @@
   "version": {
     "current": "21.6.0",
     "latest_detected": "21.6.0",
-    "release": "3"
+    "release": "4"
   },
   "upstream": {
     "component": "github.com-jazzband-contextlib2",
@@ -61,6 +61,15 @@
         "license": "Apache-2.0",
         "upstream_status": "not-submitted",
         "remove_when": "A verified selected official release provides the same runtime-compatible concrete exit and coroutine declarations, followed by a whole-source and complete original target-default re-audit."
+      },
+      {
+        "file": "patches/0003-remaining-context-manager-stub-signatures.patch",
+        "sha256": "d5f770b4cffedc24a2fbabeb649856df0ae947bc376c409d3928a2135559dc66",
+        "purpose": "Declare the two existing Abstract context-manager GenericAlias subscription methods, AsyncExitStack enter_async_context/aclose coroutines and nullcontext asynchronous entry/exit, preserving runtime and all original default checks and allowlist.",
+        "source": "Local additive stub-only derivative of complete official Contextlib2 21.6.0 commit 94174bafebe58a79af6059883f604624ab087d18. Declarations follow the exact original runtime; fixed mypy 1.10.0 contextlib/typing/types primary sources provide declaration provenance, not target-test success.",
+        "license": "Apache-2.0",
+        "upstream_status": "not-submitted",
+        "remove_when": "A verified selected official release supplies equivalent runtime-compatible subscription and coroutine declarations, followed by whole-source and complete original target-default re-audit."
       }
     ],
     "smoke_test": "tests/smoke.sh"
@@ -76,7 +85,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Full30 Git originals retained byte-identical, including original stub and runtime. Original PSF2 LICENSE and fixed typeshed Apache2 legal text retained. First patch selects exact Python3.11 protocol-error assertions in two tests; second shipped-stub-only patch declares five existing exits and two actual coroutine signatures. Runtime implementation, all tests/support, coverage and two-entry allowlist unchanged; original four CPython tox commands remain, no skip/filter/waiver. New shipped stub has a strict SHA/origin/RPM ownership guard. Legacy matrix, orchestration and external uploads unclaimed. New target CI unverified."
+    "notes": "Full30 Git originals retained byte-identical, including original stub and runtime. Original PSF2 LICENSE and fixed typeshed Apache2 legal text retained. First patch selects exact Python3.11 protocol-error assertions in two tests; second and third additive shipped-stub-only patches declare thirteen existing runtime signatures, with conditional GenericAlias typing support. Runtime implementation, all tests/support, coverage and two-entry allowlist unchanged; original four CPython tox commands remain, no skip/filter/waiver. New shipped stub has a strict SHA/origin/RPM ownership guard. Legacy matrix, orchestration and external uploads unclaimed. New target CI unverified."
   },
   "updates": {
     "enabled": true,

@@ -15,7 +15,7 @@ the included type hints are Apache2 as their original notice specifies.
 Their exact fixed typeshed license is separate Source1 with its full Apache2
 and conditional MIT text unchanged. These texts are installed as %license.
 Packaging change summary: this adds an offline RPM wheel recipe and origin
-verification wrapper and two declared compatibility patches. The runtime
+verification wrapper and three declared compatibility patches. The runtime
 implementation, support, configuration and all original30 retained files stay
 unchanged. Only test_typo_enter/test_typo_exit in a separate compat copy
 select AttributeError below Python3.11 or TypeError with the exact upstream
@@ -49,6 +49,21 @@ Remove the patch when a selected official source supplies equivalent concrete
 exit/coroutine declarations, then re-audit the whole source and target defaults.
 Static source/AST/patch inspection does not claim new stubtest or build success.
 
+The third additive patch follows six remaining discrepancies observed in exact
+head00cbf41e844cb21a862d8561ccd35a2e18698e6d CI38343726226:1, after125 tests
+and coverage96% passed. It declares AbstractContextManager and
+AbstractAsyncContextManager subscription as their existing classmethod
+GenericAlias runtime implementation, with conditional Python3.9+ typing support;
+AsyncExitStack.enter_async_context/aclose as their actual coroutine methods;
+and nullcontext.__aenter__/__aexit__ as its already implemented asynchronous
+entry/exit. Local generic class declarations retain the original typing context
+manager bases rather than changing runtime classes. These are declaration-only
+adjustments to the fixed21.6.0 stub, not an upstream merge or a waiver. The first
+two patch bytes remain intact. Remove this patch when selected official source
+supplies equivalent declarations, then repeat whole-source and all defaults.
+The Apache2 attribution/legal text and complete pristine originals remain intact;
+the new derivative SHA is guarded separately. No new target success is claimed.
+
 The complete selected original CPython tox defaults run on target Python3.11:
 coverage run -m unittest discover -t . -s test; coverage report; coverage xml;
 python -m mypy.stubtest --allowlist dev/mypy.allowlist contextlib2.
@@ -64,7 +79,7 @@ all3 runtime hashes, distribution/version and fail-closed import-origin checks.
 The implementation and py.typed retain their original hashes; the shipped stub
 uses the declared derivative SHA, independently checked against an RPM-owned
 compat copy, while its pristine original hash remains in original-files.json.
-Both exact declared patch files and the compat stub are SHA/RPM-owner checked.
+All three exact declared patch files and the compat stub are SHA/RPM-owner checked.
 A fresh temporary test cwd includes pristine originals except for its absent
 source contextlib2 copy and the one SHA-verified/RPM-owned compatible test copy,
 preventing source shadowing without removing tests or masking runtime errors.
