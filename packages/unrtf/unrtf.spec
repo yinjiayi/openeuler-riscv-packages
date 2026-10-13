@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           unrtf
-Version:        0.21.10
+Version:        0.21.12
 Release:        1%{?dist}
 Summary:        Command-line program which converts RTF documents to other formats
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/unrtf/
-Source0:        unrtf-0.21.10.tar.gz
+Source0:        unrtf-0.21.12.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 
