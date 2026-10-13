@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "package_id": "python-iterable-io",
+  "sources": [
+    {
+      "id": "source0",
+      "version": "1.0.4",
+      "url": "https://codeload.github.com/pR0Ps/iterable-io/tar.gz/9cdce76c27930cc1db80b360a9c22b7dc3b35828",
+      "filename": "python-iterable-io-1.0.4.tar.gz",
+      "digests": {
+        "sha256": "63275efd51c0af44f1c4a5f070eb9642a33e17d16fe052dc06a377411bcd39a5"
+      },
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official immutable upstream archive locally SHA-256 verified; unchanged LGPL-3.0-only declaration preserved. Supplemental complete LGPLv3/GPLv3 terms from fixed official SPDX release are shipped verbatim. Exact-head CI required."
+      }
+    },
+    {
+      "id": "source1",
+      "version": "3.29.0",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/31ba1a50e5397e00a304dbadc76531740e89ee48/text/LGPL-3.0-only.txt",
+      "filename": "LGPL-3.0-only.txt",
+      "digests": {
+        "sha256": "996af0513df21f7496288951c41428a03c174e9e4a9d63665c57d670f845ccb1"
+      },
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official SPDX fixed v3.29.0 supplemental LGPLv3 text retains FSF copyright and verbatim-copy permission. Full Git blob/SHA-256 verified; not an original bundled upstream file or a successful direct GNU download."
+      }
+    },
+    {
+      "id": "source2",
+      "version": "3.29.0",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/31ba1a50e5397e00a304dbadc76531740e89ee48/text/GPL-3.0-only.txt",
+      "filename": "GPL-3.0-only.txt",
+      "digests": {
+        "sha256": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0"
+      },
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official SPDX fixed v3.29.0 supplemental GPLv3 terms referenced by LGPLv3, shipped verbatim with FSF copyright/copy permission. Full Git blob/SHA-256 verified; package license remains LGPL-3.0-only, not -or-later."
+      }
+    }
+  ]
+}
