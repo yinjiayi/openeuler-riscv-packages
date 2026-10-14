@@ -1,0 +1,41 @@
+{
+  "package_id": "c-lolcat",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "97860debda5631417df11dc7dd617af969e740eeffd9b41e4aa228d303aa48bc"
+      },
+      "filename": "c-lolcat-1.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original WTFPL notices retained; generator identifies borrowed Pygments code, so complete BSD-2-Clause license, AUTHORS and explicit attribution are included without asserting the exact historical copied version."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/jaseg/lolcat/tar.gz/a9ab81839f2a00fa1d831648a1d79e268bb1ddac",
+      "version": "1.5"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/pygments/pygments/cfca62e6e95136e48a255e8cbffb0bbe1d98456c/LICENSE",
+      "filename": "LICENSE-Pygments",
+      "version": "2.19.2-notice",
+      "digests": {"sha256": "a9d66f1d526df02e29dce73436d34e56e8632f46c275bbdffc70569e882f9f17"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete official BSD-2-Clause notice retained with AUTHORS and attribution in binary/source packages; notice-only, not executable build input."}
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/pygments/pygments/cfca62e6e95136e48a255e8cbffb0bbe1d98456c/AUTHORS",
+      "filename": "AUTHORS-Pygments",
+      "version": "2.19.2-notice",
+      "digests": {"sha256": "0660e318a6f215802adc8731ab85d0c65ff27cfcca3f5d28597f306476195bd9"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete official AUTHORS referenced by the retained BSD-2-Clause license; notice-only, not executable build input."}
+    }
+  ]
+}
