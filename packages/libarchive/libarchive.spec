@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libarchive
-Version:        3.8.9
+Version:        3.8.10
 Release:        1%{?dist}
 Summary:        Multi-format archive and compression library
 License:        BSD-2-Clause AND BSD-4-Clause-UC AND (Apache-2.0 OR CC0-1.0 OR OpenSSL)
 URL:            https://libarchive.org/
-Source0:        libarchive-%{version}.tar.xz
+Source0:        libarchive-3.8.10.tar.xz
 
 BuildRequires:  bzip2
 BuildRequires:  bzip2-devel
