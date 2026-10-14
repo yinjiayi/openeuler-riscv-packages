@@ -1,0 +1,22 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Use the configured library directory in pkg-config metadata
+Source: https://github.com/kloetzl/libmurmurhash/blob/8b7c9bf3ed1b8f83e5265c84a2cad5c1d6bb1d69/libmurmurhash.pc.in
+Original-License: LicenseRef-Public-Domain
+Applies-To: Libmurmurhash 1.6; openEuler riscv64 /usr/lib64 layout
+Upstream-Status: Downstream layout compatibility only; not submitted upstream
+Root-Cause: The upstream template hardcodes /lib instead of the configured libdir
+Removal-Condition: Official upstream template substitutes @libdir@ correctly
+
+Keep configured Makefile installation and pkg-config libdir consistent.
+No runtime, test, fixture, license, shared or static feature is changed.
+The complete original template is preserved in installed source evidence.
+
+diff --git a/libmurmurhash.pc.in b/libmurmurhash.pc.in
+--- a/libmurmurhash.pc.in
++++ b/libmurmurhash.pc.in
+@@ -1,4 +1,4 @@
+ prefix=@prefix@
+ exec_prefix=${prefix}
+-libdir=${exec_prefix}/lib
++libdir=@libdir@
+ includedir=${prefix}/include
