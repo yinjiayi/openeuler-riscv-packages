@@ -1,0 +1,36 @@
+{
+  "package_id": "python-easydict",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bfe062c8ae9a7d0acf1a069b2fc9d8aa2b9894c10d599b6d1768e4aa42088411"
+      },
+      "filename": "easydict-1.13-fixed.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/makinacorpus/easydict/archive/6df258e9bbeb2414bcb747b1691a6fbf5dfb7769.tar.gz",
+      "version": "1.13"
+    },
+    {
+      "digests": {
+        "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      "filename": "GPL-3.0.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete unmodified GPL version 3, 2007-06-29 license document permits verbatim copying; incorporated by original LGPL3 notice. Official GNU HTTPS mirror bytes equal the original authority text."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/Licenses/gpl-3.0.txt",
+      "version": "3.0"
+    }
+  ]
+}
