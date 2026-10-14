@@ -20,5 +20,8 @@ run_dir=$(mktemp -d)
 trap 'rm -rf -- "$run_dir"' EXIT
 g++ -O2 -I"$includedir/libbinio" /usr/share/libbinio/verify-binio.cpp -L"$libdir" -lbinio -lm -o "$run_dir/verify"
 ldd "$run_dir/verify"
-ldd "$run_dir/verify" | grep -F "libbinio.so.1 => /usr/lib64/libbinio.so.1"
+linked=$(ldd "$run_dir/verify" | awk '$1 == "libbinio.so.1" && $2 == "=>" {print $3}')
+# The RVA23 loader may report its lp64d alias; still require this exact RPM file.
+[[ $linked == /* && $(readlink -f "$linked") == "$library" ]]
+[[ $(rpm -qf --qf '%{NAME}\n' "$(readlink -f "$linked")") == libbinio ]]
 (cd "$run_dir" && ./verify)

@@ -48,6 +48,17 @@ official release contains the equivalent fix. No upstream submission or
 acceptance is claimed. Replacement target CI, RPM/SRPM and install proof
 are required before calling this repaired head successful.
 
+The replacement head `3bb5a819474a29cc5adfd9fc6b10e2a888633094`
+passed the build phase in run `38650705469` attempt 1, but its installed
+smoke stopped after the loader reported `/lib64/lp64d/libbinio.so.1`.
+The old assertion compared that spelling to a literal `/usr/lib64` path.
+Installed smoke now resolves both the loader path and expected SONAME to
+the same canonical file, and rechecks that file's libbinio RPM ownership.
+It still rejects any other library, retains RPM integrity and all 35 checks,
+and does not claim the observed alias was already proved equivalent.
+Only new-head target smoke can establish that equivalence and execute the
+installed functional suite; old-head build success is not full acceptance.
+
 Build dependencies are supplied by the audited target repositories. Devel
 requires `gcc-c++` and `pkgconf` for its installed verification. Supplier
 and namespace metadata review does not prove a DNF transaction; actual
