@@ -28,6 +28,15 @@ masked by original expected-error `|| true`. Both original python3 and expect's
 golden `spawn python` use the real supplied system commands, whose resolved
 paths must match the same RPM-owned CPython3.11 interpreter. The supplied
 python3-unversioned-command RPM is required; no scratch alias or source change.
+The runtime import path alone uses a private short `/tmp/be-*/site` symlink
+whose resolved target must equal the actual staged/installed site directory.
+This keeps the unmodified formatter's 128-character module representation below
+its truncation threshold so the original golden normalization can match it.
+Interpreter commands are not aliased; import origins, all runtime SHA-256 values,
+metadata and RPM ownership still resolve to the genuine stage/install location.
+The first failed CI reached the original first golden diff: its long BUILDROOT
+path was truncated before the original sed pattern could find a closing `'>`.
+No formatter, original test, golden, expected error or normalization is changed.
 Actual expect/PTTY, ps and terminfo/curses semantics are target requirements,
 not native-only/performance claims. Startup .pth remains byte-identical and its
 unset versus explicit opt-in behavior is independently verified. All runtime,

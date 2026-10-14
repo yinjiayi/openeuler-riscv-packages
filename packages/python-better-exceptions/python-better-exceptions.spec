@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           python-better-exceptions
 Version:        0.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Pretty and helpful Python exceptions
 License:        MIT AND Python-2.0
 URL:            https://github.com/Qix-/better-exceptions
@@ -179,8 +179,14 @@ for command in ('bash', 'diff', 'sed', 'grep', 'cat', 'mkdir', 'env', 'ps'):
 assert pathlib.Path('/usr/bin/expect').is_file()
 assert subprocess.check_output(['rpm', '-qf', '--qf', '%%{NAME}', '/usr/bin/expect'], text=True).strip()
 
-with tempfile.TemporaryDirectory(prefix='better-exceptions-original-default-') as scratch:
+with tempfile.TemporaryDirectory(prefix='be-', dir='/tmp') as scratch:
     base = pathlib.Path(scratch)
+    # Short import path preserves the original module-repr golden normalization:
+    # the formatter truncates at 128 characters before test_all.sh runs sed.
+    alias = base / 'site'
+    alias.symlink_to(site, target_is_directory=True)
+    assert alias.is_symlink() and alias.resolve() == site
+    assert len("<module 'better_exceptions' from '" + str(alias / 'better_exceptions/__init__.py') + "'>") < 128
     work = base / 'original'
     work.mkdir()
     for p in manifest:
@@ -194,7 +200,7 @@ with tempfile.TemporaryDirectory(prefix='better-exceptions-original-default-') a
     audit = base / 'origin-audit.jsonl'
     violation = base / 'origin-violation.jsonl'
     guard = '''import hashlib, importlib.abc, importlib.machinery, json, os, pathlib, sys
-site = pathlib.Path(SITE).resolve(); expected = EXPECTED
+site = pathlib.Path(SITE).resolve(); alias = pathlib.Path(ALIAS); expected = EXPECTED
 audit = AUDIT; violation = VIOLATION
 def record(path, obj):
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
@@ -208,7 +214,8 @@ try:
     for p, h in expected.items():
         q = site / p
         if q.is_symlink() or not q.is_file() or hashlib.sha256(q.read_bytes()).hexdigest() != h: fail('runtime bytes')
-    sys.path.insert(0, str(site))
+    if not alias.is_symlink() or alias.resolve() != site: fail('import alias')
+    sys.path.insert(0, str(alias))
     class Guard(importlib.abc.MetaPathFinder):
         def find_spec(self, fullname, path=None, target=None):
             if fullname == 'better_exceptions' or fullname.startswith('better_exceptions.'):
@@ -224,7 +231,7 @@ try:
     sys.meta_path.insert(0, Guard())
     record(audit, {'pid': os.getpid(), 'guard_ready': True, 'python': list(sys.version_info[:3]), 'site': str(site)})
 except BaseException: fail('startup guard')
-'''.replace('SITE', repr(str(site))).replace('EXPECTED', repr(runtime)).replace('AUDIT', repr(str(audit))).replace('VIOLATION', repr(str(violation)))
+'''.replace('SITE', repr(str(site))).replace('ALIAS', repr(str(alias))).replace('EXPECTED', repr(runtime)).replace('AUDIT', repr(str(audit))).replace('VIOLATION', repr(str(violation)))
     (work / 'sitecustomize.py').write_text(guard)
     env = dict(os.environ)
     for key in ('PYTHONHOME', 'PYTHONSTARTUP', 'PYTHONPATH', 'COVERAGE_PROCESS_START', 'PYTEST_ADDOPTS', 'PYTEST_PLUGINS', 'BETTER_EXCEPTIONS', 'BETEXC_PYTHON', 'PYTHON', 'TERMINFO', 'TERMINFO_DIRS'):
@@ -321,5 +328,8 @@ PY
 %{_datadir}/python-better-exceptions/
 
 %changelog
+* Wed Oct 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.0-2
+- Keep golden normalization intact using a short, verified import-path alias.
+
 * Wed Oct 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.4.0-1
 - Retain original terminal golden defaults and copied-code full attribution.
