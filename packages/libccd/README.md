@@ -6,6 +6,14 @@ under `/usr/include/ccd` and `/usr/lib64/libccd.a`. It is a static development
 package, not a claim about the optional shared CMake/autotools builds or their
 different single-precision defaults. No core target is disabled.
 
+Release 2 omits the automatic debuginfo subpackage: this original static-only
+installation has no executable/shared ELF for the debug-file collector.
+Exact-head CI for release 1 completed both source and staged default checks
+but failed on the empty debuginfo `%files` list; it did not produce accepted
+RPMs or run installed checks. Source, patch, default build/test commands and
+installed content are unchanged. Replacement-head CI remains an acceptance
+gate, not an asserted success.
+
 ## Source and rights
 
 Official `danfis/libccd` stable lightweight tag `v2.1` resolves to commit

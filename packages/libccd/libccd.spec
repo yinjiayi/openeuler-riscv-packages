@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
+# Static archive and headers only: no installed ELF for a debuginfo subpackage.
+%global debug_package %{nil}
 Name:           libccd
 Version:        2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Convex collision detection with default static double precision
 License:        BSD-3-Clause AND LGPL-3.0-or-later
 URL:            https://github.com/danfis/libccd
