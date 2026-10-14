@@ -10,13 +10,14 @@ Removal-Condition: Official upstream template substitutes @libdir@ correctly
 Keep configured Makefile installation and pkg-config libdir consistent.
 No runtime, test, fixture, license, shared or static feature is changed.
 The complete original template is preserved in installed source evidence.
+GNU patch --fuzz=0 interprets the previous two-leading/one-trailing context
+hunk as ending at EOF and rejects this longer template. Use a zero-context
+single-line hunk, guarded by the complete original template SHA-256 in %prep.
+This preserves the exact same one-line layout correction without fuzzy matching.
 
 diff --git a/libmurmurhash.pc.in b/libmurmurhash.pc.in
 --- a/libmurmurhash.pc.in
 +++ b/libmurmurhash.pc.in
-@@ -1,4 +1,4 @@
- prefix=@prefix@
- exec_prefix=${prefix}
+@@ -3 +3 @@
 -libdir=${exec_prefix}/lib
 +libdir=@libdir@
- includedir=${prefix}/include

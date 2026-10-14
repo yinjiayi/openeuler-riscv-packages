@@ -11,3 +11,13 @@ The build-time `make check` preserves both unmodified upstream recipes and the o
 BuildRequires declare the actual compiler, Autotools, Python and inspection tools. The fresh install-smoke workflow installs all non-debug produced RPMs including devel, then uses the SHA-256-bound protected ci/run-dnf-transaction (d62f6ec90fa3a5c5112ad4cd364d7a75ef69778c2a432825add4164a1bd64eca) to install only test support from the sole official protected repository, within 900 seconds/one 890-second attempt. It does not replace the candidate RPMs or add consumer dependencies. Target builds have no network. This transaction is separate from target compilation and defaults.
 
 N32 admission witnesses cover all 1789 current open PRs, all 1783 unique immutable package-metadata blobs and full official/supplemental primary/filelists checksum/identity joins: no canonical/component/upstream/RPM/module/header/library/pc/man collisions were found. Metadata selection is not a DNF solve. Actual riscv64 compilation, default/staged/installed execution, physical RPM/SRPM artifacts, exact-head CI, merge and publication remain unverified until their remote gates complete. No local candidate source, backend, default test, RPM or QEMU execution was performed.
+
+## Release 2 repair boundary
+
+Run 38589836356:1 failed in `%prep`, before compilation: GNU patch with
+`--fuzz=0` rejected the asymmetric short context as an end-of-file hunk.
+Release 2 uses an exact single-line, zero-context hunk after verifying the
+complete original template SHA-256. The sole `@libdir@` byte delta is unchanged.
+Original `make check`, installed `check-dynamic`, all source/runtime origin
+checks, source archive and smoke script are unchanged. New-head target CI
+and physical artifacts remain required; local patch-byte checks are not builds.

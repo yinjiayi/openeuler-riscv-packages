@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libmurmurhash
 Version:        1.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Portable MurmurHash3 shared library
 License:        LicenseRef-Public-Domain
 URL:            https://github.com/kloetzl/libmurmurhash
@@ -49,7 +49,9 @@ transaction, not required by consumers.
 test ! -e ../libmurmurhash-pristine
 mkdir ../libmurmurhash-pristine
 cp -a . ../libmurmurhash-pristine/
-%patch0 -p1
+# Pin the complete original before the exact zero-context, zero-fuzz layout edit.
+printf '686b607ba90b3c8b2f872ccc02ff9f8abf802f5f6a2a706b325ba3785756115f  libmurmurhash.pc.in\n' | sha256sum --check --strict
+%patch -P 0 -p1
 
 %build
 autoreconf -fi
@@ -180,6 +182,10 @@ SH
 %{_datadir}/libmurmurhash/
 
 %changelog
+* Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6-2
+- Correct GNU zero-fuzz patch context and pin the complete original template.
+- Keep the identical layout delta and every original build/installed default.
+
 * Wed Oct 14 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.6-1
 - Retain both original default ABI checks and installed dynamic target.
 - Preserve default static library and complete public-domain originals.

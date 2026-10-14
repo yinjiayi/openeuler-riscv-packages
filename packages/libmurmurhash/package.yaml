@@ -9,7 +9,7 @@
   "version": {
     "current": "1.6",
     "latest_detected": "1.6",
-    "release": "1"
+    "release": "2"
   },
   "target": {
     "os": "openEuler",
@@ -34,7 +34,7 @@
     "patches": [
       {
         "file": "patches/0001-pkgconfig-use-configured-libdir.patch",
-        "sha256": "ab4158cbc9dffe8b3eb1e2f91d8d6c322448cfc5b6a234ec80377d565cf1a72e",
+        "sha256": "9ebabd278100d79a7fbdc38261decacaa546a5fd8f4ce0027b44fb39573ab3a3",
         "purpose": "Substitute configured @libdir@ in pkg-config metadata; fix hardcoded /usr/lib versus target /usr/lib64 without modifying algorithms, tests, notices or shared/static features.",
         "source": "https://github.com/kloetzl/libmurmurhash/blob/8b7c9bf3ed1b8f83e5265c84a2cad5c1d6bb1d69/libmurmurhash.pc.in",
         "license": "LicenseRef-Public-Domain",
