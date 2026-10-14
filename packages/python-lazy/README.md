@@ -36,3 +36,16 @@ Historical distro discovery is lineage only: AUR1.6-4, openSUSE2.0-1.1 and
 Debian/Ubuntu1.5.1 revisions are not substituted for current official sources.
 Current full namespace/provider/closure and root literal review must pass
 before commit; exact new-head CI/physical acceptance is separate.
+
+Release 2 fixes an observed packaging-harness acceptance gap: Release 1 CI
+ran all45 unittests and strict mypy, but mypy's normal os._exit(0) terminated
+the parent before the mandatory example and final provenance report. Green CI
+was not complete-default acceptance. This is not an upstream Lazy failure.
+Only mypy is now isolated in a same-interpreter child with unchanged strict
+argv and normal fast_exit. The child verifies RPM-owned checker identity and
+copied runtime hashes before a flushed invocation-start record; the parent
+requires its unique exact record and exit0, then executes the unchanged guarded
+example and all final test/runtime/original checks. Invocation-start alone is
+not a success report. Original source/config/defaults, four runtime hashes and
+all45 tests remain unchanged. New-head four-phase real CI and physical RPM/SRPM
+acceptance are still required; local stdlib control regression is not that proof.

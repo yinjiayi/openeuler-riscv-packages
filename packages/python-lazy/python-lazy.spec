@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           python-lazy
 Version:        2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Lazy attributes for Python objects
 License:        BSD-2-Clause
 URL:            https://github.com/stefanholek/lazy
@@ -155,19 +155,34 @@ with tempfile.TemporaryDirectory(prefix='lazy-default-') as scratch:
     unittest.TextTestRunner.run=run_suite
     os.chdir(work)
     commands=[['python','-m','unittest','discover'],['python','-m','mypy','--strict','--exclude','lazy/tests','lazy'],['python','lazy/examples/example.py']]
+    mypy_child_code="# SPDX-License-Identifier: Apache-2.0\nimport hashlib,importlib.metadata,importlib.util,json,pathlib,runpy,subprocess,sys\nwork=pathlib.Path(sys.argv[1]).resolve();site=pathlib.Path(sys.argv[2]).resolve()\nexpected=json.loads(sys.argv[3]);runtime=json.loads(sys.argv[4])\nassert pathlib.Path.cwd().resolve()==work and sys.version_info[:2]==(3,11)\nfor n,h in runtime.items():\n    p=work/n;q=site/n\n    assert p.is_file() and q.is_file() and not p.is_symlink() and not q.is_symlink()\n    assert hashlib.sha256(p.read_bytes()).hexdigest()==hashlib.sha256(q.read_bytes()).hexdigest()==h\nentry=importlib.util.find_spec('mypy.__main__');assert entry and entry.origin\np=pathlib.Path(entry.origin).resolve();assert str(p)==expected['origin'] and hashlib.sha256(p.read_bytes()).hexdigest()==expected['sha256']\nassert subprocess.check_output(['rpm','-qf','--qf','%%{NAME}','--',str(p)],text=True).strip()=='python3-mypy'\nassert importlib.metadata.version('mypy')==expected['version']\nassert subprocess.check_output(['rpm','-q','--qf','%%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}','--','python3-mypy'],text=True).strip()==expected['rpm']\nargv=['mypy','--strict','--exclude','lazy/tests','lazy']\nprint('LAZY_MYPY_CHILD_PROVENANCE '+json.dumps(dict(status='invocation-started-not-success',argv=argv,tool=expected,runtime_files=runtime),sort_keys=True),flush=True)\nsys.argv=argv\nrunpy.run_module('mypy',run_name='__main__',alter_sys=False)\n"
+    mypy_tool=dict(origin=str(pathlib.Path(mypy_entry.origin).resolve()),sha256=sha(pathlib.Path(mypy_entry.origin).resolve()),version=mypy_version,rpm=mypy_rpm)
+    child_proof=None
     for argv in commands:
+        if argv==['python','-m','mypy','--strict','--exclude','lazy/tests','lazy']:
+            # Mypy's normal fast_exit is os._exit; isolate it without changing
+            # original argv/options or disabling fast_exit in upstream code.
+            completed=subprocess.run([sys.executable,'-c',mypy_child_code,str(work),str(site),json.dumps(mypy_tool,sort_keys=True),json.dumps(runtime,sort_keys=True)],cwd=work,env=dict(os.environ),capture_output=True,text=True)
+            print(completed.stdout,end='',flush=True);print(completed.stderr,end='',file=sys.stderr,flush=True)
+            if completed.returncode!=0:stop('mypy child exit '+str(completed.returncode))
+            proofs=[json.loads(line.removeprefix('LAZY_MYPY_CHILD_PROVENANCE ')) for line in completed.stdout.splitlines() if line.startswith('LAZY_MYPY_CHILD_PROVENANCE ')]
+            assert len(proofs)==1 and proofs[0]==dict(status='invocation-started-not-success',argv=['mypy','--strict','--exclude','lazy/tests','lazy'],tool=mypy_tool,runtime_files=runtime)
+            child_proof=dict(provenance=proofs[0],observed_exit=completed.returncode)
+            assert sha(pathlib.Path(mypy_entry.origin).resolve())==mypy_tool['sha256']
+            continue
         sys.argv=([argv[2]]+argv[3:]) if argv[1]=='-m' else argv[1:]
         try:
             if argv[1]=='-m':runpy.run_module(argv[2],run_name='__main__',alter_sys=False)
             else:runpy.run_path(argv[1],run_name='__main__')
         except SystemExit as exc:
             if exc.code not in (None,0):stop('default command exit '+repr(exc.code))
+    assert child_proof is not None and child_proof['observed_exit']==0
     assert len(results)==1 and results[0].testsRun==45 and results[0].wasSuccessful()
     assert not results[0].skipped and not results[0].expectedFailures and not results[0].unexpectedSuccesses
     assert len(seen)==45 and {'.'.join(n.split('.')[-2:]) for n in seen}==methods
     for n,h in runtime.items():assert sha(site/n)==sha(work/n)==h
     for n in ('lazy/tests/__init__.py','lazy/tests/test_lazy.py','lazy/examples/__init__.py','lazy/examples/example.py','tox.ini','pyproject.toml','setup.cfg'):assert sha(work/n)==manifest[n]
-    print('LAZY_DEFAULT_REPORT '+json.dumps(dict(mode=mode,commands=commands,invocation='Original argv via stdlib runpy; not a bare launcher or interpreter-matrix claim',testsRun=45,test_ids=seen,skips=0,failures=0,errors=0,strict_mypy_exit=0,mypy_version=mypy_version,mypy_rpm=mypy_rpm,mypy_origin=mypy_entry.origin,example_exit=0,origins=guarded,runtime_files=runtime,original_files=24,docs_environment='opt-in/unclaimed'),sort_keys=True))
+    print('LAZY_DEFAULT_REPORT '+json.dumps(dict(mode=mode,commands=commands,invocation='Original argv via stdlib runpy; mypy isolated child preserves normal hard exit; not a bare launcher or interpreter-matrix claim',testsRun=45,test_ids=seen,skips=0,failures=0,errors=0,strict_mypy_exit=0,mypy_version=mypy_version,mypy_rpm=mypy_rpm,mypy_origin=mypy_entry.origin,mypy_child=child_proof,example_exit=0,origins=guarded,runtime_files=runtime,original_files=24,docs_environment='opt-in/unclaimed'),sort_keys=True))
 PY
 env -u PYTHONHOME -u PYTHONSTARTUP -u PYTHONPATH -u PYTEST_ADDOPTS -u PYTEST_PLUGINS -u COVERAGE_PROCESS_START %{__python3} - "%{buildroot}%{_datadir}/python-lazy/original" "../lazy-wheel-stage" wheel <<'PY'
 # SPDX-License-Identifier: Apache-2.0
@@ -285,19 +300,34 @@ with tempfile.TemporaryDirectory(prefix='lazy-default-') as scratch:
     unittest.TextTestRunner.run=run_suite
     os.chdir(work)
     commands=[['python','-m','unittest','discover'],['python','-m','mypy','--strict','--exclude','lazy/tests','lazy'],['python','lazy/examples/example.py']]
+    mypy_child_code="# SPDX-License-Identifier: Apache-2.0\nimport hashlib,importlib.metadata,importlib.util,json,pathlib,runpy,subprocess,sys\nwork=pathlib.Path(sys.argv[1]).resolve();site=pathlib.Path(sys.argv[2]).resolve()\nexpected=json.loads(sys.argv[3]);runtime=json.loads(sys.argv[4])\nassert pathlib.Path.cwd().resolve()==work and sys.version_info[:2]==(3,11)\nfor n,h in runtime.items():\n    p=work/n;q=site/n\n    assert p.is_file() and q.is_file() and not p.is_symlink() and not q.is_symlink()\n    assert hashlib.sha256(p.read_bytes()).hexdigest()==hashlib.sha256(q.read_bytes()).hexdigest()==h\nentry=importlib.util.find_spec('mypy.__main__');assert entry and entry.origin\np=pathlib.Path(entry.origin).resolve();assert str(p)==expected['origin'] and hashlib.sha256(p.read_bytes()).hexdigest()==expected['sha256']\nassert subprocess.check_output(['rpm','-qf','--qf','%%{NAME}','--',str(p)],text=True).strip()=='python3-mypy'\nassert importlib.metadata.version('mypy')==expected['version']\nassert subprocess.check_output(['rpm','-q','--qf','%%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}','--','python3-mypy'],text=True).strip()==expected['rpm']\nargv=['mypy','--strict','--exclude','lazy/tests','lazy']\nprint('LAZY_MYPY_CHILD_PROVENANCE '+json.dumps(dict(status='invocation-started-not-success',argv=argv,tool=expected,runtime_files=runtime),sort_keys=True),flush=True)\nsys.argv=argv\nrunpy.run_module('mypy',run_name='__main__',alter_sys=False)\n"
+    mypy_tool=dict(origin=str(pathlib.Path(mypy_entry.origin).resolve()),sha256=sha(pathlib.Path(mypy_entry.origin).resolve()),version=mypy_version,rpm=mypy_rpm)
+    child_proof=None
     for argv in commands:
+        if argv==['python','-m','mypy','--strict','--exclude','lazy/tests','lazy']:
+            # Mypy's normal fast_exit is os._exit; isolate it without changing
+            # original argv/options or disabling fast_exit in upstream code.
+            completed=subprocess.run([sys.executable,'-c',mypy_child_code,str(work),str(site),json.dumps(mypy_tool,sort_keys=True),json.dumps(runtime,sort_keys=True)],cwd=work,env=dict(os.environ),capture_output=True,text=True)
+            print(completed.stdout,end='',flush=True);print(completed.stderr,end='',file=sys.stderr,flush=True)
+            if completed.returncode!=0:stop('mypy child exit '+str(completed.returncode))
+            proofs=[json.loads(line.removeprefix('LAZY_MYPY_CHILD_PROVENANCE ')) for line in completed.stdout.splitlines() if line.startswith('LAZY_MYPY_CHILD_PROVENANCE ')]
+            assert len(proofs)==1 and proofs[0]==dict(status='invocation-started-not-success',argv=['mypy','--strict','--exclude','lazy/tests','lazy'],tool=mypy_tool,runtime_files=runtime)
+            child_proof=dict(provenance=proofs[0],observed_exit=completed.returncode)
+            assert sha(pathlib.Path(mypy_entry.origin).resolve())==mypy_tool['sha256']
+            continue
         sys.argv=([argv[2]]+argv[3:]) if argv[1]=='-m' else argv[1:]
         try:
             if argv[1]=='-m':runpy.run_module(argv[2],run_name='__main__',alter_sys=False)
             else:runpy.run_path(argv[1],run_name='__main__')
         except SystemExit as exc:
             if exc.code not in (None,0):stop('default command exit '+repr(exc.code))
+    assert child_proof is not None and child_proof['observed_exit']==0
     assert len(results)==1 and results[0].testsRun==45 and results[0].wasSuccessful()
     assert not results[0].skipped and not results[0].expectedFailures and not results[0].unexpectedSuccesses
     assert len(seen)==45 and {'.'.join(n.split('.')[-2:]) for n in seen}==methods
     for n,h in runtime.items():assert sha(site/n)==sha(work/n)==h
     for n in ('lazy/tests/__init__.py','lazy/tests/test_lazy.py','lazy/examples/__init__.py','lazy/examples/example.py','tox.ini','pyproject.toml','setup.cfg'):assert sha(work/n)==manifest[n]
-    print('LAZY_DEFAULT_REPORT '+json.dumps(dict(mode=mode,commands=commands,invocation='Original argv via stdlib runpy; not a bare launcher or interpreter-matrix claim',testsRun=45,test_ids=seen,skips=0,failures=0,errors=0,strict_mypy_exit=0,mypy_version=mypy_version,mypy_rpm=mypy_rpm,mypy_origin=mypy_entry.origin,example_exit=0,origins=guarded,runtime_files=runtime,original_files=24,docs_environment='opt-in/unclaimed'),sort_keys=True))
+    print('LAZY_DEFAULT_REPORT '+json.dumps(dict(mode=mode,commands=commands,invocation='Original argv via stdlib runpy; mypy isolated child preserves normal hard exit; not a bare launcher or interpreter-matrix claim',testsRun=45,test_ids=seen,skips=0,failures=0,errors=0,strict_mypy_exit=0,mypy_version=mypy_version,mypy_rpm=mypy_rpm,mypy_origin=mypy_entry.origin,mypy_child=child_proof,example_exit=0,origins=guarded,runtime_files=runtime,original_files=24,docs_environment='opt-in/unclaimed'),sort_keys=True))
 PY
 env -u PYTHONHOME -u PYTHONSTARTUP -u PYTHONPATH -u PYTEST_ADDOPTS -u PYTEST_PLUGINS -u COVERAGE_PROCESS_START %{__python3} - "%{buildroot}%{_datadir}/python-lazy/original" "%{buildroot}%{python3_sitelib}" buildroot <<'PY'
 # SPDX-License-Identifier: Apache-2.0
@@ -415,19 +445,34 @@ with tempfile.TemporaryDirectory(prefix='lazy-default-') as scratch:
     unittest.TextTestRunner.run=run_suite
     os.chdir(work)
     commands=[['python','-m','unittest','discover'],['python','-m','mypy','--strict','--exclude','lazy/tests','lazy'],['python','lazy/examples/example.py']]
+    mypy_child_code="# SPDX-License-Identifier: Apache-2.0\nimport hashlib,importlib.metadata,importlib.util,json,pathlib,runpy,subprocess,sys\nwork=pathlib.Path(sys.argv[1]).resolve();site=pathlib.Path(sys.argv[2]).resolve()\nexpected=json.loads(sys.argv[3]);runtime=json.loads(sys.argv[4])\nassert pathlib.Path.cwd().resolve()==work and sys.version_info[:2]==(3,11)\nfor n,h in runtime.items():\n    p=work/n;q=site/n\n    assert p.is_file() and q.is_file() and not p.is_symlink() and not q.is_symlink()\n    assert hashlib.sha256(p.read_bytes()).hexdigest()==hashlib.sha256(q.read_bytes()).hexdigest()==h\nentry=importlib.util.find_spec('mypy.__main__');assert entry and entry.origin\np=pathlib.Path(entry.origin).resolve();assert str(p)==expected['origin'] and hashlib.sha256(p.read_bytes()).hexdigest()==expected['sha256']\nassert subprocess.check_output(['rpm','-qf','--qf','%%{NAME}','--',str(p)],text=True).strip()=='python3-mypy'\nassert importlib.metadata.version('mypy')==expected['version']\nassert subprocess.check_output(['rpm','-q','--qf','%%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}','--','python3-mypy'],text=True).strip()==expected['rpm']\nargv=['mypy','--strict','--exclude','lazy/tests','lazy']\nprint('LAZY_MYPY_CHILD_PROVENANCE '+json.dumps(dict(status='invocation-started-not-success',argv=argv,tool=expected,runtime_files=runtime),sort_keys=True),flush=True)\nsys.argv=argv\nrunpy.run_module('mypy',run_name='__main__',alter_sys=False)\n"
+    mypy_tool=dict(origin=str(pathlib.Path(mypy_entry.origin).resolve()),sha256=sha(pathlib.Path(mypy_entry.origin).resolve()),version=mypy_version,rpm=mypy_rpm)
+    child_proof=None
     for argv in commands:
+        if argv==['python','-m','mypy','--strict','--exclude','lazy/tests','lazy']:
+            # Mypy's normal fast_exit is os._exit; isolate it without changing
+            # original argv/options or disabling fast_exit in upstream code.
+            completed=subprocess.run([sys.executable,'-c',mypy_child_code,str(work),str(site),json.dumps(mypy_tool,sort_keys=True),json.dumps(runtime,sort_keys=True)],cwd=work,env=dict(os.environ),capture_output=True,text=True)
+            print(completed.stdout,end='',flush=True);print(completed.stderr,end='',file=sys.stderr,flush=True)
+            if completed.returncode!=0:stop('mypy child exit '+str(completed.returncode))
+            proofs=[json.loads(line.removeprefix('LAZY_MYPY_CHILD_PROVENANCE ')) for line in completed.stdout.splitlines() if line.startswith('LAZY_MYPY_CHILD_PROVENANCE ')]
+            assert len(proofs)==1 and proofs[0]==dict(status='invocation-started-not-success',argv=['mypy','--strict','--exclude','lazy/tests','lazy'],tool=mypy_tool,runtime_files=runtime)
+            child_proof=dict(provenance=proofs[0],observed_exit=completed.returncode)
+            assert sha(pathlib.Path(mypy_entry.origin).resolve())==mypy_tool['sha256']
+            continue
         sys.argv=([argv[2]]+argv[3:]) if argv[1]=='-m' else argv[1:]
         try:
             if argv[1]=='-m':runpy.run_module(argv[2],run_name='__main__',alter_sys=False)
             else:runpy.run_path(argv[1],run_name='__main__')
         except SystemExit as exc:
             if exc.code not in (None,0):stop('default command exit '+repr(exc.code))
+    assert child_proof is not None and child_proof['observed_exit']==0
     assert len(results)==1 and results[0].testsRun==45 and results[0].wasSuccessful()
     assert not results[0].skipped and not results[0].expectedFailures and not results[0].unexpectedSuccesses
     assert len(seen)==45 and {'.'.join(n.split('.')[-2:]) for n in seen}==methods
     for n,h in runtime.items():assert sha(site/n)==sha(work/n)==h
     for n in ('lazy/tests/__init__.py','lazy/tests/test_lazy.py','lazy/examples/__init__.py','lazy/examples/example.py','tox.ini','pyproject.toml','setup.cfg'):assert sha(work/n)==manifest[n]
-    print('LAZY_DEFAULT_REPORT '+json.dumps(dict(mode=mode,commands=commands,invocation='Original argv via stdlib runpy; not a bare launcher or interpreter-matrix claim',testsRun=45,test_ids=seen,skips=0,failures=0,errors=0,strict_mypy_exit=0,mypy_version=mypy_version,mypy_rpm=mypy_rpm,mypy_origin=mypy_entry.origin,example_exit=0,origins=guarded,runtime_files=runtime,original_files=24,docs_environment='opt-in/unclaimed'),sort_keys=True))
+    print('LAZY_DEFAULT_REPORT '+json.dumps(dict(mode=mode,commands=commands,invocation='Original argv via stdlib runpy; mypy isolated child preserves normal hard exit; not a bare launcher or interpreter-matrix claim',testsRun=45,test_ids=seen,skips=0,failures=0,errors=0,strict_mypy_exit=0,mypy_version=mypy_version,mypy_rpm=mypy_rpm,mypy_origin=mypy_entry.origin,mypy_child=child_proof,example_exit=0,origins=guarded,runtime_files=runtime,original_files=24,docs_environment='opt-in/unclaimed'),sort_keys=True))
 PY
 
 %files
