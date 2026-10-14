@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "python-lazy",
+  "sources": [
+    {
+      "id": "source0",
+      "filename": "lazy-2.0.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/c3/4a/e1204ed0cdf2feb50768e638fda3e97363f362c9a10123c585d5056af556/lazy-2.0.tar.gz",
+      "kind": "upstream-release",
+      "version": "2.0",
+      "digests": {
+        "sha256": "f92ec0d32dd6bd115ddec4e3323473ebc0b682ad58c6aca78ebfd9e6d1aa5777"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Untouched fixed official stable PyPI sdist/full BSD-2-Clause notice; root inert identity proof reconciles official generated metadata with original fixed Git tag, not a source patch or target success."
+      }
+    },
+    {
+      "id": "source1",
+      "filename": "lazy-git-2.0.tar.gz",
+      "url": "https://codeload.github.com/stefanholek/lazy/tar.gz/83c65f9c09d2fe39e8a1e0692ae06878cb09eba1",
+      "kind": "upstream-release",
+      "version": "2.0",
+      "digests": {
+        "sha256": "9861ab943c0720c1fa72262223c26f4002292b4ba98a4c77b200987b97594ca9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "All24 fixed Git originals retained verbatim including complete BSD-2-Clause license, default tests/type-check/examples and original dev0 config; not modified or used to invent stable wheel version."
+      }
+    }
+  ]
+}

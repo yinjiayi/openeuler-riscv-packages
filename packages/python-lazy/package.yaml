@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "package_id": "python-lazy",
+  "rpm": {
+    "name": "python-lazy",
+    "summary": "Lazy attributes for Python objects",
+    "license": "BSD-2-Clause"
+  },
+  "upstream": {
+    "component": "github.com-stefanholek-lazy",
+    "homepage": "https://github.com/stefanholek/lazy",
+    "source_repository": "https://github.com/stefanholek/lazy",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/stefanholek/lazy/tags?per_page=100",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "version": {
+    "current": "2.0",
+    "release": "1",
+    "latest_detected": "2.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "python-lazy",
+        "package_base": "python-lazy",
+        "source_version": "1.6-4",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/f4e04cee669ccb34bd3d378cc242f08f8b425412/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "lazy",
+        "package_base": "lazy",
+        "source_version": "1.5.1-1.1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/f4e04cee669ccb34bd3d378cc242f08f8b425412/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "python-lazy",
+        "package_base": "python-lazy",
+        "source_version": "2.0-1.1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/f4e04cee669ccb34bd3d378cc242f08f8b425412/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "lazy",
+        "package_base": "lazy",
+        "source_version": "1.5.1-1.1build1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/f4e04cee669ccb34bd3d378cc242f08f8b425412/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "python-lazy.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Stable untouched official2.0 sdist builds wheel; complete fixed Git24 originals and BSD kept separately. Original45 unittest, strict mypy and example commands preserve CP3.11 target scope; opt-in docs and full interpreter matrix unclaimed. No local target/default/backend execution or target success claimed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}
