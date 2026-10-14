@@ -19,7 +19,15 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [{
+      "file": "patches/0001-keep-float-storage-alive-until-byte-write.patch",
+      "sha256": "c481c1416a4b90d0b4939d5190dae94bff886dfac5f896a87ef556a1382989aa",
+      "purpose": "Keep floating-point conversion storage alive until byte output without weakening tests.",
+      "source": "Original downstream repair of fixed adplug/libbinio 1.5 source; exact failed head 6a384f55 and CI 38646644683:1.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "downstream-only",
+      "remove_when": "Verified official release contains equivalent floating storage lifetime fix."
+    }],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "libbinio.spec"

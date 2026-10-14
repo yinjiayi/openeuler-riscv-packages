@@ -9,7 +9,7 @@ rpm -V libbinio libbinio-devel
 includedir=$(pkg-config --variable=includedir libbinio)
 libdir=$(pkg-config --variable=libdir libbinio)
 [[ $includedir == /usr/include && $libdir == /usr/lib64 ]]
-for file in "$includedir/binio/binio.h" "$includedir/binio/binstr.h" "$includedir/binio/binwrap.h" "$includedir/binio/binfile.h" "$libdir/pkgconfig/libbinio.pc" /usr/share/libbinio/verify-binio.cpp; do
+for file in "$includedir/libbinio/binio.h" "$includedir/libbinio/binstr.h" "$includedir/libbinio/binwrap.h" "$includedir/libbinio/binfile.h" "$libdir/pkgconfig/libbinio.pc" /usr/share/libbinio/verify-binio.cpp; do
   [[ -f $file && ! -L $file ]]
   [[ $(rpm -qf --qf '%{NAME}\n' "$file") == libbinio-devel ]]
 done
@@ -18,7 +18,7 @@ library=$(readlink -f "$libdir/libbinio.so")
 [[ $(rpm -qf --qf '%{NAME}\n' "$library") == libbinio ]]
 run_dir=$(mktemp -d)
 trap 'rm -rf -- "$run_dir"' EXIT
-g++ -O2 -I"$includedir/binio" /usr/share/libbinio/verify-binio.cpp -L"$libdir" -lbinio -lm -o "$run_dir/verify"
+g++ -O2 -I"$includedir/libbinio" /usr/share/libbinio/verify-binio.cpp -L"$libdir" -lbinio -lm -o "$run_dir/verify"
 ldd "$run_dir/verify"
 ldd "$run_dir/verify" | grep -F "libbinio.so.1 => /usr/lib64/libbinio.so.1"
 (cd "$run_dir" && ./verify)

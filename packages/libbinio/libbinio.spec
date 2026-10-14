@@ -6,6 +6,7 @@ Summary:        Platform-independent C++ binary stream input and output library
 License:        LGPL-2.1-or-later AND LicenseRef-Ken-Turkowski AND GFDL-1.1-or-later
 URL:            https://github.com/adplug/libbinio
 Source0:        libbinio-1.5.tar.gz
+Patch0:         0001-keep-float-storage-alive-until-byte-write.patch
 BuildRequires:  gcc-c++
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -142,7 +143,7 @@ make check
 mkdir downstream-source downstream-staged
 g++ %{optflags} -Isrc verify-binio.cpp -Lsrc/.libs -lbinio -lm -o downstream-source/verify
 (cd downstream-source && env LD_LIBRARY_PATH="$OLDPWD/src/.libs" ./verify)
-g++ %{optflags} -I%{buildroot}%{_includedir}/binio verify-binio.cpp -L%{buildroot}%{_libdir} -lbinio -lm -o downstream-staged/verify
+g++ %{optflags} -I%{buildroot}%{_includedir}/libbinio verify-binio.cpp -L%{buildroot}%{_libdir} -lbinio -lm -o downstream-staged/verify
 (cd downstream-staged && env LD_LIBRARY_PATH="%{buildroot}%{_libdir}" ./verify)
 
 %post -p /sbin/ldconfig
@@ -155,7 +156,7 @@ g++ %{optflags} -I%{buildroot}%{_includedir}/binio verify-binio.cpp -L%{buildroo
 %{_infodir}/libbinio.info*
 
 %files devel
-%{_includedir}/binio/
+%{_includedir}/libbinio/
 %{_libdir}/libbinio.so
 %{_libdir}/libbinio.a
 %{_libdir}/pkgconfig/libbinio.pc
@@ -163,5 +164,7 @@ g++ %{optflags} -I%{buildroot}%{_includedir}/binio verify-binio.cpp -L%{buildroo
 
 %changelog
 * Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.5-1
+- Keep floating conversion storage alive through byte output; retain checks.
+- Match staged and installed header paths to original libbinio layout.
 - Preserve original defaults, documentation and literal borrowed notices.
 - Add separately labeled source, staged and RPM-installed semantic checks.
