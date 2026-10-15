@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
+# Installed payload is headers, CMake metadata and QA source, with no ELF files.
+%global debug_package %{nil}
+
 Name:           libcuckoo
 Version:        0.3.1
 Release:        1%{?dist}
@@ -69,4 +72,5 @@ ctest --test-dir build --output-on-failure --verbose
 
 %changelog
 * Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.1-1
+- Do not create an empty automatic debuginfo subpackage for a header-only payload.
 - Package verified stable source, default install, original unit suite and examples.

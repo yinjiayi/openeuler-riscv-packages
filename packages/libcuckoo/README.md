@@ -39,4 +39,11 @@ Build and installed-smoke success remain new-head CI acceptance gates. Local
 work is limited to inert source verification and trusted repository validation;
 it is not an RPM/QEMU build and produces no RPM/SRPM success claim or URL.
 
+The first exact-head target run completed all 80 original cases (203,960
+assertions), then failed packaging an empty automatic debuginfo subpackage.
+The installed payload has no ELF files: it consists of headers, CMake metadata
+and QA source. The recipe therefore disables only the automatic debuginfo
+subpackage. Original builds, examples, tests, installation and installed QA
+remain unchanged; the corrected head still requires fresh full CI acceptance.
+
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
