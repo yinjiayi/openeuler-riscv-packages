@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nmail
-Version:        5.14.12
-Release:        6%{?dist}
+Version:        5.16.4
+Release:        1%{?dist}
 Summary:        Terminal-based email client
 License:        MIT
 URL:            https://github.com/d99kris/nmail
-Source0:        nmail-5.14.12.tar.gz
+Source0:        v5.16.4.tar.gz
 BuildRequires:  cmake
 BuildRequires:  cyrus-sasl-devel
 BuildRequires:  expat-devel
