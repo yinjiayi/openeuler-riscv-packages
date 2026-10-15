@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           rlshim
-Version:        1.3.0
+Version:        1.4.0
 Release:        1%{?dist}
 Summary:        A lightweight, native Linux launcher for RuneLite.
 License:        BSD-2-Clause
 URL:            https://github.com/RdrSeraphim/rlshim
-Source0:        rlshim-1.3.0.tar.gz
+Source0:        v1.4.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
