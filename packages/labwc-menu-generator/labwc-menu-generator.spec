@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           labwc-menu-generator
-Version:        0.1.0
+Version:        0.2.0
 Release:        1%{?dist}
 Summary:        Menu generator for labwc
 License:        GPL-2.0-or-later
 URL:            https://github.com/labwc/labwc-menu-generator
-Source0:        labwc-menu-generator-0.1.0.tar.gz
+Source0:        0.2.0.tar.gz
 BuildRequires:  gcc
 BuildRequires:  glib2-devel
 BuildRequires:  make
