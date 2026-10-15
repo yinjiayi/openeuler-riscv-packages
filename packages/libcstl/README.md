@@ -12,12 +12,12 @@ the official release's freshness or build success.
 Library source and installed headers carry LGPL-2.1-or-later notices.
 COPYING.LESSER and AUTHORS are installed unchanged. Generated Autotools
 helpers retain their own license notices/exceptions in the complete SRPM
-archive. Original packaging is Apache-2.0; the patch is LGPL-2.1-or-later.
+archive. Original packaging is Apache-2.0; both patches are LGPL-2.1-or-later.
 No upstream write has been made.
 
 The original default configure choices, shared/static libraries and complete
 Automake `make check` suite (`TESTS = libcstl_ut`) are retained. All original
-test cases and assertions remain unchanged. The sole patch enables Automake's
+test cases and assertions are retained. The first patch enables Automake's
 cross-directory object layout, detects the archiver with AM_PROG_AR before
 Libtool initialization, places the same test library after objects
 in LDADD, and forwards legacy `google/cmockery.h`
@@ -37,6 +37,16 @@ following the existing list accessor. Only pointer views change: all original
 allocations, values, assertions and cleanup calls remain. This is a source
 type-compatibility repair, not evidence of a target runtime pass. No compiler
 diagnostic is suppressed; replacement exact-head CI remains required.
+
+Exact-head CI 38733504844 then reached the original char-pointer sentinel
+`char* str = 0x1111`, rejected by GCC 14's `-Wint-conversion`. The second
+patch explicitly types the same hexadecimal pointer sentinels in four original
+test sources, including pointer-valued varargs and comparisons. It follows the
+adjacent `(void*)0xcc` case; every sentinel value, test case, assertion and
+operation is preserved. The first patch is byte-for-byte unchanged. This is
+test source type compatibility, not evidence of a target runtime pass; the
+complete original suite and downstream consumers still require replacement
+exact-head remote CI. No diagnostic, default feature or test is disabled.
 
 Separate downstream consumer checks exercise vector/list creation, empty
 state, values, size and destruction against staged shared/static and actual

@@ -27,6 +27,14 @@
       "license": "LGPL-2.1-or-later",
       "upstream_status": "not-submitted",
       "remove_when": "An official release supports current Automake, the target cmockery include layout and correctly typed test byte-range and string-node pointer views without these compatibility changes."
+    }, {
+      "file": "patches/0002-type-original-test-pointer-sentinels.patch",
+      "sha256": "8046138750911e68ee3a9ac916ff72c03af66a8a5a71da8d8244ce50e2bb7fb3",
+      "purpose": "Explicitly type the original pointer sentinel constants in four unit-test sources, retaining values, operations, cases, assertions, pointer varargs width and all strict compiler options.",
+      "source": "Original downstream test type compatibility against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b. Exact-head CI 38733504844 rejected char* str = 0x1111; the adjacent original null-basic-string test already explicitly casts (void*)0xcc.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release explicitly types the original test pointer sentinel constants for current C compilers."
     }],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
