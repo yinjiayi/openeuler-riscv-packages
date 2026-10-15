@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pato
-Version:        1.0.1
-Release:        3%{?dist}
+Version:        1.0.6
+Release:        1%{?dist}
 Summary:        PATO: high PerformAnce TriplexatOr is a high performance tool for the fast and efficient detection of triple helices and triplex features in nucleotide sequ
 License:        MIT
 URL:            https://github.com/UDC-GAC/PATO
-Source0:        pato-1.0.1.tar.gz
+Source0:        1.0.6.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
