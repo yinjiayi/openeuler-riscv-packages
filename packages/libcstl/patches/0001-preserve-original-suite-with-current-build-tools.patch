@@ -1,0 +1,37 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Keep the original suite with current Automake/cmockery layout
+
+SPDX-License-Identifier: LGPL-2.1-or-later
+Upstream: https://github.com/activesys/libcstl/tree/f0fd5ccb817192614588915ab0b5dbebbc6ed58b
+Upstream-Status: Not submitted; downstream packaging compatibility only.
+
+Modern Automake needs subdir-objects for the cross-directory UT source list.
+Official libcmocka-devel supplies the original cmockery-compatible API and
+library under cmockery/, not google/. Forward only that include path; retain
+all 98 original consumers and all test cases. No cmocka API substitution,
+assertion suppression or RISC-V source workaround. Remove when upstream
+supports the current build tools and target cmockery include layout itself.
+Keep the same test library in LDADD, after the objects, rather than LDFLAGS
+before the objects; this preserves its symbols with as-needed linking.
+
+--- a/configure.ac
++++ b/configure.ac
+@@ -6 +6 @@
+-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
++AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
+--- /dev/null
++++ b/compat/google/cmockery.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: LGPL-2.1-or-later
++ * Original downstream header-layout compatibility only.
++ * The complete original suite continues to use the cmockery API.
++ */
++#ifndef LIBCSTL_CMOCKERY_LAYOUT_H
++#define LIBCSTL_CMOCKERY_LAYOUT_H
++#include <cmockery/cmockery.h>
++#endif
+--- a/test/ut/Makefile.am
++++ b/test/ut/Makefile.am
+@@ -149 +149 @@
+-libcstl_ut_LDFLAGS = -lcmockery
++libcstl_ut_LDADD = -lcmockery

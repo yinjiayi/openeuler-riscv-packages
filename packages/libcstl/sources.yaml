@@ -1,0 +1,21 @@
+{
+  "package_id": "libcstl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e415e42a8feff347213d3bdcf61578e3583e876b64d65f96909647f7fa8f7c6a"
+      },
+      "filename": "libcstl-2.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/activesys/libcstl/tar.gz/f0fd5ccb817192614588915ab0b5dbebbc6ed58b",
+      "version": "2.3.0"
+    }
+  ]
+}

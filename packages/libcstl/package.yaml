@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/activesys/libcstl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcstl",
+        "package_name": "libcstl",
+        "source": "aur",
+        "source_version": "2.3.0-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-preserve-original-suite-with-current-build-tools.patch",
+      "sha256": "f5ed49806dc8b2adb77507d4405ba65b04419d2373c1aad3458ede5a835ce393",
+      "purpose": "Preserve the complete original unit suite with modern Automake cross-directory objects, library-after-objects LDADD and the official cmockery compatibility header layout; no test removal or API substitution.",
+      "source": "Original downstream compatibility against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b; original test files unchanged.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release supports current Automake and the target cmockery include layout without the compatibility header."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libcstl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable v2.3.0 fixed commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b; all 475 source files Git-verified. Preserve complete original Automake suite and default features; actual target DNF/test/install remains remote CI. No local RPM/QEMU/upstream execution or native/merge/publication claim.",
+    "status": "active"
+  },
+  "package_id": "libcstl",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "libcstl",
+    "summary": "Generic C containers and algorithms with an STL-like interface"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-activesys-libcstl",
+    "homepage": "https://github.com/activesys/libcstl",
+    "release_api": "https://api.github.com/repos/activesys/libcstl/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/activesys/libcstl",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "2.3.0",
+    "latest_detected": "2.3.0",
+    "release": "1"
+  }
+}
