@@ -39,3 +39,14 @@ names, SONAMEs, header/file collisions and required providers. `crypt.h` is from
 is not needed by the offline consumer and is not an invented dependency. Actual
 target DNF resolution, riscv64 build, installed tests and physical RPM/SRPM
 acceptance remain CI gates; local source verification is not a build result.
+
+First-head Package CI 38816587539 failed before compilation: unconstrained
+`libxcrypt-devel` selected supplemental 4.5.2-1, which cannot satisfy the fixed
+SP3 `glibc-devel` static-provider closure. The official 4.4.36-3.oe2403sp3 devel
+package already supplies `libxcrypt-static` in that image. BuildRequires and
+the installed devel consumer requirements therefore pin that compatible EVR.
+Inventory/provider presence alone was not proof of DNF solver compatibility.
+Remove or revise this target-specific pin only after a complete compatible
+libxcrypt static/devel provider set and the locked image are jointly validated.
+This dependency repair does not alter upstream source, flags or test targets;
+replacement exact-head CI must establish build/install success independently.

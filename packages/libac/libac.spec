@@ -12,7 +12,8 @@ Source2:        COPYING.GPL2
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  glibc-devel
-BuildRequires:  libxcrypt-devel
+# Match the fixed SP3 glibc-devel/static-provider closure; see README.
+BuildRequires:  libxcrypt-devel = 4.4.36-3.oe2403sp3
 BuildRequires:  bash
 BuildRequires:  coreutils
 BuildRequires:  binutils
@@ -32,7 +33,8 @@ buffers, strings, JSON, networking and time helpers.
 %package devel
 Summary:        Public header and shared-library linker interface for libac
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       gcc glibc-devel libxcrypt-devel bash coreutils binutils grep gawk
+Requires:       gcc glibc-devel bash coreutils binutils grep gawk
+Requires:       libxcrypt-devel = 4.4.36-3.oe2403sp3
 
 %description devel
 The unmodified public header, shared-library linker interface and a separately

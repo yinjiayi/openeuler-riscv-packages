@@ -28,7 +28,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official v2.0.0 fixed source/all45 Git blobs verified; original default library and example compilation retained, no patches/warning suppression. Upstream make test only compiles a print-oriented program, not a semantic pass. Separate offline fail-first O0/O2 public-header/SONAME consumer planned for staged and installed library. Primary LGPL2.1-only, separately scoped common LGPL2.1later/BSD3 and source-only FreeBSD Apache2 notices/texts retained. Full target inventories checked; actual DNF/build/install/physical acceptance pending. No local upstream/RPM/QEMU or native/publication claim.",
+    "notes": "Official v2.0.0 fixed source/all45 Git blobs verified; original default library and example compilation retained, no patches/warning suppression. Upstream make test only compiles a print-oriented program, not a semantic pass. Separate offline fail-first O0/O2 public-header/SONAME consumer planned for staged and installed library. Primary LGPL2.1-only, separately scoped common LGPL2.1later/BSD3 and source-only FreeBSD Apache2 notices/texts retained. First CI failed in DNF before compilation: supplemental libxcrypt-devel 4.5.2 conflicts with fixed SP3 glibc/static-provider closure. Pin official libxcrypt-devel 4.4.36-3.oe2403sp3 for build and devel consumers; removal requires jointly validated compatible provider set/image. Replacement DNF/build/install/physical acceptance pending. No local upstream/RPM/QEMU or native/publication claim.",
     "status": "active"
   },
   "package_id": "libac",
