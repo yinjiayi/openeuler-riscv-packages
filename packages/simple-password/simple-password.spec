@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simple-password
-Version:        0.1.1
-Release:        7%{?dist}
+Version:        1.0.0
+Release:        1%{?dist}
 Summary:        A password generator without any unnecessary stuff
 License:        GPL-3.0-or-later
 URL:            https://github.com/ESzPa/spass
-Source0:        simple-password-0.1.1.tar.gz
+Source0:        v1.0.0.tar.gz
 Patch0:         0001-tests-add-generation-unit-coverage.patch
 BuildRequires:  argparse
 BuildRequires:  cmake
