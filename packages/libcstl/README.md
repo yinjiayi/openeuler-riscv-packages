@@ -12,7 +12,7 @@ the official release's freshness or build success.
 Library source and installed headers carry LGPL-2.1-or-later notices.
 COPYING.LESSER and AUTHORS are installed unchanged. Generated Autotools
 helpers retain their own license notices/exceptions in the complete SRPM
-archive. Original packaging is Apache-2.0; all four patches are LGPL-2.1-or-later.
+archive. Original packaging is Apache-2.0; all five patches are LGPL-2.1-or-later.
 No upstream write has been made.
 
 The original default configure choices, shared/static libraries and complete
@@ -64,6 +64,14 @@ fixture is destroyed afterward. The round-trip test views the same `prep+1`
 address through the API's declared const-byte-pointer interface. Both original
 assertions and registered cases remain; no compiler diagnostic is suppressed.
 The first three patches are unchanged. Replacement target CI is still required.
+
+Exact-head CI 38758358457 reached the original function-test pointer arrays.
+The fifth patch explicitly casts the 108 nonzero hexadecimal integer
+sentinels to void pointers in the six original cases. It preserves all
+120 array values, including the 12 NULL constants, all comparisons, algorithm
+calls, registered cases, assertions and strict compiler diagnostics. The
+first four patches are unchanged. This is generic test source compatibility,
+not a RISC-V runtime pass; replacement full target CI remains required.
 
 Separate downstream consumer checks exercise vector/list creation, empty
 state, values, size and destruction against staged shared/static and actual

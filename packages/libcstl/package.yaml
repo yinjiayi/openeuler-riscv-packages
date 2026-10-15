@@ -51,6 +51,14 @@
       "license": "LGPL-2.1-or-later",
       "upstream_status": "not-submitted",
       "remove_when": "An official release supplies correctly typed original representation-test arguments for current C compilers."
+    }, {
+      "file": "patches/0005-type-original-function-test-pointer-arrays.patch",
+      "sha256": "a2c52e449c88b06ec766c5cf66b1db8f369b79d56f5cc9a863838f30c59b72d7",
+      "purpose": "Explicitly type the 108 nonzero pointer sentinels in the six original function-test array fixtures; preserve every array value, NULL constant, algorithm call, comparison, case, assertion and strict compiler option.",
+      "source": "Original downstream test type compatibility against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b. Exact-head CI 38758358457 rejects the nonzero integer initializers of void-pointer arrays in ut_cstl_function.c under GCC 14 -Wint-conversion; the adjacent original tests already explicitly cast their pointer sentinels.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release explicitly types the original function-test pointer-array sentinels for current C compilers."
     }],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
