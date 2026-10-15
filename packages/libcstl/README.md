@@ -12,7 +12,7 @@ the official release's freshness or build success.
 Library source and installed headers carry LGPL-2.1-or-later notices.
 COPYING.LESSER and AUTHORS are installed unchanged. Generated Autotools
 helpers retain their own license notices/exceptions in the complete SRPM
-archive. Original packaging is Apache-2.0; all three patches are LGPL-2.1-or-later.
+archive. Original packaging is Apache-2.0; all four patches are LGPL-2.1-or-later.
 No upstream write has been made.
 
 The original default configure choices, shared/static libraries and complete
@@ -55,6 +55,15 @@ and explicitly views the same ten string objects through the range helper's
 declared byte-pointer interface. All assertions, values, allocations, cleanup
 and registered tests remain unchanged; the first two patches are unchanged.
 This corrects original test source types, not a target runtime pass.
+
+Exact-head CI 38747774662 reached the representation tests. The fourth
+patch supplies a real initialized char-string type-info pointer instead of
+a type-style enum in the null-representation negative test. The representation
+remains NULL, preserving the original first assertion under test, and the
+fixture is destroyed afterward. The round-trip test views the same `prep+1`
+address through the API's declared const-byte-pointer interface. Both original
+assertions and registered cases remain; no compiler diagnostic is suppressed.
+The first three patches are unchanged. Replacement target CI is still required.
 
 Separate downstream consumer checks exercise vector/list creation, empty
 state, values, size and destruction against staged shared/static and actual

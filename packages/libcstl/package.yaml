@@ -43,6 +43,14 @@
       "license": "LGPL-2.1-or-later",
       "upstream_status": "not-submitted",
       "remove_when": "An official release passes the correct basic-string object and explicitly typed byte range in the original tests."
+    }, {
+      "file": "patches/0004-correct-original-representation-test-arguments.patch",
+      "sha256": "913bf400fa410e408a6fe6ad7e6dc96879a9278565923d986b15afabbe555f09",
+      "purpose": "Supply valid char-string type information while preserving the NULL representation negative assertion and fixture cleanup, and explicitly view the unchanged round-trip data address through the API's const-byte-pointer interface. Keep both original assertions, registered tests and strict compiler options.",
+      "source": "Original downstream original-test type repair against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b. Exact-head CI 38747774662 rejects the enum-as-pointer and incompatible representation-pointer arguments in ut_cstl_basic_string_private.c lines 127 and 185. The implementation asserts the representation is non-NULL before using type information.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release supplies correctly typed original representation-test arguments for current C compilers."
     }],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
