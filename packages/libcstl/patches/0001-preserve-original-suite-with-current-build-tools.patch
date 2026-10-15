@@ -6,6 +6,8 @@ Upstream: https://github.com/activesys/libcstl/tree/f0fd5ccb817192614588915ab0b5
 Upstream-Status: Not submitted; downstream packaging compatibility only.
 
 Modern Automake needs subdir-objects for the cross-directory UT source list.
+Probe the archiver with AM_PROG_AR before LT_INIT as required by Automake's
+non-POSIX archiver handling; keep -Wall and -Werror unchanged.
 Official libcmocka-devel supplies the original cmockery-compatible API and
 library under cmockery/, not google/. Forward only that include path; retain
 all 98 original consumers and all test cases. No cmocka API substitution,
@@ -19,6 +21,8 @@ before the objects; this preserves its symbols with as-needed linking.
 @@ -6 +6 @@
 -AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 +AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
+@@ -13,0 +14 @@
++AM_PROG_AR
 --- /dev/null
 +++ b/compat/google/cmockery.h
 @@ -0,0 +1,8 @@

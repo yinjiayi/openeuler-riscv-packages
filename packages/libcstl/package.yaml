@@ -21,8 +21,8 @@
   "files": {
     "patches": [{
       "file": "patches/0001-preserve-original-suite-with-current-build-tools.patch",
-      "sha256": "f5ed49806dc8b2adb77507d4405ba65b04419d2373c1aad3458ede5a835ce393",
-      "purpose": "Preserve the complete original unit suite with modern Automake cross-directory objects, library-after-objects LDADD and the official cmockery compatibility header layout; no test removal or API substitution.",
+      "sha256": "4e08fe68007e6dcabd6e6eda19ff2b92c04173ba99c92abfaa997433e3685ad5",
+      "purpose": "Preserve the complete original unit suite with modern Automake cross-directory objects and AM_PROG_AR archiver detection, library-after-objects LDADD and the official cmockery compatibility header layout; keep -Wall/-Werror, with no test removal or API substitution.",
       "source": "Original downstream compatibility against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b; original test files unchanged.",
       "license": "LGPL-2.1-or-later",
       "upstream_status": "not-submitted",
