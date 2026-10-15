@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           rf24
-Version:        1.5.0
-Release:        2%{?dist}
+Version:        1.6.2
+Release:        1%{?dist}
 Summary:        Linux support for RF24 radio modules
 License:        GPL-2.0-or-later
 URL:            https://github.com/nRF24/RF24
-Source0:        rf24-1.5.0.tar.gz
+Source0:        v1.6.2.tar.gz
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
