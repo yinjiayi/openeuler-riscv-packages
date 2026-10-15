@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sexpect
-Version:        2.3.15
-Release:        4%{?dist}
+Version:        2.4.0
+Release:        1%{?dist}
 Summary:        Expect for shells
 License:        GPL-3.0-or-later
 URL:            https://github.com/clarkwang/sexpect
-Source0:        sexpect-2.3.15.tar.gz
+Source0:        v2.4.0.tar.gz
 Patch0:         patches/0001-cmake-shorten-test-socket-paths.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
