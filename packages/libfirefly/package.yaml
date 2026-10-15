@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/tbhaxor/firefly",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfirefly",
+        "package_name": "libfirefly",
+        "source": "aur",
+        "source_version": "3.1.0-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libfirefly.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v3.1.0 tag at 208ef838b3f9290d3d6272b476e0a15f7a6b17fb; all 27 archive files Git-verified. Upstream CMake still reports 3.0.0; package follows the verified 3.1.0 tag without changing source. Enable original tests and examples as upstream CI does, preserve all six sources/96 tests, and supply the exact GoogleTest 03597a01 dependency offline. GPL-3.0-only project plus BSD-3-Clause test dependency; documentation-only gitlink is not used by this build. Local repository/inert source validation only; real riscv64 build/install requires CI.",
+    "status": "active"
+  },
+  "package_id": "libfirefly",
+  "rpm": {
+    "license": "GPL-3.0-only AND BSD-3-Clause",
+    "name": "libfirefly",
+    "summary": "C++23 header library for fixed-length vector calculations"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-tbhaxor-firefly",
+    "homepage": "https://github.com/tbhaxor/firefly",
+    "release_api": "https://api.github.com/repos/tbhaxor/firefly/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/tbhaxor/firefly",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "3.1.0",
+    "latest_detected": "3.1.0",
+    "release": "1"
+  }
+}
