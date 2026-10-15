@@ -36,3 +36,13 @@ parser results and installed ownership remain remote exact-head CI gates.
 Target: openEuler 24.03 LTS SP3, riscv64/RVA23, pinned image lock. Local work
 only verifies fixed source, inert patch/recipe, metadata and trusted repository
 tests; no local upstream/RPM/QEMU execution or native/merge/publication claim.
+
+Initial target CI 38726897124 passed the original build and both eight-check
+source/staged fixture phases, then failed packaging with an empty debuginfo
+file list: only the static archive was installed. Retain the original default
+TestGFFParse ELF in /usr/libexec/libgff, owned by the main package. Keep RPM's
+normal debuginfo/debugsource processing enabled, rather than disabling it or
+inventing a shared-library target. The installed smoke test also runs all
+eight downstream fixtures against that original executable. Existing direct
+and CMake consumers remain unchanged. The replacement exact-head build,
+installed checks and physical RPM/SRPM products still require remote CI.

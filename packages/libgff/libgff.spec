@@ -62,6 +62,9 @@ cmake --build build --parallel %{_smp_build_ncpus}
 
 %install
 DESTDIR=%{buildroot} cmake --install build
+# Preserve the original default parser as an installed executable as well as
+# its source. This gives RPM's normal debuginfo pass a real ELF payload.
+install -D -m 0755 build/TestGFFParse %{buildroot}%{_libexecdir}/libgff/TestGFFParse
 install -d %{buildroot}%{_datadir}/libgff/tests
 install -m 0644 src/TestGFFParse.cpp fixture.gtf empty.gtf check-parser.sh \
     %{buildroot}%{_datadir}/libgff/tests/
@@ -78,6 +81,7 @@ bash check-parser.sh "$PWD/staged-parser" "$PWD/check-staged"
 %files
 %license BoostLicense.txt
 %doc Readme.md
+%{_libexecdir}/libgff/
 
 %files devel
 %{_includedir}/*.h
