@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           htop
-Version:        3.5.2
+Version:        3.5.3
 Release:        1%{?dist}
 Summary:        Interactive process viewer
 License:        GPL-2.0-or-later
 URL:            https://htop.dev
-Source0:        htop-3.5.2.tar.xz
+Source0:        htop-3.5.3.tar.xz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  ncurses-devel
