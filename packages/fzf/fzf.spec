@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           fzf
-Version:        0.74.3
+Version:        0.74.5
 Release:        1%{?dist}
 %global debug_package %{nil}
 Summary:        Command-line fuzzy finder
 License:        MIT
 URL:            https://github.com/junegunn/fzf
-Source0:        fzf-0.74.3.tar.gz
+Source0:        fzf-0.74.5-android_arm64.tar.gz
 BuildRequires:  golang
 BuildRequires:  make
 
