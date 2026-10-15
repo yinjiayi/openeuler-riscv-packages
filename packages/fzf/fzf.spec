@@ -65,6 +65,7 @@ FZF_VERSION=%{version} FZF_REVISION=source %make_build test
 %changelog
 * Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.74.5-1
 - Use the verified official source archive, not the Android arm64 release binary.
+- Bind the installed smoke version assertion to the installed RPM metadata.
 
 * Fri Aug 21 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.74.3-1
 - Package the upstream stable release with Go unit tests and shell integration.

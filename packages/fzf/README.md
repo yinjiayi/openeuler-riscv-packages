@@ -22,7 +22,12 @@ The official `v0.74.5` annotated tag resolves to commit
 against that commit's Git blob. The safe `fzf-0.74.5/` source root contains
 30 original Go test files. The previous update input was an Android arm64
 binary attachment, not buildable source. This correction preserves the
-original Makefile test target, installed files and smoke test. New-head target
+original Makefile test target and installed files. The first corrected-source
+CI run built and installed 0.74.5, but its smoke test still expected the old
+literal 0.74.3. The version assertion now compares the complete source-build
+version string against the installed RPM's VERSION metadata; the filter and
+all integration-file checks remain unchanged. This is a test-expectation fix,
+not a skipped check or a claim of a passing new-head installation. New-head target
 build/install results remain CI acceptance gates; source verification alone
 does not prove target build success. No distribution recipe or AUR content
 is executed during discovery or build.
