@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tail-tray
-Version:        0.2.34
-Release:        3%{?dist}
+Version:        0.2.36
+Release:        1%{?dist}
 Summary:        Tailscale tray menu and UI for the KDE Plasma Desktop
 License:        GPL-3.0-or-later
 URL:            https://github.com/SneWs/tail-tray
-Source0:        tail-tray-0.2.34.tar.gz
+Source0:        v0.2.36.tar.gz
 Patch0:         0001-qt65-translation-setup.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
