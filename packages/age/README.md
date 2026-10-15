@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 # age
 
+The 1.3.2 source-corrected CI built and installed the target RPM, then exposed
+the smoke test's stale `v1.3.1` version literal. All four installed commands
+are now checked by full-line match against `v` plus the installed RPM version.
+The encryption/decryption round trip, inspection checks and original Go test
+suite are unchanged. This correction is not a claim that the new head passed CI.
+
 This directory packages the official `https://github.com/FiloSottile/age`
 release `1.3.2` for openEuler 24.03 LTS SP3 on `riscv64`/RVA23. The official
 tag source archive is pinned by SHA-256 `b07c28c6c4bdafa272073a310b75bc22c49da8904585a89c30e5ca4233e63843`

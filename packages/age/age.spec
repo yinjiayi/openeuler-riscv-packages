@@ -56,6 +56,9 @@ done
 
 %changelog
 * Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.2-1
+- Bind all four installed command version checks to the installed RPM metadata.
+
+* Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.2-1
 - Use the verified official source archive, not the macOS amd64 release binary.
 
 * Fri Aug 21 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.1-1
