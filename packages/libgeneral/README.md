@@ -35,6 +35,15 @@ libraries; validate pkg-config, owned library resolution, fixture SHA-256,
 license material and RPM integrity. These are not upstream-suite or native
 concurrency/performance claims.
 
+CI run 38734790860 at head 32104cd14975d669d0b290f77bdc48ba38ce227e
+built both original libraries and completed the original make check target,
+then failed compiling the separately downstream fixture: its variable name
+`error(...)` collided with the public function-like logging macro in macros.h.
+Rename only that fixture variable to `fixtureException`; preserve the public
+macro, library sources, every fixture assertion and strict compiler options.
+This is a packaging-test naming repair, not an upstream or RISC-V source defect.
+Replacement target build/install evidence must come from the new head's CI.
+
 Target: openEuler 24.03 LTS SP3 riscv64/RVA23 and immutable ci/image.lock.
 Full official 18503/supplemental 1232 primary/filelists joins found no
 namespace/file collision; dependency-name/EQ closure is available. Non-EQ RPM
