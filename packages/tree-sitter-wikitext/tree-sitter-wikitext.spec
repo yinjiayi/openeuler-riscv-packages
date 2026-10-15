@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tree-sitter-wikitext
-Version:        0.1.1
+Version:        0.1.3
 Release:        1%{?dist}
 Summary:        RPMspec grammar for tree-sitter
 License:        MIT
 URL:            https://github.com/santhoshtr/tree-sitter-wikitext
-Source0:        tree-sitter-wikitext-0.1.1.tar.gz
+Source0:        v0.1.3.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
