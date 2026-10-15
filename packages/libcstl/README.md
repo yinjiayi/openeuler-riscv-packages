@@ -29,6 +29,15 @@ adjacent container test without changing the addresses or ten-element range.
 This fixes a real `%check` compilation error, not a RISC-V runtime failure;
 strict compiler options remain enabled. The complete original suite must pass CI.
 
+The subsequent exact-head CI run 38725148883 reached another original test:
+the list string node passed its generic byte buffer to a string_t cleanup
+parameter. The patch now makes the string-object view explicit in the four
+list/hash/AVL/RB node cleanup calls and the three matching string accessors,
+following the existing list accessor. Only pointer views change: all original
+allocations, values, assertions and cleanup calls remain. This is a source
+type-compatibility repair, not evidence of a target runtime pass. No compiler
+diagnostic is suppressed; replacement exact-head CI remains required.
+
 Separate downstream consumer checks exercise vector/list creation, empty
 state, values, size and destruction against staged shared/static and actual
 RPM-installed shared/static libraries. They are not upstream tests.

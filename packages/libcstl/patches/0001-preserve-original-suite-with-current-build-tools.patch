@@ -18,6 +18,10 @@ before the objects; this preserves its symbols with as-needed linking.
 GCC 14 diagnoses passing string_t pointers to the byte-range helper. Match
 the adjacent container test's explicit byte-pointer conversions, preserving
 both addresses, the ten-element range and every original assertion.
+Likewise expose string objects stored in generic node byte buffers as
+string_t pointers for their original cleanup and string access calls. The
+list test already uses this cast for its string accessor. Keep every
+allocation, assertion, value, cleanup and strict compiler flag unchanged.
 
 --- a/configure.ac
 +++ b/configure.ac
@@ -47,3 +51,32 @@ both addresses, the ten-element range and every original assertion.
 @@ -663 +663 @@
 -    _vector_init_elem_range_auxiliary(pvec, elems, elems+10);
 +    _vector_init_elem_range_auxiliary(pvec, (_byte_t*)elems, (_byte_t*)(elems+10));
+--- a/test/ut/ut_cstl_list_aux.c
++++ b/test/ut/ut_cstl_list_aux.c
+@@ -795 +795 @@
+-    _string_destroy_auxiliary(pt_node->_pby_data);
++    _string_destroy_auxiliary((string_t*)pt_node->_pby_data);
+--- a/test/ut/ut_cstl_hashtable_aux.c
++++ b/test/ut/ut_cstl_hashtable_aux.c
+@@ -984 +984 @@
+-    assert_true(strcmp(string_c_str(p->_pby_data), "") == 0);
++    assert_true(strcmp(string_c_str((string_t*)p->_pby_data), "") == 0);
+@@ -988 +988 @@
+-    _string_destroy_auxiliary(p->_pby_data);
++    _string_destroy_auxiliary((string_t*)p->_pby_data);
+--- a/test/ut/ut_cstl_avl_tree_aux.c
++++ b/test/ut/ut_cstl_avl_tree_aux.c
+@@ -1892 +1892 @@
+-    assert_true(strcmp(string_c_str(p->_pby_data), "") == 0);
++    assert_true(strcmp(string_c_str((string_t*)p->_pby_data), "") == 0);
+@@ -1894 +1894 @@
+-    _string_destroy_auxiliary(p->_pby_data);
++    _string_destroy_auxiliary((string_t*)p->_pby_data);
+--- a/test/ut/ut_cstl_rb_tree_aux.c
++++ b/test/ut/ut_cstl_rb_tree_aux.c
+@@ -5794 +5794 @@
+-    assert_true(strcmp(string_c_str(p->_pby_data), "") == 0);
++    assert_true(strcmp(string_c_str((string_t*)p->_pby_data), "") == 0);
+@@ -5796 +5796 @@
+-    _string_destroy_auxiliary(p->_pby_data);
++    _string_destroy_auxiliary((string_t*)p->_pby_data);
