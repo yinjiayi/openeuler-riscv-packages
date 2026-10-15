@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ter-music
-Version:        2.0.0
+Version:        2.1.0
 Release:        1%{?dist}
 Summary:        This is a music player that can be used in the terminal~
 License:        GPL-3.0-or-later
 URL:            https://github.com/YXZL985/ter-music
-Source0:        ter-music-2.0.0.tar.gz
+Source0:        v2.1.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
