@@ -190,6 +190,93 @@ class PackageUpdateTests(unittest.TestCase):
             self.assertEqual(entry["source_url"], archive.as_uri())
             self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
 
+    def test_anchored_json_tag_regex_keeps_official_source_and_digest(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            archive = root / "demo-2.0.tar.gz"
+            archive.write_bytes(b"official stable JSON tag archive")
+            releases = root / "tags.json"
+            write_json(releases, [{"name": "v2.0"}, {"name": "v3.0-rc1"}, {"name": "other-project-99.0"}])
+            package(root, "demo", releases.as_uri(), release_regex=r"^v?(?P<version>[0-9]+(?:\.[0-9]+)+)$", source_url_template=root.as_uri() + "/demo-{version}.tar.gz")
+            plan = root / "plan.json"
+            shard = root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entry = json.loads(shard.read_text())["entries"][0]
+            self.assertEqual(entry["status"], "update-available")
+            self.assertEqual(entry["version"], "2.0")
+            self.assertEqual(entry["tag"], "v2.0")
+            self.assertEqual(entry["source_url"], archive.as_uri())
+            self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
+
+    def test_json_release_regex_preserves_draft_prerelease_and_asset_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            archive = root / "reviewed-source.tar.gz"
+            archive.write_bytes(b"stable source asset")
+            checksum = hashlib.sha256(archive.read_bytes()).hexdigest()
+            releases = root / "releases.json"
+            write_json(releases, [
+                {"tag_name": "v2.0", "name": "Stable release", "sha256": checksum, "assets": [{"name": "demo-2.0.tar.gz", "browser_download_url": archive.as_uri()}]},
+                {"tag_name": "v9.0", "draft": True},
+                {"tag_name": "v8.0", "prerelease": True},
+            ])
+            package(root, "demo", releases.as_uri(), release_regex=r"^v?(?P<version>[0-9]+(?:\.[0-9]+)+)$", source_url_template="https://example.org/must-not-override-asset-{version}.tar.gz")
+            plan = root / "plan.json"
+            shard = root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entry = json.loads(shard.read_text())["entries"][0]
+            self.assertEqual(entry["status"], "update-available")
+            self.assertEqual(entry["version"], "2.0")
+            self.assertEqual(entry["tag"], "v2.0")
+            self.assertEqual(entry["source_url"], archive.as_uri())
+            self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
+
+            # Without digest fetching, the upstream checksum must still survive
+            # the identity-regex adapter rather than being recomputed locally.
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard), "--no-source-digest"], root)
+            preserved = json.loads(shard.read_text())["entries"][0]
+            self.assertEqual(preserved["sha256"], checksum)
+
+    def test_json_regex_mismatch_and_invalid_json_remain_visible_failures(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            mismatch = root / "mismatch.json"
+            malformed = root / "malformed.json"
+            write_json(mismatch, [{"name": "unrelated-2.0"}, {"name": "v3.0-rc1"}])
+            malformed.write_text('[{"tag_name": "v2.0"}', encoding="utf-8")
+            for identifier, feed in (("mismatch", mismatch), ("malformed", malformed)):
+                package(root, identifier, feed.as_uri(), release_regex=r"^v?(?P<version>[0-9]+(?:\.[0-9]+)+)$", source_url_template="https://example.org/{version}.tar.gz")
+            plan = root / "plan.json"
+            shard = root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entries = {row["package_id"]: row for row in json.loads(shard.read_text())["entries"]}
+            self.assertEqual(entries["mismatch"]["status"], "failed")
+            self.assertIn("no stable releases", entries["mismatch"]["failure"]["message"])
+            self.assertEqual(entries["malformed"]["status"], "failed")
+            self.assertIn("invalid JSON", entries["malformed"]["failure"]["message"])
+
+    def test_json_numeric_capture_does_not_hide_original_prerelease_suffix(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            archive = root / "demo-v2.0.tar.gz"
+            archive.write_bytes(b"official archive uses original tag identity")
+            releases = root / "tags.json"
+            write_json(releases, [{"name": "v2.0"}, {"name": "v9.0-rc1"}])
+            package(root, "demo", releases.as_uri(), release_regex=r"^v?(?P<version>[0-9]+(?:\.[0-9]+)+)", source_url_template=root.as_uri() + "/demo-{tag}.tar.gz")
+            plan = root / "plan.json"
+            shard = root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entry = json.loads(shard.read_text())["entries"][0]
+            self.assertEqual(entry["status"], "update-available")
+            self.assertEqual(entry["version"], "2.0")
+            self.assertEqual(entry["tag"], "v2.0")
+            self.assertEqual(entry["source_url"], archive.as_uri())
+            self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
+
 
 if __name__ == "__main__":
     unittest.main()

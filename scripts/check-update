@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import pathlib
 import re
 import urllib.parse
@@ -211,9 +212,8 @@ def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optio
     }
 
 
-def releases_from_index(content: bytes, release_regex: str, source_url_template: Optional[str]) -> List[Dict[str, Any]]:
-    """Extract stable versions from a reviewed official HTML/XML index."""
-
+def release_pattern(release_regex: str) -> re.Pattern[str]:
+    """Compile the reviewed version selector with the same bounded policy."""
     if len(release_regex) > 1024:
         raise ToolError("release_regex exceeds the 1024-character safety limit", 1)
     try:
@@ -222,6 +222,38 @@ def releases_from_index(content: bytes, release_regex: str, source_url_template:
         raise ToolError("invalid release_regex: %s" % exc, 1) from exc
     if pattern.groups < 1 and "version" not in pattern.groupindex:
         raise ToolError("release_regex must capture a version", 1)
+    return pattern
+
+
+def releases_from_json(document: Any, release_regex: str) -> List[Dict[str, Any]]:
+    """Apply the reviewed regex to release identity fields, not JSON syntax.
+
+    Keep the original record so draft/prerelease flags, source assets and
+    checksum metadata still pass through the ordinary stable/source gates.
+    A regex mismatch remains visible as no stable releases; no fallback to
+    unfiltered tags or a different upstream endpoint is performed.
+    """
+    pattern = release_pattern(release_regex)
+    selected: List[Dict[str, Any]] = []
+    for record in releases_from_document(document):
+        identity = first_value(record, ["version", "tag_name", "name"])
+        if not isinstance(identity, str):
+            continue
+        # The reviewed selector may capture only the numeric portion. Check
+        # stability on the complete original identity before replacing it.
+        if is_prerelease({**record, "version": identity}):
+            continue
+        match = pattern.search(identity)
+        if match is None:
+            continue
+        version = match.groupdict().get("version") or match.group(1)
+        selected.append({**record, "version": str(version).strip(), "tag_name": record.get("tag_name") or identity})
+    return selected
+
+
+def releases_from_index(content: bytes, release_regex: str, source_url_template: Optional[str]) -> List[Dict[str, Any]]:
+    """Extract stable versions from a reviewed official HTML/XML index."""
+    pattern = release_pattern(release_regex)
     text = content.decode("utf-8", errors="replace")
     releases: List[Dict[str, Any]] = []
     seen = set()
@@ -265,6 +297,15 @@ def load_release_feed(
             path = pathlib.Path(release_api)
             content = path.read_bytes()
             metadata = {"path": str(path), "sha256": sha256_bytes(content), "cached": False}
+        # Anchored tag selectors such as ^v?(... )$ describe an identity,
+        # not a complete serialized JSON document. Preserve typed release
+        # records before normalization rather than scanning their JSON text.
+        if content.lstrip().startswith((b"[", b"{")):
+            try:
+                document = json.loads(content)
+            except (UnicodeDecodeError, ValueError) as exc:
+                raise ToolError("release endpoint returned invalid JSON: %s" % exc, 1) from exc
+            return releases_from_json(document, release_regex), metadata
         return releases_from_index(content, release_regex, source_url_template), metadata
     document, metadata = load_location(
         release_api, timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter
