@@ -7,6 +7,7 @@ License:        AGPL-3.0-or-later AND Zlib AND LicenseRef-Josuttis-1999
 URL:            https://github.com/agordon/libgtextutils
 Source0:        https://codeload.github.com/agordon/libgtextutils/tar.gz/1f03f41e7c4740164aae44570fa8d05c3f3e7ed6#/libgtextutils-0.7.tar.gz
 Patch0:         0001-preserve-stream-and-sort-interfaces-with-current-cxx.patch
+Patch1:         0002-avoid-duplicate-string-conversion-ambiguity.patch
 BuildRequires:  gcc gcc-c++ glibc-devel libstdc++-devel make autoconf automake libtool
 BuildRequires:  pkgconf gzip coreutils findutils grep sed patch binutils
 
@@ -26,6 +27,7 @@ sources, replayed against the installed shared library with assertions.
 %prep
 %setup -q -n libgtextutils-1f03f41e7c4740164aae44570fa8d05c3f3e7ed6
 %patch -P 0 -p1
+%patch -P 1 -p1
 autoreconf --force --install --verbose
 cat > run-installed-tests.sh <<'SH'
 #!/usr/bin/env bash

@@ -21,6 +21,20 @@ comparison bodies or type aliases. The original pipe test's intended empty
 buffer is initialized before strcat; every assertion/case remains. No upstream
 write was made. Remove when an official release supplies equivalent fixes.
 
+Patch0002 addresses the observed GCC14 failure in unchanged original
+`test_text_reader.cpp` (`line = reader`). Competing by-value and const-reference
+string conversions made copy/move assignment ambiguous. Keep the implicit
+const-string-reference conversion, which supports string copies, assignments
+and reference binding; remove only the redundant by-value overload. The
+`line_string`/`line_stream` methods and implicit stream conversion are unchanged.
+A consumer directly naming `reader.operator std::string()` must instead copy
+the implicit reference or `line_string()`; this narrow source-interface change
+is explicit, not a claim of perfect source compatibility. All ten original
+default tests and all assertions remain unchanged by this repair. This is
+upstream-generic, not a RISC-V defect. Failure evidence: Package CI
+38793276327 at 0a8eb781445958fbdb95ae5f4e9b6dacb2b08453. No local upstream
+execution is performed; fresh exact-head CI must establish the repair result.
+
 Keep debug, strict wall/Werror, assertions and every original default feature.
 `make check` runs all ten original default Automake programs, including gzip
 pipes and file-descriptor streams. Two tuple parser programs retain their
