@@ -15,20 +15,114 @@ from typing import Any, Dict, List, Mapping, Sequence
 from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, parse_now, run_main
 
 
-GH_FIELDS = [
-    "number",
-    "title",
-    "url",
-    "author",
-    "headRefName",
-    "headRefOid",
-    "headRepository",
-    "headRepositoryOwner",
-    "isCrossRepository",
-    "labels",
-    "statusCheckRollup",
-    "updatedAt",
-]
+CONTEXT_FIELDS = """
+totalCount pageInfo { hasNextPage endCursor }
+nodes { __typename
+  ... on CheckRun { id name status conclusion detailsUrl }
+  ... on StatusContext { id context state targetUrl }
+}
+"""
+QUEUE_QUERY = """
+query($owner:String!, $name:String!, $cursor:String) {
+  repository(owner:$owner, name:$name) {
+    pullRequests(states:OPEN, labels:["repair-queued"], first:100, after:$cursor,
+                 orderBy:{field:CREATED_AT, direction:ASC}) {
+      totalCount pageInfo { hasNextPage endCursor }
+      nodes {
+        number title url author { login } headRefName headRefOid
+        headRepository { name nameWithOwner owner { login } }
+        isCrossRepository updatedAt
+        labels(first:100) { totalCount pageInfo { hasNextPage endCursor } nodes { name } }
+        commits(last:1) { nodes { commit { oid statusCheckRollup { contexts(first:100) {
+          %s
+        } } } } }
+      }
+    }
+  }
+}
+""" % CONTEXT_FIELDS
+CONTEXT_QUERY = """
+query($owner:String!, $name:String!, $head:String!, $cursor:String) {
+  repository(owner:$owner, name:$name) {
+    object(expression:$head) { ... on Commit { oid statusCheckRollup {
+      contexts(first:100, after:$cursor) { %s }
+    } } }
+  }
+}
+""" % CONTEXT_FIELDS
+
+
+def graphql(gh: str, args: argparse.Namespace, query: str, **variables: str) -> Mapping[str, Any]:
+    owner, name = args.repo.split("/", 1)
+    command = [gh, "api", "graphql", "-f", "query=" + query, "-f", "owner=" + owner, "-f", "name=" + name]
+    for key, value in variables.items():
+        if value is not None:
+            command.extend(["-f", key + "=" + value])
+    completed = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False, timeout=180)
+    if completed.returncode != 0:
+        raise ToolError("gh GraphQL queue read failed: %s" % completed.stderr.strip(), 1)
+    try:
+        document = json.loads(completed.stdout)
+        repository = document["data"]["repository"]
+        if document.get("errors") or not isinstance(repository, Mapping):
+            raise ValueError("missing repository or GraphQL errors")
+        return repository
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ToolError("gh returned an incomplete GraphQL queue response", 1) from exc
+
+
+def connection_page(connection: Mapping[str, Any]) -> tuple:
+    """Reject malformed or incomplete pages instead of emitting a partial queue."""
+    try:
+        nodes, total, info = connection["nodes"], connection["totalCount"], connection["pageInfo"]
+        more, cursor = info["hasNextPage"], info["endCursor"]
+        if not isinstance(nodes, list) or not all(isinstance(n, Mapping) for n in nodes):
+            raise ValueError("invalid nodes")
+        if not isinstance(total, int) or total < 0 or not isinstance(more, bool):
+            raise ValueError("invalid count/page flag")
+        if more and (not nodes or not isinstance(cursor, str) or not cursor):
+            raise ValueError("missing next cursor")
+        return nodes, total, cursor if more else None
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ToolError("incomplete queue connection", 1) from exc
+
+
+def complete_contexts(gh: str, args: argparse.Namespace, pr: Mapping[str, Any]) -> List[Mapping[str, Any]]:
+    try:
+        commit = pr["commits"]["nodes"][0]["commit"]
+        if commit["oid"] != pr["headRefOid"]:
+            raise ValueError("head changed")
+        rollup = commit["statusCheckRollup"]
+        if rollup is None:
+            return []
+        connection = rollup["contexts"]
+        result: List[Mapping[str, Any]] = []
+        ids, cursors, expected = set(), set(), None
+        while True:
+            nodes, total, cursor = connection_page(connection)
+            if expected is None:
+                expected = total
+            if total != expected:
+                raise ValueError("context count changed")
+            for node in nodes:
+                identity = node["id"]
+                if not identity or identity in ids:
+                    raise ValueError("duplicate context")
+                ids.add(identity)
+                result.append(node)
+            if cursor is None:
+                if len(result) != expected:
+                    raise ValueError("missing contexts")
+                return result
+            if cursor in cursors:
+                raise ValueError("repeated context cursor")
+            cursors.add(cursor)
+            commit = graphql(gh, args, CONTEXT_QUERY, head=pr["headRefOid"], cursor=cursor)["object"]
+            if commit["oid"] != pr["headRefOid"]:
+                raise ValueError("head changed")
+            connection = commit["statusCheckRollup"]["contexts"]
+    except (KeyError, IndexError, TypeError, ValueError) as exc:
+        raise ToolError("incomplete exact-head queue contexts", 1) from exc
 
 
 def parser() -> argparse.ArgumentParser:
@@ -87,29 +181,38 @@ def load_prs(args: argparse.Namespace) -> List[Mapping[str, Any]]:
     gh = shutil.which("gh")
     if not gh:
         raise ToolError("gh is required; authenticate locally with `gh auth login` or process-level GH_TOKEN", 1)
-    command = [
-        gh,
-        "pr",
-        "list",
-        "--repo",
-        args.repo,
-        "--state",
-        "open",
-        "--label",
-        "repair-queued",
-        "--limit",
-        "1000",
-        "--json",
-        ",".join(GH_FIELDS),
-    ]
-    completed = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
-    if completed.returncode != 0:
-        raise ToolError("gh pr list failed: %s" % completed.stderr.strip(), 1)
-    try:
-        document = json.loads(completed.stdout)
-    except json.JSONDecodeError as exc:
-        raise ToolError("gh returned invalid JSON", 1) from exc
-    return [item for item in document if isinstance(item, Mapping)]
+    # Repository connections do not have the Search API's 1,000-result cap.
+    result: List[Mapping[str, Any]] = []
+    seen, cursors, cursor, expected = set(), set(), None, None
+    while True:
+        document = graphql(gh, args, QUEUE_QUERY, cursor=cursor)
+        try:
+            nodes, total, cursor = connection_page(document["pullRequests"])
+            if expected is None:
+                expected = total
+            if total != expected:
+                raise ValueError("queue membership changed; rescan")
+            for pr in nodes:
+                if pr["number"] in seen:
+                    raise ValueError("duplicate PR")
+                seen.add(pr["number"])
+                pr_labels, label_count, label_cursor = connection_page(pr["labels"])
+                if label_cursor is not None or len(pr_labels) != label_count:
+                    raise ValueError("incomplete PR labels")
+                normalized = dict(pr)
+                normalized["labels"] = pr_labels
+                normalized["headRepositoryOwner"] = (pr.get("headRepository") or {}).get("owner")
+                normalized["statusCheckRollup"] = complete_contexts(gh, args, pr)
+                result.append(normalized)
+            if cursor is None:
+                if len(result) != expected:
+                    raise ValueError("missing PRs")
+                return result
+            if cursor in cursors:
+                raise ValueError("repeated queue cursor")
+            cursors.add(cursor)
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ToolError("incomplete paginated repair queue", 1) from exc
 
 
 def trusted_queue(args: argparse.Namespace, prs: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
