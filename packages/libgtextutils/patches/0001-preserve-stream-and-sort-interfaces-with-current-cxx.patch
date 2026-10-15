@@ -1,0 +1,38 @@
+From: openEuler RISC-V packaging maintainers
+Subject: [PATCH] Preserve stream and comparator interfaces with current C++
+
+Use the explicit stream-to-bool conversion, retaining !fail() semantics.
+Replace deprecated binary_function inheritance with its three public typedefs;
+the comparison bodies and public type aliases remain unchanged. Initialize the
+pipe test's intended empty string before strcat; keep all cases/assertions.
+Upstream-Status: Not submitted (downstream compatibility)
+License: AGPL-3.0-or-later
+
+--- a/src/gtextutils/text_line_reader.cpp
++++ b/src/gtextutils/text_line_reader.cpp
+@@ -47 +47 @@
+-	return input_stream ;
++	return static_cast<bool>(input_stream) ;
+--- a/src/gtextutils/natsort.h
++++ b/src/gtextutils/natsort.h
+@@ -81,2 +81,5 @@
+-struct natural_sort_predicate : public std::binary_function<std::string, std::string, bool>
+-{
++struct natural_sort_predicate
++{
++	typedef std::string first_argument_type;
++	typedef std::string second_argument_type;
++	typedef bool result_type;
+@@ -89,2 +92,5 @@
+-struct natural_sort_ignore_case_predicate : public std::binary_function<std::string, std::string, bool>
+-{
++struct natural_sort_ignore_case_predicate
++{
++	typedef std::string first_argument_type;
++	typedef std::string second_argument_type;
++	typedef bool result_type;
+--- a/tests/test_pipe_fitter.c
++++ b/tests/test_pipe_fitter.c
+@@ -38 +38 @@
+-	char str[1000];
++	char str[1000] = {0};
