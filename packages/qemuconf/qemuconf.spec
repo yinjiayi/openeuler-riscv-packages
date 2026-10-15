@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           qemuconf
-Version:        0.2.1
+Version:        0.2.2
 Release:        1%{?dist}
 Summary:        Utility to use qemu configuration files for VM
 License:        MIT
 URL:            https://github.com/Gottox/qemuconf
-Source0:        qemuconf-0.2.1.tar.gz
+Source0:        v0.2.2.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 
