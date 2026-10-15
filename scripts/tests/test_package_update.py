@@ -217,11 +217,11 @@ class PackageUpdateTests(unittest.TestCase):
             checksum = hashlib.sha256(archive.read_bytes()).hexdigest()
             releases = root / "releases.json"
             write_json(releases, [
-                {"tag_name": "v2.0", "name": "Stable release", "sha256": checksum, "assets": [{"name": "demo-2.0.tar.gz", "browser_download_url": archive.as_uri()}]},
+                {"tag_name": "v2.0", "name": "Stable release", "source_url": archive.as_uri(), "sha256": checksum, "assets": [{"name": "demo-2.0.tar.gz", "browser_download_url": archive.as_uri()}]},
                 {"tag_name": "v9.0", "draft": True},
                 {"tag_name": "v8.0", "prerelease": True},
             ])
-            package(root, "demo", releases.as_uri(), release_regex=r"^v?(?P<version>[0-9]+(?:\.[0-9]+)+)$", source_url_template="https://example.org/must-not-override-asset-{version}.tar.gz")
+            package(root, "demo", releases.as_uri(), release_regex=r"^v?(?P<version>[0-9]+(?:\.[0-9]+)+)$", source_url_template=archive.as_uri())
             plan = root / "plan.json"
             shard = root / "shard.json"
             run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
@@ -276,6 +276,56 @@ class PackageUpdateTests(unittest.TestCase):
             self.assertEqual(entry["tag"], "v2.0")
             self.assertEqual(entry["source_url"], archive.as_uri())
             self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
+
+    def scan_source_contract(self, root, records, template):
+        feed = root / "release.json"
+        write_json(feed, records)
+        package(root, "demo", feed.as_uri(), release_regex=r"^v?(?P<version>[0-9]+(?:\.[0-9]+)+)$", source_url_template=template)
+        plan = root / "plan.json"
+        result = root / "result.json"
+        run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+        run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(result)], root)
+        return json.loads(result.read_bytes())["entries"][0]
+
+    def test_reviewed_template_beats_binary_asset_and_rehashes_source(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            source = root / "source-2.0.tar.gz"
+            source.write_bytes(b"correct source fixture")
+            binary = root / "demo-2.0-darwin-amd64.tar.gz"
+            binary.write_bytes(b"wrong platform fixture")
+            result = self.scan_source_contract(root, [dict(tag_name="v2.0", sha256=hashlib.sha256(binary.read_bytes()).hexdigest(), assets=[dict(name=binary.name, browser_download_url=binary.as_uri())])], root.as_uri() + "/source-{version}.tar.gz")
+            self.assertEqual(result["source_url"], source.as_uri())
+            self.assertEqual(result["sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_canonical_tarball_beats_unreviewed_asset(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            source = root / "source.tar.gz"
+            source.write_bytes(b"official forge source fixture")
+            binary = root / "demo-android_arm64.tar.gz"
+            binary.write_bytes(b"wrong binary fixture")
+            result = self.scan_source_contract(root, [dict(tag_name="v2.0", tarball_url=source.as_uri(), sha256=hashlib.sha256(binary.read_bytes()).hexdigest(), assets=[dict(name=binary.name, browser_download_url=binary.as_uri())])], None)
+            self.assertEqual(result["source_url"], source.as_uri())
+            self.assertEqual(result["sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_assets_without_source_contract_fail_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            binary = root / "demo-linux.tar.gz"
+            binary.write_bytes(b"not proven source")
+            result = self.scan_source_contract(root, [dict(tag_name="v2.0", assets=[dict(name=binary.name, browser_download_url=binary.as_uri())])], None)
+            self.assertEqual(result["status"], "failed")
+            self.assertIn("no official source URL", result["failure"]["message"])
+
+    def test_invalid_template_does_not_fall_back_to_asset(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            binary = root / "demo.tar.gz"
+            binary.write_bytes(b"not chosen")
+            result = self.scan_source_contract(root, [dict(tag_name="v2.0", assets=[dict(name=binary.name, browser_download_url=binary.as_uri())])], root.as_uri() + "/{unknown}.tar.gz")
+            self.assertEqual(result["status"], "failed")
+            self.assertIn("invalid source_url_template", result["failure"]["message"])
 
 
 if __name__ == "__main__":
