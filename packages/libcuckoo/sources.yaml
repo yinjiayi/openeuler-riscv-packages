@@ -1,0 +1,21 @@
+{
+  "package_id": "libcuckoo",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4d1672bc26cc681662e326966d614df712c55358dc6aa605a62baba65e53908c"
+      },
+      "filename": "libcuckoo-0.3.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/efficient/libcuckoo/tar.gz/ea8c36c65bf9cf83aaf6b0db971248c6ae3686cf",
+      "version": "0.3.1"
+    }
+  ]
+}
