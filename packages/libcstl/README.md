@@ -17,12 +17,17 @@ No upstream write has been made.
 
 The original default configure choices, shared/static libraries and complete
 Automake `make check` suite (`TESTS = libcstl_ut`) are retained. All original
-test source and cases remain unchanged. The sole patch enables Automake's
-cross-directory object layout, places the same test library after objects
+test cases and assertions remain unchanged. The sole patch enables Automake's
+cross-directory object layout, detects the archiver with AM_PROG_AR before
+Libtool initialization, places the same test library after objects
 in LDADD, and forwards legacy `google/cmockery.h`
 includes to the official target's `cmockery/cmockery.h`. It does not replace
 cmockery with cmocka's API, drop tests or suppress assertions. Remove it when
-upstream supports those layouts. The complete original suite must pass CI.
+upstream supports those layouts. It also makes the original string-array
+test's byte-range pointer conversions explicit for GCC 14, matching the
+adjacent container test without changing the addresses or ten-element range.
+This fixes a real `%check` compilation error, not a RISC-V runtime failure;
+strict compiler options remain enabled. The complete original suite must pass CI.
 
 Separate downstream consumer checks exercise vector/list creation, empty
 state, values, size and destruction against staged shared/static and actual

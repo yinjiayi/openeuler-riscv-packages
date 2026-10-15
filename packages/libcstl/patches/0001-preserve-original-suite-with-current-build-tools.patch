@@ -15,6 +15,9 @@ assertion suppression or RISC-V source workaround. Remove when upstream
 supports the current build tools and target cmockery include layout itself.
 Keep the same test library in LDADD, after the objects, rather than LDFLAGS
 before the objects; this preserves its symbols with as-needed linking.
+GCC 14 diagnoses passing string_t pointers to the byte-range helper. Match
+the adjacent container test's explicit byte-pointer conversions, preserving
+both addresses, the ten-element range and every original assertion.
 
 --- a/configure.ac
 +++ b/configure.ac
@@ -39,3 +42,8 @@ before the objects; this preserves its symbols with as-needed linking.
 @@ -149 +149 @@
 -libcstl_ut_LDFLAGS = -lcmockery
 +libcstl_ut_LDADD = -lcmockery
+--- a/test/ut/ut_cstl_vector_aux.c
++++ b/test/ut/ut_cstl_vector_aux.c
+@@ -663 +663 @@
+-    _vector_init_elem_range_auxiliary(pvec, elems, elems+10);
++    _vector_init_elem_range_auxiliary(pvec, (_byte_t*)elems, (_byte_t*)(elems+10));

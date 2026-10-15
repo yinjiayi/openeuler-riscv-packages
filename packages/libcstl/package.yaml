@@ -21,12 +21,12 @@
   "files": {
     "patches": [{
       "file": "patches/0001-preserve-original-suite-with-current-build-tools.patch",
-      "sha256": "4e08fe68007e6dcabd6e6eda19ff2b92c04173ba99c92abfaa997433e3685ad5",
-      "purpose": "Preserve the complete original unit suite with modern Automake cross-directory objects and AM_PROG_AR archiver detection, library-after-objects LDADD and the official cmockery compatibility header layout; keep -Wall/-Werror, with no test removal or API substitution.",
-      "source": "Original downstream compatibility against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b; original test files unchanged.",
+      "sha256": "b7198fae0fcfa4c0c208eeeda3e6ab3b04346308e974e9c2f41ce5696052ad69",
+      "purpose": "Preserve the complete original unit suite with modern Automake cross-directory objects and AM_PROG_AR archiver detection, library-after-objects LDADD and the official cmockery compatibility header layout; explicitly convert the string-array test endpoints to the helper's byte-pointer type for GCC 14, keeping addresses, range, cases, assertions and -Wall/-Werror unchanged.",
+      "source": "Original downstream compatibility against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b; one explicit byte-pointer conversion matches the adjacent original container test; no test removal or API substitution.",
       "license": "LGPL-2.1-or-later",
       "upstream_status": "not-submitted",
-      "remove_when": "An official release supports current Automake and the target cmockery include layout without the compatibility header."
+      "remove_when": "An official release supports current Automake, the target cmockery include layout and correctly typed test byte-range endpoints without these compatibility changes."
     }],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
