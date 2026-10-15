@@ -8,6 +8,11 @@ test "$(pkg-config --variable=libdir 1541img)" = /usr/lib64
 test "$(pkg-config --variable=includedir 1541img)" = /usr/include
 test -f /usr/share/licenses/lib1541img/LICENSE.txt
 test -f /usr/share/licenses/lib1541img/LICENSE-zimk
+test -s /usr/share/doc/1541img/README.md
+test -s /usr/share/doc/1541img/CHANGES.txt
+cmp /usr/share/doc/1541img/LICENSE.txt /usr/share/licenses/lib1541img/LICENSE.txt
+rpm -qf /usr/share/doc/1541img/README.md /usr/share/doc/1541img/CHANGES.txt \
+    /usr/share/doc/1541img/LICENSE.txt
 library=$(readlink -f /usr/lib64/lib1541img.so)
 test "$library" = /usr/lib64/lib1541img.so.1.1.0
 rpm -qf "$library"

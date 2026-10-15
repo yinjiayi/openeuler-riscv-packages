@@ -141,7 +141,7 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} ./verify-staged
 
 %files
 %license LICENSE.txt LICENSE-zimk
-%doc README.md CHANGES.txt
+%doc %{_datadir}/doc/1541img/
 %{_libdir}/lib1541img.so.1
 %{_libdir}/lib1541img.so.1.1.0
 
@@ -153,5 +153,6 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} ./verify-staged
 
 %changelog
 * Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1-1
+- Own all three documents installed by upstream's original install target.
 - Pin official v1.1 and exact zimk submodule; preserve default shared build.
 - Add source, staged and installed downstream disk-image consumer checks.

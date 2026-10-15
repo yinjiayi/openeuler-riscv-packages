@@ -41,3 +41,17 @@ No local source, RPM or QEMU build was run. Hosted PR CI must prove the locked
 openEuler24.03-LTS-SP3/riscv64/RVA23 target. Native hardware, merge and public
 release are separate gates. Other candidates' missing frameworks and a
 Dashboard API outage do not freeze independent safe hosted PR intake.
+
+Initial hosted Package CI run38700819899/attempt1 at
+`17442fb8ecc86539bcbf646ad6c9d7495372d79d` passed dependency installation,
+the original default shared build, and source/staged downstream consumers.
+RPM packaging then failed because upstream's unchanged install target placed
+README.md, CHANGES.txt and LICENSE.txt under `/usr/share/doc/1541img/`, while
+the file manifest listed only separately copied documentation. The manifest
+now owns that complete upstream-installed directory; no source, feature,
+default target or consumer assertion is removed. Installed smoke additionally
+checks all three documents' ownership and the license bytes. The nonfatal
+`zimk/.git` diagnostic was not the terminating failure and is not patched.
+Full build/install and physical RPM/SRPM acceptance for the repaired head
+remain pending fresh hosted CI; an earlier successful build phase alone does
+not establish a usable RPM or successful installation.
