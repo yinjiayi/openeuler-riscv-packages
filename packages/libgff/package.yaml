@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "package_id": "libgff",
+  "rpm": {"name": "libgff", "summary": "C++ GFF and GTF annotation parser library", "license": "BSL-1.0"},
+  "upstream": {
+    "component": "github.com-combine-lab-libgff",
+    "homepage": "https://github.com/COMBINE-lab/libgff",
+    "source_repository": "https://github.com/COMBINE-lab/libgff",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/COMBINE-lab/libgff/tags?per_page=100",
+    "release_regex": "^v([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_url_template": null
+  },
+  "version": {"current": "2.0.1", "latest_detected": "2.0.1", "release": "1"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "aur", "package_name": "libgff", "package_base": "libgff", "source_version": "2.0.1-3", "evidence_url": "https://github.com/COMBINE-lab/libgff", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "libgff", "package_base": "libgff", "source_version": "2.0.0-3", "evidence_url": "https://github.com/COMBINE-lab/libgff", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "libgff", "package_base": "libgff", "source_version": "2.0.0-3build1", "evidence_url": "https://github.com/COMBINE-lab/libgff", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "native_reason": null, "network_during_build": false, "timeout_minutes": 60},
+  "files": {
+    "spec": "libgff.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh",
+    "patches": [{"file": "patches/0001-use-configured-library-install-directory.patch", "sha256": "880ec47887f9f106a1c1bf38d91fe624f6fce4f334b5b64c666173325bd959f7", "purpose": "Honor configured libdir for the static archive and CMake metadata; preserve all original default targets, source, flags, flat header layout and original CMake version values.", "source": "Original downstream packaging against COMBINE-lab/libgff v2.0.1 commit 112721772d5c118f8ddf059395e88057b00067e6.", "license": "BSL-1.0", "upstream_status": "not-submitted", "remove_when": "An official release honors configured library installation directories consistently."}]
+  },
+  "maintenance": {"maintainers": ["yinjiayi"], "status": "active", "notes": "All 25 fixed official source files verified; preserve original default parser/static library. No registered CTest suite; downstream fixtures exercise original parser source at build, staged and installed phases. Full target DNF/build/install remains CI. No local upstream/RPM/QEMU execution or native/merge/publication claim."},
+  "updates": {"enabled": true, "release_provider": "official-github-tags", "last_checked_at": null, "last_successful_check_at": null}
+}
