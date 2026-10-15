@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/uim/libgcroots",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libgcroots",
+        "package_name": "libgcroots",
+        "source": "fedora",
+        "source_version": "0.3.2-14.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libgcroots.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official tag 0.3.2 and all 40 source Git blobs verified. Preserve empty original TESTS/check_PROGRAMS, check/distcheck, all defaults and unmodified 0.3.0/API1 header macros. Downstream lifecycle/nesting/stack-range/snapshot fixture is distinct from upstream semantic tests and full GC/native evidence. Binary Boehm-GC; retain both source-only macro permissions and complete official GPL3 text. No local upstream/RPM/QEMU execution, auto-merge or publication claim.",
+    "status": "active"
+  },
+  "package_id": "libgcroots",
+  "rpm": {
+    "license": "Boehm-GC",
+    "name": "libgcroots",
+    "summary": "Non-threaded garbage collector root acquisition library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-uim-libgcroots",
+    "homepage": "https://github.com/uim/libgcroots",
+    "release_api": "https://api.github.com/repos/uim/libgcroots/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/uim/libgcroots",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.3.2",
+    "latest_detected": "0.3.2",
+    "release": "1"
+  }
+}
