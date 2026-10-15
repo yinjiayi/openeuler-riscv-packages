@@ -22,21 +22,21 @@
     "patches": [
       {
         "file": "patches/0001-cmake-fallback-to-pkg-config-for-sdl2.patch",
-        "sha256": "126a7c0d5857c1703c86f53d3364d01d8e4becfea3281c454823224dcba65c20",
-        "purpose": "Use the official SDL2 pkg-config metadata when a distribution does not ship an SDL2 CMake config.",
-        "source": "Downstream adaptation of raptor 0.8.1 CMakeLists.txt",
         "license": "GPL-2.0-or-later",
-        "upstream_status": "not-submitted",
-        "remove_when": "Upstream supports pkg-config fallback or openEuler SDL2 provides the expected CMake targets."
+        "purpose": "Use the official SDL2 pkg-config metadata when a distribution does not ship an SDL2 CMake config.",
+        "remove_when": "Upstream supports pkg-config fallback or openEuler SDL2 provides the expected CMake targets.",
+        "sha256": "126a7c0d5857c1703c86f53d3364d01d8e4becfea3281c454823224dcba65c20",
+        "source": "Downstream adaptation of raptor 0.8.1 CMakeLists.txt",
+        "upstream_status": "not-submitted"
       },
       {
         "file": "patches/0002-cmake-use-pkg-config-for-alsa.patch",
-        "sha256": "2863a4bebb5080bb1c76c6aa3c80c34609a86cf52771007bd265da7ba4e51fd0",
-        "purpose": "Use the official ALSA pkg-config metadata when CMake cannot infer the openEuler lib64 search path.",
-        "source": "Downstream adaptation of raptor 0.8.1 CMakeLists.txt",
         "license": "GPL-2.0-or-later",
-        "upstream_status": "not-submitted",
-        "remove_when": "CMake detects the compiler ABI under the approved RISC-V build route or upstream uses an ALSA imported target."
+        "purpose": "Use the official ALSA pkg-config metadata when CMake cannot infer the openEuler lib64 search path.",
+        "remove_when": "CMake detects the compiler ABI under the approved RISC-V build route or upstream uses an ALSA imported target.",
+        "sha256": "2863a4bebb5080bb1c76c6aa3c80c34609a86cf52771007bd265da7ba4e51fd0",
+        "source": "Downstream adaptation of raptor 0.8.1 CMakeLists.txt",
+        "upstream_status": "not-submitted"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -66,7 +66,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-10-15T21:20:06Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
   },
@@ -80,8 +80,8 @@
     "source_url_template": "https://github.com/skynettx/raptor/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "0.8.1",
-    "latest_detected": "0.8.1",
+    "current": "0.8.2",
+    "latest_detected": "0.8.2",
     "release": "6"
   }
 }
