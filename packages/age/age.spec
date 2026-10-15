@@ -3,12 +3,12 @@
 %global debug_package %{nil}
 
 Name:           age
-Version:        1.3.1
+Version:        1.3.2
 Release:        1%{?dist}
 Summary:        A simple, modern and secure file encryption tool
 License:        BSD-3-Clause
 URL:            https://github.com/FiloSottile/age
-Source0:        age-1.3.1.tar.gz
+Source0:        age-v1.3.2-darwin-amd64.tar.gz
 BuildRequires:  golang
 
 %description
