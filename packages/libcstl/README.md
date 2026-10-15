@@ -12,7 +12,7 @@ the official release's freshness or build success.
 Library source and installed headers carry LGPL-2.1-or-later notices.
 COPYING.LESSER and AUTHORS are installed unchanged. Generated Autotools
 helpers retain their own license notices/exceptions in the complete SRPM
-archive. Original packaging is Apache-2.0; both patches are LGPL-2.1-or-later.
+archive. Original packaging is Apache-2.0; all three patches are LGPL-2.1-or-later.
 No upstream write has been made.
 
 The original default configure choices, shared/static libraries and complete
@@ -47,6 +47,14 @@ operation is preserved. The first patch is byte-for-byte unchanged. This is
 test source type compatibility, not evidence of a target runtime pass; the
 complete original suite and downstream consumers still require replacement
 exact-head remote CI. No diagnostic, default feature or test is disabled.
+
+Exact-head CI 38741530253 exposed two more original test argument errors.
+The third patch passes the allocated basic-string object to the
+invalid-pby-string assertion, rather than the address of its local pointer,
+and explicitly views the same ten string objects through the range helper's
+declared byte-pointer interface. All assertions, values, allocations, cleanup
+and registered tests remain unchanged; the first two patches are unchanged.
+This corrects original test source types, not a target runtime pass.
 
 Separate downstream consumer checks exercise vector/list creation, empty
 state, values, size and destruction against staged shared/static and actual

@@ -8,6 +8,7 @@ URL:            https://github.com/activesys/libcstl
 Source0:        https://codeload.github.com/activesys/libcstl/tar.gz/f0fd5ccb817192614588915ab0b5dbebbc6ed58b#/libcstl-2.3.0.tar.gz
 Patch0:         0001-preserve-original-suite-with-current-build-tools.patch
 Patch1:         0002-type-original-test-pointer-sentinels.patch
+Patch2:         0003-pass-original-basic-string-test-object-and-byte-view.patch
 BuildRequires:  gcc glibc-devel make autoconf automake libtool libcmocka-devel
 BuildRequires:  coreutils findutils grep sed patch binutils
 
@@ -28,6 +29,7 @@ labelled downstream consumer exercising installed containers.
 %setup -q -n libcstl-f0fd5ccb817192614588915ab0b5dbebbc6ed58b
 %patch -P 0 -p1
 %patch -P 1 -p1
+%patch -P 2 -p1
 autoreconf --force --install --verbose
 cat > verify-containers.c <<'C'
 #include <stdio.h>

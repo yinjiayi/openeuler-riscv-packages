@@ -35,6 +35,14 @@
       "license": "LGPL-2.1-or-later",
       "upstream_status": "not-submitted",
       "remove_when": "An official release explicitly types the original test pointer sentinel constants for current C compilers."
+    }, {
+      "file": "patches/0003-pass-original-basic-string-test-object-and-byte-view.patch",
+      "sha256": "6f864dcad8191d5b53728caa504cea63997c02bbfe3d73f4a77f3a5afa08d0d0",
+      "purpose": "Pass the allocated basic-string object instead of the address of its pointer in the invalid-pby-string assertion, and explicitly view the same ten string objects through the range helper's declared byte-pointer interface; retain all cases, assertions, values, allocations, cleanup and strict diagnostics.",
+      "source": "Original downstream original-test type repair against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b. Exact-head CI 38741530253 reports both incompatible argument types in ut_cstl_basic_string_aux.c lines 35 and 653.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release passes the correct basic-string object and explicitly typed byte range in the original tests."
     }],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
