@@ -10,6 +10,7 @@ Source0:        libdxfrw-1.0.1.tar.gz
 Source1:        COPYING.GPL3
 Patch0:         0001-correct-installed-pkgconfig-paths.patch
 Patch1:         0002-preserve-entity-dispatch-handoff.patch
+Patch2:         0003-preserve-pkgconfig-template-variables.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -186,6 +187,13 @@ export PKG_CONFIG_LIBDIR="$prefix/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${root%/}"
 test "$(pkg-config --modversion libdxfrw)" = 1.0.1
 pkg-config --validate libdxfrw
+read -r -a pc_includes <<< "$(pkg-config --cflags-only-I libdxfrw)"
+test "${#pc_includes[@]}" -eq 1
+test "${pc_includes[0]}" = "-I$prefix/include/libdxfrw"
+read -r -a pc_libraries <<< "$(pkg-config --libs libdxfrw)"
+test "${#pc_libraries[@]}" -eq 2
+test "${pc_libraries[0]}" = "-L$prefix/lib64"
+test "${pc_libraries[1]}" = -ldxfrw
 cp check-dxf.cpp dx_iface.cpp dx_iface.h dx_data.h CMakeLists.txt fixture.dxf "$work/"
 cd "$work"
 c++ -std=c++11 -O2 -UNDEBUG $(pkg-config --cflags libdxfrw) check-dxf.cpp dx_iface.cpp $(pkg-config --libs libdxfrw) -o pc-check

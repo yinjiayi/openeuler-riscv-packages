@@ -37,6 +37,15 @@
         "license": "GPL-2.0-or-later",
         "upstream_status": "downstream-only",
         "remove_when": "An adopted official stable release preserves the successful entity-handler handoff without this patch."
+      },
+      {
+        "file": "patches/0003-preserve-pkgconfig-template-variables.patch",
+        "sha256": "f4d332682641b05a47c7a3698359c9cda88279968d4336d3e31a4af39743edff",
+        "purpose": "Preserve pkg-config variables during CMake template expansion so installed consumers receive the real include/library paths.",
+        "source": "Original downstream metadata correction after exact-head Package CI 38882588742 installed headers but failed installed-header consumer compilation.",
+        "license": "Apache-2.0",
+        "upstream_status": "downstream-only",
+        "remove_when": "An adopted official stable release preserves pkg-config variables while configuring its metadata."
       }
     ],
     "smoke_test": "tests/smoke.sh",

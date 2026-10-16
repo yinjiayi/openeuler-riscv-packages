@@ -122,3 +122,22 @@ relaxed. Zero-fuzz/zero-offset application, exact textual replacement and
 reverse restoration are checked with both GNU and Apple patch. Those inert
 checks and trusted tooling tests do not prove parser execution; replacement
 exact-head hosted build/install and physical RPM/SRPM acceptance are required.
+
+## pkg-config template repair
+
+Replacement Package CI 38882588742 passed both original CLI conversions,
+then failed compilation of the unchanged installed-header consumer. The
+build log explicitly records installation of `drw_interface.h`; this is not
+a missing dependency. CMake's original `configure_file` invocation also
+expands `${libdir}` and `${includedir}`, which belong to pkg-config, before
+pkg-config can read them. This produces empty library/include substitutions.
+
+`0003-preserve-pkgconfig-template-variables.patch` uses `@ONLY` and explicit
+`@CMAKE_*@` substitutions to retain pkg-config's own variables. It is an
+original Apache-2.0 downstream packaging correction; remove it when an
+adopted official stable release preserves those variables itself. The
+installed contract now additionally asserts the exact sysrooted include
+and library flags before compiling. Existing semantic replays, original
+source inputs, build targets and prior patches are unchanged. Inert template
+expansion and zero-fuzz/zero-offset patch checks are not a target execution
+claim; replacement hosted CI and physical products remain required.
