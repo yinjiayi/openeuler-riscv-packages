@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/flonatel/libdontdie",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdontdie",
+        "package_name": "libdontdie",
+        "source": "debian",
+        "source_version": "1.2.0-3"
+      },
+      {
+        "evidence_url": "https://github.com/flonatel/libdontdie",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdontdie",
+        "package_name": "libdontdie",
+        "source": "ubuntu",
+        "source_version": "1.2.0-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdontdie.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 1.2.0 fixed archive and all 13 Git blobs verified. Preserve original all/testapps targets and all four C/Java applications. MIT plus complete embedded Oracle/Andreas Java BSD-3-Clause texts retained. No automated upstream semantic suite; downstream socket-option LD_PRELOAD modes and bounded original interfaces explicitly separate from privileged native timing/performance. No patch, upstream/local RPM/QEMU execution, auto-merge, build/install/product or release success claim. Actual hosted dependency/build/install and physical product acceptance remain required.",
+    "status": "active"
+  },
+  "package_id": "libdontdie",
+  "rpm": {
+    "license": "MIT AND BSD-3-Clause",
+    "name": "libdontdie",
+    "summary": "TCP keepalive socket interposition library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-flonatel-libdontdie",
+    "homepage": "https://github.com/flonatel/libdontdie",
+    "release_api": "https://api.github.com/repos/flonatel/libdontdie/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/flonatel/libdontdie",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.2.0",
+    "latest_detected": "1.2.0",
+    "release": "1"
+  }
+}
