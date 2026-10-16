@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-hexdump-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-HexDump-0.04.tar.gz",
+      "version": "0.04",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Data-HexDump-0.04.tar.gz",
+      "digests": {
+        "sha256": "bc36f404438ac36ad2b9295539227d36f99cd1623f1e347af77c594c40ccbcf8"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release LICENSE and sole installed module POD explicitly grant redistribution under Perl's GPL/Artistic terms. Publisher CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
