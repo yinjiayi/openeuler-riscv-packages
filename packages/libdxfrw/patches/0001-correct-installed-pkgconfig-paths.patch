@@ -1,0 +1,22 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Correct configured pkg-config library and include paths
+
+The CMake install puts headers in include/libdxfrw, not libdxfrw1, and a
+literal vertical bar in libdir makes downstream linking fail. Keep the
+upstream library, converter, exports and all build targets unchanged.
+Downstream packaging correction for 1.0.1; no upstream write performed.
+
+--- a/libdxfrw.pc.in
++++ b/libdxfrw.pc.in
+@@ -1,4 +1,4 @@
+ prefix=${CMAKE_INSTALL_PREFIX}
+ exec_prefix=${CMAKE_INSTALL_PREFIX}
+-libdir=|${CMAKE_INSTALL_FULL_LIBDIR}
++libdir=${CMAKE_INSTALL_FULL_LIBDIR}
+ includedir=${CMAKE_INSTALL_FULL_INCLUDEDIR}
+@@ -7,4 +7,4 @@
+ Description: c++ library to read/write dxf files in binary and ascii form
+ Version: ${PROJECT_VERSION}
+ Libs: -L${libdir} -ldxfrw
+-Cflags: -I${includedir}/libdxfrw${PROJECT_VERSION_MAJOR}
++Cflags: -I${includedir}/libdxfrw
