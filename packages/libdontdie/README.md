@@ -23,7 +23,12 @@ disclaimer. Its entire unchanged source is also installed as `COPYING.Java`
 in the binary license directory; original test sources remain with the
 test applications and in the SRPM. `MIT AND BSD-3-Clause` describes these
 upstream materials; new packaging/contract code is Apache-2.0 and does not
-relicense upstream code. No distribution recipe or external source code is
+relicense upstream code. The binary RPM's complete expression is
+`MIT AND BSD-3-Clause AND Apache-2.0`. The full Apache-2.0 text, embedded in
+the spec from repository main 399385d1f45ce7f70ef126e200cb4659b610de4a,
+is installed as `COPYING.Apache-2.0`; the SRPM remains self-contained.
+No original source, build target, contract program or test requirement is
+changed by this license-completeness correction. No distribution recipe or external source code is
 executed locally, and no upstream write is made.
 
 ## Default build and dependencies
