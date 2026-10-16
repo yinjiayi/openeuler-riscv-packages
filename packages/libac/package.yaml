@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/ac000/libac",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libac",
+        "package_name": "libac",
+        "source": "aur",
+        "source_version": "2.0.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libac.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v2.0.0 fixed source/all45 Git blobs verified; original default library and example compilation retained, no patches/warning suppression. Upstream make test only compiles a print-oriented program, not a semantic pass. Separate offline fail-first O0/O2 public-header/SONAME consumer planned for staged and installed library. Primary LGPL2.1-only, separately scoped common LGPL2.1later/BSD3 and source-only FreeBSD Apache2 notices/texts retained. First CI failed in DNF before compilation: supplemental libxcrypt-devel 4.5.2 conflicts with fixed SP3 glibc/static-provider closure. Pin official libxcrypt-devel 4.4.36-3.oe2403sp3 for build and devel consumers; removal requires jointly validated compatible provider set/image. Replacement DNF/build/install/physical acceptance pending. No local upstream/RPM/QEMU or native/publication claim.",
+    "status": "active"
+  },
+  "package_id": "libac",
+  "rpm": {
+    "license": "LGPL-2.1-only AND LGPL-2.1-or-later AND BSD-3-Clause AND Apache-2.0",
+    "name": "libac",
+    "summary": "Miscellaneous C utility library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-ac000-libac",
+    "homepage": "https://github.com/ac000/libac",
+    "release_api": "https://api.github.com/repos/ac000/libac/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/ac000/libac",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "2.0.0",
+    "latest_detected": "2.0.0",
+    "release": "1"
+  }
+}
