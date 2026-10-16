@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-typography-perl",
+  "rpm": {
+    "name": "perl-Text-Typography",
+    "summary": "Convert ASCII punctuation to HTML typography entities",
+    "license": "BSD-3-Clause"
+  },
+  "upstream": {
+    "component": "libtext-typography-perl",
+    "homepage": "https://metacpan.org/dist/Text-Typography",
+    "source_repository": "https://metacpan.org/dist/Text-Typography",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TS/TSIBLEY/",
+    "release_regex": "Text-Typography-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TS/TSIBLEY/Text-Typography-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.01",
+    "release": "1",
+    "latest_detected": "0.01"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-typography-perl",
+        "package_base": "libtext-typography-perl",
+        "source_version": "0.01-5",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-typography-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libtext-typography-perl",
+        "package_base": "libtext-typography-perl",
+        "source_version": "0.01-5",
+        "evidence_url": "https://packages.debian.org/source/trixie/libtext-typography-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-typography-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu/Debian key maps to official CPAN 0.01. Publisher CHECKSUMS SHA-256 and safe archive verified; module POD contains the full 3-clause BSD license although META calls license unknown. Official SP3 primary has no exact RPM/provider. Both default upstream tests (load and POD) passed locally with Test::Pod, and installed smoke covers ellipsis, dash and code-block behavior; target RPM/smoke remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
