@@ -6,9 +6,11 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import pathlib
 import re
 import urllib.parse
+from html.parser import HTMLParser
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
 from _lib import (
@@ -183,23 +185,21 @@ def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optio
     version_text = re.sub(r"^[vV](?=\d)", "", version_text)
     if not version_text or is_prerelease({**raw, "version": version_text}):
         return None
-    # Prefer an explicit upstream asset or reviewed template over generic
-    # forge-generated tag archives.  This keeps update PRs on the same release
-    # artifact channel that was reviewed during onboarding.
-    source_url = first_value(raw, ["source_url", "archive_url", "download_url"])
-    if not source_url:
-        assets = raw.get("assets") if isinstance(raw.get("assets"), list) else []
-        source_assets = [item for item in assets if isinstance(item, Mapping) and str(item.get("name", "")).endswith((".tar.gz", ".tar.xz", ".tgz"))]
-        if source_assets:
-            source_url = first_value(source_assets[0], ["browser_download_url", "url"])
-    if not source_url and template:
+    # The package's reviewed source channel takes precedence. An archive suffix
+    # on a release asset does not prove it contains source (age/fzf also upload
+    # platform binaries as .tar.gz). Never guess a source from arbitrary assets.
+    explicit_source = first_value(raw, ["source_url", "archive_url", "download_url"])
+    source_url = explicit_source
+    if template:
         try:
             source_url = template.format(version=version_text, tag=first_value(raw, ["tag_name"], version_text))
         except (KeyError, ValueError) as exc:
             raise ToolError("invalid source_url_template: %s" % exc)
     if not source_url:
         source_url = raw.get("tarball_url")
-    digest = first_value(raw, ["sha256", "checksum"])
+    # A feed checksum may describe another asset. Preserve it only when the
+    # explicit source URL is the selected URL; otherwise hash selected bytes.
+    digest = first_value(raw, ["sha256", "checksum"]) if explicit_source and source_url == explicit_source else None
     if isinstance(digest, str) and digest.startswith("sha256:"):
         digest = digest.split(":", 1)[1]
     return {
@@ -211,9 +211,8 @@ def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optio
     }
 
 
-def releases_from_index(content: bytes, release_regex: str, source_url_template: Optional[str]) -> List[Dict[str, Any]]:
-    """Extract stable versions from a reviewed official HTML/XML index."""
-
+def release_pattern(release_regex: str) -> re.Pattern[str]:
+    """Compile the reviewed version selector with the same bounded policy."""
     if len(release_regex) > 1024:
         raise ToolError("release_regex exceeds the 1024-character safety limit", 1)
     try:
@@ -222,10 +221,63 @@ def releases_from_index(content: bytes, release_regex: str, source_url_template:
         raise ToolError("invalid release_regex: %s" % exc, 1) from exc
     if pattern.groups < 1 and "version" not in pattern.groupindex:
         raise ToolError("release_regex must capture a version", 1)
+    return pattern
+
+
+def releases_from_json(document: Any, release_regex: str) -> List[Dict[str, Any]]:
+    """Apply the reviewed regex to release identity fields, not JSON syntax.
+
+    Keep the original record so draft/prerelease flags, source assets and
+    checksum metadata still pass through the ordinary stable/source gates.
+    A regex mismatch remains visible as no stable releases; no fallback to
+    unfiltered tags or a different upstream endpoint is performed.
+    """
+    pattern = release_pattern(release_regex)
+    selected: List[Dict[str, Any]] = []
+    for record in releases_from_document(document):
+        identity = first_value(record, ["version", "tag_name", "name"])
+        if not isinstance(identity, str):
+            continue
+        # The reviewed selector may capture only the numeric portion. Check
+        # stability on the complete original identity before replacing it.
+        if is_prerelease({**record, "version": identity}):
+            continue
+        match = pattern.search(identity)
+        if match is None:
+            continue
+        version = match.groupdict().get("version") or match.group(1)
+        selected.append({**record, "version": str(version).strip(), "tag_name": record.get("tag_name") or identity})
+    return selected
+
+
+def releases_from_index(content: bytes, release_regex: str, source_url_template: Optional[str]) -> List[Dict[str, Any]]:
+    """Extract stable versions from a reviewed official HTML/XML index."""
+    pattern = release_pattern(release_regex)
     text = content.decode("utf-8", errors="replace")
     releases: List[Dict[str, Any]] = []
     seen = set()
-    for match in pattern.finditer(text):
+    matches = list(pattern.finditer(text))
+    # An anchored filename selector describes a linked release identity, not
+    # the complete HTML document. Only adapt identities when the reviewed
+    # template independently specifies the source; never promote an arbitrary
+    # href (possibly a binary or external URL) into an official source URL.
+    if source_url_template:
+        class LinkedIdentities(HTMLParser):
+            def handle_starttag(self, tag: str, attrs: List[tuple[str, Optional[str]]]) -> None:
+                if tag.lower() != "a":
+                    return
+                for key, value in attrs:
+                    if key.lower() != "href" or not value:
+                        continue
+                    try:
+                        identity = urllib.parse.unquote(urllib.parse.urlsplit(value).path.rsplit("/", 1)[-1])
+                    except ValueError:
+                        continue
+                    if identity and not is_prerelease({"version": identity}):
+                        matches.extend(pattern.finditer(identity))
+
+        LinkedIdentities(convert_charrefs=True).feed(text)
+    for match in matches:
         version = match.groupdict().get("version") or match.group(1)
         version = str(version).strip().lstrip("vV")
         if not version or version in seen or is_prerelease({"version": version}):
@@ -265,6 +317,15 @@ def load_release_feed(
             path = pathlib.Path(release_api)
             content = path.read_bytes()
             metadata = {"path": str(path), "sha256": sha256_bytes(content), "cached": False}
+        # Anchored tag selectors such as ^v?(... )$ describe an identity,
+        # not a complete serialized JSON document. Preserve typed release
+        # records before normalization rather than scanning their JSON text.
+        if content.lstrip().startswith((b"[", b"{")):
+            try:
+                document = json.loads(content)
+            except (UnicodeDecodeError, ValueError) as exc:
+                raise ToolError("release endpoint returned invalid JSON: %s" % exc, 1) from exc
+            return releases_from_json(document, release_regex), metadata
         return releases_from_index(content, release_regex, source_url_template), metadata
     document, metadata = load_location(
         release_api, timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter
