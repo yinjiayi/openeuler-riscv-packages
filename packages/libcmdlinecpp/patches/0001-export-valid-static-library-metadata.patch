@@ -1,0 +1,31 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Export the selected library name and find its exact static file
+
+The library filename was set in the src subdirectory only, leaving the parent
+pkg-config Libs field empty. The CMake config also used cmdlinecpp.a as a base
+name rather than the complete existing libcmdlinecpp.a filename. Preserve the
+default static library and all original examples; correct only consumer metadata.
+Read the existing LIBLOGCPP_DOTTED_VERSION macro actually provided by the
+upstream version header, without changing that public header.
+Upstream: not submitted (local packaging scope)
+License: LGPL-3.0-or-later
+
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -14 +14 @@
+-	set( CMDLINECPP_PKGCONFIG_LIBNAME "libcmdlinecpp.so" )
++	set( CMDLINECPP_PKGCONFIG_LIBNAME "libcmdlinecpp.so" PARENT_SCOPE )
+@@ -17 +17 @@
+-	set( CMDLINECPP_PKGCONFIG_LIBNAME "libcmdlinecpp.a" )
++	set( CMDLINECPP_PKGCONFIG_LIBNAME "libcmdlinecpp.a" PARENT_SCOPE )
+--- a/lib/LibCmdLineCPPConfig.cmake
++++ b/lib/LibCmdLineCPPConfig.cmake
+@@ -39 +39 @@
+-find_library(LIBCMDLINECPP_LIBRARY_STATIC NAMES cmdlinecpp.a)
++find_library(LIBCMDLINECPP_LIBRARY_STATIC NAMES libcmdlinecpp.a)
+@@ -43 +43 @@
+-         REGEX "^#define[\t ]+LIBCMDLINECPP_DOTTED_VERSION[\t ]+\".*\"")
++         REGEX "^#define[\t ]+LIBLOGCPP_DOTTED_VERSION[\t ]+\".*\"")
+@@ -45 +45 @@
+-    string(REGEX REPLACE "^#define[\t ]+LIBCMDLINECPP_DOTTED_VERSION[\t ]+\"([^\"]*)\".*" "\\1"
++    string(REGEX REPLACE "^#define[\t ]+LIBLOGCPP_DOTTED_VERSION[\t ]+\"([^\"]*)\".*" "\\1"
