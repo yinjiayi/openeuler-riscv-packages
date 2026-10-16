@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-convexhull-perl",
+  "rpm": {
+    "name": "perl-Math-ConvexHull",
+    "summary": "Calculate two-dimensional convex hulls in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-convexhull-perl",
+    "homepage": "https://metacpan.org/dist/Math-ConvexHull",
+    "source_repository": "https://metacpan.org/dist/Math-ConvexHull",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/",
+    "release_regex": "Math-ConvexHull-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Math-ConvexHull-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.04",
+    "release": "1",
+    "latest_detected": "1.04"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-convexhull-perl",
+        "package_base": "libmath-convexhull-perl",
+        "source_version": "1.4-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/arm64/misc/libmath-convexhull-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-convexhull-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.4-2 source orig tarball has the same MD5 as official CPAN Math-ConvexHull 1.04; package-version spelling differs but source identity is exact. Publisher CHECKSUMS pins SHA-256. Upstream module POD and README grant Perl 5 terms. Official target primary metadata has no same-name RPM or module provider and contains Perl, List::Util, Data::Dumper, Test::Pod and Test::Pod::Coverage. All four original t files retained; target BuildRequires enable both optional POD tests. Local macOS lacks Test::Pod::Coverage, so the target must establish its actual execution."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
