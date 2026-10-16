@@ -39,3 +39,13 @@ QEMU build is executed locally. Hosted target CI, genuine install logs and
 independently inspected RPM/SRPM bytes remain required for acceptance. The
 separate upstream benchmark is not the default test target, and no native
 performance or RVA23 hardware result is claimed.
+
+The first hosted run, `38876385971` at `be268558`, passed audited dependency
+installation, default compilation, the original `make test`, eight direct test
+exits and all eight unchanged staged original-program replays. It failed only
+when RPM attempted to generate an empty automatic debuginfo package for this
+static-only payload. The recipe now omits that empty automatic subpackage;
+source, archive/header, compiler `-g`/`-UNDEBUG` flags, original tests and installed
+smoke checks are unchanged. This is not a skipped build or test, and the failed
+run supplies no accepted RPM/SRPM or installed-package result. Replacement
+exact-head hosted build/install and physical product verification are required.

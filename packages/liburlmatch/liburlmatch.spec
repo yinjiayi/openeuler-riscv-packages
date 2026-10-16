@@ -5,6 +5,8 @@ Release:        1%{?dist}
 Summary:        Static URL wildcard matching development library
 License:        AGPL-3.0-only
 URL:            https://github.com/clbr/urlmatch
+# Upstream installs only a static archive: no standalone ELF debug payload.
+%global debug_package %{nil}
 %global upstream_commit 24f72a0ea15402d28143fc84ca60b13f3dd033a7
 Source0:        liburlmatch-1.0.tar.gz
 BuildRequires:  gcc
