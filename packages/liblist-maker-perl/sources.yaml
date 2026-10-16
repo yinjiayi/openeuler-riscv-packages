@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liblist-maker-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "List-Maker-0.005.tar.gz",
+      "version": "0.005",
+      "url": "https://cpan.metacpan.org/authors/id/D/DC/DCONWAY/List-Maker-0.005.tar.gz",
+      "digests": {
+        "sha256": "8684a6c1e10b64928008bb705f7072c4aa9ef2833b7bc1d5af11e21a6db89cbe"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The copyright holder's official source README and module POD expressly grant the same terms as Perl itself; the archive SHA-256 matches publisher CPAN CHECKSUMS."
+      }
+    }
+  ]
+}
