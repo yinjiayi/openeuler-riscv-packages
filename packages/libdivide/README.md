@@ -20,6 +20,9 @@ and the full official SPDX v3.27.0 CC0 text, fixed to
 `a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499`.
 SRPM retains the original source and both legal sources. No source patches.
 
+The RPM installs headers, CMake metadata and source fixtures, not ELF binaries;
+omit the inapplicable implicit debug subpackage, not any build/test target.
+
 Keep all seven original Release build programs and all eight default CTest
 entries (four original programs and their four build dependencies). Do not
 reduce tester's six integer types, random iterations, divlu corpus, or the

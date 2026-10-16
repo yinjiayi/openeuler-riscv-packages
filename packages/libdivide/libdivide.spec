@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
+# Only headers, CMake metadata and source fixtures are installed, not ELF.
+# Keep every default executable build/test but omit an empty debug subpackage.
+%global debug_package %{nil}
+
 Name:           libdivide
 Version:        5.4.0
 Release:        1%{?dist}
