@@ -190,6 +190,55 @@ class PackageUpdateTests(unittest.TestCase):
             self.assertEqual(entry["source_url"], archive.as_uri())
             self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
 
+    def test_anchored_html_filename_keeps_reviewed_source_and_digest(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            archive = root / "demo-2.0.tar.gz"
+            archive.write_bytes(b"reviewed stable source, not the linked binary")
+            index = root / "index.html"
+            index.write_text(
+                '<html><a href="https://untrusted.invalid/binaries/demo-%32.0.tar.gz?download=1&amp;mode=binary">download</a>'
+                '<a href="demo-2.0.tar.gz">duplicate</a>'
+                '<a href="demo-9.0-rc1.tar.gz">prerelease</a>'
+                '<a href="other-99.0.tar.gz">unrelated</a></html>', encoding="utf-8",
+            )
+            package(root, "demo", index.as_uri(), release_regex=r"^demo-(?P<version>[0-9]+\.[0-9]+)\.tar\.gz$", source_url_template=root.as_uri() + "/demo-{version}.tar.gz")
+            plan, shard = root / "plan.json", root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entry = json.loads(shard.read_bytes())["entries"][0]
+            self.assertEqual(entry["status"], "update-available")
+            self.assertEqual(entry["version"], "2.0")
+            self.assertEqual(entry["source_url"], archive.as_uri())
+            self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
+
+    def test_anchored_html_without_source_contract_still_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            index = root / "index.html"
+            index.write_text('<a href="https://untrusted.invalid/demo-2.0.tar.gz">download</a>', encoding="utf-8")
+            package(root, "demo", index.as_uri(), release_regex=r"^demo-([0-9]+\.[0-9]+)\.tar\.gz$")
+            plan, shard = root / "plan.json", root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entry = json.loads(shard.read_bytes())["entries"][0]
+            self.assertEqual(entry["status"], "failed")
+            self.assertIn("no stable releases", entry["failure"]["message"])
+
+    def test_html_identity_adapter_keeps_prerelease_suffix_visible(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            index = root / "index.html"
+            # The selector intentionally captures only the numeric prefix.
+            index.write_text('<a href="demo-9.0-rc1.tar.gz">download</a>', encoding="utf-8")
+            package(root, "demo", index.as_uri(), release_regex=r"^demo-([0-9]+\.[0-9]+)", source_url_template=root.as_uri() + "/demo-{version}.tar.gz")
+            plan, shard = root / "plan.json", root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entry = json.loads(shard.read_bytes())["entries"][0]
+            self.assertEqual(entry["status"], "failed")
+            self.assertIn("no stable releases", entry["failure"]["message"])
+
     def test_anchored_json_tag_regex_keeps_official_source_and_digest(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
