@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 Name:           gifsicle
-Version:        1.96
+Version:        1.98
 Release:        1%{?dist}
 Summary:        Command-line tools for manipulating GIF images
 License:        GPL-2.0-only
 URL:            https://www.lcdf.org/gifsicle/
-Source0:        gifsicle-%{version}.tar.gz
+Source0:        gifsicle-1.98.tar.gz
 
 BuildRequires:  coreutils
 BuildRequires:  diffutils
