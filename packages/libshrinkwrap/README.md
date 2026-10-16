@@ -13,7 +13,7 @@ C++ header/CMake paths and capabilities were independently checked against
 complete official and supplemental primary/filelists metadata. All build and
 consumer dependencies are supplied; metadata closure is not real DNF evidence.
 
-Original MIT sources/notices stay unchanged. The unused `dep/zstd.cmake` has a
+Original MIT notices stay unchanged. The unused `dep/zstd.cmake` has a
 separate BSD notice and refers to missing LICENSE/PATENTS. Complete official
 zstd v1.1.4 companion texts are additional fixed inputs; its BSD LICENSE is
 byte-identical to the v1.3.2 license named in original requirements. PATENTS is
@@ -26,9 +26,19 @@ all 11 original registered CTest commands and the original test source are
 preserved, with assertions enabled. Original random seek seeds remain random;
 failure sequences are printed by upstream. Staged and installed CMake consumer
 replays compile the unchanged original test source and run the same 11 commands,
-checking original header/test SHA-256 and CMake include-prefix relocation.
+checking explicitly patched header SHA-256, unchanged original test SHA-256
+and CMake include-prefix relocation.
 Those two replays are not two new upstream suites. Original optional cget files
 remain in the source archive but are not executed or used to download dependencies.
+
+Package CI 38968376636 failed real target compilation before any test ran:
+the gz/xz/zstd public headers use `std::uint8_t`/`std::uint64_t` without
+including their defining standard header. One scoped MIT portability patch adds
+only `<cstdint>` in those three headers. No algorithm, test, assertion, build
+flag or compression backend is changed. All 14 original archive files remain
+SHA-256/Git-blob-bound; the three installed patched headers have explicit new
+hashes. Replacement-head hosted compilation, all original tests, installed replay
+and physical RPM/SRPM acceptance are still required, not inferred from this fix.
 
 Only headers, CMake metadata, source tests and documentation are installed,
 therefore the RPM is noarch and debug subpackages are inapplicable. Target

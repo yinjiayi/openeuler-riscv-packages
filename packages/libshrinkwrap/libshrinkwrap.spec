@@ -10,6 +10,7 @@ URL:            https://github.com/jonathonl/shrinkwrap
 Source0:        https://codeload.github.com/jonathonl/shrinkwrap/tar.gz/eaac292b255b5de45d6546a794ffbd103335bc40#/libshrinkwrap-1.2.0.tar.gz
 Source1:        https://raw.githubusercontent.com/facebook/zstd/ebf275912aeb046b9379ec48cfd0e336a542f590/LICENSE#/ZSTD-LICENSE
 Source2:        https://raw.githubusercontent.com/facebook/zstd/ebf275912aeb046b9379ec48cfd0e336a542f590/PATENTS#/ZSTD-PATENTS
+Patch0:         0001-include-cstdint-for-public-integer-types.patch
 BuildArch:      noarch
 BuildRequires:  gcc gcc-c++ libstdc++-devel glibc-devel cmake make zlib-devel xz-devel zstd-devel
 BuildRequires:  bash coreutils binutils rpm gzip tar grep gawk sed findutils diffutils patch
@@ -21,7 +22,7 @@ XZ and Zstandard. Includes original CMake integration and unchanged test source
 with an installed consumer replay wrapper. Not the Java ShrinkWrap project.
 
 %prep
-%setup -q -n shrinkwrap-eaac292b255b5de45d6546a794ffbd103335bc40
+%autosetup -p1 -n shrinkwrap-eaac292b255b5de45d6546a794ffbd103335bc40
 cp -p %{SOURCE1} ZSTD-LICENSE
 cp -p %{SOURCE2} ZSTD-PATENTS
 # The following wrapper is downstream packaging; no upstream file is edited.
@@ -40,11 +41,11 @@ printf '%%s  %%s\n' 8b8d44f3afdd14ccea3e7ec3dcf0d21da1349580549d138ae6a3fe8bab9f
 while read -r hash name; do
     printf '%%s  %%s\n' "$hash" "$prefix/include/shrinkwrap/$name" | sha256sum -c -
 done <<'HASHES'
-9ee31b408fc9714780c7baa95c06ad686cb157a27eed44b51e325a60e41a75e8 gz.hpp
+7ba9338e43250685a87565d3b7286a0c308baa341c11920491ef04700f696b56 gz.hpp
 f0877892007cfaf0b54e8c629a8cd808765771c1dea4fd4f662c8152b53ba57d istream.hpp
 0bea633c7ff176e1ca4acbf5df93edce8cbddd4711599270ac788b13be0be6f0 stdio.hpp
-46e0c76349346fbbccf614c9f61c7f4054e7a78c6cfc43c499a68b28bc7cabc5 xz.hpp
-eb18eb59e127b37a27f88af0b7b406e50d4d65d8b081428c7dad7cf4afec0264 zstd.hpp
+b691c80f122aba1dd159f6dfadd1349d4cb14a837ee0eb3c37dbc903ba09197f xz.hpp
+0fddb0946d3b43f4b3830d4968cf812cbdffa097731323f096e60614214d03b0 zstd.hpp
 HASHES
 cat > "$work/CMakeLists.txt" <<'CMAKE'
 cmake_minimum_required(VERSION 3.2)
