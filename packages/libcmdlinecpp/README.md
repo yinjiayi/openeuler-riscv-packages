@@ -26,6 +26,18 @@ It changes no parser logic, headers,
 examples or compiler options. It is an upstream-generic packaging correction,
 not a RISC-V source defect. Not submitted upstream; remove when fixed upstream.
 
+Target run38981536885 at packaging head d60fbc8ddcf4 built all examples and
+passed their help/rejection checks, but original main -n 3 fixture aborted in
+the library with CmdLineArguments::NotFound. is_specified("iterations") and
+typed conversion use unprefixed logical keys; lookup_option rejected every
+unprefixed key before searching registered options. A second minimal patch
+normalizes that form into the existing search. Long/short CLI forms and missing
+key exceptions remain. All original headers, examples and test commands are
+unchanged. The downstream consumer additionally verifies three equivalent key
+forms and one missing-key exception, against both staged and installed products.
+This is a generic source repair, not a RISC-V workaround or a passing build
+claim. Remove when upstream supports these existing public-API callers.
+
 Target CI must build all original examples. Explicitly downstream checks exercise
 help/rejection for all four, valid options/actions/trailing-list vectors and two
 semantic consumers against staged then installed static library/header bytes.

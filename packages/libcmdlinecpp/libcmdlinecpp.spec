@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libcmdlinecpp
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        C++11 command-line argument parser
 License:        LGPL-3.0-or-later
 URL:            https://github.com/nullptrT/libcmdlinecpp
 Source0:        libcmdlinecpp-1.0.0.tar.gz
 Source1:        COPYING.GPL3
 Patch0:         patches/0001-export-valid-static-library-metadata.patch
+Patch1:         patches/0002-lookup-unprefixed-logical-option-keys.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -26,6 +27,7 @@ metadata and all four original example programs and their source.
 %prep
 %setup -q -n libcmdlinecpp-db5417e4853aa5d0a07b8e8c1fb697375dde1188
 %patch0 -p1
+%patch1 -p1
 cp -p %{SOURCE1} COPYING.GPL3
 
 %build
@@ -76,6 +78,17 @@ cat > "$work/consumer.cpp" <<'CPP'
 #include <libcmdlinecpp/cmdline.hpp>
 #include <string>
 int main() {
+    cmdlinecpp::CmdLineArguments options;
+    options.add_option(cmdlinecpp::Option("iterations", "n", "count", cmdlinecpp::Data::Type::Int));
+    for (const char* key : {"iterations", "--iterations", "-n"}) {
+        if (options.lookup_option(key).option() != "iterations") return 3;
+    }
+    try {
+        options.lookup_option("missing");
+        return 4;
+    } catch (const cmdlinecpp::CmdLineArguments::NotFound&) {
+        // Unknown logical names still fail instead of silently resolving.
+    }
     cmdline << cmdlinecpp::Option("PATH", "input");
     cmdline << cmdlinecpp::Option("iterations", "n", "count", cmdlinecpp::Data::Type::Int);
     char a0[]="check", a1[]="-n", a2[]="3", a3[]="fixture";
@@ -108,7 +121,7 @@ cmake -S "$work" -B "$work/build" -DCMAKE_PREFIX_PATH="$prefix" -DCMAKE_FIND_ROO
   -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY
 cmake --build "$work/build" --verbose
 "$work/build/consumer"
-echo 'PASS downstream examples=4 help-and-rejection=8 functional-vectors=3 consumers=2 skips=0'
+echo 'PASS downstream examples=4 help-and-rejection=8 functional-vectors=3 consumers=2 key-resolution=4 skips=0'
 SH
 chmod 0755 %{buildroot}%{_datadir}/libcmdlinecpp/tests/run-checks.sh
 
@@ -131,6 +144,10 @@ bash %{buildroot}%{_datadir}/libcmdlinecpp/tests/run-checks.sh %{buildroot}
 %{_datadir}/libcmdlinecpp/
 
 %changelog
+* Sat Oct 17 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-2
+- Resolve unprefixed logical option keys used by original examples and the public API.
+- Retain all original examples and checks; add downstream key-resolution regression.
+
 * Sat Oct 17 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.0.0-1
 - Pin official stable source, retain default static library and all original examples.
 - Export correct static consumer/version metadata and include full LGPL3/GPL3 texts.
