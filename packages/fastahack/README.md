@@ -35,3 +35,10 @@ closure, not a dependency transaction or target execution result. Local checks
 are trusted tooling tests, shell syntax, inert patch/oracle checks and source
 verification only. Real RPM build/install and retained-fixture execution must
 be established by exact-head target CI; native RISC-V performance is unclaimed.
+
+The first target run (38870374955, head 7bcd2e5b) passed the dependency
+transaction, default compilation, and build-tree/staged fixture contracts, but
+failed RPM file collection because the recipe requested `README.md` instead of
+the upstream file `README`. The repair corrects only that documentation path;
+source, patch, fixtures, and checks are unchanged. A replacement exact-head
+target run is still required; the failed run produced no accepted RPM/SRPM.

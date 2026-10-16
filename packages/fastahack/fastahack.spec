@@ -137,7 +137,7 @@ bash %{buildroot}%{_datadir}/fastahack/tests/run-contract.sh %{buildroot}
 
 %files
 %license LICENSE libdisorder.LICENSE
-%doc README.md disorder.c disorder.h
+%doc README disorder.c disorder.h
 %{_bindir}/fastahack
 %{_datadir}/fastahack/
 
