@@ -1,0 +1,94 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/ekg/fastahack",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "fastahack",
+        "package_name": "fastahack",
+        "source": "aur",
+        "source_version": "1.0.0-3"
+      },
+      {
+        "evidence_url": "https://github.com/ekg/fastahack",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfastahack",
+        "package_name": "libfastahack",
+        "source": "debian",
+        "source_version": "1.0.0+dfsg-11"
+      },
+      {
+        "evidence_url": "https://github.com/ekg/fastahack",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfastahack",
+        "package_name": "libfastahack",
+        "source": "ubuntu",
+        "source_version": "1.0.0+dfsg-11build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-correct-subsequence-newline-offset.patch",
+        "sha256": "3b84a21f010093489f4b5e985c53bba24e7ad62c6381c17d778dfb18116601b5",
+        "license": "Apache-2.0",
+        "purpose": "Correct generic indexed LF/CRLF newline offsets; retain original fixtures and default features.",
+        "source": "Downstream correction derived from the official v1.0.0 Fasta.cpp and unchanged crlf.fasta fixture.",
+        "upstream_status": "not-submitted",
+        "remove_when": "The selected upstream release includes equivalent completed-line counting and complete newline-width byte offsets."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "fastahack.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed v1.0.0 archive and all 20 Git blobs verified. Canonical fastahack CLI; MIT plus bundled GPL-2.0-or-later libdisorder. Original default make and five unchanged fixtures retained; upstream registers zero check cases. Three valid/two invalid fixture replays and entropy/CLI checks are downstream contracts pending target CI. Historical discovery stale/unknown-license rejection resolved by fresh official-source review; metadata provider closure is not a DNF transaction. No local target execution.",
+    "status": "active"
+  },
+  "package_id": "fastahack",
+  "rpm": {
+    "license": "MIT AND GPL-2.0-or-later",
+    "name": "fastahack",
+    "summary": "FASTA indexing and sequence extraction utility"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-ekg-fastahack",
+    "homepage": "https://github.com/ekg/fastahack",
+    "release_api": "https://api.github.com/repos/ekg/fastahack/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v?([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/ekg/fastahack",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.0.0",
+    "latest_detected": "1.0.0",
+    "release": "1"
+  }
+}
