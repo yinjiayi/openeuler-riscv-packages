@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-camelcase-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-CamelCase-0.04.tar.gz",
+      "version": "0.04",
+      "url": "https://cpan.metacpan.org/authors/id/H/HI/HIO/String-CamelCase-0.04.tar.gz",
+      "digests": {
+        "sha256": "89c3debceeceae8764f45d74023f8fbeee2d88399af67541dbdaa0b2bf2711a9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included README, module POD and bundled helper expressly grant the same terms as Perl itself; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
