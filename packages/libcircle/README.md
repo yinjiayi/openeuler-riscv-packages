@@ -44,12 +44,22 @@ upstream; remove it when an official release contains equivalent declarations.
 
 Staged and installed replays compile the same four original cases with `mpicc`
 against shared/static libraries at `-O0`/`-O2`, verify fixture checksums, actual
-shared-library resolution, and absence of embedded runtime paths. These are
+shared-library resolution, and embedded runtime-path safety. These are
 repetitions, not extra unique tests. Keep Check's default per-case fork isolation
 because each case initializes/finalizes MPI. The 120-second per-case and
 600-second suite bounds accommodate QEMU; expiry fails rather than skips.
 Singleton queue/MPI initialization tests do not establish distributed multi-rank
 correctness, network behavior, performance, native timing or native RVA23 proof.
+
+Exact-head CI run `38841227360` passed all four original queue cases, then the
+packaging replay failed because the pinned SP3 `mpicc` wrapper adds the absolute
+RUNPATH `/usr/lib64/openmpi/lib`. This is a package test-driver contract error,
+not an upstream/RISC-V defect. The replay now permits exactly that audited
+provider path (or no embedded path), while still failing empty paths, path lists,
+relative/build-root/temporary paths and every other embedded directory. Actual
+libcircle resolution and all original tests remain mandatory. No source or
+assertion changes are involved; the replacement head still needs fresh target
+build/install and physical-product acceptance.
 
 No local source execution, RPM/QEMU build or install was performed during
 intake. Source/schema verification and trusted repository tests are distinct

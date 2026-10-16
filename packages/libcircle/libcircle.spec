@@ -50,6 +50,7 @@ Requires:       coreutils
 Requires:       binutils
 Requires:       gawk
 Requires:       grep
+Requires:       sed
 
 %description devel
 Public libcircle header, pkg-config metadata, shared-library linker symlink and
@@ -104,9 +105,16 @@ for opt in 0 2; do
         mpicc -std=gnu99 -O"$opt" -UNDEBUG -Wall -Wextra \
             -I"$root/usr/include" -I"$fixtures" "${check_cflags[@]}" \
             "$fixtures/check_queue.c" "${libs[@]}" "${check_libs[@]}" -o "$binary"
-        if readelf -d "$binary" | grep -E '\((RPATH|RUNPATH)\)'; then
-            echo 'FAIL unexpected embedded runtime path' >&2
-            exit 1
+        dynamic=$(readelf -d "$binary")
+        if printf '%s\n' "$dynamic" | grep -E '\((RPATH|RUNPATH)\)'; then
+            # The pinned SP3 OpenMPI wrapper embeds its non-default library dir.
+            # Accept exactly that absolute provider path, not a path list,
+            # empty/current directory, build root or temporary replay directory.
+            runtime_path=$(printf '%s\n' "$dynamic" | sed -nE '/\((RPATH|RUNPATH)\)/s/^.*\[([^]]*)\].*$/\1/p')
+            if test "$runtime_path" != /usr/lib64/openmpi/lib; then
+                echo 'FAIL unexpected embedded runtime path' >&2
+                exit 1
+            fi
         fi
         if test "$linkage" = shared; then
             readelf -d "$binary" | grep -F 'Shared library: [libcircle.so.2]'
@@ -154,6 +162,7 @@ bash %{buildroot}%{_datadir}/%{name}/tests/run-original-tests.sh %{buildroot}
 
 %changelog
 * Fri Oct 16 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3-1
+- Restrict replay runtime paths to the pinned OpenMPI provider directory.
 - Pin official v0.3 source, MPI dependencies and all original queue tests.
 - Declare standard interfaces without changing any test body or assertion.
 - Replay original cases against staged and installed shared/static libraries.
