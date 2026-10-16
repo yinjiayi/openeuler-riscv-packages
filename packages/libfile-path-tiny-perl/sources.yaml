@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-path-tiny-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Path-Tiny-1.0.tar.gz",
+      "version": "1.0",
+      "url": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/File-Path-Tiny-1.0.tar.gz",
+      "digests": {
+        "sha256": "2ec178da3b9899e4b466ab8b71edbb2bf23a0307ebe02fec7aa1f5826f61f55a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive matches publisher CHECKSUMS; module POD and README grant redistribution under Perl 5 terms."
+      }
+    }
+  ]
+}
