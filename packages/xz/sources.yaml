@@ -3,8 +3,10 @@
   "schema_version": 1,
   "sources": [
     {
-      "digests": {"sha256": "fff1ffcf2b0da84d308a14de513a1aa23d4e9aa3464d17e64b9714bfdd0bbfb6"},
-      "filename": "xz-5.8.3.tar.xz",
+      "digests": {
+        "sha256": "0014c7886930454fe8bd4228665b51af55eeae560ea135c9c4cd33f55b2591d9"
+      },
+      "filename": "xz-5.8.4.tar.gz",
       "id": "source0",
       "kind": "upstream-release",
       "redistribution": {
@@ -12,8 +14,8 @@
         "reason": "Freely redistributable XZ Utils source is fetched from the official upstream release in CI."
       },
       "signature": null,
-      "url": "https://github.com/tukaani-project/xz/releases/download/v5.8.3/xz-5.8.3.tar.xz",
-      "version": "5.8.3"
+      "url": "https://github.com/tukaani-project/xz/releases/download/v5.8.4/xz-5.8.4.tar.gz",
+      "version": "5.8.4"
     }
   ]
 }
