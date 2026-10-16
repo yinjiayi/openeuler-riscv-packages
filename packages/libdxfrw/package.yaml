@@ -22,7 +22,7 @@
     "patches": [
       {
         "file": "patches/0001-correct-installed-pkgconfig-paths.patch",
-        "sha256": "09a4fe4def54a58d3a6b1daf9cb087cd61eaa9fbe579b5d7613b7c097c2e31d6",
+        "sha256": "83a95f0e54fc71f470788140b2867edae348e7fdc9fd1f4b63d6aca55ea5afcd",
         "purpose": "Correct two upstream pkg-config installation paths; retain every default target and converter.",
         "source": "Original downstream packaging correction based on the fixed official 1.0.1 CMake installation contract.",
         "license": "Apache-2.0",

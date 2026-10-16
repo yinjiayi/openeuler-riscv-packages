@@ -42,6 +42,14 @@ It is SPEC-applied and checksum-bound in package metadata. Remove it when
 an adopted official stable release emits correct pkg-config paths. No
 upstream issue, PR or other write was made.
 
+The initial CI failed in `%prep`, before compilation: GNU patch with
+`--fuzz=0` rejected the asymmetric short context of the first hunk, whereas
+Apple patch accepted it. The repair represents the same two replacements
+as exact one-line hunks. Both GNU and Apple patch must apply with zero fuzz
+and zero offset to the fixed, checksum-verified source; patched bytes must
+equal precisely those two replacements. This is patch-format portability,
+not permission to weaken patch application, original builds or tests.
+
 ## Tests and evidence boundary
 
 This release registers zero upstream CTest/Automake semantic tests. A

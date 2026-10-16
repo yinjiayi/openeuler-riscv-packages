@@ -5,18 +5,14 @@ The CMake install puts headers in include/libdxfrw, not libdxfrw1, and a
 literal vertical bar in libdir makes downstream linking fail. Keep the
 upstream library, converter, exports and all build targets unchanged.
 Downstream packaging correction for 1.0.1; no upstream write performed.
+Exact one-line hunks avoid GNU patch's asymmetric short-context rejection;
+the fixed source archive and both replacements remain checksum-bound.
 
 --- a/libdxfrw.pc.in
 +++ b/libdxfrw.pc.in
-@@ -1,4 +1,4 @@
- prefix=${CMAKE_INSTALL_PREFIX}
- exec_prefix=${CMAKE_INSTALL_PREFIX}
+@@ -3 +3 @@
 -libdir=|${CMAKE_INSTALL_FULL_LIBDIR}
 +libdir=${CMAKE_INSTALL_FULL_LIBDIR}
- includedir=${CMAKE_INSTALL_FULL_INCLUDEDIR}
-@@ -7,4 +7,4 @@
- Description: c++ library to read/write dxf files in binary and ascii form
- Version: ${PROJECT_VERSION}
- Libs: -L${libdir} -ldxfrw
+@@ -10 +10 @@
 -Cflags: -I${includedir}/libdxfrw${PROJECT_VERSION_MAJOR}
 +Cflags: -I${includedir}/libdxfrw
