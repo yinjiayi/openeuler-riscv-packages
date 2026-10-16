@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-storediterator-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Hash-StoredIterator-0.008.tar.gz",
+      "version": "0.008",
+      "url": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/Hash-StoredIterator-0.008.tar.gz",
+      "digests": {
+        "sha256": "b9cbc4dcd8233e8d1d7f1481ddb79a4a5f9db7180cb3ef02b4bcbee05e65ea0c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official source LICENSE expressly grants the same terms as Perl itself and includes the license texts; SHA-256 matches publisher CPAN CHECKSUMS."
+      }
+    }
+  ]
+}
