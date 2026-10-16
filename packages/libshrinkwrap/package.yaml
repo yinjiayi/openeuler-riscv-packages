@@ -1,0 +1,12 @@
+{
+ "schema_version":1,"package_id":"libshrinkwrap",
+ "rpm":{"name":"libshrinkwrap","summary":"Header-only C++ stream buffers for compression formats","license":"MIT AND BSD-3-Clause"},
+ "upstream":{"component":"github.com-jonathonl-shrinkwrap","homepage":"https://github.com/jonathonl/shrinkwrap","source_repository":"https://github.com/jonathonl/shrinkwrap","release_channel":"stable","release_api":"https://api.github.com/repos/jonathonl/shrinkwrap/tags","release_regex":"^v([0-9]+\\.[0-9]+\\.[0-9]+)$","source_url_template":"https://codeload.github.com/jonathonl/shrinkwrap/tar.gz/v{version}"},
+ "version":{"current":"1.2.0","latest_detected":"1.2.0","release":"1"},
+ "discovery":{"snapshot_id":"discovery-20260808T165000Z-9a89920c269462cd","lineage":[{"source":"aur","package_name":"libshrinkwrap","package_base":"libshrinkwrap","source_version":"1.2.0","evidence_url":"https://aur.archlinux.org/packages/libshrinkwrap","observed_at":"2026-08-08T16:50:00Z"}]},
+ "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+ "build":{"profile":"qemu-user","network_during_build":false,"timeout_minutes":60,"native_reason":null},
+ "files":{"spec":"libshrinkwrap.spec","sources":"sources.yaml","patches":[],"smoke_test":"tests/smoke.sh"},
+ "maintenance":{"status":"active","maintainers":["yinjiayi"],"notes":"Official v1.2.0 fixed Git commit, all14 original archive blobs verified. Header-only C++ library, unrelated to supplied Java org.jboss.shrinkwrap: no generic shrinkwrap RPM provide. Keep all five original headers, original test.cpp and all11 original CTest registrations with BUILD_TESTS=ON and Debug/assertions. All zlib/lzma/zstd backends mandatory. Use target system dependency suppliers, not cget network downloads. Full MIT and historical zstd BSD/PATENTS companion texts preserved for untouched unused dep/zstd.cmake. Installed/staged CMake consumers replay all11 original CLI commands and verify header/test hashes. Header-only noarch payload contains no ELF, so debug subpackages are inapplicable; real target compilation/testing remains mandatory. No source patch, local upstream/target execution, native/performance/security claim or fabricated CI success."},
+ "updates":{"enabled":true,"last_checked_at":null,"last_successful_check_at":null,"release_provider":"official-github-tags"}
+}
