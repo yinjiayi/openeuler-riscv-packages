@@ -184,3 +184,20 @@ zero-offset application/reverse restoration and inert byte-layout reasoning do
 not establish target execution. Only replacement exact-head hosted CI plus
 physical RPM/SRPM acceptance can establish that the complete contract passes;
 this repair push alone is not a build/install, merge or publication claim.
+
+## Installed pkg-config fixture repair
+
+Exact-head Package CI 38922468626 passes the complete RPM build and staged
+contract, including binary round-trip replay. Its separate installed smoke
+successfully installs runtime/devel RPMs, then fails at the fixture's assertion
+that normal `pkg-config --libs` must contain two flags. In the installed root,
+pkgconf removes redundant `-L/usr/lib64`; the staged non-system path remains
+visible. This is a downstream fixture error, not a missing library or a new
+parser failure. The installed semantic replays have not yet completed.
+
+The path assertion now explicitly requests `--keep-system-libs`, so the exact
+library directory and mandatory `-ldxfrw` remain checked. Consumer compilation
+still uses ordinary filtered `pkg-config --libs`; every functional replay,
+negative control, original build and upstream patch is unchanged. Trusted
+tooling validation does not establish target execution; replacement exact-head
+build/install and physical RPM/SRPM acceptance remain mandatory.

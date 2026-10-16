@@ -194,7 +194,8 @@ pkg-config --validate libdxfrw
 read -r -a pc_includes <<< "$(pkg-config --cflags-only-I libdxfrw)"
 test "${#pc_includes[@]}" -eq 1
 test "${pc_includes[0]}" = "-I$prefix/include/libdxfrw"
-read -r -a pc_libraries <<< "$(pkg-config --libs libdxfrw)"
+# Request unfiltered metadata paths; normal installed flags may omit /usr/lib64.
+read -r -a pc_libraries <<< "$(pkg-config --keep-system-libs --libs libdxfrw)"
 test "${#pc_libraries[@]}" -eq 2
 test "${pc_libraries[0]}" = "-L$prefix/lib64"
 test "${pc_libraries[1]}" = -ldxfrw
