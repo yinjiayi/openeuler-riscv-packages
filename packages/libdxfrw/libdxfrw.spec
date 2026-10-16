@@ -11,6 +11,7 @@ Source1:        COPYING.GPL3
 Patch0:         0001-correct-installed-pkgconfig-paths.patch
 Patch1:         0002-preserve-entity-dispatch-handoff.patch
 Patch2:         0003-preserve-pkgconfig-template-variables.patch
+Patch3:         0004-write-header-booleans-at-binary-width.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake

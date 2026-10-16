@@ -157,3 +157,30 @@ failure, not a parser fix or a successful target-build claim. Every command,
 fixture, semantic assertion, default build and failure exit remains required.
 No upstream source or patch changed. Only a new exact-head hosted run may
 establish the next failure point or successful execution.
+
+## Binary header boolean-width repair
+
+A **binary group-width mismatch** means a writer emits a different byte count
+for a typed DXF record than the reader consumes, shifting the following record.
+Actual exact-head Package CI 38903023174 passes dependencies, builds/installs,
+ASCII entity replay and the exact 22-byte binary sentinel, then reports
+`FAIL contract line=40 status=3 command=./pc-check binary.dxf` (fileImport failed).
+It is a package parser/format failure, not pending CI or an infrastructure failure.
+
+The fixed source's header writer serializes group 290 through `writeInt16`
+(two binary bytes), while `readRec` selects `readBool` (one byte). For example,
+the default LWDISPLAY flag's extra zero combines with the next group 9 byte
+to form code 2304 instead of 9. Patch 0004 routes all sixteen header group 290
+writes through the existing `writeBool` API. Flag values/version conditions,
+other fields and ASCII value semantics remain unchanged. This is a generic
+source-format correction, not a RISC-V-specific patch. It derives from upstream
+GPL-2.0-or-later code, remains downstream-only and is removable when an adopted
+official stable release supplies equivalent serialization. No upstream write.
+
+The full original static/additional shared builds, all five installed semantic
+replays, both original converter output checks, negative CLI assertions and
+binary-magic comparison remain byte-identical requirements. Two-tool zero-fuzz,
+zero-offset application/reverse restoration and inert byte-layout reasoning do
+not establish target execution. Only replacement exact-head hosted CI plus
+physical RPM/SRPM acceptance can establish that the complete contract passes;
+this repair push alone is not a build/install, merge or publication claim.

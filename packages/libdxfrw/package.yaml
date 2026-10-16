@@ -46,6 +46,15 @@
         "license": "Apache-2.0",
         "upstream_status": "downstream-only",
         "remove_when": "An adopted official stable release preserves pkg-config variables while configuring its metadata."
+      },
+      {
+        "file": "patches/0004-write-header-booleans-at-binary-width.patch",
+        "sha256": "88e1624729189eb2faf2327aa72e0fabf5a4f29b971aac2a4f99ef4c000029a2",
+        "purpose": "Serialize header group290 booleans with one binary byte rather than two, preserving record alignment and every existing roundtrip assertion.",
+        "source": "Derived from official LibreCAD/libdxfrw 1.0.1 commit 945f2161a13ee521f66f9c52dcfff998e8ccae99 src/drw_header.cpp; exact-head Package CI 38903023174 passes binary magic then fails binary fileImport.",
+        "license": "GPL-2.0-or-later",
+        "upstream_status": "downstream-only",
+        "remove_when": "An adopted official stable release writes these header boolean fields with the binary boolean width."
       }
     ],
     "smoke_test": "tests/smoke.sh",
