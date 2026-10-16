@@ -25,6 +25,15 @@ openEuler lib64, preserving their original unversioned names. The runtime
 owns libshmfile.so; devel owns the original static library and header.
 No invented stable SONAME/ABI promise is made.
 
+Package CI 38960538174 built the unchanged original targets and passed both
+staged shared/static functional replays, then failed with an empty RPM
+debuginfo file list. The recipe had normalized the ELF library to mode 0644
+before `find-debuginfo`; keep its executable bit at 0755 and normalize only
+the public header to 0644. Default debuginfo/debugsource packaging, debug
+flags and all tests remain enabled. This is a packaging permission fix,
+not an upstream or RISC-V source patch; replacement-head CI and actual
+debug RPM inspection must establish its result.
+
 A **functional stream replay** here means sequential FILE/file-descriptor
 operations using the packaged riscv64 library; it does not establish native
 interprocess timing, concurrent access, permission isolation, memory safety,

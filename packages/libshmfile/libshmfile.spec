@@ -138,7 +138,9 @@ make -j1 install install_static DESTDIR=%{buildroot} PREFIX=%{_prefix}
 install -d %{buildroot}%{_libdir}
 mv %{buildroot}%{_prefix}/lib/libshmfile.so %{buildroot}%{_libdir}/libshmfile.so
 mv %{buildroot}%{_prefix}/lib/libshmfile.a %{buildroot}%{_libdir}/libshmfile.a
-chmod 0644 %{buildroot}%{_libdir}/libshmfile.so %{buildroot}%{_includedir}/shmfile.h
+# Keep ELF executable for normal RPM debuginfo extraction; never disable it.
+chmod 0755 %{buildroot}%{_libdir}/libshmfile.so
+chmod 0644 %{buildroot}%{_includedir}/shmfile.h
 install -d %{buildroot}%{_datadir}/libshmfile/tests
 cp -p contract/* %{buildroot}%{_datadir}/libshmfile/tests/
 
