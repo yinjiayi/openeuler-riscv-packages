@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libpath-iter-perl",
+  "rpm": {
+    "name": "perl-Path-Iter",
+    "summary": "Lightweight iterator for directory trees",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libpath-iter-perl",
+    "homepage": "https://metacpan.org/dist/Path-Iter",
+    "source_repository": "https://metacpan.org/dist/Path-Iter",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/",
+    "release_regex": "Path-Iter-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/Path-Iter-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2",
+    "release": "1",
+    "latest_detected": "0.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libpath-iter-perl",
+        "package_base": "libpath-iter-perl",
+        "source_version": "0.2-4",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libpath-iter-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libpath-iter-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.2-4 maps to official CPAN 0.2, publisher CHECKSUMS SHA-256 and safe archive verified. README and module POD grant Perl terms. Official SP3 RVA23 primary lacks same RPM/provider and supplies File::Spec, Test::More, Test::Pod and Test::Pod::Coverage. Four unchanged default files: 16 assertions passed locally; perlcritic.t is upstream development-only, pod-coverage.t lacked a local provider but target BuildRequires supplies it. Exact-head target CI must prove full target tests and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
