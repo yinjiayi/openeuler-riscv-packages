@@ -141,3 +141,19 @@ and library flags before compiling. Existing semantic replays, original
 source inputs, build targets and prior patches are unchanged. Inert template
 expansion and zero-fuzz/zero-offset patch checks are not a target execution
 claim; replacement hosted CI and physical products remain required.
+
+## Failure localization
+
+Actual Package CI 38890034569 passed dependency installation, both original
+converter builds/conversions and the first installed-header semantic replay.
+The runner then failed before its final success marker, but the captured log
+did not identify the command or exit status. Its source root cause is still
+unknown; the earlier template repair must not be represented as full acceptance.
+
+The package-local runner now traces its fixed fixture commands and records
+the failing line, status and command with an inherited Bash ERR trap. This
+is a **diagnostic repair**: a change to retain evidence needed to locate the
+failure, not a parser fix or a successful target-build claim. Every command,
+fixture, semantic assertion, default build and failure exit remains required.
+No upstream source or patch changed. Only a new exact-head hosted run may
+establish the next failure point or successful execution.

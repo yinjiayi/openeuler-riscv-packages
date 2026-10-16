@@ -168,7 +168,10 @@ CMAKE
 cat > contract/run-contract.sh <<'SH'
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0
-set -euo pipefail
+set -Eeuxo pipefail
+# Fixture-only commands contain no credentials or external input. Preserve the
+# failing command, line and status in the captured RPM log, including functions.
+trap 'rc=$?; printf "FAIL contract line=%s status=%s command=%s\n" "$LINENO" "$rc" "$BASH_COMMAND" >&2' ERR
 test "$#" -le 1
 root=${1:-/}
 prefix="${root%/}/usr"
