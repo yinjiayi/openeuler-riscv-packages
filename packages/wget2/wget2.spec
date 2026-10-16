@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           wget2
 Version:        2.2.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Modern non-interactive network downloader
 License:        GPL-3.0-or-later AND LGPL-3.0-or-later AND GFDL-1.3-or-later
 URL:            https://gitlab.com/gnuwget/wget2
 Source0:        wget2-%{version}.tar.gz
+Source1:        COPYING.GFDL13
 Patch0:         0001-libproxy-prefer-explicit-proxy.patch
 
 BuildRequires:  autoconf
@@ -54,6 +55,7 @@ manual pages for developing applications with libwget.
 
 %prep
 %autosetup -p1
+cp -p %{SOURCE1} COPYING.GFDL13
 
 %build
 %configure \
@@ -88,17 +90,17 @@ timeout 60m make -j1 check || {
 }
 
 %files -f %{name}.lang
-%license COPYING
+%license COPYING COPYING.LESSER COPYING.GFDL13
 %doc AUTHORS ChangeLog NEWS README.md
 %{_bindir}/wget2
 %{_mandir}/man1/wget2.1*
 
 %files -n wget2-libs
-%license COPYING.LESSER
+%license COPYING COPYING.LESSER COPYING.GFDL13
 %{_libdir}/libwget.so.4*
 
 %files -n wget2-devel
-%license COPYING.LESSER
+%license COPYING COPYING.LESSER COPYING.GFDL13
 %{_includedir}/wget.h
 %{_includedir}/wgetver.h
 %{_libdir}/libwget.so
@@ -106,6 +108,10 @@ timeout 60m make -j1 check || {
 %{_mandir}/man3/libwget-*.3*
 
 %changelog
+* Sat Oct 17 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.1-5
+- Include full GFDL1.3 and incorporated GPL3 texts in installed legal payloads.
+- Preserve original complete serial checks and document upstream missing-corpus skips.
+
 * Thu Sep 03 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.1-4
 - Package the Wget2 manual and omit the upstream test-only no-install binary.
 

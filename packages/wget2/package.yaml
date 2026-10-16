@@ -70,7 +70,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official GNU 2.2.1 release bytes are SHA-256 pinned; libwget.so.4 is preserved and the complete serial suite remains enabled with local HTTP and TLS test dependencies. Test-suite diagnostics are emitted when that complete suite fails. Release 3 retains optional libproxy discovery while giving explicit libwget and command-line proxy settings precedence, after exact-head CI showed three IDN tests bypassing their local proxy and attempting DNS resolution. Release 4 packages the installed Wget2 manual and removes the upstream test-only wget2_noinstall helper from the runtime image after exact-head CI completed all 83 tests but rejected those two unpackaged files. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "notes": "Official GNU2.2.1 source stays SHA-256 pinned, original proxy patch/libwget.so.4 ABI and all build flags/full serial make check remain unchanged. Release5 repairs observed installed legal payload incompleteness: complete official GNU FDL1.3 accompanies manuals, original full GPL3 and LGPL3 texts accompany every subpackage. Actual prior three suite summaries total108/91pass/17skip:17 original fuzzers return77 because the official source release omits their .in/.repro corpora, not a package-added skip or zero-skip success. Preserve every default test, document that missing coverage honestly. Installed smoke hash-verifies full legal texts and retains existing libwget consumer plus downstream loopback HTTP semantic transfer. This is ordinary product-acceptance maintenance of green CI, not a fabricated failed-CI/source defect. Fresh exact-head target build/check/install and physical legal/RPM/SRPM acceptance remain required. No local upstream/RPM/QEMU execution or upstream write.",
     "status": "active"
   },
   "package_id": "wget2",
@@ -105,6 +105,6 @@
   "version": {
     "current": "2.2.1",
     "latest_detected": "2.2.1",
-    "release": "4"
+    "release": "5"
   }
 }
