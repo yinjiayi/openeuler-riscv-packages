@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-data-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Data-1.20.tar.gz",
+      "version": "1.20",
+      "url": "https://cpan.metacpan.org/authors/id/R/RF/RFOLEY/File-Data-1.20.tar.gz",
+      "digests": {
+        "sha256": "2fe90c9272199e2e112b4d7ae2aae267d282ccec78168cfd4f048e3317940e57"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive matches publisher CHECKSUMS; File::Data module POD grants redistribution under Perl 5 terms."
+      }
+    }
+  ]
+}

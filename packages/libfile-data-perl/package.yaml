@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-data-perl",
+  "rpm": {
+    "name": "perl-File-Data",
+    "summary": "Read and write file data with a Perl object interface",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-data-perl",
+    "homepage": "https://metacpan.org/dist/File-Data",
+    "source_repository": "https://metacpan.org/dist/File-Data",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RF/RFOLEY/",
+    "release_regex": "File-Data-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RF/RFOLEY/File-Data-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.20",
+    "release": "1",
+    "latest_detected": "1.20"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-data-perl",
+        "package_base": "libfile-data-perl",
+        "source_version": "1.20-5",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-data-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-data-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-install-module-to-vendorlib-root.patch",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "purpose": "Install File/Data.pm below the Perl library root rather than File/File/Data.pm.",
+        "remove_when": "Upstream Makefile.PL uses INST_LIB for the complete File/Data.pm destination.",
+        "sha256": "f0d5c83b8edfaf13e5877a03e434c411bd659ba0c7dce9a814a8cf9e31d27c9b",
+        "source": "Official File::Data 1.20 Makefile.PL and clean local source/staging proof on 2026-10-02",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.20-5 maps to official CPAN 1.20, publisher CHECKSUMS SHA-256 and safe archive verified. Module POD grants Perl terms. Official SP3 RVA23 primary lacks same RPM/provider and has all declared runtime providers. Original one-file 16-assertion test passed locally; package-local install-path patch was proved by staged load. Target RPM tests and installed smoke require exact-head CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
