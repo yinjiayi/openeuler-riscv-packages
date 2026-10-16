@@ -1,0 +1,29 @@
+{
+  "package_id": "libdivide",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6aa730b24dabb10c350d74363f94fcb0f750fe6fde65355278410aeb5bacd7fe"
+      },
+      "filename": "libdivide-5.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/ridiculousfish/libdivide/tar.gz/ea0fb1ad79a116cd561595c930bcaf33147b3e6c",
+      "version": "5.4.0"
+    },
+    {
+      "id": "source1", "kind": "upstream-release", "version": "3.27.0",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/CC0-1.0.txt",
+      "filename": "CC0-1.0.txt",
+      "digests": {"sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Full CC0-1.0 legal text from official SPDX license-list-data v3.27.0 fixed Git commit; complements the unchanged divlu source notice."}
+    }
+  ]
+}
