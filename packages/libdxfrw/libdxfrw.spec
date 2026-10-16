@@ -9,6 +9,7 @@ URL:            https://github.com/LibreCAD/libdxfrw
 Source0:        libdxfrw-1.0.1.tar.gz
 Source1:        COPYING.GPL3
 Patch0:         0001-correct-installed-pkgconfig-paths.patch
+Patch1:         0002-preserve-entity-dispatch-handoff.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake

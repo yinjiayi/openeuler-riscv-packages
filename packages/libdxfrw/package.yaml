@@ -28,6 +28,15 @@
         "license": "Apache-2.0",
         "upstream_status": "downstream-only",
         "remove_when": "An adopted official stable release emits a valid libdir and include/libdxfrw pkg-config path without this patch."
+      },
+      {
+        "file": "patches/0002-preserve-entity-dispatch-handoff.patch",
+        "sha256": "98b98b40222c24f3c522e36914e9d85a419d6114e9628553e864663ac1a8ab7e",
+        "purpose": "Preserve the next-entity handoff after successful handlers; retain handler failures, terminators and unknown-record fallback.",
+        "source": "Derived from official LibreCAD/libdxfrw 1.0.1 commit 945f2161a13ee521f66f9c52dcfff998e8ccae99 src/libdxfrw.cpp; actual Package CI 38862014075 failed the unchanged DXF contract after compilation/install.",
+        "license": "GPL-2.0-or-later",
+        "upstream_status": "downstream-only",
+        "remove_when": "An adopted official stable release preserves the successful entity-handler handoff without this patch."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -38,7 +47,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official stable 1.0.1 fixed archive and all 90 Git blobs verified. Discovery 1.1.0 is an rc1 distribution version, not an official stable tag. Preserve default static library and converter and add shared ABI; repair only pkg-config paths. No registered original semantic suite; separately labeled installed API/CLI DXF replay checks coordinates, shared/static/pkg-config/CMake consumption and CLI failures. No DWG corpus/native/performance claim. GPL2-or-later COPYING, original Simon Rockliff 1991 codec permission/attribution and helper notices/exceptions plus complete GPL3 text retained. No upstream, local RPM/QEMU or source execution, auto-merge, merge or publication claim.",
+    "notes": "Official stable 1.0.1 fixed archive and all 90 Git blobs verified. Discovery 1.1.0 is an rc1 distribution version, not an official stable tag. Preserve default static library and converter and add shared ABI; correct pkg-config paths and generic entity-dispatch handoff identified after actual CI compilation/install and unchanged percent-check failure. No registered original semantic suite; separately labeled installed API/CLI DXF replay checks coordinates, shared/static/pkg-config/CMake consumption and CLI failures. No DWG corpus/native/performance claim. GPL2-or-later COPYING, original Simon Rockliff 1991 codec permission/attribution and helper notices/exceptions plus complete GPL3 text retained. No upstream, local RPM/QEMU or source execution, auto-merge, merge or publication claim.",
     "status": "active"
   },
   "package_id": "libdxfrw",

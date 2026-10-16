@@ -97,3 +97,28 @@ the upstream interface for tests does not relicense upstream code.
 No signature is supplied for these source inputs; HTTPS, authenticated Git
 identity and SHA-256 checks are not a GPG-signature claim. Submission does
 not claim successful target builds, Auto-merge, a merge or a public release.
+
+## Entity-dispatch repair
+
+Actual Package CI 38862014075 compiled and installed both original default
+static and additional shared builds, then failed the first unchanged DXF
+contract conversion in `%check`: `Error reading file contract/fixture.dxf`.
+Inert review of the fixed source identifies a generic control-flow defect:
+successful handlers update `nextentity`, but their compound `else if`
+conditions become false and allow another branch or fallback read to consume
+the handed-off record, including ENDSEC. This is not a RISC-V-only finding
+or a claim of local target reproduction.
+
+`0002-preserve-entity-dispatch-handoff.patch` selects each of the 21 entity
+types before calling its handler. A successful handler returns to the outer
+dispatch loop; failures still propagate. Unknown-record fallback and
+ENDSEC/ENDBLK termination remain unchanged. The patch derives from the
+GPL-2.0-or-later upstream source and retains that license. It is
+downstream-only and must be removed when an adopted official stable release
+contains the correction. No upstream write was made.
+
+No fixture, source input, default build, warning or test is removed or
+relaxed. Zero-fuzz/zero-offset application, exact textual replacement and
+reverse restoration are checked with both GNU and Apple patch. Those inert
+checks and trusted tooling tests do not prove parser execution; replacement
+exact-head hosted build/install and physical RPM/SRPM acceptance are required.
