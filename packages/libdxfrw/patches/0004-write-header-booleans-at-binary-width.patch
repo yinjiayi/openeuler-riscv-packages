@@ -1,0 +1,116 @@
+SPDX-License-Identifier: GPL-2.0-or-later
+Subject: Write group 290 header booleans through the boolean encoder
+
+Derived from LibreCAD/libdxfrw 1.0.1, commit
+945f2161a13ee521f66f9c52dcfff998e8ccae99, src/drw_header.cpp.
+Actual Package CI 38903023174 passes binary magic then fails fileImport
+of the unchanged binary roundtrip. Header group 290 is written through
+writeInt16 (two binary bytes), but readRec/readBool consumes one byte.
+The surplus zero misaligns the next record. Use the existing boolean
+writer for all sixteen group 290 header writes; retain values, version
+conditions, every other field, ASCII behavior and all tests. Generic
+format correction, not a RISC-V workaround. Downstream-only; no upstream
+write. Remove when the adopted official release uses boolean-width
+serialization for these header flags. Replacement target CI is required.
+
+--- a/src/drw_header.cpp
++++ b/src/drw_header.cpp
+@@ -1392,9 +1392,9 @@
+             writer->writeInt16(280, 0);
+         writer->writeString(9, "$LWDISPLAY"); //RLZ bool flag, verify in bin version
+         if (getInt("$LWDISPLAY", &varInt))
+-            writer->writeInt16(290, varInt);
+-        else
+-            writer->writeInt16(290, 0);
++            writer->writeBool(290, varInt);
++        else
++            writer->writeBool(290, 0);
+         if (ver > DRW::AC1014) {
+             writer->writeString(9, "$INSUNITS");
+             if (getInt("$INSUNITS", &varInt))
+@@ -1420,9 +1420,9 @@
+             writer->writeString(1, "");
+         writer->writeString(9, "$XEDIT"); //RLZ bool flag, verify in bin version
+         if (getInt("$XEDIT", &varInt))
+-            writer->writeInt16(290, varInt);
+-        else
+-            writer->writeInt16(290, 1);
++            writer->writeBool(290, varInt);
++        else
++            writer->writeBool(290, 1);
+         writer->writeString(9, "$CEPSNTYPE");
+         if (getInt("$CEPSNTYPE", &varInt))
+             writer->writeInt16(380, varInt);
+@@ -1430,15 +1430,15 @@
+             writer->writeInt16(380, 0);
+         writer->writeString(9, "$PSTYLEMODE"); //RLZ bool flag, verify in bin version
+         if (getInt("$PSTYLEMODE", &varInt))
+-            writer->writeInt16(290, varInt);
+-        else
+-            writer->writeInt16(290, 1);
++            writer->writeBool(290, varInt);
++        else
++            writer->writeBool(290, 1);
+ //RLZ: here $FINGERPRINTGUID and $VERSIONGUID, do not add?
+         writer->writeString(9, "$EXTNAMES"); //RLZ bool flag, verify in bin version
+         if (getInt("$EXTNAMES", &varInt))
+-            writer->writeInt16(290, varInt);
+-        else
+-            writer->writeInt16(290, 1);
++            writer->writeBool(290, varInt);
++        else
++            writer->writeBool(290, 1);
+         writer->writeString(9, "$PSVPSCALE");
+         if (getDouble("$PSVPSCALE", &varDouble))
+             writer->writeDouble(40, varDouble);
+@@ -1446,9 +1446,9 @@
+             writer->writeDouble(40, 0.0);
+         writer->writeString(9, "$OLESTARTUP"); //RLZ bool flag, verify in bin version
+         if (getInt("$OLESTARTUP", &varInt))
+-            writer->writeInt16(290, varInt);
+-        else
+-            writer->writeInt16(290, 0);
++            writer->writeBool(290, varInt);
++        else
++            writer->writeBool(290, 0);
+     }
+     if (ver > DRW::AC1015) {// and post v2004 vars
+         writer->writeString(9, "$SORTENTS");
+@@ -1474,9 +1474,9 @@
+                 writer->writeInt16(280, 0);
+         } else {
+             if (getInt("$XCLIPFRAME", &varInt))
+-                writer->writeInt16(290, varInt);
++                writer->writeBool(290, varInt);
+             else
+-                writer->writeInt16(290, 0);
++                writer->writeBool(290, 0);
+         }
+         writer->writeString(9, "$HALOGAP");
+         if (getInt("$HALOGAP", &varInt))
+@@ -1517,9 +1517,9 @@
+     if (ver > DRW::AC1018) {// and post v2007 vars
+         writer->writeString(9, "$CAMERADISPLAY"); //RLZ bool flag, verify in bin version
+         if (getInt("$CAMERADISPLAY", &varInt))
+-            writer->writeInt16(290, varInt);
+-        else
+-            writer->writeInt16(290, 0);
++            writer->writeBool(290, varInt);
++        else
++            writer->writeBool(290, 0);
+         writer->writeString(9, "$LENSLENGTH");
+         if (getDouble("$LENSLENGTH", &varDouble))
+             writer->writeDouble(40, varDouble);
+@@ -1638,9 +1638,9 @@
+             writer->writeInt16(280, 0);
+         writer->writeString(9, "$REALWORLDSCALE"); //RLZ bool flag, verify in bin version
+         if (getInt("$REALWORLDSCALE", &varInt))
+-            writer->writeInt16(290, varInt);
+-        else
+-            writer->writeInt16(290, 1);
++            writer->writeBool(290, varInt);
++        else
++            writer->writeBool(290, 1);
+         writer->writeString(9, "$INTERFERECOLOR");
+         if (getInt("$INTERFERECOLOR", &varInt))
+             writer->writeInt16(62, varInt);
