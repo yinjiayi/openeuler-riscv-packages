@@ -1,0 +1,21 @@
+{
+  "package_id": "libccd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "479994a86d32e2effcaad64204142000ee6b6b291fd1859ac6710aee8d00a482"
+      },
+      "filename": "libccd-2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Root/runtime BSD-3-Clause and bundled CU LGPL-3.0-or-later; complete BSD-LICENSE, COPYING and COPYING.LESSER, unchanged corresponding source0 and all103 original file hashes included in RPM. Checker compatibility modification is dated and license-attributed. Official lightweight v2.1 fixed commit/archive SHA verified; no signature asserted."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/danfis/libccd/tar.gz/7931e764a19ef6b21b443376c699bbc9c6d4fba8",
+      "version": "2.1"
+    }
+  ]
+}

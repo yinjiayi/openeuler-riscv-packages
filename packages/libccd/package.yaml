@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/danfis/libccd",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libccd",
+        "package_name": "libccd",
+        "source": "aur",
+        "source_version": "2.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{"file":"patches/0001-regressions-python3.patch","sha256":"4283d25e61254d45110dbc86abc0524018b9125035588d85c9d125509807cc7d","purpose":"Port original CU regression checker Python2 print/xrange/filter and text pipe to Python3; preserve default EPS=0.6, exact=False and every fixture/test. Original copyright/LGPL notice retained with dated modification notice.","source":"https://github.com/danfis/libccd/blob/7931e764a19ef6b21b443376c699bbc9c6d4fba8/src/testsuites/cu/check-regressions","license":"LGPL-3.0-or-later","upstream_status":"not-submitted","remove_when":"Official fixed release provides an equivalent Python3-compatible regression checker."}],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libccd.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v2.1 fixed commit/archive/all103 Git blobs verified. First documented plain-Make default static/double build and complete original check retained, repeated against RPM-owned headers/static archive. BSD and LGPL3-or-later CU source/notices retained including GPL3 text. Test-support compilers are protected official-only bounded transactions, not consumer dependencies. Alternative CMake/autotools builds, benchmark execution, timing/performance/native validation unclaimed. Target solver/build/install/exact-head CI remains unverified.",
+    "status": "active"
+  },
+  "package_id": "libccd",
+  "rpm": {
+    "license": "BSD-3-Clause AND LGPL-3.0-or-later",
+    "name": "libccd",
+    "summary": "Convex collision detection static library with default double precision"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-danfis-libccd",
+    "homepage": "https://github.com/danfis/libccd",
+    "release_api": "https://api.github.com/repos/danfis/libccd/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/danfis/libccd",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "2.1",
+    "latest_detected": "2.1",
+    "release": "2"
+  }
+}
