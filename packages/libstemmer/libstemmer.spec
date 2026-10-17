@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libstemmer
-Version:        3.1.1
+Version:        3.2.0
 Release:        1%{?dist}
 Summary:        Stemming library supporting many human languages
 License:        BSD-3-Clause
 URL:            https://snowballstem.org/
-Source0:        libstemmer_c-%{version}.tar.gz
+Source0:        libstemmer_c-3.2.0.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
