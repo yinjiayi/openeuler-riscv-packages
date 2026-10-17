@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           python-pytest-check
-Version:        3.0.1
+Version:        3.0.3
 Release:        1%{?dist}
 Summary:        Pytest checks that report multiple failures per test
 License:        MIT
 URL:            https://github.com/okken/pytest-check
-Source0:        python-pytest-check-3.0.1.tar.gz
+Source0:        3.0.3
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-pip
