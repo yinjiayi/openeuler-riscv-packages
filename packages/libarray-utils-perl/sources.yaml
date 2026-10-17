@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-utils-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Array-Utils-0.5.tar.gz",
+      "version": "0.5",
+      "url": "https://cpan.metacpan.org/authors/id/Z/ZM/ZMIJ/Array/Array-Utils-0.5.tar.gz",
+      "digests": {
+        "sha256": "89dd1b7fcd9b4379492a3a77496e39fe6cd379b773fd03a6b160dd26ede63770"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN source's Utils.pm POD grants GPL/Artistic licensing, and the HTTPS archive is pinned by official CPAN CHECKSUMS SHA-256."
+      }
+    },
+    {
+      "id": "source1", "kind": "upstream-release", "filename": "perl538-Copying",
+      "version": "5.38.0-license-notice",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete official Perl v5.38.0 Copying GPL1 document permits verbatim text distribution. Immutable commit notice supplement for Utils.pm's same-Perl GPL/Artistic grant, not Perl code ancestry, executable dependency, source replacement or relicensing; tag signature not verified."}
+    },
+    {
+      "id": "source2", "kind": "upstream-release", "filename": "perl538-Artistic",
+      "version": "5.38.0-license-notice",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Full original ten-clause Artistic1.0-Perl text and disclaimer from immutable official Perl commit, unchanged. Notice supplement for the source grant; original Sergei Fedorov copyright, warranty and Laszlo Forro credit remain in Utils.pm. No new executable code or legal-certainty claim."}
+    }
+  ]
+}

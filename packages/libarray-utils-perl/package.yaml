@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-utils-perl",
+  "rpm": {
+    "name": "perl-Array-Utils",
+    "summary": "Pure-Perl array set operations",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libarray-utils-perl",
+    "homepage": "https://metacpan.org/dist/Array-Utils",
+    "source_repository": "https://metacpan.org/dist/Array-Utils",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/Z/ZM/ZMIJ/Array/",
+    "release_regex": "Array-Utils-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/Z/ZM/ZMIJ/Array/Array-Utils-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.5",
+    "release": "1",
+    "latest_detected": "0.5"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libarray-utils-perl",
+        "package_base": "libarray-utils-perl",
+        "source_version": "0.5-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libarray-utils-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libarray-utils-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Exact frozen libarray-utils-perl key and separate canonical metacpan.org-release-array-utils lineage map to authorized/latest released ZMIJ Array-Utils 0.5. Fresh 2712-byte official archive agrees with API and publisher CHECKSUMS SHA-256; all nine safe members/seven regular files, modes and first-column MANIFEST fully reviewed. Original Utils.pm GPL/Artistic grant as specified in Perl README, Sergei Fedorov copyright/warranty and Laszlo Forro credit remain intact; full pinned Perl GPL1 and ten-clause Artistic notices are installed separately. Original one-file/17-assertion no_plan default suite runs whole, then a bounded strict second whole-suite Harness gate requires 17 passes and zero skips/TODO/bonus/failures. No source/test rewrite or local upstream/RPM/QEMU execution in this refresh. Current complete official RVA23 primary has no matching RPM or module provider and supplies unchanged prerequisites plus Test::Harness. Historical prior-head CI success is not acceptance of the refreshed head; fresh hosted CI and physical products are required, and PR artifacts never prove public publication."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
