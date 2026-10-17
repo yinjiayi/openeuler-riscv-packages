@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://libdivide.com",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdivide",
+        "package_name": "libdivide",
+        "source": "aur",
+        "source_version": "5.3.0-1"
+      },
+      {
+        "evidence_url": "https://libdivide.com",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdivide",
+        "package_name": "libdivide",
+        "source": "fedora",
+        "source_version": "5.3.0-1.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdivide.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v5.4.0 fixed archive and all 62 Git blobs verified. Preserve all seven default Release build targets, all eight CTest entries, strict diagnostics and automatic architecture probes. Full installed original program replay uses installed headers; C99 failure diagnostics are fatal even when upstream returns zero. QEMU verifies arithmetic checksums only, never timing/performance; native performance evidence remains unavailable. Preserve dual BSL/Zlib notices and CC0 divlu notice with full pinned official SPDX CC0 text. No local upstream/RPM/QEMU execution, auto-merge, merge or publication claim.",
+    "status": "active"
+  },
+  "package_id": "libdivide",
+  "rpm": {
+    "license": "(BSL-1.0 OR Zlib) AND CC0-1.0",
+    "name": "libdivide",
+    "summary": "Header-only C and C++ integer division library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "libdivide.com",
+    "homepage": "https://libdivide.com",
+    "release_api": "https://api.github.com/repos/ridiculousfish/libdivide/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/ridiculousfish/libdivide",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "5.4.0",
+    "latest_detected": "5.4.0",
+    "release": "1"
+  }
+}
