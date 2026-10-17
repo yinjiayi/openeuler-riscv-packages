@@ -1,0 +1,33 @@
+{
+  "package_id": "libinjection",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e9d20004c9c7419ffebab1dc17ac5072de2a9b8e43b1289025082dfcdccd25c0"
+      },
+      "filename": "libinjection-4.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full original BSD-3-Clause COPYING covers the C library, drivers and corpora. Unchanged source retains GNU version-helper GPL3 and ar-lib GPL2 notices/exceptions, permissive Autoconf/Libtool notices, X11 install-sh and the permissive Go binding grant. Full GPL2/GPL3 companion texts are separate checked sources included in SRPM; helpers are not relicensed as BSD or installed as executable runtime code. All 761 original Git blobs verified for fixed v4.0.0 commit; no verified tag/commit signature supplied."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/libinjection/libinjection/tar.gz/211782219663f889f471650150df12b623c5766e",
+      "version": "4.0.0"
+    },
+    {
+      "id": "source1", "kind": "upstream-release", "filename": "COPYING.GPL2", "version": "2.0",
+      "url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
+      "digests": {"sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"},
+      "signature": null, "redistribution": {"allowed": true, "reason": "Full GNU GPL version 2 text permits verbatim copying; companion for original build helpers, not a new license for the BSD C library."}
+    },
+    {
+      "id": "source2", "kind": "upstream-release", "filename": "COPYING.GPL3", "version": "3.0",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "digests": {"sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"},
+      "signature": null, "redistribution": {"allowed": true, "reason": "Full GNU GPL version 3 text permits verbatim copying; companion for original git-version-gen and GPL3 Autoconf macro, with original notices and exceptions retained in source."}
+    }
+  ]
+}
