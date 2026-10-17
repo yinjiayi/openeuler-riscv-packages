@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-load-perl",
+  "rpm": {
+    "name": "perl-Class-Load",
+    "summary": "Load Perl classes with optional loading and a pure-Perl fallback",
+    "license": "Artistic-1.0 AND Artistic-1.0-Perl AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-class-load",
+    "homepage": "https://metacpan.org/dist/Class-Load",
+    "source_repository": "https://github.com/moose/Class-Load",
+    "release_channel": "stable",
+    "release_api": "https://fastapi.metacpan.org/v1/release/Class-Load",
+    "release_regex": null,
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Class-Load-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.25",
+    "release": "1",
+    "latest_detected": "0.25"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libclass-load-perl",
+        "package_base": "libclass-load-perl",
+        "source_version": "0.25-2",
+        "evidence_url": "https://archive.ubuntu.com/ubuntu/dists/resolute/universe/source/Sources.xz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "arch-extra",
+        "package_name": "perl-class-load",
+        "package_base": "perl-class-load",
+        "source_version": "0.25-4",
+        "evidence_url": "https://archlinux.org/packages/extra/any/perl-class-load/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libclass-load-perl",
+        "package_base": "libclass-load-perl",
+        "source_version": "0.25-2",
+        "evidence_url": "https://deb.debian.org/debian/dists/stable/main/source/Sources.xz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "perl-Class-Load",
+        "package_base": "perl-Class-Load",
+        "source_version": "0.25-29.fc44",
+        "evidence_url": "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/source/tree/repodata/repomd.xml",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "perl-Class-Load",
+        "package_base": "perl-Class-Load",
+        "source_version": "0.250.0-1.5",
+        "evidence_url": "https://download.opensuse.org/tumbleweed/repo/oss/repodata/repomd.xml",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclass-load-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Original whole52 files/16default/13xt retained, no source patch. Complete original make test then bounded16-file raw/summary gate with dynamic plans; exactly original t010 assertions2/4 interpreter TODO allowed with actual negative and unexpected-positive outcomes separately reported. No other failure/skip/TODO/bonus permitted. Mandatory TestNeeds/WithoutModule guards preserve original fallback tests. Full17 historical notices are data only; GPL alternatives unchanged. Hosted target/dependency installation/default counts/installed smoke/physical products pending, not native/performance/xt/public acceptance."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-metacpan-api"
+  }
+}

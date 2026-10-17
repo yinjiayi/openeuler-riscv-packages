@@ -1,0 +1,276 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-load-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Class-Load-0.25.tar.gz",
+      "version": "0.25",
+      "url": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Class-Load-0.25.tar.gz",
+      "digests": {
+        "sha256": "2a48fa779b5297e56156380e8b32637c6c58decb4f4a7f3c7350523e11275f8f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unmodified complete official authorized stable ClassLoad0.25 archive; retain all52 files/16defaults/13xt, original generic9 Artistic/GPL alternatives. Existing Artistic branch selected with exact historical PerlArtistic and Apache template notices retained independently; no source repack/relicensing or full legal genealogy claim."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "reporter-0.027-LICENSE.txt",
+      "version": "0.027",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.027/LICENSE",
+      "digests": {
+        "sha256": "4c5f87ffa218ebe4027858643dad7133fcb8401f842cfaa4f425393fae1ddea2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "filename": "reporter-0.027-README.txt",
+      "version": "0.027",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.027/README",
+      "digests": {
+        "sha256": "e6b0390fd69e5789cdabdd45f61905214d3627180555b9a29e641348a7136f1c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "filename": "bundle-0.141-LICENCE.txt",
+      "version": "0.141",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-PluginBundle-Author-ETHER-0.141/LICENCE",
+      "digests": {
+        "sha256": "ad98742459e575ff569f50a350a1a5ffde95cae88a897a5b12dd438960617434"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source4",
+      "kind": "upstream-release",
+      "filename": "bundle-0.141-README.txt",
+      "version": "0.141",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-PluginBundle-Author-ETHER-0.141/README",
+      "digests": {
+        "sha256": "25a5abef01dfed2a3a5fd1c8fb5dadfca0bee9430dc4b9017f7761c18a7c8be0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source5",
+      "kind": "upstream-release",
+      "filename": "changes-0.011-LICENSE.txt",
+      "version": "0.011",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-CheckChangesHasContent-0.011/LICENSE",
+      "digests": {
+        "sha256": "b9edff2945afbd8a4482d6d09ed49fe64f65be61d355feeb7328ab53487cd5b4"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source6",
+      "kind": "upstream-release",
+      "filename": "changes-0.011-README.txt",
+      "version": "0.011",
+      "url": "https://fastapi.metacpan.org/v1/source/DAGOLDEN/Dist-Zilla-Plugin-CheckChangesHasContent-0.011/README",
+      "digests": {
+        "sha256": "f75ccf813c752850aa21aabff3dced2b53792b0657b387e0f47cb341629728ea"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source7",
+      "kind": "upstream-release",
+      "filename": "version-0.9909-README.txt",
+      "version": "0.9909",
+      "url": "https://fastapi.metacpan.org/v1/source/JPEACOCK/version-0.9909/README",
+      "digests": {
+        "sha256": "2281261147b4fc710bd1920d48e78aa44bc181306dba919ad98cb121a0c8ad21"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source8",
+      "kind": "upstream-release",
+      "filename": "historical-perl-Copying.txt",
+      "version": "perl5@d2c3426b4ccfd6a61af7f4e904f371945d63fdc8",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/d2c3426b4ccfd6a61af7f4e904f371945d63fdc8/Copying",
+      "digests": {
+        "sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source9",
+      "kind": "upstream-release",
+      "filename": "historical-perl-Artistic.txt",
+      "version": "perl5@d2c3426b4ccfd6a61af7f4e904f371945d63fdc8",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/d2c3426b4ccfd6a61af7f4e904f371945d63fdc8/Artistic",
+      "digests": {
+        "sha256": "8e6beb9ca0ffbc4b9c6550d56f622ecd33d5635ee8af9a8f269fd81f40fb6801"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source10",
+      "kind": "upstream-release",
+      "filename": "class-mop-0.77-README.txt",
+      "version": "0.77",
+      "url": "https://fastapi.metacpan.org/v1/source/DROLSKY/Class-MOP-0.77/README",
+      "digests": {
+        "sha256": "8d43b5cb3d29826651e08e2192b11fc999eb50c312429c6aa70efc29bfa6d397"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source11",
+      "kind": "upstream-release",
+      "filename": "class-mop-0.77-original-module.txt",
+      "version": "0.77",
+      "url": "https://fastapi.metacpan.org/v1/source/DROLSKY/Class-MOP-0.77/lib/Class/MOP.pm",
+      "digests": {
+        "sha256": "4f2f9f6667f42bc6fac3917cbfb8edbb2976f3dfe0be383cfa1cfbd8f53eb20b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source12",
+      "kind": "upstream-release",
+      "filename": "class-mop-1.12-README.txt",
+      "version": "1.12",
+      "url": "https://fastapi.metacpan.org/v1/source/FLORA/Class-MOP-1.12/README",
+      "digests": {
+        "sha256": "a6dfdd5208f6c652b768e714137bbc6e7fedd412b8476a5cd065d132e013720b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source13",
+      "kind": "upstream-release",
+      "filename": "class-mop-1.12-original-module.txt",
+      "version": "1.12",
+      "url": "https://fastapi.metacpan.org/v1/source/FLORA/Class-MOP-1.12/lib/Class/MOP.pm",
+      "digests": {
+        "sha256": "cb07b41fa8b5f72cecaad4c2edfed37ff0529f72c908d055b2c58002e3213a00"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source14",
+      "kind": "upstream-release",
+      "filename": "compile-2.058-LICENCE.txt",
+      "version": "2.058",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-Compile-2.058/LICENCE",
+      "digests": {
+        "sha256": "67523c952f52f6910dd844be488e93db8478fb55f595e782df629e370ecb598a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source15",
+      "kind": "upstream-release",
+      "filename": "compile-2.058-README.txt",
+      "version": "2.058",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-Compile-2.058/README",
+      "digests": {
+        "sha256": "211faab7197b273477bcf9d17ffb1bb67e493c13937d9ce432c516fbed999c5e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source16",
+      "kind": "upstream-release",
+      "filename": "compile-2.058-module-notice.txt",
+      "version": "2.058",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-Compile-2.058/lib/Dist/Zilla/Plugin/Test/Compile.pm",
+      "digests": {
+        "sha256": "78b89f393740e4a74216d1be4971778c1daeb99ae9835632da6e9e3f7bd67acd"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    },
+    {
+      "id": "source17",
+      "kind": "upstream-release",
+      "filename": "ether-0.141-original-module.txt",
+      "version": "0.141",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-PluginBundle-Author-ETHER-0.141/lib/Dist/Zilla/PluginBundle/Author/ETHER.pm",
+      "digests": {
+        "sha256": "6fee29325a0c2e766357552b035d6b5beb849f44a5d672300fb53587166c60ad"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official fixed historical notice text, byte-equal to verified authorized archive or immutable official Perl commit. Notice data only, not executable generator/dependency/provider; original grants/credits and GPL alternatives retained. Historical module .txt notices never shadow installed modules. Exact copied scopes documented, not proof of oldest ancestry, originally loaded version or signature verification."
+      }
+    }
+  ]
+}
