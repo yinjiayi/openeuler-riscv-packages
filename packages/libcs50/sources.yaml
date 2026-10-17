@@ -1,0 +1,21 @@
+{
+  "package_id": "libcs50",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0be59548bab8333842cd74931ad4970beafcaae254882fbbe00a65349ad49dcd"
+      },
+      "filename": "libcs50-11.0.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/cs50/libcs50/tar.gz/37709b01398c9d72a112b864f12c789a910c61fb",
+      "version": "11.0.4"
+    }
+  ]
+}
