@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "python-makefun",
+  "sources": [
+    {
+      "id": "source0",
+      "filename": "python-makefun-1.16.0.tar.gz",
+      "url": "https://codeload.github.com/smarie/python-makefun/tar.gz/197b14827c1b7830c0288477c007e1f1592f52ad",
+      "kind": "upstream-release",
+      "version": "1.16.0",
+      "digests": {
+        "sha256": "e632cd8cea81ec69ca17718896da11fb60ae472fbab186438b6703f9b176edd5"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "All41 originals retained; BSD3 runtime and adapted test_so_decorator CC-BY-SA-4.0 with full supplemental text/attribution and changes. PEP380 public-domain note retained."
+      }
+    },
+    {
+      "id": "source1",
+      "filename": "CC-BY-SA-4.0.txt",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt",
+      "kind": "test-dependency",
+      "version": "4.0",
+      "digests": {
+        "sha256": "28a9529c7d0bb4dc51f4bf5c116a3d16ef247a052f7591466768ddf563fd1cf5"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete official CC BY-SA4.0 license for scoped derivative-test excerpt; original2.5 section4b permits later same-elements license. Full attribution/revision/change notice retained."
+      }
+    }
+  ]
+}
