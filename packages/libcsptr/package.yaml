@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "package_id": "libcsptr",
+  "rpm": {
+    "name": "libcsptr",
+    "summary": "Smart pointers and reference-counted arrays for GNU C",
+    "license": "MIT AND BSD-3-Clause AND (GPL-3.0-or-later WITH Autoconf-exception-macro)"
+  },
+  "version": {
+    "current": "2.0.4",
+    "latest_detected": "2.0.4",
+    "release": "1"
+  },
+  "upstream": {
+    "component": "github.com-snaipe-libcsptr",
+    "homepage": "https://github.com/Snaipe/libcsptr",
+    "source_repository": "https://github.com/Snaipe/libcsptr",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/Snaipe/libcsptr/tags",
+    "source_url_template": "https://codeload.github.com/snaipe/libcsptr/tar.gz/v{version}",
+    "release_regex": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libcsptr",
+        "package_base": "libcsptr",
+        "source_version": "2.0.4-2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/5d3cc6f0ac0863cd1a6706d2a1a2238e575f7d9c/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"
+      },
+      {
+        "source": "aur",
+        "package_name": "libcsptr-git",
+        "package_base": "libcsptr-git",
+        "source_version": "v2.0.1.r0.gff405f2-1",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/5d3cc6f0ac0863cd1a6706d2a1a2238e575f7d9c/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libcsptr.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-honor-GNUInstallDirs.patch",
+        "sha256": "0d3dd831c4aae6e971e4123cc535ebbd766292e4b1a959c552a3c3cfbedc9f90",
+        "purpose": "Honor standard relative GNUInstallDirs multilib archive location while preserving default static target and tests.",
+        "source": "Locally authored MIT downstream package patch; no upstream write.",
+        "license": "MIT",
+        "upstream_status": "downstream-only",
+        "remove_when": "An authenticated upstream release provides the same behavior without changing original defaults, original tests or installed verification."
+      },
+      {
+        "file": "patches/0002-handle-shared-array-kind-and-destructor-metadata.patch",
+        "sha256": "6f9d10450cbdfb3bf89864380b6f1d40483b64a83b7490d443d1ab57b9e18d18",
+        "purpose": "Fix SHARED|ARRAY reference-count bit tests and use existing header-size-aware array metadata; preserve destructor argument semantics and original tests.",
+        "source": "Locally authored MIT downstream package patch; no upstream write.",
+        "license": "MIT",
+        "upstream_status": "downstream-only",
+        "remove_when": "An authenticated upstream release provides the same behavior without changing original defaults, original tests or installed verification."
+      },
+      {
+        "file": "patches/0003-add-installed-QA.patch",
+        "sha256": "dd8d7f4c3c916c2b212c32064646c2cf65e94343cd7e6edc4ec020f469a7f350",
+        "purpose": "Materialize separate installed complete original-suite replay and additional shared-array regression through actual patch staging.",
+        "source": "Locally authored MIT downstream package patch; no upstream write.",
+        "license": "MIT",
+        "upstream_status": "downstream-only",
+        "remove_when": "An authenticated upstream release provides the same behavior without changing original defaults, original tests or installed verification."
+      }
+    ]
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "official-github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "status": "active",
+    "notes": "Fixed official unsigned stable v2.0.4; full 30 Git files/modes and complete legal terms preserved. Retain default static library, all original five C test files/two headers and twelve Check cases, mandatory Check/exact one CTest, SENTINEL ON, FIXED_ALLOCATOR OFF, original GNU99/Werror/debug flags. Installed original replay and separate array regression are downstream checks. No local upstream/RPM/QEMU execution. Target CI, ordinary installation and physical products remain pending."
+  }
+}

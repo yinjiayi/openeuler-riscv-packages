@@ -1,0 +1,25 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Honor GNUInstallDirs for the default static archive
+
+SPDX-License-Identifier: MIT
+Keep the original default static target and all tests; select lib64 through
+the standard relative CMAKE_INSTALL_LIBDIR packaging setting.
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,7 @@
+ cmake_minimum_required(VERSION 2.8)
+ 
+ project(csptr C)
++include(GNUInstallDirs)
+ 
+ # Project setup & environment variables
+ 
+@@ -82,7 +83,7 @@
+ install(TARGETS csptr
+   RUNTIME DESTINATION bin
+   LIBRARY DESTINATION lib
+-  ARCHIVE DESTINATION lib
++  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ )
+ 
+ add_custom_target(uninstall
