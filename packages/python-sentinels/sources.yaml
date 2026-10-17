@@ -1,0 +1,21 @@
+{
+  "package_id": "python-sentinels",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3c2f64f754187c19e0a1a029b148b74cf58dd12ec27b4e19c0e5d6e22b5a9a86"
+      },
+      "filename": "sentinels-1.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The complete archive LICENSE grants BSD-3-Clause source and binary redistribution; retain it with %license. PyPI PEP740 keyless attestation verified against Sigstore production trust and vmalloc/sentinels ci.yml@refs/tags/1.1.1; signature is null because the schema supports OpenPGP fingerprints, not keyless attestations."
+      },
+      "signature": null,
+      "url": "https://files.pythonhosted.org/packages/6f/9b/07195878aa25fe6ed209ec74bc55ae3e3d263b60a489c6e73fdca3c8fe05/sentinels-1.1.1.tar.gz",
+      "version": "1.1.1"
+    }
+  ]
+}
