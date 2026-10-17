@@ -46,14 +46,24 @@ and verifies `john`/`mike` completion with the original offline YAML fixture.
 Installed headers are copied to a private path because the original generator
 excludes `/usr` system headers; an empty symbol set cannot pass.
 
-The first target build passed the 33 original Meson programs and the original
-symbol check, then failed in the added downstream suite without identifying its
-quiet failing step. The suite now emits stage and per-unit begin/pass/count
-markers; its inherited error trap reports only stage, line and exit status, not
-environment values or command arguments. All original commands, unit-count,
-symbol-count, consumer and CLI assertions remain unchanged. This is diagnostic
-instrumentation for the next real target run, not a claimed source repair or
-successful target build/install acceptance.
+The diagnostic target run passed the 33 original Meson programs, the original
+symbol-link check, all 33 downstream original units, the independent parsing
+consumer, and downstream symbol generation/link/execution. It then failed at
+our added output-count comparison: 269 `ec_` references were counted, but the
+artifact did not retain the generated array or pointer output, so its complete
+reference and line counts are not known.
+
+The unchanged original generator emits every project-header function and
+external-variable reference, not only names beginning `ec_`. The downstream
+oracle therefore validates the complete emitted array, retains the independent
+positive `ec_` count, and requires exactly one non-null pointer output per
+reference. It rejects malformed/duplicate references and missing/extra/malformed
+output. It prints all three integer counts before count comparison, including on failure,
+for the next real target acceptance. This
+also removes dependence on external `wc` text formatting. The precise failed
+run cardinality remains unavailable; no target success is inferred from the
+synthetic predicate fixtures. All original units, feature defaults, generator,
+link/run, consumer and CLI assertions remain intact.
 
 No local upstream/RPM/QEMU build was run. Metadata/trusted tooling/source-only
 checks precede submission. Real target build/install/smoke, physical RPM/SRPM

@@ -159,7 +159,36 @@ stage=symbol-run
 printf 'BEGIN downstream stage=%s\n' "$stage"
 "$work/symbols" > "$work/symbols.log"
 stage=symbol-output-count
-[[ $(wc -l < "$work/symbols.log") == "$symbols" ]]
+python3 - "$work/symbols.c" "$work/symbols.log" "$symbols" <<'PY'
+"""Draft package-only oracle for unchanged gen_sym_check.py emitted references."""
+import re
+
+def verify_symbol_output(source, output, expected_ec_count):
+    assert isinstance(expected_ec_count, int) and expected_ec_count > 0
+    assert len(source) < 1000000 and len(output) < 1000000
+    arrays = list(re.finditer(r'^static void \*syms\[\] = \{\n(.*?)^\};$', source, re.M | re.S))
+    assert len(arrays) == 1, 'Expected exactly one original symbol array'
+    refs = []
+    for line in arrays[0][1].splitlines():
+        match = re.fullmatch(r'[ \t]*\(void \*\)(&?)([A-Za-z][A-Za-z_0-9]*),[ \t]*', line)
+        assert match is not None, 'Malformed symbol reference'
+        refs.append(match[2])
+    assert refs and len(refs) == len(set(refs)), 'Empty or duplicate symbol references'
+    ec_count = sum(name.startswith('ec_') for name in refs)
+    lines = output.splitlines()
+    print(f'CHECK downstream symbol-output-count ec={ec_count} total={len(refs)} lines={len(lines)}')
+    assert ec_count == expected_ec_count, 'Original nonempty ec_ reference count changed'
+    assert len(lines) == len(refs), 'Printed pointer count differs from complete reference array'
+    for line in lines:
+        assert re.fullmatch(r'0x[0-9a-fA-F]+', line) and int(line, 16) != 0, 'Malformed or null symbol address'
+    return dict(ec_references=ec_count, total_references=len(refs), printed_addresses=len(lines))
+
+if __name__ == '__main__':
+    import sys
+    from pathlib import Path
+    counts = verify_symbol_output(Path(sys.argv[1]).read_text(), Path(sys.argv[2]).read_text(), int(sys.argv[3]))
+    print(f"PASS downstream symbol-output-count ec={counts['ec_references']} total={counts['total_references']} lines={counts['printed_addresses']}")
+PY
 printf 'PASS downstream stage=%s symbols=%s\n' "$stage" "$symbols"
 stage=cli-help
 printf 'BEGIN downstream stage=%s\n' "$stage"
