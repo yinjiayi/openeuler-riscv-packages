@@ -1,0 +1,116 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Give original test pointer sentinels their pointer types
+
+SPDX-License-Identifier: LGPL-2.1-or-later
+Upstream: https://github.com/activesys/libcstl/tree/f0fd5ccb817192614588915ab0b5dbebbc6ed58b
+Upstream-Status: Not submitted; downstream test type compatibility only.
+
+Exact-head CI 38733504844 fails at the original char-pointer sentinel in
+ut_cstl_basic_string_iterator.c with GCC 14 -Wint-conversion. Make the
+integer-to-pointer conversions explicit throughout the original pointer
+sentinel cases, including void-pointer varargs, assignments and comparisons.
+The adjacent null-basic-string case already uses (void*)0xcc. Preserve all
+sentinel values, cases, assertions, operations and compiler diagnostics.
+No library algorithm or registered test list changes. Remove when upstream
+ships correctly typed pointer sentinels for current C compilers.
+
+--- a/test/ut/ut_cstl_basic_string_iterator.c
++++ b/test/ut/ut_cstl_basic_string_iterator.c
+@@ -506 +506 @@
+-    char* str = 0x1111;
++    char* str = (char*)0x1111;
+--- a/test/ut/ut_cstl_basic_string_aux.c
++++ b/test/ut/ut_cstl_basic_string_aux.c
+@@ -34 +34 @@
+-    pbstr->_pby_string = 0xff;
++    pbstr->_pby_string = (_byte_t*)0xff;
+@@ -294 +294 @@
+-    expect_assert_failure(_basic_string_get_value_string_length(&bstr, 0xcc));
++    expect_assert_failure(_basic_string_get_value_string_length(&bstr, (void*)0xcc));
+--- a/test/ut/ut_cstl_types_builtin.c
++++ b/test/ut/ut_cstl_types_builtin.c
+@@ -7273 +7273 @@
+-    void* p = 0x1234;
++    void* p = (void*)0x1234;
+@@ -7307,2 +7307,2 @@
+-    void* p_first = 0x1234;
+-    void* p_second = 0xffff;
++    void* p_first = (void*)0x1234;
++    void* p_second = (void*)0xffff;
+@@ -7312,2 +7312,2 @@
+-    assert_true(p_first == 0xffff);
+-    assert_true(p_second == 0xffff);
++    assert_true(p_first == (void*)0xffff);
++    assert_true(p_second == (void*)0xffff);
+@@ -7343,2 +7343,2 @@
+-    void* p_first = 0x1234;
+-    void* p_second = 0xffff;
++    void* p_first = (void*)0x1234;
++    void* p_second = (void*)0xffff;
+@@ -7348,2 +7348,2 @@
+-    assert_true(p_first == 0x1234);
+-    assert_true(p_second == 0xffff);
++    assert_true(p_first == (void*)0x1234);
++    assert_true(p_second == (void*)0xffff);
+@@ -7354,2 +7354,2 @@
+-    void* p_first = 0x1234;
+-    void* p_second = 0x1234;
++    void* p_first = (void*)0x1234;
++    void* p_second = (void*)0x1234;
+@@ -7359,2 +7359,2 @@
+-    assert_true(p_first == 0x1234);
+-    assert_true(p_second == 0x1234);
++    assert_true(p_first == (void*)0x1234);
++    assert_true(p_second == (void*)0x1234);
+@@ -7365,2 +7365,2 @@
+-    void* p_first = 0xffff;
+-    void* p_second = 0x1234;
++    void* p_first = (void*)0xffff;
++    void* p_second = (void*)0x1234;
+@@ -7370,2 +7370,2 @@
+-    assert_true(p_first == 0xffff);
+-    assert_true(p_second == 0x1234);
++    assert_true(p_first == (void*)0xffff);
++    assert_true(p_second == (void*)0x1234);
+@@ -7392 +7392 @@
+-    void* p = 0x1234;
++    void* p = (void*)0x1234;
+@@ -7396 +7396 @@
+-    assert_true(p == 0x1234);
++    assert_true(p == (void*)0x1234);
+--- a/test/ut/ut_cstl_types.c
++++ b/test/ut/ut_cstl_types.c
+@@ -1627 +1627 @@
+-    vector_init_elem(pvec, 10, 0xffff);
++    vector_init_elem(pvec, 10, (void*)0xffff);
+@@ -1629 +1629 @@
+-        assert_true(*(void**)vector_at(pvec, i) == 0xffff);
++        assert_true(*(void**)vector_at(pvec, i) == (void*)0xffff);
+@@ -1638 +1638 @@
+-    vector_init_elem(pvec, 10, 0x1111);
++    vector_init_elem(pvec, 10, (void*)0x1111);
+@@ -1640,2 +1640,2 @@
+-        assert_true(*(void**)vector_at(pvec, i) == 0x1111);
+-        *(void**)vector_at(pvec, i) = 0xffff;
++        assert_true(*(void**)vector_at(pvec, i) == (void*)0x1111);
++        *(void**)vector_at(pvec, i) = (void*)0xffff;
+@@ -1644 +1644 @@
+-        assert_true(*(void**)vector_at(pvec, i) == 0xffff);
++        assert_true(*(void**)vector_at(pvec, i) == (void*)0xffff);
+@@ -1653 +1653 @@
+-    vector_init_elem(pvec, 10, 0xffff);
++    vector_init_elem(pvec, 10, (void*)0xffff);
+@@ -1658 +1658 @@
+-        assert_true(*(void**)iterator_get_pointer(it) == 0xffff);
++        assert_true(*(void**)iterator_get_pointer(it) == (void*)0xffff);
+@@ -1660 +1660 @@
+-        assert_true(p == 0xffff);
++        assert_true(p == (void*)0xffff);
+@@ -1670 +1670 @@
+-    vector_init_elem(pvec1, 10, 0xffff);
++    vector_init_elem(pvec1, 10, (void*)0xffff);
+@@ -1685,2 +1685,2 @@
+-    vector_init_elem(pvec1, 10, 0x1111);
+-    vector_init_elem(pvec2, 10, 0xffff);
++    vector_init_elem(pvec1, 10, (void*)0x1111);
++    vector_init_elem(pvec2, 10, (void*)0xffff);

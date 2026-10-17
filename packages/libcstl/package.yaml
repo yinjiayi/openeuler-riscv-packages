@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/activesys/libcstl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcstl",
+        "package_name": "libcstl",
+        "source": "aur",
+        "source_version": "2.3.0-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-preserve-original-suite-with-current-build-tools.patch",
+      "sha256": "70a9338b397aac3423f46b4237f4296666e5973960ee2a759868176e699fa29f",
+      "purpose": "Preserve the complete original unit suite with modern Automake cross-directory objects and AM_PROG_AR archiver detection, library-after-objects LDADD and the official cmockery compatibility header layout; explicitly type byte-range endpoints and string-object views in four node cleanup and three accessor calls for GCC 14, keeping addresses, range, cases, assertions and -Wall/-Werror unchanged.",
+      "source": "Original downstream compatibility against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b; explicit pointer views follow adjacent original container and list string accessor tests. Exact-head CI 38725148883 demonstrated the node cleanup mismatch; no test removal or API substitution.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release supports current Automake, the target cmockery include layout and correctly typed test byte-range and string-node pointer views without these compatibility changes."
+    }, {
+      "file": "patches/0002-type-original-test-pointer-sentinels.patch",
+      "sha256": "8046138750911e68ee3a9ac916ff72c03af66a8a5a71da8d8244ce50e2bb7fb3",
+      "purpose": "Explicitly type the original pointer sentinel constants in four unit-test sources, retaining values, operations, cases, assertions, pointer varargs width and all strict compiler options.",
+      "source": "Original downstream test type compatibility against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b. Exact-head CI 38733504844 rejected char* str = 0x1111; the adjacent original null-basic-string test already explicitly casts (void*)0xcc.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release explicitly types the original test pointer sentinel constants for current C compilers."
+    }, {
+      "file": "patches/0003-pass-original-basic-string-test-object-and-byte-view.patch",
+      "sha256": "6f864dcad8191d5b53728caa504cea63997c02bbfe3d73f4a77f3a5afa08d0d0",
+      "purpose": "Pass the allocated basic-string object instead of the address of its pointer in the invalid-pby-string assertion, and explicitly view the same ten string objects through the range helper's declared byte-pointer interface; retain all cases, assertions, values, allocations, cleanup and strict diagnostics.",
+      "source": "Original downstream original-test type repair against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b. Exact-head CI 38741530253 reports both incompatible argument types in ut_cstl_basic_string_aux.c lines 35 and 653.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release passes the correct basic-string object and explicitly typed byte range in the original tests."
+    }, {
+      "file": "patches/0004-correct-original-representation-test-arguments.patch",
+      "sha256": "913bf400fa410e408a6fe6ad7e6dc96879a9278565923d986b15afabbe555f09",
+      "purpose": "Supply valid char-string type information while preserving the NULL representation negative assertion and fixture cleanup, and explicitly view the unchanged round-trip data address through the API's const-byte-pointer interface. Keep both original assertions, registered tests and strict compiler options.",
+      "source": "Original downstream original-test type repair against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b. Exact-head CI 38747774662 rejects the enum-as-pointer and incompatible representation-pointer arguments in ut_cstl_basic_string_private.c lines 127 and 185. The implementation asserts the representation is non-NULL before using type information.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release supplies correctly typed original representation-test arguments for current C compilers."
+    }, {
+      "file": "patches/0005-type-original-function-test-pointer-arrays.patch",
+      "sha256": "a2c52e449c88b06ec766c5cf66b1db8f369b79d56f5cc9a863838f30c59b72d7",
+      "purpose": "Explicitly type the 108 nonzero pointer sentinels in the six original function-test array fixtures; preserve every array value, NULL constant, algorithm call, comparison, case, assertion and strict compiler option.",
+      "source": "Original downstream test type compatibility against activesys/libcstl v2.3.0 commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b. Exact-head CI 38758358457 rejects the nonzero integer initializers of void-pointer arrays in ut_cstl_function.c under GCC 14 -Wint-conversion; the adjacent original tests already explicitly cast their pointer sentinels.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release explicitly types the original function-test pointer-array sentinels for current C compilers."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libcstl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable v2.3.0 fixed commit f0fd5ccb817192614588915ab0b5dbebbc6ed58b; all 475 source files Git-verified. Preserve complete original Automake suite and default features; actual target DNF/test/install remains remote CI. No local RPM/QEMU/upstream execution or native/merge/publication claim.",
+    "status": "active"
+  },
+  "package_id": "libcstl",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "libcstl",
+    "summary": "Generic C containers and algorithms with an STL-like interface"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-activesys-libcstl",
+    "homepage": "https://github.com/activesys/libcstl",
+    "release_api": "https://api.github.com/repos/activesys/libcstl/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/activesys/libcstl",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "2.3.0",
+    "latest_detected": "2.3.0",
+    "release": "1"
+  }
+}

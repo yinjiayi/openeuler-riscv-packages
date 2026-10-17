@@ -1,0 +1,36 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Pass the original basic-string object and byte range
+
+SPDX-License-Identifier: LGPL-2.1-or-later
+Upstream: https://github.com/activesys/libcstl/tree/f0fd5ccb817192614588915ab0b5dbebbc6ed58b
+Upstream-Status: Not submitted; downstream original-test type compatibility.
+
+Exact-head CI 38741530253 rejects two original unit-test arguments with
+GCC 14 -Wincompatible-pointer-types. The invalid-pby-string test allocates
+a basic_string_t and changes its _pby_string member: pass that object, not
+the address of the local pointer. The cstr range test initializes the same
+ten string_t elements through the helper's declared _byte_t* interface.
+Keep all allocations, sentinel values, ten elements, assertions, cleanup,
+registered tests, library algorithms and strict compiler options unchanged.
+Remove when upstream corrects these two original test arguments.
+
+--- a/test/ut/ut_cstl_basic_string_aux.c
++++ b/test/ut/ut_cstl_basic_string_aux.c
+@@ -32,7 +32,7 @@
+ {
+     basic_string_t* pbstr = create_basic_string(int);
+     pbstr->_pby_string = (_byte_t*)0xff;
+-    assert_false(_basic_string_is_created(&pbstr));
++    assert_false(_basic_string_is_created(pbstr));
+     pbstr->_pby_string = NULL;
+     basic_string_destroy(pbstr);
+ }
+@@ -650,7 +650,7 @@
+     {
+         assert_true(strcmp((char*)basic_string_at(pbstr, i), "abcdefg") == 0);
+     }
+-    _basic_string_init_elem_range_auxiliary(pbstr, elems, 10);
++    _basic_string_init_elem_range_auxiliary(pbstr, (_byte_t*)elems, 10);
+     for(i = 0; i < 10; ++i)
+     {
+         assert_true(strcmp(string_c_str(elems+i), "") == 0);

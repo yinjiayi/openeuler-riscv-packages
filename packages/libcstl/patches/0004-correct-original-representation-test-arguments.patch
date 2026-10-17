@@ -1,0 +1,39 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Correct original representation test argument types
+
+SPDX-License-Identifier: LGPL-2.1-or-later
+Upstream: https://github.com/activesys/libcstl/tree/f0fd5ccb817192614588915ab0b5dbebbc6ed58b
+Upstream-Status: Not submitted; downstream original-test type compatibility.
+
+Exact-head CI 38747774662 rejects the original representation tests with
+GCC 14. The null-representation test passes a type-style enum where the
+API requires a _typeinfo_t pointer. Use a real initialized char string's
+type information, keeping the representation NULL so the original first
+assertion remains the condition under test; destroy the fixture afterward.
+The representation round-trip test passes the same address after prep+1
+through the declared const-byte-pointer interface. Preserve both original
+assertions, registration, library algorithms and strict compiler options.
+Remove when upstream corrects these original test argument types.
+
+--- a/test/ut/ut_cstl_basic_string_private.c
++++ b/test/ut/ut_cstl_basic_string_private.c
+@@ -124,7 +124,9 @@
+ UT_CASE_DEFINATION(_basic_string_rep_reduce_shared)
+ void test__basic_string_rep_reduce_shared__rep_null(void** state)
+ {
+-    expect_assert_failure(_basic_string_rep_reduce_shared(NULL, _type_destroy_default, _TYPE_C_BUILTIN));
++    basic_string_t* pbstr = create_basic_string(char);
++    expect_assert_failure(_basic_string_rep_reduce_shared(NULL, _type_destroy_default, &pbstr->_t_typeinfo));
++    basic_string_destroy(pbstr);
+ }
+ void test__basic_string_rep_reduce_shared__fun_null(void** state)
+ {
+@@ -182,7 +184,7 @@
+ void test__basic_string_rep_get_representation__successfully(void** state)
+ {
+     _basic_string_rep_t* prep = _create_basic_string_representation(0, 0, 1);
+-    _basic_string_rep_t* prep_check = _basic_string_rep_get_representation(prep+1);
++    _basic_string_rep_t* prep_check = _basic_string_rep_get_representation((const _byte_t*)(prep+1));
+     assert_true(prep == prep_check);
+     free(prep);
+ }
