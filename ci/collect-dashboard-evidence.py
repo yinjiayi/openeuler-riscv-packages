@@ -33,6 +33,35 @@ MAX_ARTIFACT_PAGE_BYTES = 2 * 1024 * 1024
 GITHUB_API_ROOT = "https://api.github.com"
 
 
+class ArtifactListingFailure(RuntimeError):
+    """A failed listing is not a complete artifact inventory or coverage claim."""
+
+    def __init__(self, artifacts: List[Dict[str, Any]], page: int, retries: int) -> None:
+        super().__init__("artifact page %d failed after %d attempts" % (page, ARTIFACT_PAGE_ATTEMPTS))
+        self.artifacts = list(artifacts)
+        self.page = page
+        self.retries = retries
+
+    def report(self, repository: str) -> Dict[str, Any]:
+        # Retain only validated identifiers. Never
+        # serialize an exception, HTTP body, arbitrary API field, URL or token.
+        prefix = []
+        for artifact in self.artifacts:
+            row: Dict[str, Any] = {"artifact_id": artifact["id"]}
+            prefix.append(row)
+        return {
+            "schema_version": 1, "kind": "dashboard-evidence-collection",
+            "repository": repository, "status": "incomplete",
+            "listing_complete": False, "coverage_claim": "none",
+            "failure": {"stage": "artifact-listing", "reason": "page-retry-exhausted",
+                        "page": self.page, "attempts": ARTIFACT_PAGE_ATTEMPTS},
+            "listing_page_count": self.page - 1, "listing_retries": self.retries,
+            "listed_artifact_count": len(prefix), "listed_prefix": prefix,
+            "selected_artifact_count": 0, "extracted_json_count": 0,
+            "boundary": "Listing prefix only; not a complete inventory, selected evidence, package result, or recovered Dashboard.",
+        }
+
+
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, request: Any, fp: Any, code: int, message: str, headers: Any, new_url: str) -> None:
         return None
@@ -197,9 +226,8 @@ def list_artifacts(repository: str) -> tuple[List[Dict[str, Any]], int, int]:
                 break
             except (RuntimeError, UnicodeDecodeError, json.JSONDecodeError) as error:
                 if attempt + 1 == ARTIFACT_PAGE_ATTEMPTS:
-                    raise RuntimeError("artifact page %d failed after %d attempts: %s" % (
-                        page_number, ARTIFACT_PAGE_ATTEMPTS, error
-                    )) from error
+                    # Still fail closed; preserve only fully validated pages.
+                    raise ArtifactListingFailure(artifacts, page_number, retries) from None
                 retries += 1
                 time.sleep(attempt + 1)
         for artifact in page:
@@ -222,7 +250,15 @@ def main() -> int:
     repository = os.environ.get("GITHUB_REPOSITORY") or os.environ.get("GH_REPOSITORY")
     if not repository or not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository):
         parser.error("GITHUB_REPOSITORY or GH_REPOSITORY must name owner/repository")
-    artifacts, page_count, listing_retries = list_artifacts(repository)
+    try:
+        artifacts, page_count, listing_retries = list_artifacts(repository)
+    except ArtifactListingFailure as failure:
+        result_path = pathlib.Path(args.result)
+        result_path.parent.mkdir(parents=True, exist_ok=True)
+        result_path.write_text(json.dumps(failure.report(repository), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        # Existing workflow uploads this report with always(), but generation
+        # and deployment remain blocked. No partial Pages view is introduced.
+        return 1
     selected, eligible_count = select_artifacts(artifacts)
     output = pathlib.Path(args.output_dir)
     output.mkdir(parents=True, exist_ok=True)
@@ -245,6 +281,8 @@ def main() -> int:
         "schema_version": 1,
         "kind": "dashboard-evidence-collection",
         "repository": repository,
+        "status": "complete",
+        "listing_complete": True,
         "eligible_artifact_count": eligible_count,
         "listing_page_count": page_count,
         "listing_retries": listing_retries,

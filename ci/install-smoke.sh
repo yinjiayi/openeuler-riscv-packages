@@ -13,7 +13,14 @@ message=
 dnf_transaction_file=$(dirname "$result_file")/dnf-transaction.json
 
 write_result() {
-  RESULT_STATUS=$status RESULT_MESSAGE=$message RESULT_PACKAGE=$package_id \
+  local exit_status=$?
+  local result_status=0
+  trap - EXIT
+  if [[ $status = failed && -z $message ]]; then
+    # Do not include the failing command, arguments or environment in evidence.
+    message="RPM installation or package smoke test failed (exit status $exit_status); see smoke.log"
+  fi
+  if RESULT_STATUS=$status RESULT_MESSAGE=$message RESULT_PACKAGE=$package_id \
   RESULT_STARTED=$started_at python3 - "$result_file" <<'PY'
 import datetime
 import json
@@ -34,6 +41,17 @@ payload = {
 }
 path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
+  then
+    :
+  else
+    result_status=$?
+  fi
+  # Evidence-write errors must not mask the original smoke/installation error.
+  # Conversely, a successful smoke cannot pass if its result could not be saved.
+  if ((exit_status == 0 && result_status != 0)); then
+    exit_status=$result_status
+  fi
+  exit "$exit_status"
 }
 trap write_result EXIT
 
@@ -55,8 +73,10 @@ fi
 
 rpm_root="$work_dir/RPMS"
 [[ -d $rpm_root ]] || { message="binary RPM output directory is missing"; exit 1; }
-mapfile -d '' rpms < <(find "$rpm_root" -type f -name '*.rpm' \
-  ! -name '*-debuginfo-*' ! -name '*-debugsource-*' -print0 | sort -z)
+# Install every produced binary, including debug subpackages. Runtime-only
+# installation cannot establish debug-path ownership/coexistence with the base
+# filesystem package. Keep all products in the same normal DNF transaction.
+mapfile -d '' rpms < <(find "$rpm_root" -type f -name '*.rpm' -print0 | sort -z)
 ((${#rpms[@]} > 0)) || { message="no binary RPM was produced"; exit 1; }
 
 supplemental_repo=/etc/yum.repos.d/openeuler-riscv-project.repo
