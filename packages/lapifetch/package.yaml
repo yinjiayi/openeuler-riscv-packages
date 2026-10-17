@@ -22,12 +22,12 @@
     "patches": [
       {
         "file": "patches/0001-link-x11-randr.patch",
-        "sha256": "a828bab963d20fd9fbadfbd598d6300481e958f9fb6f884363d45ffa991a5f9a",
-        "purpose": "Link the X11 and RandR libraries used directly by system.cpp and already declared by upstream's Makefile and Nix packaging.",
-        "source": "openEuler RISC-V package CI failure analysis",
         "license": "MIT",
-        "upstream_status": "not-submitted",
-        "remove_when": "An upstream release links the lapifetch CMake target with X11 and Xrandr."
+        "purpose": "Link the X11 and RandR libraries used directly by system.cpp and already declared by upstream's Makefile and Nix packaging.",
+        "remove_when": "An upstream release links the lapifetch CMake target with X11 and Xrandr.",
+        "sha256": "a828bab963d20fd9fbadfbd598d6300481e958f9fb6f884363d45ffa991a5f9a",
+        "source": "openEuler RISC-V package CI failure analysis",
+        "upstream_status": "not-submitted"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -57,7 +57,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-10-14T23:59:23Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
   },
@@ -71,8 +71,8 @@
     "source_url_template": "https://github.com/asunyan-dev/lapifetch/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "1.4.0",
-    "latest_detected": "1.4.0",
+    "current": "2.0.1",
+    "latest_detected": "2.0.1",
     "release": "3"
   }
 }

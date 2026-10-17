@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           lapifetch
-Version:        1.4.0
-Release:        3%{?dist}
+Version:        2.0.1
+Release:        1%{?dist}
 Summary:        Simple bunny-themed Linux fetch utility
 License:        MIT
 URL:            https://github.com/asunyan-dev/lapifetch
-Source0:        lapifetch-1.4.0.tar.gz
+Source0:        v2.0.1.tar.gz
 Patch0:         patches/0001-link-x11-randr.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
