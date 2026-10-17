@@ -1,0 +1,21 @@
+{
+  "package_id": "python-shortuuid",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "487c8d6094d3a7bc71a823fadcef6ff5efdbee13921f274da333870e45d6d438"
+      },
+      "filename": "shortuuid-1.0.13.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official fixed stable source is redistributable under BSD-3-Clause; retain the full COPYING notice, Stavros Korokithakis copyright and disclaimer in the source and installed RPM."
+      },
+      "signature": null,
+      "url": "https://github.com/skorokithakis/shortuuid/archive/16374d288c796faa2aee5789ed649c3ed7cdd9be.tar.gz",
+      "version": "1.0.13"
+    }
+  ]
+}

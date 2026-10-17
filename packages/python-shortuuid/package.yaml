@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/python-shortuuid",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-shortuuid",
+        "package_name": "python-shortuuid",
+        "source": "aur",
+        "source_version": "1.0.13-4"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/shortuuid",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "shortuuid",
+        "package_name": "shortuuid",
+        "source": "debian",
+        "source_version": "1.0.13-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/python-shortuuid/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-shortuuid",
+        "package_name": "python-shortuuid",
+        "source": "fedora",
+        "source_version": "1.0.13-10.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/python-shortuuid",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-shortuuid",
+        "package_name": "python-shortuuid",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.0.13-2.6"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-shortuuid.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed v1.0.13 source, BSD-3-Clause notice and complete 19-case default runtime suite reviewed. Poetry backend and all modules retained. Import __version__ remains upstream 1.0.11; distribution version is 1.0.13. Report-only pytest plugins and separate authoring hooks are not a whole-upstream-CI claim. Optional Django adapter is shipped unchanged but its external dependency and behavior are not validated here.",
+    "status": "active"
+  },
+  "package_id": "python-shortuuid",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "python-shortuuid",
+    "summary": "Concise unambiguous URL-safe UUIDs for Python"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-skorokithakis-shortuuid",
+    "homepage": "https://github.com/skorokithakis/shortuuid",
+    "release_api": "https://api.github.com/repos/skorokithakis/shortuuid/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/skorokithakis/shortuuid",
+    "source_url_template": "https://github.com/skorokithakis/shortuuid/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.13",
+    "latest_detected": "1.0.13",
+    "release": "1"
+  }
+}
