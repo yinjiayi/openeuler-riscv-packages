@@ -3,12 +3,12 @@
 %global debug_package %{nil}
 
 Name:           age
-Version:        1.3.1
+Version:        1.3.2
 Release:        1%{?dist}
 Summary:        A simple, modern and secure file encryption tool
 License:        BSD-3-Clause
 URL:            https://github.com/FiloSottile/age
-Source0:        age-1.3.1.tar.gz
+Source0:        age-1.3.2.tar.gz
 BuildRequires:  golang
 
 %description
@@ -55,5 +55,11 @@ done
 %{_mandir}/man1/age-plugin-batchpass.1*
 
 %changelog
+* Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.2-1
+- Bind all four installed command version checks to the installed RPM metadata.
+
+* Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.2-1
+- Use the verified official source archive, not the macOS amd64 release binary.
+
 * Fri Aug 21 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.3.1-1
 - Initial openEuler RISC-V package with the upstream Go test suite.
