@@ -105,3 +105,32 @@ units, defaults, staged/installed checks and existing patches are unchanged.
 Fresh exact-head target logs must establish actual live header state and include
 ordering before a causal toolchain or recipe correction. A diagnostic push is
 not a successful target build, installed-package acceptance or merge approval.
+
+
+## Causal compiler-probe hardening alignment
+
+The diagnostic head `22b62060a1e28869cda60e69f2509b4ff31ce786` now proves
+that `/usr/include/stdlib.h` is readable, owned by the expected glibc-devel RPM,
+and byte-identical to the audited supplier header. Its actual CMake ABI probe
+compiled without RPM compiler flags, while its link used the RPM hardened
+linker specs and `-pie`. The linker rejected the non-position-independent
+RISC-V object with `R_RISCV_HI20 ... recompile with -fPIC`. CMake consequently
+recorded ABI false and empty implicit include directories; the library's real
+compile then emitted `-isystem /usr/include` and failed in `cstdlib` at
+`#include_next <stdlib.h>`. This is not a missing-header or ICU-library diagnosis.
+
+The configure command now supplies the original RPM optflags through global
+`CMAKE_CXX_FLAGS`, so CMake's genuine compiler/ABI probes receive the same
+compiler hardening as the real targets and the already retained hardened linker
+settings. The RelWithDebInfo-specific flags now contain only `-UNDEBUG`;
+ordinary library/tool flags therefore remain exactly the previous RPM optflags
+followed by `-UNDEBUG`, without duplicating or weakening them. No ABI, pointer
+size, implicit include directory or found result is forced. No PIE/linker flag,
+feature, original source, test or diagnostic is removed. Existing patches and
+the explicit real ICU library-directory search remain unchanged.
+
+This is a causal configuration repair candidate, not a claim of target success.
+The new exact-head target run must show a successful genuine ABI probe, usable
+implicit includes, the original build and all ten original test translation
+units plus staged/installed consumers, followed by physical RPM/SRPM/provider
+and namespace acceptance before any merge.

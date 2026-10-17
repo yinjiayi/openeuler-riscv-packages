@@ -79,7 +79,7 @@ cp %{SOURCE2} doctest-MIT.txt
 
 %build
 # No feature/test/tool switches: retain every upstream default.
-cmake -S . -B build -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_INSTALL_LIBDIR=lib64 -DCMAKE_LIBRARY_PATH:PATH=%{_libdir} -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -UNDEBUG" -DCMAKE_SHARED_LINKER_FLAGS="%{build_ldflags}" -DCMAKE_EXE_LINKER_FLAGS="%{build_ldflags}"
+cmake -S . -B build -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_INSTALL_LIBDIR=lib64 -DCMAKE_LIBRARY_PATH:PATH=%{_libdir} -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS="%{optflags}" -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-UNDEBUG" -DCMAKE_SHARED_LINKER_FLAGS="%{build_ldflags}" -DCMAKE_EXE_LINKER_FLAGS="%{build_ldflags}"
 # Diagnostic-only reads: never force ABI/include results or replace build status.
 printf '%s\n' 'LCF diagnostic: live stdlib header and RPM owner (not a success gate)'
 if test -r /usr/include/stdlib.h; then
