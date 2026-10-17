@@ -44,3 +44,24 @@ Colin Kelley banner. A fixed SPDX full gnuplot permission companion is included
 conservatively for that banner; the composite RPM License field does not
 claim the library implementation or every binary uses the gnuplot license.
 New packaging-only QA is LGPL-2.1-or-later and its source is retained in SRPM.
+
+
+## Cross-job source transport filenames
+
+Package CI `39068281028` attempt 1 at `bbdd3bee1db87fd3160b14a22599261e4520b710`
+verified all five source inputs, but its uploaded source ZIP omitted the two
+hidden `.gitattributes` and `.gitignore` SOURCES files. The next dependency-plan
+job therefore failed before dependency installation or compilation with
+`source input is missing or unreadable: .../SOURCES/.gitattributes` (exit 1).
+No original build, example compilation suite, or installed test ran in that job.
+
+Use non-hidden transport basenames `upstream-gitattributes` and
+`upstream-gitignore` in SOURCES and the SPEC URL filename fragments. Official
+fixed URLs, exact SHA-256 digests, source bytes and signatures policy are
+unchanged. `%prep` still installs those bytes to the original `.gitattributes`
+and `.gitignore` paths. All features, flags, patches, original 21-example suite,
+and downstream checks remain unchanged. No shared workflow or artifact policy
+is modified. Replacement exact-head full target CI, ordinary installation,
+installed tests and physical RPM/SRPM acceptance remain required before merge.
+Remove this transport workaround only when cross-job artifact transport
+reliably retains the original hidden basenames without losing either input.

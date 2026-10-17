@@ -13,8 +13,8 @@ URL:            https://github.com/j-jorge/libclaw
 Source0:        https://codeload.github.com/j-jorge/libclaw/tar.gz/%{upstream_commit}#/libclaw-%{version}.tar.gz
 Source1:        https://ftp.gnu.org/gnu/Licenses/gpl-2.0.txt#/GPL-2.0.txt
 Source2:        https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/gnuplot.txt
-Source3:        https://raw.githubusercontent.com/j-jorge/libclaw/%{upstream_commit}/.gitattributes
-Source4:        https://raw.githubusercontent.com/j-jorge/libclaw/%{upstream_commit}/.gitignore
+Source3:        https://raw.githubusercontent.com/j-jorge/libclaw/%{upstream_commit}/.gitattributes#/upstream-gitattributes
+Source4:        https://raw.githubusercontent.com/j-jorge/libclaw/%{upstream_commit}/.gitignore#/upstream-gitignore
 Patch0:         0001-multilib-CMake-config.patch
 Patch1:         0002-add-installed-QA.patch
 BuildRequires:  gcc
