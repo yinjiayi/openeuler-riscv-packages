@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libjuice
-Version:        1.7.3
-Release:        2%{?dist}
+Version:        1.7.4
+Release:        1%{?dist}
 Summary:        UDP Interactive Connectivity Establishment (ICE) library
 License:        MPL-2.0
 URL:            https://github.com/paullouisageneau/libjuice
-Source0:        libjuice-1.7.3.tar.gz
+Source0:        v1.7.4.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
