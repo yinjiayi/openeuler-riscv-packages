@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-zglob-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Zglob-0.11.tar.gz",
+      "version": "0.11",
+      "url": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/File-Zglob-0.11.tar.gz",
+      "digests": {
+        "sha256": "1cb1edde20ac094ef003794bafef2c7624169cf8402c7367d9b7460f6c0e669b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches CHECKSUMS; module POD expressly grants redistribution and modification under Perl's terms."
+      }
+    }
+  ]
+}

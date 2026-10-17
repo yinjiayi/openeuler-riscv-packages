@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/mtools/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mtools",
+        "package_name": "mtools",
+        "source": "arch-extra",
+        "source_version": "1:4.0.49-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/mtools/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mtools",
+        "package_name": "mtools",
+        "source": "debian",
+        "source_version": "4.0.48-1"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/mtools/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mtools",
+        "package_name": "mtools",
+        "source": "fedora",
+        "source_version": "4.0.49-3.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/mtools/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mtools",
+        "package_name": "mtools",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.0.49-1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "mtools.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "mtools",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "mtools",
+    "summary": "A collection of utilities to access MS-DOS disks"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-mtools",
+    "homepage": "https://www.gnu.org/software/mtools/",
+    "release_api": "https://ftp.gnu.org/gnu/mtools/",
+    "release_channel": "stable",
+    "release_regex": "mtools-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.lz",
+    "source_repository": "https://savannah.gnu.org/projects/mtools/",
+    "source_url_template": "https://ftp.gnu.org/gnu/mtools/mtools-{version}.tar.lz"
+  },
+  "version": {
+    "current": "4.0.49",
+    "latest_detected": "4.0.49",
+    "release": "1"
+  }
+}

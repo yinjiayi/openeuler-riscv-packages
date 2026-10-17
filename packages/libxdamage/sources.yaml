@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxdamage",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libXdamage-1.1.7.tar.xz",
+      "version": "1.1.7",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXdamage-1.1.7.tar.xz",
+      "digests": {
+        "sha256": "127067f521d3ee467b97bcb145aeba1078e2454d448e8748eb984d5b397bde24"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The permissively licensed official X.Org release is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}

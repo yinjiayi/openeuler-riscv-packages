@@ -10,9 +10,17 @@ package_id=$(basename "$package_dir")
 started_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 status=failed
 message=
+dnf_transaction_file=$(dirname "$result_file")/dnf-transaction.json
 
 write_result() {
-  RESULT_STATUS=$status RESULT_MESSAGE=$message RESULT_PACKAGE=$package_id \
+  local exit_status=$?
+  local result_status=0
+  trap - EXIT
+  if [[ $status = failed && -z $message ]]; then
+    # Do not include the failing command, arguments or environment in evidence.
+    message="RPM installation or package smoke test failed (exit status $exit_status); see smoke.log"
+  fi
+  if RESULT_STATUS=$status RESULT_MESSAGE=$message RESULT_PACKAGE=$package_id \
   RESULT_STARTED=$started_at python3 - "$result_file" <<'PY'
 import datetime
 import json
@@ -33,6 +41,17 @@ payload = {
 }
 path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
+  then
+    :
+  else
+    result_status=$?
+  fi
+  # Evidence-write errors must not mask the original smoke/installation error.
+  # Conversely, a successful smoke cannot pass if its result could not be saved.
+  if ((exit_status == 0 && result_status != 0)); then
+    exit_status=$result_status
+  fi
+  exit "$exit_status"
 }
 trap write_result EXIT
 
@@ -135,8 +154,21 @@ enabled_repositories=(--enablerepo=openeuler-rva23)
 if [[ $repository_status = passed ]]; then
   enabled_repositories+=(--enablerepo=openeuler-riscv-project)
 fi
-dnf -y --setopt install_weak_deps=False --disablerepo='*' \
-  "${enabled_repositories[@]}" install "${rpms[@]}"
+set +e
+python3 ci/run-dnf-transaction \
+  --evidence "$dnf_transaction_file" \
+  --budget-seconds 3300 \
+  --attempt-timeouts-seconds 2100,1100 \
+  --retry-delay-seconds 5 \
+  --kill-after-seconds 10 \
+  -- dnf -y --setopt=install_weak_deps=False --disablerepo='*' \
+    "${enabled_repositories[@]}" install -- "${rpms[@]}"
+dnf_status=$?
+set -e
+if ((dnf_status != 0)); then
+  message="bounded RPM installation DNF transaction failed; see dnf-transaction.json"
+  exit "$dnf_status"
+fi
 
 smoke="$package_dir/tests/smoke.sh"
 [[ -f $smoke ]] || { message="tests/smoke.sh is missing"; exit 2; }

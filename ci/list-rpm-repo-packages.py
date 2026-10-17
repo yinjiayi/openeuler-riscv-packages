@@ -11,6 +11,8 @@ import re
 
 
 PACKAGE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+MATRIX_SHARDS = 2
+MATRIX_LIMIT = 256
 
 
 def main() -> int:
@@ -18,7 +20,10 @@ def main() -> int:
     parser.add_argument("--packages-dir", default="packages")
     parser.add_argument("--output", required=True)
     parser.add_argument("--github-output")
+    parser.add_argument("--max-concurrency", type=int, default=50)
     args = parser.parse_args()
+    if args.max_concurrency < MATRIX_SHARDS:
+        raise SystemExit("max concurrency must be at least the shard count")
     packages: list[str] = []
     skipped: list[dict[str, str]] = []
     for directory in sorted(Path(args.packages_dir).iterdir(), key=lambda path: path.name):
@@ -41,13 +46,21 @@ def main() -> int:
             packages.append(directory.name)
     if not packages:
         raise SystemExit("no active QEMU-buildable packages were found")
-    if len(packages) > 256:
-        raise SystemExit("package count exceeds the GitHub Actions matrix limit")
+    if len(packages) > MATRIX_SHARDS * MATRIX_LIMIT:
+        raise SystemExit("package count exceeds the two-shard GitHub Actions matrix limit")
+    shards = [packages[index::MATRIX_SHARDS] for index in range(MATRIX_SHARDS)]
+    max_parallel_per_shard = max(1, args.max_concurrency // MATRIX_SHARDS)
     document = {
         "schema_version": 1,
         "kind": "rpm-repository-backfill-plan",
         "packages": packages,
         "package_count": len(packages),
+        "shards": [
+            {"index": index, "packages": shard, "package_count": len(shard)}
+            for index, shard in enumerate(shards)
+        ],
+        "max_concurrency": args.max_concurrency,
+        "max_parallel_per_shard": max_parallel_per_shard,
         "skipped": skipped,
     }
     output = Path(args.output)
@@ -55,7 +68,10 @@ def main() -> int:
     output.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if args.github_output:
         with open(args.github_output, "a", encoding="utf-8") as stream:
-            stream.write("packages=" + json.dumps(packages, separators=(",", ":")) + "\n")
+            stream.write("packages_0=" + json.dumps(shards[0], separators=(",", ":")) + "\n")
+            stream.write("packages_1=" + json.dumps(shards[1], separators=(",", ":")) + "\n")
+            stream.write(f"package_count={len(packages)}\n")
+            stream.write(f"max_parallel_per_shard={max_parallel_per_shard}\n")
     print(f"selected {len(packages)} packages; skipped {len(skipped)}")
     return 0
 

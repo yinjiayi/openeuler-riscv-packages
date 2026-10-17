@@ -1,0 +1,132 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/tpm2-software/tpm2-tss",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tpm2-tss",
+        "package_name": "tpm2-tss",
+        "source": "arch-core",
+        "source_version": "4.1.3-1"
+      },
+      {
+        "evidence_url": "https://github.com/tpm2-software/tpm2-tss",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-aarch64-tpm2-tss",
+        "package_name": "android-aarch64-tpm2-tss",
+        "source": "aur",
+        "source_version": "4.1.3-1"
+      },
+      {
+        "evidence_url": "https://github.com/tpm2-software/tpm2-tss",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-armv7a-eabi-tpm2-tss",
+        "package_name": "android-armv7a-eabi-tpm2-tss",
+        "source": "aur",
+        "source_version": "4.1.3-1"
+      },
+      {
+        "evidence_url": "https://github.com/tpm2-software/tpm2-tss",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-riscv64-tpm2-tss",
+        "package_name": "android-riscv64-tpm2-tss",
+        "source": "aur",
+        "source_version": "4.1.3-1"
+      },
+      {
+        "evidence_url": "https://github.com/tpm2-software/tpm2-tss",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-64-tpm2-tss",
+        "package_name": "android-x86-64-tpm2-tss",
+        "source": "aur",
+        "source_version": "4.1.3-1"
+      },
+      {
+        "evidence_url": "https://github.com/tpm2-software/tpm2-tss",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "android-x86-tpm2-tss",
+        "package_name": "android-x86-tpm2-tss",
+        "source": "aur",
+        "source_version": "4.1.3-1"
+      },
+      {
+        "evidence_url": "https://github.com/tpm2-software/tpm2-tss",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tpm2-tss",
+        "package_name": "tpm2-tss",
+        "source": "debian",
+        "source_version": "4.1.3-1.2"
+      },
+      {
+        "evidence_url": "https://github.com/tpm2-software/tpm2-tss",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tpm2-tss",
+        "package_name": "tpm2-tss",
+        "source": "fedora",
+        "source_version": "4.1.3-9.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/tpm2-software/tpm2-tss",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tpm2-0-tss",
+        "package_name": "tpm2-0-tss",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.1.3-1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tpm2-tss.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory. Downstream release 2 declares the pkg-config, OpenSSL, JSON-C, libcurl, UUID, and cmocka providers required by the default build and unit tests. Release 3 switches from GitHub's tag snapshot to upstream's official GNU-style 4.1.3 release asset, which includes VERSION, src_vars.mk, configure, and Makefile.in, and pins its independently recomputed SHA-256. Release 4 adds the OpenSSL command-line package used by the enabled unit suite to decode its test fixtures; the existing openssl-devel dependency remains for compilation. Release 5 lists manual pages separately from the generated payload manifest so RPM's post-install compression cannot invalidate their names. Upstream also publishes a detached signature whose issuer fingerprint is recorded as advisory metadata; the signature was not cryptographically verified here. Integration tests remain at their upstream default because they require a TPM simulator and additional integration infrastructure; no library or TCTI feature is disabled. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "status": "active"
+  },
+  "package_id": "tpm2-tss",
+  "rpm": {
+    "license": "BSD-2-Clause",
+    "name": "tpm2-tss",
+    "summary": "Implementation of the TCG Trusted Platform Module 2.0 Software Stack (TSS2)"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "github.com-tpm2-software-tpm2-tss",
+    "homepage": "https://tpm2-software.github.io",
+    "release_api": "https://api.github.com/repos/tpm2-software/tpm2-tss/releases?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/tpm2-software/tpm2-tss",
+    "source_url_template": "https://github.com/tpm2-software/tpm2-tss/releases/download/{version}/tpm2-tss-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.1.3",
+    "latest_detected": "4.1.3",
+    "release": "5"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libgdsii",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libgdsii",
+        "package_name": "libgdsii",
+        "source": "debian",
+        "source_version": "0.2+ds.1-1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libgdsii",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libgdsii",
+        "package_name": "libgdsii",
+        "source": "ubuntu",
+        "source_version": "0.2+ds.1-1build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libgdsii.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v0.21 fixed source and all 24 Git blobs verified, including three symlink targets. Complete original GPL-2.0-or-later legal bytes resolve catalog unknown-license triage. Default static library, libtool archive, converter, example and make check retained. No registered upstream tests; labelled downstream fixture/API/CLI checks are additional. Exact-target unlink of two absolute documentation links precedes target autoreconf. Original AC_INIT/pkg-config version 0.1 is unchanged. No local target execution or success claim.",
+    "status": "active"
+  },
+  "package_id": "libgdsii",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "libgdsii",
+    "summary": "C++ library and converter for GDSII geometry files"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-homerreid-libgdsii",
+    "homepage": "https://github.com/HomerReid/libGDSII",
+    "release_api": "https://api.github.com/repos/HomerReid/libGDSII/tags",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/HomerReid/libGDSII",
+    "source_url_template": "https://codeload.github.com/HomerReid/libGDSII/tar.gz/v{version}"
+  },
+  "version": {
+    "current": "0.21",
+    "latest_detected": "0.21",
+    "release": "1"
+  }
+}

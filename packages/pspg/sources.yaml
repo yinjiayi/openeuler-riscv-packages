@@ -1,0 +1,21 @@
+{
+  "package_id": "pspg",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3dcfb810cc6675cac6e3ea53775a6f819e0e12e0d2bde8122e3136b740f38ae5"
+      },
+      "filename": "pspg-5.8.16.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/okbob/pspg/archive/refs/tags/5.8.16.tar.gz",
+      "version": "5.8.16"
+    }
+  ]
+}

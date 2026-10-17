@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-trim-more-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Trim-More-0.03.tar.gz",
+      "version": "0.03",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/String-Trim-More-0.03.tar.gz",
+      "digests": {
+        "sha256": "739cfbd73e0a92897c6f31f0ad8d72a56302f8805e9707d4edca5e5086c14e7f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE expressly grants the same terms as Perl itself; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

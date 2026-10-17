@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           less
-Version:        704
+Version:        710
 Release:        1%{?dist}
 Summary:        Terminal file pager
 License:        (GPL-3.0-only OR BSD-2-Clause) AND GPL-2.0-or-later
 URL:            https://www.greenwoodsoftware.com/less/
-Source0:        less-%{version}.tar.gz
+Source0:        less-710.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -34,11 +34,10 @@ backward movement, searching, filtering, and large files.
 %license COPYING LICENSE
 %doc INSTALL NEWS README
 %{_bindir}/less
-%{_bindir}/lesskey
 %{_libexecdir}/lessecho
 %{_libexecdir}/less-osc8-open
 %{_mandir}/man1/less.1*
-%{_mandir}/man1/lesskey.1*
+%{_mandir}/man5/lesskey.5*
 %{_mandir}/man1/lessecho.1*
 
 %changelog

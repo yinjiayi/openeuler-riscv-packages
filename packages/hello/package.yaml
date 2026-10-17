@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/hello/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hello",
+        "package_name": "hello",
+        "source": "debian",
+        "source_version": "2.10-5"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/hello/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hello",
+        "package_name": "hello",
+        "source": "fedora",
+        "source_version": "2.12.3-1.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/hello/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hello",
+        "package_name": "hello",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.12.3-1.4"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/hello/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hello",
+        "package_name": "hello",
+        "source": "ubuntu",
+        "source_version": "2.10-5build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "hello.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "hello",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "hello",
+    "summary": "A Friendly Greeting Program"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-hello",
+    "homepage": "https://www.gnu.org/software/hello/",
+    "release_api": "https://ftp.gnu.org/gnu/hello/",
+    "release_channel": "stable",
+    "release_regex": "hello-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://git.savannah.gnu.org/git/hello.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/hello/hello-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.12.3",
+    "latest_detected": "2.12.3",
+    "release": "1"
+  }
+}

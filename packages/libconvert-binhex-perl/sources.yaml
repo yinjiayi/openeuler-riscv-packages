@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libconvert-binhex-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Convert-BinHex-1.125.tar.gz",
+      "version": "1.125",
+      "url": "https://cpan.metacpan.org/authors/id/S/ST/STEPHEN/Convert-BinHex-1.125.tar.gz",
+      "digests": {
+        "sha256": "513591b4be46bd7eb91e83197721b4a045a9753a3dd2f11de82c9d3013226397"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN source is licensed under the same terms as Perl itself and is fetched over HTTPS with its official SHA-256 checksum."
+      }
+    }
+  ]
+}

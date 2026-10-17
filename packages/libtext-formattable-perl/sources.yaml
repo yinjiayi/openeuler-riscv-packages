@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-formattable-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-FormatTable-1.03.tar.gz",
+      "version": "1.03",
+      "url": "https://cpan.metacpan.org/authors/id/T/TR/TREY/Text-FormatTable-1.03.tar.gz",
+      "digests": {
+        "sha256": "587e94aaef1a80dab520770e18075a41b7e59add95bf6dd817bd4059b902799f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Makefile.PL, README and module POD grant the same GPL/Artistic choice as Perl; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}

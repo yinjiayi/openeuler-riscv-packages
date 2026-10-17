@@ -11,6 +11,8 @@ validate:
 	@mkdir -p $(VALIDATION_DIR)
 	@$(PYTHON) scripts/validate-metadata --repo-root . \
 		--output $(VALIDATION_DIR)/metadata-validation.json
+	@$(PYTHON) scripts/validate-package-index --repo-root . \
+		--output $(VALIDATION_DIR)/package-index-validation.json
 	@$(PYTHON) ci/validate-repository.py --repo-root . \
 		--output $(VALIDATION_DIR)/repository-validation.json
 

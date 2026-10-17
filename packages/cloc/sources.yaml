@@ -1,0 +1,36 @@
+{
+  "package_id": "cloc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a8fac35f4cf42728765580ba11afc2568ad205509a22204663f526169548436d"
+      },
+      "filename": "cloc-2.10.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/AlDanial/cloc/archive/refs/tags/v2.10.tar.gz",
+      "version": "2.10"
+    },
+    {
+      "digests": {
+        "sha256": "bb928b75606dfd4b416ed56db7558038bdf3de8eee4e08e09071b9d76237720a"
+      },
+      "filename": "cloc_submodule_test-f647093e8be34e337366457005cfb8056b847ebb.tar.gz",
+      "id": "source1",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The upstream cloc Git fixture is fetched at the exact commit required by the complete test suite."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/AlDanial/cloc_submodule_test/tar.gz/f647093e8be34e337366457005cfb8056b847ebb",
+      "version": "f647093e8be34e337366457005cfb8056b847ebb"
+    }
+  ]
+}

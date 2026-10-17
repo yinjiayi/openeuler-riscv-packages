@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-crc-cksum-perl",
+  "rpm": {
+    "name": "perl-String-CRC-Cksum",
+    "summary": "Compute POSIX cksum-compatible CRC values from Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-crc-cksum-perl",
+    "homepage": "https://metacpan.org/dist/String-CRC-Cksum",
+    "source_repository": "https://metacpan.org/dist/String-CRC-Cksum",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AH/AHAMM/",
+    "release_regex": "String-CRC-Cksum-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AH/AHAMM/String-CRC-Cksum-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.91",
+    "release": "1",
+    "latest_detected": "0.91"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-crc-cksum-perl",
+        "package_base": "libstring-crc-cksum-perl",
+        "source_version": "0.91",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-crc-cksum-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-crc-cksum-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official stable CPAN 0.91. Publisher CHECKSUMS SHA-256 and safe archive checked. README and module POD explicitly grant the same terms as Perl, resolving the historical license-blocked marker for this release. Official target primary lacks same-name RPM/provider. The unchanged upstream default t/1.t has 10 assertions and passed locally without skip; assertion 9 conditionally skips if /etc/profile or /usr/bin/cksum is absent on a target, so target coverage is not presumed. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

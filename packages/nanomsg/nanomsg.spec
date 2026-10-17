@@ -1,12 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nanomsg
-Version:        1.2.4
-Release:        1%{?dist}
-%global upstream_commit e6d0b8ddfc780eb89f8f6ef305e92c19e76bed6b
+Version:        1.2.5
+Release:        2%{?dist}
 Summary:        Socket library implementing scalable messaging protocols
 License:        MIT
 URL:            https://nanomsg.org/
-Source0:        nanomsg-%{version}.tar.gz
+Source0:        1.2.5.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -27,7 +26,7 @@ Headers, CMake and pkg-config metadata, and the unversioned linker name for
 developing applications with nanomsg.
 
 %prep
-%autosetup -n nanomsg-%{upstream_commit} -p1
+%autosetup -n %{name}-%{version} -p1
 
 %build
 %cmake_conf \
@@ -59,5 +58,8 @@ developing applications with nanomsg.
 %{_libdir}/cmake/nanomsg-%{version}/
 
 %changelog
+* Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.5-2
+- Use the versioned source archive root supplied by the 1.2.5 tag.
+
 * Wed Aug 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.2.4-1
 - Initial openEuler RISC-V package with all 43 upstream CTests.

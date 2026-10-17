@@ -1,0 +1,21 @@
+{
+  "package_id": "libice",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "974e4ed414225eb3c716985df9709f4da8d22a67a2890066bc6dfc89ad298625"
+      },
+      "filename": "libICE-1.1.2.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official X.Org source archive is redistributable under the upstream MIT COPYING terms."
+      },
+      "signature": null,
+      "url": "https://xorg.freedesktop.org/releases/individual/lib/libICE-1.1.2.tar.xz",
+      "version": "1.1.2"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+From 8ec420c428a5eadbcb00a8828a657b82d22db711 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Tue, 8 Sep 2026 12:30:00 +0800
+Subject: [PATCH] arguments: do not use input as a format string
+
+The custom resolution is user-controlled data, not a printf format.
+Copy it through a literal format so the code is safe and builds with
+openEuler's format-security hardening.
+---
+ main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/main.c b/main.c
+index ef178d2..a72f2de 100644
+--- a/main.c
++++ b/main.c
+@@ -124 +124 @@ int arguments(const int argc, char* argv[], int a)
+-            snprintf(monitor_res, sizeof(monitor_res), optarg);
++            snprintf(monitor_res, sizeof(monitor_res), "%s", optarg);

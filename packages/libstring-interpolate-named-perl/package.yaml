@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-interpolate-named-perl",
+  "rpm": {
+    "name": "perl-String-Interpolate-Named",
+    "summary": "Interpolate named values into Perl strings",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-interpolate-named-perl",
+    "homepage": "https://metacpan.org/dist/String-Interpolate-Named",
+    "source_repository": "https://github.com/sciurius/perl-String-Interpolate-Named",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JV/JV/",
+    "release_regex": "String-Interpolate-Named-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JV/JV/String-Interpolate-Named-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.06",
+    "release": "1",
+    "latest_detected": "1.06"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-interpolate-named-perl",
+        "package_base": "libstring-interpolate-named-perl",
+        "source_version": "1.06",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-interpolate-named-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-interpolate-named-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu and official CPAN 1.06. Publisher CHECKSUMS SHA-256, safe single-root archive, README and module POD same-as-Perl redistribution grant verified. Official target primary lacks same-name RPM/provider. All eight unmodified upstream default test files/449 assertions passed locally without skips; source-level staged install produced module and manual. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
