@@ -193,6 +193,48 @@ class TrustedPackageDispatchTests(unittest.TestCase):
         with self.assertRaisesRegex(MODULE.ToolError, "does not bind"):
             MODULE.verify_build_result(document, "demo", "a" * 40)
 
+    def test_smoke_reader_chooses_latest_producer_attempt_not_largest_id(self):
+        names = ["package-ci-smoke-demo-77", "package-ci-smoke-demo-77-attempt-2"]
+        rows = [{"id": 100, "name": names[0]}, {"id": 90, "name": names[1]},
+                {"id": 110, "name": "package-ci-smoke-other-77-attempt-3"}]
+        self.assertEqual(MODULE.select_smoke_artifact(rows, 77, "demo"), names[1])
+        self.assertEqual(MODULE.select_smoke_artifact(rows[:1], 77, "demo"), names[0])
+        with self.assertRaisesRegex(MODULE.ToolError, "ambiguous"):
+            MODULE.select_smoke_artifact(rows + [rows[1]], 77, "demo")
+        with self.assertRaisesRegex(MODULE.ToolError, "expired"):
+            MODULE.select_smoke_artifact([rows[0], dict(rows[1], expired=True)], 77, "demo")
+        with self.assertRaisesRegex(MODULE.ToolError, "no retained"):
+            MODULE.select_smoke_artifact([], 77, "demo")
+
+    def test_smoke_download_paginates_and_uses_one_unique_attempt_name(self):
+        first = [{"id": index + 100, "name": "unrelated-%d" % index} for index in range(99)]
+        first.append({"id": 12085895018, "name": "package-ci-smoke-demo-77-attempt-1"})
+        second = [{"id": 12085647456, "name": "package-ci-smoke-demo-77-attempt-2"}]
+        calls = []
+
+        def fake_download(command):
+            calls.append(command)
+            directory = pathlib.Path(command[command.index("--dir") + 1])
+            (directory / "build-result.json").write_text(json.dumps({
+                "package_id": "demo", "commit_sha": "a" * 40,
+                "status": "passed", "classification": "none",
+            }))
+
+        with mock.patch.object(MODULE, "gh_json", side_effect=[{"artifacts": first}, {"artifacts": second}]) as listing:
+            with mock.patch.object(MODULE, "run", side_effect=fake_download):
+                MODULE.download_build_result("example/repository", 77, "demo", "a" * 40)
+        self.assertEqual(listing.call_count, 2)
+        self.assertTrue(listing.call_args_list[-1].args[0][-1].endswith("page=2"))
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0][calls[0].index("--name") + 1], "package-ci-smoke-demo-77-attempt-2")
+
+    def test_smoke_download_rejects_malformed_listing_before_download(self):
+        with mock.patch.object(MODULE, "gh_json", return_value={"artifacts": {}}):
+            with mock.patch.object(MODULE, "run") as download:
+                with self.assertRaisesRegex(MODULE.ToolError, "invalid run artifact listing"):
+                    MODULE.download_build_result("example/repository", 77, "demo", "a" * 40)
+                download.assert_not_called()
+
     def test_terminal_polling_waits_past_in_progress_until_verified_completion(self):
         snapshots = [
             self.run_snapshot("queued"),
