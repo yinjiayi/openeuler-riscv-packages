@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "package_id": "python-better-exceptions",
+  "rpm": {
+    "name": "python-better-exceptions",
+    "summary": "Pretty and helpful Python exceptions",
+    "license": "MIT AND Python-2.0"
+  },
+  "upstream": {
+    "component": "github.com-qix-better-exceptions",
+    "homepage": "https://github.com/Qix-/better-exceptions",
+    "source_repository": "https://github.com/Qix-/better-exceptions",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/Qix-/better-exceptions/tags?per_page=100",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.4.0",
+    "release": "2",
+    "latest_detected": "0.4.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "python-better-exceptions",
+        "package_base": "python-better-exceptions",
+        "source_version": "0.4.0-1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/f4e04cee669ccb34bd3d378cc242f08f8b425412/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "python-better-exceptions.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Original47/full12golden120cases unchanged; CP3.11 selected original GHA route, other interpreters unclaimed. Full copied-code notices, staged/installed origin/.pth guards; no local defaults or native/timing/coverage acceptance."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}

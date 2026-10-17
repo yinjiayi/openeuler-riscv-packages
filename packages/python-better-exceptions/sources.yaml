@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "python-better-exceptions",
+  "sources": [
+    {
+      "id": "source0",
+      "filename": "python-better-exceptions-0.4.0.tar.gz",
+      "url": "https://codeload.github.com/Qix-/better-exceptions/tar.gz/8fa00a74cf2a43e5f7012f158f0e16ea6216eaa0",
+      "kind": "upstream-release",
+      "version": "0.4.0",
+      "digests": {
+        "sha256": "4237a29497b5b6f1e1df75396bba536c8f2ee950c996e23cb27a90b0129a8e12"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full original MIT plus fixed copied-code full MIT/Python historical notices and derivative changes included; no archive GPG assertion."
+      }
+    },
+    {
+      "id": "source1",
+      "filename": "PYTHON-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/python/cpython/a5b76167dedf4d15211a216c3ca7b98e3cec33b8/LICENSE",
+      "kind": "upstream-release",
+      "version": "0.4.0",
+      "digests": {
+        "sha256": "a77d71d6be6f9032e6b6e5d2cf6da68f9eeab9036edfbc043633c8979cd5e82c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed primary legal/contributor text retained verbatim as copied-code attribution; no claim of unique copy-date/version."
+      }
+    },
+    {
+      "id": "source2",
+      "filename": "PYTEST-COV-MIT-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/pytest-dev/pytest-cov/cde7c378b6a1971957759f42ac91e2860b41cf89/LICENSE",
+      "kind": "upstream-release",
+      "version": "0.4.0",
+      "digests": {
+        "sha256": "835586ae156766a24e3c103fbc55d9af6b1a16df57ca932c97482a2737fd83d5"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed primary legal/contributor text retained verbatim as copied-code attribution; no claim of unique copy-date/version."
+      }
+    },
+    {
+      "id": "source3",
+      "filename": "PYTEST-COV-AUTHORS.rst",
+      "url": "https://raw.githubusercontent.com/pytest-dev/pytest-cov/cde7c378b6a1971957759f42ac91e2860b41cf89/AUTHORS.rst",
+      "kind": "upstream-release",
+      "version": "0.4.0",
+      "digests": {
+        "sha256": "e7d3fd5b8c1def57317a8a68b54b1cb3d93829767e6fa6e8d719f3b0069f7523"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed primary legal/contributor text retained verbatim as copied-code attribution; no claim of unique copy-date/version."
+      }
+    }
+  ]
+}
