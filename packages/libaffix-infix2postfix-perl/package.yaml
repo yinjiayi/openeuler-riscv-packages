@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Affix-Infix2Postfix/perl-Affix-Infix2Postfix/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Affix-Infix2Postfix",
+        "package_name": "perl-Affix-Infix2Postfix",
+        "source": "fedora",
+        "source_version": "0.03-48.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-affix-infix2postfix.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Frozen Fedora component metacpan.org-release-affix-infix2postfix resolves to official authorized/stable CPAN release 0.03. All six original archive files and distribution-wide README same-terms-as-Perl grant reviewed without execution; author CHECKSUMS and release API agree on SHA-256. Full pinned official Perl Artistic/Copying documents accompany the unchanged original README. Retain complete default MakeMaker test.pl (one TAP load assertion plus nonempty translation example), and upstream token-prefix BUGS warning. No target build, default test execution, RPM installation, smoke success, or native RISC-V validation has been observed locally.",
+    "status": "active"
+  },
+  "package_id": "libaffix-infix2postfix-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Affix-Infix2Postfix",
+    "summary": "Convert mathematical infix expressions to postfix notation"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-affix-infix2postfix",
+    "homepage": "https://metacpan.org/dist/Affix-Infix2Postfix",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AD/ADDI/",
+    "release_channel": "stable",
+    "release_regex": "Affix-Infix2Postfix-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/A/AD/ADDI/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AD/ADDI/Affix-Infix2Postfix-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.03",
+    "latest_detected": "0.03",
+    "release": "1"
+  }
+}

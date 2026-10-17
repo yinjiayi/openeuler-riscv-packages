@@ -1,0 +1,41 @@
+{
+  "package_id": "libaffix-infix2postfix-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1dff8f812118d7320818832835707c99b6400e56982949bad8d152004072e8a4"
+      },
+      "filename": "Affix-Infix2Postfix-0.03.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unchanged original README grants redistribution and modification under the same terms as Perl itself; GPL-1.0-or-later OR Artistic-1.0-Perl. Full official Perl license terms are separately pinned below."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/A/AD/ADDI/Affix-Infix2Postfix-0.03.tar.gz",
+      "version": "0.03"
+    },
+    {
+      "id": "source1",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "filename": "Perl-Artistic",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Verbatim full official Perl Artistic license terms accompanying the original same-terms-as-Perl grant; no Perl runtime source is incorporated."}
+    },
+    {
+      "id": "source2",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "filename": "Perl-Copying",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Verbatim full official Perl GPL version 1 license document; its notice permits verbatim redistribution. License-source anchor is not the identity of the 2000 Affix release or target Perl runtime."}
+    }
+  ]
+}
