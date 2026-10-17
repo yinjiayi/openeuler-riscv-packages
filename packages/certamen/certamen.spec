@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           certamen
-Version:        1.0.3
+Version:        1.1.1
 Release:        1%{?dist}
 Summary:        TUI quiz game engine with SSH multiplayer support written in CPP with FTXUI
 License:        MIT
 URL:            https://github.com/trintlermint/certamen
-Source0:        certamen-1.0.3.tar.gz
+Source0:        v1.1.1.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
