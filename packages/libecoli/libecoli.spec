@@ -96,44 +96,83 @@ int main(void) {
 C
 cat > %{buildroot}%{_datadir}/libecoli/run-tests.sh <<'SH'
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
+stage=initialization
+trap 'status=$?; printf "FAIL downstream stage=%s line=%s exit=%s\n" "$stage" "$LINENO" "$status" >&2; exit "$status"' ERR
 root=${1:-}
 base="$root/usr/share/libecoli"
+stage=input-integrity
+printf 'BEGIN downstream stage=%s\n' "$stage"
 (cd "$base"; sha256sum -c SHA256SUMS)
+printf 'PASS downstream stage=%s\n' "$stage"
+stage=workspace
 work=$(mktemp -d)
 trap 'rm -rf -- "$work"' EXIT
 export LD_LIBRARY_PATH="$root/usr/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export PKG_CONFIG_PATH="$root/usr/lib64/pkgconfig"
+stage=pkgconf-cflags
 read -r -a cflags <<< "$(pkgconf --define-variable=prefix="$root/usr" --cflags libecoli)"
+stage=pkgconf-libs
 read -r -a libs <<< "$(pkgconf --define-variable=prefix="$root/usr" --libs libecoli)"
 count=0
 for source in "$base"/test/*.c; do
   name=$(basename "$source" .c)
   if [[ $name == test ]]; then continue; fi
+  stage="unit-compile:$name"
+  printf 'BEGIN downstream stage=%s\n' "$stage"
   gcc -std=gnu99 -D_GNU_SOURCE -O2 -UNDEBUG "${cflags[@]}" -I"$base/test" \
     "$source" "$base/test/test.c" "${libs[@]}" -o "$work/$name"
+  stage="unit-run:$name"
+  printf 'BEGIN downstream stage=%s\n' "$stage"
   "$work/$name"
   count=$((count+1))
+  printf 'PASS downstream stage=%s completed=%s\n' "$stage" "$count"
 done
+stage=unit-count
+printf 'CHECK downstream stage=%s observed=%s required=33\n' "$stage" "$count"
 [[ $count == 33 ]]
+stage=consumer-compile
+printf 'BEGIN downstream stage=%s\n' "$stage"
 gcc -std=gnu99 -D_GNU_SOURCE -O2 -UNDEBUG "${cflags[@]}" "$base/consumer.c" "${libs[@]}" -o "$work/consumer"
+stage=consumer-run
+printf 'BEGIN downstream stage=%s\n' "$stage"
 "$work/consumer"
+printf 'PASS downstream stage=%s\n' "$stage"
 # The original generator ignores /usr system headers. A private copy of the
 # installed headers prevents an empty, misleading public-symbol check.
+stage=private-headers
+printf 'BEGIN downstream stage=%s\n' "$stage"
 mkdir "$work/include"
 cp "$root/usr/include/ecoli.h" "$work/include/"
 cp -R "$root/usr/include/ecoli" "$work/include/"
+stage=symbol-generator
+printf 'BEGIN downstream stage=%s\n' "$stage"
 python3 "$base/gen_sym_check.py" "$work/include" > "$work/symbols.c"
+stage=symbol-count
 symbols=$(grep -Ec '^[[:space:]]*\(void \*\)&?ec_' "$work/symbols.c")
+printf 'CHECK downstream stage=%s observed=%s required=positive\n' "$stage" "$symbols"
 [[ $symbols -gt 0 ]]
+stage=symbol-link
+printf 'BEGIN downstream stage=%s\n' "$stage"
 gcc -std=gnu99 -D_GNU_SOURCE -Wno-deprecated-declarations "${cflags[@]}" "$work/symbols.c" "${libs[@]}" -o "$work/symbols"
+stage=symbol-run
+printf 'BEGIN downstream stage=%s\n' "$stage"
 "$work/symbols" > "$work/symbols.log"
+stage=symbol-output-count
 [[ $(wc -l < "$work/symbols.log") == "$symbols" ]]
+printf 'PASS downstream stage=%s symbols=%s\n' "$stage" "$symbols"
+stage=cli-help
+printf 'BEGIN downstream stage=%s\n' "$stage"
 "$root/usr/bin/ecoli-parse-yaml" --help > "$work/help.log" 2>&1
+stage=cli-help-assert
 grep -q -- '--input-file' "$work/help.log"
+stage=cli-completion
+printf 'BEGIN downstream stage=%s\n' "$stage"
 "$root/usr/bin/ecoli-parse-yaml" --complete --input-file "$base/test.yaml" --output-file "$work/out.sh" -- hello '' > "$work/completions"
+stage=cli-completion-sort
 LC_ALL=C sort "$work/completions" > "$work/actual"
 printf 'john\nmike\n' > "$work/expected"
+stage=cli-completion-assert
 diff -u "$work/expected" "$work/actual"
 printf 'PASS downstream original-units=%s public-symbols=%s consumers=1 cli-completions=2 skips=0\n' "$count" "$symbols"
 SH

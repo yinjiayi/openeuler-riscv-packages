@@ -46,6 +46,15 @@ and verifies `john`/`mike` completion with the original offline YAML fixture.
 Installed headers are copied to a private path because the original generator
 excludes `/usr` system headers; an empty symbol set cannot pass.
 
+The first target build passed the 33 original Meson programs and the original
+symbol check, then failed in the added downstream suite without identifying its
+quiet failing step. The suite now emits stage and per-unit begin/pass/count
+markers; its inherited error trap reports only stage, line and exit status, not
+environment values or command arguments. All original commands, unit-count,
+symbol-count, consumer and CLI assertions remain unchanged. This is diagnostic
+instrumentation for the next real target run, not a claimed source repair or
+successful target build/install acceptance.
+
 No local upstream/RPM/QEMU build was run. Metadata/trusted tooling/source-only
 checks precede submission. Real target build/install/smoke, physical RPM/SRPM
 acceptance and merge remain separate hosted-CI gates. This is userspace
