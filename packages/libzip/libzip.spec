@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libzip
-Version:        1.11.4
+Version:        1.12
 Release:        1%{?dist}
 Summary:        Library for reading, creating, and modifying ZIP archives
 License:        BSD-3-Clause
 URL:            https://libzip.org/
-Source0:        libzip-%{version}.tar.xz
+Source0:        libzip-1.12.tar.xz
 # Official nihtest release used only to retain libzip's complete regression suite.
 Source1:        nihtest-1.9.1.tar.gz
 
