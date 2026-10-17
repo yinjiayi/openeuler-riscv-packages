@@ -30,6 +30,21 @@ and notices. Full verbatim GNU GPL2/GPL3 companion texts are additional pinned
 sources in the SRPM and license payload. Helpers are not installed as executable
 runtime code or silently relicensed BSD/Apache. Language bindings are unbuilt.
 
+The legal companions use GNU's official primary distribution archive:
+<https://ftp.gnu.org/gnu/Licenses/gpl-2.0.txt> and
+<https://ftp.gnu.org/gnu/Licenses/gpl-3.0.txt>. GNU identifies this host as its
+primary distribution site at <https://www.gnu.org/software/devel.html>.
+Target source verification at head `7c5b5c4ecf07526ded1992f9526f14bd3c112d5e`
+(run 38992723389) could not reach the former www.gnu.org GPL2 URL, before any
+upstream build. The replacement URLs were freshly fetched with verified HTTPS
+and match the unchanged complete license bytes and SHA-256 values: GPL2
+`edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6`
+(17,984 bytes), GPL3
+`3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986`
+(35,149 bytes). This changes only legal-source transport, not source content,
+license terms, build configuration or tests. Target reachability and the full
+build/install acceptance still require fresh exact-head CI.
+
 Target metadata screening covered 18,503 official and 1,283 supplemental RPM
 identities and complete joined filelists: no canonical/SONAME/header/static/
 shared/pkg-config/test namespace owner and no missing dependency capability.

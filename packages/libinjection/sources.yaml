@@ -19,13 +19,13 @@
     },
     {
       "id": "source1", "kind": "upstream-release", "filename": "COPYING.GPL2", "version": "2.0",
-      "url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
+      "url": "https://ftp.gnu.org/gnu/Licenses/gpl-2.0.txt",
       "digests": {"sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"},
       "signature": null, "redistribution": {"allowed": true, "reason": "Full GNU GPL version 2 text permits verbatim copying; companion for original build helpers, not a new license for the BSD C library."}
     },
     {
       "id": "source2", "kind": "upstream-release", "filename": "COPYING.GPL3", "version": "3.0",
-      "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "url": "https://ftp.gnu.org/gnu/Licenses/gpl-3.0.txt",
       "digests": {"sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"},
       "signature": null, "redistribution": {"allowed": true, "reason": "Full GNU GPL version 3 text permits verbatim copying; companion for original git-version-gen and GPL3 Autoconf macro, with original notices and exceptions retained in source."}
     }
