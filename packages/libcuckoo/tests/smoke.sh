@@ -3,6 +3,11 @@
 set -euo pipefail
 rpm -q -- libcuckoo
 rpm -V -- libcuckoo
+printf '%s  %s\n' \
+  cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 \
+  /usr/share/licenses/libcuckoo/LICENSE-2.0.txt \
+  8a79e0ec350fe0e029fdf9c27355cbe7e65511198e3e6fd10d839dfa41edb1ce \
+  /usr/share/licenses/libcuckoo/LICENSE | sha256sum --check --strict
 qa=/usr/share/libcuckoo/qa
 test -d /usr/include/libcuckoo
 test -d /usr/include/libcuckoo-c

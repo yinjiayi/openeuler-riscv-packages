@@ -9,6 +9,7 @@ Summary:        Header-only concurrent C++ hash table with C interface templates
 License:        Apache-2.0 AND BSL-1.0
 URL:            https://github.com/efficient/libcuckoo
 Source0:        libcuckoo-0.3.1.tar.gz
+Source1:        LICENSE-2.0.txt
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -32,6 +33,7 @@ Header-only concurrent C++ hash table with C interface templates
 
 %prep
 %autosetup -n libcuckoo-ea8c36c65bf9cf83aaf6b0db971248c6ae3686cf -p1
+cp -p %{SOURCE1} LICENSE-2.0.txt
 
 %build
 %set_build_flags
@@ -63,7 +65,7 @@ ctest --test-dir build -N | grep -Fx 'Total Tests: 1'
 ctest --test-dir build --output-on-failure --verbose
 
 %files
-%license LICENSE tests/Catch/LICENSE_1_0.txt
+%license LICENSE LICENSE-2.0.txt tests/Catch/LICENSE_1_0.txt
 %doc README.md
 %{_includedir}/libcuckoo/
 %{_includedir}/libcuckoo-c/
@@ -71,6 +73,9 @@ ctest --test-dir build --output-on-failure --verbose
 %{_datadir}/libcuckoo/
 
 %changelog
+* Sat Oct 17 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.1-1
+- Ship the complete official Apache-2.0 text alongside unchanged upstream notices.
+- Retain original unit tests, examples, installed QA, and Catch BSL-1.0 text.
 * Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.3.1-1
 - Do not create an empty automatic debuginfo subpackage for a header-only payload.
 - Package verified stable source, default install, original unit suite and examples.

@@ -47,3 +47,16 @@ subpackage. Original builds, examples, tests, installation and installed QA
 remain unchanged; the corrected head still requires fresh full CI acceptance.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.
+
+The October 17 license audit found that the original root `LICENSE` is an
+Apache-2.0 grant/URL notice, not a complete copy of the license terms. A separate
+official ASF source, `https://www.apache.org/licenses/LICENSE-2.0.txt`, is pinned
+with SHA-256 `cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30`
+and installed as `%license` beside the unchanged upstream notice and complete
+Catch BSL-1.0 text. Installed QA checks both Apache text and notice digests.
+All 64 original upstream files, the complete original unit/example commands,
+assertions, and installed-header-only test strategy remain unchanged. This
+corrects a static distribution defect even though the old head's CI was green;
+it is not a fabricated CI failure or proof of replacement-head build success.
+The branch includes current main's normal all-binary RPM installation workflow;
+replacement-head full CI and physical RPM/SRPM/license acceptance remain required.
