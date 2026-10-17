@@ -1,0 +1,21 @@
+{
+  "package_id": "libcircle",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "dd6fd2b62ef20e12dd282e3bf41b72ed9641b5f0cfe3a25276ac672651bfd5a4"
+      },
+      "filename": "libcircle-0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/hpc/libcircle/tar.gz/3d8fbfae2b95fafe71a309fcfbb7c1c993f16ad8",
+      "version": "0.3"
+    }
+  ]
+}
