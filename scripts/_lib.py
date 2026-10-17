@@ -313,7 +313,17 @@ def is_prerelease(record: Mapping[str, Any]) -> bool:
     if bool(record.get("prerelease")) or bool(record.get("draft")):
         return True
     version = str(first_value(record, ["version", "tag_name", "name"], ""))
-    return bool(re.search(r"(?:^|[._-])(alpha|beta|rc|pre|preview|dev|snapshot|nightly)(?:[._-]|\d|$)", version, re.I))
+    if re.search(r"(?:^|[._-])(alpha|beta|rc|pre|preview|dev|snapshot|nightly)(?:[._-]|\d|$)", version, re.I):
+        return True
+    # Numeric compact releases such as 1.2.0rc1 have no separator before the
+    # marker. Require a numeric serial, preserving stable letter suffixes
+    # (e.g. 1.0.2a), and do not interpret local build labels as prereleases.
+    public_version = version.split("+", 1)[0]
+    return bool(re.fullmatch(
+        r"[vV]?\d+(?:\.\d+)*(?:a|b|alpha|beta|rc|pre|preview|dev)\d+",
+        public_version,
+        re.I,
+    ))
 
 
 def iter_records(document: Any) -> List[Mapping[str, Any]]:
