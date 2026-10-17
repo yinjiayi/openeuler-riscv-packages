@@ -27,6 +27,18 @@ materializes the exact retained downstream QA files through the repository's
 actual SPEC/source/patch staging contract; it does not change upstream code or
 tests. Both patches are locally authored MIT, not claimed upstream-accepted.
 
+`0003-find-inih-pkgconfig-module.patch` corrects the upstream finder request from
+`libinih` to the supplied `inih` pkg-config module. The exact target inih-devel
+62-1 RPM provides `inih.pc`, its `/usr/lib64` link-directory hint and a valid
+`libinih.so` linker symlink. The original PR configure failed with
+`INIH_LIBRARY` missing after the dependency transaction succeeded. An earlier
+C++ ABI detection probe also failed; its cause is not established by the
+retained log, and this small compatibility fix is not proof of target success.
+The same finder is installed for downstream CMake consumers. Remove this
+locally authored MIT patch when upstream uses the correct supplied module.
+All original defaults, tests, tool and library code remain unchanged; the next
+exact-head target build and installed consumers must validate the correction.
+
 `%check` runs original `check` → `check_lcf` → `test_runner_lcf` (not CTest).
 All ten original `.cpp` files and bundled doctest.h are installed unchanged and
 recompiled against installed headers/shared library. Separate downstream

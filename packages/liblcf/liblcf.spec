@@ -10,6 +10,7 @@ Source1:        https://raw.githubusercontent.com/boostorg/boost/ab7968a0bbcf574
 Source2:        https://raw.githubusercontent.com/doctest/doctest/ae7a13539fb71f270b87eb2e874fbac80bc8dda2/LICENSE.txt#/doctest-MIT.txt
 Patch0:         patches/0001-defer-staged-mime-cache.patch
 Patch1:         patches/0002-add-installed-checks.patch
+Patch2:         patches/0003-find-inih-pkgconfig-module.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -72,6 +73,7 @@ The original lcfstrings and lcf2xml programs, built with their default features.
 %setup -q -n liblcf-92c4450a1bc1acb58bd02bbb99b57e5036919cdf
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 cp %{SOURCE1} BSL-1.0.txt
 cp %{SOURCE2} doctest-MIT.txt
 
