@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simdzone
-Version:        0.2.4
-Release:        2%{?dist}
+Version:        0.2.7
+Release:        1%{?dist}
 Summary:        Fast and standards compliant DNS presentation format parser
 License:        BSD-3-Clause
 URL:            https://github.com/NLnetLabs/simdzone
-Source0:        simdzone-0.2.4.tar.gz
+Source0:        v0.2.7.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  libcmocka-devel
