@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           chromaprint
-Version:        1.6.1
+Version:        1.6.2
 Release:        1%{?dist}
 Summary:        Audio fingerprinting library and tool
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND BSD-3-Clause
 URL:            https://acoustid.org/chromaprint
-Source0:        chromaprint-%{version}.tar.gz
+Source0:        chromaprint-1.6.2.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  ffmpeg-devel
