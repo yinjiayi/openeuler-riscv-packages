@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/python-braceexpand",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-braceexpand",
+        "package_name": "python-braceexpand",
+        "source": "aur",
+        "source_version": "0.1.7-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/braceexpand",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "braceexpand",
+        "package_name": "braceexpand",
+        "source": "debian",
+        "source_version": "0.1.7-3"
+      },
+      {
+        "evidence_url": "https://launchpad.net/ubuntu/+source/braceexpand",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "braceexpand",
+        "package_name": "braceexpand",
+        "source": "ubuntu",
+        "source_version": "0.1.7-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-braceexpand.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official latest stable 0.1.7 fixed tag archive retains all 13 Git blobs and full MIT notice. Raw AUR stale GPL3 and Debian/Ubuntu unknown-license decisions are retained in admission evidence; current official LICENSE/setup metadata resolve MIT, not distribution license inference. Original Makefile test commands retain module-main doctests and the full unittest file. Installed checks run the same RPM-owned module and unmodified test file outside the source tree. No patches or local upstream/backend/RPM execution; target CI pending.",
+    "status": "active"
+  },
+  "package_id": "python-braceexpand",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-braceexpand",
+    "summary": "Bash-style brace expansion for Python"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-trendels-braceexpand",
+    "homepage": "https://github.com/trendels/braceexpand",
+    "release_api": "https://api.github.com/repos/trendels/braceexpand/tags",
+    "release_channel": "stable",
+    "release_regex": "^v?([0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/trendels/braceexpand",
+    "source_url_template": "https://github.com/trendels/braceexpand/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.1.7",
+    "latest_detected": "0.1.7",
+    "release": "1"
+  }
+}
