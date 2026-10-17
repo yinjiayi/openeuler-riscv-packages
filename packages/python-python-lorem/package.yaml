@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/python-python-lorem",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-python-lorem",
+        "package_name": "python-python-lorem",
+        "source": "aur",
+        "source_version": "1.3.0.post3-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-compatible-bdist-wheel-import.patch",
+        "sha256": "ea84e5df6f57c65fea825ad5f5d30d9308f8f9fd1b31d6731146d65054307372",
+        "purpose": "Fall back to supplied wheel 0.40 build command only when target setuptools 68 lacks its bdist_wheel module; no runtime/test change.",
+        "source": "https://github.com/JarryShaw/lorem/blob/04b9e25393906e45e1894b1c63a62e0224a370c7/setup.py",
+        "license": "BSD-3-Clause",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream handles the import or the target setuptools supplies setuptools.command.bdist_wheel."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-python-lorem.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed v1.3.0.post3 source retains all44Gitblobs/full2019BSD3/LICENSE/test/config. Current Python3.11 coverage run test_lorem.py whole10-method suite preserved, including installed RPM-owned source. Target console name differs; module invocation keeps same coverage entry. Exact target physical supplier review supports narrow missing-setuptools-module wheel0.40 compatibility patch only. No exact provider/namespace/reverse conflict; full18503+1192metadata rows scanned and live repomd/state fenced. Target build/install pending, no local upstream/backend/default/RPM/QEMU execution.",
+    "status": "active"
+  },
+  "package_id": "python-python-lorem",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "python-python-lorem",
+    "summary": "Pythonic lorem ipsum generator"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "jarryshaw.github.io-lorem",
+    "homepage": "https://jarryshaw.github.io/lorem/",
+    "release_api": "https://api.github.com/repos/JarryShaw/lorem/tags",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+)+(?:\\.post[0-9]+)?)$",
+    "source_repository": "https://github.com/JarryShaw/lorem",
+    "source_url_template": "https://github.com/JarryShaw/lorem/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.3.0.post3",
+    "latest_detected": "1.3.0.post3",
+    "release": "1"
+  }
+}
