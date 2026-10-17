@@ -1,0 +1,36 @@
+{
+  "package_id": "libgcroots",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "006b3e26338f7cf949e51d5bb8d8d20e7211607864e301d72139cb359f11fbac"
+      },
+      "filename": "libgcroots-0.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original Boehm-GC library/header plus source-only GPL-3.0-or-later WITH Autoconf-exception-macro and separate retained-notice getcontext macro permission; original notices retained, official full GPL3 text supplied as source1."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/uim/libgcroots/tar.gz/d362356cc4c5f591695d2fbda7746918250c9e99",
+      "version": "0.3.2"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "filename": "COPYING.GPL3",
+      "version": "3.0",
+      "digests": {
+        "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official GNU GPL version3 license document permits verbatim copying/distribution; retain full unmodified text for source-only GPL3 macro."
+      }
+    }
+  ]
+}
