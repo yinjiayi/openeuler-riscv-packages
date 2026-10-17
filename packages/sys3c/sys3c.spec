@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sys3c
-Version:        0.4.0
+Version:        0.5.0
 Release:        1%{?dist}
 Summary:        System 1-3 Compiler and Decompiler
 License:        GPL-2.0-or-later
 URL:            https://github.com/kichikuou/sys3c
-Source0:        sys3c-0.4.0.tar.gz
+Source0:        v0.5.0.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  meson
