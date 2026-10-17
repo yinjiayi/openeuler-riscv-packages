@@ -50,6 +50,15 @@ upstream-built, not upstream-installed, json2cbor executable is retained under
 the tests package's private libexec directory. Normal ELF debug RPMs and
 compiler debug flags remain enabled for all installed executables.
 
+The first target CI passed all five original CTest suites but exposed a
+packaging error: the installed QA checksum manifest was generated before
+RPM's debug-information extraction changed all six executable byte streams.
+Generate that manifest in mandatory `%check`, after install post-processing
+and the original CTest suite, immediately before staged QA. The staged and
+installed checksum checks and installed `rpm -V` remain unchanged. This is
+a final-staged-byte integrity check, not an independent upstream signature
+or a replacement for original tests; builds with checks disabled are unsupported.
+
 Local validation is trusted repository tooling, schema/golden/source-only
 checks and inert zero-fuzz GNU patch materialization only. No local upstream
 configure, compile, tests, RPM or QEMU execution. RISC-V target CI, ordinary

@@ -119,11 +119,13 @@ done
 install -m 0755 build/tools/json2cbor/json2cbor %{buildroot}%{_libexecdir}/%{name}/
 install -m 0755 downstream/run-tests.sh %{buildroot}%{_datadir}/%{name}/
 install -m 0644 downstream/consumer.c downstream/CMakeLists.txt %{buildroot}%{_datadir}/%{name}/
-(cd %{buildroot}%{_libexecdir}/%{name} && sha256sum tst_c90 tst_cpp tst_encoder tst_parser tst_tojson json2cbor) > %{buildroot}%{_datadir}/%{name}/SHA256SUMS
 
 %check
 # Run the original CTest commands including upstream's optional Valgrind wrapper.
 ctest --test-dir build --output-on-failure --no-tests=error
+# RPM's install post-processing extracts debug information and changes ELF bytes.
+# Bind the installed QA manifest to those final staged bytes, not pre-BRP copies.
+(cd %{buildroot}%{_libexecdir}/%{name} && sha256sum tst_c90 tst_cpp tst_encoder tst_parser tst_tojson json2cbor) > %{buildroot}%{_datadir}/%{name}/SHA256SUMS
 bash %{buildroot}%{_datadir}/%{name}/run-tests.sh --staged %{buildroot}
 
 %files
