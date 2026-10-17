@@ -1,0 +1,37 @@
+Liquid-dsp 1.8.3 corresponding FFTW source
+
+Liquid's original software is MIT licensed. This package preserves upstream's
+default FFTW-enabled shared-library build. The linked FFTW implementation is
+GPL-2.0-or-later; complete matching FFTW corresponding source accompanies this
+distribution, rather than a claimed written offer or a changeable source link.
+
+Exact target provider: fftw-libs-single 0:3.3.10-3.oe2403sp3.riscv64
+Official binary package SHA-256:
+1d624ff647fbe6880aba302f7db890d70a2880d18aaf1a874580566898c8decc
+Its recorded source package, also the source of fftw-devel, is:
+fftw-3.3.10-3.oe2403sp3.src.rpm
+Source package SHA-256:
+f0ebf856e2a01df5c04e421e4e98e2cc0ab05ddac8d1ac69111effba7dbde195
+
+The exact source RPM is physically distributed in this same directory and as
+a declared Source in the Liquid source RPM. It contains the original complete
+fftw-3.3.10.tar.gz (including genfft preferred generator source), fftw.spec and
+both distribution patches: fftw-obey-system-build-flags.patch and
+fix_autotools_build.patch. Original notices, full COPYRIGHT/COPYING GPL terms,
+all source and distribution recipe are retained without modification. These
+are the instructions and inputs used by the matching openEuler package recipe;
+this is not a claim to have independently rebuilt the supplier's FFTW binary.
+
+Liquid runtime linkage and development dependencies are version/release-pinned
+to this exact FFTW generation. When changing that dependency, replace the
+corresponding source and re-audit the source-to-provider mapping. Normal system
+components and toolchain dependencies are not claimed to be bundled source.
+
+Source archive SHA-256:
+56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467
+Original official source location (informational; not a substitute for source):
+https://repo.openeuler.org/openEuler-24.03-LTS-SP3/source/Packages/fftw-3.3.10-3.oe2403sp3.src.rpm
+
+Liquid's source-only Autoconf/build auxiliaries retain their separate original
+notices and exceptions. Full GPL-2.0 and GPL-3.0 texts accompany the package.
+Those auxiliary licenses are not asserted as the license of every Liquid binary.
