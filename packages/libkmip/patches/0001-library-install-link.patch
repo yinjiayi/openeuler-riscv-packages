@@ -1,0 +1,22 @@
+--- a/Makefile
++++ b/Makefile
+@@ -29,0 +30 @@
++LIBDIR  = $(PREFIX)/lib
+@@ -43 +44 @@
+-	mkdir -p $(DESTDIR)$(PREFIX)/lib
++	mkdir -p $(DESTDIR)$(LIBDIR)
+@@ -53,3 +54,3 @@
+-	cp $(SRCDIR)/$(LIBNAME) $(DESTDIR)$(PREFIX)/lib
+-	cp $(SRCDIR)/$(ARCNAME) $(DESTDIR)$(PREFIX)/lib
+-	cd $(DESTDIR)$(PREFIX)/lib && ln -s $(LIBNAME) $(LINKNAME) && cd -
++	cp $(SRCDIR)/$(LIBNAME) $(DESTDIR)$(LIBDIR)
++	cp $(SRCDIR)/$(ARCNAME) $(DESTDIR)$(LIBDIR)
++	cd $(DESTDIR)$(LIBDIR) && ln -s $(LIBNAME) $(SONAME) && ln -s $(LIBNAME) $(LINKNAME) && cd -
+@@ -66,2 +67,2 @@
+-	rm -r $(DESTDIR)$(PREFIX)/lib/$(LINKNAME)*
+-	rm -r $(DESTDIR)$(PREFIX)/lib/$(ARCNAME)
++	rm -r $(DESTDIR)$(LIBDIR)/$(LINKNAME)*
++	rm -r $(DESTDIR)$(LIBDIR)/$(ARCNAME)
+@@ -90 +91 @@
+-	$(CC) $(CFLAGS) $(SOFLAGS) -o $@ $(LOFILES)
++	$(CC) $(CFLAGS) $(SOFLAGS) $(LDFLAGS) -o $@ $(LOFILES) $(LDLIBS)
