@@ -30,12 +30,12 @@
     "patches": [
       {
         "file": "patches/0001-qt65-translation-setup.patch",
-        "sha256": "c2b1a881c311b463d035d367a43139a05b8b5a394863cd40bc7e146b84792b1b",
-        "purpose": "Use the Qt 6.5 translation API while preserving generated language catalogs on openEuler.",
-        "source": "Downstream adaptation of tail-tray 0.2.34 CMakeLists.txt",
         "license": "GPL-3.0-or-later",
-        "upstream_status": "not-submitted",
-        "remove_when": "openEuler provides Qt 6.7 or newer."
+        "purpose": "Use the Qt 6.5 translation API while preserving generated language catalogs on openEuler.",
+        "remove_when": "openEuler provides Qt 6.7 or newer.",
+        "sha256": "c2b1a881c311b463d035d367a43139a05b8b5a394863cd40bc7e146b84792b1b",
+        "source": "Downstream adaptation of tail-tray 0.2.34 CMakeLists.txt",
+        "upstream_status": "not-submitted"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -65,7 +65,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-10-15T00:00:25Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
   },
@@ -79,8 +79,8 @@
     "source_url_template": "https://github.com/SneWs/tail-tray/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "0.2.34",
-    "latest_detected": "0.2.34",
+    "current": "0.2.36",
+    "latest_detected": "0.2.36",
     "release": "3"
   }
 }
