@@ -35,3 +35,17 @@ Replacement exact-head hosted build/tests/install and independent physical
 RPM/SRPM/legal payload acceptance remain mandatory before merge. No local
 upstream/RPM/QEMU execution, native/performance/security claim, test suppression
 or automatic merge is authorized by this change.
+
+Source transport maintenance: Package CI run 38996555624 at exact head
+`e91c7e9ffd6bccf3fbc0cb4d4f2f7039eaea6b52` failed before any build because
+the former GNU website GFDL companion URL was unreachable. The manifest now
+uses `https://ftp.gnu.org/gnu/Licenses/fdl-1.3.txt` from GNU's official primary
+distribution archive, identified by `https://www.gnu.org/software/devel.html`.
+The complete 22955-byte GFDL1.3 text is byte-identical to the prior verified
+companion and retains SHA-256
+`110535522396708cea37c72a802c5e7e81391139f5f7985631c93ef242b206a4`.
+Only its retrieval URL and this provenance note change: the official Wget2
+archive, SPEC, proxy patch, complete default serial tests and installed smoke
+are unchanged. Fresh exact-head hosted build/install and independent physical
+RPM/SRPM acceptance are still required; source retrieval alone is not that
+acceptance.
