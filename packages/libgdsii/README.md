@@ -14,7 +14,7 @@ grant GPL-2.0-or-later; this resolves the catalog's earlier unknown-license tria
 Debian/Ubuntu versions remain discovery lineage, not upstream source evidence.
 No detached source signature or signed tag was observed.
 
-Default static library, libtool `.la`, header, GDSIIConvert and unchanged
+Configured shared and static libraries, libtool `.la`, header, GDSIIConvert and unchanged
 bend-flux example data are retained. No source or RISC-V algorithm patch is added.
 Before autoreconf, `%prep` verifies the exact absolute COPYING/INSTALL symlink
 targets, unlinks only those links without dereferencing them, copies the original
@@ -28,7 +28,7 @@ official tag and RPM version are `0.21`. Automatic CLI debuginfo is retained.
 Target GCC C++, Autoconf, Automake, Libtool, Make, pkgconf and normal RPM tools
 provide build dependencies. No meep, scuff, GMSH execution or build-time network
 is needed. Full official/published supplemental primary/filelists scans review
-names, casefolded namespaces, all 13 non-debug installed paths and provider
+names, casefolded namespaces, shared SONAME/link/static/header/CLI/data paths and provider
 closure. Non-EQ version constraints remain a target DNF/CI gate, not locally
 solved or represented as a successful target build.
 
@@ -37,7 +37,7 @@ Makefile.am files; default `make check` is nevertheless retained. Additional,
 explicitly downstream checks verify the original 604-byte example (60 records),
 original installed-header hash, seven layers, three boundaries, four zero-width
 paths, one label, finite expected coordinates, cached APIs and point-in-polygon.
-Two consumers use pkg-config and direct archive linking. CLI checks missing-input
+Two consumers use pkg-config/shared and direct archive linking. CLI checks missing-input
 rejection, raw/analyze output and GMSH's 22 points, 18 lines and three surfaces.
 The same runner repeats after RPM installation and `rpm -V`. Logs and outputs
 are private temporary files. These small functional checks are not security,
@@ -47,3 +47,19 @@ Local validation is metadata, trusted-tooling tests/golden and source-only
 verification. No local upstream/RPM/QEMU build is run. Hosted locked openEuler
 24.03 LTS SP3 riscv64/RVA23 build/install plus independent physical RPM/SRPM
 verification are still required before merge; pending CI is not success.
+
+Repair of exact head `5b83f8a083eaa80db21794120504e8623af15652`, failed
+Package CI `38999421752`: the target's standard configure macro selected both
+shared and static libraries, but the staged pkg-config consumer could not load
+`libGDSII.so.0` from the uninstalled buildroot. This is a package recipe/loader
+error, not a RISC-V source defect. Keep the configure command, original default
+`make check`, static consumer, full fixture assertions and CLI checks unchanged.
+Package the real `libGDSII.so.0.0.0` plus both upstream-generated symlinks and run
+normal RPM post-install/post-uninstall `ldconfig` scriptlets. The runner clears
+inherited loader overrides, uses a buildroot-only library path only when given
+a nonempty staging root, and checks `ldd` resolution. After actual RPM installation
+it uses the normal system loader without `LD_LIBRARY_PATH` or `LD_PRELOAD`, so a
+missing installed shared library remains a hard failure. `glibc-common` supplies
+the target `ldd` check. No upstream source, legal bytes, fixture or source manifest
+changes are needed; replacement-head target CI and physical acceptance remain
+pending, not asserted successful by this repair.

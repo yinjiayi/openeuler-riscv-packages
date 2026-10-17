@@ -12,17 +12,21 @@ BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  make
 BuildRequires:  pkgconf
+BuildRequires:  glibc-common
 Requires:       gcc-c++
 Requires:       pkgconf
 Requires:       bash
 Requires:       coreutils
 Requires:       diffutils
 Requires:       grep
+Requires:       glibc-common
+Requires(post): /sbin/ldconfig
+Requires(postun): /sbin/ldconfig
 
 %description
 Read and flatten GDSII geometry files through a C++ library, or convert them
-to textual and GMSH forms using GDSIIConvert. Preserve the default static
-library, public header, libtool archive, converter and original example data.
+to textual and GMSH forms using GDSIIConvert. Preserve the configured shared
+and static libraries, public header, libtool archive and original example data.
 
 %prep
 %setup -q -n libGDSII-a6f6f2de4894075ed1bcf70d0542122781856c4e
@@ -42,7 +46,7 @@ test ! -L INSTALL
 cmp LICENSE COPYING
 
 %build
-# AC_DISABLE_SHARED is upstream's default; preserve all default features.
+# Preserve all features selected by the target's standard configure macro.
 %configure
 %make_build
 
@@ -55,16 +59,26 @@ install -D -m 0644 lib/libGDSII.h %{buildroot}%{_datadir}/libgdsii/tests/libGDSI
 cat > %{buildroot}%{_datadir}/libgdsii/tests/run-tests.sh <<'SH'
 #!/usr/bin/env bash
 set -euo pipefail
+test "$#" -le 1
 root=${1:-}
 prefix="$root/usr"
 base="$prefix/share/libgdsii/tests"
 fixture="$prefix/share/libGDSII/examples/bend-flux/bend-flux.gds"
-unset LIBGDSII_LENGTH_UNIT
+unset LIBGDSII_LENGTH_UNIT LD_PRELOAD LD_LIBRARY_PATH
+if test -n "$root"; then
+  # A staged buildroot is not installed in the system loader's search path.
+  export LD_LIBRARY_PATH="$prefix/lib64"
+fi
 (cd "$base"; sha256sum -c SHA256SUMS)
 cmp "$base/libGDSII.h" "$prefix/include/libGDSII.h"
 echo "307abe83a64a3a285d227376e7074d6e6383bc2a2e8a0b28a5206f105ec2e768  $fixture" | sha256sum -c -
 test -f "$prefix/lib64/libGDSII.a"
 test -f "$prefix/lib64/libGDSII.la"
+test -f "$prefix/lib64/libGDSII.so.0.0.0"
+test -L "$prefix/lib64/libGDSII.so.0"
+test "$(readlink "$prefix/lib64/libGDSII.so.0")" = libGDSII.so.0.0.0
+test -L "$prefix/lib64/libGDSII.so"
+test "$(readlink "$prefix/lib64/libGDSII.so")" = libGDSII.so.0.0.0
 work=$(mktemp -d)
 trap 'rm -rf -- "$work"' EXIT
 cat > "$work/consumer.cpp" <<'CPP'
@@ -105,6 +119,14 @@ CPP
 PKG_CONFIG_PATH="$prefix/lib64/pkgconfig" PKG_CONFIG_SYSROOT_DIR="$root" pkg-config --exists --exact-version=0.1 libGDSII
 g++ -std=c++11 -UNDEBUG "$work/consumer.cpp" \
   $(PKG_CONFIG_PATH="$prefix/lib64/pkgconfig" PKG_CONFIG_SYSROOT_DIR="$root" pkg-config --cflags --libs libGDSII) -o "$work/consumer-pc"
+ldd "$work/consumer-pc" > "$work/consumer-pc.ldd"
+if test -n "$root"; then
+  grep -F "libGDSII.so.0 => $prefix/lib64/libGDSII.so.0 " "$work/consumer-pc.ldd"
+else
+  # Installed verification must use the normal loader, never a staged override.
+  grep -F -e 'libGDSII.so.0 => /usr/lib64/libGDSII.so.0 ' \
+    -e 'libGDSII.so.0 => /lib64/libGDSII.so.0 ' "$work/consumer-pc.ldd"
+fi
 "$work/consumer-pc" "$fixture"
 g++ -std=c++11 -UNDEBUG -I"$prefix/include" "$work/consumer.cpp" "$prefix/lib64/libGDSII.a" -o "$work/consumer-direct"
 "$work/consumer-direct" "$fixture"
@@ -132,6 +154,9 @@ chmod 0755 %{buildroot}%{_datadir}/libgdsii/tests/run-tests.sh
 # Explicitly additional downstream checks on staged installed bytes.
 bash %{buildroot}%{_datadir}/libgdsii/tests/run-tests.sh %{buildroot}
 
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
 %files
 %license LICENSE COPYRIGHT
 %doc README.md AUTHORS
@@ -139,6 +164,8 @@ bash %{buildroot}%{_datadir}/libgdsii/tests/run-tests.sh %{buildroot}
 %{_includedir}/libGDSII.h
 %{_libdir}/libGDSII.a
 %{_libdir}/libGDSII.la
+%{_libdir}/libGDSII.so
+%{_libdir}/libGDSII.so.0*
 %{_libdir}/pkgconfig/libGDSII.pc
 %{_datadir}/libGDSII/
 %{_datadir}/libgdsii/
