@@ -17,6 +17,7 @@ Source3:        https://raw.githubusercontent.com/j-jorge/libclaw/%{upstream_com
 Source4:        https://raw.githubusercontent.com/j-jorge/libclaw/%{upstream_commit}/.gitignore#/upstream-gitignore
 Patch0:         0001-multilib-CMake-config.patch
 Patch1:         0002-add-installed-QA.patch
+Patch2:         0003-singleton-example-namespace.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
@@ -29,6 +30,10 @@ BuildRequires:  zlib-devel
 BuildRequires:  glibc-devel
 BuildRequires:  doxygen
 BuildRequires:  graphviz
+BuildRequires:  boost-devel
+BuildRequires:  texlive-latex
+BuildRequires:  texlive-dvips
+BuildRequires:  ghostscript
 BuildRequires:  bash
 BuildRequires:  coreutils
 BuildRequires:  tar
@@ -57,6 +62,7 @@ Requires:       libjpeg-turbo-devel
 Requires:       libpng-devel
 Requires:       zlib-devel
 Requires:       glibc-devel
+Requires:       boost-devel
 Requires:       bash
 Requires:       coreutils
 Requires:       grep
@@ -77,6 +83,7 @@ install -m 0644 %{SOURCE3} .gitattributes
 install -m 0644 %{SOURCE4} .gitignore
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 install -d distribution-licenses
 install -m 0644 %{SOURCE1} distribution-licenses/GPL-2.0.txt
 install -m 0644 %{SOURCE2} distribution-licenses/gnuplot.txt
@@ -91,7 +98,22 @@ cmake -S cmake -B build \
     -DCLAW_BUILD_LOCALIZATION=ON \
     -DCLAW_BUILD_DOCUMENTATION=ON \
     -DCLAW_BUILD_EXAMPLES=ON
-cmake --build build --parallel %{?_smp_build_ncpus}
+# Preserve the exact build status and retain Doxygen diagnostics in the log.
+build_status=0
+cmake --build build --parallel %{?_smp_build_ncpus} > build-output.log 2>&1 || build_status=$?
+cat build-output.log
+if test "$build_status" -ne 0; then exit "$build_status"; fi
+# Doxygen can report formula-tool errors without failing its process.
+if grep -F 'error: ' build-output.log; then exit 1; fi
+# Fixed Doxygen 1.9.6 uses form_<id>.png and form_<id>_dark.png.
+formula_pairs=0
+for image in build/doc/html/form_[0-9]*.png; do
+    case "$image" in *_dark.png) continue ;; esac
+    test -s "$image"
+    test -s "${image%.png}_dark.png"
+    formula_pairs=$((formula_pairs + 1))
+done
+test "$formula_pairs" -ge 1
 for feature in LOCALIZATION DOCUMENTATION EXAMPLES; do
     grep -Fx "CLAW_BUILD_${feature}:BOOL=ON" build/CMakeCache.txt
 done

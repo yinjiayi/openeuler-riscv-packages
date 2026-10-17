@@ -65,3 +65,42 @@ is modified. Replacement exact-head full target CI, ordinary installation,
 installed tests and physical RPM/SRPM acceptance remain required before merge.
 Remove this transport workaround only when cross-job artifact transport
 reliably retains the original hidden basenames without losing either input.
+
+
+## Original example and documentation tool dependencies
+
+Package CI `39071113152` attempt 1 at `21ba9b3e1a22f6dea064b108443389fc1cf6a51c`
+completed its audited BuildRequires installation (exit 0), normal build and
+staged installation, then failed the preserved original example compilation
+suite in `%check`: 19 pass, 2 fail. `tween` could not find `boost/bind.hpp`;
+`singleton` named `claw::concept::basic_singleton`, whereas the same fixed
+upstream header and implementation declare `claw::pattern::basic_singleton`.
+The added patch changes only that namespace token. All original example
+programs, output text, 21 archives, check-examples.sh and QA assertions remain.
+Remove the patch when the corresponding upstream example uses the public API.
+
+Declare boost-devel both for `%check` and the installed example suite. Boost
+is referenced only by the original tween example, which is compiled in a
+temporary QA directory, not installed as an ELF program. This recipe still
+ships seven non-Boost library archives and original example source archives;
+it does not claim that redistributed Boost-instantiated ELF is covered by
+the existing library license. Any later such redistribution needs its Boost
+Software License notice and a renewed license audit.
+
+The default Doxygen HTML build also reported `latex: command not found` for
+both formula themes. Keep USE_MATHJAX=NO and the original documentation
+configuration; declare texlive-latex, texlive-dvips and ghostscript for the
+bitmap formula chain (latex -> dvips -> gs). Exact official target metadata
+supplies all four commands/header paths. The upstream Doxygen 1.9.6 fixed
+formula implementation corroborates that chain, but is not evidence of
+distribution-patch equivalence or a successful target render. Preserve the
+real CMake build exit status, reject Doxygen error diagnostics, and require
+nonempty paired light/dark formula PNG output instead of silently accepting
+tool failures. The pairing check is not a claim of visual correctness or of
+every formula's rendered content; those remain physical/document review gates.
+
+These are a missing dependency and upstream-generic example-name fix, not
+RISC-V source/ABI repairs. All default features and original tests remain
+enabled. Replacement exact-head target build, original21 staged/installed
+suite, ordinary all-binary DNF installation and physical RPM/SRPM/document
+acceptance remain required; no local target/RPM/QEMU execution is claimed.

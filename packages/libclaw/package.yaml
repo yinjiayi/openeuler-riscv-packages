@@ -92,6 +92,15 @@
         "license": "LGPL-2.1-or-later",
         "upstream_status": "downstream-only",
         "remove_when": "Authenticated upstream provides equivalent install/verification behavior without changing original defaults or tests."
+      },
+      {
+        "file": "patches/0003-singleton-example-namespace.patch",
+        "sha256": "7a8ea61ab75ba75b8a0841632637c87c12ed4a04fccfe2f63008e614e203d7a3",
+        "purpose": "Use the fixed public claw::pattern singleton API in the original example, preserving its body and outputs.",
+        "source": "Locally authored minimal compatibility patch against the fixed official 1.9.1 source, no upstream write.",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Authenticated upstream singleton example uses the declared claw::pattern::basic_singleton public API."
       }
     ]
   },
