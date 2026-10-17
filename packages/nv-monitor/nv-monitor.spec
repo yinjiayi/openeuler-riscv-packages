@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nv-monitor
-Version:        1.12.0
-Release:        4%{?dist}
+Version:        1.14.0
+Release:        1%{?dist}
 Summary:        Local monitoring TUI, CSV logger, and Prometheus exporter for NVIDIA GPU systems
 License:        MIT
 URL:            https://github.com/wentbackward/nv-monitor
-Source0:        nv-monitor-1.12.0.tar.gz
+Source0:        v1.14.0.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  ncurses-devel
