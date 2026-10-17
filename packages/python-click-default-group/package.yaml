@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "python-click-default-group",
+  "rpm": {
+    "name": "python-click-default-group",
+    "summary": "Default subcommands for Click groups",
+    "license": "BSD-3-Clause"
+  },
+  "version": {
+    "current": "1.2.4",
+    "latest_detected": "1.2.4",
+    "release": "1"
+  },
+  "upstream": {
+    "component": "github.com-click-contrib-click-default-group",
+    "homepage": "https://github.com/click-contrib/click-default-group",
+    "source_repository": "https://github.com/click-contrib/click-default-group",
+    "release_api": "https://api.github.com/repos/click-contrib/click-default-group/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "python-click-default-group",
+        "package_base": "python-click-default-group",
+        "source_version": "1.2.4-3",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/6ca34100d239491389c656385aee7ba542579e3b/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "python-click-default-group",
+        "package_base": "python-click-default-group",
+        "source_version": "1.2.4-1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/6ca34100d239491389c656385aee7ba542579e3b/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "python-click-default-group",
+        "package_base": "python-click-default-group",
+        "source_version": "1.2.2-27.fc44",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/6ca34100d239491389c656385aee7ba542579e3b/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "python-click-default-group",
+        "package_base": "python-click-default-group",
+        "source_version": "1.2.4-1.12",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/6ca34100d239491389c656385aee7ba542579e3b/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "python-click-default-group",
+        "package_base": "python-click-default-group",
+        "source_version": "1.2.4-1build1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/6ca34100d239491389c656385aee7ba542579e3b/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "files": {
+    "spec": "python-click-default-group.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "network_during_build": false,
+    "native_reason": null
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Actual full BSD3 LICENSE and README override stale PublicDomain classifier. All9 originals/default bare pytest/all7 tests retained. Target distroClick8.1.7 is an explicitly new environment, not reproduced GHA8.1.6 matrix. No local target execution or target success claim."
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "official-github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  }
+}
