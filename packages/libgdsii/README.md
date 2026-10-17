@@ -76,3 +76,20 @@ do not change any predicate, source, default feature, consumer or test. This is 
 diagnostic-only change, not a claimed cause repair or successful installation.
 Fresh exact-head hosted target evidence must identify the failure before a
 causal recipe change or merge can be accepted.
+
+Causal verifier repair for exact diagnostic head
+`173579f618334eab36a02ffc7325eceb78b77cf5`, Package CI `39003373591`:
+the retained trace identifies the installed `ldd` path assertion, not a failed
+loader or consumer. The normal loader resolves `libGDSII.so.0` through
+`/lib64/lp64d/libGDSII.so.0`, whereas the assertion permitted only `/usr/lib64`
+and `/lib64`. Checksum-verified official target RPM payloads establish the
+aliases: filesystem `3.16-8.oe2403sp3` supplies `/lib64 -> usr/lib64`, and glibc
+`2.38-84.oe2403sp3` supplies both `lib64/lp64d -> .` and `usr/lib64/lp64d -> .`.
+Accept this exact additional path only with exactly one resolved SONAME and a
+mandatory same-file (`test -ef`) comparison against the RPM-owned real
+`/usr/lib64/libGDSII.so.0.0.0`. Wrong, missing or ambiguous resolution still
+fails. No staged path, loader override, upstream source, default feature,
+original test, static/API/CLI assertion, scriptlet or payload changes. Keep the
+diagnostic trace. Replacement-head target CI must prove the repaired assertion
+and complete installed semantics; this local verification is not install or
+merge acceptance.

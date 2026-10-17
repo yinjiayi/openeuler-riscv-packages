@@ -131,7 +131,17 @@ if test -n "$root"; then
 else
   # Installed verification must use the normal loader, never a staged override.
   grep -F -e 'libGDSII.so.0 => /usr/lib64/libGDSII.so.0 ' \
-    -e 'libGDSII.so.0 => /lib64/libGDSII.so.0 ' "$work/consumer-pc.ldd"
+    -e 'libGDSII.so.0 => /lib64/libGDSII.so.0 ' \
+    -e 'libGDSII.so.0 => /lib64/lp64d/libGDSII.so.0 ' "$work/consumer-pc.ldd"
+  resolved=
+  while read -r soname arrow resolved_path rest; do
+    if test "$soname" = libGDSII.so.0 && test "$arrow" = '=>'; then
+      test -z "$resolved"
+      resolved=$resolved_path
+    fi
+  done < "$work/consumer-pc.ldd"
+  test -n "$resolved"
+  test "$resolved" -ef "$prefix/lib64/libGDSII.so.0.0.0"
 fi
 "$work/consumer-pc" "$fixture"
 g++ -std=c++11 -UNDEBUG -I"$prefix/include" "$work/consumer.cpp" "$prefix/lib64/libGDSII.a" -o "$work/consumer-direct"
