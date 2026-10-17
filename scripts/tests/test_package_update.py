@@ -4,11 +4,12 @@ from __future__ import annotations
 import hashlib
 import json
 import pathlib
+import runpy
 import tempfile
 import unittest
 from typing import Optional
 
-from helpers import run_tool, write_json
+from helpers import SCRIPTS, run_tool, write_json
 
 
 def package(
@@ -53,6 +54,41 @@ def package(
 
 
 class PackageUpdateTests(unittest.TestCase):
+    def test_compact_prerelease_feed_keeps_current_final_release(self) -> None:
+        # Minimal official PyPI shape from the case-converter failure: release
+        # values are file lists. No file/source-selection behavior is changed.
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            releases = root / "releases.json"
+            write_json(releases, {"releases": {
+                "1.2.0": [], "1.2.0rc1": [], "1.2.0a1": [],
+                "1.2.0b1": [], "1.2.0alpha1": [], "1.2.0beta1": [],
+            }})
+            package(root, "demo", str(releases), version="1.2.0")
+            plan = root / "plan.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"),
+                     "--output", str(plan), "--now", "2026-08-08T00:00:00Z"], root)
+            shard = root / "shard.json"
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0",
+                     "--output", str(shard), "--now", "2026-08-08T00:01:00Z"], root)
+            entry = json.loads(shard.read_text())["entries"][0]
+            self.assertEqual(entry["status"], "no-update")
+            self.assertEqual(entry["latest_version"], "1.2.0")
+
+    def test_compact_prerelease_filter_preserves_stable_versions_and_flags(self) -> None:
+        is_prerelease = runpy.run_path(str(SCRIPTS / "_lib.py"))["is_prerelease"]
+        for version in ("1.2.0rc1", "v1.2.0RC2", "1.2.0a1", "1.2.0b1",
+                        "1.2.0alpha1", "1.2.0beta1", "1.2.0pre1", "1.2.0preview1",
+                        "1.2.0dev1", "1.2.0rc1+build.7", "1.2.0-rc1", "1.2.0.dev1"):
+            with self.subTest(prerelease=version):
+                self.assertTrue(is_prerelease({"version": version}))
+        for version in ("1.2.0", "v1.2.0", "1.2.0.post1", "1.2.0post1", "1.0.2a",
+                        "1.2.0+build.7", "1.2.0+build1rc1", "1.2.0+rc1"):
+            with self.subTest(stable=version):
+                self.assertFalse(is_prerelease({"version": version}))
+        self.assertTrue(is_prerelease({"version": "1.2.0", "draft": True}))
+        self.assertTrue(is_prerelease({"version": "1.2.0", "prerelease": True}))
+
     def test_create_package_and_update_pipeline(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
