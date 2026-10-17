@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
+# The original default target is a static archive; no ELF debuginfo payload exists.
+%global debug_package %{nil}
+
 Name:           libnewuoa
 Version:        0.1.2
 Release:        1%{?dist}

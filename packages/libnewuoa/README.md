@@ -35,3 +35,12 @@ compiler dependencies support repeatable installed consumers; no build-time
 network is required. Target is openEuler24.03 LTS SP3 riscv64/RVA23. Local work
 is metadata/source-only: real hosted target build/install and independent whole
 RPM/SRPM/ELF acceptance remain required before merge. Publication is separate.
+
+Initial exact-head hosted CI38995764240 compiled the static library and passed
+both unchanged examples, all three numerical API checks, and both metadata
+consumers, then failed while packaging an empty automatic debuginfo subpackage.
+This static-only package has no separately installed ELF debuginfo payload, so
+its SPEC disables that empty subpackage only. Optimization/debug compilation
+flags, the default library, original sources, licensing and every check remain
+unchanged. The initial RPM packaging failure is not counted as build/install
+success; a new head still requires complete hosted CI and physical acceptance.
