@@ -27,6 +27,55 @@ def contains_github_token_literal(content: bytes) -> bool:
     return any(pattern.search(content) for pattern in GITHUB_TOKEN_LITERALS)
 
 
+def artifact_transport_errors(workflow: str) -> list[str]:
+    """Keep retry transport exact without making current attempts mandatory."""
+    errors: list[str] = []
+    producers = (
+        "prepare", "metadata-validate", "patch-policy", "source-verify",
+        "repository-snapshot", "merge-policy", "rpmbuild-riscv64", "rpm-install-smoke",
+    )
+    jobs = dict(re.findall(r"(?ms)^  ([a-z][a-z0-9-]*):\n(.*?)(?=^  [a-z][a-z0-9-]*:\n|\Z)", workflow))
+    for producer in producers:
+        job = jobs.get(producer, "")
+        if "artifact_id: ${{ steps.upload.outputs.artifact-id }}" not in job or "id: upload" not in job:
+            errors.append(f"{producer} must expose its own immutable upload artifact ID")
+    uploads = re.findall(r"(?ms)^      - name: [^\n]+\n(?:(?!^      - name:).)*?uses: actions/upload-artifact@.*?(?=^      - name:|^  [a-z]|\Z)", workflow)
+    if len(uploads) != 9:
+        errors.append("package CI must retain all nine evidence artifact uploads")
+    for upload in uploads:
+        name = re.search(r"(?m)^          name: (.+)$", upload)
+        if not name or not name.group(1).endswith("-attempt-${{ github.run_attempt }}"):
+            errors.append("package CI artifact upload names must be attempt-qualified")
+    downloads = re.findall(r"(?ms)^      - name: [^\n]+\n(?:(?!^      - name:).)*?uses: actions/download-artifact@.*?(?=^      - name:|^  [a-z]|\Z)", workflow)
+    selectors = (
+        "needs.source-verify.outputs.artifact_id || '0'",
+        "needs.repository-snapshot.outputs.artifact_id || '0'",
+        "needs.rpmbuild-riscv64.outputs.artifact_id || '0'",
+        "needs.repository-snapshot.outputs.artifact_id || '0'",
+        "needs.rpmbuild-riscv64.outputs.artifact_id || '0'",
+    ) + tuple(f"needs.{producer}.outputs.artifact_id || '0'" for producer in producers)
+    if len(downloads) != 13:
+        errors.append("package CI must bind all thirteen artifact consumers")
+    for index, download in enumerate(downloads):
+        if re.search(r"(?m)^          (?:name|pattern):", download) or "artifact-ids:" not in download:
+            errors.append("package CI downloads must use exact producer IDs, never names or patterns")
+        if "github.run_attempt" in download or "continue-on-error" in download:
+            errors.append("artifact consumers must retain earlier successful producers and fail closed")
+        if "merge-multiple: true" not in download:
+            errors.append("exact-ID artifact consumers must preserve their explicit flat extraction paths")
+        if index < len(selectors) and "artifact-ids: ${{ " + selectors[index] + " }}" not in download:
+            errors.append("artifact consumer has the wrong producer or lacks the empty-ID zero sentinel")
+    state = jobs.get("ci-state", "")
+    for producer in producers:
+        if f"if: needs.{producer}.outputs.artifact_id != ''" not in state:
+            errors.append(f"CI-state must individually collect the retained {producer} artifact output")
+    for marker in ("PACKAGE_CI_NEEDS: ${{ toJSON(needs) }}", 'if result == "success":',
+                   'Successful producer has no artifact ID:', 'Invalid or duplicate artifact producer ID:'):
+        if marker not in state:
+            errors.append("CI-state must reject missing successful-producer or invalid artifact IDs")
+    return errors
+
+
 def tracked_paths(root: Path) -> list[Path]:
     completed = subprocess.run(
         ["git", "-C", str(root), "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
@@ -588,6 +637,7 @@ def main() -> int:
     if "github.event.pull_request.head.ref" in auto_merge:
         errors.append("auto-merge workflow must never fall back to pull-request-head policy code")
     rsync_retry_path = root / "ci" / "rsync-with-lock-retry.sh"
+    errors.extend(artifact_transport_errors(package_ci))
     rsync_retry = rsync_retry_path.read_text(encoding="utf-8") if rsync_retry_path.exists() else ""
     for event in ("opened", "synchronize", "reopened", "merge_group", "workflow_dispatch", "workflow_call", "push"):
         if event not in package_ci:

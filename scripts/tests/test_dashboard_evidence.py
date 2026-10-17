@@ -19,6 +19,21 @@ COLLECTOR = ROOT / "ci" / "collect-dashboard-evidence.py"
 
 
 class DashboardEvidenceTests(unittest.TestCase):
+    def test_attempt_qualified_names_keep_canonical_package_and_history(self) -> None:
+        module = runpy.run_path(str(COLLECTOR))
+        names = ["package-ci-smoke-python-demo-77", "package-ci-smoke-python-demo-77-attempt-1",
+                 "package-ci-smoke-python-demo-77-attempt-2", "rpm-repository-publish-python-demo-77-attempt-2"]
+        rows = [{"id": 100 - index, "name": name, "created_at": f"2026-10-17T0{index}:00:00Z", "expired": False}
+                for index, name in enumerate(names)]
+        for name in names:
+            match = module["ARTIFACT_NAME"].fullmatch(name)
+            self.assertIsNotNone(match)
+            self.assertEqual(match.group("package"), "python-demo")
+            self.assertEqual(match.group("run_id"), "77")
+        selected, eligible = module["select_artifacts"](rows)
+        self.assertEqual(eligible, 4)
+        self.assertEqual([row["name"] for row in selected], [names[3], names[2]])
+
     def test_artifact_listing_retries_truncated_page_without_slurping(self) -> None:
         module = runpy.run_path(str(COLLECTOR))
         fetch = module["list_artifacts"]

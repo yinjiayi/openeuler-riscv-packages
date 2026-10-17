@@ -464,7 +464,42 @@ def verify_build_result(document: Mapping[str, Any], package_id: str, head_sha: 
         raise ToolError("final build result is not a passed QEMU package result")
 
 
+def select_smoke_artifact(artifacts: Sequence[Mapping[str, Any]], run_id: int, package_id: str) -> str:
+    """Choose the latest producer attempt, never the numerically largest ID."""
+    prefix = "package-ci-smoke-%s-%d" % (package_id, run_id)
+    pattern = re.compile(re.escape(prefix) + r"(?:-attempt-([1-9][0-9]*))?$")
+    matches: list[tuple[int, str, bool]] = []
+    for artifact in artifacts:
+        name = str(artifact.get("name") or "")
+        match = pattern.fullmatch(name)
+        if match:
+            matches.append((int(match.group(1) or "1"), name, bool(artifact.get("expired"))))
+    if not matches:
+        raise ToolError("no retained final smoke artifact for this run and package")
+    latest = max(attempt for attempt, _name, _expired in matches)
+    selected = [(name, expired) for attempt, name, expired in matches if attempt == latest]
+    if len(selected) != 1:
+        raise ToolError("ambiguous final smoke artifact producer attempt")
+    if selected[0][1]:
+        raise ToolError("latest final smoke artifact is expired; never fall back to older success")
+    return selected[0][0]
+
+
 def download_build_result(repo: str, run_id: int, package_id: str, head_sha: str) -> None:
+    artifacts: list[Mapping[str, Any]] = []
+    for page in range(1, 101):
+        document = gh_json(["api", "repos/%s/actions/runs/%d/artifacts?per_page=100&page=%d" % (repo, run_id, page)])
+        if not isinstance(document, Mapping) or not isinstance(document.get("artifacts"), list):
+            raise ToolError("invalid run artifact listing")
+        rows = document["artifacts"]
+        if len(rows) > 100 or not all(isinstance(row, Mapping) for row in rows):
+            raise ToolError("invalid run artifact entries")
+        artifacts.extend(rows)
+        if len(rows) < 100:
+            break
+    else:
+        raise ToolError("run artifact listing exceeded page bound")
+    artifact_name = select_smoke_artifact(artifacts, run_id, package_id)
     with tempfile.TemporaryDirectory(prefix="trusted-package-ci-") as temporary:
         root = pathlib.Path(temporary)
         run(
@@ -476,7 +511,7 @@ def download_build_result(repo: str, run_id: int, package_id: str, head_sha: str
                 "--repo",
                 repo,
                 "--name",
-                "package-ci-smoke-%s-%d" % (package_id, run_id),
+                artifact_name,
                 "--dir",
                 str(root),
             ]
