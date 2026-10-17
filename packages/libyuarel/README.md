@@ -32,7 +32,15 @@ and all original source/tests are unchanged. Validation explicitly uses GNU
 `gpatch --dry-run --fuzz=0` as well as `git apply --check`. The initial local
 check labelled GNU had actually resolved to Apple's `patch`; its success did
 not establish GNU zero-fuzz applicability. A new target run must verify this
-repair; the original failed run is not reclassified as successful.
+repair; the original failed run is not reclassified as successful. The next
+target run passed that patch and compilation, then failed in `%install` because
+SPEC-only `Source1`/`Source2` entries were not materialized by the repository
+staging contract. The separate packaging-only second patch now adds exact
+copies of the existing downstream QA files to the unpacked source; installation
+uses those files. GNU zero-fuzz application and byte-for-byte comparison verify
+the inputs without executing upstream code. No original source, test, default
+feature or QA assertion is changed. Fresh target CI is still required; `%check`
+was not reached in that failed run.
 
 `%check` executes the original `make check` target used by upstream Travis CI:
 all four original groups and their assertions remain byte-identical. The
@@ -54,3 +62,5 @@ before merging. Provider inventory/namespace scans are not a DNF solver.
 
 Patch removal: drop the staged-install patch once an official stable release
 supports equivalent staging, multilib paths and relative SONAME symlinks.
+Drop the downstream QA materialization patch only when the source staging
+contract or official source supplies these same installed-interface QA inputs.

@@ -6,9 +6,8 @@ Summary:        In-place C URL parser
 License:        MIT
 URL:            https://github.com/jacketizer/libyuarel
 Source0:        https://codeload.github.com/jacketizer/libyuarel/tar.gz/a1c9a19c03360909e7d3b9acbb7e0b986efbfb30#/libyuarel-1.0.tar.gz
-Source1:        tests/run-tests.sh
-Source2:        tests/consumer.c
 Patch0:         patches/0001-support-staged-libdir-installation.patch
+Patch1:         patches/0002-add-installed-interface-probes.patch
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  glibc-devel
@@ -40,6 +39,7 @@ and example and a separate downstream installed-interface consumer.
 %prep
 %setup -q -n libyuarel-a1c9a19c03360909e7d3b9acbb7e0b986efbfb30
 %patch0 -p1
+%patch1 -p1
 
 %build
 # Preserve upstream shared-library/SONAME flags, without upstream's -s stripping.
@@ -50,8 +50,8 @@ and example and a separate downstream installed-interface consumer.
 install -d %{buildroot}%{_datadir}/libyuarel/tests %{buildroot}%{_datadir}/libyuarel/examples
 install -m 0644 tests/test_lib.c tests/minunit.h %{buildroot}%{_datadir}/libyuarel/tests/
 install -m 0644 examples/simple.c %{buildroot}%{_datadir}/libyuarel/examples/
-install -m 0644 %{SOURCE2} %{buildroot}%{_datadir}/libyuarel/consumer.c
-install -m 0755 %{SOURCE1} %{buildroot}%{_datadir}/libyuarel/run-tests.sh
+install -m 0644 tests/consumer.c %{buildroot}%{_datadir}/libyuarel/consumer.c
+install -m 0755 tests/run-tests.sh %{buildroot}%{_datadir}/libyuarel/run-tests.sh
 (
     cd %{buildroot}%{_datadir}/libyuarel
     sha256sum tests/test_lib.c tests/minunit.h examples/simple.c consumer.c run-tests.sh > SHA256SUMS
