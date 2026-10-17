@@ -4,7 +4,7 @@
   "rpm": {
     "name": "perl-Text-Wrapper",
     "summary": "Wrap text by breaking long lines without changing spacing",
-    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+    "license": "GPL-1.0-or-later OR Artistic-1.0"
   },
   "upstream": {
     "component": "libtext-wrapper-perl",
@@ -17,7 +17,7 @@
   },
   "version": {
     "current": "1.05",
-    "release": "1",
+    "release": "2",
     "latest_detected": "1.05"
   },
   "discovery": {
@@ -55,7 +55,7 @@
   "maintenance": {
     "status": "active",
     "maintainers": ["yinjiayi"],
-    "notes": "Frozen inventory exact key libtext-wrapper-perl; official CPAN stable 1.05 SHA-256 64268e15983a9df47e1d9199a491f394e89f542e54afb33f4b78f3f318e09ab9 matches CHECKSUMS. Bundled LICENSE expressly offers GPL-1.0-or-later or Artistic-1.0-Perl terms. Official RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks perl-Text-Wrapper and perl(Text::Wrapper). All four default t files retained; local Perl 5.34.1 ran 32 assertions with no skips. Two separate xt/release POD author tests are not part of default MakeMaker TESTS and are not claimed as run; their Pod::Coverage::TrustPod dependency is not present in target primary. Exact-head QEMU CI must prove build and installed smoke; public publication unverified."
+    "notes": "Frozen inventory exact key libtext-wrapper-perl; official CPAN stable 1.05 SHA-256 64268e15983a9df47e1d9199a491f394e89f542e54afb33f4b78f3f318e09ab9 matches CHECKSUMS. Bundled LICENSE expressly offers GPL-1.0-or-later or generic nine-clause Artistic-1.0 terms, not the distinct Artistic-1.0-Perl variant; release 2 corrects only that accounting. Official RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks perl-Text-Wrapper and perl(Text::Wrapper). All four default t files retained; local Perl 5.34.1 ran 32 assertions with no skips. Two separate xt/release POD author tests are not part of default MakeMaker TESTS and are not claimed as run; their Pod::Coverage::TrustPod dependency is not present in target primary. Exact-head QEMU CI must prove build and installed smoke; public publication unverified."
   },
   "updates": {
     "enabled": true,
