@@ -79,7 +79,7 @@ cp %{SOURCE2} doctest-MIT.txt
 
 %build
 # No feature/test/tool switches: retain every upstream default.
-cmake -S . -B build -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_INSTALL_LIBDIR=lib64 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -UNDEBUG" -DCMAKE_SHARED_LINKER_FLAGS="%{build_ldflags}" -DCMAKE_EXE_LINKER_FLAGS="%{build_ldflags}"
+cmake -S . -B build -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_INSTALL_LIBDIR=lib64 -DCMAKE_LIBRARY_PATH:PATH=%{_libdir} -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -UNDEBUG" -DCMAKE_SHARED_LINKER_FLAGS="%{build_ldflags}" -DCMAKE_EXE_LINKER_FLAGS="%{build_ldflags}"
 cmake --build build --parallel %{?_smp_build_ncpus}
 
 %install

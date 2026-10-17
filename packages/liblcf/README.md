@@ -63,3 +63,22 @@ Provider inventory is not an observed DNF transaction. Local verification is
 metadata/tooling/GNU patch `--fuzz=0`/source-only; no local upstream/RPM/QEMU
 execution. Hosted riscv64 build/install/full original tests/smoke, physical
 RPM/SRPM acceptance and final merge gates remain required.
+
+## Target ICU discovery configuration repair
+
+The failed target configure reported ICU 74.1 headers but could not discover its
+i18n, uc and data libraries after a failed C++ ABI probe. The exact installed
+supplier versions contain all three real RISC-V libraries and development linker
+symlinks in `/usr/lib64`; this is supplier-payload evidence, not a separate live
+filesystem-byte attestation. The package configure now explicitly supplies the
+RPM target library directory through `CMAKE_LIBRARY_PATH`. CMake's original
+FindICU still locates each actual component; no found result, library component
+cache entry, pointer size or ABI outcome is forced. All upstream default
+features, original tests, staged checks and installed checks remain unchanged.
+
+This is a configuration repair candidate for a new target CI run, not evidence
+that the previous ABI failure's underlying cause has been established or that
+the package has built successfully. The original artifact omitted the CMake
+configure log/cache. The separate installed-consumer configure repeats ICU
+discovery through the unmodified exported `find_dependency`; its actual result
+must also pass before acceptance. No settings are preemptively added there.
