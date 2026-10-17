@@ -2,12 +2,12 @@
 %global debug_package %{nil}
 
 Name:           simpleini
-Version:        4.26
-Release:        4%{?dist}
+Version:        4.27
+Release:        1%{?dist}
 Summary:        Cross-platform C++ library providing a simple API to read and write INI-style configuration files
 License:        MIT
 URL:            https://github.com/brofield/simpleini
-Source0:        simpleini-4.26.tar.gz
+Source0:        v4.27.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
