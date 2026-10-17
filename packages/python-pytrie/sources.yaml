@@ -1,0 +1,61 @@
+{
+  "package_id": "python-pytrie",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "878df6eecf67a8b21dc0c59f64bd28e717d553a1d1e388b7fc94d4d0d1f756b5"
+      },
+      "filename": "pytrie-0.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original PyTrie BSD-3-Clause LICENSE remains complete. Preserve all embedded Sphinx/Pygments BSD and jQuery MIT resources and restore their full official fixed-source LICENSE/AUTHORS notices via Sources1-5 in source/SRPM and installed RPM. No resource deletion or license/source changes."
+      },
+      "signature": null,
+      "url": "https://github.com/gsakkis/pytrie/archive/d88f261d4e9c7046233f005034d7e15575bd30df.tar.gz",
+      "version": "0.4.0"
+    },
+    {
+      "id": "source1", "kind": "upstream-release", "version": "1.5",
+      "filename": "Sphinx-1.5-LICENSE",
+      "url": "https://raw.githubusercontent.com/sphinx-doc/sphinx/9f3a95e1da6c8a026df0b197e9d941f963341c38/LICENSE",
+      "digests": {"sha256": "bb168751aeffd715e04fb44506ef58961d236b443405a68b5eede75eec52c2b1"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Full original combined Sphinx 1.5 BSD license and incorporated-software grants for matching embedded assets; preserve unmodified in source/SRPM and RPM."}
+    },
+    {
+      "id": "source2", "kind": "upstream-release", "version": "1.5",
+      "filename": "Sphinx-1.5-AUTHORS",
+      "url": "https://raw.githubusercontent.com/sphinx-doc/sphinx/9f3a95e1da6c8a026df0b197e9d941f963341c38/AUTHORS",
+      "digests": {"sha256": "f75a6f177a0301d325c753c83822298fe2d0895073123ea19c278384a88d0d82"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete Sphinx 1.5 authors/copyright identification referenced by Source1; preserve unmodified with the license."}
+    },
+    {
+      "id": "source3", "kind": "upstream-release", "version": "3.1.0",
+      "filename": "jquery-3.1.0-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/jquery/jquery/d0d2d9b9b004cf0c6763c871646e01ca67579253/LICENSE.txt",
+      "digests": {"sha256": "f980a306a01e5881cc8004115f7e6dde44e7f5296477237d37d169a86ce7c094"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Full MIT copyright/permission/disclaimer for the byte-identical official embedded jQuery 3.1.0 release. Preserve unmodified in source/SRPM and RPM."}
+    },
+    {
+      "id": "source4", "kind": "upstream-release", "version": "2.1.3",
+      "filename": "Pygments-2.1.3-LICENSE",
+      "url": "https://raw.githubusercontent.com/pygments/pygments/4d8dbbb7861f6f8a78a952d5bcc3e7a9f5940675/LICENSE",
+      "digests": {"sha256": "98b91d2b0799e1baf2bfdae17efec02985d6ea217366ac38e4e3274ece6e0d99"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Full original BSD-2-Clause grant for official FriendlyStyle matching all generated CSS token rules with original Sphinx overrides. Exact original generator version is unknown; no version provenance claim is inferred. Preserve unmodified."}
+    },
+    {
+      "id": "source5", "kind": "upstream-release", "version": "2.1.3",
+      "filename": "Pygments-2.1.3-AUTHORS",
+      "url": "https://raw.githubusercontent.com/pygments/pygments/4d8dbbb7861f6f8a78a952d5bcc3e7a9f5940675/AUTHORS",
+      "digests": {"sha256": "3bca54f6dac92d311e8ba7947ba495351de3316cf62b0a887a707448d40104ec"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete authors/copyright identification referenced by Source4. Preserve unmodified with its full BSD-2-Clause license."}
+    }
+  ]
+}
