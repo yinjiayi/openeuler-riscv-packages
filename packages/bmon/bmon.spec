@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           bmon
-Version:        4.0
+Version:        5.0
 Release:        1%{?dist}
 Summary:        Portable bandwidth monitor and rate estimator
 License:        MIT AND BSD-2-Clause
 URL:            https://github.com/tgraf/bmon
-Source0:        bmon-4.0.tar.gz
+Source0:        bmon-5.0.tar.gz
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
