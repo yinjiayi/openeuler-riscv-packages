@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "package_id": "python-memoization",
+  "rpm": {
+    "name": "python-memoization",
+    "summary": "Function memoization with TTL and configurable cache algorithms",
+    "license": "MIT AND Python-2.0"
+  },
+  "upstream": {
+    "component": "github.com-lonelyenvoy-python-memoization",
+    "homepage": "https://github.com/lonelyenvoy/python-memoization",
+    "source_repository": "https://github.com/lonelyenvoy/python-memoization",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/lonelyenvoy/python-memoization/tags?per_page=100",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.4.0",
+    "release": "1",
+    "latest_detected": "0.4.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "python-memoization",
+        "package_base": "python-memoization",
+        "source_version": "0.4.0-1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/f4e04cee669ccb34bd3d378cc242f08f8b425412/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "python-memoization.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Original coverage run test.py,25 unchanged unittest methods/configuration/functional TTL+threading preserved in CPython3.11 target environment. Coveralls external upload excluded/unclaimed. Complete Python3.7.2 derivative notices kept; no target/native/performance/coverage-number inference."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}

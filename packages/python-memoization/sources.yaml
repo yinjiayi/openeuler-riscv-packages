@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "python-memoization",
+  "sources": [
+    {
+      "id": "source0",
+      "filename": "python-memoization-0.4.0.tar.gz",
+      "url": "https://codeload.github.com/lonelyenvoy/python-memoization/tar.gz/9c1a0d13e8fbad1f7f4a05d5b41873a7ca5b6aaa",
+      "kind": "upstream-release",
+      "version": "0.4.0",
+      "digests": {
+        "sha256": "d203d15acef5b1714c5835c7e3c0094cbbe7640b0220a3e5a014ef9180706937"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original MIT and Python-derived files unchanged; full historical Python license and scoped change/attribution notice redistributed with RPM/SRPM."
+      }
+    },
+    {
+      "id": "source1",
+      "filename": "PYTHON-3.7.2-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/python/cpython/9a3ffc0492d1310ead9ce8f5ee678c26b20a338d/LICENSE",
+      "kind": "upstream-release",
+      "version": "3.7.2",
+      "digests": {
+        "sha256": "b9a6d9320b8f2693e8d41e496ce56caadacaddcca9be2a64a61749278f425cf2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full fixed official CPython3.7.2 historical license/copyright chain retained, no PSF-only abbreviation or license waiver."
+      }
+    }
+  ]
+}
