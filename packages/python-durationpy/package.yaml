@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/icholy/durationpy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-durationpy",
+        "package_name": "python-durationpy",
+        "source": "arch-extra",
+        "source_version": "0.10-2"
+      },
+      {
+        "evidence_url": "https://github.com/icholy/durationpy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-durationpy",
+        "package_name": "python-durationpy",
+        "source": "fedora",
+        "source_version": "0.9-8.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/icholy/durationpy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-durationpy",
+        "package_name": "python-durationpy",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.10-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-durationpy.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official 0.11 release commit archive SHA-256 and available SSH commit signature verified against the official icholy signing key; all original source/default test files read inertly. Complete python test.py and original offline setup.py sdist bdist_wheel retained. No local candidate/backend/RPM/QEMU execution or target success claim.",
+    "status": "active"
+  },
+  "package_id": "python-durationpy",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-durationpy",
+    "summary": "Parse and format Go duration strings as Python timedeltas"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-pypi"
+  },
+  "upstream": {
+    "component": "github.com-icholy-durationpy",
+    "homepage": "https://github.com/icholy/durationpy",
+    "release_api": "https://pypi.org/pypi/durationpy/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/icholy/durationpy",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.11",
+    "latest_detected": "0.11",
+    "release": "1"
+  }
+}
