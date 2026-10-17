@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libkmip",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libkmip",
+        "package_name": "libkmip",
+        "source": "aur",
+        "source_version": "0.2.0-2"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libkmip",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libkmip",
+        "package_name": "libkmip",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.2.0-1.19"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{"file":"patches/0001-library-install-link.patch","sha256":"9d0788a5d0ab041880126f8fe3872d1972e6957bfef08ce9e0e235b2e4ab3909","purpose":"Support target libdir installation, the existing SONAME at runtime and proper OpenSSL DT_NEEDED linking; retain all original build/install/test defaults.","source":"Original downstream packaging patch against the official v0.2.0 Makefile; no distribution recipe copied.","license":"Apache-2.0 OR BSD-3-Clause","upstream_status":"not-submitted","remove_when":"Upstream Makefile supports libdir, installs its SONAME link and links the shared library to existing OpenSSL dependencies."}],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libkmip.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v0.2.0 fixed archive and all 31 Git blobs verified. Original LICENSE explicitly offers Apache-2.0 OR BSD-3-Clause; all three legal files retained. Default shared/static libraries, three demos, complete original tests and source/RST docs preserved. One Makefile-only layout/link patch. Whole installed original test suite and independent shared/static consumers; no live-server/security claims. No local upstream, RPM or QEMU execution.",
+    "status": "active"
+  },
+  "package_id": "libkmip",
+  "rpm": {
+    "license": "Apache-2.0 OR BSD-3-Clause",
+    "name": "libkmip",
+    "summary": "C11 implementation of the Key Management Interoperability Protocol"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-openkmip-libkmip",
+    "homepage": "https://github.com/OpenKMIP/libkmip",
+    "release_api": "https://api.github.com/repos/OpenKMIP/libkmip/tags",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/OpenKMIP/libkmip",
+    "source_url_template": "https://codeload.github.com/OpenKMIP/libkmip/tar.gz/v{version}"
+  },
+  "version": {
+    "current": "0.2.0",
+    "latest_detected": "0.2.0",
+    "release": "1"
+  }
+}

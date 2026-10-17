@@ -1,0 +1,21 @@
+{
+  "package_id": "libkmip",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "42e663a339c2185525880d43a30bc2668aee8251620ca955901107e92d48f378"
+      },
+      "filename": "libkmip-0.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/OpenKMIP/libkmip/tar.gz/5b4e6733215f5f2df0d83a761986c973d7c2abf7",
+      "version": "0.2.0"
+    }
+  ]
+}
