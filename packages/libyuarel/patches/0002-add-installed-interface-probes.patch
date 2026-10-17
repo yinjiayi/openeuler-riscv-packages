@@ -1,0 +1,88 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Materialize unchanged downstream installed-interface probes
+
+These two downstream MIT-labelled files are byte-for-byte copies of the
+package's existing QA inputs. The build source staging contract copies declared
+archives and patches, not arbitrary package tests/ files. Preserve all upstream
+sources, default tests and the original installed-interface assertions.
+Upstream-Status: Inappropriate [downstream packaging QA]
+
+--- /dev/null
++++ b/tests/consumer.c
+@@ -0,0 +1,35 @@
++/* Downstream acceptance probe, MIT; not an upstream conformance suite. */
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <yuarel.h>
++
++#define REQUIRE(x) do { if (!(x)) { fprintf(stderr, "failed: %s\n", #x); return EXIT_FAILURE; } } while (0)
++
++int main(void)
++{
++    char input[] = "https://example.org:8443/alpha//beta?one=1&flag&empty=#frag";
++    struct yuarel url;
++    char *parts[4];
++    struct yuarel_param params[4];
++    REQUIRE(yuarel_parse(&url, input) == 0);
++    REQUIRE(url.scheme == input && strcmp(url.scheme, "https") == 0);
++    REQUIRE(url.host == input + 8 && strcmp(url.host, "example.org") == 0);
++    REQUIRE(url.port == 8443 && strcmp(url.path, "alpha//beta") == 0);
++    REQUIRE(strcmp(url.query, "one=1&flag&empty=") == 0 && strcmp(url.fragment, "frag") == 0);
++    REQUIRE(yuarel_split_path(url.path, parts, 4) == 2);
++    REQUIRE(parts[0] == url.path && strcmp(parts[0], "alpha") == 0 && strcmp(parts[1], "beta") == 0);
++    REQUIRE(yuarel_parse_query(url.query, '&', params, 4) == 3);
++    REQUIRE(params[0].key == url.query && strcmp(params[0].key, "one") == 0 && strcmp(params[0].val, "1") == 0);
++    REQUIRE(strcmp(params[1].key, "flag") == 0 && params[1].val == NULL);
++    REQUIRE(strcmp(params[2].key, "empty") == 0 && params[2].val != NULL && *params[2].val == '\0');
++    {
++        char bad[] = "://missing";
++        REQUIRE(yuarel_parse(&url, bad) == -1);
++        REQUIRE(yuarel_parse(NULL, bad) == -1);
++        REQUIRE(yuarel_parse(&url, NULL) == -1);
++        REQUIRE(yuarel_parse_query(NULL, '&', params, 4) == -1);
++    }
++    puts("downstream: all three public APIs and in-place pointers passed");
++    return EXIT_SUCCESS;
++}
+--- /dev/null
++++ b/tests/run-tests.sh
+@@ -0,0 +1,38 @@
++#!/usr/bin/bash
++# SPDX-License-Identifier: MIT
++set -euo pipefail
++export LC_ALL=C
++root=${1:-}
++case "$root" in ''|/*) ;; *) echo 'root must be absolute' >&2; exit 2;; esac
++data="$root/usr/share/libyuarel"
++test -f "$root/usr/include/yuarel.h"
++test -f "$root/usr/lib64/libyuarel.so.1"
++test -L "$root/usr/lib64/libyuarel.so"
++test "$(readlink "$root/usr/lib64/libyuarel.so")" = libyuarel.so.1
++(cd "$data" && sha256sum -c SHA256SUMS)
++temp=$(mktemp -d)
++trap 'rm -rf -- "$temp"' EXIT
++export LD_LIBRARY_PATH="$root/usr/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
++readelf -d "$root/usr/lib64/libyuarel.so.1" > "$temp/dynamic.txt"
++grep -Fq '[libyuarel.so.1]' "$temp/dynamic.txt"
++nm -D --defined-only "$root/usr/lib64/libyuarel.so.1" > "$temp/symbols.txt"
++for symbol in yuarel_parse yuarel_split_path yuarel_parse_query; do
++    grep -Eq "[[:space:]]T[[:space:]]${symbol}$" "$temp/symbols.txt"
++done
++gcc -std=gnu99 -O2 -Wall -I"$root/usr/include" "$data/tests/test_lib.c" -L"$root/usr/lib64" -lyuarel -o "$temp/upstream-tests"
++"$temp/upstream-tests" > "$temp/upstream-tests.log"
++cat "$temp/upstream-tests.log"
++for group in 'yuarel_parse() with an HTTP URL' 'yuarel_parse() with faulty values' 'yuarel_split_path()' 'yuarel_parse_query()'; do
++    grep -Fq "$group" "$temp/upstream-tests.log"
++done
++test "$(grep -Fc ' • yuarel_' "$temp/upstream-tests.log")" -eq 4
++if grep -Fq '×' "$temp/upstream-tests.log"; then exit 1; fi
++gcc -std=gnu99 -O2 -Wall -I"$root/usr/include" "$data/examples/simple.c" -L"$root/usr/lib64" -lyuarel -o "$temp/upstream-example"
++"$temp/upstream-example" > "$temp/upstream-example.log"
++cat "$temp/upstream-example.log"
++grep -Fq "Path parts: 'path', 'to', 'test'" "$temp/upstream-example.log"
++grep -Fq 'param1: no' "$temp/upstream-example.log"
++grep -Fq 'query: yes' "$temp/upstream-example.log"
++gcc -std=c99 -O2 -Wall -Wextra -Werror -I"$root/usr/include" "$data/consumer.c" -L"$root/usr/lib64" -lyuarel -o "$temp/downstream-consumer"
++"$temp/downstream-consumer"
++printf '%s\n' 'libyuarel: original four groups, original example, and downstream consumer passed'
