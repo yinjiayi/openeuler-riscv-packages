@@ -20,5 +20,16 @@ AArch64 NEON, while still running all TurboVM tests. The complete upstream
 shell and C suite remains enabled. Installed smoke parses a rulebase through
 both the classic and TurboVM paths and compiles a public API version probe.
 
+The installed JSON assertion compares the complete parsed results from both
+engines to exactly `{"name": "RVA23"}` and to each other. This avoids assuming
+that classic and TurboVM use identical JSON whitespace: the official 2.1.0
+TurboVM serializer writes compact key/value separators. Malformed JSON,
+duplicate keys, extra fields or documents, unparsed input and wrong values
+remain failures. Python's JSON standard library is already required by the
+repository's installation harness; this adds no package runtime dependency.
+This package-local assertion repair changes neither the upstream source nor
+the complete default `%check` suite or enabled features. Replacement-head
+target CI is still required to establish actual build and installed behavior.
+
 External source licenses remain those of upstream. Apache-2.0 covers only the
 original packaging metadata, scripts, tests, and documentation in this repo.
