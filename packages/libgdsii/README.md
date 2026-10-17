@@ -63,3 +63,16 @@ missing installed shared library remains a hard failure. `glibc-common` supplies
 the target `ldd` check. No upstream source, legal bytes, fixture or source manifest
 changes are needed; replacement-head target CI and physical acceptance remain
 pending, not asserted successful by this repair.
+
+Diagnostic follow-up for exact head `8a1ac257cca6fab30d8a23b26954249cf902de45`,
+Package CI `39001404659`: real rpmbuild and every staged API/static/CLI check
+passed, DNF installation and `rpm -V` passed, but the installed runner exited 1
+after the fixture hash with no failing-command trace. Independent inert RPM/SRPM
+inspection verified the packaged files, both exact shared-link targets and the
+installed runner; a missing packaged shared library is therefore not established.
+The precise installed predicate remains unresolved. Add named checkpoints, an
+ERR trap preserving the original nonzero status and captured `ldd` output only;
+do not change any predicate, source, default feature, consumer or test. This is a
+diagnostic-only change, not a claimed cause repair or successful installation.
+Fresh exact-head hosted target evidence must identify the failure before a
+causal recipe change or merge can be accepted.

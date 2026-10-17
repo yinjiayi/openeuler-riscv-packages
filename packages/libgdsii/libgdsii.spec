@@ -58,7 +58,8 @@ install -D -m 0644 lib/libGDSII.h %{buildroot}%{_datadir}/libgdsii/tests/libGDSI
 (cd lib; sha256sum libGDSII.h) > %{buildroot}%{_datadir}/libgdsii/tests/SHA256SUMS
 cat > %{buildroot}%{_datadir}/libgdsii/tests/run-tests.sh <<'SH'
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
+trap 'status=$?; printf "FAIL libgdsii runner status=%s line=%s command=%s\n" "$status" "$LINENO" "$BASH_COMMAND" >&2; exit "$status"' ERR
 test "$#" -le 1
 root=${1:-}
 prefix="$root/usr"
@@ -72,6 +73,7 @@ fi
 (cd "$base"; sha256sum -c SHA256SUMS)
 cmp "$base/libGDSII.h" "$prefix/include/libGDSII.h"
 echo "307abe83a64a3a285d227376e7074d6e6383bc2a2e8a0b28a5206f105ec2e768  $fixture" | sha256sum -c -
+printf '%s\n' 'CHECK libgdsii payload'
 test -f "$prefix/lib64/libGDSII.a"
 test -f "$prefix/lib64/libGDSII.la"
 test -f "$prefix/lib64/libGDSII.so.0.0.0"
@@ -116,10 +118,14 @@ int main(int argc,char** argv) {
     std::puts("PASS downstream layers=7 polygons-and-paths=7 text=1 cached-api=3 point-in-polygon=2 skips=0");
 }
 CPP
+printf '%s\n' 'CHECK libgdsii pkg-config'
 PKG_CONFIG_PATH="$prefix/lib64/pkgconfig" PKG_CONFIG_SYSROOT_DIR="$root" pkg-config --exists --exact-version=0.1 libGDSII
+printf '%s\n' 'CHECK libgdsii dynamic-consumer'
 g++ -std=c++11 -UNDEBUG "$work/consumer.cpp" \
   $(PKG_CONFIG_PATH="$prefix/lib64/pkgconfig" PKG_CONFIG_SYSROOT_DIR="$root" pkg-config --cflags --libs libGDSII) -o "$work/consumer-pc"
+printf '%s\n' 'CHECK libgdsii loader'
 ldd "$work/consumer-pc" > "$work/consumer-pc.ldd"
+cat "$work/consumer-pc.ldd"
 if test -n "$root"; then
   grep -F "libGDSII.so.0 => $prefix/lib64/libGDSII.so.0 " "$work/consumer-pc.ldd"
 else
