@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 set -euo pipefail
 rpm -q -- fzf
-fzf --version | grep -F '0.74.3 (source)'
+expected_version=$(rpm -q --qf '%{VERSION} (source)' -- fzf)
+fzf --version | grep -Fx -- "$expected_version"
 result=$(printf 'alpha\nbeta\ngamma\n' | fzf --filter=alp --no-sort)
 test "$result" = alpha
 test -x /usr/bin/fzf-tmux
