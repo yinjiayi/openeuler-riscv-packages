@@ -1,0 +1,12 @@
+{
+ "schema_version":1,"package_id":"liblogger",
+ "rpm":{"name":"liblogger","summary":"Simple C console and file logging library","license":"MIT AND Apache-2.0"},
+ "upstream":{"component":"github.com-shinmorisawa-liblogger","homepage":"https://github.com/shinmorisawa/liblogger","source_repository":"https://github.com/shinmorisawa/liblogger","release_channel":"stable","release_api":"https://api.github.com/repos/shinmorisawa/liblogger/tags","release_regex":"^v?([0-9]+\\.[0-9]+\\.[0-9]+)$","source_url_template":"https://codeload.github.com/shinmorisawa/liblogger/tar.gz/v{version}"},
+ "version":{"current":"0.0.3","latest_detected":"0.0.3","release":"1"},
+ "discovery":{"snapshot_id":"discovery-20260808T165000Z-9a89920c269462cd","lineage":[{"source":"aur","package_name":"liblogger","package_base":"liblogger","source_version":"0.0.3-1","evidence_url":"https://aur.archlinux.org/packages/liblogger","observed_at":"2026-08-08T16:50:00Z"}]},
+ "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+ "build":{"profile":"qemu-user","network_during_build":false,"timeout_minutes":60,"native_reason":null},
+ "files":{"spec":"liblogger.spec","sources":"sources.yaml","patches":[],"smoke_test":"tests/smoke.sh"},
+ "maintenance":{"status":"active","maintainers":["yinjiayi"],"notes":"Official v0.0.3 fixed commit and every archive blob verified. MIT source and full notice retained; separate Apache2 downstream fixture. Original Meson shared/static builds, install layout and meson test retained without patches or feature changes. Original build registers zero tests; downstream installed-header consumers verify shared/static linking, seven log levels/repeated-level branches, file/console/color/splash output, append behavior and missing/unopenable filename errors. Source archive contains a prebuilt example app which is neither executed nor installed. Example is not a registered upstream test; no local upstream/RPM/QEMU execution or native/performance claim."},
+ "updates":{"enabled":true,"last_checked_at":null,"last_successful_check_at":null,"release_provider":"official-github-tags"}
+}
