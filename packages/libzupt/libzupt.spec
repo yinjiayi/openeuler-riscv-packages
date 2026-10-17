@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libzupt
-Version:        1.0.8
-Release:        2%{?dist}
+Version:        1.0.14
+Release:        1%{?dist}
 Summary:        Post-quantum hybrid cryptography library
 License:        MIT
 URL:            https://github.com/cabelo/libzupt
-Source0:        libzupt-1.0.8.tar.gz
+Source0:        v1.0.14.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
