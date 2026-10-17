@@ -23,7 +23,7 @@ pkg-config --exists check
 (cd "$base/original"; sha256sum -c "$base/SHA256SUMS")
 work=$(mktemp -d)
 trap 'rm -rf -- "$work"' EXIT
-# Compile the complete unchanged original suite against installed public API.
+# Compile all original test bodies with modern Check registration against installed public API.
 # Preserve all original GNU C compiler diagnostics and keep assertions enabled.
 gcc -std=gnu99 -Wall -Wextra -Werror -g -Wno-unused-result \
     -Wno-missing-field-initializers -UNDEBUG \

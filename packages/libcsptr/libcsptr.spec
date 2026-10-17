@@ -17,6 +17,7 @@ Source2:        https://ftp.gnu.org/gnu/Licenses/gpl-3.0.txt#/GPL-3.0.txt
 Patch0:         0001-honor-GNUInstallDirs.patch
 Patch1:         0002-handle-shared-array-kind-and-destructor-metadata.patch
 Patch2:         0003-add-installed-QA.patch
+Patch3:         0004-register-modern-Check-descriptors.patch
 
 BuildRequires:  gcc
 BuildRequires:  cmake
@@ -52,7 +53,7 @@ Requires:       rpm
 Requires:       binutils
 
 %description tests
-All five unchanged upstream C test files and their two original headers,
+All twelve unchanged upstream test bodies and assertions in five C files,
 with all twelve original Check cases. Additional downstream shared-array
 and installed-header/static-archive checks do not replace the original suite.
 
@@ -61,10 +62,11 @@ and installed-header/static-archive checks do not replace the original suite.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 install -d distribution-licenses
 install -m 0644 %{SOURCE1} distribution-licenses/COPYING-CMAKE-SCRIPTS
 install -m 0644 %{SOURCE2} distribution-licenses/GPL-3.0.txt
-# Record precisely all unchanged original test inputs, no generated fixture.
+# Record the registration-adapted suite replay inputs; all 12 bodies are unchanged.
 (cd check/test && sha256sum array.c misc.c scalar.c shared.c test.c test.h utils.h) > downstream/SHA256SUMS
 
 %build

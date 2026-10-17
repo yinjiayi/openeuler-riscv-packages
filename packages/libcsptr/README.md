@@ -12,11 +12,12 @@ signature success is claimed.
 The original static `csptr` archive, five public headers and manual page stay
 enabled. `TESTS=ON`, `SENTINEL=ON`, `FIXED_ALLOCATOR=OFF`, original GNU99/
 `-Wall -Wextra -Werror -g` flags, default coverage settings and all original
-five C test files/two headers remain intact. The recipe requires Check and
+test bodies/assertions and four named groups remain intact; only Check
+registration types and array construction are adapted. The recipe requires Check and
 checks the CTest registry is exactly one `check_unit`, so missing Check or an
 empty CTest registry cannot silently pass. All twelve original Check cases
-run with assertions enabled. The installed runner verifies original input
-hashes and replays all twelve cases against installed headers/static archive.
+run with assertions enabled. The installed runner verifies hashes of the
+registration-adapted inputs and replays all twelve cases against installed headers/static archive.
 
 Additional downstream checks cover both shared-array constructors, values,
 array dimensions, custom metadata, exact destructor order/count, no early
@@ -37,7 +38,17 @@ upstream test suite or a performance benchmark.
    with caller metadata immediately after it, not a changed API argument.
 3. Materialize separate installed QA from this package's tests through the
    repository's actual declared-source/patch staging contract. No original
-   upstream test file is changed.
+   upstream test body is changed.
+4. Check 0.15.2 defines START_TEST names as const TTest descriptor pointers,
+   not legacy TFun functions. The first target build compiled the static
+   library but rejected the legacy file-scope TFun registration arrays.
+   Construct descriptor arrays inside four group functions, then register
+   them immediately with the original group names/order. All twelve
+   START_TEST/END_TEST bodies and assertions are byte-identical; the same
+   adapted registration and full original bodies run at CTest, staged and
+   installed replay. No warning, default, case, assertion or feature is
+   disabled. This is a causal fix candidate, not a claim that replacement
+   target CI or installed acceptance has already passed.
 
 The default package has only a static archive, so no nonexistent separate
 ELF debuginfo subpackage is requested. Original debug/optimization compiler

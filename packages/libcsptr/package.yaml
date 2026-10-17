@@ -85,6 +85,15 @@
         "license": "MIT",
         "upstream_status": "downstream-only",
         "remove_when": "An authenticated upstream release provides the same behavior without changing original defaults, original tests or installed verification."
+      },
+      {
+        "file": "patches/0004-register-modern-Check-descriptors.patch",
+        "sha256": "824f239a3d869779d861932864458a45d1975d724da056660d8913f3ee991fa9",
+        "purpose": "Adapt only original test registration to modern Check TTest descriptors and runtime arrays; retain all twelve test bodies/assertions and full installed replay.",
+        "source": "Locally authored MIT downstream package patch; no upstream write.",
+        "license": "MIT",
+        "upstream_status": "downstream-only",
+        "remove_when": "An authenticated upstream release supports the target Check descriptor API with all original tests, defaults and installed replay preserved."
       }
     ]
   },
@@ -99,6 +108,6 @@
       "yinjiayi"
     ],
     "status": "active",
-    "notes": "Fixed official unsigned stable v2.0.4; full 30 Git files/modes and complete legal terms preserved. Retain default static library, all original five C test files/two headers and twelve Check cases, mandatory Check/exact one CTest, SENTINEL ON, FIXED_ALLOCATOR OFF, original GNU99/Werror/debug flags. Installed original replay and separate array regression are downstream checks. No local upstream/RPM/QEMU execution. Target CI, ordinary installation and physical products remain pending."
+    "notes": "Fixed official unsigned stable v2.0.4; full 30 Git files/modes and complete legal terms preserved. Retain default static library, all twelve original Check test bodies/assertions and four groups with descriptor-only registration compatibility, mandatory Check/exact one CTest, SENTINEL ON, FIXED_ALLOCATOR OFF, original GNU99/Werror/debug flags. Installed original replay and separate array regression are downstream checks. No local upstream/RPM/QEMU execution. Target CI, ordinary installation and physical products remain pending. Current target replacement CI/build/install and physical products remain required after the causal registration repair."
   }
 }
