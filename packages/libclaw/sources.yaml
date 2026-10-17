@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "package_id": "libclaw",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libclaw-1.9.1.tar.gz",
+      "version": "1.9.1",
+      "url": "https://codeload.github.com/j-jorge/libclaw/tar.gz/c3762283e2fffe795cc1462289f0da40834acb8a",
+      "digests": {
+        "sha256": "6f136ad09e3db3ef59d7b6af43f3d539f93b6590ea155815b82333cfb9644529"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official fixed unsigned tag/commit, no matching detached signatures. All429 archived Git members/modes verified; exact2 export-ignore Git metadata supplied separately. Original LGPL2.1+ notices/fullCOPYING, generated plot banner and all examples retained."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "GPL-2.0.txt",
+      "version": "2.0",
+      "url": "https://ftp.gnu.org/gnu/Licenses/gpl-2.0.txt",
+      "digests": {
+        "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full GPL2 reference companion for LGPL2.1 section3; not relicensing the library. Full verbatim permission text retained; not a signature claim."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "filename": "gnuplot.txt",
+      "version": "d46e94e2c78ceede1cfc63cfa0396472d2798d4c",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/gnuplot.txt",
+      "digests": {
+        "sha256": "bf8f6d32101126a5994902c3b66d32c4cdbc1202abe13d6c4ac86d970e7c0a9e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Conservative full permission companion for unchanged GNUplot save-generated configuration banner; not a claim that Claw library code is gnuplot-licensed. Full verbatim permission text retained; not a signature claim."
+      }
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "filename": ".gitattributes",
+      "version": "c3762283e2fffe795cc1462289f0da40834acb8a",
+      "url": "https://raw.githubusercontent.com/j-jorge/libclaw/c3762283e2fffe795cc1462289f0da40834acb8a/.gitattributes",
+      "digests": {
+        "sha256": "d633d78ead8e9274149305ba9cb7c91d87d9b71e2675d253e189dda6255aed63"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Exact unsigned official fixed Git metadata blob, omitted by official codeload export-ignore. Same project provenance; no new build/test input or license alteration."
+      }
+    },
+    {
+      "id": "source4",
+      "kind": "upstream-release",
+      "filename": ".gitignore",
+      "version": "c3762283e2fffe795cc1462289f0da40834acb8a",
+      "url": "https://raw.githubusercontent.com/j-jorge/libclaw/c3762283e2fffe795cc1462289f0da40834acb8a/.gitignore",
+      "digests": {
+        "sha256": "e9e1a93cd4667e97358e6559a701c4b1f289f78a3f5da120599ea55285cb979a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Exact unsigned official fixed Git metadata blob, omitted by official codeload export-ignore. Same project provenance; no new build/test input or license alteration."
+      }
+    }
+  ]
+}
