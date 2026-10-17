@@ -82,3 +82,26 @@ the package has built successfully. The original artifact omitted the CMake
 configure log/cache. The separate installed-consumer configure repeats ICU
 discovery through the unmodified exported `find_dependency`; its actual result
 must also pass before acceptance. No settings are preemptively added there.
+
+## Diagnostic-only target include-search follow-up
+
+The replacement target configure now finds the actual INI and all three ICU
+libraries, but its C++ ABI probe still fails. The original build then fails at
+`cstdlib`'s `#include_next <stdlib.h>`. Exact installed glibc-devel NEVRA and
+the official supplier RPM prove a regular header is supplied, not that the
+live header bytes or compiler include order are correct. No root cause is
+claimed repaired by this diagnostic change.
+
+The original configure and build remain mandatory. Bounded diagnostics now
+report live header readability, SHA-256 and RPM ownership, generated compile
+flags and compiler/ABI/implicit-include fields, plus the beginning/end of the
+configure log. The supplier header hash is printed for comparison only; it
+does not force a successful probe or suppress a failure. The original build
+adds only `--verbose` and remains the final direct command with its real exit
+status. No environment dump, forced ABI/pointer-size/implicit directory, feature
+toggle or test filtering is added. All original sources, ten unit translation
+units, defaults, staged/installed checks and existing patches are unchanged.
+
+Fresh exact-head target logs must establish actual live header state and include
+ordering before a causal toolchain or recipe correction. A diagnostic push is
+not a successful target build, installed-package acceptance or merge approval.

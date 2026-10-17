@@ -80,7 +80,35 @@ cp %{SOURCE2} doctest-MIT.txt
 %build
 # No feature/test/tool switches: retain every upstream default.
 cmake -S . -B build -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_INSTALL_LIBDIR=lib64 -DCMAKE_LIBRARY_PATH:PATH=%{_libdir} -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -UNDEBUG" -DCMAKE_SHARED_LINKER_FLAGS="%{build_ldflags}" -DCMAKE_EXE_LINKER_FLAGS="%{build_ldflags}"
-cmake --build build --parallel %{?_smp_build_ncpus}
+# Diagnostic-only reads: never force ABI/include results or replace build status.
+printf '%s\n' 'LCF diagnostic: live stdlib header and RPM owner (not a success gate)'
+if test -r /usr/include/stdlib.h; then
+    if sha256sum /usr/include/stdlib.h; then :; else printf '%s\n' 'LCF diagnostic: header hash unavailable'; fi
+    if rpm -qf /usr/include/stdlib.h; then :; else printf '%s\n' 'LCF diagnostic: header owner unavailable'; fi
+else
+    printf '%s\n' 'LCF diagnostic: /usr/include/stdlib.h unreadable or absent'
+fi
+printf '%s\n' 'LCF diagnostic: supplier stdlib.h SHA256 6142b01080e258aa27ea41be45ec76947605415816ee15ae066097f7974f5983 (comparison only)'
+printf '%s\n' 'LCF diagnostic: generated lcf compile flags (first 80 lines)'
+if test -r build/CMakeFiles/lcf.dir/flags.make; then
+    sed -n '1,80p' build/CMakeFiles/lcf.dir/flags.make
+else
+    printf '%s\n' 'LCF diagnostic: flags.make unavailable'
+fi
+for compiler_info in build/CMakeFiles/[0-9]*/CMakeCXXCompiler.cmake; do
+    if test -r "$compiler_info"; then
+        printf '%s\n' 'LCF diagnostic: generated CXX compiler/ABI/implicit fields (bounded)'
+        awk '/^set\(CMAKE_CXX_(COMPILER|SIZEOF_DATA_PTR|ABI_COMPILED|IMPLICIT_INCLUDE_DIRECTORIES|IMPLICIT_LINK_DIRECTORIES)/ { if (++shown <= 40) print }' "$compiler_info"
+    fi
+done
+printf '%s\n' 'LCF diagnostic: CMake configure log (first 400 and last 120 lines)'
+if test -r build/CMakeFiles/CMakeConfigureLog.yaml; then
+    sed -n '1,400p' build/CMakeFiles/CMakeConfigureLog.yaml
+    tail -n 120 build/CMakeFiles/CMakeConfigureLog.yaml
+else
+    printf '%s\n' 'LCF diagnostic: CMakeConfigureLog.yaml unavailable'
+fi
+cmake --build build --parallel %{?_smp_build_ncpus} --verbose
 
 %install
 DESTDIR=%{buildroot} cmake --install build
