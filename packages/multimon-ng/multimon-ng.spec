@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           multimon-ng
-Version:        1.6.0
+Version:        1.6.2
 Release:        1%{?dist}
 Summary:        A fork of multimon that decodes multiple digital transmission modes
 License:        GPL-2.0-or-later
 URL:            https://github.com/EliasOenal/multimon-ng
-Source0:        multimon-ng-1.6.0.tar.gz
+Source0:        1.6.2.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
