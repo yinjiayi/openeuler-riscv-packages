@@ -1,0 +1,40 @@
+From: openEuler RISC-V package maintainers
+Subject: [PATCH] Support staged multilib installation with a relative SONAME link
+
+Keep the original default /usr/lib layout and make check implementation.
+Allow RPM to select lib64 and a staging root, without running ldconfig
+against a staged tree or recording an absolute buildroot symlink.
+No library source, test input, assertion or default feature is changed.
+License: MIT
+Upstream-Status: Pending (no upstream write)
+
+--- a/Makefile
++++ b/Makefile
+@@ -11,7 +11,9 @@
+ CC = gcc
+ CFLAGS = -c -fPIC -g -Wall
+ LDFLAGS =-s -shared -fvisibility=hidden -Wl,--exclude-libs=ALL,--no-as-needed,-soname,lib$(LIBNAME).so.$(VERSION_MAJOR)
+ PREFIX ?= /usr
++LIBDIR ?= lib
++DESTDIR ?=
+-
++
+ .PHONY: all
+ all: yuarel
+@@ -27,10 +29,10 @@
+ .PHONY: install
+ install: all
+-	install --directory $(PREFIX)/lib $(PREFIX)/include
+-	install lib$(LIBNAME).so.$(VERSION_MAJOR) $(PREFIX)/lib/
+-	ln -fs $(PREFIX)/lib/lib$(LIBNAME).so.$(VERSION_MAJOR) $(PREFIX)/lib/lib$(LIBNAME).so
+-	install yuarel.h $(PREFIX)/include/
+-	ldconfig -n $(PREFIX)/lib
++	install --directory $(DESTDIR)$(PREFIX)/$(LIBDIR) $(DESTDIR)$(PREFIX)/include
++	install lib$(LIBNAME).so.$(VERSION_MAJOR) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
++	ln -fs lib$(LIBNAME).so.$(VERSION_MAJOR) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(LIBNAME).so
++	install yuarel.h $(DESTDIR)$(PREFIX)/include/
++	if test -z "$(DESTDIR)"; then ldconfig -n $(PREFIX)/$(LIBDIR); fi
+-
++
+ .PHONY: examples
+ examples: examples/simple.c
