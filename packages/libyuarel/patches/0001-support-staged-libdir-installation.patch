@@ -10,17 +10,11 @@ Upstream-Status: Pending (no upstream write)
 
 --- a/Makefile
 +++ b/Makefile
-@@ -11,7 +11,9 @@
+@@ -11,2 +11,4 @@
  CC = gcc
- CFLAGS = -c -fPIC -g -Wall
- LDFLAGS =-s -shared -fvisibility=hidden -Wl,--exclude-libs=ALL,--no-as-needed,-soname,lib$(LIBNAME).so.$(VERSION_MAJOR)
- PREFIX ?= /usr
 +LIBDIR ?= lib
 +DESTDIR ?=
--
-+
- .PHONY: all
- all: yuarel
+ CFLAGS = -c -fPIC -g -Wall
 @@ -27,10 +29,10 @@
  .PHONY: install
  install: all

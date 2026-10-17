@@ -25,6 +25,15 @@ cache. RPM compiler/linker flags preserve upstream's shared/SONAME settings
 but omit its `-s` stripping so ordinary debug artifacts remain enabled.
 There is no library or test-source patch.
 
+The initial target run failed in `%prep`, before compilation: GNU patch with
+`--fuzz=0` rejected the first installation hunk. That hunk is now balanced
+one-line context around the two added make variables; the installation change
+and all original source/tests are unchanged. Validation explicitly uses GNU
+`gpatch --dry-run --fuzz=0` as well as `git apply --check`. The initial local
+check labelled GNU had actually resolved to Apple's `patch`; its success did
+not establish GNU zero-fuzz applicability. A new target run must verify this
+repair; the original failed run is not reclassified as successful.
+
 `%check` executes the original `make check` target used by upstream Travis CI:
 all four original groups and their assertions remain byte-identical. The
 installed-interface runner recompiles that same suite and the original
