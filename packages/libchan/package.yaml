@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/tylertreat/chan",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libchan",
+        "package_name": "libchan",
+        "source": "aur",
+        "source_version": "0.0.4-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libchan.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official tag0.0.4/fixed commit b4120abe5d642284182f04965e793cc918daf711 and all18 Git blobs independently verified. Historical AUR stale rejection is lineage only, not release authority. Full Apache2 LICENSE retained; no upstream NOTICE member. No source patches. Default shared/static features, C99 flags, examples and complete original make check retained. Unmodified original test source replayed at staged/installed O0/O2 shared/static gates, with bounded timeout as failure rather than skip. Functional concurrency evidence is not timing/performance/native or formal thread-safety proof. Complete target provider inventory verified; actual DNF/build/install/physical gates pending, no local target execution.",
+    "status": "active"
+  },
+  "package_id": "libchan",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "libchan",
+    "summary": "Pure C implementation of Go-style channels"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-tylertreat-chan",
+    "homepage": "https://github.com/tylertreat/chan",
+    "release_api": "https://api.github.com/repos/tylertreat/chan/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/tylertreat/chan",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.0.4",
+    "latest_detected": "0.0.4",
+    "release": "1"
+  }
+}
