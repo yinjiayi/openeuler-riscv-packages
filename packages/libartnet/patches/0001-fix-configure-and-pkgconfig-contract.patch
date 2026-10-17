@@ -1,0 +1,35 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Correct modern-C probe and installed pkg-config include root
+
+The existing IPv6 socket probe needs the exit declaration and an explicit int
+main signature; keep its actual runtime decision rather than forcing a cache
+value. Headers install to includedir/artnet and include artnet/common.h, so
+consumers need includedir, not the nonexistent includedir/libartnet.
+
+Origin: original downstream changes against atlesn/libartnet 416a83e92d150e8e0295a9aabd7ad1fb1c1689bc
+Upstream-Status: Not-Submitted
+SPDX-License-Identifier: LGPL-2.1-or-later
+
+--- a/configure.ac
++++ b/configure.ac
+@@ -46,10 +46,11 @@
+ #       include <sys/types.h>
+ #       include <sys/socket.h>
+ #       include <netinet/in.h>
++#       include <stdlib.h>
+         /* Make sure the definitions for AF_INET6 and struct sockaddr_in6
+          * are defined, and that we can actually create an IPv6 TCP socket.
+          */
+-        main()
++        int main(void)
+         {
+                 int fd;
+                 struct sockaddr_in6 foo;
+--- a/libartnet.pc.in
++++ b/libartnet.pc.in
+@@ -8,4 +8,4 @@
+ Description: libartnet
+ Requires:
+ Libs: -L${libdir} -lartnet @LIBS@
+-Cflags: -I${includedir}/libartnet
++Cflags: -I${includedir}
