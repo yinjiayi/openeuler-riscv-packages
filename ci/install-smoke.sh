@@ -73,8 +73,10 @@ fi
 
 rpm_root="$work_dir/RPMS"
 [[ -d $rpm_root ]] || { message="binary RPM output directory is missing"; exit 1; }
-mapfile -d '' rpms < <(find "$rpm_root" -type f -name '*.rpm' \
-  ! -name '*-debuginfo-*' ! -name '*-debugsource-*' -print0 | sort -z)
+# Install every produced binary, including debug subpackages. Runtime-only
+# installation cannot establish debug-path ownership/coexistence with the base
+# filesystem package. Keep all products in the same normal DNF transaction.
+mapfile -d '' rpms < <(find "$rpm_root" -type f -name '*.rpm' -print0 | sort -z)
 ((${#rpms[@]} > 0)) || { message="no binary RPM was produced"; exit 1; }
 
 supplemental_repo=/etc/yum.repos.d/openeuler-riscv-project.repo

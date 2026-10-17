@@ -1,0 +1,12 @@
+{
+ "schema_version":1,"package_id":"libduck1",
+ "rpm":{"name":"libduck1","summary":"Daisy 2.02 talking book parser library","license":"LGPL-2.1-or-later"},
+ "upstream":{"component":"github.com-skywalker13-libduck","homepage":"https://github.com/Skywalker13/libduck","source_repository":"https://github.com/Skywalker13/libduck","release_channel":"stable","release_api":"https://api.github.com/repos/Skywalker13/libduck/tags","release_regex":"^v([0-9]+\\.[0-9]+\\.[0-9]+)$","source_url_template":"https://codeload.github.com/Skywalker13/libduck/tar.gz/v{version}"},
+ "version":{"current":"1.1.2","latest_detected":"1.1.2","release":"1"},
+ "discovery":{"snapshot_id":"discovery-20260808T165000Z-9a89920c269462cd","lineage":[{"source":"aur","package_name":"libduck1","package_base":"libduck1","source_version":"1.1.2","evidence_url":"https://aur.archlinux.org/packages/libduck1","observed_at":"2026-08-08T16:50:00Z"}]},
+ "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+ "build":{"profile":"qemu-user","network_during_build":false,"timeout_minutes":60,"native_reason":null},
+ "files":{"spec":"libduck1.spec","sources":"sources.yaml","patches":[],"smoke_test":"tests/smoke.sh"},
+ "maintenance":{"status":"active","maintainers":["yinjiayi"],"notes":"Official fixed v1.1.2 source; all 38 Git files checked. Preserve original configure/make default static and shared libraries, public header and libduck-test.c unchanged; explicitly enable PIC because the original architecture switch predates riscv64. No registered upstream assertive test target. Retain original program and add offline Daisy2.02/SMIL expected-output and semantic consumers for build/staged/installed checks. These are downstream checks, not an invented upstream suite or audio playback proof. Original LGPL2.1 text plus complete GPL2/GPL3 companions; Debian GPL-3 packaging remains solely in original SRPM archive. Full target provider/filelists scan has no collision; target CI, installation and physical RPM/SRPM/ELF gates pending. No local upstream/RPM/QEMU execution or auto-merge."},
+ "updates":{"enabled":true,"last_checked_at":null,"last_successful_check_at":null,"release_provider":"official-github-tags"}
+}

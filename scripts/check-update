@@ -10,6 +10,7 @@ import json
 import pathlib
 import re
 import urllib.parse
+from html.parser import HTMLParser
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
 from _lib import (
@@ -184,23 +185,21 @@ def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optio
     version_text = re.sub(r"^[vV](?=\d)", "", version_text)
     if not version_text or is_prerelease({**raw, "version": version_text}):
         return None
-    # Prefer an explicit upstream asset or reviewed template over generic
-    # forge-generated tag archives.  This keeps update PRs on the same release
-    # artifact channel that was reviewed during onboarding.
-    source_url = first_value(raw, ["source_url", "archive_url", "download_url"])
-    if not source_url:
-        assets = raw.get("assets") if isinstance(raw.get("assets"), list) else []
-        source_assets = [item for item in assets if isinstance(item, Mapping) and str(item.get("name", "")).endswith((".tar.gz", ".tar.xz", ".tgz"))]
-        if source_assets:
-            source_url = first_value(source_assets[0], ["browser_download_url", "url"])
-    if not source_url and template:
+    # The package's reviewed source channel takes precedence. An archive suffix
+    # on a release asset does not prove it contains source (age/fzf also upload
+    # platform binaries as .tar.gz). Never guess a source from arbitrary assets.
+    explicit_source = first_value(raw, ["source_url", "archive_url", "download_url"])
+    source_url = explicit_source
+    if template:
         try:
             source_url = template.format(version=version_text, tag=first_value(raw, ["tag_name"], version_text))
         except (KeyError, ValueError) as exc:
             raise ToolError("invalid source_url_template: %s" % exc)
     if not source_url:
         source_url = raw.get("tarball_url")
-    digest = first_value(raw, ["sha256", "checksum"])
+    # A feed checksum may describe another asset. Preserve it only when the
+    # explicit source URL is the selected URL; otherwise hash selected bytes.
+    digest = first_value(raw, ["sha256", "checksum"]) if explicit_source and source_url == explicit_source else None
     if isinstance(digest, str) and digest.startswith("sha256:"):
         digest = digest.split(":", 1)[1]
     return {
@@ -257,7 +256,28 @@ def releases_from_index(content: bytes, release_regex: str, source_url_template:
     text = content.decode("utf-8", errors="replace")
     releases: List[Dict[str, Any]] = []
     seen = set()
-    for match in pattern.finditer(text):
+    matches = list(pattern.finditer(text))
+    # An anchored filename selector describes a linked release identity, not
+    # the complete HTML document. Only adapt identities when the reviewed
+    # template independently specifies the source; never promote an arbitrary
+    # href (possibly a binary or external URL) into an official source URL.
+    if source_url_template:
+        class LinkedIdentities(HTMLParser):
+            def handle_starttag(self, tag: str, attrs: List[tuple[str, Optional[str]]]) -> None:
+                if tag.lower() != "a":
+                    return
+                for key, value in attrs:
+                    if key.lower() != "href" or not value:
+                        continue
+                    try:
+                        identity = urllib.parse.unquote(urllib.parse.urlsplit(value).path.rsplit("/", 1)[-1])
+                    except ValueError:
+                        continue
+                    if identity and not is_prerelease({"version": identity}):
+                        matches.extend(pattern.finditer(identity))
+
+        LinkedIdentities(convert_charrefs=True).feed(text)
+    for match in matches:
         version = match.groupdict().get("version") or match.group(1)
         version = str(version).strip().lstrip("vV")
         if not version or version in seen or is_prerelease({"version": version}):

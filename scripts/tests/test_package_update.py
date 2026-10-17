@@ -4,11 +4,12 @@ from __future__ import annotations
 import hashlib
 import json
 import pathlib
+import runpy
 import tempfile
 import unittest
 from typing import Optional
 
-from helpers import run_tool, write_json
+from helpers import SCRIPTS, run_tool, write_json
 
 
 def package(
@@ -53,6 +54,41 @@ def package(
 
 
 class PackageUpdateTests(unittest.TestCase):
+    def test_compact_prerelease_feed_keeps_current_final_release(self) -> None:
+        # Minimal official PyPI shape from the case-converter failure: release
+        # values are file lists. No file/source-selection behavior is changed.
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            releases = root / "releases.json"
+            write_json(releases, {"releases": {
+                "1.2.0": [], "1.2.0rc1": [], "1.2.0a1": [],
+                "1.2.0b1": [], "1.2.0alpha1": [], "1.2.0beta1": [],
+            }})
+            package(root, "demo", str(releases), version="1.2.0")
+            plan = root / "plan.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"),
+                     "--output", str(plan), "--now", "2026-08-08T00:00:00Z"], root)
+            shard = root / "shard.json"
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0",
+                     "--output", str(shard), "--now", "2026-08-08T00:01:00Z"], root)
+            entry = json.loads(shard.read_text())["entries"][0]
+            self.assertEqual(entry["status"], "no-update")
+            self.assertEqual(entry["latest_version"], "1.2.0")
+
+    def test_compact_prerelease_filter_preserves_stable_versions_and_flags(self) -> None:
+        is_prerelease = runpy.run_path(str(SCRIPTS / "_lib.py"))["is_prerelease"]
+        for version in ("1.2.0rc1", "v1.2.0RC2", "1.2.0a1", "1.2.0b1",
+                        "1.2.0alpha1", "1.2.0beta1", "1.2.0pre1", "1.2.0preview1",
+                        "1.2.0dev1", "1.2.0rc1+build.7", "1.2.0-rc1", "1.2.0.dev1"):
+            with self.subTest(prerelease=version):
+                self.assertTrue(is_prerelease({"version": version}))
+        for version in ("1.2.0", "v1.2.0", "1.2.0.post1", "1.2.0post1", "1.0.2a",
+                        "1.2.0+build.7", "1.2.0+build1rc1", "1.2.0+rc1"):
+            with self.subTest(stable=version):
+                self.assertFalse(is_prerelease({"version": version}))
+        self.assertTrue(is_prerelease({"version": "1.2.0", "draft": True}))
+        self.assertTrue(is_prerelease({"version": "1.2.0", "prerelease": True}))
+
     def test_create_package_and_update_pipeline(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
@@ -190,6 +226,55 @@ class PackageUpdateTests(unittest.TestCase):
             self.assertEqual(entry["source_url"], archive.as_uri())
             self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
 
+    def test_anchored_html_filename_keeps_reviewed_source_and_digest(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            archive = root / "demo-2.0.tar.gz"
+            archive.write_bytes(b"reviewed stable source, not the linked binary")
+            index = root / "index.html"
+            index.write_text(
+                '<html><a href="https://untrusted.invalid/binaries/demo-%32.0.tar.gz?download=1&amp;mode=binary">download</a>'
+                '<a href="demo-2.0.tar.gz">duplicate</a>'
+                '<a href="demo-9.0-rc1.tar.gz">prerelease</a>'
+                '<a href="other-99.0.tar.gz">unrelated</a></html>', encoding="utf-8",
+            )
+            package(root, "demo", index.as_uri(), release_regex=r"^demo-(?P<version>[0-9]+\.[0-9]+)\.tar\.gz$", source_url_template=root.as_uri() + "/demo-{version}.tar.gz")
+            plan, shard = root / "plan.json", root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entry = json.loads(shard.read_bytes())["entries"][0]
+            self.assertEqual(entry["status"], "update-available")
+            self.assertEqual(entry["version"], "2.0")
+            self.assertEqual(entry["source_url"], archive.as_uri())
+            self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
+
+    def test_anchored_html_without_source_contract_still_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            index = root / "index.html"
+            index.write_text('<a href="https://untrusted.invalid/demo-2.0.tar.gz">download</a>', encoding="utf-8")
+            package(root, "demo", index.as_uri(), release_regex=r"^demo-([0-9]+\.[0-9]+)\.tar\.gz$")
+            plan, shard = root / "plan.json", root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entry = json.loads(shard.read_bytes())["entries"][0]
+            self.assertEqual(entry["status"], "failed")
+            self.assertIn("no stable releases", entry["failure"]["message"])
+
+    def test_html_identity_adapter_keeps_prerelease_suffix_visible(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            index = root / "index.html"
+            # The selector intentionally captures only the numeric prefix.
+            index.write_text('<a href="demo-9.0-rc1.tar.gz">download</a>', encoding="utf-8")
+            package(root, "demo", index.as_uri(), release_regex=r"^demo-([0-9]+\.[0-9]+)", source_url_template=root.as_uri() + "/demo-{version}.tar.gz")
+            plan, shard = root / "plan.json", root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entry = json.loads(shard.read_bytes())["entries"][0]
+            self.assertEqual(entry["status"], "failed")
+            self.assertIn("no stable releases", entry["failure"]["message"])
+
     def test_anchored_json_tag_regex_keeps_official_source_and_digest(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
@@ -217,11 +302,11 @@ class PackageUpdateTests(unittest.TestCase):
             checksum = hashlib.sha256(archive.read_bytes()).hexdigest()
             releases = root / "releases.json"
             write_json(releases, [
-                {"tag_name": "v2.0", "name": "Stable release", "sha256": checksum, "assets": [{"name": "demo-2.0.tar.gz", "browser_download_url": archive.as_uri()}]},
+                {"tag_name": "v2.0", "name": "Stable release", "source_url": archive.as_uri(), "sha256": checksum, "assets": [{"name": "demo-2.0.tar.gz", "browser_download_url": archive.as_uri()}]},
                 {"tag_name": "v9.0", "draft": True},
                 {"tag_name": "v8.0", "prerelease": True},
             ])
-            package(root, "demo", releases.as_uri(), release_regex=r"^v?(?P<version>[0-9]+(?:\.[0-9]+)+)$", source_url_template="https://example.org/must-not-override-asset-{version}.tar.gz")
+            package(root, "demo", releases.as_uri(), release_regex=r"^v?(?P<version>[0-9]+(?:\.[0-9]+)+)$", source_url_template=archive.as_uri())
             plan = root / "plan.json"
             shard = root / "shard.json"
             run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
@@ -276,6 +361,56 @@ class PackageUpdateTests(unittest.TestCase):
             self.assertEqual(entry["tag"], "v2.0")
             self.assertEqual(entry["source_url"], archive.as_uri())
             self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
+
+    def scan_source_contract(self, root, records, template):
+        feed = root / "release.json"
+        write_json(feed, records)
+        package(root, "demo", feed.as_uri(), release_regex=r"^v?(?P<version>[0-9]+(?:\.[0-9]+)+)$", source_url_template=template)
+        plan = root / "plan.json"
+        result = root / "result.json"
+        run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+        run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(result)], root)
+        return json.loads(result.read_bytes())["entries"][0]
+
+    def test_reviewed_template_beats_binary_asset_and_rehashes_source(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            source = root / "source-2.0.tar.gz"
+            source.write_bytes(b"correct source fixture")
+            binary = root / "demo-2.0-darwin-amd64.tar.gz"
+            binary.write_bytes(b"wrong platform fixture")
+            result = self.scan_source_contract(root, [dict(tag_name="v2.0", sha256=hashlib.sha256(binary.read_bytes()).hexdigest(), assets=[dict(name=binary.name, browser_download_url=binary.as_uri())])], root.as_uri() + "/source-{version}.tar.gz")
+            self.assertEqual(result["source_url"], source.as_uri())
+            self.assertEqual(result["sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_canonical_tarball_beats_unreviewed_asset(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            source = root / "source.tar.gz"
+            source.write_bytes(b"official forge source fixture")
+            binary = root / "demo-android_arm64.tar.gz"
+            binary.write_bytes(b"wrong binary fixture")
+            result = self.scan_source_contract(root, [dict(tag_name="v2.0", tarball_url=source.as_uri(), sha256=hashlib.sha256(binary.read_bytes()).hexdigest(), assets=[dict(name=binary.name, browser_download_url=binary.as_uri())])], None)
+            self.assertEqual(result["source_url"], source.as_uri())
+            self.assertEqual(result["sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_assets_without_source_contract_fail_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            binary = root / "demo-linux.tar.gz"
+            binary.write_bytes(b"not proven source")
+            result = self.scan_source_contract(root, [dict(tag_name="v2.0", assets=[dict(name=binary.name, browser_download_url=binary.as_uri())])], None)
+            self.assertEqual(result["status"], "failed")
+            self.assertIn("no official source URL", result["failure"]["message"])
+
+    def test_invalid_template_does_not_fall_back_to_asset(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            binary = root / "demo.tar.gz"
+            binary.write_bytes(b"not chosen")
+            result = self.scan_source_contract(root, [dict(tag_name="v2.0", assets=[dict(name=binary.name, browser_download_url=binary.as_uri())])], root.as_uri() + "/{unknown}.tar.gz")
+            self.assertEqual(result["status"], "failed")
+            self.assertIn("invalid source_url_template", result["failure"]["message"])
 
 
 if __name__ == "__main__":
