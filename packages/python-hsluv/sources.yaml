@@ -1,0 +1,21 @@
+{
+  "package_id": "python-hsluv",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "441e9105e18277b9a3cb86cb7bdd9fddc0d4e0f8a4bc7eed962afd4233d10030"
+      },
+      "filename": "hsluv-5.0.4-official.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete fixed official stable release source retains LICENSE.txt's MIT permission and original notices; all 11 file identities matched the official Git tree. No detached signature is provided. CI retrieves this exact commit archive and verifies the full SHA-256 before build."
+      },
+      "signature": null,
+      "url": "https://github.com/hsluv/hsluv-python/archive/50a60aa6357fd5f743e39d8e29b771a645a83b4a.tar.gz",
+      "version": "5.0.4"
+    }
+  ]
+}
