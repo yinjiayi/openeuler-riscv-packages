@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sipgrep
-Version:        2.2.0
-Release:        4%{?dist}
+Version:        2.2.4
+Release:        1%{?dist}
 Summary:        A powerful pcap-aware tool command line tool to sniff, capture, display and troubleshoot SIP signaling over IP networks
 License:        GPL-3.0-or-later
 URL:            https://github.com/sipcapture/sipgrep
-Source0:        sipgrep-2.2.0.tar.gz
+Source0:        2.2.4.tar.gz
 Patch0:         0001-include-arpa-inet-for-inet-pton.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
