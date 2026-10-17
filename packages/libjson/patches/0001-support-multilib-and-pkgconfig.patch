@@ -1,0 +1,40 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Honor multilib installation and repair pkg-config references
+
+Preserve original targets and default lib layout. Select lib64 when packaging,
+repair pkg-config references, and honor the caller linker flags in the CLI.
+
+--- a/Makefile
++++ b/Makefile
+@@ -25,0 +26 @@
++LIBDIR ?= lib
+@@ -48 +49 @@
+-	$(CC) $(CFLAGS) -o $@ $+
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $+
+@@ -55 +56 @@
+-	sed -e 's;@PREFIX@;$(PREFIX);' -e 's;@LIBJSON_VER_MAJOR@;$(MAJOR);' -e 's;@LIBJSON_VER_MINOR@;$(MINOR);' < $< > $@
++	sed -e 's;@PREFIX@;$(PREFIX);' -e 's;@LIBDIR@;$(LIBDIR);' -e 's;@LIBJSON_VER_MAJOR@;$(MAJOR);' -e 's;@LIBJSON_VER_MINOR@;$(MINOR);' < $< > $@
+@@ -62,2 +63,2 @@
+-	mkdir -p $(INSTALLDIR)/lib/pkgconfig
+-	$(INSTALL_DATA) -t $(INSTALLDIR)/lib/pkgconfig $(PC_TARGET)
++	mkdir -p $(INSTALLDIR)/$(LIBDIR)/pkgconfig
++	$(INSTALL_DATA) -t $(INSTALLDIR)/$(LIBDIR)/pkgconfig $(PC_TARGET)
+@@ -66,4 +67,4 @@
+-	mkdir -p $(INSTALLDIR)/lib
+-	$(INSTALL_EXEC) -t $(INSTALLDIR)/lib $(SO_FILE)
+-	$(INSTALL_DATA) -t $(INSTALLDIR)/lib $(A_TARGETS)
+-	$(INSTALL_SOLINKS) $(SO_LINKS) $(INSTALLDIR)/lib
++	mkdir -p $(INSTALLDIR)/$(LIBDIR)
++	$(INSTALL_EXEC) -t $(INSTALLDIR)/$(LIBDIR) $(SO_FILE)
++	$(INSTALL_DATA) -t $(INSTALLDIR)/$(LIBDIR) $(A_TARGETS)
++	$(INSTALL_SOLINKS) $(SO_LINKS) $(INSTALLDIR)/$(LIBDIR)
+--- a/libjson.pc.in
++++ b/libjson.pc.in
+@@ -3 +3 @@
+-libdir=${exec_prefix}/lib
++libdir=${exec_prefix}/@LIBDIR@
+@@ -9,2 +9,2 @@
+-Libs: -L{libdir} -ljson
+-Cflags: -I{includedir}
++Libs: -L${libdir} -ljson
++Cflags: -I${includedir}
