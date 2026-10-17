@@ -1,0 +1,71 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/agordon/libgtextutils",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libgtextutils",
+        "package_name": "libgtextutils",
+        "source": "debian",
+        "source_version": "0.7-9"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {"file": "patches/0001-preserve-stream-and-sort-interfaces-with-current-cxx.patch", "sha256": "156ee2bf9694d581e04e0eef0f61970ddaa419509e178153390ffffaa7dfe119", "purpose": "Preserve stream bool conversion and comparator type aliases with current C++; initialize the original pipe test's empty buffer without deleting cases, assertions, strict diagnostics or default tests.", "source": "Original downstream compatibility patch against agordon/libgtextutils tag 0.7 commit 1f03f41e7c4740164aae44570fa8d05c3f3e7ed6; based on inert source inspection, not a target execution claim.", "license": "AGPL-3.0-or-later", "upstream_status": "not-submitted", "remove_when": "An official release supplies equivalent current-C++ interfaces and initializes the pipe test buffer."},
+      {"file": "patches/0002-avoid-duplicate-string-conversion-ambiguity.patch", "sha256": "f2d8216f3d6377196ca668f8cf01845803bdc53f2f11e5681567370446406a11", "purpose": "Resolve GCC14 copy/move assignment ambiguity in the unchanged original test by retaining implicit const-string-reference conversion and removing the redundant value overload; no test/assertion or strict-flag changes.", "source": "Original downstream generic C++ repair from exact-head Package CI 38793276327 failure at 0a8eb781445958fbdb95ae5f4e9b6dacb2b08453; no upstream write.", "license": "AGPL-3.0-or-later", "upstream_status": "not-submitted", "remove_when": "An official release supplies an equivalent unambiguous string-conversion interface."}
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libgtextutils.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official tag 0.7 and all 44 fixed source Git blobs verified. Frozen Debian 0.7-9 is discovery lineage only; stale AUR is not the admission basis. Retain original default ten tests, debug and strict warnings; install original sources for installed-library replay. Source-only/trusted tooling checks are not target build/install success. No local RPM/QEMU/upstream execution, native validation, auto-merge or publication claim.",
+    "status": "active"
+  },
+  "package_id": "libgtextutils",
+  "rpm": {
+    "license": "AGPL-3.0-or-later AND Zlib AND LicenseRef-Josuttis-1999",
+    "name": "libgtextutils",
+    "summary": "Gordon text utility streams, natural sorting and tokenization"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-agordon-libgtextutils",
+    "homepage": "https://github.com/agordon/libgtextutils",
+    "release_api": "https://api.github.com/repos/agordon/libgtextutils/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/agordon/libgtextutils",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.7",
+    "latest_detected": "0.7",
+    "release": "1"
+  }
+}
