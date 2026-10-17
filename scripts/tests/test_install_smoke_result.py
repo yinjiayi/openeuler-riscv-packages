@@ -29,7 +29,7 @@ class InstallSmokeResultTests(unittest.TestCase):
 
     def run_case(self, *, smoke_status=0, dnf_status=0, repository_status=0,
                  native=False, missing_work=False, missing_rpms=False,
-                 write_status=0):
+                 write_status=0, rpm_names=("demo.rpm",)):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             package = root / "demo"
@@ -42,7 +42,13 @@ class InstallSmokeResultTests(unittest.TestCase):
                 if not missing_rpms:
                     (work / "RPMS").mkdir()
                     # Inert bytes: the mock transaction never reads or installs this file.
-                    (work / "RPMS" / "demo.rpm").write_bytes(b"not an RPM")
+                    for name in rpm_names:
+                        rpm = work / "RPMS" / name
+                        rpm.parent.mkdir(parents=True, exist_ok=True)
+                        rpm.write_bytes(b"not an RPM")
+                    # Source RPMs are not binary installation inputs.
+                    (work / "SRPMS").mkdir()
+                    (work / "SRPMS" / "demo.src.rpm").write_bytes(b"not an RPM")
             repository = root / "project.repo"
             repository.write_text("""[openeuler-riscv-project]
 name=Local inert test
@@ -73,13 +79,19 @@ module_hotfixes=1
             mocks.mkdir()
             python_mock = mocks / "python3"
             python_mock.write_text(f"""#!{sys.executable}
-import os, sys
+import json, os, sys
 if os.environ.get('RESULT_STATUS'):
     code = int(os.environ['MOCK_WRITE_STATUS'])
     if code:
         raise SystemExit(code)
 elif sys.argv[1:] and sys.argv[1] == 'ci/run-dnf-transaction':
     # Never invoke the supplied dnf argv or any target/backend command.
+    args = sys.argv[1:]
+    last_separator = len(args) - 1 - args[::-1].index('--')
+    actual = args[last_separator + 1:]
+    expected = json.loads(os.environ['MOCK_EXPECTED_RPMS'])
+    if actual != expected:
+        raise SystemExit(98)
     raise SystemExit(int(os.environ['MOCK_DNF_STATUS']))
 elif len(sys.argv) > 2 and sys.argv[2].endswith('project.repo'):
     code = int(os.environ['MOCK_REPOSITORY_STATUS'])
@@ -103,6 +115,7 @@ os.execv(sys.executable, [sys.executable] + sys.argv[1:])
                        BASH_ENV=str(bash_env), MOCK_DNF_STATUS=str(dnf_status),
                        MOCK_REPOSITORY_STATUS=str(repository_status),
                        MOCK_WRITE_STATUS=str(write_status),
+                       MOCK_EXPECTED_RPMS=json.dumps(sorted(str(work / "RPMS" / name) for name in rpm_names)),
                        PRIVATE_COMMAND_CANARY="secret-not-for-result")
             for key in ("RESULT_STATUS", "RESULT_MESSAGE", "RESULT_PACKAGE", "RESULT_STARTED"):
                 env.pop(key, None)
@@ -156,6 +169,24 @@ os.execv(sys.executable, [sys.executable] + sys.argv[1:])
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertEqual(result["status"], "passed")
         self.assertEqual(result["message"], "RPM installation and package smoke test passed")
+
+    def test_all_debug_subpackages_share_the_binary_transaction(self):
+        completed, result = self.run_case(rpm_names=(
+            "riscv64/demo-1-1.rpm",
+            "riscv64/demo-debuginfo-1-1.rpm",
+            "riscv64/demo-debugsource-1-1.rpm",
+            "noarch/demo help-1-1.rpm",
+        ))
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(result["status"], "passed")
+
+    def test_debug_transaction_failure_still_fails_the_phase(self):
+        completed, result = self.run_case(dnf_status=37, rpm_names=(
+            "riscv64/demo-1-1.rpm", "riscv64/demo-debuginfo-1-1.rpm",
+        ))
+        self.assertEqual(completed.returncode, 37, completed.stderr)
+        self.assertEqual(result["status"], "failed")
+        self.assertIn("DNF transaction failed", result["message"])
 
     def test_result_write_failure_does_not_mask_original_failure(self):
         completed, result = self.run_case(smoke_status=42, write_status=37)
