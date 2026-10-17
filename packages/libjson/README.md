@@ -10,6 +10,12 @@ The archive contains the copyright/grant but no full license copies. Four fixed
 official FSF text sources supply LGPL2.1, GPL2, LGPL3 and its incorporated GPL3;
 all are SHA-256 checked and shipped as license documents. This does not change
 the original grant. The original copyright/grant block is also installed.
+
+The four complete FSF companion texts use fixed official GNU primary archive
+URLs under `https://ftp.gnu.org/gnu/Licenses/` (lowercase versioned `.txt`
+filenames). Their full bytes and SHA-256 digests are unchanged. This retrieval
+change addresses the observed pre-build `www.gnu.org` network-unreachable
+failure; it does not change the upstream grant, source, recipe or tests.
 Owned QA is separately MIT-licensed with its complete text in the devel RPM.
 Debian packaging files are neither reused nor installed.
 
