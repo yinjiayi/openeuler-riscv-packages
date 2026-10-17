@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/barneygale/pathlib-abc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pathlib-abc",
+        "package_name": "python-pathlib-abc",
+        "source": "aur",
+        "source_version": "0.5.2-1"
+      },
+      {
+        "evidence_url": "https://github.com/barneygale/pathlib-abc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pathlib-abc",
+        "package_name": "python-pathlib-abc",
+        "source": "fedora",
+        "source_version": "0.5.2-2.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-pathlib-abc.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable PyPI 0.5.2 sdist SHA-256 and production exact-workflow PEP740 attestation verified; all 32 source files read as inert text. Original pytest tests and PYTHONWARNDEFAULTENCODING=1 preserved. No local backend/upstream/RPM/QEMU execution or target success claim.",
+    "status": "active"
+  },
+  "package_id": "python-pathlib-abc",
+  "rpm": {
+    "license": "PSF-2.0",
+    "name": "python-pathlib-abc",
+    "summary": "Abstract base classes for virtual filesystem paths"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-pypi"
+  },
+  "upstream": {
+    "component": "github.com-barneygale-pathlib-abc",
+    "homepage": "https://github.com/barneygale/pathlib-abc",
+    "release_api": "https://pypi.org/pypi/pathlib-abc/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/barneygale/pathlib-abc",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.5.2",
+    "latest_detected": "0.5.2",
+    "release": "1"
+  }
+}
