@@ -1,0 +1,24 @@
+From: openEuler RISC-V packaging <packaging@openeuler.invalid>
+Subject: [PATCH] examples: do not dereference end() on the initial empty tree
+
+The default test_hayne example calls find_nearest() before inserting its
+first point. The empty-tree overload returns end(), which the iterator
+contract explicitly forbids dereferencing. Check that sentinel before the
+existing value comparison. Keep the full insertion/deletion loops and all
+original assertions unchanged. This fixes the example caller, not the
+library's search or erase semantics.
+
+Not submitted upstream. Applies to official v0.7.5 commit
+9b0cbb264393cbd40641256668393ef5bdbfe242.
+Removal condition: a stable official release handles the empty initial tree.
+--- a/examples/test_hayne.cpp
++++ b/examples/test_hayne.cpp
+@@ -68,7 +68,7 @@
+
+       //check if duplet with same coordinate already in vector/tree. If not: insert in vector and tree
+       duplet_tree_type::iterator pItr = dupl_tree_test.find_nearest(super_dupre,std::numeric_limits<double>::max()).first;
+-      if (*pItr!=super_dupre)
++      if (pItr == dupl_tree_test.end() || *pItr!=super_dupre)
+       {
+          dupl_tree_test.insert(super_dupre);
+          vDuplets.push_back(super_dupre);
