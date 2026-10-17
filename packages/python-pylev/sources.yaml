@@ -1,0 +1,36 @@
+{
+  "package_id": "python-pylev",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9e77e941042ad3a4cc305dcdf2b2dec1aec2fbe3dd9015d2698ad02b173006d1"
+      },
+      "filename": "pylev-1.4.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://files.pythonhosted.org/packages/11/f2/404d2bfa30fb4ee7c7a7435d593f9f698b25d191cafec69dd0c726f02f11/pylev-1.4.0.tar.gz",
+      "version": "1.4.0"
+    },
+    {
+      "digests": {
+        "sha256": "c5b78b0597aec0780a28547b690dd2f7d9fe2cc9a65c6d9f463dca8f9e9a6386"
+      },
+      "filename": "pylev-1.4.0-tests.py",
+      "id": "source1",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete unchanged upstream test file governed by the release BSD-3-Clause license."
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/toastdriven/pylev/06760f3a5e40aa284cb8077762f630f1df210698/tests.py",
+      "version": "1.4.0"
+    }
+  ]
+}
