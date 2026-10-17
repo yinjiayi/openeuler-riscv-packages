@@ -68,3 +68,36 @@ contract; they are not target pytest execution. Full replacement-head CI is
 still required, and child-process root cause remains unresolved.
 
 External source retains the MIT license. Apache-2.0 covers original packaging only.
+
+Current failed head `756074d34fee5d40f29c5f05cf5bfade8cf454db`, run
+38199709664, completed 15 passes and one original xfail of 84 collected
+items before an observed 3127.015-second build-phase timeout. It produced no
+failed TestReport. Some 300-second parent subprocess waits subsequently passed;
+this does not establish a source defect, deadlock or native-only requirement.
+The earlier controller-only reporter cannot inspect an unfinished pytester
+child. Target pytest 7.4.4's original pytester writes each child's stdout/stderr
+to fixed files and only dumps them after that child exits.
+
+Both outer launchers now additionally start a packaging-only read-only daemon
+in the controller. Every 60 seconds it records only that controller's descendant
+PIDs, parent PIDs, process state, CPU ticks and process-start identity (maximum
+64 descendants, with explicit truncation). For descendant working directories
+inside `/tmp` with a `pytest-` path component, it reads only pytester's fixed
+`stdout`/`stderr` regular files, at most the last 2048 bytes of each. Directory
+and file opens reject symlinks; nonblocking opens reject FIFOs without waiting.
+ASCII JSON records distinguish missing/racing observations and PID reuse. A
+shared lock serializes complete observer/controller report writes; a concurrent
+fixture exercises both producers against a deliberately split-write sink. It
+never reads environment variables or command arguments, signals a process,
+modifies a child file, or injects a plugin, environment option or argument into
+workers/pytester children. This daemon is stopped after the original pytest
+call; the original pytest return code is returned unchanged. It neither
+terminates tests nor extends the build deadline.
+
+All original source bytes, 84 collected items/29 test functions, skip/xfail
+markers, worker selection, 100% branch coverage, nested subprocess arguments,
+source and installed defaults and existing deadlines remain unchanged. The
+20 fake-proc/temp fixtures exercise only this new observer's parsing, scope,
+size limits, symlink/FIFO rejection, PID identity and lifecycle. They are not
+upstream or target-test passes. This is a diagnostic-content change, not a
+causal timeout fix or target-CI success claim; new-head full CI remains required.
