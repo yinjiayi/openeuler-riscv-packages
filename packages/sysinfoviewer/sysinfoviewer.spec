@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sysinfoviewer
-Version:        0.3.2
-Release:        5%{?dist}
+Version:        0.3.3
+Release:        1%{?dist}
 Summary:        A comprehensive system information viewer built with wxWidgets
 License:        MIT
 URL:            https://github.com/Magpiny/sysinfoviewer
-Source0:        sysinfoviewer-0.3.2.tar.gz
+Source0:        v0.3.3.tar.gz
 Patch0:         0001-cmake-support-version-3.27.patch
 Patch1:         0002-wxarraystring-compat.patch
 BuildRequires:  alsa-lib-devel
