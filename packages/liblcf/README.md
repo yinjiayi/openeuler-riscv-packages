@@ -134,3 +134,27 @@ The new exact-head target run must show a successful genuine ABI probe, usable
 implicit includes, the original build and all ten original test translation
 units plus staged/installed consumers, followed by physical RPM/SRPM/provider
 and namespace acceptance before any merge.
+
+
+## Bounded QEMU compilation budget
+
+Exact head `c0ee5fb7a6f57573269cd05c1ae576db54f26779`, Package CI run
+`39061403072` attempt 1, passed dependency installation and its genuine C++ ABI
+probe (`CMAKE_CXX_ABI_COMPILED TRUE` with populated implicit includes). Its build
+continued to 44% compilation without an observed source compiler error, then
+the configured package budget expired: the inner command returned timeout 124
+after 3168.069 seconds of the remaining build phase. This is not native-RISC-V
+validation and does not establish a successful library build or test run.
+
+The package-specific `build.timeout_minutes` is increased from 60 to a bounded
+180 minutes, within the committed schema's existing 5-360 minute range. No
+workflow, compiler/linker flag, parallelism, original source, feature, test,
+patch, dependency or installation path changes. The normal workflow consumes
+this declared budget; this is a concrete input change, not an unchanged rerun.
+
+The replacement exact-head target run must still finish the full default build,
+all ten original test translation units, staged and installed checks, ordinary
+all-binary RPM installation, and physical RPM/SRPM acceptance. The longer limit
+is a repair candidate, not proof those gates pass. Reassess or remove this
+package-specific allowance when complete target timings prove a smaller bound
+sufficient; preserve the original timeout evidence and do not waive failures.
