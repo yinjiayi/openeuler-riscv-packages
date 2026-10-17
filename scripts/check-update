@@ -10,6 +10,7 @@ import json
 import pathlib
 import re
 import urllib.parse
+from html.parser import HTMLParser
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
 from _lib import (
@@ -255,7 +256,28 @@ def releases_from_index(content: bytes, release_regex: str, source_url_template:
     text = content.decode("utf-8", errors="replace")
     releases: List[Dict[str, Any]] = []
     seen = set()
-    for match in pattern.finditer(text):
+    matches = list(pattern.finditer(text))
+    # An anchored filename selector describes a linked release identity, not
+    # the complete HTML document. Only adapt identities when the reviewed
+    # template independently specifies the source; never promote an arbitrary
+    # href (possibly a binary or external URL) into an official source URL.
+    if source_url_template:
+        class LinkedIdentities(HTMLParser):
+            def handle_starttag(self, tag: str, attrs: List[tuple[str, Optional[str]]]) -> None:
+                if tag.lower() != "a":
+                    return
+                for key, value in attrs:
+                    if key.lower() != "href" or not value:
+                        continue
+                    try:
+                        identity = urllib.parse.unquote(urllib.parse.urlsplit(value).path.rsplit("/", 1)[-1])
+                    except ValueError:
+                        continue
+                    if identity and not is_prerelease({"version": identity}):
+                        matches.extend(pattern.finditer(identity))
+
+        LinkedIdentities(convert_charrefs=True).feed(text)
+    for match in matches:
         version = match.groupdict().get("version") or match.group(1)
         version = str(version).strip().lstrip("vV")
         if not version or version in seen or is_prerelease({"version": version}):
