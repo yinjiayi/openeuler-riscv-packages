@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           rocky
-Version:        1.0.0
+Version:        1.1.0
 Release:        1%{?dist}
 Summary:        C++ SDK for rendering maps and globes
 License:        MIT
 URL:            https://github.com/pelicanmapping/rocky
-Source0:        rocky-1.0.0.tar.gz
+Source0:        v1.1.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
