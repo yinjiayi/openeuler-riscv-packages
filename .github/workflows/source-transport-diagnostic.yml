@@ -30,12 +30,15 @@ jobs:
           python3 --version
           cat /etc/os-release
           command -v apt-get
-          # verify-only may query rpmspec when present: reject that environment.
-          ! command -v rpmspec
           test ! -e work/source-transport-diagnostic
       - name: Fetch the three original HTTPS sources once using default TLS
         run: |
-          scripts/build-rpm --package-dir packages/libinjection --repo-root . \
+          # verify-only may query rpmspec when present. Isolate command lookup
+          # to the system Python interpreter, forcing its static SPEC fallback.
+          mkdir -p work/source-transport-tools
+          ln -s "$(command -v python3)" work/source-transport-tools/python3
+          PATH="$PWD/work/source-transport-tools" scripts/build-rpm \
+            --package-dir packages/libinjection --repo-root . \
             --work-dir work/source-transport-diagnostic \
             --result artifacts/source/source-phase-result.json \
             --commit-sha a59220b2321f5db3dc0b4520e4c72170e6cc498b \

@@ -1,8 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 """Guard the narrowly scoped hosted source probe, never execute target code."""
 import ast
+import json
+import os
 from pathlib import Path
 import re
+import shutil
+import subprocess
+import sys
+import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -39,12 +45,42 @@ class SourceTransportDiagnosticTests(unittest.TestCase):
             self.assertIn('add_argument("' + option + '"', cli)
             self.assertIn(option, self.text)
         self.assertIn("--download-timeout 25 --retries 0", self.text)
-        self.assertIn("! command -v rpmspec", self.text)
+        self.assertIn('PATH="$PWD/work/source-transport-tools" scripts/build-rpm', self.text)
+        self.assertIn('ln -s "$(command -v python3)" work/source-transport-tools/python3', self.text)
         self.assertIn("test ! -e work/source-transport-diagnostic", self.text)
-        self.assertEqual(self.text.count("scripts/build-rpm --package-dir"), 1)
+        self.assertEqual(self.text.count('PATH="$PWD/work/source-transport-tools" scripts/build-rpm'), 1)
         self.assertNotIn("--offline", self.text)
         self.assertNotIn("curl ", self.text)
         self.assertNotIn("pip install", self.text)
+
+    def test_private_python_path_prevents_rpm_lookup_in_real_verify_only(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            tools = root / "tools"
+            outer = root / "outer"
+            tools.mkdir()
+            outer.mkdir()
+            (tools / "python3").symlink_to(sys.executable)
+            marker = root / "rpmspec-executed"
+            fake = outer / "rpmspec"
+            fake.write_text("#!/bin/sh\ntouch " + str(marker) + "\nexit 99\n")
+            fake.chmod(0o755)
+            self.assertEqual(shutil.which("rpmspec", path=str(outer)), str(fake))
+            self.assertIsNone(shutil.which("rpmspec", path=str(tools)))
+            env = dict(os.environ, PATH=str(tools), PYTHONDONTWRITEBYTECODE="1")
+            result = root / "source-result.json"
+            completed = subprocess.run([
+                str(ROOT / "scripts/build-rpm"), "--repo-root", str(ROOT),
+                "--package-dir", str(ROOT / "packages/golden-success-hello"),
+                "--work-dir", str(root / "fresh"), "--result", str(result),
+                "--verify-only", "--download-timeout", "25", "--retries", "0",
+            ], env=env, capture_output=True, text=True)
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            payload = json.loads(result.read_text())
+            self.assertEqual(payload["status"], "source-verified")
+            self.assertEqual(payload["dependency_plan"]["method"], "spec-text-fallback")
+            self.assertEqual(payload["artifacts"], [])
+            self.assertFalse(marker.exists())
 
     def test_three_fresh_physical_sources_and_schema_are_required(self):
         self.assertIn('validator["schema_errors"](result, schema, schema)', self.text)
