@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "libkdtreepp",
+  "sources": [
+    {
+      "id": "source0", "kind": "upstream-release", "filename": "libkdtreepp-0.7.5.tar.gz", "version": "0.7.5",
+      "url": "https://codeload.github.com/nvmd/libkdtree/tar.gz/9b0cbb264393cbd40641256668393ef5bdbfe242",
+      "digests": {"sha256": "b4795c60670f6f6b5c7604804f26adf7e1f8549d4620d8f6c6f384e362f587f2"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Full upstream Artistic-2.0 COPYING is retained, with unmodified fixed archive and documented local source patches available in SRPM."}
+    }
+  ]
+}
