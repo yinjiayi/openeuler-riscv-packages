@@ -1,0 +1,25 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Consume a complete quartet at the input boundary
+License: MIT
+Upstream-Status: Not submitted (no upstream writes)
+
+Portable decoder defect, not an architecture-specific claim. With four
+encoded wchar_t values (two input bytes), the loop fills state->i to four
+and exhausts input. Returning immediately leaves an invalid quartet for
+blockend, which permits only zero or two trailing values. Consume it now;
+keep incomplete quartets buffered. CI tests exercise exact two-byte input
+and chunk widths one through thirteen against the actual shared library.
+No test, public-domain notice, default target or feature is removed.
+
+diff --git a/src/cdecode.c b/src/cdecode.c
+--- a/src/cdecode.c
++++ b/src/cdecode.c
+@@ -76,7 +76,7 @@ ptrdiff_t rcnb_decode_block(const wchar_t* code_in, size_t length_in,
+         length_in--;
+         code_in++;
+     }
+-    if (length_in == 0)
++    if (length_in == 0 && state_in->i < 4)
+         return 0;
+     res = rcnb_decode_short(state_in->trailing_code, &plaintext_char);
+     if (!res)
