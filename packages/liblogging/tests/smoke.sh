@@ -7,3 +7,4 @@ for soname in liblogging-stdlog.so.0 liblogging-rfc3195.so.0; do
   test -e "$library"
   test "$(rpm -qf --qf '%{NAME}' -- "$library")" = liblogging
 done
+/usr/share/liblogging/qa/run-tests.sh
