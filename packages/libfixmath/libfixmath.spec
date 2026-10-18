@@ -9,6 +9,7 @@ Summary:        Q16.16 fixed point arithmetic static library
 License:        MIT AND LicenseRef-Public-Domain
 URL:            https://github.com/PetteriAimonen/libfixmath
 Source0:        https://codeload.github.com/PetteriAimonen/libfixmath/tar.gz/%{upstream_commit}#/libfixmath-%{version}.tar.gz
+Patch0:         0001-define-unsigned-bit-arithmetic.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake >= 3.13
@@ -38,7 +39,7 @@ Unmodified original tests replayed against the installed default archive.
 All twelve original instrumented CMake variants run separately during build.
 
 %prep
-%setup -q -n libfixmath-%{upstream_commit}
+%autosetup -p1 -n libfixmath-%{upstream_commit}
 
 %build
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS_RELEASE='%{optflags} -UNDEBUG' -DCMAKE_CXX_FLAGS_RELEASE='%{optflags} -UNDEBUG'

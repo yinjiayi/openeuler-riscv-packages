@@ -1,5 +1,13 @@
 # libfixmath
 
+The retained arithmetic patch repairs source undefined behavior reported by the
+original UBSan variants in run 39126145006. It performs bit assembly, rounding
+wrap, and INT32_MIN magnitude conversion as unsigned arithmetic and handles a
+zero emulated-64-bit shift without shifting by 32. Source CRLF hunk endings are
+preserved. All twelve original CTest variants, original tests, instrumented
+configuration and zero-diagnostics gate remain unchanged. A replacement hosted
+build is required; local inert patch checks are not a target-build acceptance.
+
 The fixed upstream commit is byte/mode-identical to all 59 source files in
 Debian's 20220222 orig archive; Debian's embedded Git metadata is not packaged.
 The RPM version denotes that reviewed snapshot, not an upstream tagged release.
