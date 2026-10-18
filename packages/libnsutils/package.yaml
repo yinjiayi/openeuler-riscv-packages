@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "package_id": "libnsutils",
+  "rpm": {"name": "libnsutils", "summary": "Utility library for NetSurf applications", "license": "MIT"},
+  "upstream": {
+    "component": "source.netsurf-browser.org-libnsutils",
+    "homepage": "https://source.netsurf-browser.org/libnsutils",
+    "source_repository": "https://source.netsurf-browser.org/libnsutils.git",
+    "release_channel": "stable",
+    "release_api": "https://download.netsurf-browser.org/libs/releases/",
+    "release_regex": "libnsutils-(?P<version>[0-9]+(?:\\.[0-9]+)+)-src\\.tar\\.gz",
+    "source_url_template": "https://download.netsurf-browser.org/libs/releases/libnsutils-{version}-src.tar.gz"
+  },
+  "version": {"current": "0.1.1", "release": "1", "latest_detected": "0.1.1"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{"source": "arch-extra", "package_name": "libnsutils", "package_base": "libnsutils", "source_version": "0.1.1-2", "evidence_url": "https://archlinux.org/packages/extra/x86_64/libnsutils/", "observed_at": "2026-08-08T16:50:00Z"}]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libnsutils.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official fixed stable archive and all 17 source files/notices checked inertly. Preserve default static build and original 32-case base64 test; additionally build/test shared library. Replay the unchanged original driver and all 32 script assertions against both installed shared and static libraries, comparing all six installed headers. NetSurf buildsystem 1.10 must be actually supplied by the target repository. No source patches or local target execution; target evidence awaits CI."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}
