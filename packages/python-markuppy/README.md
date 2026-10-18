@@ -34,3 +34,14 @@ shebang rewriting without changing source bytes or omitting any test.
 Local validation covers repository tooling and inert source verification
 only. Target build, original test execution, installation, physical RPM/SRPM
 and public publication require their separate CI acceptance gates.
+
+The first exact-head target run39084540224 passed all nine original tests,
+but the downstream checker expected single-line verbose unittest results.
+The unchanged upstream tests have docstrings, so unittest prints the result
+on a second description line. The checker now handles both standard formats
+and requires the exact nine original test identities, unique successful
+results, one nine-test summary, one OK, and no failures or skips. Regression
+checks parse the captured real output plus one-line fixtures and reject
+missing, duplicate, unexpected, failed or skipped tests and malformed summaries.
+No upstream source, default invocation, origin/ownership/hash checks or test
+is removed; a replacement target run must still prove build and installed QA.

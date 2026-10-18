@@ -63,6 +63,42 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def original_results(output):
+    """Accept unittest's one- or two-line verbosity while requiring exact IDs."""
+    expected = {
+        'test_inline_features.TestInlineFeatures.test_combined_features',
+        'test_inline_features.TestInlineFeatures.test_script_content_list',
+        'test_inline_features.TestInlineFeatures.test_script_content_string',
+        'test_inline_features.TestInlineFeatures.test_style_content_list',
+        'test_inline_features.TestInlineFeatures.test_style_content_string',
+        'test_add_raw.TestAddRaw.test_add_raw_appending',
+        'test_add_raw.TestAddRaw.test_add_raw_content_control',
+        'test_add_raw.TestAddRaw.test_add_vs_add_raw',
+        'test_add_raw.TestAddRaw.test_table_example',
+    }
+    lines = output.splitlines()
+    completed = []
+    for i, line in enumerate(lines):
+        if not line.startswith('test_'):
+            continue
+        match = re.fullmatch(r'(test_\w+) \(([^)\n]+)\)(?: \.\.\. (.+))?', line)
+        assert match, line
+        name, identity, status = match.groups()
+        assert identity in expected and identity.rsplit('.', 1)[1] == name, identity
+        if status is None:
+            assert i + 1 < len(lines), line
+            description, separator, status = lines[i + 1].rpartition(' ... ')
+            assert separator and description and not description.startswith('test_'), line
+        assert status == 'ok', (identity, status)
+        completed.append((name, identity))
+    assert len(completed) == len(set(completed)) == 9, completed
+    assert {identity for _, identity in completed} == expected
+    assert len(re.findall(r'^Ran 9 tests in [0-9.]+s$', output, re.M)) == 1
+    assert len(re.findall(r'^OK$', output, re.M)) == 1
+    assert not re.search(r'\b(?:skipped|FAILED|ERROR|FAIL)\b', output)
+    return completed
+
+
 def main():
     assert len(sys.argv) == 4 and sys.argv[3] in ('buildroot', 'installed')
     assert (3, 11) <= sys.version_info[:2] < (3, 12), sys.version
@@ -148,7 +184,7 @@ runpy.run_path(RUNNER,run_name='__main__')
                                 stderr=subprocess.STDOUT, check=False)
         print(result.stdout, end='')
         assert result.returncode == 0, result.returncode
-        completed = re.findall(r'^(test_\w+) \(([^)]+)\) \.\.\. ok$', result.stdout, re.M)
+        completed = original_results(result.stdout)
         assert len(completed) == len(set(completed)) == 9, completed
         assert re.search(r'^Ran 9 tests in ', result.stdout, re.M)
         assert re.search(r'^OK\s*$', result.stdout, re.M)
