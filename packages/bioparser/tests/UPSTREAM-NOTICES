@@ -1,0 +1,80 @@
+UPSTREAM-NOTICES: complete fixed-source MIT grants and per-file copyright lines
+
+bioparser 3.1.0 commit 4fa7126293d2a0eb90125b58fb704f0eed33ffe0
+The MIT License (MIT)
+
+Copyright (c) 2016 Robert Vaser
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Per-file notices (original paths):
+LICENSE: Copyright (c) 2016 Robert Vaser
+LICENSE: The above copyright notice and this permission notice shall be included in all
+LICENSE: AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+include/bioparser/fasta_parser.hpp: // Copyright (c) 2020 Robert Vaser
+include/bioparser/fastq_parser.hpp: // Copyright (c) 2020 Robert Vaser
+include/bioparser/mhap_parser.hpp: // Copyright (c) 2020 Robert Vaser
+include/bioparser/paf_parser.hpp: // Copyright (c) 2020 Robert Vaser
+include/bioparser/parser.hpp: // Copyright (c) 2020 Robert Vaser
+include/bioparser/sam_parser.hpp: // Copyright (c) 2020 Robert Vaser
+test/bioparser_test_config.h.in: // Copyright (c) 2023 Robert Vaser
+test/fasta_parser_test.cpp: // Copyright (c) 2020 Robert Vaser
+test/fastq_parser_test.cpp: // Copyright (c) 2020 Robert Vaser
+test/mhap_parser_test.cpp: // Copyright (c) 2020 Robert Vaser
+test/paf_parser_test.cpp: // Copyright (c) 2020 Robert Vaser
+test/parser_test.cpp: // Copyright (c) 2020 Robert Vaser
+test/sam_parser_test.cpp: // Copyright (c) 2020 Robert Vaser
+
+biosoup 0.11.0 commit 3e31aa1d9039a2689241aebd18c45933b2d0f5e3
+MIT License
+
+Copyright (c) 2020 Robert Vaser
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Per-file notices (original paths):
+LICENSE: Copyright (c) 2020 Robert Vaser
+LICENSE: The above copyright notice and this permission notice shall be included in all
+LICENSE: AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+include/biosoup/nucleic_acid.hpp: // Copyright (c) 2020 Robert Vaser
+include/biosoup/overlap.hpp: // Copyright (c) 2020 Robert Vaser
+include/biosoup/progress_bar.hpp: // Copyright (c) 2020 Robert Vaser
+include/biosoup/sequence.hpp: // Copyright (c) 2020 Robert Vaser
+include/biosoup/timer.hpp: // Copyright (c) 2020 Robert Vaser
+test/nucleic_acid_test.cpp: // Copyright (c) 2020 Robert Vaser
+test/overlap_test.cpp: // Copyright (c) 2020 Robert Vaser
+test/progress_bar_test.cpp: // Copyright (c) 2020 Robert Vaser
+test/sequence_test.cpp: // Copyright (c) 2020 Robert Vaser
+test/timer_test.cpp: // Copyright (c) 2020 Robert Vaser
