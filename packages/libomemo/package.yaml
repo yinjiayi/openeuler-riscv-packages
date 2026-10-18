@@ -62,12 +62,12 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 2 declares all five pkg-config providers, keeps all three upstream CMocka executables enabled, uses the openEuler out-of-tree CMake macro, and ports the private implementation from Mini-XML 3 callbacks to the parallel-installable Mini-XML 4 API available in the immutable project repository. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh exact-head CI evidence.",
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected and pinned by SHA-256. Downstream release 3 preserves the independent library's MIT grant and the upstream CMakeLists.txt GPL-2.0-or-later notice, and supplies pinned complete official GPL2 terms in source and installed license materials. It preserves release 2's five pkg-config providers, three original CMocka executables, openEuler out-of-tree CMake configuration and private Mini-XML 4 API compatibility patch. External distribution packaging was not executed, and release 3 RISC-V build status remains unknown pending fresh exact-head CI evidence.",
     "status": "active"
   },
   "package_id": "libomemo",
   "rpm": {
-    "license": "MIT",
+    "license": "MIT AND GPL-2.0-or-later",
     "name": "libomemo",
     "summary": "Implementation of OMEMO (XEP-0384) in C"
   },
@@ -97,6 +97,6 @@
   "version": {
     "current": "0.8.1",
     "latest_detected": "0.8.1",
-    "release": "2"
+    "release": "3"
   }
 }

@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libomemo
 Version:        0.8.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Implementation of OMEMO (XEP-0384) in C
-License:        MIT
+# The independent C library is MIT; upstream CMakeLists.txt is GPL-2.0-or-later.
+License:        MIT AND GPL-2.0-or-later
 URL:            https://github.com/gkdr/libomemo
 Source0:        libomemo-0.8.1.tar.gz
+Source1:        GPL-2.0.txt
 Patch0:         patches/0001-port-to-mxml-4.patch
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -37,10 +39,15 @@ test -s %{name}.files
 ctest --test-dir %{_vpath_builddir} --output-on-failure --no-tests=error
 
 %files -f %{name}.files
-%license LICENSE
+%license LICENSE %{SOURCE1}
 %doc README.md
 
 %changelog
+* Sun Oct 18 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.1-3
+- Preserve the upstream build script's GPL-2.0-or-later notice and ship pinned full GPL2 terms.
+- Document the separate MIT library and GPL build-file license scopes without relicensing either.
+- Keep the upstream source, Mini-XML compatibility patch and all three original tests unchanged.
+
 * Sat Sep 12 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.1-2
 - Declare all pkg-config build providers and retain the complete three-test suite.
 - Port the implementation and tests to the available parallel-installable Mini-XML 4 API.

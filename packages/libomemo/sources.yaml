@@ -11,11 +11,26 @@
       "kind": "upstream-release",
       "redistribution": {
         "allowed": true,
-        "reason": "Governed by the declared upstream license; source is fetched in CI."
+        "reason": "The independent C library and tests retain the upstream MIT grant; CMakeLists.txt retains Sebastian Pipping's GPL-2.0-or-later notice. The complete official GPL2 terms are provided by source1 alongside the unchanged source archive."
       },
       "signature": null,
       "url": "https://github.com/gkdr/libomemo/archive/refs/tags/v0.8.1.tar.gz",
       "version": "0.8.1"
+    },
+    {
+      "digests": {
+        "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+      },
+      "filename": "GPL-2.0.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official GNU GPL version2 license document, reproduced verbatim under its express permission to copy and distribute this document. Supplies complete terms for the upstream GPL-v2-or-later build-script notice; does not relicense the independent MIT library."
+      },
+      "signature": null,
+      "url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
+      "version": "2.0"
     }
   ]
 }
