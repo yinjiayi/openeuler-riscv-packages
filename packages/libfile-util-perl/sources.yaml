@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-util-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Util-4.201720.tar.gz",
+      "version": "4.201720",
+      "url": "https://cpan.metacpan.org/authors/id/T/TO/TOMMY/File-Util-4.201720.tar.gz",
+      "digests": {
+        "sha256": "d4491021850d5c5cbd702c7e4744858079841d2fa93f1c2d09ddc9a7863608df"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Distribution LICENSE explicitly grants GPL version 1 or later or Artistic License 1.0; README and shipped POD agree; official HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

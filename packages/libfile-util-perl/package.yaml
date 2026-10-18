@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-util-perl",
+  "rpm": {
+    "name": "perl-File-Util",
+    "summary": "Portable file handling tools for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-util-perl",
+    "homepage": "https://metacpan.org/dist/File-Util",
+    "source_repository": "https://metacpan.org/dist/File-Util",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TO/TOMMY/",
+    "release_regex": "File-Util-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TO/TOMMY/File-Util-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.201720",
+    "release": "1",
+    "latest_detected": "4.201720"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-util-perl",
+        "package_base": "libfile-util-perl",
+        "source_version": "4.201720-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-util-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-util-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Exact frozen Ubuntu 4.201720-2 key maps to official CPAN 4.201720. Publisher CHECKSUMS matches full SHA-256. Distribution LICENSE explicitly grants GPL-1.0-or-later or Artistic-1.0; source POD and README agree. Official target primary has no same provider and supplies Module::Build, Test::NoWarnings and core dependencies. The complete default upstream t/*.t suite is retained. Local macOS lacks Test::NoWarnings; target exact-head build, tests, RPM install and smoke remain CI evidence. No native-RISC-V performance or publication claim."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
