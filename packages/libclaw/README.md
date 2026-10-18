@@ -104,3 +104,21 @@ RISC-V source/ABI repairs. All default features and original tests remain
 enabled. Replacement exact-head target build, original21 staged/installed
 suite, ordinary all-binary DNF installation and physical RPM/SRPM/document
 acceptance remain required; no local target/RPM/QEMU execution is claimed.
+
+## Formula failure diagnostics, not a rendering fix
+
+Replacement run `39077787110/1` at `d969e6bd55c2887749bd422f868f70b815e7f9ad`
+installed its declared dependencies successfully, including LaTeX, amsmath,
+fonts, dvips and Ghostscript. Doxygen still reported errors for both formula
+themes. Its summary named `_formulas.log` and `_formulas_dark.log`, but those
+inner logs were not included in the failure artifact, so the actual TeX cause
+cannot yet be identified. Do not infer another missing dependency from that
+summary or claim this diagnostic change fixes the rendering failure.
+
+On a failed build or Doxygen error, print both inner formula logs into the
+captured build log. Preserve the original CMake exit status, strict Doxygen
+error rejection, paired formula-image assertions, all default features and
+all 21 original examples. This changed diagnostic input permits a new natural
+CI run to expose the missing cause; it is not an unchanged-input rerun. Repair
+the specific cause after inspecting that replacement log. Full exact-head
+target CI and physical acceptance remain required before any merge.

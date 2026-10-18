@@ -102,6 +102,14 @@ cmake -S cmake -B build \
 build_status=0
 cmake --build build --parallel %{?_smp_build_ncpus} > build-output.log 2>&1 || build_status=$?
 cat build-output.log
+# Doxygen's summary omits the actual TeX cause. Preserve both theme logs
+# before the unchanged failure checks stop the build; this does not recover it.
+if test "$build_status" -ne 0 || grep -qF 'error: ' build-output.log; then
+    if ! find build -type f \( -name '_formulas.log' -o -name '_formulas_dark.log' \) \
+        -print -exec cat -- {} \;; then
+        echo 'Could not collect every Doxygen formula diagnostic' >&2
+    fi
+fi
 if test "$build_status" -ne 0; then exit "$build_status"; fi
 # Doxygen can report formula-tool errors without failing its process.
 if grep -F 'error: ' build-output.log; then exit 1; fi
