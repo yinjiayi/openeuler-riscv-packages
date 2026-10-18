@@ -9,6 +9,10 @@ Keep upstream default static release build and original `make test`, then
 run the same original suite for a shared release build and an additional
 static `VARIANT=debug` build. Upstream release sets NDEBUG, selecting 21
 tests; debug additionally selects 11 original assertion/signal tests.
+The first target build reached the additional debug compilation, where the
+buildsystem's default -O0 conflicts with target _FORTIFY_SOURCE=2 and -Werror.
+Only that additional build/test uses CCNOOPT=-O1; DEBUG, assertions, fortify,
+warning errors, all original tests and default release settings remain enabled.
 The original runner already comments out its unimplemented memory suite;
 the recipe makes no source/test changes and does not remove default tests.
 

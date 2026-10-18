@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libwapcaplet
 Version:        0.4.3
-Release:        1
+Release:        2
 Summary:        Reference-counted string internment library
 License:        MIT
 URL:            https://netsurf-browser.org/projects/libwapcaplet
@@ -54,7 +54,8 @@ export CFLAGS="%{optflags}"
 export LDFLAGS="%{?build_ldflags}"
 %make_build PREFIX=%{_prefix} LIBDIR=lib64 NSSHARED=%{_datadir}/netsurf-buildsystem BUILDDIR=build-static
 %make_build PREFIX=%{_prefix} LIBDIR=lib64 NSSHARED=%{_datadir}/netsurf-buildsystem BUILDDIR=build-shared COMPONENT_TYPE=lib-shared
-%make_build PREFIX=%{_prefix} LIBDIR=lib64 NSSHARED=%{_datadir}/netsurf-buildsystem BUILDDIR=build-debug VARIANT=debug
+# Keep DEBUG/assertion coverage and target fortify hardening together.
+%make_build PREFIX=%{_prefix} LIBDIR=lib64 NSSHARED=%{_datadir}/netsurf-buildsystem BUILDDIR=build-debug VARIANT=debug CCNOOPT=-O1
 
 %install
 make install PREFIX=%{_prefix} LIBDIR=lib64 NSSHARED=%{_datadir}/netsurf-buildsystem BUILDDIR=build-static DESTDIR=%{buildroot}
@@ -67,7 +68,7 @@ export CFLAGS="%{optflags}"
 export LDFLAGS="%{?build_ldflags}"
 make test PREFIX=%{_prefix} LIBDIR=lib64 NSSHARED=%{_datadir}/netsurf-buildsystem BUILDDIR=build-static
 LD_LIBRARY_PATH="$PWD/build-shared" make test PREFIX=%{_prefix} LIBDIR=lib64 NSSHARED=%{_datadir}/netsurf-buildsystem BUILDDIR=build-shared COMPONENT_TYPE=lib-shared
-make test PREFIX=%{_prefix} LIBDIR=lib64 NSSHARED=%{_datadir}/netsurf-buildsystem BUILDDIR=build-debug VARIANT=debug
+make test PREFIX=%{_prefix} LIBDIR=lib64 NSSHARED=%{_datadir}/netsurf-buildsystem BUILDDIR=build-debug VARIANT=debug CCNOOPT=-O1
 run_installed_tests() (
     set -eux
     root=$1
@@ -107,5 +108,8 @@ run_installed_tests '%{buildroot}'
 %{_datadir}/libwapcaplet/
 
 %changelog
+* Mon Oct 19 2026 yinjiayi <yinjiayi@users.noreply.github.com> - 0.4.3-2
+- Use O1 only for additional debug builds to retain target fortify and assertions.
+
 * Mon Oct 19 2026 yinjiayi <yinjiayi@users.noreply.github.com> - 0.4.3-1
 - Preserve static release defaults and original tests; add shared/debug/installed checks.
