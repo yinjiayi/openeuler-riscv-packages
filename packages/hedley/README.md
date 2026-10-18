@@ -15,6 +15,12 @@ demonstrate runtime-unsafe code and must not be executed as a runtime suite.
 The original GCC/G++ warning flags and three per-target diagnostic exceptions
 are preserved unchanged. Neither C++ nor any default target is disabled.
 
+The original G++ diagnostic rules for `unknown-pragmas`, `unavailable` and
+`warn` deliberately use the same output filenames as their C counterparts.
+Thus all70 compiler commands produce67 final executable files, not70 files.
+QA checks every expected filename and the exact67-file count without changing
+those upstream rules. The programs are never executed as runtime tests.
+
 `%check` runs the complete default target and repeats it in a fresh tree
 using the staged installed header and QA sources. Installed smoke verifies
 both RPMs and repeats all70 compile/link targets against the actual installed
