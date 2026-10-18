@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-counterfile-perl",
+  "rpm": {
+    "name": "perl-File-CounterFile",
+    "summary": "Persistent file-backed counters with locking for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-counterfile-perl",
+    "homepage": "https://metacpan.org/dist/File-CounterFile",
+    "source_repository": "https://metacpan.org/dist/File-CounterFile",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/G/GA/GAAS/",
+    "release_regex": "File-CounterFile-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/G/GA/GAAS/File-CounterFile-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.04",
+    "release": "1",
+    "latest_detected": "1.04"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-counterfile-perl",
+        "package_base": "libfile-counterfile-perl",
+        "source_version": "1.04-7",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-counterfile-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-counterfile-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Exact frozen Ubuntu 1.04-7 key maps to official CPAN 1.04. Publisher CHECKSUMS matches full SHA-256; README and module POD grant Perl dual terms. Official target primary has no same provider and supplies Carp, Fcntl, Symbol and Config. Both unmodified default suites passed locally (101 checks), including 100-round fork/flock functional test; no native-RISC-V kernel, timing or performance claim. Target exact-head build, full tests, RPM install and smoke remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
