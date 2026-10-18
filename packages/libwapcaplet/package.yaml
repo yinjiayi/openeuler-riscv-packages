@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "package_id": "libwapcaplet",
+  "rpm": {"name": "libwapcaplet", "summary": "Reference-counted string internment library", "license": "MIT"},
+  "upstream": {
+    "component": "netsurf-browser.org-projects-libwapcaplet",
+    "homepage": "https://netsurf-browser.org/projects/libwapcaplet",
+    "source_repository": "https://source.netsurf-browser.org/libwapcaplet.git",
+    "release_channel": "stable",
+    "release_api": "https://download.netsurf-browser.org/libs/releases/",
+    "release_regex": "libwapcaplet-(?P<version>[0-9]+(?:\\.[0-9]+)+)-src\\.tar\\.gz",
+    "source_url_template": "https://download.netsurf-browser.org/libs/releases/libwapcaplet-{version}-src.tar.gz"
+  },
+  "version": {"current": "0.4.3", "release": "1", "latest_detected": "0.4.3"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{"source": "arch-extra", "package_name": "libwapcaplet", "package_base": "libwapcaplet", "source_version": "0.4.3-4", "evidence_url": "https://archlinux.org/packages/extra/x86_64/libwapcaplet/", "observed_at": "2026-08-08T16:50:00Z"}]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libwapcaplet.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official fixed stable archive, MIT notices and 12 original source files reviewed inertly. Preserve upstream default static release build and original make test; also build/test shared release and debug static variant. Replay unchanged original Check drivers against staged and installed release shared/static libraries using the upstream release NDEBUG policy. No source patch, no core-test filtering, no local source/RPM/QEMU execution. Target acceptance requires exact CI and physical products."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}
