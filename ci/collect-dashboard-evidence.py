@@ -23,7 +23,8 @@ from typing import Any, Dict, List
 
 
 ARTIFACT_NAME = re.compile(
-    r"^(?P<kind>package-ci-smoke|rpm-repository-publish)-(?P<package>.+)-(?P<run_id>[1-9][0-9]*)$"
+    r"^(?P<kind>package-ci-smoke|rpm-repository-publish)-(?P<package>.+?)-(?P<run_id>[1-9][0-9]*)"
+    r"(?:-attempt-(?P<attempt>[1-9][0-9]*))?$"
 )
 MAX_JSON_BYTES = 8 * 1024 * 1024
 ARTIFACT_PAGE_SIZE = 25

@@ -144,6 +144,21 @@ The collector reads the Actions artifact listing over direct authenticated HTTPS
 
 ## Local verification
 
+An **attempt-bound artifact transfer** uses an attempt-qualified upload name and
+the producing job's immutable upload `artifact-id` output. Artifact IDs are not
+chronological counters: selecting the largest same-name ID can select an older
+failed ZIP. Build, installed-smoke, publication and CI-state consumers therefore
+use exact producer IDs, with a nonexistent zero selector for missing outputs,
+instead of names or wildcard merges across attempts. CI-state collects each
+producer separately into distinct directories and rejects absent outputs from
+successful producers; a missing requested ID is fatal, never a partial-success
+warning from a multi-ID download. Failed-only reruns retain
+successful prerequisite outputs from their original attempt; consumers never
+substitute their own attempt number. Previous failed artifacts remain retained
+for seven days. Dashboard and trusted-dispatch readers accept both historical
+names and attempt-qualified smoke/publication names; this transport contract
+does not relax exact-head, source, original-test, RPM or publication gates.
+
 Python 3.9 or newer is sufficient for repository metadata tests. Docker/QEMU is required only for the target-architecture build gate.
 
 ```sh
