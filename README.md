@@ -6,6 +6,14 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 
 ## Defined terms
 
+- An **install job budget** is the bounded whole-job allowance derived from a
+  schema-validated package's `build.timeout_minutes`, with the existing
+  70-minute floor and 360-minute schema maximum. The smoke job records a
+  deadline immediately after checkout, subtracts setup/download time before
+  invoking the original install and smoke command, and reserves 600 seconds
+  for final evidence and uploads. Expiry fails with exit 124; it never skips
+  tests, retries a failed suite, changes runner routing, or establishes target
+  success. The dependency transaction retains its separate 3300-second bound.
 - A **managed package** is a non-template directory below `packages/` whose `package.yaml` is schema-valid and is not `retired` or `update-disabled`.
 - An **upstream release component** is a project unit with its own official stable release and version boundary. Discovery deduplicates this unit, not distribution package names.
 - A **verified release source** is an HTTPS official stable release/tag archive whose exact bytes are pinned by a full SHA-256. Distribution package checksums and catalog metadata digests do not satisfy this definition.
