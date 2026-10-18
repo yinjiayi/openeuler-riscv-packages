@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libprobe-perl-perl",
+  "rpm": {
+    "name": "perl-Probe-Perl",
+    "summary": "Inspect the currently running Perl interpreter",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libprobe-perl-perl",
+    "homepage": "https://metacpan.org/dist/Probe-Perl",
+    "source_repository": "https://github.com/kenahoo/Probe-Perl",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/",
+    "release_regex": "Probe-Perl-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Probe-Perl-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.03",
+    "release": "1",
+    "latest_detected": "0.03"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libprobe-perl-perl",
+        "package_base": "libprobe-perl-perl",
+        "source_version": "0.03-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libprobe-perl-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libprobe-perl-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libprobe-perl-perl key maps to official CPAN Probe-Perl 0.03. The official CPAN CHECKSUMS SHA-256, safe archive structure, explicit dual-license file, and full default t/basic.t test were reviewed. The separately gated t/author-critic.t is skipped by upstream when AUTHOR_TESTING is unset and is not claimed as passing. The openEuler RVA23 Everything primary metadata was checked for an existing same-name RPM and its core Perl dependencies."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

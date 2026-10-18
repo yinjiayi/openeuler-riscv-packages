@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "hedley",
+  "rpm": {"name": "hedley", "summary": "Portable C and C++ compiler feature macros", "license": "CC0-1.0"},
+  "upstream": {"component": "nemequ.github.io-hedley", "homepage": "https://nemequ.github.io/hedley/", "source_repository": "https://github.com/nemequ/hedley", "release_channel": "stable", "release_api": "https://api.github.com/repos/nemequ/hedley/tags", "release_regex": "^v(?P<version>[0-9]+)$"},
+  "version": {"current": "15", "release": "1", "latest_detected": null},
+  "discovery": {"snapshot_id": "manual-debian-simde-hedley-20261018", "lineage": [{"source": "debian", "package_name": "simde", "package_base": "simde", "source_version": "0.8.2-1", "evidence_url": "https://sources.debian.org/data/main/s/simde/0.8.2-1/simde/hedley.h", "observed_at": null}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 30, "native_reason": null},
+  "files": {"spec": "hedley.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Debian SIMDe's vendored Hedley establishes component discovery, not a standalone Debian package or equivalence of its vendored version16 with stable15. Preserve all35 C plus35 C++ original compiler/link targets and unmodified per-target diagnostic rules; these are not runtime tests. No installed ELF or native performance claim."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-tags"}
+}

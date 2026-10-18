@@ -1,0 +1,21 @@
+{
+  "package_id": "libbinio",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d4454ee76a6c711e1e46b4b61da5cc168c520c145902719e00f1261fe657164f"
+      },
+      "filename": "libbinio-1.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/adplug/libbinio/tar.gz/020a4c2b7612863600428e0e9f2491b923e54ac2",
+      "version": "1.5"
+    }
+  ]
+}

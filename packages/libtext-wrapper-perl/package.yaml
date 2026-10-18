@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-wrapper-perl",
+  "rpm": {
+    "name": "perl-Text-Wrapper",
+    "summary": "Wrap text by breaking long lines without changing spacing",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-wrapper-perl",
+    "homepage": "https://metacpan.org/dist/Text-Wrapper",
+    "source_repository": "https://github.com/madsen/text-wrapper",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CJ/CJM/",
+    "release_regex": "Text-Wrapper-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CJ/CJM/Text-Wrapper-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.05",
+    "release": "1",
+    "latest_detected": "1.05"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-wrapper-perl",
+        "package_base": "libtext-wrapper-perl",
+        "source_version": "1.05-4",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-wrapper-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-wrapper-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libtext-wrapper-perl; official CPAN stable 1.05 SHA-256 64268e15983a9df47e1d9199a491f394e89f542e54afb33f4b78f3f318e09ab9 matches CHECKSUMS. Bundled LICENSE expressly offers GPL-1.0-or-later or Artistic-1.0-Perl terms. Official RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks perl-Text-Wrapper and perl(Text::Wrapper). All four default t files retained; local Perl 5.34.1 ran 32 assertions with no skips. Two separate xt/release POD author tests are not part of default MakeMaker TESTS and are not claimed as run; their Pod::Coverage::TrustPod dependency is not present in target primary. Exact-head QEMU CI must prove build and installed smoke; public publication unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

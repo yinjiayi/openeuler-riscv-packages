@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-affixes-perl",
+  "rpm": {
+    "name": "perl-Text-Affixes",
+    "summary": "Perl prefix and suffix analysis of text",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-affixes-perl",
+    "homepage": "https://metacpan.org/dist/Text-Affixes",
+    "source_repository": "https://github.com/kappa/Text-Affixes",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KA/KAPPA/",
+    "release_regex": "Text-Affixes-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KA/KAPPA/Text-Affixes-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.09",
+    "release": "1",
+    "latest_detected": "0.09"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-affixes-perl",
+        "package_base": "libtext-affixes-perl",
+        "source_version": "0.09-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-affixes-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-affixes-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Exact frozen-inventory key. Official CPAN 0.09 archive SHA-256 matches CHECKSUMS; LICENSE, README and POD grant Perl GPL/Artistic choice. Archive paths are safe. All five default tests are kept, including POD and POD coverage; local 22 assertions pass but POD coverage skips for missing local Test::Pod::Coverage. Target primary provides that module and the SPEC requires it so target CI must run it. Official RVA23 primary has no same-name RPM or module provider."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

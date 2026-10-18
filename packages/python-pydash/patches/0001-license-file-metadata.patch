@@ -1,0 +1,28 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Express unchanged MIT license using PEP 621 file metadata
+Source: https://github.com/dgilland/pydash/blob/f46de3669742c075e5379c1e193c86c1c2c70dc2/pyproject.toml
+Original-License: MIT
+Applies-To: Pydash 8.1.0; selected target setuptools 68.0.0
+Upstream-Status: Downstream compatibility only; not submitted upstream
+Root-Cause: The setuptools 68 validator requires a PEP 621 license file/text table
+Removal-Condition: Verified target selected setuptools >= 77 supports the original expression
+
+The fixed upstream pyproject uses a PEP 639 license expression string.
+The target setuptools 68 backend accepts the original PEP 621 file/text
+table shape. Refer to the unmodified complete LICENSE.rst instead.
+Build-system requirements, license text, runtime and default tests are
+unchanged. Remove when the selected target backend supports the upstream
+expression (setuptools >= 77). Target build success is not yet observed.
+
+diff --git a/pyproject.toml b/pyproject.toml
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -8,7 +8,7 @@ dynamic = ["version"]
+ authors = [{ name = "Derrick Gilland", email = "dgilland@gmail.com" }]
+ description = 'The kitchen sink of Python utility libraries for doing "stuff" in a functional way. Based on the Lo-Dash Javascript library.'
+ readme = "README.rst"
+-license = "MIT"
++license = {file = "LICENSE.rst"}
+ keywords = ["pydash", "utility", "functional", "lodash", "underscore"]
+ classifiers = [
+     "Development Status :: 5 - Production/Stable",

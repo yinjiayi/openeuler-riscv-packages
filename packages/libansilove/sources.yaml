@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libansilove",
+  "sources": [
+    {
+      "id": "source0",
+      "version": "1.4.2",
+      "url": "https://github.com/ansilove/libansilove/releases/download/1.4.2/libansilove-1.4.2.tar.gz",
+      "filename": "libansilove-1.4.2.tar.gz",
+      "digests": {
+        "sha256": "8bd4d0775ff558aacfebd7e7e284baa96d781183bf767283bf8410f44a2e2434"
+      },
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The upstream BSD-2-Clause license permits source redistribution."
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+ "schema_version":1,"package_id":"liblogger","sources":[
+  {"id":"source0","kind":"upstream-release","version":"0.0.3","url":"https://codeload.github.com/shinmorisawa/liblogger/tar.gz/1d68301a3288d5bd0ca49e9edf00f85184583e01","filename":"liblogger-0.0.3.tar.gz","digests":{"sha256":"65c410cc2b5dfc3a6d74a2ec04e2c5b842cc9b95b395ae3157d38a4e5cc2ff31"},"signature":null,"redistribution":{"allowed":true,"reason":"Complete upstream MIT grant and copyright in LICENSE retained; original files remain unchanged. Prebuilt example is not executed or installed."}},
+  {"id":"source1","kind":"upstream-release","version":"2.0","url":"https://www.apache.org/licenses/LICENSE-2.0.txt","filename":"APACHE-2.0.txt","digests":{"sha256":"cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"},"signature":null,"redistribution":{"allowed":true,"reason":"Complete Apache2 license for original downstream packaging fixture; upstream library remains MIT."}}
+ ]
+}

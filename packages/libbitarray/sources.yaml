@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libbitarray",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/noporpoise/BitArray/archive/refs/tags/2.0.tar.gz",
+      "filename": "libbitarray-2.0.tar.gz",
+      "version": "2.0",
+      "digests": {
+        "sha256": "1e46c1b878d20ee95cb3f3be79842042d1a32f90bc0c2e0e0eb74c137f29077d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The reviewed upstream LICENSE grants CC0-1.0 terms."
+      }
+    }
+  ]
+}

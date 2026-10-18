@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "python-contextlib2",
+  "sources": [
+    {
+      "id": "source0",
+      "filename": "python-contextlib2-21.6.0.tar.gz",
+      "url": "https://codeload.github.com/jazzband/contextlib2/tar.gz/94174bafebe58a79af6059883f604624ab087d18",
+      "kind": "upstream-release",
+      "version": "21.6.0",
+      "digests": {
+        "sha256": "4c541b6043ab276d80b906783573a2d2d190843957858a7ae7917f94d906538b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full original PSF2 legal notice and Apache2 type-hint notice retained; immutable source and all30 pristine files retained. One declared test-only compatibility patch selects exact Python3.11 context protocol exceptions, with change summary in README; implementation and legal text unchanged."
+      }
+    },
+    {
+      "id": "source1",
+      "filename": "TYPESHED-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/python/typeshed/64c85cdd449ccaff90b546676220c9ecfa6e697f/LICENSE",
+      "kind": "upstream-release",
+      "version": "64c85cdd449ccaff90b546676220c9ecfa6e697f",
+      "digests": {
+        "sha256": "b41b78f562a2e65b75cab44354335f6f435d4ef73065509600ac910cf4e22fe0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full fixed original typeshed license linked by the Git-proved included type-hint notice; Apache2 plus conditional MIT notice retained without edits."
+      }
+    }
+  ]
+}

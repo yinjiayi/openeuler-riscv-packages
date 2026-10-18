@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-dirify-perl",
+  "rpm": {
+    "name": "perl-String-Dirify",
+    "summary": "Convert strings to safe directory names",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-dirify-perl",
+    "homepage": "https://metacpan.org/dist/String-Dirify",
+    "source_repository": "https://github.com/ronsavage/String-Dirify",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/",
+    "release_regex": "String-Dirify-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/String-Dirify-{version}.tgz"
+  },
+  "version": {
+    "current": "1.03",
+    "release": "1",
+    "latest_detected": "1.03"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-dirify-perl",
+        "package_base": "libstring-dirify-perl",
+        "source_version": "1.03",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-dirify-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-dirify-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu and official CPAN 1.03. Publisher CHECKSUMS SHA-256 and archive safety checked. LICENSE explicitly grants Perl terms (GPL 1 or later OR Artistic); META also says perl_5. Official target primary lacks same-name RPM/provider; Test::Pod 1.52 is present. All three unchanged upstream default files/13 assertions passed locally. The author-only POD test is not a default test and is not counted as passed. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
