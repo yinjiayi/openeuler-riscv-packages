@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-float-perl",
+  "rpm": {
+    "name": "perl-Data-Float",
+    "summary": "Inspect and manipulate Perl floating-point values",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-float-perl",
+    "homepage": "https://metacpan.org/dist/Data-Float",
+    "source_repository": "https://github.com/robrwo/Data-Float",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RR/RRWO/",
+    "release_regex": "Data-Float-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RR/RRWO/Data-Float-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.015",
+    "release": "1",
+    "latest_detected": "0.015"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-float-perl",
+        "package_base": "libdata-float-perl",
+        "source_version": "0.015-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-float-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-float-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu key maps to official CPAN Data-Float 0.015. Official CHECKSUMS and independent HTTPS SHA-256 agree. CPAN metadata says unknown license, but the copyright holder's README and sole installed PM explicitly grant Perl GPL/Artistic redistribution; no archive file asserts conflicting terms. Official SP3 RVA23 primary lacks same-name RPM and module provider and supplies all hard dependencies. All ten default upstream test files remain unchanged. Local macOS passed 719 assertions with only the POD-coverage file self-skipping because its optional module is absent; hard target BuildRequires must run it. Upstream floating-feature conditional skips remain intact and any target skip requires explanation from exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
