@@ -122,3 +122,15 @@ all 21 original examples. This changed diagnostic input permits a new natural
 CI run to expose the missing cause; it is not an unchanged-input rerun. Repair
 the specific cause after inspecting that replacement log. Full exact-head
 target CI and physical acceptance remain required before any merge.
+
+## Exact missing formula package
+
+Run `39081740221/1` at `d60c24493cf1f20ebb94405f0a84acf468dbf8bd`
+now retains both inner logs. Both explicitly fail with
+`LaTeX Error: File newunicodechar.sty not found` before producing formula pages.
+The official target filelists identify `texlive-newunicodechar` as the provider
+of `/usr/share/texlive/texmf-dist/tex/latex/newunicodechar/newunicodechar.sty`.
+Declare that BuildRequires; do not change upstream source, formula settings,
+the diagnostic/failure checks, default features or the original 21-example suite.
+This addresses the observed missing input, not proof of a successful render.
+Replacement exact-head target CI and physical acceptance remain mandatory.

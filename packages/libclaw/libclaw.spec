@@ -32,6 +32,7 @@ BuildRequires:  doxygen
 BuildRequires:  graphviz
 BuildRequires:  boost-devel
 BuildRequires:  texlive-latex
+BuildRequires:  texlive-newunicodechar
 BuildRequires:  texlive-dvips
 BuildRequires:  ghostscript
 BuildRequires:  bash
