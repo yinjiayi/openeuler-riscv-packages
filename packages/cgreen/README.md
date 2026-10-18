@@ -7,6 +7,14 @@ Retain default shared library, both XML reporters, all original build targets
 and full unfiltered original CTest. Fail if libxml2 support silently falls back.
 Installed replay uses unchanged tests/CMakeLists and original C/C++ test files
 and output expectations, linked to actual installed library and runner.
+Run 39132505767 passed all 30 original CTest cases, then exposed a downstream
+replay include-path error for the non-installed internal cgreen/messaging.h.
+Replay now keeps installed headers first and adds the original source include
+tree as fallback. It first byte-compares all 35 headers in the upstream Linux
+install lists against their installed copies, so fallback cannot hide a missing
+or modified installed public/internal header. No upstream source, test, expected
+output, feature, compiler assertion flag or timeout is changed. The replacement
+target build and installed replay must pass before this repair is accepted.
 Tools-directory tests are full-build-only; public API fixtures are compile-only.
 Original intentional nested failures and functional timeout tests are preserved;
 this is not native hardware, timing, performance or reliability certification.
