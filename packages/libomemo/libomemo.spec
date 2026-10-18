@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libomemo
 Version:        0.8.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Implementation of OMEMO (XEP-0384) in C
 # The independent C library is MIT; upstream CMakeLists.txt is GPL-2.0-or-later.
 License:        MIT AND GPL-2.0-or-later
@@ -23,6 +23,7 @@ Implementation of OMEMO (XEP-0384) in C
 
 %prep
 %autosetup -p1
+cp -p %{SOURCE1} GPL-2.0.txt
 
 %build
 %cmake_conf \
@@ -39,10 +40,14 @@ test -s %{name}.files
 ctest --test-dir %{_vpath_builddir} --output-on-failure --no-tests=error
 
 %files -f %{name}.files
-%license LICENSE %{SOURCE1}
+%license LICENSE GPL-2.0.txt
 %doc README.md
 
 %changelog
+* Sun Oct 18 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.1-4
+- Materialize the pinned GPL document in the source tree before relative license packaging.
+- Fix RPM's special-license path-mode conflict without changing source or default tests.
+
 * Sun Oct 18 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.8.1-3
 - Preserve the upstream build script's GPL-2.0-or-later notice and ship pinned full GPL2 terms.
 - Document the separate MIT library and GPL build-file license scopes without relicensing either.

@@ -19,3 +19,10 @@ All18 original source files, the Mini-XML 4 patch, the three default CMocka
 tests and the smoke script are unchanged. Exact-head target CI and physical
 RPM/SRPM review are required again for release `3`; earlier green builds of
 release `2` do not establish acceptance of this repair.
+
+Release `4` fixes the target RPM license path-mode error seen in release `3`:
+copy the checksum-locked `Source1` into the build source directory in `%prep`
+and list both license documents by relative filename. Compilation and all three
+original CTests passed before that packaging error; those tests, source and patch
+remain unchanged. Fresh exact-head build/install and physical review are still
+required; the failed release `3` run is not treated as a package success.
