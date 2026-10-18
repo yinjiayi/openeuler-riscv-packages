@@ -6,6 +6,7 @@ Summary:        Solar elevation and blackbody colour library
 License:        ISC
 URL:            https://codeberg.org/maandree/libred
 Source0:        https://codeberg.org/maandree/libred/archive/%{version}.tar.gz
+Patch0:         0001-order-shared-colour-table-generation.patch
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  binutils
@@ -42,7 +43,7 @@ Package-added shared/static functional consumer and fixed original source archiv
 Upstream provides no check target; this is not an original upstream test suite.
 
 %prep
-%autosetup -n libred
+%autosetup -n libred -p1
 cat > consumer.c <<'LIBRED_CONSUMER_EOF'
 /* SPDX-License-Identifier: ISC
  * Copyright (c) 2026 yinjiayi
