@@ -1,0 +1,104 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://liblogging.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "liblogging",
+        "package_name": "liblogging",
+        "source": "fedora",
+        "source_version": "1.0.6-22.fc44"
+      },
+      {
+        "evidence_url": "https://liblogging.org/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "liblogging",
+        "package_name": "liblogging",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.0.6-7.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-declare-frame-body-return.patch",
+        "sha256": "0d549ec10ded5ed3e14deec9799100bf3aabd210496a8f9d607fdd3ddbcba239",
+        "purpose": "Retain the existing GCC implicit-int declaration repair without changing the helper body.",
+        "source": "Locally retained downstream packaging; official v1.0.6 source, no upstream mutation.",
+        "license": "BSD-2-Clause",
+        "upstream_status": "downstream-only",
+        "remove_when": "An official stable source supplies the same correct declaration."
+      },
+      {
+        "file": "patches/0002-declare-unix-domain-socket-init.patch",
+        "sha256": "f90277efef6da930e33c83a65b5df6c2b1ff48eddf41e381a2bf433efa609bfa",
+        "purpose": "Declare the existing Unix-domain socket initializer without changing implementation or tests.",
+        "source": "Locally retained downstream packaging; official v1.0.6 source, no upstream mutation.",
+        "license": "BSD-2-Clause",
+        "upstream_status": "downstream-only",
+        "remove_when": "An official stable source supplies the same correct declaration."
+      },
+      {
+        "file": "patches/0003-add-original-tester-replay.patch",
+        "sha256": "6175837834c57d7fee4966ef450dd37442b3cb24eef8ed38a4f15ec659c9ae80",
+        "purpose": "Add separate offline replay of the unchanged original tester against staged and installed shared/static libraries.",
+        "source": "Locally retained downstream packaging; official v1.0.6 source, no upstream mutation.",
+        "license": "Apache-2.0",
+        "upstream_status": "downstream-only",
+        "remove_when": "Upstream provides equivalent installed original tester shared/static replay."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "liblogging.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Retained declaration patches, original static/shared defaults and full original tester staged/installed replay. Exact replacement hosted CI is required; previous green build is not acceptance.",
+    "status": "active"
+  },
+  "package_id": "liblogging",
+  "rpm": {
+    "license": "BSD-2-Clause AND Apache-2.0",
+    "name": "liblogging",
+    "summary": "Portable library for system logging"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "liblogging.org",
+    "homepage": "https://liblogging.org/",
+    "release_api": "https://api.github.com/repos/rsyslog/liblogging/releases/latest",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/rsyslog/liblogging",
+    "source_url_template": "https://github.com/rsyslog/liblogging/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.6",
+    "latest_detected": "1.0.6",
+    "release": "1"
+  }
+}
