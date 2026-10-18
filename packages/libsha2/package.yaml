@@ -6,7 +6,7 @@
   "version": {"current": "1.1.5", "release": "1", "latest_detected": "1.1.5"},
   "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "aur", "package_name": "libsha2", "package_base": "libsha2", "source_version": "1.1.5-1", "evidence_url": "https://aur.archlinux.org/packages/libsha2", "observed_at": "2026-08-08T16:50:00Z"}]},
   "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
-  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 240, "native_reason": null},
   "files": {"spec": "libsha2.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
   "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Fixed official 1.1.5 source and full ISC notices retained. Use upstream portable C configuration for RISC-V rather than x86/ARM intrinsics. Preserve original all and complete make check with CHECK_PREFIX and CHECK_FLAGS empty, including all16 huge-message cases and both TEST_SHA256/TEST_SHA512 families. Same original driver replays all cases against staged and installed static/shared libraries; no shortened suite or local source/RPM/QEMU build. Relocate upstream hardcoded /usr/lib stage tree to target lib64 without source patches. CI must establish runtime feasibility; no timing/security/native claims."},
   "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
