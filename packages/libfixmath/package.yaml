@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "libfixmath",
+  "rpm": {"name": "libfixmath", "summary": "Q16.16 fixed point arithmetic static library", "license": "MIT AND LicenseRef-Public-Domain"},
+  "upstream": {"component": "github.com-petteriaimonen-libfixmath", "homepage": "https://github.com/PetteriAimonen/libfixmath", "source_repository": "https://github.com/PetteriAimonen/libfixmath", "release_channel": "stable", "release_api": null, "release_regex": null},
+  "version": {"current": "0.20220222", "release": "1", "latest_detected": null},
+  "discovery": {"snapshot_id": "component-review-20261018-libfixmath-debian-20220222", "lineage": [{"source": "debian", "package_name": "libfixmath", "package_base": "libfixmath", "source_version": "0~20220222-3", "evidence_url": "https://sources.debian.org/src/libfixmath/0~20220222-3/", "observed_at": "2026-10-18T12:00:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 30, "native_reason": null},
+  "files": {"spec": "libfixmath.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official immutable upstream snapshot has all59 source files and modes identical to the Debian 0~20220222 orig source, excluding26 inert Debian orig .git entries. Not the date-nearest commit, which differs. No upstream tags: update detection disabled pending a reviewed new snapshot. Preserve the original CMake default build, all12 original CTest variants and undefined-behavior instrumentation with no source patches or filters. Original runner enables8 groups; test_str is already commented out upstream and is not claimed as executed. Replay the unchanged original default-configuration suite against staged and installed actual liblibfixmath.a. Other11 variants remain original build-only instrumented tests, not installed ABI claims. No performance or timing workload execution. Root MIT grant plus explicit public-domain FFT notice are preserved in both packages; Debian packaging GPL files are not used."},
+  "updates": {"enabled": false, "last_checked_at": null, "last_successful_check_at": null, "release_provider": null}
+}
