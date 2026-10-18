@@ -1,0 +1,20 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Use GNUInstallDirs full paths in pkg-config metadata
+
+The export destinations must remain relative for relocatable staged CMake
+consumers. The pkg-config template instead needs absolute configured paths;
+bare lib64/include are not prefix-relative pkg-config variables.
+License: MIT
+Upstream-Status: Pending
+--- a/tinycbor.pc.in
++++ b/tinycbor.pc.in
+@@ -1,7 +1,7 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+-libdir=@CMAKE_INSTALL_LIBDIR@
+-includedir=@CMAKE_INSTALL_INCLUDEDIR@
++libdir=@CMAKE_INSTALL_FULL_LIBDIR@
++includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
+ 
+ Name: TinyCBOR
+ Description: A tiny CBOR encoder and decoder library

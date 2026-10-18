@@ -1,0 +1,96 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/thomaslepoix/Qucs-RFlayout",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "qucs-rflayout",
+        "package_name": "qucs-rflayout",
+        "source": "aur",
+        "source_version": "2.1.2-4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-cmake-guard-optional-latex-docs.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Keep optional XeLaTeX diagrams from becoming a required GUI build dependency when CMake did not find XeLaTeX.",
+        "remove_when": "Upstream conditions the GUI-to-doc target dependency on a usable XeLaTeX compiler.",
+        "sha256": "99e10d53acf604c892230e5257a08f401c6a7abbaa157176397b46c9060228b3",
+        "source": "Downstream review of the upstream 2.1.2 CMake dependency graph and exact-head run 34125137726.",
+        "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0002-catch2-runtime-signal-stack.patch",
+        "license": "BSL-1.0",
+        "purpose": "Allocate the bundled Catch2 alternate signal stack at runtime so modern glibc signal-stack sizes need not be constant expressions, retaining POSIX signal handling and all unit tests.",
+        "remove_when": "Upstream updates its bundled Catch2 to support runtime signal stack sizes.",
+        "sha256": "f50e56087765015141c2274adce936ef72f21c0a8551188e567fe660222120e4",
+        "source": "Adapted from Catch2 commit 8f277a54c0b9c1d1024dedcb2dec1d206971e745 after exact-head run 34683905655 failed compiling the bundled Catch2 signal stack.",
+        "upstream_status": "downstream-only"
+      },
+      {
+        "file": "patches/0003-cmake-link-unit-test-sources.patch",
+        "license": "GPL-3.0-or-later",
+        "purpose": "Define the production sources referenced by the upstream unit-test target and link Qt Core for its non-minimal schparser implementation.",
+        "remove_when": "Upstream defines QUCS-RF-LAYOUT_SRCS for the unit-test target or links that target to an equivalent production library.",
+        "sha256": "391005cfbb37987d115f418c27a7ce271cad4c7293e0bd08d243ab09151df934",
+        "source": "Downstream review of upstream 2.1.2 and exact-head run 34686777688, which compiled the tests but failed to link all production classes because QUCS-RF-LAYOUT_SRCS was undefined.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "qucs-rflayout.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive is SHA-256 pinned. Releases 3 through 6 repaired the out-of-tree build, optional XeLaTeX dependency, install working directory, and bundled Catch2 runtime signal stack while retaining the GUI and complete check target. Exact-head run 34686777688 then proved the unit-test executable referenced an undefined production-source list and failed to link every tested class. Release 7 defines that non-GUI source list and links Qt Core for the normal non-minimal build; assertions, GUI features, installation, and smoke remain enabled. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "status": "active"
+  },
+  "package_id": "qucs-rflayout",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "qucs-rflayout",
+    "summary": "Export Qucs RF schematics to KiCad layouts & OpenEMS scripts"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-thomaslepoix-qucs-rflayout",
+    "homepage": "https://github.com/thomaslepoix/Qucs-RFlayout",
+    "release_api": "https://api.github.com/repos/thomaslepoix/Qucs-RFlayout/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/thomaslepoix/Qucs-RFlayout",
+    "source_url_template": "https://github.com/thomaslepoix/Qucs-RFlayout/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.1.2",
+    "latest_detected": "2.1.2",
+    "release": "7"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libxcvt",
+  "rpm": {
+    "name": "libxcvt",
+    "summary": "VESA CVT modeline generator library and command-line tool",
+    "license": "MIT AND HPND-sell-variant"
+  },
+  "upstream": {
+    "component": "gitlab.freedesktop.org-xorg-lib-libxcvt",
+    "homepage": "https://gitlab.freedesktop.org/xorg/lib/libxcvt",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libxcvt.git",
+    "release_channel": "stable",
+    "release_api": "https://xorg.freedesktop.org/archive/individual/lib/",
+    "release_regex": "libxcvt-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://xorg.freedesktop.org/archive/individual/lib/libxcvt-{version}.tar.xz"
+  },
+  "version": {
+    "current": "0.1.3",
+    "release": "1",
+    "latest_detected": "0.1.3"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libxcvt",
+        "package_base": "libxcvt",
+        "source_version": "0.1.3-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libxcvt/",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libxcvt.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The exact libxcvt inventory key maps to the official stable X.Org 0.1.3 release. Upstream Meson registers no test cases; installed smoke exercises both the cvt CLI and public C modeline API without an X server."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

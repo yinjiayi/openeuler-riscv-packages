@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-lorem-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Lorem-0.34.tar.gz",
+      "version": "0.34",
+      "url": "https://cpan.metacpan.org/authors/id/A/AD/ADEOLA/Text-Lorem-0.34.tar.gz",
+      "digests": {
+        "sha256": "0ce6a3c19917b2323424a1aa742d988b063c39440427a3101a4cec6dbd847157"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches CHECKSUMS; README and module POD license it as Perl, with Makefile.PL/META confirming perl_5 terms."
+      }
+    }
+  ]
+}

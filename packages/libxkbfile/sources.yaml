@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxkbfile",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libxkbfile-1.2.0.tar.gz",
+      "version": "1.2.0",
+      "url": "https://gitlab.freedesktop.org/xorg/lib/libxkbfile/-/archive/42e5dedd7fd3c7c73f3870a8751893c03c1afc69/libxkbfile-42e5dedd7fd3c7c73f3870a8751893c03c1afc69.tar.gz",
+      "digests": {
+        "sha256": "45aaffea04615ce5b338ec7a068241a98c3d8938f5b7b8176c0f32d81901e453"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official X.Org GitLab archive of the tagged release commit is fetched over HTTPS and SHA-256 verified by CI; its extracted tree matches the official release archive."
+      }
+    }
+  ]
+}

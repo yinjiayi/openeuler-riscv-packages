@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-copy-link-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Copy-Link-0.200.tar.gz",
+      "version": "0.200",
+      "url": "https://cpan.metacpan.org/authors/id/R/RM/RMBARKER/File-Copy-Link-0.200.tar.gz",
+      "digests": {
+        "sha256": "9cfa2f1b51b417126631b8ab24ee65d307fb8f76489acca6d66fada03ee59b29"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches CHECKSUMS; README and both modules expressly grant redistribution/modification under Perl's terms."
+      }
+    }
+  ]
+}

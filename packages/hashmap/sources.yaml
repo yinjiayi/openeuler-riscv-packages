@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "package_id": "hashmap",
+  "sources": [
+    {"id": "source0", "kind": "upstream-release", "filename": "hashmap-0.9.0.tar.gz", "url": "https://codeload.github.com/tidwall/hashmap.c/tar.gz/3735986914fc1c4e6a9123b406d0970666aa4aec", "version": "0.9.0", "digests": {"sha256": "45c51cd2abe266995b88bb9609551806cfaf69919579ea186942f7c4e0fae913"}, "signature": null, "redistribution": {"allowed": true, "reason": "Upstream MIT grant with embedded SipHash CC0 dedication and xxHash BSD-2-Clause notice; retain all source notices and supply the complete pinned license documents."}},
+    {"id": "source1", "kind": "upstream-release", "filename": "CC0-1.0.txt", "url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/CC0-1.0.txt", "version": "3.27.0", "digests": {"sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"}, "signature": null, "redistribution": {"allowed": true, "reason": "Official SPDX fixed v3.27.0 CC0 license document, distributed as the complete dedication referenced by embedded SipHash."}},
+    {"id": "source2", "kind": "upstream-release", "filename": "BSD-2-Clause.txt", "url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/BSD-2-Clause.txt", "version": "3.27.0", "digests": {"sha256": "f32fb3b417a194167cfad068223fc975ba96c5960513a10f66a3c28720aec1df"}, "signature": null, "redistribution": {"allowed": true, "reason": "Official SPDX fixed v3.27.0 complete BSD-2-Clause text; instantiate only its copyright placeholders with the embedded xxHash attribution, preserving conditions and disclaimer."}}
+  ]
+}

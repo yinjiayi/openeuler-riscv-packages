@@ -1,0 +1,21 @@
+{
+  "package_id": "python-pytimeparse",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7cb94d4a1931cf609827ef23d2abcff03268d7b1615bc9e3f65de958e37cb919"
+      },
+      "filename": "pytimeparse-1.1.9-official.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete official fixed-commit release source, including LICENSE.rst and inline MIT notices. Tag and commit are unsigned; no detached signature is provided. SHA-256 and all source Git blob identities were independently checked; CI re-fetches and verifies the fixed SHA-256."
+      },
+      "signature": null,
+      "url": "https://github.com/wroberts/pytimeparse/archive/c62ae66cbfc4a71b745a265842f179266391d953.tar.gz",
+      "version": "1.1.9"
+    }
+  ]
+}

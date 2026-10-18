@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libcerf
-Version:        3.6
+Version:        3.8
 Release:        1%{?dist}
 Summary:        Complex error function library
 License:        MIT
 URL:            https://jugit.fz-juelich.de/mlz/libcerf
-Source0:        libcerf-v3.6.tar.gz
+Source0:        libcerf-v3.8.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -28,7 +28,7 @@ The C and C++ header, pkg-config and CMake metadata, manual pages, and the
 unversioned shared library links for developing applications with libcerf.
 
 %prep
-%autosetup -n cerf-v%{version}-070f3fdcb82efb594f89435382d7a4e647be39e9 -p1
+%autosetup -n cerf-v%{version}-0f6063f0979dd6154f0a8c0d79325544e41b6195 -p1
 
 %build
 %cmake_conf \
@@ -45,7 +45,7 @@ unversioned shared library links for developing applications with libcerf.
 rm -rf %{buildroot}%{_docdir}/cerf
 
 %check
-# Run all 18 registered C and C++ numerical tests.
+# Run every registered C and C++ numerical test.
 %ctest
 
 %files

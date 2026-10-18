@@ -1,0 +1,41 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Sat, 12 Sep 2026 00:00:00 +0000
+Subject: [PATCH] catch2: allocate the alternate signal stack at runtime
+
+License: BSL-1.0
+Upstream-Status: downstream adaptation
+Origin: https://github.com/catchorg/Catch2/commit/8f277a54c0b9c1d1024dedcb2dec1d206971e745
+
+Modern glibc exposes signal stack sizes through sysconf, so they cannot
+size a constexpr array. Adapt the upstream runtime allocation approach
+to this older bundled Catch2 without replacing its reporting interfaces.
+Keep the signal handlers and allocate their alternate stack once, using
+the larger of 32 KiB and SIGSTKSZ as in upstream's fix. The vector owns
+the stable storage for the process lifetime; no test or signal handler
+resizes it, and it is automatically released during static destruction.
+
+Remove when the bundled Catch2 supports runtime signal stack sizes.
+
+--- a/lib/catch2/catch.hpp
++++ b/lib/catch2/catch.hpp
+@@ -7945,3 +7945,3 @@
+         static stack_t oldSigStack;
+-        static char altStackMem[];
++        static std::vector<char> altStackMem;
+
+@@ -10716,3 +10716,3 @@
+     // is experimentally determined, so that's not guaranteed.
+-    static constexpr std::size_t sigStackSize = 32768 >= MINSIGSTKSZ ? 32768 : MINSIGSTKSZ;
++    static const std::size_t sigStackSize = 32768 >= SIGSTKSZ ? 32768 : SIGSTKSZ;
+
+@@ -10742,5 +10742,5 @@
+         isSet = true;
+         stack_t sigStack;
+-        sigStack.ss_sp = altStackMem;
++        sigStack.ss_sp = altStackMem.data();
+         sigStack.ss_size = sigStackSize;
+         sigStack.ss_flags = 0;
+@@ -10775,3 +10775,3 @@
+     stack_t FatalConditionHandler::oldSigStack = {};
+-    char FatalConditionHandler::altStackMem[sigStackSize] = {};
++    std::vector<char> FatalConditionHandler::altStackMem(sigStackSize);

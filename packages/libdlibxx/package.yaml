@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libdlibxx",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdlibxx",
+        "package_name": "libdlibxx",
+        "source": "aur",
+        "source_version": "1.1.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-use-gnu-install-dirs.patch",
+        "sha256": "1112fff7209ff72e673c5d5f0b563ac0c9371b4903ef7f5951354c95f8c147cb",
+        "purpose": "Honor GNUInstallDirs for openEuler lib64 without changing shared library, SONAME or original examples.",
+        "source": "Locally authored against official v1.1.0 CMakeLists.txt; no upstream write.",
+        "license": "BSD-2-Clause",
+        "upstream_status": "downstream-only",
+        "remove_when": "An official stable release honors equivalent GNUInstallDirs installation variables."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdlibxx.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official unsigned v1.1.0 tag, fixed archive and all 17 Git blobs verified; BSD-2-Clause full LICENSE retained. Default shared library/SONAME1.0.0/demo/three plugins preserved; no original automated suite exists. Extra source replay and labelled downstream API checks repeat against staged and installed library/header. Sole package-local GNUInstallDirs patch changes installation paths only. No local target execution; hosted target CI and physical RPM/debug coexistence acceptance still required.",
+    "status": "active"
+  },
+  "package_id": "libdlibxx",
+  "rpm": {
+    "license": "BSD-2-Clause",
+    "name": "libdlibxx",
+    "summary": "C++11 dynamic library loading and symbol lookup wrapper"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-m-renaud-libdlibxx",
+    "homepage": "https://github.com/m-renaud/libdlibxx",
+    "release_api": "https://api.github.com/repos/m-renaud/libdlibxx/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/m-renaud/libdlibxx",
+    "source_url_template": "https://codeload.github.com/m-renaud/libdlibxx/tar.gz/v{version}"
+  },
+  "version": {
+    "current": "1.1.0",
+    "latest_detected": "1.1.0",
+    "release": "1"
+  }
+}
