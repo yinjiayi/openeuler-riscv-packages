@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libxrandr",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libXrandr-1.5.5.tar.xz",
+      "version": "1.5.5",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/libXrandr-1.5.5.tar.xz",
+      "digests": {
+        "sha256": "72b922c2e765434e9e9f0960148070bd4504b288263e2868a4ccce1b7cf2767a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official permissively licensed X.Org release archive is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}
