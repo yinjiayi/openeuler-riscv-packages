@@ -10,3 +10,8 @@ and error statuses 125/126/127 are downstream functional checks, not an original
 upstream suite. No source patch, local source/RPM/QEMU execution, privileged,
 performance or native-host claim. Exact-head required/full CI, ordinary target
 installation and physical RPM/SRPM acceptance remain merge gates.
+
+The exact argument comparison preserves upstream's operand order: `.makeenv`
+targets precede command-line operands, including command-line macros, which
+`put_operand` deliberately stores without reordering. The downstream expected
+list follows that contract; all comparisons and error-status checks remain.

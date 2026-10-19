@@ -60,7 +60,7 @@ SH
     env -i PATH=/usr/bin:/bin LC_ALL=C MAKEENV_MAKE="$work/capture" "$tool" -unknown 'A=hello world' target -- > actual
     cmp -- expected actual
     printf '%%s\n' '# comment' ' -k ' ' GREETING = hello world ' 'filetarget' > .makeenv
-    printf '<%%s>\n' '-k' '-s' '--' 'GREETING=hello world' 'CLI=override' 'filetarget' 'clitarget' > expected
+    printf '<%%s>\n' '-k' '-s' '--' 'GREETING=hello world' 'filetarget' 'CLI=override' 'clitarget' > expected
     printf 'GREETING=<hello world>\n' >> expected
     env -i PATH=/usr/bin:/bin LC_ALL=C MAKEENV_MAKE="$work/capture" "$tool" -s CLI=override clitarget > actual
     cmp -- expected actual
