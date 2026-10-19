@@ -1,0 +1,57 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Ship offline installed default-suite replay and extra length checks
+
+Original downstream MIT checks; all upstream tests remain unchanged.
+SPDX-License-Identifier: MIT
+--- /dev/null
++++ b/qa/escape-check.c
+@@ -0,0 +1,29 @@
++/* SPDX-License-Identifier: MIT */
++/* Functional length regression only, not a memory-safety or native claim. */
++#define main pick_program_main
++#include "../pick.c"
++#undef main
++#include <assert.h>
++
++int
++main(void)
++{
++    static const struct {
++        const char *text;
++        size_t length;
++    } cases[] = {
++        { "", 0 },
++        { "plain", 0 },
++        { "\033", 0 },
++        { "\033[", 2 },
++        { "\033[31", 4 },
++        { "\033]title", 7 },
++        { "\033[31m", 5 },
++        { "\033]title\a", 8 }
++    };
++    size_t i;
++    for (i = 0; i < sizeof(cases) / sizeof(cases[0]); i++)
++        assert(skipescseq(cases[i].text) == cases[i].length);
++    puts("PASS pick eight escape-length regressions");
++    return 0;
++}
+--- /dev/null
++++ b/qa/replay.sh
+@@ -0,0 +1,17 @@
++#!/bin/sh
++# SPDX-License-Identifier: MIT
++set -eu
++root=${1-}
++base="$root/usr/libexec/pick-tests"
++binary="$root/usr/bin/pick"
++test -x "$binary"
++work=$(mktemp -d)
++trap 'rm -rf -- "$work"' EXIT HUP INT TERM
++tar -xzf "$base/source.tar.gz" -C "$work"
++cd "$work"
++test "$(find tests -name '*.t' -type f | wc -l)" -eq 31
++# Retain upstream feature detection and the original two-second PTY timeout.
++CC=gcc CFLAGS='-O2 -g -Wall -Wextra' sh ./configure
++# Build only the original PTY driver; PICK is the staged/installed executable.
++make -C tests PICK="$binary"
++printf '%s\n' 'PASS pick unchanged default 31-file PTY suite against installed binary'
