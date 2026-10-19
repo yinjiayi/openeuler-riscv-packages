@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "package_id": "makeenv",
+  "rpm": {
+    "name": "makeenv",
+    "summary": "Run make with environment loaded from .makeenv",
+    "license": "ISC"
+  },
+  "upstream": {
+    "component": "codeberg.org-maandree-makeenv",
+    "homepage": "https://codeberg.org/maandree/makeenv",
+    "source_repository": "https://codeberg.org/maandree/makeenv.git",
+    "release_channel": "stable",
+    "release_api": "https://codeberg.org/maandree/makeenv/tags",
+    "release_regex": "/archive/(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://codeberg.org/maandree/makeenv/archive/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.3",
+    "release": "1",
+    "latest_detected": "1.0.3"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "makeenv",
+        "package_base": "makeenv",
+        "source_version": "1.0.3-1",
+        "evidence_url": "https://aur.archlinux.org/packages/makeenv",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "makeenv.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": []
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Original default all retained unchanged. Upstream has no check/test target; staged and installed argument/environment/real-make/error-status checks are downstream only, not an upstream suite. Fixed official ISC archive retained, no source patch or local source/RPM/QEMU execution. Full exact-head target CI, ordinary installation and physical acceptance remain required."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
