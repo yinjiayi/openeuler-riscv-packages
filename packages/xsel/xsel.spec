@@ -195,6 +195,7 @@ autoreconf -fiv
 %make_install
 install -Dm 0644 downstream-qa.py %{buildroot}%{_libexecdir}/%{name}-tests/qa.py
 install -Dm 0644 %{SOURCE0} %{buildroot}%{_datadir}/%{name}/qa/%{name}-%{version}.tar.gz
+install -Dm 0644 COPYING %{buildroot}%{_licensedir}/%{name}/COPYING
 install -Dm 0644 COPYING %{buildroot}%{_licensedir}/%{name}-tests/COPYING
 install -Dm 0644 %{SOURCE1} %{buildroot}%{_licensedir}/%{name}-tests/GPL-2.0.txt
 

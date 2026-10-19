@@ -53,6 +53,18 @@ full-name/file namespace admission found no conflict. Actual target DNF solver,
 build/default check, installation, physical RPM/SRPM and current-head CI remain
 required before merge. Target success is not inferred from local validation.
 
+## Staged license repair
+
+Exact head 4a5617599f7909689d45446c0ada2eb8173fbb99, Package CI
+39278514634 attempt 1, compiled and ran the original make check, then failed
+the staged checker because the main COPYING file had not yet been copied by
+RPM's later percent-license processing. The recipe now installs the exact
+original COPYING into the main license directory during percent-install, as
+it already did for the test package. The installed license ownership and
+byte-for-byte checks remain unchanged. This is a packaging-order correction,
+not an upstream source defect; all original tests and downstream scenarios
+remain mandatory. New exact-head CI and physical acceptance are still needed.
+
 ## RISC-V assessment
 
 The original C program uses Xlib and POSIX services with no architecture-specific
