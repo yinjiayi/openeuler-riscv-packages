@@ -13,23 +13,24 @@ normal JSON, compiler flags, parser defaults and command semantics unchanged.
 
 --- a/jshon.c
 +++ b/jshon.c
-@@ -291,6 +291,7 @@
-         fprintf(stderr, "error: failed to allocate %zd bytes\n", content_capacity);
+@@ -291,6 +291,8 @@
          return NULL;
      }
+ 
 +    content[0] = '\0';
-
++
      for (;;)
      {
-@@ -360,6 +361,7 @@
+         ssize_t bytes_r = read(fd, buffer, sizeof(buffer));
+@@ -360,6 +362,7 @@
                  (ssize_t)st.st_size, (ssize_t)bytes_r);
      }
-
+ 
 +    buffer[bytes_r] = '\0';
      return buffer;
  }
-
-@@ -375,6 +377,10 @@
+ 
+@@ -375,6 +378,10 @@
      FILE* fp;
      char* content;
      fp = fopen(path, "r");
@@ -40,17 +41,17 @@ normal JSON, compiler flags, parser defaults and command semantics unchanged.
      content = read_stream(fp);
      fclose(fp);
      return content;
-@@ -401,6 +407,9 @@
+@@ -396,6 +403,9 @@
+ {
      #define JSON_WHITE(x) ((x) == 0x20 || (x) == 0x9 || (x) == 0xA || (x) == 0xD)
      #define JSON_IDENTIFIER(x) (isalnum(x) || (x) == '$' || (x) == '_' || (x) == '.')
-
++
 +    if (!*in)
 +        {return in;}
-+
+ 
      char* first = in;
      char* last = in + strlen(in) - 1;
-
-@@ -927,5 +936,9 @@
+@@ -927,6 +937,10 @@
          {content = read_file(file_path);}
      else
          {content = read_stdin();}
@@ -60,3 +61,4 @@ normal JSON, compiler flags, parser defaults and command semantics unchanged.
 +    }
      if (!content[0] && !quiet)
          {fprintf(stderr, "warning: nothing to read\n");}
+ 

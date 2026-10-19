@@ -40,3 +40,11 @@ acceptance. No upstream build or target QEMU/RPM is executed locally.
 
 Full current official and supplemental primary/filelists admission checks
 providers and projected owned paths; actual DNF solving remains a CI gate.
+
+The first target CI rejected the original patch in `%prep`: the final unified
+hunk was not portable to GNU patch despite a successful BSD patch dry-run.
+The patch is regenerated from the exact stable source with complete standard
+context and counted hunks. GNU patch now applies all five intended input
+guards with `--fuzz=0` and zero offsets; required blank context markers are
+retained. This repairs patch formatting, not the parser, QA or warning policy.
+No original check is removed and replacement target CI remains mandatory.
