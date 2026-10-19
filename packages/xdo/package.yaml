@@ -1,0 +1,93 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/baskerville/xdo",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xdo",
+        "package_name": "xdo",
+        "source": "arch-extra",
+        "source_version": "0.5.7-3"
+      },
+      {
+        "evidence_url": "https://github.com/baskerville/xdo",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xdo",
+        "package_name": "xdo",
+        "source": "debian",
+        "source_version": "0.5.7-2"
+      },
+      {
+        "evidence_url": "https://github.com/baskerville/xdo",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xdo",
+        "package_name": "xdo",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.5.7-1.17"
+      },
+      {
+        "evidence_url": "https://github.com/baskerville/xdo",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xdo",
+        "package_name": "xdo",
+        "source": "ubuntu",
+        "source_version": "0.5.7-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "xdo.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed 0.5.7 archive SHA-256 verified; all 11 regular files and the README symlink target reviewed under BSD-2-Clause. Original default all target, all XCB actions and manual retained. No upstream test target exists; downstream bounded private Xvfb checks run both in %check and the installed smoke. No native-display, hardware or security-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "xdo",
+  "rpm": {
+    "license": "BSD-2-Clause",
+    "name": "xdo",
+    "summary": "Perform actions on X11 windows"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-baskerville-xdo",
+    "homepage": "https://github.com/baskerville/xdo",
+    "release_api": "https://api.github.com/repos/baskerville/xdo/tags",
+    "release_channel": "stable",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/baskerville/xdo",
+    "source_url_template": "https://codeload.github.com/baskerville/xdo/tar.gz/refs/tags/{version}"
+  },
+  "version": {
+    "current": "0.5.7",
+    "latest_detected": "0.5.7",
+    "release": "1"
+  }
+}
