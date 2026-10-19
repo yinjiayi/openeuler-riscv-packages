@@ -39,6 +39,12 @@ The corrected patch encoding is checked with GNU patch at zero fuzz, and its
 inert materialized source is byte-equal to the originally intended edits.
 Apple patch alone is not sufficient verification for the target patch tool.
 
+The next target run applied the patch and compiled successfully, then exposed
+missing local test Source files during installation. Patch `0002` places the
+unchanged declared downstream checks in the source tree so they are included
+in the SRPM through the supported patch staging path. Both check files remain
+byte-identical to `tests/`; all eight PTY cases still run staged and installed.
+
 Target: openEuler 24.03 LTS SP3 riscv64/RVA23, locked OCI and QEMU user mode.
 No local source/RPM/QEMU execution was performed. Build/install/physical
 RPM acceptance is pending remote CI. PTY checks do not establish native

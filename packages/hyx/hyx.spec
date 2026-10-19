@@ -6,9 +6,8 @@ Summary:        Minimalistic terminal hex editor
 License:        MIT
 URL:            https://yx7.cc/code
 Source0:        hyx-2026.01.11.tar.xz
-Source1:        tests/smoke.sh
-Source2:        tests/pty-check.py
 Patch0:         patches/0001-bound-terminal-input-and-empty-file-info.patch
+Patch1:         patches/0002-ship-unchanged-offline-checks-in-source.patch
 BuildRequires:  gcc
 BuildRequires:  glibc-devel
 BuildRequires:  make
@@ -43,8 +42,8 @@ These checks do not establish native terminal, signal or timing correctness.
 
 %install
 install -Dpm0755 hyx %{buildroot}%{_bindir}/hyx
-install -Dpm0755 %{SOURCE1} %{buildroot}%{_libexecdir}/hyx-tests/smoke.sh
-install -Dpm0644 %{SOURCE2} %{buildroot}%{_libexecdir}/hyx-tests/pty-check.py
+install -Dpm0755 qa/smoke.sh %{buildroot}%{_libexecdir}/hyx-tests/smoke.sh
+install -Dpm0644 qa/pty-check.py %{buildroot}%{_libexecdir}/hyx-tests/pty-check.py
 
 %check
 # Upstream has no check/test target; default hyx build remains unchanged.

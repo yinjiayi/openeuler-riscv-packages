@@ -45,6 +45,15 @@
         "sha256": "264631455c9a00f6a0ce95b05ffb8fa05a6b378cf1071cfdc3b99af1051acba8",
         "source": "Original downstream static review of official Hyx 2026.01.11; no upstream writes.",
         "upstream_status": "not-submitted"
+      },
+      {
+        "file": "patches/0002-ship-unchanged-offline-checks-in-source.patch",
+        "license": "MIT",
+        "purpose": "Deliver the byte-identical downstream CLI and eight PTY checks through supported patch staging into the SRPM; retain staged and installed validation.",
+        "remove_when": "A reviewed source-materialization path includes the exact declared checks in the SRPM without depending on checkout-local files.",
+        "sha256": "bcb3191d067f08dc84b3b142ee2de04cd7bb0161bef891d0ac43c433658aabb2",
+        "source": "Exact-head Package CI 39222029098/1 passed prep and compilation but local Source1/2 were not staged; original downstream MIT check bytes unchanged.",
+        "upstream_status": "not-submitted"
       }
     ],
     "smoke_test": "tests/smoke.sh",
