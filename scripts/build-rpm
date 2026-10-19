@@ -513,6 +513,9 @@ def main() -> int:
             "_topdir %s" % work,
             "--define",
             "_smp_mflags -j2",
+            # CMake's RPM macro reads this independently of Make's flags.
+            "--define",
+            "_smp_build_ncpus 2",
             "--define",
             "_source_payload w9.gzdio",
             "--define",
