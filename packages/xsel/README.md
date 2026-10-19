@@ -31,8 +31,9 @@ has its own HPND-sell-variant copyright/permission notice.
 
 The fixed tag lacks generated configure/Makefile.in. Standard `autoreconf -fiv`
 regenerates machinery before ordinary `%configure`, default make and install.
-No source patch, feature reduction, command rename, test exclusion or compiler
-warning suppression is added. The original configure.ac compiler additions,
+A minimal DELETE property-format correction is applied as described below; no
+feature reduction, command rename, test exclusion or compiler warning suppression
+is added. The original configure.ac compiler additions,
 Makefile.am, CLI defaults and manual are preserved. In particular, upstream
 already adds `-Wno-unused`; packaging does not add or remove that flag.
 
@@ -65,10 +66,39 @@ byte-for-byte checks remain unchanged. This is a packaging-order correction,
 not an upstream source defect; all original tests and downstream scenarios
 remain mandatory. New exact-head CI and physical acceptance are still needed.
 
+## DELETE response correction
+
+Package CI 39285513960 attempt 1 at exact head
+4e89469fdaef99b651b8b085c7871ad41beb86f5 passed compilation and the original
+make check, but its downstream owner cleanup rejected X11 BadValue on stderr.
+The original log did not identify the owner's request opcode, so complete runtime
+causal confirmation is still pending replacement CI, not inferred from errno text.
+
+Static review identifies a concrete protocol defect in original xsel.c
+handle_delete: XChangeProperty receives format 0. The
+[Xlib specification](https://x.org/releases/current/doc/libX11/libX11/libX11.pdf)
+allows formats 8, 16 or 32, including an empty property. The
+[ICCCM DELETE convention](https://www.x.org/releases/X11R7.6/doc/xorg-docs/specs/ICCCM/icccm.pdf)
+requires a zero-length response of type NULL. The sole source-line patch changes
+format 0 to 8, preserving NULL type, zero elements and deletion behavior. It is
+downstream HPND-sell-variant work, not submitted upstream because no upstream
+writes are authorized; remove it when a selected official release includes the
+correction and all regressions pass. Zero-fuzz source matching is only static
+patch validation, not a target test.
+
+Every original downstream scenario and strict stderr failure remains mandatory.
+The DELETE regression now explicitly waits for its owner and requires a clean
+exit. Cleanup reports each owner PID, argv, selection, input size and completed
+checks, preserves any earlier exception, and reaps all owners and the private
+server before failing. No error is suppressed or accepted as transient.
+Replacement exact-head CI, normal installation, physical RPM/SRPM and fresh
+supplier/merge gates remain required; no target success is claimed here.
+
 ## RISC-V assessment
 
 The original C program uses Xlib and POSIX services with no architecture-specific
-assembly found in this release. No RISC-V patch is proposed. Hosted locked-image
+assembly found in this release. The DELETE correction is architecture-independent,
+not a RISC-V workaround. Hosted locked-image
 QEMU CI establishes emulated acceptance only; native behavior remains unclaimed.
 
 External source and patch licenses remain those of their respective upstream projects. The repository license only covers original packaging metadata, scripts, and documentation.

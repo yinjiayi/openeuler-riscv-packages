@@ -1,0 +1,21 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Use a valid X11 format for an empty DELETE response
+
+XChangeProperty accepts only formats 8, 16 or 32, even for zero elements.
+The original format 0 in handle_delete can provoke BadValue in the selection
+owner during the retained DELETE regression. Keep the ICCCM zero-length
+NULL-typed response, but describe its empty data using format 8.
+
+Source: downstream review of the official 1.2.1 archive and Xlib/ICCCM specs.
+Upstream-Status: Not submitted (no upstream writes authorized).
+License: HPND-sell-variant, matching the modified upstream file.
+Remove-When: The selected official release has a valid empty DELETE response.
+--- a/xsel.c
++++ b/xsel.c
+@@ -1465,5 +1465,5 @@
+ static HandleResult
+ handle_delete (Display * display, Window requestor, Atom property)
+ {
+-  XChangeProperty (display, requestor, property, null_atom, 0,
++  XChangeProperty (display, requestor, property, null_atom, 8,
+                    PropModeReplace, NULL, 0);

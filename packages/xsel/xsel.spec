@@ -7,6 +7,7 @@ License:        HPND-sell-variant
 URL:            https://vergenet.net/~conrad/software/xsel/
 Source0:        xsel-1.2.1.tar.gz
 Source1:        GPL-2.0.txt
+Patch0:         patches/0001-valid-empty-delete-property-format.patch
 BuildRequires:  gcc
 BuildRequires:  glibc-devel
 BuildRequires:  make
@@ -39,7 +40,7 @@ upstream archive includes auxiliary build-script license notices. These
 checks do not certify complete ICCCM, native desktop or security behavior.
 
 %prep
-%autosetup
+%autosetup -p1
 cat > downstream-qa.py <<'XSEL_QA'
 # SPDX-License-Identifier: HPND-sell-variant
 # Copyright 2026 yinjiayi. Permission to use, copy, modify, distribute and sell
@@ -103,7 +104,7 @@ def stop(p):
     if p.poll() is None:p.terminate()
     try:out,err=p.communicate(timeout=5)
     except S.TimeoutExpired:p.kill();out,err=p.communicate(timeout=5)
-    assert not err,err
+    assert not err,dict(owner=getattr(p,'qa_context',{}),pid=p.pid,argv=p.args,returncode=p.returncode,stderr=err,completed_checks=checks)
     return out
 with tempfile.TemporaryDirectory(prefix='xsel-qa-')as temporary:
     env['HOME']=temporary;env['XDG_CACHE_HOME']=temporary
@@ -136,6 +137,7 @@ with tempfile.TemporaryDirectory(prefix='xsel-qa-')as temporary:
                     args=['--nodetach','--selectionTimeout','60000',*extra]
                     if not implicit:args+=['--input','--'+key.lower()]
                     p=S.Popen([str(binary),*args],env=env,stdin=pipe_rd if implicit else payload,stdout=slave if implicit else S.PIPE,stderr=S.PIPE)
+                    p.qa_context=dict(selection=key,input_bytes=len(data),implicit=implicit)
                     processes.append(p)
                     try:wait_owner(key,previous,p=p)
                     finally:
@@ -169,18 +171,23 @@ with tempfile.TemporaryDirectory(prefix='xsel-qa-')as temporary:
             p=run(['--clear','--primary']);assert not p.stdout and not p.stderr
             wait_owner('PRIMARY',None,empty=True);assert read()==b''
             checks.append('clear-selection')
-            write(b'delete-me');p=run(['--delete','--primary','--selectionTimeout','5000'])
+            delete_owner=write(b'delete-me');p=run(['--delete','--primary','--selectionTimeout','5000'])
             assert not p.stdout and not p.stderr;wait_owner('PRIMARY',None,empty=True);assert read()==b''
+            delete_owner.wait(timeout=5);stop(delete_owner);assert delete_owner.returncode==0,delete_owner.returncode
             checks.append('delete-selection-protocol')
             write(b'explicit-display',extra=('--display',env['DISPLAY'],'--name','xsel-downstream-qa'))
             assert read()==b'explicit-display';checks.append('explicit-display-and-window-name')
         finally:
-            for p in reversed(processes):stop(p)
+            prior_error=sys.exc_info()[1];cleanup_errors=[]
+            for p in reversed(processes):
+                try:stop(p)
+                except Exception as error:cleanup_errors.append(repr(error))
             if dpy:close(dpy)
             os.close(rd)
             if server.poll()is None:server.terminate()
             try:server.wait(timeout=5)
             except S.TimeoutExpired:server.kill();server.wait(timeout=5)
+            assert not cleanup_errors,dict(prior_error=repr(prior_error),owner_errors=cleanup_errors,completed_checks=checks)
 print('XSEL_QA_OK '+str(len(checks))+' '+','.join(checks))
 XSEL_QA
 
