@@ -1,0 +1,62 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] terminate input buffers and reject failed file reads
+
+License: MIT (same as jshon)
+Upstream: downstream-only; file termination/error checks backported from
+official d919aeaece37962251dbe6c1ee50f0028a5c90e4, empty-stream and empty-JSONP
+guards authored locally. No upstream write. Remove when a stable release
+contains equivalent guards and the retained input regressions pass unchanged.
+
+Empty pipe input otherwise returns an uninitialized allocation. Stable 20131105
+also omits termination for regular files and dereferences failed reads. Keep
+normal JSON, compiler flags, parser defaults and command semantics unchanged.
+
+--- a/jshon.c
++++ b/jshon.c
+@@ -291,6 +291,7 @@
+         fprintf(stderr, "error: failed to allocate %zd bytes\n", content_capacity);
+         return NULL;
+     }
++    content[0] = '\0';
+
+     for (;;)
+     {
+@@ -360,6 +361,7 @@
+                 (ssize_t)st.st_size, (ssize_t)bytes_r);
+     }
+
++    buffer[bytes_r] = '\0';
+     return buffer;
+ }
+
+@@ -375,6 +377,10 @@
+     FILE* fp;
+     char* content;
+     fp = fopen(path, "r");
++    if (!fp) {
++        fprintf(stderr, "unable to read file %s: %s\n", path, strerror(errno));
++        return NULL;
++    }
+     content = read_stream(fp);
+     fclose(fp);
+     return content;
+@@ -401,6 +407,9 @@
+     #define JSON_WHITE(x) ((x) == 0x20 || (x) == 0x9 || (x) == 0xA || (x) == 0xD)
+     #define JSON_IDENTIFIER(x) (isalnum(x) || (x) == '$' || (x) == '_' || (x) == '.')
+
++    if (!*in)
++        {return in;}
++
+     char* first = in;
+     char* last = in + strlen(in) - 1;
+
+@@ -927,5 +936,9 @@
+         {content = read_file(file_path);}
+     else
+         {content = read_stdin();}
++    if (!content) {
++        fprintf(stderr, "error: failed to read input\n");
++        exit(1);
++    }
+     if (!content[0] && !quiet)
+         {fprintf(stderr, "warning: nothing to read\n");}
