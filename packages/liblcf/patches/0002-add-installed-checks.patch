@@ -1,0 +1,142 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Materialize separate installed-interface QA through RPM staging
+
+SPDX-License-Identifier: MIT
+Only add owned downstream files; every upstream source and original test remains
+unchanged. The retained recipe tests files are byte-identical after application.
+
+--- /dev/null
++++ b/downstream/consumer.cpp
+@@ -0,0 +1,43 @@
++// SPDX-License-Identifier: MIT
++// Copyright (c) 2026 yinjiayi
++#include <lcf/config.h>
++#include <lcf/encoder.h>
++#include <lcf/inireader.h>
++#include <lcf/lmu/reader.h>
++#include <sstream>
++#include <string>
++#include <iostream>
++#if !LCF_SUPPORT_INI || !LCF_SUPPORT_ICU || !LCF_SUPPORT_XML
++#error All default INI, ICU and XML features must be installed
++#endif
++int main() {
++    std::stringstream ini("[Section]\nKey=42\nEnabled=yes\n");
++    lcf::INIReader reader(ini);
++    if (reader.ParseError() != 0 || reader.GetInteger("Section", "Key", -1) != 42 ||
++        !reader.GetBoolean("Section", "Enabled", false)) return 1;
++    lcf::Encoder encoder("windows-1252");
++    if (!encoder.IsOk()) return 2;
++    std::string text(1, char(0xe9));
++    encoder.Encode(text);
++    if (text != "\xc3\xa9") return 3;
++    encoder.Decode(text);
++    if (text != std::string(1, char(0xe9))) return 4;
++    lcf::rpg::Map map;
++    map.width = 2; map.height = 2; map.chipset_id = 7;
++    map.lower_layer = {0,1,2,3}; map.upper_layer = {4,5,6,7};
++    std::stringstream binary(std::ios::in | std::ios::out | std::ios::binary);
++    if (!lcf::LMU_Reader::Save(binary, map, lcf::EngineVersion::e2k3, "UTF-8")) return 5;
++    binary.seekg(0);
++    auto loaded = lcf::LMU_Reader::Load(binary, "UTF-8");
++    if (!loaded || loaded->width != 2 || loaded->height != 2 || loaded->chipset_id != 7 ||
++        loaded->lower_layer != map.lower_layer || loaded->upper_layer != map.upper_layer) return 6;
++    std::stringstream xml;
++    if (!lcf::LMU_Reader::SaveXml(xml, map, lcf::EngineVersion::e2k3)) return 7;
++    xml.seekg(0);
++    auto from_xml = lcf::LMU_Reader::LoadXml(xml);
++    if (!from_xml || from_xml->width != 2 || from_xml->height != 2 ||
++        from_xml->chipset_id != 7 || from_xml->lower_layer != map.lower_layer ||
++        from_xml->upper_layer != map.upper_layer) return 8;
++    if (!lcf::LMU_Reader::Save("sample.lmu", map, lcf::EngineVersion::e2k3, "UTF-8")) return 9;
++    std::cout << "liblcf downstream INI ICU LMU XML checks passed\n";
++}
+--- /dev/null
++++ b/downstream/CMakeLists.txt
+@@ -0,0 +1,19 @@
++# SPDX-License-Identifier: MIT
++# Copyright (c) 2026 yinjiayi
++cmake_minimum_required(VERSION 3.16)
++project(liblcf_installed_checks LANGUAGES CXX)
++set(CMAKE_CXX_STANDARD 17)
++set(CMAKE_CXX_STANDARD_REQUIRED ON)
++find_package(liblcf 0.8.1 EXACT CONFIG REQUIRED)
++file(GLOB originals CONFIGURE_DEPENDS tests/*.cpp)
++list(LENGTH originals original_count)
++if(NOT original_count EQUAL 10)
++  message(FATAL_ERROR "Expected all ten unchanged original test translation units")
++endif()
++add_executable(installed_originals ${originals})
++target_compile_definitions(installed_originals PRIVATE DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING=1)
++target_compile_options(installed_originals PRIVATE -UNDEBUG)
++target_link_libraries(installed_originals PRIVATE liblcf::liblcf)
++add_executable(installed_consumer consumer.cpp)
++target_compile_options(installed_consumer PRIVATE -UNDEBUG)
++target_link_libraries(installed_consumer PRIVATE liblcf::liblcf)
+--- /dev/null
++++ b/downstream/run-tests.sh
+@@ -0,0 +1,40 @@
++#!/bin/bash
++# SPDX-License-Identifier: MIT
++# Copyright (c) 2026 yinjiayi
++set -euo pipefail
++export LC_ALL=C
++prefix=${1:-}
++qa="$prefix/usr/share/liblcf"
++lib="$prefix/usr/lib64"
++(cd "$qa"; sha256sum -c SHA256SUMS)
++test -f "$lib/liblcf.so.0"
++test "$(readlink "$lib/liblcf.so")" = liblcf.so.0
++readelf -d "$lib/liblcf.so.0" | grep -E 'SONAME.*liblcf\.so\.0' >/dev/null
++test -f "$prefix/usr/share/mime/packages/liblcf.xml"
++tmp=$(mktemp -d)
++trap 'rm -rf -- "$tmp"' EXIT
++export LD_LIBRARY_PATH="$lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
++export PKG_CONFIG_LIBDIR="$lib/pkgconfig"
++export PKG_CONFIG_SYSROOT_DIR="$prefix"
++test "$(pkg-config --modversion liblcf)" = 0.8.1
++cp -R "$qa/." "$tmp/"
++cmake -S "$tmp" -B "$tmp/build" -DCMAKE_BUILD_TYPE=RelWithDebInfo -Dliblcf_DIR="$lib/cmake/liblcf"
++cmake --build "$tmp/build" --parallel 2
++"$tmp/build/installed_originals" --no-colors > "$tmp/original-tests.log" 2>&1
++cat "$tmp/original-tests.log"
++grep -E 'test cases:.*[1-9][0-9]*.*passed.*0 failed' "$tmp/original-tests.log" >/dev/null
++grep -E 'test cases:.*0 failed.*0 skipped' "$tmp/original-tests.log" >/dev/null
++grep -E 'assertions:.*[1-9][0-9]*.*passed.*0 failed' "$tmp/original-tests.log" >/dev/null
++(cd "$tmp"; ./build/installed_consumer)
++g++ -std=c++17 -O2 -UNDEBUG -Wall "$qa/consumer.cpp" $(pkg-config --cflags --libs liblcf) -o "$tmp/pkg-consumer"
++(cd "$tmp"; ./pkg-consumer)
++rc=0; "$prefix/usr/bin/lcfstrings" --help > "$tmp/strings-help" 2>&1 || rc=$?
++test "$rc" -eq 2
++grep -F 'lcfstrings - Extract all strings' "$tmp/strings-help" >/dev/null
++rc=0; "$prefix/usr/bin/lcf2xml" > "$tmp/xml-help" 2>&1 || rc=$?
++test "$rc" -eq 1
++grep -F 'LCF2XML - Converts' "$tmp/xml-help" >/dev/null
++(cd "$tmp"; "$prefix/usr/bin/lcf2xml" sample.lmu)
++test -s "$tmp/sample.emu"
++"$prefix/usr/bin/lcfstrings" "$tmp/sample.lmu" > "$tmp/strings.txt"
++printf 'liblcf installed checks passed: original_units=10 consumers=2 default_features=INI,ICU,XML tools=2\n'
+--- /dev/null
++++ b/downstream/LICENSE.MIT
+@@ -0,0 +1,21 @@
++MIT License
++
++Copyright (c) 2026 yinjiayi
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
