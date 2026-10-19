@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "package_id": "exec-as",
+  "rpm": {
+    "name": "exec-as",
+    "summary": "Run a program with an explicit argv zero",
+    "license": "ISC"
+  },
+  "upstream": {
+    "component": "codeberg.org-maandree-exec-as",
+    "homepage": "https://codeberg.org/maandree/exec-as",
+    "source_repository": "https://codeberg.org/maandree/exec-as.git",
+    "release_channel": "stable",
+    "release_api": "https://codeberg.org/maandree/exec-as/tags",
+    "release_regex": "/archive/(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://codeberg.org/maandree/exec-as/archive/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.2.3",
+    "release": "1",
+    "latest_detected": "1.2.3"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "exec-as",
+        "package_base": "exec-as",
+        "source_version": "1.2.3-1",
+        "evidence_url": "https://aur.archlinux.org/packages/exec-as",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "exec-as.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": []
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Original all builds exec-as and test; original make check retained without filtering. Staged and installed checks compile unchanged original test driver and repeat its exact expected output, plus custom names/spaces/empty arguments/PATH/forwarding/error and child-status checks. Full ISC notice in each explicit subpackage and original QA/SRPM archive. No source patch, native process timing, privileged execution, security isolation or empty-argv kernel compatibility claim; no local source/RPM/QEMU build. Exact-head CI, normal target installation and physical RPM/SRPM verification remain merge gates."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
