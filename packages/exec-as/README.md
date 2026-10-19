@@ -12,6 +12,12 @@ usage/missing/permission/directory errors and child exit status. These tests
 do not establish native process timing, privileged execution, security
 isolation or behavior of an empty argv array on other kernels.
 
+The initial hosted target run failed the added shell-forwarding assertion.
+The original check and earlier C-driver cases passed. Complete hexadecimal
+argument observations, C child status 23 and direct-versus-exec-as shell
+observations now precede the unchanged assertion. This is diagnostic input,
+not a source fix, an accepted build or proof of a QEMU/native-only cause.
+
 No source patch, disabled default test or local source/RPM/QEMU execution.
 Repository validation is admission only: exact-head required CI, real target
 build/ordinary installation and physical RPM/SRPM acceptance remain necessary.
