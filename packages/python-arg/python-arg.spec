@@ -57,7 +57,10 @@ run_installed_tests() (
 import hashlib, pathlib, runpy, sys, sysconfig
 root, driver = sys.argv[1:]
 assert not sys.flags.optimize
-site = pathlib.Path(root + sysconfig.get_path('purelib')).resolve()
+# The runtime's default scheme may be /usr/local; this RPM is installed in /usr.
+purelib = sysconfig.get_path('purelib', scheme='posix_prefix', vars={'base': '/usr', 'platbase': '/usr'})
+site = pathlib.Path(root + purelib).resolve()
+assert site == pathlib.Path(root + '/usr/lib/python' + sysconfig.get_python_version() + '/site-packages').resolve()
 sys.path.insert(0, str(site))
 import arg
 module = pathlib.Path(arg.__file__).resolve()

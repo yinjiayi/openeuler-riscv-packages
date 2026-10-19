@@ -1,5 +1,9 @@
 # Python-arg
 
+Installed replay explicitly uses the distribution `/usr` prefix scheme; the
+runtime's default `/usr/local` scheme must not misidentify the installed RPM
+module. Exact module path, official digest and enabled assertions remain required.
+
 Python-arg 1.0.2 provides the `arg` Python module. The canonical project ID is
 `python-arg`; the Python 3 RPM is named `python3-arg`. The fixed official archive
 is SHA-256 bound and its complete ISC notice is retained in both binary packages
