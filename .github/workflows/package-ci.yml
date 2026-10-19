@@ -159,6 +159,7 @@ jobs:
       package_id: ${{ steps.scope.outputs.package_id }}
       needs_native: ${{ steps.policy.outputs.needs_native }}
       timeout_minutes: ${{ steps.policy.outputs.timeout_minutes }}
+      install_timeout_minutes: ${{ steps.policy.outputs.install_timeout_minutes }}
       build_user: ${{ steps.policy.outputs.build_user }}
     steps:
       - name: Check out the immutable protected-base tooling
@@ -728,13 +729,22 @@ jobs:
     needs: [authorize-trusted-dispatch, prepare, metadata-validate, patch-policy, source-verify, repository-snapshot, rpmbuild-riscv64]
     if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
-    timeout-minutes: 70
+    timeout-minutes: ${{ fromJSON(needs.prepare.outputs.install_timeout_minutes || '70') }}
     steps:
       - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
+      - name: Establish the validated install deadline
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        id: install_budget
+        env:
+          INSTALL_TIMEOUT_MINUTES: ${{ needs.prepare.outputs.install_timeout_minutes || '70' }}
+        run: |
+          ci/rpmbuild-timeout-budget.py start --phase rpm-install-smoke \
+            --timeout-minutes "$INSTALL_TIMEOUT_MINUTES" --reserve-seconds 600 \
+            --output artifacts/smoke/timeout-budget.json --github-output "$GITHUB_OUTPUT"
       - name: Materialize only the exact package tree
         if: needs.prepare.outputs.mode == 'package'
         env:
@@ -784,10 +794,16 @@ jobs:
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           IMAGE_REF: ${{ steps.image.outputs.ref }}
+          INSTALL_DEADLINE_EPOCH: ${{ steps.install_budget.outputs.deadline_epoch }}
         run: |
           mkdir -p artifacts/smoke
+          install_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining \
+            --phase rpm-install-smoke --deadline-epoch "$INSTALL_DEADLINE_EPOCH" \
+            --output artifacts/smoke/timeout-remaining.json \
+            --failure-output artifacts/smoke/timeout-expired.json)
+          [[ "$install_timeout_seconds" =~ ^[1-9][0-9]*$ ]]
           ci/run-capped.sh --log artifacts/smoke/smoke.log \
-            --max-bytes 52428800 --timeout-seconds 3600 -- \
+            --max-bytes 52428800 --timeout-seconds "$install_timeout_seconds" -- \
             docker run --rm --platform linux/riscv64 \
               --memory 6g --cpus 2 --pids-limit 1024 \
               --security-opt no-new-privileges \
