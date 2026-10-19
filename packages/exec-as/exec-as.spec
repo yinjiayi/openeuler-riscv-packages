@@ -84,7 +84,10 @@ EOF
     /bin/sh -c 'printf "direct shell: %%s,%%s\n" "$0" "$1"' custom 'two words'
     if "$tool" /bin/sh custom -c 'printf "via exec-as: %%s,%%s\n" "$0" "$1"' 'two words'; then actual=0; else actual=$?; fi
     printf 'diagnostic shell exit: %%s\n' "$actual"
-    test "$("$tool" /bin/sh custom -c 'printf "%%s,%%s\n" "$0" "$1"' 'two words')" = 'custom,two words'
+    # POSIX sh -c keeps process argv[0] distinct from command_name.
+    # The first operand after command_string supplies shell $0.
+    test "$("$tool" /bin/sh custom -c 'printf "%%s,%%s\n" "$0" "$1"' 'two words')" = 'two words,'
+    test "$("$tool" /bin/sh custom -c 'printf "%%s,%%s\n" "$0" "$1"' shell-name 'two words')" = 'shell-name,two words'
     printf 'not executable\n' > denied
     chmod 600 denied
     expect_status() {
