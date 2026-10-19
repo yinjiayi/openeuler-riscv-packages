@@ -34,6 +34,11 @@ No test selection or editor feature is removed. No upstream submission is
 made, per operator policy. Remove after an official fixed release passes
 the same regressions unchanged.
 
+The first target run rejected three patch hunks in `%prep`, before compilation.
+The corrected patch encoding is checked with GNU patch at zero fuzz, and its
+inert materialized source is byte-equal to the originally intended edits.
+Apple patch alone is not sufficient verification for the target patch tool.
+
 Target: openEuler 24.03 LTS SP3 riscv64/RVA23, locked OCI and QEMU user mode.
 No local source/RPM/QEMU execution was performed. Build/install/physical
 RPM acceptance is pending remote CI. PTY checks do not establish native

@@ -11,22 +11,22 @@ build. Remove after an official release passes the same PTY regressions.
 --- a/input.c
 +++ b/input.c
 @@ -6,3 +6,4 @@
- #include <ctype.h>
- #include <errno.h>
+-#include <ctype.h>
+-#include <errno.h>
+-#include <sys/time.h>
++#include <ctype.h>
++#include <errno.h>
 +#include <limits.h>
- #include <sys/time.h>
++#include <sys/time.h>
 @@ -204,4 +205,4 @@
          default:
 -            if (!isprint(k))
 +            if (k > UCHAR_MAX || !isprint((unsigned char) k))
                  break;
              str[len++] = k;
-@@ -556,4 +557,4 @@
-     if (input->mode == INPUT) {
-
+@@ -558 +559 @@
 -        if (input->mode_ascii && isprint(k)) {
 +        if (input->mode_ascii && k <= UCHAR_MAX && isprint((unsigned char) k)) {
-
 @@ -700,9 +701,10 @@
               char buf[256];
 +             size_t len = blob_length(input->view->blob);
@@ -42,11 +42,14 @@ build. Remove after an official release passes the same PTY regressions.
 +                 len ? (size_t) ((long double) (input->cur + 1) * 100 / len) : 0);
               view_message(V, buf, NULL);
 @@ -876,4 +878,4 @@
- static unsigned unhex_digit(char c)
- {
+-static unsigned unhex_digit(char c)
+-{
 -    assert(isxdigit(c));
+-    if (c >= '0' && c <= '9')
++static unsigned unhex_digit(char c)
++{
 +    assert(isxdigit((unsigned char) c));
-     if (c >= '0' && c <= '9')
++    if (c >= '0' && c <= '9')
 @@ -892,5 +894,5 @@
      for (char const *p = hex; *p; ) {
 -        while (isspace(*p)) ++p;
