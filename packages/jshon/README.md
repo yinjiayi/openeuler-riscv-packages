@@ -48,3 +48,11 @@ context and counted hunks. GNU patch now applies all five intended input
 guards with `--fuzz=0` and zero offsets; required blank context markers are
 retained. This repairs patch formatting, not the parser, QA or warning policy.
 No original check is removed and replacement target CI remains mandatory.
+
+The next target run passed patch application and the original warning-strict
+build, then exposed an incorrect downstream invalid-option expectation.
+The original `-Q` changes Jshon's own quiet flag, not libc `getopt`'s default
+diagnostics. The invalid-option test is retained and now requires exit status 2,
+empty stdout and the exact C-locale diagnostic including executable path.
+Other quiet checks and all input regressions remain unchanged; stderr is not
+ignored and no source/default behavior is altered by this QA-only correction.

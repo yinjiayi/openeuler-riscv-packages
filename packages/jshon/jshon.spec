@@ -49,13 +49,14 @@ with tarfile.open(archive,'r:gz')as tf:
  assert actual==tf.extractfile('jshon-20131105/jshon.1').read()
 checks.append('fixed-original-archive-manual-license')
 env=dict(os.environ,LC_ALL='C',MALLOC_PERTURB_='165')
-def run(args,data=b'',status=0,quiet=True):
+def run(args,data=b'',status=0,quiet=True,stderr=None):
  p=subprocess.run([str(binary),*args],input=data,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=15,env=env)
  assert p.returncode==status,(args,p.returncode,p.stdout,p.stderr)
- if quiet:assert not p.stderr,(args,p.stderr)
+ if stderr is not None:assert p.stderr==stderr,(args,p.stderr,stderr)
+ elif quiet:assert not p.stderr,(args,p.stderr)
  return p.stdout
-def plain(name,args,data,expected,status=0,quiet=True):
- assert run(args,data,status,quiet)==expected,name;checks.append(name)
+def plain(name,args,data,expected,status=0,quiet=True,stderr=None):
+ assert run(args,data,status,quiet,stderr)==expected,name;checks.append(name)
 def js(name,args,data,expected):
  assert json.loads(run(args,data))==expected,name;checks.append(name)
 sample=b'{"a":1,"b":[true,false,null,"str"],"c":{"d":4,"e":5}}'
@@ -83,7 +84,7 @@ plain('empty-pipe-json-regression',['-Q'],b'',b'')
 plain('empty-jsonp-regression',['-Q','-P'],b'',b'')
 plain('invalid-json',['-Q'],b'{',b'',1)
 plain('missing-key',['-Q','-e','absent'],sample,b'',1)
-plain('invalid-option',['-Q','-?'],sample,b'',2)
+plain('invalid-option',['-Q','-?'],sample,b'',2,stderr=os.fsencode(binary)+b": invalid option -- '?'\n")
 with tempfile.TemporaryDirectory(prefix='jshon-qa-')as tmp:
  file=Path(tmp)/'data.json';file.write_bytes(sample)
  js('regular-file-termination-regression',['-F',str(file)],b'',json.loads(sample))
