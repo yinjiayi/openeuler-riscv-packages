@@ -65,7 +65,9 @@
     "spec": "libstemmer.spec"
   },
   "maintenance": {
-    "maintainers": ["yinjiayi"],
+    "maintainers": [
+      "yinjiayi"
+    ],
     "notes": "Official Snowball libstemmer C 3.1.1 bytes are SHA-256 pinned. The release contains no automated suite; deterministic reference-program and public-API checks are added. The target's existing libstemmer.so.0 ABI major is preserved. AUR remained read-only RPC metadata.",
     "status": "active"
   },
@@ -85,7 +87,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-10-17T20:33:43Z",
     "last_successful_check_at": null,
     "release_provider": "official-html-index"
   },
@@ -99,8 +101,8 @@
     "source_url_template": "https://snowballstem.org/dist/libstemmer_c-{version}.tar.gz"
   },
   "version": {
-    "current": "3.1.1",
-    "latest_detected": "3.1.1",
+    "current": "3.2.0",
+    "latest_detected": "3.2.0",
     "release": "1"
   }
 }
