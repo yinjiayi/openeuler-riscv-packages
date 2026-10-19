@@ -94,6 +94,15 @@ server before failing. No error is suppressed or accepted as transient.
 Replacement exact-head CI, normal installation, physical RPM/SRPM and fresh
 supplier/merge gates remain required; no target success is claimed here.
 
+The first corrected-source head f0da946523ea810787770740938b7af26f185818
+failed Package CI 39316372606/1 in percent-prep: GNU patch rejected the
+asymmetric context hunk before compilation or QA. That rejection is reproduced
+with GNU patch 2.8, despite the prior Apple patch dry-run passing. The hunk is
+now regenerated as a standard balanced one-context unified diff, with exactly
+the same unique source-line correction. Both GNU and Apple zero-fuzz dry-runs are
+required locally; the SPEC and all QA/default commands remain byte-identical.
+This is a patch-serialization repair, not a weakened test or new target proof.
+
 ## RISC-V assessment
 
 The original C program uses Xlib and POSIX services with no architecture-specific

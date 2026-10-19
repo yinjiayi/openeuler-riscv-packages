@@ -55,7 +55,7 @@
     "patches": [
       {
         "file": "patches/0001-valid-empty-delete-property-format.patch",
-        "sha256": "681daa901c2372957c54ebca862d1ff7e890ccd57febeeabfaa824c0e6178671",
+        "sha256": "25ebfe5f122329c4ea8d692166d0d6d9bea871048690ed099a6edda1fa0f9656",
         "purpose": "Use a valid format 8 for the zero-length NULL-typed DELETE response instead of invalid format 0; retain every strict private-Xvfb regression.",
         "source": "Downstream review of official Xsel 1.2.1 xsel.c handle_delete and Xlib/ICCCM specifications; see README.",
         "license": "HPND-sell-variant",

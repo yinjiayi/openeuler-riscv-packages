@@ -12,9 +12,7 @@ License: HPND-sell-variant, matching the modified upstream file.
 Remove-When: The selected official release has a valid empty DELETE response.
 --- a/xsel.c
 +++ b/xsel.c
-@@ -1465,5 +1465,5 @@
- static HandleResult
- handle_delete (Display * display, Window requestor, Atom property)
+@@ -1467,3 +1467,3 @@
  {
 -  XChangeProperty (display, requestor, property, null_atom, 0,
 +  XChangeProperty (display, requestor, property, null_atom, 8,
