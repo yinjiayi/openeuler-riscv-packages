@@ -1,0 +1,13 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Defer executable stripping to RPM post-processing
+
+The default link rule strips its own output before RPM can collect debug
+information. Retain the original link command and every default target;
+let the normal RPM scripts produce debug products and strip the binary.
+No C source or runtime behavior is changed. Downstream-only, MIT.
+
+--- a/Makefile
++++ b/Makefile
+@@ -27 +27 @@
+-	@strip $@
++	# Final stripping is performed by the RPM packaging scripts.
