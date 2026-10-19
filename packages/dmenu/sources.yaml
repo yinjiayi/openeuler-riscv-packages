@@ -1,0 +1,21 @@
+{
+  "package_id": "dmenu",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8fbace2a0847aa80fe861066b118252dcc7b4ca0a0a8f3a93af02da8fb6cd453"
+      },
+      "filename": "dmenu-5.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://dl.suckless.org/tools/dmenu-5.4.tar.gz",
+      "version": "5.4"
+    }
+  ]
+}
