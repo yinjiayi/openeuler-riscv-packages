@@ -1,0 +1,77 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "user": "unprivileged",
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://tools.suckless.org/tabbed/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tabbed",
+        "package_name": "tabbed",
+        "source": "aur",
+        "source_version": "0.9-1"
+      },
+      {
+        "evidence_url": "https://tools.suckless.org/tabbed/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "tabbed",
+        "package_name": "tabbed",
+        "source": "fedora",
+        "source_version": "0.7-8.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tabbed.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official tabbed0.9 fixed archive/all nine source members and MIT plus arg.h notices reviewed. No patch: preserve original all/install for both tabbed and xembed, CPPFLAGS/system flags/library linkage, README, two man1 pages and all key bindings including Ctrl-grave shell helpers. No original upstream test target. Mandatory staged and installed private-Xvfb fixtures verify child parenting/geometry/focus/title/tab order/selection/WM_DELETE/last-client exit/default command spawn and argument replacement/XEMBED. Private PTY fixtures verify original xembed foreground/background/no-tty/no-environment/error branches. No local upstream-code, compiler, target binary, RPM or QEMU execution; no native display/timing/security claim.",
+    "status": "active"
+  },
+  "package_id": "tabbed",
+  "rpm": {
+    "license": "MIT",
+    "name": "tabbed",
+    "summary": "Generic XEmbed-aware tabbed X11 application container"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "tools.suckless.org-tabbed",
+    "homepage": "https://tools.suckless.org/tabbed/",
+    "release_api": "https://dl.suckless.org/tools/",
+    "release_channel": "stable",
+    "release_regex": "tabbed-(?P<version>[0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://git.suckless.org/tabbed/",
+    "source_url_template": "https://dl.suckless.org/tools/tabbed-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.9",
+    "latest_detected": "0.9",
+    "release": "1"
+  }
+}
