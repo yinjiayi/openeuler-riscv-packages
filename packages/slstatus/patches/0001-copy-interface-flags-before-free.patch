@@ -1,0 +1,33 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] ip: retain interface flags before releasing the address list
+Upstream-Status: Not submitted (downstream-only; upstream writes not authorized)
+Source: https://dl.suckless.org/tools/slstatus-1.1.tar.gz
+Upstream-License: ISC (see original LICENSE)
+Applies-To: slstatus 1.1
+Root-Cause: up() dereferenced ifa after freeifaddrs(ifaddr).
+Removal-Condition: Drop when an official stable release copies the flags before free.
+
+Preserve the unchanged default datetime configuration and all original objects.
+Copy only the required flag before the list is released, retaining original
+return values. Mandatory target-only fake-lifetime positive/negative controls
+exercise the actual patched and original function; no kernel metric is claimed.
+
+--- a/components/ip.c
++++ b/components/ip.c
+@@ -66,5 +66,6 @@ up(const char *interface)
+ {
+ 	struct ifaddrs *ifaddr, *ifa;
++	int is_up;
+ 
+ 	if (getifaddrs(&ifaddr) < 0) {
+ 		warn("getifaddrs:");
+@@ -76,7 +77,8 @@ up(const char *interface)
+ 			continue;
+ 
+ 		if (!strcmp(ifa->ifa_name, interface)) {
++			is_up = !!(ifa->ifa_flags & IFF_UP);
+ 			freeifaddrs(ifaddr);
+-			return ifa->ifa_flags & IFF_UP ? "up" : "down";
++			return is_up ? "up" : "down";
+ 		}
+ 	}
