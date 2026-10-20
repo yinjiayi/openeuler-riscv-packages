@@ -1,0 +1,119 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/findutils/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "findutils",
+        "package_name": "findutils",
+        "source": "arch-core",
+        "source_version": "4.11.0-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/findutils-selinux",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "findutils-selinux",
+        "package_name": "findutils-selinux",
+        "source": "aur",
+        "source_version": "4.11.0-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/findutils",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "findutils",
+        "package_name": "findutils",
+        "source": "debian",
+        "source_version": "4.10.0-3"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/findutils/findutils/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "findutils",
+        "package_name": "findutils",
+        "source": "fedora",
+        "source_version": "1:4.10.0-7.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/findutils",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "findutils",
+        "package_name": "findutils",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.11.0-1.2"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/findutils",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "findutils",
+        "package_name": "findutils",
+        "source": "ubuntu",
+        "source_version": "4.10.0-3build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-gnulib-normalize-unsigned-char-localeconv-sentinel.patch",
+        "license": "LGPL-2.1-or-later",
+        "purpose": "Normalize the C-locale localeconv unavailable sentinel when an unsigned-char RISC-V libc exposes SCHAR_MAX.",
+        "remove_when": "The bundled gnulib localeconv probe and replacement handle this openEuler RISC-V representation upstream.",
+        "sha256": "6ebbaf8ef8ed8926fdae9c26e07b25fe32f23b7a8aa12173166dd00a17c8d753",
+        "source": "Downstream openEuler RISC-V CI failure in gnulib-tests/test-localeconv on openEuler 24.03 LTS SP3.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "findutils.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official GNU 4.11.0 archive bytes are SHA-256 pinned. Epoch 2 and the findutils-help split preserve the fixed target EVR/layout; locate is fully built and tested but not shipped because fixed-target mlocate owns those paths. The localeconv configure cache result is exported so the patched bundled gnulib replacement normalizes the unsigned-char C-locale sentinel. SELinux support and the complete serial upstream suite remain enabled. AUR was read-only RPC metadata only.",
+    "status": "active"
+  },
+  "package_id": "findutils",
+  "rpm": {
+    "epoch": 2,
+    "license": "GPL-3.0-or-later",
+    "name": "findutils",
+    "summary": "GNU utilities for finding files"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-gnu-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-findutils",
+    "homepage": "https://www.gnu.org/software/findutils/",
+    "release_api": "https://ftp.gnu.org/gnu/findutils/",
+    "release_channel": "stable",
+    "release_regex": "findutils-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://git.savannah.gnu.org/git/findutils.git",
+    "source_url_template": "https://ftp.gnu.org/gnu/findutils/findutils-{version}.tar.xz"
+  },
+  "version": {
+    "current": "4.11.0",
+    "latest_detected": "4.11.0",
+    "release": "2"
+  }
+}

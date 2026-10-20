@@ -1,0 +1,21 @@
+{
+  "package_id": "rocky",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "903cd7c7ab6fe8a470e1e2460ba40d79ff5b3f82c31fea5eecff808b5274a453"
+      },
+      "filename": "rocky-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/pelicanmapping/rocky/archive/refs/tags/v1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}

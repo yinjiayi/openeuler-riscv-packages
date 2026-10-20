@@ -1,0 +1,39 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 00:00:00 +0800
+Subject: [PATCH] wx: construct application columns portably
+
+wxWidgets 3.2 as built by openEuler does not provide the initializer-list
+conversion used for wxArrayString.  Populate the array through its stable Add
+API so the application builds without changing the column order or contents.
+
+---
+ sysinfo.cpp | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/sysinfo.cpp b/sysinfo.cpp
+index 0f5db89..c3ea6aa 100644
+--- a/sysinfo.cpp
++++ b/sysinfo.cpp
+@@ -2789,9 +2789,17 @@ public:
+       mainSizer->Add(m_listCtrl, 1, wxEXPAND | wxALL, 5);
+ 
+       // Add columns
+-      wxArrayString columns = {
+-          "Name", "Version",        "Description", "Architecture", "Licenses",
+-          "Size", "Install Reason", "Depends On",  "Install Date", "URL"};
++      wxArrayString columns;
++      columns.Add("Name");
++      columns.Add("Version");
++      columns.Add("Description");
++      columns.Add("Architecture");
++      columns.Add("Licenses");
++      columns.Add("Size");
++      columns.Add("Install Reason");
++      columns.Add("Depends On");
++      columns.Add("Install Date");
++      columns.Add("URL");
+       for (size_t i = 0; i < columns.size(); ++i) {
+         if (m_listCtrl->InsertColumn(i, columns[i]) == -1) {
+           throw std::runtime_error("Failed to insert column: " +
+-- 
+2.50.1

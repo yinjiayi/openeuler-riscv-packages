@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Sun, 7 Sep 2026 00:00:00 +0000
+Subject: [PATCH] tests: register child before allowing execution
+
+Some tests intentionally terminate a child immediately after it starts.  The
+SIGCHLD handler can therefore reap the child before start_child records it,
+after which start_child overwrites the completed state with running = 1 and
+wait_for_type waits forever.
+
+Use a pipe as a one-byte start barrier.  The child cannot execute its callback
+until the parent has recorded the PID, while all test callbacks and assertions
+remain unchanged.
+
+Patch-Source: openEuler RISC-V package CI failure analysis
+Patch-License: BSD-2-Clause
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+---
+ tests/TestUtils.pm | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+--- a/tests/TestUtils.pm
++++ b/tests/TestUtils.pm
+@@ -34,0 +35,3 @@
++    pipe(my $ready_read, my $ready_write)
++        or die("pipe: $!");
++
+@@ -36,0 +40,2 @@
++        close($ready_read);
++        close($ready_write);
+@@ -38,0 +44,6 @@
++        close($ready_write);
++        my $ready = '';
++        my $bytes = sysread($ready_read, $ready, 1);
++        die("parent did not release child: $!")
++            unless defined($bytes) && $bytes == 1;
++        close($ready_read);
+@@ -44,0 +56 @@
++    close($ready_read);
+@@ -53,0 +66,5 @@
++    my $bytes = syswrite($ready_write, '1', 1);
++    close($ready_write);
++    die("failed to release child: $!")
++        unless defined($bytes) && $bytes == 1;
++
+--
+2.50.1

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "tinyexpr",
+  "rpm": {"name": "tinyexpr", "summary": "Tiny C mathematical expression parser and evaluator", "license": "Zlib"},
+  "upstream": {"component": "codeplea.com-tinyexpr", "homepage": "https://codeplea.com/tinyexpr", "source_repository": "https://github.com/codeplea/tinyexpr", "release_channel": "stable", "release_api": "https://api.github.com/repos/codeplea/tinyexpr/tags", "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$"},
+  "version": {"current": "1.1.1", "release": "1", "latest_detected": null},
+  "discovery": {"snapshot_id": "component-review-20261018-tinyexpr-v1.1.1", "lineage": [{"source": "debian", "package_name": "mmseqs2", "package_base": "mmseqs2", "source_version": "12-113e3+ds-3", "evidence_url": "https://sources.debian.org/src/mmseqs2/12-113e3%2Bds-3/lib/tinyexpr/", "observed_at": "2026-10-18T07:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 30, "native_reason": null},
+  "files": {"spec": "tinyexpr.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Discovery identifies the bundled Tinyexpr component in Debian mmseqs2, not a standalone Debian tinyexpr binary or version. The new independent package uses all 20 files from the separately verified official v1.1.1 commit. Preserve upstream make all, both original smoke variants and all 15 test groups, including locale and 5000 numeric cases. Build the original benchmark without running or making performance claims. Upstream has no install target; downstream installs a static library/header and unchanged default smoke sources, then links original tests against the installed archive. No source patch or local target build."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-tags"}
+}

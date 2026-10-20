@@ -161,8 +161,9 @@ jobs:
           BUILD_USER: ${{ steps.policy.outputs.build_user }}
         run: |
           derived="golden-builddeps:${GITHUB_RUN_ID}-${PACKAGE_ID}"
+          # Keep the golden path aligned with the package CI dependency window.
           ci/run-capped.sh --log "artifacts/golden/$PACKAGE_ID/dependencies.log" \
-            --max-bytes 52428800 --timeout-seconds 1800 -- \
+            --max-bytes 52428800 --timeout-seconds 3600 -- \
             ci/prepare-build-deps.py --base-image "$BASE_IMAGE" \
               --package-dir "packages/$PACKAGE_ID" --work-dir "work/$PACKAGE_ID" \
               --output "artifacts/golden/$PACKAGE_ID/dependencies.json" \
@@ -211,7 +212,7 @@ jobs:
           if [[ "$expected" = passed ]]; then
             test "$build_exit" -eq 0
             ci/run-capped.sh --log "artifacts/golden/$PACKAGE_ID/smoke.log" \
-              --max-bytes 52428800 --timeout-seconds 1500 -- \
+              --max-bytes 52428800 --timeout-seconds 3600 -- \
               docker run --rm --platform linux/riscv64 \
                 --memory 6g --cpus 2 --pids-limit 1024 \
                 --security-opt no-new-privileges \
@@ -288,6 +289,26 @@ jobs:
           # Preserve the package-id directory so bounded log ingestion can
           # attribute every text file to exactly one fixed golden package.
           path: artifacts/golden/
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Verify and stage physical golden products separately from logs
+        if: always()
+        env:
+          PACKAGE_ID: ${{ matrix.package_id }}
+          BUILD_COMMIT_SHA: ${{ github.sha }}
+          NEEDS_NATIVE: ${{ steps.policy.outputs.needs_native == 'true' && 'true' || 'false' }}
+        run: |
+          python3 ci/stage-golden-products.py --workspace . \
+            --package-id "$PACKAGE_ID" --commit-sha "$BUILD_COMMIT_SHA" \
+            --needs-native "$NEEDS_NATIVE"
+      - name: Upload only physical products and their retention manifest
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: golden-products-${{ matrix.package_id }}-${{ github.run_id }}
+          # This artifact is intentionally not an evaluate-golden log input.
+          path: artifacts/golden-products/${{ matrix.package_id }}/
           if-no-files-found: error
           retention-days: 7
 

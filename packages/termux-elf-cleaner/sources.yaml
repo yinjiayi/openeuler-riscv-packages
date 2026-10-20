@@ -1,0 +1,21 @@
+{
+  "package_id": "termux-elf-cleaner",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1c3c6fb33ad8d1fdfe035eee3a5419f54442b93b1a97c4151b31b82c5626a06a"
+      },
+      "filename": "termux-elf-cleaner-3.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/termux/termux-elf-cleaner/archive/refs/tags/v3.0.1.tar.gz",
+      "version": "3.0.1"
+    }
+  ]
+}

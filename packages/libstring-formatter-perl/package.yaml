@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-formatter-perl",
+  "rpm": {
+    "name": "perl-String-Formatter",
+    "summary": "Build configurable sprintf-like Perl formatters",
+    "license": "GPL-2.0-only"
+  },
+  "upstream": {
+    "component": "libstring-formatter-perl",
+    "homepage": "https://metacpan.org/dist/String-Formatter",
+    "source_repository": "https://metacpan.org/dist/String-Formatter",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/",
+    "release_regex": "String-Formatter-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/String-Formatter-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.235",
+    "release": "1",
+    "latest_detected": "1.235"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-formatter-perl",
+        "package_base": "libstring-formatter-perl",
+        "source_version": "1.235",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-formatter-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-formatter-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu and official CPAN 1.235. Publisher CHECKSUMS SHA-256, safe archive and LICENSE/README/both module POD GPL-2.0-only grant verified. Official target primary lacks same-name RPM/provider, and supplies Params::Util 1.07 and Sub::Exporter 0.990. All six unmodified upstream default test files/22 tests passed locally; source-level staged install produced two modules and two manuals. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

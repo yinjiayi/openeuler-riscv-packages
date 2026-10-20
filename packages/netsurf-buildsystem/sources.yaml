@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "package_id": "netsurf-buildsystem",
+  "sources": [{"id": "source0", "kind": "upstream-release", "url": "https://download.netsurf-browser.org/libs/releases/buildsystem-1.10.tar.gz", "filename": "buildsystem-1.10.tar.gz", "version": "1.10", "digests": {"sha256": "3d3e39d569e44677c4b179129bde614c65798e2b3e6253160239d1fd6eae4d79"}, "signature": null, "redistribution": {"allowed": true, "reason": "Official NetSurf release: MIT shared tooling; complete original NCSA LLVM and SortTable/Dean Edwards notices remain in the unchanged archive. Only upstream's normal makefiles/testtools/citools are installed as tools."}}]
+}

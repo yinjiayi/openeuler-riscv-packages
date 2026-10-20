@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-levenshtein-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Levenshtein-0.15.tar.gz",
+      "version": "0.15",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Levenshtein-0.15.tar.gz",
+      "digests": {
+        "sha256": "6d2e92232caf7550bd6fa8034b8ebbacccd81a8dcefa7a605a8ca539a15d2f22"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE and module POD grant Perl GPL/Artistic terms; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

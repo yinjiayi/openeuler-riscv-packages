@@ -1,0 +1,21 @@
+{
+  "package_id": "milton",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4d307274782a077841884b198f43526c7d2d55944a75351e0b6dd7e99c3b2455"
+      },
+      "filename": "milton-1.9.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/serge-rgb/milton/archive/refs/tags/v1.9.1.tar.gz",
+      "version": "1.9.1"
+    }
+  ]
+}

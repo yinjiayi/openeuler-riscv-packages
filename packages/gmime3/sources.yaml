@@ -1,0 +1,21 @@
+{
+  "package_id": "gmime3",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "84cd2a481a27970ec39b5c95f72db026722904a2ccf3fdbd57b280cf2d02b5c4"
+      },
+      "filename": "gmime-3.2.15.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jstedfast/gmime/releases/download/3.2.15/gmime-3.2.15.tar.xz",
+      "version": "3.2.15"
+    }
+  ]
+}

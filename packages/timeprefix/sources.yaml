@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "timeprefix",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeberg.org/maandree/timeprefix/archive/3.1.2.tar.gz",
+      "filename": "3.1.2.tar.gz",
+      "version": "3.1.2",
+      "digests": {
+        "sha256": "c473c23d46ad44947de33a5dc4a8cda3331594fe2c927d6125cb8dfbc1c40585"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official fixed ISC release; complete copyright and permission notice retained in every explicit binary subpackage and unchanged QA/SRPM source archive."
+      }
+    }
+  ]
+}

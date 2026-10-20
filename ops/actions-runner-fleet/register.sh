@@ -55,12 +55,12 @@ if document.get("agentName") != expected_name or document.get("gitHubUrl", "").r
 if document.get("workFolder") != "_work":
     raise SystemExit("existing .runner work folder is not _work")
 PY
-  systemctl disable --now "$service" >/dev/null 2>&1 || true
+  oe_systemctl disable --now "$service" >/dev/null 2>&1 || true
   printf 'Runner %s is already registered with the expected identity and remains offline until activate.sh.\n' "$OE_ARG_NAME"
   exit 0
 fi
 
-systemctl is-active --quiet "$service" && oe_die 'unconfigured Runner service is unexpectedly active'
+oe_systemctl --quiet is-active "$service" && oe_die 'unconfigured Runner service is unexpectedly active'
 oe_read_secret OE_RUNNER_REGISTRATION_TOKEN 'Short-lived Runner registration token: '
 trap 'oe_wipe_secret; chown root:root "$runner_dir" 2>/dev/null || true' EXIT
 chown "$oe_runner_user:$oe_runner_group" "$runner_dir"
@@ -82,5 +82,5 @@ chmod 0700 "$runner_dir/_work" "$runner_dir/_diag" "$runner_dir/_state" \
   "$runner_dir/_state/home" "$runner_dir/_state/docker" "$runner_dir/_state/baseline"
 trap - EXIT
 
-systemctl disable --now "$service" >/dev/null 2>&1 || true
+oe_systemctl disable --now "$service" >/dev/null 2>&1 || true
 printf 'Registered %s on %s; it remains offline until activate.sh passes the enabled policy.\n' "$OE_ARG_NAME" "$OE_ARG_HOST"

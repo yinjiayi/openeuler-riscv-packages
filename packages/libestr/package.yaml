@@ -1,0 +1,29 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 120},
+  "discovery": {
+    "lineage": [
+      {"evidence_url": "https://packages.debian.org/trixie/source/libestr", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libestr", "package_name": "libestr", "source": "debian", "source_version": "0.1.11-2"},
+      {"evidence_url": "https://packages.fedoraproject.org/pkgs/libestr/libestr/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libestr", "package_name": "libestr", "source": "fedora", "source_version": "0.1.11-13.fc44"},
+      {"evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libestr", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libestr", "package_name": "libestr", "source": "opensuse-tumbleweed", "source_version": "0.1.11-1.25"},
+      {"evidence_url": "https://packages.ubuntu.com/resolute/source/libestr", "observed_at": "2026-08-08T16:50:00Z", "package_base": "libestr", "package_name": "libestr", "source": "ubuntu", "source_version": "0.1.11-2build1"}
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "libestr.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "Frozen Debian, Fedora, openSUSE, and Ubuntu lineage was deduplicated by the official libestr component. No distribution recipe was executed. The official repository's exact v0.1.11 tag supplies the checksum-pinned bytes. Upstream make check and a public-API compile/link/execute check remain enabled.", "status": "active"},
+  "package_id": "libestr",
+  "rpm": {"license": "LGPL-2.1-or-later", "name": "libestr", "summary": "Essential string handling library"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"},
+  "upstream": {
+    "component": "libestr.adiscon.com",
+    "homepage": "https://libestr.adiscon.com/",
+    "release_api": "https://api.github.com/repos/rsyslog/libestr/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "v(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/rsyslog/libestr",
+    "source_url_template": "https://github.com/rsyslog/libestr/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "0.1.11", "latest_detected": "0.1.11", "release": "1"}
+}

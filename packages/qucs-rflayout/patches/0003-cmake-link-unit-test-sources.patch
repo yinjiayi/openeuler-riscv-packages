@@ -1,0 +1,42 @@
+diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
+index 2253faf..e2040a2 100644
+--- a/test/CMakeLists.txt
++++ b/test/CMakeLists.txt
+@@ -18,6 +18,29 @@ set( QUCS-RF-LAYOUT_TESTS
+ 	"${CMAKE_SOURCE_DIR}/test/unit/test_schparser.cpp"
+ 	)
+ 
++# Upstream references this list below but does not define it. Keep the unit
++# executable linked to the same non-GUI production implementation it tests.
++set( QUCS-RF-LAYOUT_SRCS
++	"${CMAKE_SOURCE_DIR}/src/logger.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/element.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/pac.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/sp.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/subst.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mcorn.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mcoupled.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mcross.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mgap.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mlin.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mmbend.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mopen.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mrstub.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mstep.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mtee.cpp"
++	"${CMAKE_SOURCE_DIR}/src/microstrip/mvia.cpp"
++	"${CMAKE_SOURCE_DIR}/src/data.cpp"
++	"${CMAKE_SOURCE_DIR}/src/schparser.cpp"
++	)
++
+ add_executable( unittest EXCLUDE_FROM_ALL
+ 	${QUCS-RF-LAYOUT_TESTS}
+ 	${QUCS-RF-LAYOUT_SRCS}
+@@ -51,6 +74,7 @@ target_include_directories( unittest
+ 
+ target_link_libraries( unittest
+ 	Catch2::Catch
++	$<$<NOT:$<BOOL:${QRFL_MINIMAL}>>:Qt6::Core>
+ 	$<$<CONFIG:Coverage>:-lgcov>
+ 	)
+ 

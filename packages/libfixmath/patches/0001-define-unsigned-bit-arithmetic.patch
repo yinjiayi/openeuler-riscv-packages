@@ -1,0 +1,50 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] express fixed-width bit operations as unsigned arithmetic
+
+Keep all twelve original CTest variants and UBSan enabled. The original
+two's-complement bit patterns are unchanged on the target; avoid signed
+left-shift, signed rounding overflow, integer promotion of uint16_t and
+negation of INT32_MIN diagnosed by run 39126145006. A zero shift returns
+its input instead of evaluating a shift by 32. No test is edited.
+SPDX-License-Identifier: MIT
+Upstream-Status: Pending (downstream repair; no upstream write)
+
+--- a/libfixmath/fix16.c
++++ b/libfixmath/fix16.c
+@@ -136 +136 @@
+-	uint32_t ad_cb_temp = AD_CB << 16;
++	uint32_t ad_cb_temp = (uint32_t)AD_CB << 16;
+@@ -148 +148 @@
+-	return (product_hi << 16) | (product_lo >> 16);
++	return ((uint32_t)product_hi << 16) | (product_lo >> 16);
+@@ -164,2 +164,2 @@
+-	fix16_t result = (product_hi << 16) | (product_lo >> 16);
+-	result += 1;
++	fix16_t result = ((uint32_t)product_hi << 16) | (product_lo >> 16);
++	result = (fix16_t)((uint32_t)result + 1u);
+@@ -248 +248 @@
+-		result = -result;
++		result = (fix16_t)(0u - (uint32_t)result);
+@@ -359 +359 @@
+-		result = -result;
++		result = (fix16_t)(0u - (uint32_t)result);
+@@ -442 +442 @@
+-		result = -result;
++		result = (fix16_t)(0u - (uint32_t)result);
+--- a/libfixmath/int64.h
++++ b/libfixmath/int64.h
+@@ -75,0 +76,2 @@
++	if(y == 0)
++		return x;
+@@ -82 +84 @@
+-		ret.hi = (x.hi << y) | (x.lo >> (32 - y));
++		ret.hi = ((uint32_t)x.hi << y) | (x.lo >> (32 - y));
+@@ -91 +93 @@
+-			ret.lo = (x.lo >> y) | (x.hi << (32 - y));
++			ret.lo = (x.lo >> y) | ((uint32_t)x.hi << (32 - y));
+@@ -104 +106 @@
+-	uint32_t r_lo = lo[0] * lo[1];
++	uint32_t r_lo = (uint32_t)lo[0] * lo[1];
+@@ -116 +118 @@
+-	uint32_t ypos = (y < 0)? (-y) : (y);
++	uint32_t ypos = (y < 0)? (0u - (uint32_t)y) : (uint32_t)y;

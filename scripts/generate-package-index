@@ -1,0 +1,348 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Generate the reproducible full package inventory from committed evidence."""
+
+from __future__ import annotations
+
+import argparse
+import collections
+import pathlib
+import re
+from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence
+
+from _lib import SCHEMA_VERSION, ToolError, atomic_write_json, isoformat, load_json, parse_time, run_main
+
+
+PACKAGE_LABEL = re.compile(r"^package:(.+)$")
+TITLE_PATTERNS = (
+    re.compile(r"(?i)^update\s+([a-z0-9][a-z0-9+._-]*)\s+to\s+"),
+    re.compile(r"(?i)^package\(([^)]+)\)"),
+    re.compile(r"(?i)^packages?:\s+(?:add|onboard|update)\s+(?:gnu\s+)?([a-z0-9][a-z0-9+._-]*)"),
+)
+HEAD_PATTERNS = (
+    re.compile(r"^(?:onboard|update)/([a-z0-9][a-z0-9+._-]*)(?:/|[-])"),
+    re.compile(r"^(?:agent/onboard-fedora44-|agent/onboard-)([a-z0-9][a-z0-9+._-]*)(?:[-/])"),
+)
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser(description=__doc__)
+    result.add_argument("--repo-root", default=".")
+    result.add_argument("--snapshot", required=True, help="immutable discovery snapshot (.json or .json.gz)")
+    result.add_argument("--reviewed-evidence", default="catalog/upstream-releases.yaml")
+    result.add_argument("--pull-requests", required=True, help="machine-readable gh pr list --state all output")
+    result.add_argument("--main-ref", required=True, help="full protected-main commit SHA used for the inventory")
+    result.add_argument("--generated-at", required=True, help="fixed RFC3339 generation timestamp")
+    result.add_argument("--output", required=True, help="full inventory output (.json or .json.gz)")
+    result.add_argument("--summary-output", required=True)
+    return result
+
+
+def as_mapping(value: Any) -> Mapping[str, Any]:
+    return value if isinstance(value, Mapping) else {}
+
+
+def strings(values: Iterable[Any]) -> List[str]:
+    return sorted({str(value) for value in values if value not in (None, "")})
+
+
+def infer_package_ids(pr: Mapping[str, Any]) -> List[str]:
+    ids: set[str] = set()
+    labels = pr.get("labels") if isinstance(pr.get("labels"), list) else []
+    for label in labels:
+        name = as_mapping(label).get("name")
+        if isinstance(name, str):
+            match = PACKAGE_LABEL.fullmatch(name)
+            if match:
+                ids.add(match.group(1))
+    if not ids:
+        title = str(pr.get("title") or "")
+        if re.search(r"(?i)^packages?:\s+(?:add|onboard|update)\s+universal\s+ctags\b", title):
+            ids.add("universal-ctags")
+        else:
+            for pattern in TITLE_PATTERNS:
+                match = pattern.search(title)
+                if match:
+                    ids.add(match.group(1).lower())
+                    break
+    if not ids:
+        head = str(pr.get("headRefName") or "")
+        for pattern in HEAD_PATTERNS:
+            match = pattern.search(head)
+            if match:
+                ids.add(match.group(1).lower())
+                break
+    return sorted(ids)
+
+
+def normalize_pr(pr: Mapping[str, Any]) -> Dict[str, Any]:
+    labels = [as_mapping(item).get("name") for item in pr.get("labels", []) if isinstance(item, Mapping)]
+    return {
+        "number": int(pr.get("number")),
+        "title": str(pr.get("title") or ""),
+        "state": str(pr.get("state") or "").lower(),
+        "merged_at": pr.get("mergedAt"),
+        "closed_at": pr.get("closedAt"),
+        "head_ref": str(pr.get("headRefName") or ""),
+        "head_sha": str(pr.get("headRefOid") or ""),
+        "base_ref": str(pr.get("baseRefName") or ""),
+        "labels": sorted(str(label) for label in labels if label),
+        "updated_at": pr.get("updatedAt"),
+        "url": str(pr.get("url") or ""),
+        "package_ids": infer_package_ids(pr),
+    }
+
+
+def package_metadata(root: pathlib.Path) -> Dict[str, Dict[str, Any]]:
+    packages: Dict[str, Dict[str, Any]] = {}
+    packages_dir = root / "packages"
+    for package_dir in sorted(packages_dir.iterdir(), key=lambda path: path.name):
+        if not package_dir.is_dir() or package_dir.name.startswith("_"):
+            continue
+        package_path = package_dir / "package.yaml"
+        sources_path = package_dir / "sources.yaml"
+        if not package_path.is_file() or not sources_path.is_file():
+            raise ToolError("managed package is missing metadata: %s" % package_dir.name)
+        package = as_mapping(load_json(package_path))
+        sources = as_mapping(load_json(sources_path))
+        source_items = sources.get("sources") if isinstance(sources.get("sources"), list) else []
+        source = as_mapping(source_items[0]) if source_items else {}
+        digests = as_mapping(source.get("digests"))
+        version = as_mapping(package.get("version"))
+        upstream = as_mapping(package.get("upstream"))
+        build = as_mapping(package.get("build"))
+        rpm = as_mapping(package.get("rpm"))
+        target = as_mapping(package.get("target"))
+        packages[package_dir.name] = {
+            "package_id": package_dir.name,
+            "directory": "packages/%s" % package_dir.name,
+            "version": version.get("current"),
+            "release": version.get("release"),
+            "summary": rpm.get("summary"),
+            "license": rpm.get("license"),
+            "upstream_component": upstream.get("component"),
+            "upstream_homepage": upstream.get("homepage"),
+            "source_url": source.get("url"),
+            "source_sha256": digests.get("sha256"),
+            "target": {
+                "os": target.get("os"),
+                "release": target.get("release"),
+                "arch": target.get("arch"),
+                "isa": target.get("isa"),
+                "riscv_status": target.get("riscv_status"),
+            },
+            "build": {
+                "profile": build.get("profile"),
+                "native_reason": build.get("native_reason"),
+                "network_during_build": build.get("network_during_build"),
+                "timeout_minutes": build.get("timeout_minutes"),
+            },
+            "status": as_mapping(package.get("maintenance")).get("status", "active"),
+        }
+    return packages
+
+
+def discovery_entries(snapshot: Mapping[str, Any]) -> tuple[Dict[str, Dict[str, Any]], Dict[str, Any]]:
+    items = []
+    for field in ("candidates", "rejections"):
+        values = snapshot.get(field)
+        if isinstance(values, list):
+            items.extend(values)
+    entries: Dict[str, Dict[str, Any]] = {}
+    decisions: collections.Counter[str] = collections.Counter()
+    source_counts: collections.Counter[str] = collections.Counter()
+    for item in items:
+        record = as_mapping(item)
+        key = record.get("package_base") or record.get("name") or record.get("component_id")
+        if not key:
+            continue
+        key = str(key)
+        entry = entries.setdefault(
+            key,
+            {
+                "discovery_key": key,
+                "names": set(),
+                "component_ids": set(),
+                "decisions": collections.Counter(),
+                "stable_versions": set(),
+                "upstream_urls": set(),
+            },
+        )
+        for field in ("name", "package_base"):
+            if record.get(field):
+                entry["names"].add(str(record[field]))
+        if record.get("component_id"):
+            entry["component_ids"].add(str(record["component_id"]))
+        decision = record.get("decision")
+        if decision:
+            decision = str(decision)
+            entry["decisions"][decision] += 1
+            decisions[decision] += 1
+        if record.get("stable_version"):
+            entry["stable_versions"].add(str(record["stable_version"]))
+        if record.get("upstream_url"):
+            entry["upstream_urls"].add(str(record["upstream_url"]))
+        for lineage in record.get("lineage", []) if isinstance(record.get("lineage"), list) else []:
+            source = as_mapping(lineage).get("source")
+            if source:
+                source_counts[str(source)] += 1
+    summary = {
+        "record_count": len(items),
+        "candidate_record_count": len(snapshot.get("candidates", [])) if isinstance(snapshot.get("candidates"), list) else 0,
+        "rejection_record_count": len(snapshot.get("rejections", [])) if isinstance(snapshot.get("rejections"), list) else 0,
+        "unique_discovery_key_count": len(entries),
+        "decision_counts": dict(sorted(decisions.items())),
+        "lineage_record_counts": dict(sorted(source_counts.items())),
+    }
+    return entries, summary
+
+
+def reviewed_metadata(document: Mapping[str, Any]) -> Dict[str, Dict[str, Any]]:
+    result: Dict[str, Dict[str, Any]] = {}
+    for release in document.get("releases", []) if isinstance(document.get("releases"), list) else []:
+        record = as_mapping(release)
+        package_id = record.get("package_id")
+        if not package_id:
+            continue
+        source = as_mapping(record.get("source"))
+        upstream = as_mapping(record.get("upstream"))
+        evidence = as_mapping(record.get("evidence"))
+        result[str(package_id)] = {
+            "package_id": str(package_id),
+            "component_id": record.get("component_id"),
+            "canonical_name": record.get("canonical_name"),
+            "version": record.get("version"),
+            "summary": record.get("summary"),
+            "license": record.get("license"),
+            "source_url": source.get("url"),
+            "source_filename": source.get("filename"),
+            "source_sha256": source.get("sha256"),
+            "release_page": evidence.get("release_page"),
+            "verified_at": evidence.get("verified_at"),
+            "upstream_homepage": upstream.get("homepage"),
+            "source_repository": upstream.get("repository_url"),
+        }
+    return result
+
+
+def finalize_entry(entry: MutableMapping[str, Any], managed: Optional[Mapping[str, Any]], reviewed: Optional[Mapping[str, Any]], prs: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
+    if managed:
+        status = "managed"
+    elif any(pr.get("state") == "open" for pr in prs):
+        status = "open-pr"
+    elif reviewed:
+        status = "reviewed"
+    elif any(pr.get("merged_at") for pr in prs):
+        status = "merged-pr"
+    else:
+        status = "discovered"
+    result: Dict[str, Any] = {
+        "discovery_key": str(entry["discovery_key"]),
+        "names": strings(entry.get("names", [])),
+        "component_ids": strings(entry.get("component_ids", [])),
+        "decisions": dict(sorted(as_mapping(entry.get("decisions", {})).items())),
+        "stable_versions": strings(entry.get("stable_versions", [])),
+        "upstream_urls": strings(entry.get("upstream_urls", [])),
+        "status": status,
+        "managed_package": dict(managed) if managed else None,
+        "reviewed_release": dict(reviewed) if reviewed else None,
+        "pull_requests": [dict(pr) for pr in sorted(prs, key=lambda value: int(value["number"]))],
+    }
+    return result
+
+
+def main() -> int:
+    args = parser().parse_args()
+    root = pathlib.Path(args.repo_root).resolve()
+    generated_at = parse_time(args.generated_at)
+    if generated_at is None:
+        raise ToolError("--generated-at must be a timestamp")
+    if not re.fullmatch(r"[0-9a-f]{40}", args.main_ref):
+        raise ToolError("--main-ref must be a full lowercase commit SHA")
+    snapshot_path_arg = pathlib.Path(args.snapshot)
+    if not snapshot_path_arg.is_absolute():
+        snapshot_path_arg = root / snapshot_path_arg
+    reviewed_path_arg = pathlib.Path(args.reviewed_evidence)
+    if not reviewed_path_arg.is_absolute():
+        reviewed_path_arg = root / reviewed_path_arg
+    snapshot = as_mapping(load_json(snapshot_path_arg))
+    reviewed_document = as_mapping(load_json(reviewed_path_arg))
+    raw_prs = load_json(args.pull_requests)
+    if not isinstance(raw_prs, list):
+        raise ToolError("--pull-requests must contain a JSON array")
+    managed = package_metadata(root)
+    reviewed = reviewed_metadata(reviewed_document)
+    discovery, discovery_summary = discovery_entries(snapshot)
+    prs = [normalize_pr(as_mapping(item)) for item in raw_prs]
+    prs_by_package: Dict[str, List[Dict[str, Any]]] = collections.defaultdict(list)
+    for pr in prs:
+        for package_id in pr["package_ids"]:
+            prs_by_package[package_id].append(pr)
+    for package_id in set(managed) | set(reviewed) | set(prs_by_package):
+        discovery.setdefault(
+            package_id,
+            {
+                "discovery_key": package_id,
+                "names": {package_id},
+                "component_ids": set(),
+                "decisions": collections.Counter(),
+                "stable_versions": set(),
+                "upstream_urls": set(),
+            },
+        )
+    entries = [
+        finalize_entry(entry, managed.get(key), reviewed.get(key), prs_by_package.get(key, []))
+        for key, entry in sorted(discovery.items())
+    ]
+    main_ref = str(args.main_ref)
+    try:
+        snapshot_path = str(snapshot_path_arg.resolve().relative_to(root))
+    except ValueError:
+        snapshot_path = str(pathlib.Path(args.snapshot).resolve())
+    source = {
+        "snapshot_id": snapshot.get("snapshot_id"),
+        "path": snapshot_path,
+        "policy": dict(as_mapping(snapshot.get("policy"))),
+        **discovery_summary,
+    }
+    status_counts = collections.Counter(entry["status"] for entry in entries)
+    open_prs = sum(1 for pr in prs if pr["state"] == "open")
+    merged_prs = sum(1 for pr in prs if pr.get("merged_at"))
+    index = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "package-inventory",
+        "generated_at": isoformat(generated_at),
+        "main_ref": main_ref,
+        "source_snapshot": source,
+        "reviewed_release_count": len(reviewed),
+        "managed_package_count": len(managed),
+        "pull_request_count": len(prs),
+        "open_pull_request_count": open_prs,
+        "merged_pull_request_count": merged_prs,
+        "status_counts": dict(sorted(status_counts.items())),
+        "pull_requests": prs,
+        "entries": entries,
+    }
+    summary = {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "package-inventory-summary",
+        "generated_at": index["generated_at"],
+        "main_ref": index["main_ref"],
+        "source_snapshot": source,
+        "entry_count": len(entries),
+        "reviewed_release_count": len(reviewed),
+        "managed_package_count": len(managed),
+        "pull_request_count": len(prs),
+        "open_pull_request_count": open_prs,
+        "merged_pull_request_count": merged_prs,
+        "status_counts": dict(sorted(status_counts.items())),
+        "artifact": pathlib.PurePosixPath(args.output).as_posix(),
+    }
+    atomic_write_json(args.output, index)
+    atomic_write_json(args.summary_output, summary)
+    print("package inventory: %d entries, %d managed, %d reviewed, %d PRs" % (len(entries), len(managed), len(reviewed), len(prs)))
+    return 0
+
+
+if __name__ == "__main__":
+    run_main(main)

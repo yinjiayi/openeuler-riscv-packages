@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/acct/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "acct",
+        "package_name": "acct",
+        "source": "debian",
+        "source_version": "6.6.4-8"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/acct/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "psacct",
+        "package_name": "psacct",
+        "source": "fedora",
+        "source_version": "6.6.4-26.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/acct/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "acct",
+        "package_name": "acct",
+        "source": "opensuse-tumbleweed",
+        "source_version": "6.6.4-8.5"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/acct/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "acct",
+        "package_name": "acct",
+        "source": "ubuntu",
+        "source_version": "6.6.4-10build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "acct.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "acct",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "acct",
+    "summary": "User-Specific Process Accounting"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-acct",
+    "homepage": "https://www.gnu.org/software/acct/",
+    "release_api": "https://ftp.gnu.org/gnu/acct/",
+    "release_channel": "stable",
+    "release_regex": "acct-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+    "source_repository": "https://savannah.gnu.org/projects/acct/",
+    "source_url_template": "https://ftp.gnu.org/gnu/acct/acct-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "6.6.4",
+    "latest_detected": "6.6.4",
+    "release": "1"
+  }
+}

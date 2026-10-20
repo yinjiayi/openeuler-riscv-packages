@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-asciitable-perl",
+  "rpm": {
+    "name": "perl-Text-ASCIITable",
+    "summary": "Create formatted ASCII tables in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-asciitable-perl",
+    "homepage": "https://metacpan.org/dist/Text-ASCIITable",
+    "source_repository": "https://metacpan.org/dist/Text-ASCIITable",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/L/LU/LUNATIC/",
+    "release_regex": "Text-ASCIITable-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/L/LU/LUNATIC/Text-ASCIITable-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.22",
+    "release": "1",
+    "latest_detected": "0.22"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-asciitable-perl",
+        "package_base": "libtext-asciitable-perl",
+        "source_version": "0.22-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-asciitable-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-asciitable-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Exact frozen-inventory Ubuntu libtext-asciitable-perl 0.22 original tar MD5 matches official CPAN Text-ASCIITable 0.22 byte-for-byte. CPAN CHECKSUMS SHA-256, safe archive, and Build.PL/README/POD Perl GPL/Artistic license reviewed. All thirteen default upstream t files and 111 assertions passed locally with no skips. Official RVA23 primary lacks same-name RPM or module provider; its declared Perl dependencies are present."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
