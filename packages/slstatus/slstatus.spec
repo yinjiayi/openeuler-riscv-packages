@@ -309,7 +309,15 @@ gcc %{optflags} -std=c99 -D_DEFAULT_SOURCE -UNDEBUG -I. downstream-ip-regression
 ./downstream-ip-regression
 python3 -I -B downstream-qa.py ./slstatus
 python3 -I -B downstream-qa.py %{buildroot}%{_bindir}/slstatus
-cmp slstatus.1 %{buildroot}%{_mandir}/man1/slstatus.1
+python3 -I -B - '%{buildroot}%{_mandir}/man1' <<'SLSTATUS_STAGED_MAN'
+from pathlib import Path
+import gzip
+import sys
+manuals = list(Path(sys.argv[1]).glob('slstatus.1*'))
+assert len(manuals) == 1 and manuals[0].name in ('slstatus.1', 'slstatus.1.gz')
+data = gzip.decompress(manuals[0].read_bytes()) if manuals[0].suffix == '.gz' else manuals[0].read_bytes()
+assert data == Path('slstatus.1').read_bytes()
+SLSTATUS_STAGED_MAN
 
 %files
 %license LICENSE
