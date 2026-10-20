@@ -179,7 +179,7 @@ try:
     assert b'1\r\n2\r\n' in first and b'48\r\n49\r\nREADY' in first
     offset = send(b'\x1b[5;2~')
     up = until(b'\x1b[25;0H', offset)
-    expected = (b'\x1b[6n\x1b[25T\x1b[0;0H\x1b[?25l' +
+    expected = (b'\x1b[6n\x1b[25T\x1b[0;0H\x1b[?25l\r\n' +
                 b'\r\n'.join(str(i).encode() for i in range(1, 26)) +
                 b'\x1b[25;0H')
     assert up == expected, ('exact original 25-line history semantics', up, expected)
