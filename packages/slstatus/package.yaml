@@ -26,7 +26,7 @@
         "license": "ISC",
         "purpose": "Copy interface flags before freeifaddrs to prevent the source-observed up() stale dereference; preserve original default configuration.",
         "remove_when": "An official stable release copies required flags before releasing the address list.",
-        "sha256": "3d1e643ee21ef128ddf838a58273027f4c69dd40110a1d51ab20251c4d48b59e",
+        "sha256": "36e6286f620d0657b38693b0aa53517f645760fdf9e1b51d375d4bed07d413f7",
         "source": "Locally authored minimal ordering fix against official Slstatus1.1 components/ip.c lines66-82; original source SHA db4673b802f09a7b9adf1a44e8d153200b91034a118b29430fc5cf94f5194e67. No upstream write.",
         "upstream_status": "downstream-only"
       }
