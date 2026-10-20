@@ -15,5 +15,5 @@ assert hashlib.sha256(Path('/usr/share/doc/lemonbar/README.pod').read_bytes()).h
 pages = list(Path('/usr/share/man/man1').glob('lemonbar.1*'))
 assert len(pages) == 1
 data = gzip.decompress(pages[0].read_bytes()) if pages[0].suffix == '.gz' else pages[0].read_bytes()
-assert b'lemonbar 1.4' in data and b'Featherweight lemon-scented bar' in data
+assert b'lemonbar 1.4' in data and b'Featherweight lemon-scented bar' in data.replace(b'\\-', b'-')
 LEMONBAR_INSTALLED
