@@ -68,7 +68,10 @@ def main():
             with open(Path(temp) / 'xvfb.log', 'wb') as log:
                 server = subprocess.Popen([xvfb, '-displayfd', str(wr), '-screen', '0',
                     '320x240x24', '-nolisten', 'tcp', '-noreset'] +
-                    (['+xinerama', '-extension', 'RANDR'] if mode == 'xinerama' else []), pass_fds=(wr,),
+                    # PanoramiX disables Xinerama with only one screen, even
+                    # with +xinerama. Keep both private screens at depth 24.
+                    (['-screen', '1', '320x240x24', '+xinerama', '-extension', 'RANDR']
+                     if mode == 'xinerama' else []), pass_fds=(wr,),
                     stdin=subprocess.DEVNULL, stdout=log, stderr=log)
             os.close(wr)
             wr = None
@@ -127,7 +130,8 @@ def main():
             assert bool(randr) == (mode == 'default'), 'explicit monitor backend unavailable'
             if mode == 'xinerama':
                 assert query_extension(display, b'XINERAMA', C.byref(opcode),
-                    C.byref(first_event), C.byref(first_error)), 'Xinerama mandatory'
+                    C.byref(first_event), C.byref(first_error)), (
+                        'Xinerama mandatory', Path(temp, 'xvfb.log').read_bytes())
             def property_value(win, name, expected_format):
                 actual, fmt, count, after, data = ul(), integer(), ul(), ul(), ptr()
                 assert get_property(display, win, intern(display, name.encode(), 0), 0,
