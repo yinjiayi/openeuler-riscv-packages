@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "user": "unprivileged",
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/Gottox/smu",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "smu",
+        "package_name": "smu",
+        "source": "aur",
+        "source_version": "1.5-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "smu.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v1.5 tag rechecked at commit 67be1bfcb8643531ce7063423a7e45a2225439b8; immutable codeload archive and all eight members reviewed under MIT. No source patch: retain original all/install targets and strict -Wall/-Werror/-ansi flags, CLI -n/default HTML passthrough and original documentation/testdoc byte-for-byte. Upstream has no test target. Mandatory exact-output and original-fixture checks run built/staged/installed, without fetching literal links or images. No compiler, upstream code, target binary, RPM or QEMU was executed locally. Host-side repository/source validation is not target build/install acceptance; CI evidence remains required. Original smu.h is not an implemented installed library interface; no artificial devel package.",
+    "status": "active"
+  },
+  "package_id": "smu",
+  "rpm": {
+    "license": "MIT",
+    "name": "smu",
+    "summary": "Small simple-markup to HTML converter"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-gottox-smu",
+    "homepage": "https://github.com/Gottox/smu",
+    "release_api": "https://api.github.com/repos/Gottox/smu/tags",
+    "release_channel": "stable",
+    "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/Gottox/smu",
+    "source_url_template": "https://codeload.github.com/Gottox/smu/tar.gz/refs/tags/v{version}"
+  },
+  "version": {
+    "current": "1.5",
+    "latest_detected": "1.5",
+    "release": "1"
+  }
+}
