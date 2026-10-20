@@ -362,6 +362,95 @@ class PackageUpdateTests(unittest.TestCase):
             self.assertEqual(entry["source_url"], archive.as_uri())
             self.assertEqual(entry["sha256"], hashlib.sha256(archive.read_bytes()).hexdigest())
 
+    def test_typed_tag_refs_retain_tag_and_hash_reviewed_source(self) -> None:
+        for kind in ("tag", "commit"):
+            for singleton in (False, True):
+                with self.subTest(kind=kind, singleton=singleton), tempfile.TemporaryDirectory() as temporary:
+                    root = pathlib.Path(temporary)
+                    source = root / "source-v2.0.tar.gz"
+                    source.write_bytes(b"fixed local source bytes, never executed")
+                    record = dict(ref="refs/tags/v2.0", object=dict(type=kind, sha="a" * 40))
+                    result = self.scan_source_contract(root, record if singleton else [record], root.as_uri() + "/source-{tag}.tar.gz")
+                    self.assertEqual(result["status"], "update-available")
+                    self.assertEqual((result["version"], result["tag"]), ("2.0", "v2.0"))
+                    self.assertEqual(result["source_url"], source.as_uri())
+                    self.assertEqual(result["sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_typed_tag_refs_reject_wrong_namespace_shape_and_hidden_prereleases(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            source = root / "source-v2.0.tar.gz"
+            source.write_bytes(b"stable local fixture")
+            def ref(name, kind="tag", sha="a" * 40, **metadata):
+                return dict(ref=name, object=dict(type=kind, sha=sha), **metadata)
+            records = [ref("refs/tags/v2.0"), ref("refs/heads/v99.0"), ref("refs/pull/99/head"),
+                       ref("refs/tags/"), ref("refs/tags/v99.0", kind="blob"), ref("refs/tags/v99.1", sha="a" * 12),
+                       dict(ref="refs/tags/v99.2"), ref("refs/tags/v99.3", draft=True),
+                       ref("refs/tags/v99.4", prerelease=True), ref("refs/tags/v99.5-rc1"), ref("refs/tags/v99.6rc1"),
+                       ref("refs/tags/v99.7\n"), ref("refs/tags/v99.8 bad"), ref("refs/tags/x/../v99.9"),
+                       ref("refs/tags/.hidden/v99.10"), ref("refs/tags/x.lock/v99.11"),
+                       dict(date="2099.1", id=36575835, body="v999.0", assets=[dict(name="v999.1.tar.gz")])]
+            releases = root / "refs.json"
+            write_json(releases, records)
+            # The numeric-only selector intentionally cannot conceal a suffix.
+            package(root, "demo", releases.as_uri(), release_regex=r"v?(?P<version>[0-9]+(?:\.[0-9]+)+)", source_url_template=root.as_uri() + "/source-{tag}.tar.gz")
+            plan, shard = root / "plan.json", root / "shard.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            result = json.loads(shard.read_bytes())["entries"][0]
+            self.assertEqual((result["status"], result["version"], result["tag"]), ("update-available", "2.0", "v2.0"))
+            self.assertEqual(result["sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_typed_tag_ref_template_does_not_trust_asset_checksum(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            source, binary = root / "source-2.0.tar.gz", root / "binary.tar.gz"
+            source.write_bytes(b"reviewed source bytes")
+            binary.write_bytes(b"wrong platform binary")
+            record = dict(ref="refs/tags/v2.0", object=dict(type="tag", sha="a" * 40),
+                          sha256=hashlib.sha256(binary.read_bytes()).hexdigest(),
+                          assets=[dict(name="v99.0.tar.gz", browser_download_url=binary.as_uri())])
+            result = self.scan_source_contract(root, [record], root.as_uri() + "/source-{version}.tar.gz")
+            self.assertEqual(result["source_url"], source.as_uri())
+            self.assertEqual(result["sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_typed_tag_ref_without_source_contract_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            record = dict(ref="refs/tags/v2.0", object=dict(type="commit", sha="b" * 40),
+                          assets=[dict(name="source-looking.tar.gz", browser_download_url="https://example.invalid/binary.tar.gz")])
+            result = self.scan_source_contract(root, [record], None)
+            self.assertEqual(result["status"], "failed")
+            self.assertIn("no official source URL", result["failure"]["message"])
+
+    def test_typed_ref_does_not_override_existing_release_identity(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            source = root / "source-2.0.tar.gz"
+            source.write_bytes(b"existing explicit release")
+            record = dict(tag_name="v2.0", ref="refs/heads/v999.0", object=dict(type="blob", sha="x"), draft=False)
+            result = self.scan_source_contract(root, [record], root.as_uri() + "/source-{version}.tar.gz")
+            self.assertEqual((result["status"], result["version"], result["tag"]), ("update-available", "2.0", "v2.0"))
+            self.assertEqual(result["sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_malformed_tag_refs_keep_failure_and_coverage_visible(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            refs = root / "refs.json"
+            write_json(refs, [dict(ref="refs/heads/v999.0", object=dict(type="commit", sha="a" * 40))])
+            package(root, "demo", refs.as_uri(), release_regex=r"(?P<version>[0-9]+(?:\.[0-9]+)+)", source_url_template=root.as_uri() + "/source-{version}.tar.gz")
+            plan, shard, aggregate = root / "plan.json", root / "shard.json", root / "aggregate.json"
+            run_tool("check-update", ["plan", "--packages-dir", str(root / "packages"), "--output", str(plan)], root)
+            run_tool("check-update", ["scan", "--plan", str(plan), "--shard-index", "0", "--output", str(shard)], root)
+            entry = json.loads(shard.read_bytes())["entries"][0]
+            self.assertEqual(entry["status"], "failed")
+            self.assertIn("no stable releases", entry["failure"]["message"])
+            run_tool("check-update", ["aggregate", "--plan", str(plan), "--result", str(shard), "--output", str(aggregate)], root)
+            summary = json.loads(aggregate.read_bytes())
+            self.assertEqual(summary["coverage"], 1.0)
+            self.assertEqual(summary["counts"]["failed"], 1)
+            self.assertFalse(summary["complete"])
+
     def scan_source_contract(self, root, records, template):
         feed = root / "release.json"
         write_json(feed, records)
