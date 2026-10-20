@@ -1,0 +1,31 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Read complete UTF8_STRING properties and report read errors
+
+The first read is limited to 32 protocol longs (128 bytes), but bytes_after
+is ignored. Request the complete measured value, reject mismatched type/format
+or a growing property, and write the exact byte count. Missing properties,
+setter, default targets and CLI are unchanged. Locally authored, MIT, from
+static review; not a native RISC-V diagnosis. Remove when stable upstream
+fixes this. No upstream write.
+
+--- a/wmname.c
++++ b/wmname.c
+@@ -42,2 +42,16 @@
+-		if(status == Success && data != NULL)
+-			fprintf(stdout, "%s\n", data);
++		if(status == Success && data != NULL && extra) {
++			XFree(data);
++			data = NULL;
++			status = XGetWindowProperty(dpy, root, netwmname, 0L, (long)((n + extra + 3) / 4), False, utf8_string, &real, &format, &n, &extra, &data);
++		}
++		if(status != Success || (real != None && (real != utf8_string || format != 8 || extra))) {
++			XFree(data);
++			XCloseDisplay(dpy);
++			eprint("wmname: cannot read complete UTF8_STRING property\n");
++		}
++		if(data != NULL) {
++			if(fwrite(data, 1, n, stdout) != n || fputc('\n', stdout) == EOF) {
++				XFree(data); XCloseDisplay(dpy);
++				eprint("wmname: cannot write name\n");
++			}
++		}
