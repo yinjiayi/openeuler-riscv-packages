@@ -185,7 +185,7 @@ try:
     assert up == expected, ('exact original 25-line history semantics', up, expected)
     offset = send(b'\x1b[6;2~')
     down = until(b'READY', offset)
-    assert b'\x1b[?25h' in down and b'49\r\n' in down and b'\x1b[6n' not in down
+    assert b'\x1b[?25h' in down and b'49\x1b[?25h\r\nREADY' in down and b'\x1b[6n' not in down, ('exact original latest-line/cursor/prompt semantics', down)
     offset = send(b'x')
     assert b'INPUT:78\r\n' in until(b'INPUT:78\r\n', offset)
     offset = send(b'a')
