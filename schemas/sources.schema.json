@@ -28,14 +28,31 @@
             "properties": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
           },
           "signature": {
-            "type": ["object", "null"],
-            "additionalProperties": false,
-            "required": ["url", "key_fingerprint", "policy"],
-            "properties": {
-              "url": {"type": "string", "format": "uri"},
-              "key_fingerprint": {"type": "string", "pattern": "^[A-F0-9 ]{16,64}$"},
-              "policy": {"enum": ["required", "checksum-required-signature-advisory"]}
-            }
+            "oneOf": [
+              {"type": "null"},
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["url", "key_fingerprint", "policy"],
+                "properties": {
+                  "url": {"type": "string", "format": "uri"},
+                  "key_fingerprint": {"type": "string", "pattern": "^[A-F0-9 ]{16,64}$"},
+                  "policy": {"const": "checksum-required-signature-advisory"}
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["url", "key_fingerprint", "policy", "path", "keyring"],
+                "properties": {
+                  "url": {"type": "string", "format": "uri"},
+                  "key_fingerprint": {"type": "string", "pattern": "^(?:[A-F0-9]{40}|[A-F0-9]{64})(?![\\s\\S])"},
+                  "policy": {"const": "required"},
+                  "path": {"type": "string", "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._+~-]+(?:/[A-Za-z0-9._+~-]+)*(?![\\s\\S])"},
+                  "keyring": {"type": "string", "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._+~-]+(?:/[A-Za-z0-9._+~-]+)*(?![\\s\\S])"}
+                }
+              }
+            ]
           },
           "redistribution": {
             "type": "object",

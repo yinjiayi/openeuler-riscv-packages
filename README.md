@@ -176,6 +176,21 @@ scripts/build-rpm \
 
 The full build is intentionally run by `package-ci.yml` inside the locked RISC-V OCI after a separate audited BuildRequires stage. The hosted source job fetches and verifies the declared sources once, then CI invokes `scripts/build-rpm --offline` to rehash the downloaded same-run cache and recheck required signatures before `rpmbuild`. Container bridge networking and the complete upstream checks remain enabled. The manual CLI above still supports online source retrieval when `--offline` is omitted; cache-only mode never falls back to a download.
 
+A `required` source signature declares `url`, `policy`, `path`, `keyring`, and
+`key_fingerprint`. Commit the detached signature and keyring as regular files
+under the package directory and use their safe repository-relative paths (no
+absolute paths, `.`/`..` segments, or symlinks). The URL records provenance;
+verification does not fetch signatures or keys. `key_fingerprint` is exactly
+40 or 64 uppercase hexadecimal characters identifying the **signing key**.
+When a subkey signs, pin that signing subkey, not only its primary key.
+Verification requires a successful `gpgv` exit and exactly one complete
+`VALIDSIG` status record with that exact signing fingerprint. Status output is
+separate from diagnostics, and an empty private GnuPG home isolates ambient
+configuration defensively. The committed source SHA-256 is still mandatory,
+and offline builds recheck both digest and required signature. Existing null
+and `checksum-required-signature-advisory` policies retain their distinct,
+non-cryptographic statuses; advisory metadata is not signature verification.
+
 Resolve and verify the exact supplemental repository generation that would be
 mounted into dependency installation and installed-RPM smoke:
 
