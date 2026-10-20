@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package_id": "dhex",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release", "version": "0.69", "filename": "dhex-0.69.tar.gz",
+    "url": "https://www.dettus.net/dhex/dhex_0.69.tar.gz",
+    "digests": {"sha256": "52730bcd1cf16bd4dae0de42531be9a4057535ec61ca38c0804eb8246ea6c41b"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "The complete upstream gpl.txt and README.txt grant GNU GPL version 2 or later; main.c repeats that grant. Preserve both files unchanged in both packages and the exact official source archive in the tests package. The captured official release page advertises no signature or checksum link."}
+  }]
+}
