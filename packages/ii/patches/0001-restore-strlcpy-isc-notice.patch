@@ -1,0 +1,31 @@
+From: openEuler RISC-V Maintainers
+Subject: [PATCH] Restore bundled strlcpy copyright and ISC permission notice
+
+The bundled function matches OpenBSD revision b9c631e7e9c23759a6745d2a0a470cc5cb8f7cc0
+after removing whitespace/comments and normalizing equivalent NUL literals.
+Restore its original notice; no code or build/test behavior is changed.
+Source: https://github.com/openbsd/src/blob/b9c631e7e9c23759a6745d2a0a470cc5cb8f7cc0/lib/libc/string/strlcpy.c
+Upstream-Status: Pending [downstream notice restoration; no upstream write]
+License: ISC
+
+--- a/strlcpy.c
++++ b/strlcpy.c
+@@ -1,1 +1,17 @@
+-/* Taken from OpenBSD */
++/*
++ * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
++ *
++ * Permission to use, copy, modify, and distribute this software for any
++ * purpose with or without fee is hereby granted, provided that the above
++ * copyright notice and this permission notice appear in all copies.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
++ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
++ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
++ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
++ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
++ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
++ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ */
++
++/* Taken from OpenBSD */
