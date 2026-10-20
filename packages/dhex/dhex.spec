@@ -224,8 +224,12 @@ DHEX_QA
 
 %install
 install -d %{buildroot}%{_bindir} %{buildroot}%{_prefix}/man/man1 %{buildroot}%{_prefix}/man/man5 %{buildroot}%{_mandir}
-# Upstream DESTDIR is a prefix and the default install strips dhex; retain it.
+# Preserve the built ELF for standard RPM debug processing; upstream install
+# still runs unchanged, including its in-place strip and all four manual copies.
+cp -p dhex dhex.rpm-unstripped
 make install DESTDIR=%{buildroot}%{_prefix}
+install -m0755 dhex.rpm-unstripped %{buildroot}%{_bindir}/dhex
+mv dhex.rpm-unstripped dhex
 mv %{buildroot}%{_prefix}/man/man1 %{buildroot}%{_mandir}/
 mv %{buildroot}%{_prefix}/man/man5 %{buildroot}%{_mandir}/
 rmdir %{buildroot}%{_prefix}/man

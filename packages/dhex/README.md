@@ -14,8 +14,13 @@ hard-coded optimization flag while retaining warnings and original include and
 library search paths. Upstream `DESTDIR` means an installation prefix, not a
 staging root: the recipe calls the original install with a staged `/usr` prefix
 then relocates its four unchanged manuals from `usr/man` to `usr/share/man`.
-The original install's `strip dhex` is retained, so no unstripped debug product
-is promised. There are no source patches or functionality/test switches.
+The original install's `strip dhex` and four manual copies are retained.
+A private temporary copy preserves the just-built ELF before that install;
+the recipe then reinstalls it into the staging root and restores the build
+copy for standard RPM find-debuginfo/brp processing. It does not disable debug
+packages, original install steps, functionality or tests. Actual debug RPM
+contents and installation still require the exact-head target CI gate.
+There are no source patches or functionality/test switches.
 
 `GPL-2.0-or-later` follows the actual README and main-program grant, rather than
 the catalog's GPL-2.0-only label. Both packages retain complete unchanged gpl.txt
