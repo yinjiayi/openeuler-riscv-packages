@@ -6,6 +6,6 @@ flawfinder --version 2>&1 | grep -Fx '2.0.20'
 smoke_dir=$(mktemp -d)
 trap 'rm -rf "$smoke_dir"' EXIT
 printf '%s\n' '#include <string.h>' 'void f(char *d, const char *s) { strcpy(d, s); }' >"$smoke_dir/unsafe.c"
-# Flawfinder versions may return either status after reporting findings.
-flawfinder --omittime --quiet --singleline "$smoke_dir/unsafe.c" >"$smoke_dir/result" || true
+# Default invocation must succeed; findings are asserted separately below.
+flawfinder --omittime --quiet --singleline "$smoke_dir/unsafe.c" >"$smoke_dir/result"
 grep -F ':2:  [4] (buffer) strcpy:' "$smoke_dir/result"
