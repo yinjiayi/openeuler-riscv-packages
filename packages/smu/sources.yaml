@@ -1,0 +1,21 @@
+{
+  "package_id": "smu",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7b2ddeeb4d58cf880f203aacdd6ecb3fadcd2f63c52a213662c3c574905ff511"
+      },
+      "filename": "smu-1.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/Gottox/smu/tar.gz/67be1bfcb8643531ce7063423a7e45a2225439b8",
+      "version": "1.5"
+    }
+  ]
+}
