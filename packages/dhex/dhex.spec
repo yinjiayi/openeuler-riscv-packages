@@ -242,7 +242,8 @@ install -Dm 0644 downstream-qa.py %{buildroot}%{_libexecdir}/%{name}-tests/qa.py
 /usr/bin/python3 -I -B downstream-qa.py %{buildroot}
 
 %files
-%license %{_licensedir}/%{name}/gpl.txt %{_licensedir}/%{name}/README.txt
+%license %{_licensedir}/%{name}/gpl.txt
+%license %{_licensedir}/%{name}/README.txt
 %{_bindir}/dhex
 %{_mandir}/man1/dhex.1*
 %{_mandir}/man5/dhexrc.5*
@@ -250,7 +251,8 @@ install -Dm 0644 downstream-qa.py %{buildroot}%{_libexecdir}/%{name}-tests/qa.py
 %{_mandir}/man5/dhex_searchlog.5*
 
 %files tests
-%license %{_licensedir}/%{name}-tests/gpl.txt %{_licensedir}/%{name}-tests/README.txt
+%license %{_licensedir}/%{name}-tests/gpl.txt
+%license %{_licensedir}/%{name}-tests/README.txt
 %{_datadir}/%{name}/qa
 %{_libexecdir}/%{name}-tests
 
