@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+%global _default_patch_fuzz 0
 Name:           snooze
 Version:        0.6
 Release:        1%{?dist}
@@ -29,7 +30,7 @@ Bounded tests of the installed ordinary executable and exact original notices.
 mkdir downstream-original
 cp -p snooze.c downstream-original/snooze.c
 echo '50c51015ace7ae71e2d5d3e4fae5176d901294efcfb99aa8ca8b9720499cc4a1  downstream-original/snooze.c' | sha256sum -c -
-patch --fuzz=0 -p1 -i %{PATCH0}
+%autopatch -p1 0
 echo '2d1aa70ed4a2c0100e590cadc2d1c23001ab207bedd557f2ec893426a013fd12  snooze.c' | sha256sum -c -
 cat > downstream-qa.py <<'SNOOZE_QA'
 """Mandatory bounded target-only Snooze functional QA; no clock-precision claim.
