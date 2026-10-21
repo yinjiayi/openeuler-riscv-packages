@@ -1,0 +1,79 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/slstatus",
+        "observed_at": null,
+        "package_base": "slstatus",
+        "package_name": "slstatus",
+        "source": "aur",
+        "source_version": "1.0-2"
+      }
+    ],
+    "snapshot_id": "discovery-official-slstatus-N144-cee6658f3e821c31"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-copy-interface-flags-before-free.patch",
+        "license": "ISC",
+        "purpose": "Copy interface flags before freeifaddrs to prevent the source-observed up() stale dereference; preserve original default configuration.",
+        "remove_when": "An official stable release copies required flags before releasing the address list.",
+        "sha256": "36e6286f620d0657b38693b0aa53517f645760fdf9e1b51d375d4bed07d413f7",
+        "source": "Locally authored minimal ordering fix against official Slstatus1.1 components/ip.c lines66-82; original source SHA db4673b802f09a7b9adf1a44e8d153200b91034a118b29430fc5cf94f5194e67. No upstream write.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "slstatus.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "New official fixed1.1 discovery corroborated by actual AUR slstatus1.0-2 metadata clue only; not frozen catalog membership or version substitution. All33 originals reviewed. Keep byte-identical original datetime config and all22 default component objects. Downstream ISC ordering fix copies up() interface flags before free; mandatory target fake-lifetime original-negative/patched-positive controls, not allocator/ASan/native proof. Original all/install retained; no original test/check target exists. Default datetime CLI/stdout/private-Xvfb WM_NAME QA runs built/staged/installed. No hardware, nondefault metric, performance or native validation claim. Complete exact-head CI, normal DNF and physical RPM/SRPM remain gates.",
+    "status": "active"
+  },
+  "package_id": "slstatus",
+  "rpm": {
+    "license": "ISC",
+    "name": "slstatus",
+    "summary": "Small status monitor with default datetime output"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "git.suckless.org-slstatus",
+    "homepage": "https://tools.suckless.org/slstatus/",
+    "release_api": "https://dl.suckless.org/tools/",
+    "release_channel": "stable",
+    "release_regex": "slstatus-(?P<version>[0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://git.suckless.org/slstatus",
+    "source_url_template": "https://dl.suckless.org/tools/slstatus-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.1",
+    "latest_detected": "1.1",
+    "release": "1"
+  }
+}
