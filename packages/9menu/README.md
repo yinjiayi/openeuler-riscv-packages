@@ -25,3 +25,12 @@ file/stdin options, popup shell fallback/exit status, exec replacement and owned
 cleanup. Exact original notice/docs plus installed manpage semantics are checked.
 No local source/compiler/target/RPM/QEMU execution was used. Target execution,
 ordinary installation, complete exact-head CI and physical RPM/SRPM remain gates.
+
+Release 2 changes downstream QA synchronization only: the four existing bounded
+waits require expected command-marker bytes, not merely file existence. Original
+15-second limits, polling interval, commands, final assertions and upstream source
+are unchanged. Shell redirection can create a file before printf completes; the
+failed M130 installed assertion did not record marker contents, so this is not
+proof of a unique failure cause or a transient-infrastructure diagnosis. The
+follow-up still requires its own exact-head target build, installed QA, ordinary
+DNF and physical RPM/SRPM acceptance; static inspection is not target success.

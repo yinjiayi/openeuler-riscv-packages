@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           9menu
 Version:        1.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Small X menu for executing shell commands
 License:        LicenseRef-9menu
 URL:            https://github.com/arnoldrobbins/9menu
@@ -229,10 +229,10 @@ with tempfile.TemporaryDirectory(prefix='9menu-qa-') as temp:
         button(window, attributes, 0, 3, 2)
         key(window, 0xff54)  # Down from original mapped first row to second.
         key(window, 0xff0d)  # Return must execute beta, not alpha.
-        wait(second.exists, process, 'keyboard distinct command')
+        wait(lambda: second.exists() and second.read_bytes() == b'B', process, 'keyboard distinct command')
         assert second.read_bytes() == b'B' and not first.exists()
         button(window, attributes, 0, 3)
-        wait(first.exists, process, 'left mouse distinct command')
+        wait(lambda: first.exists() and first.read_bytes() == b'A', process, 'left mouse distinct command')
         assert first.read_bytes() == b'A' and second.read_bytes() == b'B'
         close_window(process, window)
 
@@ -245,7 +245,7 @@ with tempfile.TemporaryDirectory(prefix='9menu-qa-') as temp:
         menu.write_text('# ignored comment\n\\-dash:printf FILE > ' + shlex.quote(str(marker)) + '\nexit\n')
         process, window, attributes = launch('9menu-file', [], ['-file', str(menu)])
         button(window, attributes, 0, 2)
-        wait(marker.exists, process, 'file comment/escaped-label parsing')
+        wait(lambda: marker.exists() and marker.read_bytes() == b'FILE', process, 'file comment/escaped-label parsing')
         assert marker.read_bytes() == b'FILE'
         button(window, attributes, 1, 2, 3)
         assert process.wait(timeout=15) == 0 and process.stderr.read() == b''
@@ -254,7 +254,7 @@ with tempfile.TemporaryDirectory(prefix='9menu-qa-') as temp:
         data = ('# stdin comment\n-label 9menu-stdin\nstdin:printf STDIN > ' + shlex.quote(str(marker)) + '\nexit\n').encode()
         process, window, attributes = launch('9menu-stdin', [], ['-file', '-'], data)
         button(window, attributes, 0, 2, 3)
-        wait(marker.exists, process, 'stdin/options parsing and right-button command')
+        wait(lambda: marker.exists() and marker.read_bytes() == b'STDIN', process, 'stdin/options parsing and right-button command')
         assert marker.read_bytes() == b'STDIN'
         close_window(process, window)
 
@@ -301,5 +301,8 @@ cmp 9menu.1 9menu.man
 %{_libexecdir}/9menu-tests/
 
 %changelog
+* Wed Oct 21 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.11-2
+- Wait for exact command marker bytes within existing bounded downstream QA waits.
+
 * Tue Oct 20 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.11-1
 - Package official fixed 1.11 source with original custom notice and mandatory X QA.
