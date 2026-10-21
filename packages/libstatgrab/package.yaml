@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "package_id": "libstatgrab",
+  "rpm": {
+    "name": "libstatgrab",
+    "summary": "Cross-platform library for system statistics",
+    "license": "LGPL-2.1-or-later"
+  },
+  "upstream": {
+    "component": "libstatgrab-libstatgrab",
+    "homepage": "https://libstatgrab.org/",
+    "source_repository": "https://github.com/libstatgrab/libstatgrab.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/libstatgrab/libstatgrab/releases/latest",
+    "release_regex": "libstatgrab-(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_url_template": "https://github.com/libstatgrab/libstatgrab/releases/download/LIBSTATGRAB_0_92_1/libstatgrab-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.92.1",
+    "latest_detected": "0.92.1",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libstatgrab",
+        "package_base": "libstatgrab",
+        "source_version": "0.92.1-2",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libstatgrab/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libstatgrab",
+        "package_base": "libstatgrab",
+        "source_version": "0.92.1-1.18",
+        "evidence_url": "https://software.opensuse.org/package/libstatgrab",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libstatgrab",
+        "package_base": "libstatgrab",
+        "source_version": "1:0.92.1-15.fc44",
+        "evidence_url": "https://src.fedoraproject.org/rpms/libstatgrab/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libstatgrab",
+        "package_base": "libstatgrab",
+        "source_version": "0.92.1-1.2",
+        "evidence_url": "https://packages.debian.org/source/stable/libstatgrab",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libstatgrab",
+        "package_base": "libstatgrab",
+        "source_version": "0.92.1-1.2build2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstatgrab",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstatgrab.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The stable 0.92.1 release archive is pinned by SHA-256. The upstream Perl/TAP test automation is enabled and the complete make -j1 check matrix must complete with no skipped or failed cases; serial execution preserves TAP numbering for the shared generated harness."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}

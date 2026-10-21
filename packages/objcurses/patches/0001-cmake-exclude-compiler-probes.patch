@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] cmake: exclude generated compiler probes
+
+The recursive source glob can see CMake's generated compiler-identification
+source when the build directory has a toolchain-derived name. Exclude
+CMakeFiles explicitly so the probe's main function is not linked into the
+application.
+
+Patch-Source: openEuler RISC-V package CI failure analysis
+Patch-License: MIT
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+---
+ CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -20,6 +20,7 @@ endif()
+ # collect all source files recursively, excluding build directory
+ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/*.cpp")
+ list(FILTER SOURCES EXCLUDE REGEX ".*/.*build.*/.*")
++list(FILTER SOURCES EXCLUDE REGEX ".*/CMakeFiles/.*")
+ 
+ # creating executable
+ add_executable(${PROJECT_NAME} ${SOURCES})
+-- 
+2.50.1

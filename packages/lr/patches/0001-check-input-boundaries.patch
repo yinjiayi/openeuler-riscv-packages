@@ -1,0 +1,137 @@
+--- a/lr.c
++++ b/lr.c
+@@ -357,18 +357,23 @@
+ {
+ 	char *s = pos;
+ 	if (isdigit((unsigned char)*pos)) {
+-		int64_t n;
+-
+-		for (n = 0; isdigit((unsigned char)*pos) && n <= INT64_MAX / 10 - 10; pos++)
+-			n = 10 * n + (*pos - '0');
+-		if (isdigit((unsigned char)*pos))
++		int64_t n, factor = 1;
++
++		for (n = 0; isdigit((unsigned char)*pos); pos++) {
++			int digit = *pos - '0';
++			if (n > (INT64_MAX - digit) / 10)
++				parse_error("number too big: %s", s);
++			n = 10 * n + digit;
++		}
++		if (token("c"))      ;
++		else if (token("b")) factor = 512LL;
++		else if (token("k")) factor = 1024LL;
++		else if (token("M")) factor = 1024LL * 1024;
++		else if (token("G")) factor = 1024LL * 1024 * 1024;
++		else if (token("T")) factor = 1024LL * 1024 * 1024 * 1024;
++		if (n > INT64_MAX / factor)
+ 			parse_error("number too big: %s", s);
+-		if (token("c"))      ;
+-		else if (token("b")) n *= 512LL;
+-		else if (token("k")) n *= 1024LL;
+-		else if (token("M")) n *= 1024LL * 1024;
+-		else if (token("G")) n *= 1024LL * 1024 * 1024;
+-		else if (token("T")) n *= 1024LL * 1024 * 1024 * 1024;
++		n *= factor;
+ 		ws();
+ 		*r = n;
+ 		return 1;
+@@ -607,25 +612,23 @@
+ 		s++;
+ 
+ 		errno = 0;
+-		int64_t d;
++		int64_t d, factor;
+ 		d = strtol(s, &r, 10);
+-		if (errno == 0 && r[0] == 'd' && !r[1]) {
++		if (errno == 0 && r != s && d >= 0 && r[0] == 'd' && !r[1]) {
++			if (d > INT_MAX)
++				parse_error("relative time too big: %s", s-1);
+ 			struct tm *tmnow = localtime(&now);
+ 			tmnow->tm_mday -= d;
+ 			tmnow->tm_hour = tmnow->tm_min = tmnow->tm_sec = 0;
+ 			*n = mktime(tmnow);
+ 			return 1;
+ 		}
+-		if (errno == 0 && r[0] == 'h' && !r[1]) {
+-			*n = now - (d*60*60);
+-			return 1;
+-		}
+-		if (errno == 0 && r[0] == 'm' && !r[1]) {
+-			*n = now - (d*60);
+-			return 1;
+-		}
+-		if (errno == 0 && r[0] == 's' && !r[1]) {
+-			*n = now - d;
++		if (errno == 0 && r != s && d >= 0 &&
++		    (r[0] == 'h' || r[0] == 'm' || r[0] == 's') && !r[1]) {
++			factor = r[0] == 'h' ? 3600 : r[0] == 'm' ? 60 : 1;
++			if (d > INT64_MAX / factor || now < INT64_MIN + d * factor)
++				parse_error("relative time too big: %s", s-1);
++			*n = now - d * factor;
+ 			return 1;
+ 		}
+ 		parse_error("invalid relative time format '%s'", s-1);
+@@ -1811,12 +1814,17 @@
+ 	char *s;
+ 	for (s = format; *s; s++) {
+ 		if (*s == '\\') {
+-			s++;
++			if (!*++s)
++				parse_error("incomplete format escape");
+ 			continue;
+ 		}
+ 		if (*s != '%')
+ 			continue;
+-		switch (*++s) {
++		if (!*++s)
++			parse_error("incomplete format specifier");
++		if ((*s == 'A' || *s == 'C' || *s == 'T' || *s == '\324') && !s[1])
++			parse_error("incomplete time format");
++		switch (*s) {
+ 		case 'g': need_group++; break;
+ 		case 'u': need_user++; break;
+ 		case 'Y': need_fstype++; break;
+@@ -1958,6 +1966,8 @@
+ 
+ 	for (s = format; *s; s++) {
+ 		if (*s == '\\') {
++			if (!s[1])
++				parse_error("incomplete format escape");
+ 			switch (*++s) {
+ 			case 'a': putchar('\a'); break;
+ 			case 'b': putchar('\b'); break;
+@@ -2000,6 +2010,8 @@
+ 			putchar(*s);
+ 			continue;
+ 		}
++		if (!s[1])
++			parse_error("incomplete format specifier");
+ 		switch (*++s) {
+ 		case '%': putchar('%'); break;
+ 		case 's':
+@@ -2120,7 +2132,7 @@
+ 			    fi->sb.st_mtime);
+ 			s++;
+ 			if (!*s)
+-				break;
++				parse_error("incomplete time format");
+ 
+ 			color_age_on(t);
+ 			if (*s == '-') {
+@@ -2200,6 +2212,7 @@
+ 
+ 	if (need_xattr) {
+ 		strncpy(fi->xattr, xattr_string(fi->fpath), sizeof fi->xattr - 1);
++		fi->xattr[sizeof fi->xattr - 1] = 0;
+ 		if (strlen(fi->xattr) > maxxattr)
+ 			maxxattr = strlen(fi->xattr);
+ 	} else
+@@ -2498,7 +2511,7 @@
+ 	prefixl = strlen(path);
+ 	while (prefixl && path[prefixl-1] == '/')
+ 		prefixl--;
+-	if (prefixl > PATH_MAX) {
++	if (prefixl >= PATH_MAX) {
+ 		errno = ENAMETOOLONG;
+ 		return -1;
+ 	}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "variant-lite",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/nonstd-lite/variant-lite/archive/refs/tags/v3.0.0.tar.gz",
+      "filename": "variant-lite-3.0.0.tar.gz",
+      "version": "3.0.0",
+      "digests": {
+        "sha256": "bd596550369f33ef9455566822f5a4d52852a63a33d3d70ac1fbb529b78abc7b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the upstream Boost Software License; source is fetched in CI."
+      }
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/package-index.schema.json",
+  "title": "Full package inventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "generated_at",
+    "main_ref",
+    "source_snapshot",
+    "reviewed_release_count",
+    "managed_package_count",
+    "pull_request_count",
+    "open_pull_request_count",
+    "merged_pull_request_count",
+    "status_counts",
+    "pull_requests",
+    "entries"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "package-inventory"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "main_ref": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "source_snapshot": {"$ref": "#/$defs/sourceSnapshot"},
+    "reviewed_release_count": {"type": "integer", "minimum": 0},
+    "managed_package_count": {"type": "integer", "minimum": 0},
+    "pull_request_count": {"type": "integer", "minimum": 0},
+    "open_pull_request_count": {"type": "integer", "minimum": 0},
+    "merged_pull_request_count": {"type": "integer", "minimum": 0},
+    "status_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "pull_requests": {"type": "array", "items": {"$ref": "#/$defs/pullRequest"}},
+    "entries": {"type": "array", "items": {"$ref": "#/$defs/entry"}}
+  },
+  "$defs": {
+    "sourceSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshot_id", "path", "policy", "record_count", "candidate_record_count", "rejection_record_count", "unique_discovery_key_count", "decision_counts", "lineage_record_counts"],
+      "properties": {
+        "snapshot_id": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "policy": {"type": "object"},
+        "record_count": {"type": "integer", "minimum": 0},
+        "candidate_record_count": {"type": "integer", "minimum": 0},
+        "rejection_record_count": {"type": "integer", "minimum": 0},
+        "unique_discovery_key_count": {"type": "integer", "minimum": 0},
+        "decision_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "lineage_record_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}}
+      }
+    },
+    "pullRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["number", "title", "state", "merged_at", "closed_at", "head_ref", "head_sha", "base_ref", "labels", "updated_at", "url", "package_ids"],
+      "properties": {
+        "number": {"type": "integer", "minimum": 1},
+        "title": {"type": "string"},
+        "state": {"enum": ["open", "closed"]},
+        "merged_at": {"type": ["string", "null"], "format": "date-time"},
+        "closed_at": {"type": ["string", "null"], "format": "date-time"},
+        "head_ref": {"type": "string"},
+        "head_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "base_ref": {"type": "string"},
+        "labels": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "updated_at": {"type": ["string", "null"], "format": "date-time"},
+        "url": {"type": "string", "format": "uri"},
+        "package_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["discovery_key", "names", "component_ids", "decisions", "stable_versions", "upstream_urls", "status", "managed_package", "reviewed_release", "pull_requests"],
+      "properties": {
+        "discovery_key": {"type": "string", "minLength": 1},
+        "names": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "component_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "decisions": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "stable_versions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "upstream_urls": {"type": "array", "items": {"type": "string", "format": "uri"}, "uniqueItems": true},
+        "status": {"enum": ["discovered", "reviewed", "open-pr", "merged-pr", "managed"]},
+        "managed_package": {"type": ["object", "null"]},
+        "reviewed_release": {"type": ["object", "null"]},
+        "pull_requests": {"type": "array", "items": {"$ref": "#/$defs/pullRequest"}}
+      }
+    }
+  }
+}

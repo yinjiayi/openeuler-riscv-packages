@@ -1,0 +1,60 @@
+From bb5334390e54fff34305000aa176b5b2b41a9032 Mon Sep 17 00:00:00 2001
+From: Sam James <sam@gentoo.org>
+Date: Sun, 6 Oct 2024 06:12:36 +0100
+Subject: [PATCH] torture: add missing includes for free()
+
+The torture sources use free() without including <stdlib.h>.  Include the
+standard declaration in each affected source so strict target compilation
+does not rely on an implicit function declaration.
+
+Patch-Source: https://git.savannah.gnu.org/cgit/recutils.git/commit/?id=bb5334390e54fff34305000aa176b5b2b41a9032
+Patch-License: GPL-3.0-or-later
+Upstream-Status: Accepted (upstream commit bb5334390e54fff34305000aa176b5b2b41a9032; not yet in a release tarball)
+---
+ torture/rec-parser/rec-parse-record-str.c     | 1 +
+ torture/rec-parser/rec-parse-record.c         | 1 +
+ torture/rec-writer/rec-write-comment-str.c   | 1 +
+ torture/rec-writer/rec-write-field-name-str.c | 1 +
+ torture/rec-writer/rec-write-field-str.c     | 1 +
+ 5 files changed, 5 insertions(+)
+
+diff --git a/torture/rec-parser/rec-parse-record-str.c b/torture/rec-parser/rec-parse-record-str.c
+index 141aa15..3d0c3bb 100644
+--- a/torture/rec-parser/rec-parse-record-str.c
++++ b/torture/rec-parser/rec-parse-record-str.c
+@@ -28,2 +28,3 @@
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <check.h>
+diff --git a/torture/rec-parser/rec-parse-record.c b/torture/rec-parser/rec-parse-record.c
+index 79e34ff..f77f6cd 100644
+--- a/torture/rec-parser/rec-parse-record.c
++++ b/torture/rec-parser/rec-parse-record.c
+@@ -28,2 +28,3 @@
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <check.h>
+diff --git a/torture/rec-writer/rec-write-comment-str.c b/torture/rec-writer/rec-write-comment-str.c
+index 21849e2..0b7d916 100644
+--- a/torture/rec-writer/rec-write-comment-str.c
++++ b/torture/rec-writer/rec-write-comment-str.c
+@@ -28,2 +28,3 @@
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <check.h>
+diff --git a/torture/rec-writer/rec-write-field-name-str.c b/torture/rec-writer/rec-write-field-name-str.c
+index 1687243..a8ec6c2 100644
+--- a/torture/rec-writer/rec-write-field-name-str.c
++++ b/torture/rec-writer/rec-write-field-name-str.c
+@@ -28,2 +28,3 @@
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <check.h>
+diff --git a/torture/rec-writer/rec-write-field-str.c b/torture/rec-writer/rec-write-field-str.c
+index efbeb54..3a5b7b0 100644
+--- a/torture/rec-writer/rec-write-field-str.c
++++ b/torture/rec-writer/rec-write-field-str.c
+@@ -28,2 +28,3 @@
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <check.h>

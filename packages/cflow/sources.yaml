@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "cflow",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://ftp.gnu.org/gnu/cflow/cflow-1.8.tar.xz",
+      "filename": "cflow-1.8.tar.xz",
+      "version": "1.8",
+      "digests": {
+        "sha256": "a5830a708a587ebbf3b475b585935f89c33fc8fbd057af7d817d517aceaa7afa"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Redistribution is permitted by the upstream GPL-3.0-or-later and GFDL-1.2-or-later notices."
+      }
+    }
+  ]
+}

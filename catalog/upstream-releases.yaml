@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "reviewed-upstream-releases",
   "source_snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
-  "reviewed_at": "2026-08-11T11:32:10Z",
+  "reviewed_at": "2026-08-21T15:14:30Z",
   "policy": {
     "stable_only": true,
     "official_https_required": true,
@@ -4458,6 +4458,1100 @@
       "requires": [
         "coreutils"
       ]
+    },
+    {
+      "component_id": "cmocka.org",
+      "package_id": "cmocka",
+      "canonical_name": "cmocka",
+      "summary": "Unit testing framework for C with mock object support",
+      "license": "Apache-2.0",
+      "version": "2.0.2",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "cmocka.org",
+          "source": "arch",
+          "original_name": "cmocka",
+          "package_base": "cmocka",
+          "source_version": "2.0.2-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "cmocka.org",
+          "source": "debian",
+          "original_name": "cmocka",
+          "package_base": "cmocka",
+          "source_version": "1.1.7-3",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "cmocka.org",
+          "source": "fedora",
+          "original_name": "cmocka",
+          "package_base": "cmocka",
+          "source_version": "2.0.2-3.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "cmocka.org",
+          "source": "opensuse",
+          "original_name": "cmocka",
+          "package_base": "cmocka",
+          "source_version": "2.0.2-1.5",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "cmocka",
+          "source": "ubuntu",
+          "original_name": "cmocka",
+          "package_base": "cmocka",
+          "source_version": "2.0.2-1",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://cmocka.org/",
+        "repository_url": "https://gitlab.com/cmocka/cmocka",
+        "release_api": "https://cmocka.org/files/2.0/",
+        "release_regex": "cmocka-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://cmocka.org/files/2.0/cmocka-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://cmocka.org/files/2.0/cmocka-2.0.2.tar.xz",
+        "filename": "cmocka-2.0.2.tar.xz",
+        "sha256": "39f92f366bdf3f1a02af4da75b4a5c52df6c9f7e736c7d65de13283f9f0ef416"
+      },
+      "evidence": {
+        "release_page": "https://cmocka.org/files/2.0/",
+        "verified_at": "2026-08-16T02:45:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "cmocka-2.0.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "cmake",
+        "gcc",
+        "make",
+        "pkgconf-pkg-config"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-libtom-libtommath",
+      "package_id": "libtomcrypt",
+      "canonical_name": "libtomcrypt",
+      "summary": "Portable modular cryptographic toolkit",
+      "license": "LicenseRef-Public-Domain OR WTFPL",
+      "version": "1.18.2",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "github.com-libtom-libtommath",
+          "source": "arch",
+          "original_name": "libtomcrypt",
+          "package_base": "libtomcrypt",
+          "source_version": "1.18.2-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-libtom-libtommath",
+          "source": "debian",
+          "original_name": "libtomcrypt",
+          "package_base": "libtomcrypt",
+          "source_version": "1.18.2+dfsg-7",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-libtom-libtommath",
+          "source": "fedora",
+          "original_name": "libtomcrypt",
+          "package_base": "libtomcrypt",
+          "source_version": "1.18.2-23.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-libtom-libtommath",
+          "source": "opensuse",
+          "original_name": "libtomcrypt",
+          "package_base": "libtomcrypt",
+          "source_version": "1.18.2-3.12",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-libtom-libtommath",
+          "source": "ubuntu",
+          "original_name": "libtomcrypt",
+          "package_base": "libtomcrypt",
+          "source_version": "1.18.2+dfsg-7build2",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://www.libtom.net/LibTomCrypt/",
+        "repository_url": "https://github.com/libtom/libtomcrypt",
+        "release_api": "https://api.github.com/repos/libtom/libtomcrypt/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/libtom/libtomcrypt/releases/download/v{version}/crypt-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://github.com/libtom/libtomcrypt/releases/download/v1.18.2/crypt-1.18.2.tar.xz",
+        "filename": "crypt-1.18.2.tar.xz",
+        "sha256": "96ad4c3b8336050993c5bc2cf6c057484f2b0f9f763448151567fbab5e767b84"
+      },
+      "evidence": {
+        "release_page": "https://github.com/libtom/libtomcrypt/releases/tag/v1.18.2",
+        "verified_at": "2026-08-16T02:45:00Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libtomcrypt-1.18.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "libtommath-devel",
+        "libtool",
+        "make",
+        "pkgconf-pkg-config"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "cabextract.org.uk-libmspack",
+      "package_id": "libmspack",
+      "canonical_name": "libmspack",
+      "summary": "Library for Microsoft compression formats",
+      "license": "LGPL-2.1-only",
+      "version": "0.11alpha",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "cabextract.org.uk-libmspack",
+          "source": "debian",
+          "original_name": "libmspack",
+          "package_base": "libmspack",
+          "source_version": "0.11-1.1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "cabextract.org.uk-libmspack",
+          "source": "fedora",
+          "original_name": "libmspack",
+          "package_base": "libmspack",
+          "source_version": "0.10.1-0.16.alpha.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "cabextract.org.uk-libmspack",
+          "source": "opensuse",
+          "original_name": "libmspack",
+          "package_base": "libmspack",
+          "source_version": "0.11-2.9",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "cabextract.org.uk-libmspack",
+          "source": "ubuntu",
+          "original_name": "libmspack",
+          "package_base": "libmspack",
+          "source_version": "0.11-1.1build2",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://www.cabextract.org.uk/libmspack/",
+        "repository_url": "https://github.com/kyz/libmspack",
+        "release_api": "https://www.cabextract.org.uk/libmspack/",
+        "release_regex": "libmspack-(?P<version>[0-9]+(?:\\.[0-9]+)+(?:alpha)?)\\.tar\\.gz",
+        "source_url_template": "https://www.cabextract.org.uk/libmspack/libmspack-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://www.cabextract.org.uk/libmspack/libmspack-0.11alpha.tar.gz",
+        "filename": "libmspack-0.11alpha.tar.gz",
+        "sha256": "70dd1fb2f0aecc36791b71a1e1840e62173079eadaa081192d1c323a0eeea21b"
+      },
+      "evidence": {
+        "release_page": "https://www.cabextract.org.uk/libmspack/",
+        "verified_at": "2026-08-16T02:45:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING.LIB",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libmspack-0.11alpha",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make",
+        "pkgconf-pkg-config"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "htop.dev",
+      "package_id": "htop",
+      "canonical_name": "htop",
+      "summary": "Interactive process viewer",
+      "license": "GPL-2.0-or-later",
+      "version": "3.5.2",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "htop.dev",
+          "source": "arch",
+          "original_name": "htop",
+          "package_base": "htop",
+          "source_version": "3.5.2-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "htop.dev",
+          "source": "debian",
+          "original_name": "htop",
+          "package_base": "htop",
+          "source_version": "3.4.1-5",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "htop.dev",
+          "source": "fedora",
+          "original_name": "htop",
+          "package_base": "htop",
+          "source_version": "3.4.1-3.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "htop.dev",
+          "source": "opensuse",
+          "original_name": "htop",
+          "package_base": "htop",
+          "source_version": "3.5.2-1.2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "htop.dev",
+          "source": "ubuntu",
+          "original_name": "htop",
+          "package_base": "htop",
+          "source_version": "3.4.1-5build2",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://htop.dev/",
+        "repository_url": "https://github.com/htop-dev/htop",
+        "release_api": "https://api.github.com/repos/htop-dev/htop/releases",
+        "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/htop-dev/htop/releases/download/{version}/htop-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://github.com/htop-dev/htop/releases/download/3.5.2/htop-3.5.2.tar.xz",
+        "filename": "htop-3.5.2.tar.xz",
+        "sha256": "225128e697c4a8c8a878fd0078c965ff8bd5fb24913bfc8473b8edbd50f843f8"
+      },
+      "evidence": {
+        "release_page": "https://github.com/htop-dev/htop/releases/tag/3.5.2",
+        "verified_at": "2026-08-16T02:45:00Z",
+        "method": "downloaded-official-archive-and-matched-publisher-sha256sum",
+        "license_file": "COPYING and README.md",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "htop-3.5.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": true,
+          "unsafe_links": false,
+          "link_count": 2
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make",
+        "ncurses-devel",
+        "pkgconf-pkg-config"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "nano-editor.org",
+      "package_id": "nano",
+      "canonical_name": "nano",
+      "summary": "Small and friendly text editor",
+      "license": "GPL-3.0-or-later",
+      "version": "9.2",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "nano-editor.org",
+          "source": "arch",
+          "original_name": "nano",
+          "package_base": "nano",
+          "source_version": "9.1-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "nano-editor.org",
+          "source": "debian",
+          "original_name": "nano",
+          "package_base": "nano",
+          "source_version": "8.4-1+deb13u1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "nano-editor.org",
+          "source": "fedora",
+          "original_name": "nano",
+          "package_base": "nano",
+          "source_version": "8.7.1-1.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "nano-editor.org",
+          "source": "opensuse",
+          "original_name": "nano",
+          "package_base": "nano",
+          "source_version": "9.2-1.1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "nano",
+          "source": "ubuntu",
+          "original_name": "nano",
+          "package_base": "nano",
+          "source_version": "8.7.1-1",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://www.nano-editor.org/",
+        "repository_url": "https://git.savannah.gnu.org/git/nano.git",
+        "release_api": "https://www.nano-editor.org/dist/v9/",
+        "release_regex": "nano-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://www.nano-editor.org/dist/v9/nano-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://www.nano-editor.org/dist/v9/nano-9.2.tar.xz",
+        "filename": "nano-9.2.tar.xz",
+        "sha256": "05ecb99247b782e8a5b3a25ed4101dd034b0236902f7449bc9795b717642f7e9"
+      },
+      "evidence": {
+        "release_page": "https://www.nano-editor.org/dist/v9/",
+        "verified_at": "2026-08-16T02:45:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "nano-9.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "file-devel",
+        "gcc",
+        "gettext-devel",
+        "make",
+        "ncurses-devel",
+        "pkgconf-pkg-config",
+        "texinfo"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-aldanial-cloc",
+      "package_id": "cloc",
+      "canonical_name": "cloc",
+      "summary": "Count lines of code in many programming languages",
+      "license": "GPL-2.0-or-later",
+      "version": "2.10",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "github.com-aldanial-cloc",
+          "source": "arch",
+          "original_name": "cloc",
+          "package_base": "cloc",
+          "source_version": "2.08-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-aldanial-cloc",
+          "source": "debian",
+          "original_name": "cloc",
+          "package_base": "cloc",
+          "source_version": "2.04-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-aldanial-cloc",
+          "source": "fedora",
+          "original_name": "cloc",
+          "package_base": "cloc",
+          "source_version": "2.08-1.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "cloc",
+          "source": "ubuntu",
+          "original_name": "cloc",
+          "package_base": "cloc",
+          "source_version": "2.06-1",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://github.com/AlDanial/cloc",
+        "repository_url": "https://github.com/AlDanial/cloc",
+        "release_api": "https://api.github.com/repos/AlDanial/cloc/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/AlDanial/cloc/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/AlDanial/cloc/archive/refs/tags/v2.10.tar.gz",
+        "filename": "cloc-2.10.tar.gz",
+        "sha256": "a8fac35f4cf42728765580ba11afc2568ad205509a22204663f526169548436d"
+      },
+      "evidence": {
+        "release_page": "https://github.com/AlDanial/cloc/releases/tag/v2.10",
+        "verified_at": "2026-08-16T02:45:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE and Unix/COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "cloc-2.10",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": true,
+          "unsafe_links": false,
+          "link_count": 11
+        }
+      },
+      "build_requires": [
+        "make",
+        "perl-Parallel-ForkManager",
+        "perl-Regexp-Common",
+        "perl-interpreter"
+      ],
+      "requires": [
+        "perl-Parallel-ForkManager",
+        "perl-Regexp-Common",
+        "perl-interpreter"
+      ]
+    },
+    {
+      "component_id": "github.com-dosfstools-dosfstools",
+      "package_id": "dosfstools",
+      "canonical_name": "dosfstools",
+      "summary": "Utilities for creating and checking FAT filesystems",
+      "license": "GPL-3.0-or-later",
+      "version": "4.2",
+      "upstream": {
+        "homepage": "https://github.com/dosfstools/dosfstools",
+        "repository_url": "https://github.com/dosfstools/dosfstools",
+        "release_api": "https://api.github.com/repos/dosfstools/dosfstools/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/dosfstools/dosfstools/releases/download/v{version}/dosfstools-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz",
+        "filename": "dosfstools-4.2.tar.gz",
+        "sha256": "64926eebf90092dca21b14259a5301b7b98e7b1943e8a201c7d726084809b527"
+      },
+      "evidence": {
+        "release_page": "https://github.com/dosfstools/dosfstools/releases/tag/v4.2",
+        "verified_at": "2026-08-16T02:45:00Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "dosfstools-4.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "make",
+        "mtools",
+        "pkgconf-pkg-config",
+        "vim-common"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-libunwind-libunwind",
+      "package_id": "libunwind",
+      "canonical_name": "libunwind",
+      "summary": "Portable and efficient call-chain library",
+      "license": "MIT",
+      "version": "1.8.3",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "nongnu.org-libunwind",
+          "source": "arch",
+          "original_name": "libunwind",
+          "package_base": "libunwind",
+          "source_version": "1.8.2-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-libunwind-libunwind",
+          "source": "debian",
+          "original_name": "libunwind",
+          "package_base": "libunwind",
+          "source_version": "1.8.1-0.1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-libunwind-libunwind",
+          "source": "fedora",
+          "original_name": "libunwind",
+          "package_base": "libunwind",
+          "source_version": "1.8.3-1.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-libunwind-libunwind",
+          "source": "opensuse",
+          "original_name": "libunwind",
+          "package_base": "libunwind",
+          "source_version": "1.8.3-3.3",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "github.com-libunwind-libunwind",
+          "source": "ubuntu",
+          "original_name": "libunwind",
+          "package_base": "libunwind",
+          "source_version": "1.8.3-0ubuntu1",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://www.nongnu.org/libunwind/",
+        "repository_url": "https://github.com/libunwind/libunwind",
+        "release_api": "https://api.github.com/repos/libunwind/libunwind/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/libunwind/libunwind/releases/download/v{version}/libunwind-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/libunwind/libunwind/releases/download/v1.8.3/libunwind-1.8.3.tar.gz",
+        "filename": "libunwind-1.8.3.tar.gz",
+        "sha256": "be30d910e67f58d82e753231f1357f326a1a088acf126b21ff77e60aab19b90b"
+      },
+      "evidence": {
+        "release_page": "https://github.com/libunwind/libunwind/releases/tag/v1.8.3",
+        "verified_at": "2026-08-16T02:45:00Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libunwind-1.8.3",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "gcc-c++",
+        "make",
+        "pkgconf-pkg-config",
+        "xz-devel",
+        "zlib-devel"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "gnu.org-software-gawk",
+      "package_id": "gawk",
+      "canonical_name": "gawk",
+      "summary": "GNU implementation of the AWK programming language",
+      "license": "GPL-3.0-or-later",
+      "version": "5.4.1",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "gnu.org-software-gawk",
+          "source": "arch",
+          "original_name": "gawk",
+          "package_base": "gawk",
+          "source_version": "5.4.1-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-gawk",
+          "source": "debian",
+          "original_name": "gawk",
+          "package_base": "gawk",
+          "source_version": "1:5.2.1-2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-gawk",
+          "source": "fedora",
+          "original_name": "gawk",
+          "package_base": "gawk",
+          "source_version": "5.3.2-3.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-gawk",
+          "source": "opensuse",
+          "original_name": "gawk",
+          "package_base": "gawk",
+          "source_version": "5.4.1-1.2",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnu.org-software-gawk",
+          "source": "ubuntu",
+          "original_name": "gawk",
+          "package_base": "gawk",
+          "source_version": "1:5.3.2-1ubuntu1",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://www.gnu.org/software/gawk/",
+        "repository_url": "https://git.savannah.gnu.org/git/gawk.git",
+        "release_api": "https://ftp.gnu.org/gnu/gawk/",
+        "release_regex": "gawk-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+        "source_url_template": "https://ftp.gnu.org/gnu/gawk/gawk-{version}.tar.xz"
+      },
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/gawk/gawk-5.4.1.tar.xz",
+        "filename": "gawk-5.4.1.tar.xz",
+        "sha256": "07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37"
+      },
+      "evidence": {
+        "release_page": "https://ftp.gnu.org/gnu/gawk/",
+        "verified_at": "2026-08-16T02:45:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "gawk-5.4.1",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gcc",
+        "libsigsegv-devel",
+        "make",
+        "mpfr-devel",
+        "pkgconf-pkg-config",
+        "readline-devel"
+      ],
+      "requires": []
+    },
+    {
+      "component_id": "gnupg.org",
+      "package_id": "libgcrypt",
+      "canonical_name": "libgcrypt",
+      "summary": "General-purpose cryptographic library",
+      "license": "LGPL-2.1-or-later AND GPL-2.0-or-later AND BSD-3-Clause",
+      "version": "1.12.2",
+      "lineage_promotions": [
+        {
+          "snapshot_component_id": "gnupg.org",
+          "source": "arch",
+          "original_name": "libgcrypt",
+          "package_base": "libgcrypt",
+          "source_version": "1.12.2-1",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnupg.org",
+          "source": "debian",
+          "original_name": "libgcrypt20",
+          "package_base": "libgcrypt20",
+          "source_version": "1.11.0-7+deb13u1",
+          "relationship": "metadata-clue"
+        },
+        {
+          "snapshot_component_id": "gnupg.org",
+          "source": "fedora",
+          "original_name": "libgcrypt",
+          "package_base": "libgcrypt",
+          "source_version": "1.12.1-1.fc44",
+          "relationship": "upstream-component"
+        },
+        {
+          "snapshot_component_id": "gnupg.org",
+          "source": "opensuse",
+          "original_name": "libgcrypt",
+          "package_base": "libgcrypt",
+          "source_version": "1.12.2-1.4",
+          "relationship": "upstream-component"
+        }
+      ],
+      "upstream": {
+        "homepage": "https://gnupg.org/software/libgcrypt/",
+        "repository_url": "https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git",
+        "release_api": "https://gnupg.org/ftp/gcrypt/libgcrypt/",
+        "release_regex": "libgcrypt-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+        "source_url_template": "https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-{version}.tar.bz2"
+      },
+      "source": {
+        "url": "https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.12.2.tar.bz2",
+        "filename": "libgcrypt-1.12.2.tar.bz2",
+        "sha256": "7ce33c2492221a0436f96a8500215e9f3e3dcb5fd26a757cd415e7a843babd5e"
+      },
+      "evidence": {
+        "release_page": "https://gnupg.org/ftp/gcrypt/libgcrypt/",
+        "verified_at": "2026-08-16T02:45:00Z",
+        "method": "downloaded-official-release-archive-and-calculated-sha256",
+        "license_file": "COPYING, COPYING.LIB, and LICENSES",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "libgcrypt-1.12.2",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false
+        }
+      },
+      "build_requires": [
+        "gawk",
+        "gcc",
+        "libgpg-error-devel",
+        "make",
+        "pkgconf-pkg-config"
+      ],
+      "requires": [
+        "libgpg-error"
+      ]
+    },
+    {
+      "component_id": "github.com-filosottile-age",
+      "package_id": "age",
+      "canonical_name": "age",
+      "summary": "A simple, modern and secure file encryption tool",
+      "license": "BSD-3-Clause",
+      "version": "1.3.1",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-filosottile-age", "source": "arch", "original_name": "age", "package_base": "age", "source_version": "1.3.1-1", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-filosottile-age", "source": "debian", "original_name": "age", "package_base": "age", "source_version": "1.2.1-1", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-filosottile-age", "source": "fedora", "original_name": "age", "package_base": "age", "source_version": "1.3.1-4.fc44", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-filosottile-age", "source": "opensuse", "original_name": "age", "package_base": "age", "source_version": "1.3.0-1.7", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-filosottile-age", "source": "ubuntu", "original_name": "age", "package_base": "age", "source_version": "1.2.1-1build1", "relationship": "upstream-component"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/FiloSottile/age",
+        "repository_url": "https://github.com/FiloSottile/age",
+        "release_api": "https://api.github.com/repos/FiloSottile/age/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/FiloSottile/age/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/FiloSottile/age/archive/refs/tags/v1.3.1.tar.gz",
+        "filename": "age-1.3.1.tar.gz",
+        "sha256": "396007bc0bc53de253391493bda1252757ba63af1a19db86cfb60a35cb9d290a"
+      },
+      "evidence": {
+        "release_page": "https://github.com/FiloSottile/age/releases/tag/v1.3.1",
+        "verified_at": "2026-08-21T13:56:23Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {"checked": true, "root_directory": "age-1.3.1", "absolute_paths": false, "parent_traversal": false, "symlinks": false}
+      },
+      "build_requires": ["golang"],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-aristocratos-btop",
+      "package_id": "btop",
+      "canonical_name": "btop",
+      "summary": "A monitor of system resources, bpytop ported to C++",
+      "license": "Apache-2.0",
+      "version": "1.4.7",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-aristocratos-btop", "source": "arch", "original_name": "btop", "package_base": "btop", "source_version": "1.4.7-1", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-aristocratos-btop", "source": "debian", "original_name": "btop", "package_base": "btop", "source_version": "1.3.2-0.1", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-aristocratos-btop", "source": "fedora", "original_name": "btop", "package_base": "btop", "source_version": "1.4.6-4.fc44", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-aristocratos-btop", "source": "opensuse", "original_name": "btop", "package_base": "btop", "source_version": "1.4.7+git20260501.6e39144-1.2", "relationship": "upstream-component"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/aristocratos/btop",
+        "repository_url": "https://github.com/aristocratos/btop",
+        "release_api": "https://api.github.com/repos/aristocratos/btop/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/aristocratos/btop/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/aristocratos/btop/archive/refs/tags/v1.4.7.tar.gz",
+        "filename": "btop-1.4.7.tar.gz",
+        "sha256": "933de2e4d1b2211a638be463eb6e8616891bfba73aef5d38060bd8319baeefc6"
+      },
+      "evidence": {
+        "release_page": "https://github.com/aristocratos/btop/releases/tag/v1.4.7",
+        "verified_at": "2026-08-21T13:56:23Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {"checked": true, "root_directory": "btop-1.4.7", "absolute_paths": false, "parent_traversal": false, "symlinks": false}
+      },
+      "build_requires": ["gcc-c++", "make"],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-muesli-duf",
+      "package_id": "duf",
+      "canonical_name": "duf",
+      "summary": "Disk Usage/Free Utility",
+      "license": "MIT",
+      "version": "0.9.1",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-muesli-duf", "source": "arch", "original_name": "duf", "package_base": "duf", "source_version": "0.9.1-1", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-muesli-duf", "source": "debian", "original_name": "duf", "package_base": "duf", "source_version": "0.8.1-2", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-muesli-duf", "source": "fedora", "original_name": "duf", "package_base": "duf", "source_version": "0.9.1-3.fc44", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-muesli-duf", "source": "opensuse", "original_name": "duf", "package_base": "duf", "source_version": "0.9.1-1.7", "relationship": "upstream-component"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/muesli/duf",
+        "repository_url": "https://github.com/muesli/duf",
+        "release_api": "https://api.github.com/repos/muesli/duf/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/muesli/duf/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/muesli/duf/archive/refs/tags/v0.9.1.tar.gz",
+        "filename": "duf-0.9.1.tar.gz",
+        "sha256": "1334d8c1a7957d0aceebe651e3af9e1c1e0c6f298f1feb39643dd0bd8ad1e955"
+      },
+      "evidence": {
+        "release_page": "https://github.com/muesli/duf/releases/tag/v0.9.1",
+        "verified_at": "2026-08-21T13:56:23Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {"checked": true, "root_directory": "duf-0.9.1", "absolute_paths": false, "parent_traversal": false, "symlinks": false}
+      },
+      "build_requires": ["golang"],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-junegunn-fzf",
+      "package_id": "fzf",
+      "canonical_name": "fzf",
+      "summary": "Command-line fuzzy finder",
+      "license": "MIT",
+      "version": "0.74.3",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-junegunn-fzf", "source": "arch", "original_name": "fzf", "package_base": "fzf", "source_version": "0.74.2-1", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-junegunn-fzf", "source": "debian", "original_name": "fzf", "package_base": "fzf", "source_version": "0.60.3-1", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-junegunn-fzf", "source": "fedora", "original_name": "fzf", "package_base": "fzf", "source_version": "0.67.0-1.fc44", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-junegunn-fzf", "source": "opensuse", "original_name": "fzf", "package_base": "fzf", "source_version": "0.74.0-1.2", "relationship": "upstream-component"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/junegunn/fzf",
+        "repository_url": "https://github.com/junegunn/fzf",
+        "release_api": "https://api.github.com/repos/junegunn/fzf/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/junegunn/fzf/archive/refs/tags/v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/junegunn/fzf/archive/refs/tags/v0.74.3.tar.gz",
+        "filename": "fzf-0.74.3.tar.gz",
+        "sha256": "5b142217c3068647a7d8faa9c678cffada100b5f11a48609aa79c94ce04b28ef"
+      },
+      "evidence": {
+        "release_page": "https://github.com/junegunn/fzf/releases/tag/v0.74.3",
+        "verified_at": "2026-08-21T13:59:00Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {"checked": true, "root_directory": "fzf-0.74.3", "absolute_paths": false, "parent_traversal": false, "symlinks": false}
+      },
+      "build_requires": ["golang", "make"],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-burntsushi-ripgrep",
+      "package_id": "ripgrep",
+      "canonical_name": "ripgrep",
+      "summary": "A search tool that combines the usability of ag with the raw speed of grep",
+      "license": "MIT OR Unlicense",
+      "version": "15.2.0",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-burntsushi-ripgrep", "source": "arch", "original_name": "ripgrep", "package_base": "ripgrep", "source_version": "15.2.0-1", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-burntsushi-ripgrep", "source": "debian", "original_name": "rust-ripgrep", "package_base": "rust-ripgrep", "source_version": "14.1.1-1", "relationship": "metadata-clue"},
+        {"snapshot_component_id": "github.com-burntsushi-ripgrep", "source": "fedora", "original_name": "rust-ripgrep", "package_base": "rust-ripgrep", "source_version": "14.1.1-4.fc44", "relationship": "metadata-clue"},
+        {"snapshot_component_id": "github.com-burntsushi-ripgrep", "source": "opensuse", "original_name": "ripgrep", "package_base": "ripgrep", "source_version": "15.2.0-1.2", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-burntsushi-ripgrep", "source": "ubuntu", "original_name": "rust-ripgrep", "package_base": "rust-ripgrep", "source_version": "15.1.0-1ubuntu1", "relationship": "metadata-clue"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/BurntSushi/ripgrep",
+        "repository_url": "https://github.com/BurntSushi/ripgrep",
+        "release_api": "https://api.github.com/repos/BurntSushi/ripgrep/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/BurntSushi/ripgrep/archive/refs/tags/{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/BurntSushi/ripgrep/archive/refs/tags/15.2.0.tar.gz",
+        "filename": "ripgrep-15.2.0.tar.gz",
+        "sha256": "7605249d3eb0d5f170e3414498e3344e26b1e7a147aec518b57090b80036a562"
+      },
+      "evidence": {
+        "release_page": "https://github.com/BurntSushi/ripgrep/releases/tag/15.2.0",
+        "verified_at": "2026-08-21T13:56:23Z",
+        "method": "downloaded-official-tag-archive-and-calculated-sha256",
+        "license_file": "COPYING and UNLICENSE",
+        "archive_inspection": {"checked": true, "root_directory": "ripgrep-15.2.0", "absolute_paths": false, "parent_traversal": false, "symlinks": true, "unsafe_links": false, "link_count": 1}
+      },
+      "build_requires": ["cargo", "gcc"],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-jarun-bcal",
+      "package_id": "bcal",
+      "canonical_name": "bcal",
+      "summary": "Storage conversion and expression calculator",
+      "license": "GPL-3.0-only",
+      "version": "2.5",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-jarun-bcal", "source": "aur", "original_name": "bcal", "package_base": "bcal", "source_version": "2.5-1", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-jarun-bcal", "source": "debian", "original_name": "bcal", "package_base": "bcal", "source_version": "2.4-2", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-jarun-bcal", "source": "fedora", "original_name": "bcal", "package_base": "bcal", "source_version": "2.5-1.fc44", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-jarun-bcal", "source": "opensuse", "original_name": "bcal", "package_base": "bcal", "source_version": "2.4-2.5", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-jarun-bcal", "source": "ubuntu", "original_name": "bcal", "package_base": "bcal", "source_version": "2.4-2.1build1", "relationship": "upstream-component"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/jarun/bcal",
+        "repository_url": "https://github.com/jarun/bcal",
+        "release_api": "https://api.github.com/repos/jarun/bcal/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/jarun/bcal/releases/download/v{version}/bcal-v{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/jarun/bcal/releases/download/v2.5/bcal-v2.5.tar.gz",
+        "filename": "bcal-v2.5.tar.gz",
+        "sha256": "794fcf539dcc759bc144ebb56a290f1eda2d1af0bbe7473daad19cc31cac431e"
+      },
+      "evidence": {
+        "release_page": "https://github.com/jarun/bcal/releases/tag/v2.5",
+        "verified_at": "2026-08-21T15:12:00Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "LICENSE",
+        "archive_inspection": {"checked": true, "root_directory": "bcal-2.5", "absolute_paths": false, "parent_traversal": false, "symlinks": false, "link_count": 0}
+      },
+      "build_requires": ["gcc", "make", "readline-devel"],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-tgraf-bmon",
+      "package_id": "bmon",
+      "canonical_name": "bmon",
+      "summary": "Portable bandwidth monitor and rate estimator",
+      "license": "MIT AND BSD-2-Clause",
+      "version": "4.0",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-tgraf-bmon", "source": "arch", "original_name": "bmon", "package_base": "bmon", "source_version": "4.0-5", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-tgraf-bmon", "source": "debian", "original_name": "bmon", "package_base": "bmon", "source_version": "1:4.0-10", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-tgraf-bmon", "source": "fedora", "original_name": "bmon", "package_base": "bmon", "source_version": "4.0-15.fc44", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-tgraf-bmon", "source": "opensuse", "original_name": "bmon", "package_base": "bmon", "source_version": "4.0-1.39", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-tgraf-bmon", "source": "ubuntu", "original_name": "bmon", "package_base": "bmon", "source_version": "1:4.0-10build1", "relationship": "upstream-component"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/tgraf/bmon",
+        "repository_url": "https://github.com/tgraf/bmon",
+        "release_api": "https://api.github.com/repos/tgraf/bmon/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/Jafaral/bmon/releases/download/v{version}/bmon-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://github.com/Jafaral/bmon/releases/download/v4.0/bmon-4.0.tar.gz",
+        "filename": "bmon-4.0.tar.gz",
+        "sha256": "02fdc312b8ceeb5786b28bf905f54328f414040ff42f45c83007f24b76cc9f7a"
+      },
+      "evidence": {
+        "release_page": "https://github.com/Jafaral/bmon/releases/tag/v4.0",
+        "verified_at": "2026-08-21T15:12:00Z",
+        "method": "downloaded-official-release-asset-and-calculated-sha256",
+        "license_file": "LICENSE.MIT and LICENSE.BSD",
+        "archive_inspection": {"checked": true, "root_directory": "bmon-4.0", "absolute_paths": false, "parent_traversal": false, "symlinks": false, "link_count": 0}
+      },
+      "build_requires": ["autoconf", "automake", "gcc", "libconfuse-devel", "libnl3-devel", "libtool", "make", "ncurses-devel", "pkgconf-pkg-config"],
+      "requires": []
+    },
+    {
+      "component_id": "github.com-opensuse-catatonit",
+      "package_id": "catatonit",
+      "canonical_name": "catatonit",
+      "summary": "A minimal container init process",
+      "license": "GPL-2.0-or-later",
+      "version": "0.2.1",
+      "lineage_promotions": [
+        {"snapshot_component_id": "github.com-opensuse-catatonit", "source": "arch", "original_name": "catatonit", "package_base": "catatonit", "source_version": "0.2.1-2", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-opensuse-catatonit", "source": "debian", "original_name": "catatonit", "package_base": "catatonit", "source_version": "0.2.1-2", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-opensuse-catatonit", "source": "fedora", "original_name": "catatonit", "package_base": "catatonit", "source_version": "0.2.1-5.fc44", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-opensuse-catatonit", "source": "opensuse", "original_name": "catatonit", "package_base": "catatonit", "source_version": "0.2.1-1.7", "relationship": "upstream-component"},
+        {"snapshot_component_id": "github.com-opensuse-catatonit", "source": "ubuntu", "original_name": "catatonit", "package_base": "catatonit", "source_version": "0.2.1-2build1", "relationship": "upstream-component"}
+      ],
+      "upstream": {
+        "homepage": "https://github.com/openSUSE/catatonit",
+        "repository_url": "https://github.com/openSUSE/catatonit",
+        "release_api": "https://api.github.com/repos/openSUSE/catatonit/releases",
+        "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+        "source_url_template": "https://github.com/openSUSE/catatonit/releases/download/v{version}/catatonit.tar.xz"
+      },
+      "source": {
+        "url": "https://github.com/openSUSE/catatonit/releases/download/v0.2.1/catatonit.tar.xz",
+        "filename": "catatonit.tar.xz",
+        "sha256": "9950425501af862e12f618bdc930ea755c46db6a16072a1462b4fc93b2bd59bc"
+      },
+      "evidence": {
+        "release_page": "https://github.com/openSUSE/catatonit/releases/tag/v0.2.1",
+        "verified_at": "2026-08-21T15:12:00Z",
+        "method": "downloaded-official-archive-and-matched-publisher-sha256sum",
+        "license_file": "COPYING",
+        "archive_inspection": {"checked": true, "root_directory": "catatonit-0.2.1", "absolute_paths": false, "parent_traversal": false, "symlinks": false, "link_count": 0}
+      },
+      "build_requires": ["autoconf", "automake", "gcc", "libtool", "make"],
+      "requires": []
+    },
+    {
+      "component_id": "gnu.org-software-hello",
+      "package_id": "hello",
+      "canonical_name": "hello",
+      "summary": "A Friendly Greeting Program",
+      "license": "GPL-3.0-or-later",
+      "version": "2.12.3",
+      "upstream": {
+        "homepage": "https://www.gnu.org/software/hello/",
+        "repository_url": "https://git.savannah.gnu.org/git/hello.git",
+        "release_api": "https://ftp.gnu.org/gnu/hello/",
+        "release_regex": "hello-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+        "source_url_template": "https://ftp.gnu.org/gnu/hello/hello-{version}.tar.gz"
+      },
+      "source": {
+        "url": "https://ftp.gnu.org/gnu/hello/hello-2.12.3.tar.gz",
+        "filename": "hello-2.12.3.tar.gz",
+        "sha256": "0d5f60154382fee10b114a1c34e785d8b1f492073ae2d3a6f7b147687b366aa0"
+      },
+      "evidence": {
+        "release_page": "https://www.gnu.org/software/hello/",
+        "verified_at": "2026-08-23T02:00:00Z",
+        "method": "downloaded-official-archive-and-calculated-sha256",
+        "license_file": "COPYING",
+        "archive_inspection": {
+          "checked": true,
+          "root_directory": "hello-2.12.3",
+          "absolute_paths": false,
+          "parent_traversal": false,
+          "symlinks": false,
+          "link_count": 0
+        }
+      },
+      "build_requires": ["gcc", "make", "gettext", "texinfo"],
+      "requires": []
     }
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "package_id": "libtommath",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "296272d93435991308eb73607600c034b558807a07e829e751142e65ccfa9d08"},
+      "filename": "ltm-1.3.0.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unlicense source is fetched from the official versioned release asset in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/libtom/libtommath/releases/download/v1.3.0/ltm-1.3.0.tar.xz",
+      "version": "1.3.0"
+    }
+  ]
+}

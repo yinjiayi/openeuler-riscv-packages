@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "cminpack",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/devernay/cminpack/tar.gz/48c2b6ecd180ad134c626365e3092ba5dd5463a7",
+      "filename": "cminpack-1.3.14.tar.gz",
+      "version": "1.3.14",
+      "digests": {"sha256": "c5b435fd30acd4c93bcbf0dcfe21c98f0181bf42d6b71e52e82bd2af6e181c58"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Redistribution and modification are permitted by the bundled MINPACK license terms."}
+    }
+  ]
+}

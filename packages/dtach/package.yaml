@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "dtach",
+  "rpm": {
+    "name": "dtach",
+    "summary": "Small terminal session detach and attach utility",
+    "license": "GPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "github.com-crigler-dtach",
+    "homepage": "https://github.com/crigler/dtach",
+    "source_repository": "https://github.com/crigler/dtach",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/crigler/dtach/tags",
+    "release_regex": "dtach-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://sourceforge.net/projects/dtach/files/dtach/{version}/dtach-{version}.tar.gz/download"
+  },
+  "version": {
+    "current": "0.9",
+    "release": "1",
+    "latest_detected": "0.9"
+  },
+  "discovery": {
+    "snapshot_id": "reviewed-20260814T035920Z-dtach",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "dtach",
+        "package_base": "dtach",
+        "source_version": "0.9-4",
+        "evidence_url": "https://aur.archlinux.org/packages/dtach",
+        "observed_at": "2026-08-14T04:10:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "dtach",
+        "package_base": "dtach",
+        "source_version": "0.9-7",
+        "evidence_url": "https://packages.debian.org/trixie/source/dtach",
+        "observed_at": "2026-08-14T04:10:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "dtach.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official SourceForge 0.9 archive is independently SHA-256 pinned. AUR and Debian metadata are lineage only; no distribution recipe was executed. CI is intentionally allowed to access the network during the target build."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libjwt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libjwt",
+        "package_name": "libjwt",
+        "source": "aur",
+        "source_version": "3.2.3-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libjwt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libjwt",
+        "package_name": "libjwt",
+        "source": "debian",
+        "source_version": "1.17.2-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libjwt/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libjwt",
+        "package_name": "libjwt",
+        "source": "fedora",
+        "source_version": "1.12.1-21.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libjwt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libjwt",
+        "package_name": "libjwt",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.18.3-2.3"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libjwt",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libjwt",
+        "package_name": "libjwt",
+        "source": "ubuntu",
+        "source_version": "1.17.2-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libjwt.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Publisher release 3.6.1 and all 40 tests for the target-supported OpenSSL backend were reviewed and pinned; external packaging was metadata-only lineage evidence.",
+    "status": "active"
+  },
+  "package_id": "libjwt",
+  "rpm": {
+    "license": "MPL-2.0",
+    "name": "libjwt",
+    "summary": "C library for JSON Web Tokens, JWK, and JWKS"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "github.com-benmcollins-libjwt",
+    "homepage": "https://libjwt.io",
+    "release_api": "https://api.github.com/repos/benmcollins/libjwt/releases/latest",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/benmcollins/libjwt",
+    "source_url_template": "https://github.com/benmcollins/libjwt/releases/download/v{version}/libjwt-{version}.tar.xz"
+  },
+  "version": {
+    "current": "3.6.1",
+    "latest_detected": "3.6.1",
+    "release": "1"
+  }
+}

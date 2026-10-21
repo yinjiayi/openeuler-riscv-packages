@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           gtest
-Version:        1.17.0
+Version:        1.18.0
 Release:        1%{?dist}
 Summary:        Google C++ testing and mocking framework
 License:        BSD-3-Clause
 URL:            https://github.com/google/googletest
-Source0:        gtest-1.17.0.tar.gz
+Source0:        v1.18.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  make

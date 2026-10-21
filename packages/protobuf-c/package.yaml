@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "protobuf-c",
+  "rpm": {
+    "name": "protobuf-c",
+    "summary": "C implementation of Protocol Buffers",
+    "license": "BSD-2-Clause"
+  },
+  "upstream": {
+    "component": "github.com-protobuf-c-protobuf-c",
+    "homepage": "https://github.com/protobuf-c/protobuf-c",
+    "source_repository": "https://github.com/protobuf-c/protobuf-c.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/protobuf-c/protobuf-c/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/protobuf-c/protobuf-c/releases/download/v{version}/protobuf-c-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.5.2",
+    "release": "1",
+    "latest_detected": "1.5.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "protobuf-c",
+        "package_base": "protobuf-c",
+        "source_version": "1.5.2-12",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/protobuf-c/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "protobuf-c",
+        "package_base": "protobuf-c",
+        "source_version": "1.5.1-1",
+        "evidence_url": "https://packages.debian.org/trixie/source/protobuf-c",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "protobuf-c",
+        "package_base": "protobuf-c",
+        "source_version": "1.5.2-2.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/protobuf-c/protobuf-c/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "protobuf-c",
+        "package_base": "protobuf-c",
+        "source_version": "1.5.2-2.5",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/protobuf-c",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "protobuf-c",
+        "package_base": "protobuf-c",
+        "source_version": "1.5.1-1ubuntu2",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/protobuf-c",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 360,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "protobuf-c.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official protobuf-c 1.5.2 release asset is SHA-256 pinned and is the current non-prerelease GitHub release. Arch and Fedora 44 carry 1.5.2 while Debian and Ubuntu retain 1.5.1; openSUSE independently carries 1.5.2. AUR RPC returned no matching package and no external recipe was executed. This upgrades target EVR 1.4.1-1 to 1.5.2-1 while preserving libprotobuf-c.so.1, the compiler compatibility symlink, and the protobuf-c-compiler capability. Fixed target protobuf-devel and protobuf-compiler are both 25.1-12."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases-latest"
+  }
+}

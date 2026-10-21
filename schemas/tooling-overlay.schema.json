@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yinjiayi.github.io/openeuler-riscv-packages/schemas/tooling-overlay.schema.json",
+  "title": "Protected-main exact package overlay evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "status",
+    "package_id",
+    "package_commit_sha",
+    "package_tree_sha",
+    "tooling_commit_sha"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "protected-main-package-overlay"},
+    "status": {"const": "passed"},
+    "package_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "package_commit_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "package_tree_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "tooling_commit_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    }
+  }
+}

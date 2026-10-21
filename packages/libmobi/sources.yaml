@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "libmobi",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/bfabiszewski/libmobi/tar.gz/85dcfe803fc2a21020ddcf15c3eb66b93d388add",
+      "filename": "libmobi-0.12.tar.gz",
+      "version": "0.12",
+      "digests": {"sha256": "5a4528a8aacc967a4ac65328c870dec5763fa7688be84faa47b9452f1e56e55c"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Redistribution and modification are permitted by the upstream LGPL-3.0-or-later license."}
+    }
+  ]
+}

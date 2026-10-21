@@ -1,0 +1,21 @@
+{
+  "package_id": "protozero",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "68d1df951b4d8397355c8fc9ffed40d9c06282a877fe847403feac6edcee3ef1"
+      },
+      "filename": "protozero-1.8.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/mapbox/protozero/archive/refs/tags/v1.8.2.tar.gz",
+      "version": "1.8.2"
+    }
+  ]
+}

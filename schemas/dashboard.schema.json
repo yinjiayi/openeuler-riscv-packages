@@ -4,17 +4,31 @@
   "title": "GitHub Pages package dashboard data",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "repository", "generated_at", "coverage_claim", "update_health", "packages"],
+  "required": ["schema_version", "repository", "generated_at", "coverage_claim", "inventory", "update_health", "packages"],
   "properties": {
     "schema_version": {"const": 1},
     "repository": {"const": "yinjiayi/openeuler-riscv-packages"},
     "generated_at": {"type": "string", "format": "date-time"},
-    "coverage_claim": {"const": "observed-managed-packages-only"},
+    "coverage_claim": {"enum": ["full-package-inventory", "observed-managed-packages-only"]},
+    "inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "entry_count", "status_counts", "source_generated_at", "main_ref", "snapshot_id"],
+      "properties": {
+        "url": {"const": "inventory.json"},
+        "entry_count": {"type": "integer", "minimum": 0},
+        "status_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "source_generated_at": {"type": ["string", "null"], "format": "date-time"},
+        "main_ref": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"},
+        "snapshot_id": {"type": ["string", "null"]}
+      }
+    },
     "update_health": {
       "type": "object",
       "additionalProperties": false,
       "required": ["last_scheduled_at", "last_started_at", "last_completed_at", "expected", "checked", "coverage_percent", "failed_shards", "due_rechecks", "consecutive_missed_days"],
       "properties": {
+        "source_available": {"type": "boolean"},
         "last_scheduled_at": {"type": ["string", "null"], "format": "date-time"},
         "last_started_at": {"type": ["string", "null"], "format": "date-time"},
         "last_completed_at": {"type": ["string", "null"], "format": "date-time"},
@@ -24,6 +38,56 @@
         "failed_shards": {"type": "integer", "minimum": 0},
         "due_rechecks": {"type": "integer", "minimum": 0},
         "consecutive_missed_days": {"type": "integer", "minimum": 0}
+      }
+    },
+    "build_history": {
+      "type": "object",
+      "required": ["url", "source_generated_at", "cutoff", "coverage_complete", "lower_bound", "reasons", "publication_coverage", "metrics", "definitions", "packages"],
+      "properties": {
+        "url": {"const": "build-history.json"},
+        "source_generated_at": {"type": ["string", "null"], "format": "date-time"},
+        "current_pr_source_available": {"type": "boolean"},
+        "current_pr_source_generated_at": {"type": ["string", "null"], "format": "date-time"},
+        "current_pr_source_complete": {"type": "boolean"},
+        "cutoff": {"type": ["string", "null"], "format": "date-time"},
+        "coverage_complete": {"type": "boolean"},
+        "lower_bound": {"type": "boolean"},
+        "reasons": {"type": "array", "items": {"type": ["string", "object"]}},
+        "publication_coverage": {"enum": ["complete", "partial", "unavailable"]},
+        "publication_source_generated_at": {"type": ["string", "null"], "format": "date-time"},
+        "publication_gaps": {"type": "array", "items": {"type": ["object", "string"]}},
+        "publication_files": {"type": "object", "additionalProperties": {"type": ["integer", "null"], "minimum": 0}},
+        "listed_run_count": {"type": "integer", "minimum": 0},
+        "processed_attempt_count": {"type": "integer", "minimum": 0},
+        "unresolved_count": {"type": "integer", "minimum": 0},
+        "duplicate_observations_ignored": {"type": "integer", "minimum": 0},
+        "mapping_conflicts": {"type": "array", "items": {"type": "object", "required": ["alias", "package_ids"], "properties": {"alias": {"type": "string"}, "package_ids": {"type": "array", "items": {"type": "string"}, "minItems": 2}}}},
+        "managed_mapping_conflicts": {"type": "array", "items": {"type": "object"}},
+        "metrics": {"type": "object", "additionalProperties": false, "required": ["cumulative_success_packages", "current_main_success_packages", "current_pr_success_packages", "published_packages"], "properties": {
+          "cumulative_success_packages": {"type": "integer", "minimum": 0},
+          "current_main_success_packages": {"type": "integer", "minimum": 0},
+          "current_pr_success_packages": {"type": "integer", "minimum": 0},
+          "published_packages": {"type": ["integer", "null"], "minimum": 0},
+          "observed_published_packages": {"type": "integer", "minimum": 0}
+        }},
+        "definitions": {"type": "object", "additionalProperties": {"type": "string"}},
+        "packages": {"type": "array", "items": {"type": "object", "required": ["package_id", "name", "on_current_main", "ever_succeeded", "success_observation_count", "current_main_status", "current_pr_status", "published", "observations", "publication"], "properties": {
+          "package_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$", "maxLength": 100},
+          "name": {"type": "string"},
+          "on_current_main": {"type": "boolean"},
+          "current_recipe_tree_sha": {"type": ["string", "null"], "pattern": "^[a-f0-9]{40}$"},
+          "current_pr_head_sha": {"type": ["string", "null"], "pattern": "^[a-f0-9]{40}$"},
+          "ever_succeeded": {"type": "boolean"},
+          "success_observation_count": {"type": "integer", "minimum": 0},
+          "current_main_status": {"enum": ["passed", "failed", "unknown"]},
+          "current_main_recipe_succeeded": {"type": "boolean"},
+          "current_pr_status": {"enum": ["passed", "failed", "building", "ci-queued", "needs-human", "needs-native-riscv", "repair-queued", "codex-repairing", "unknown"]},
+          "published": {"type": "boolean"},
+          "last_success_at": {"type": ["string", "null"], "format": "date-time"},
+          "last_success_run_url": {"type": ["string", "null"], "format": "uri"},
+          "observations": {"type": "array", "items": {"type": "object"}},
+          "publication": {"type": "object"}
+        }}}
       }
     },
     "packages": {
@@ -38,7 +102,7 @@
           "current_version": {"type": "string"},
           "latest_upstream_version": {"type": ["string", "null"]},
           "last_successful_upstream_check_at": {"type": ["string", "null"], "format": "date-time"},
-          "status": {"enum": ["discovered", "pr-open", "ci-queued", "building", "repair-queued", "codex-repairing", "failed", "needs-native-riscv", "needs-human", "passed", "merged"]},
+          "status": {"enum": ["discovered", "reviewed", "open-pr", "merged-pr", "managed", "pr-open", "ci-queued", "building", "repair-queued", "codex-repairing", "failed", "needs-native-riscv", "needs-human", "passed", "build-succeeded", "published", "merged"]},
           "riscv_status": {"enum": ["unknown", "qemu-buildable", "native-verified", "patched-for-riscv", "qemu-limitation", "unsupported"]},
           "sources": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
           "patch_count": {"type": "integer", "minimum": 0},
@@ -49,12 +113,15 @@
           "links": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["package", "pr", "ci", "logs"],
+            "required": ["package", "pr", "ci", "logs", "rpm", "srpm", "publication"],
             "properties": {
               "package": {"type": "string"},
               "pr": {"type": ["string", "null"]},
               "ci": {"type": ["string", "null"]},
-              "logs": {"type": ["string", "null"]}
+              "logs": {"type": ["string", "null"]},
+              "rpm": {"type": "array", "items": {"type": "string", "format": "uri"}},
+              "srpm": {"type": "array", "items": {"type": "string", "format": "uri"}},
+              "publication": {"type": ["string", "null"], "format": "uri"}
             }
           }
         }

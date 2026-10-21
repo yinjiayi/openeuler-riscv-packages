@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "datamash",
+  "rpm": {
+    "name": "datamash",
+    "summary": "Command-line calculations on tabular data",
+    "license": "GPL-3.0-or-later AND GFDL-1.3-or-later"
+  },
+  "upstream": {
+    "component": "gnu.org-datamash",
+    "homepage": "https://www.gnu.org/software/datamash/",
+    "source_repository": "https://git.savannah.gnu.org/cgit/datamash.git",
+    "release_channel": "stable",
+    "release_api": "https://ftp.gnu.org/gnu/datamash/",
+    "release_regex": "datamash-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://ftp.gnu.org/gnu/datamash/datamash-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.9",
+    "release": "1",
+    "latest_detected": "1.9"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "datamash",
+        "package_base": "datamash",
+        "source_version": "1.9-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/datamash/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "datamash",
+        "package_base": "datamash",
+        "source_version": "1.9-1",
+        "evidence_url": "https://packages.debian.org/trixie/source/datamash",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "datamash",
+        "package_base": "datamash",
+        "source_version": "1.9-3.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/datamash/datamash/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "datamash",
+        "package_base": "datamash",
+        "source_version": "1.9-1.6",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/datamash",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "datamash",
+        "package_base": "datamash",
+        "source_version": "1.9-2",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/datamash",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 360,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "datamash.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "GNU datamash 1.9 is the current stable GNU release and its exact archive is pinned. Arch, Fedora 44, Debian, openSUSE, and Ubuntu corroborate the frozen lineage; AUR RPC returned no matching package, and no AUR recipe or distribution spec was executed. The fixed target has every BuildRequires, including Valgrind and German locale data so upstream expensive and i18n checks can execute. The target repository has no datamash EVR or ABI to replace."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "gnu-ftp-index"
+  }
+}

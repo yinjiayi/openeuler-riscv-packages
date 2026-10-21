@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import subprocess
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest import mock
 
@@ -17,9 +18,12 @@ CLIENT_PATH = REPO / "ci" / "rpm-repo-client.py"
 STAGER = REPO / "ci" / "stage-rpm-repository-upload.py"
 LIST_PACKAGES = REPO / "ci" / "list-rpm-repo-packages.py"
 BUILDDEPS_PATH = REPO / "ci" / "prepare-build-deps.py"
+INSTALL_SMOKE = REPO / "ci" / "install-smoke.sh"
+RSYNC_RETRY = REPO / "ci" / "rsync-with-lock-retry.sh"
 PUBLISHER_PATH = REPO / "ops" / "rpm-repo-server" / "rpmrepo_publish.py"
 BACKFILL_WORKFLOW = REPO / ".github" / "workflows" / "rpm-repo-backfill.yml"
 PACKAGE_WORKFLOW = REPO / ".github" / "workflows" / "package-ci.yml"
+GOLDEN_WORKFLOW = REPO / ".github" / "workflows" / "golden-evaluation.yml"
 PERMISSION_LEVEL = {"none": 0, "read": 1, "write": 2}
 
 
@@ -112,6 +116,169 @@ class RepositoryClientTests(unittest.TestCase):
         state["repositories"]["riscv64"]["baseurl"] = f"{client.PUBLIC_ROOT}/riscv64/"
         with self.assertRaisesRegex(ValueError, "immutable expected generation"):
             client.validate_state(state)
+
+    def resolve_args(self, root: Path, allow_unavailable: bool) -> SimpleNamespace:
+        return SimpleNamespace(
+            state_url=client.STATE_URL,
+            repo_file=str(root / "project.repo"),
+            output=str(root / "resolution.json"),
+            allow_unavailable=allow_unavailable,
+        )
+
+    def test_connection_failure_requires_explicit_official_only_fallback(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with mock.patch.object(
+                client,
+                "load_and_verify_state",
+                side_effect=client.RepositoryUnavailable("unavailable"),
+            ):
+                with self.assertRaises(client.RepositoryUnavailable):
+                    client.resolve(self.resolve_args(root, False))
+                self.assertEqual(client.resolve(self.resolve_args(root, True)), 0)
+            resolution = json.loads((root / "resolution.json").read_text(encoding="utf-8"))
+            repository = (root / "project.repo").read_text(encoding="utf-8")
+            self.assertEqual(resolution["status"], "unavailable")
+            self.assertEqual(resolution["reason"], "endpoint-unavailable")
+            self.assertEqual(resolution["fallback"]["active_repository_ids"], ["openeuler-rva23"])
+            self.assertIsNone(resolution["state_sha256"])
+            self.assertIn("enabled=0", repository)
+            self.assertIn("skip_if_unavailable=1", repository)
+
+    def test_invalid_or_untrusted_content_never_falls_back(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with mock.patch.object(
+                client,
+                "load_and_verify_state",
+                side_effect=ValueError("repomd.xml does not match state.json"),
+            ):
+                with self.assertRaisesRegex(ValueError, "does not match"):
+                    client.resolve(self.resolve_args(root, True))
+            self.assertFalse((root / "resolution.json").exists())
+            self.assertFalse((root / "project.repo").exists())
+
+    def test_transient_http_service_errors_are_unavailable_but_client_errors_fail_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            transient = client.urllib.error.HTTPError(
+                client.STATE_URL, 503, "service unavailable", {}, None
+            )
+            with mock.patch.object(client, "load_and_verify_state", side_effect=client.RepositoryUnavailable()):
+                self.assertEqual(client.resolve(self.resolve_args(root, True)), 0)
+            with mock.patch.object(client, "load_and_verify_state", side_effect=ValueError("HTTP 404")):
+                with self.assertRaisesRegex(ValueError, "HTTP 404"):
+                    client.resolve(self.resolve_args(root, True))
+            self.assertIsInstance(transient, client.urllib.error.HTTPError)
+
+    def test_available_generation_remains_checksum_and_url_bound(self) -> None:
+        generation = f"hello-{'a' * 40}-123-1"
+        state = self.state(generation)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with mock.patch.object(
+                client,
+                "load_and_verify_state",
+                return_value=(state, "c" * 64, {"riscv64": "b" * 64, "source": "b" * 64}),
+            ):
+                self.assertEqual(client.resolve(self.resolve_args(root, True)), 0)
+            resolution = json.loads((root / "resolution.json").read_text(encoding="utf-8"))
+            repository = (root / "project.repo").read_text(encoding="utf-8")
+            self.assertEqual(resolution["status"], "passed")
+            self.assertEqual(resolution["generation"], generation)
+            self.assertEqual(resolution["state_sha256"], "c" * 64)
+            self.assertIn(state["repositories"]["riscv64"]["baseurl"], repository)
+            self.assertIn("enabled=1", repository)
+
+
+class SupplementalRepositorySelectionTests(unittest.TestCase):
+    def test_official_only_fallback_disables_the_supplemental_repository(self) -> None:
+        evidence = {
+            "kind": "supplemental-repository-resolution",
+            "status": "unavailable",
+            "state_url": client.STATE_URL,
+            "state_sha256": None,
+            "generation": None,
+            "repositories": {},
+            "reason": "endpoint-unavailable",
+            "fallback": {
+                "active_repository_ids": ["openeuler-rva23"],
+                "supplemental_repository_enabled": False,
+            },
+        }
+        available, record = builddeps.validate_supplemental_repository(
+            evidence, client.unavailable_repo_text()
+        )
+        self.assertFalse(available)
+        self.assertEqual(record["status"], "unavailable")
+        self.assertEqual(record["fallback_repository_ids"], ["openeuler-rva23"])
+
+    def test_tampered_fallback_configuration_is_rejected(self) -> None:
+        evidence = {
+            "kind": "supplemental-repository-resolution",
+            "status": "unavailable",
+            "state_url": client.STATE_URL,
+            "state_sha256": None,
+            "generation": None,
+            "repositories": {},
+            "reason": "endpoint-unavailable",
+            "fallback": {
+                "active_repository_ids": ["openeuler-rva23"],
+                "supplemental_repository_enabled": False,
+            },
+        }
+        repository = client.unavailable_repo_text().replace("enabled=0", "enabled=1")
+        with self.assertRaisesRegex(ValueError, "fallback is invalid"):
+            builddeps.validate_supplemental_repository(evidence, repository)
+
+    def test_extra_dnf_repository_setting_is_rejected(self) -> None:
+        evidence = {
+            "kind": "supplemental-repository-resolution",
+            "status": "unavailable",
+            "state_url": client.STATE_URL,
+            "state_sha256": None,
+            "generation": None,
+            "repositories": {},
+            "reason": "endpoint-unavailable",
+            "fallback": {
+                "active_repository_ids": ["openeuler-rva23"],
+                "supplemental_repository_enabled": False,
+            },
+        }
+        repository = client.unavailable_repo_text() + "proxy=http://example.invalid/\n"
+        with self.assertRaisesRegex(ValueError, "unexpected settings"):
+            builddeps.validate_supplemental_repository(evidence, repository)
+
+    def test_verified_generation_remains_enabled(self) -> None:
+        generation = f"hello-{'a' * 40}-123-1"
+        baseurl = f"{client.PUBLIC_ROOT}/generations/{generation}/riscv64/"
+        evidence = {
+            "kind": "supplemental-repository-resolution",
+            "status": "passed",
+            "state_url": client.STATE_URL,
+            "state_sha256": "c" * 64,
+            "generation": generation,
+            "repositories": {
+                "riscv64": {"baseurl": baseurl, "repomd_sha256": "b" * 64, "rpm_count": 2}
+            },
+        }
+        repository = "\n".join(
+            [
+                "[openeuler-riscv-project]",
+                f"baseurl={baseurl}",
+                "enabled=1",
+                "gpgcheck=0",
+                "repo_gpgcheck=0",
+                "name=openEuler RISC-V project packages (immutable generation)",
+                "metadata_expire=never",
+                "skip_if_unavailable=0",
+                "module_hotfixes=1",
+                "",
+            ]
+        )
+        available, record = builddeps.validate_supplemental_repository(evidence, repository)
+        self.assertTrue(available)
+        self.assertEqual(record["repomd_sha256"], "b" * 64)
 
 
 class UploadStagingTests(unittest.TestCase):
@@ -235,13 +402,64 @@ class BackfillPlanTests(unittest.TestCase):
             run([str(LIST_PACKAGES), "--packages-dir", str(packages), "--output", str(output)])
             plan = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(plan["packages"], ["active"])
+            self.assertEqual(plan["shards"], [
+                {"index": 0, "package_count": 1, "packages": ["active"]},
+                {"index": 1, "package_count": 0, "packages": []},
+            ])
+            self.assertEqual(plan["max_parallel_per_shard"], 25)
             self.assertEqual({item["package_id"] for item in plan["skipped"]}, {"native", "retired", "golden-success-hello"})
+
+    def test_more_than_one_matrix_is_split_deterministically(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            packages = root / "packages"
+            expected = [f"pkg-{index:03d}" for index in range(257)]
+            for package_id in expected:
+                directory = packages / package_id
+                directory.mkdir(parents=True)
+                (directory / "package.yaml").write_text(
+                    json.dumps({"build": {"profile": "qemu-user"}, "maintenance": {"status": "active"}}),
+                    encoding="utf-8",
+                )
+            output = root / "plan.json"
+            github_output = root / "github-output"
+            run([
+                str(LIST_PACKAGES),
+                "--packages-dir", str(packages),
+                "--output", str(output),
+                "--github-output", str(github_output),
+                "--max-concurrency", "50",
+            ])
+            plan = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual([shard["package_count"] for shard in plan["shards"]], [129, 128])
+            self.assertEqual(plan["shards"][0]["packages"], expected[0::2])
+            self.assertEqual(plan["shards"][1]["packages"], expected[1::2])
+            self.assertEqual(plan["max_parallel_per_shard"], 25)
+            values = dict(line.split("=", 1) for line in github_output.read_text(encoding="utf-8").splitlines())
+            self.assertEqual(json.loads(values["packages_0"]), expected[0::2])
+            self.assertEqual(json.loads(values["packages_1"]), expected[1::2])
+            self.assertEqual(values["package_count"], "257")
+            self.assertEqual(values["max_parallel_per_shard"], "25")
 
 
 class BackfillWorkflowContractTests(unittest.TestCase):
-    def test_backfill_keeps_parallelism_without_overloading_the_single_upstream(self) -> None:
+    def test_backfill_splits_fifty_self_hosted_workers_across_two_matrices(self) -> None:
         workflow = BACKFILL_WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("max-parallel: 8", workflow)
+        self.assertIn(
+            "--max-concurrency \"${{ vars.RPM_BACKFILL_MAX_CONCURRENCY || '50' }}\"",
+            workflow,
+        )
+        self.assertEqual(
+            workflow.count("max-parallel: ${{ fromJSON(needs.plan.outputs.max_parallel_per_shard) }}"),
+            2,
+        )
+        self.assertIn("package_id: ${{ fromJSON(needs.plan.outputs.packages_0) }}", workflow)
+        self.assertIn("package_id: ${{ fromJSON(needs.plan.outputs.packages_1) }}", workflow)
+        package_workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn(
+            "$GITHUB_REPOSITORY/.github/workflows/rpm-repo-backfill.yml@refs/heads/main",
+            package_workflow,
+        )
 
     def test_caller_permission_ceiling_covers_reusable_workflow_jobs(self) -> None:
         caller_blocks = permission_blocks(BACKFILL_WORKFLOW)
@@ -259,28 +477,161 @@ class BackfillWorkflowContractTests(unittest.TestCase):
         }
         self.assertEqual(insufficient, {})
 
+    def test_package_and_golden_workflows_propagate_official_only_evidence(self) -> None:
+        for path in (PACKAGE_WORKFLOW, GOLDEN_WORKFLOW):
+            workflow = path.read_text(encoding="utf-8")
+            self.assertIn("--allow-unavailable", workflow)
+            self.assertTrue(
+                "artifacts/repository/resolution.json" in workflow
+                or "repository-resolution.json" in workflow
+            )
+            self.assertIn("ci/install-smoke.sh", workflow)
+
+    def test_golden_dependency_preparation_uses_the_package_build_identity(self) -> None:
+        workflow = GOLDEN_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("BUILD_USER: ${{ steps.policy.outputs.build_user }}", workflow)
+        self.assertIn('--build-user "$BUILD_USER"', workflow)
+
+    def test_heavy_dependency_preparation_has_a_bounded_one_hour_window(self) -> None:
+        for path in (PACKAGE_WORKFLOW, GOLDEN_WORKFLOW):
+            workflow = path.read_text(encoding="utf-8")
+            self.assertIn(
+                "--max-bytes 52428800 --timeout-seconds 3600 --",
+                workflow,
+            )
+            self.assertNotIn(
+                "--max-bytes 52428800 --timeout-seconds 1800 --",
+                workflow,
+            )
+
+
+class RrsyncLockRetryTests(unittest.TestCase):
+    def fake_command(self, root: Path) -> tuple[Path, Path]:
+        counter = root / "counter"
+        counter.write_text("0\n", encoding="utf-8")
+        command = root / "fake-rrsync"
+        command.write_text(
+            "#!/bin/sh\n"
+            'count=$(cat "$COUNT_FILE")\n'
+            'count=$((count + 1))\n'
+            'printf "%s\\n" "$count" >"$COUNT_FILE"\n'
+            'if [ "$count" -le "$FAILURES" ]; then\n'
+            '  printf "%s\\n" "$FAILURE_MESSAGE" >&2\n'
+            '  exit "$FAILURE_RESULT"\n'
+            "fi\n"
+            "exit 0\n",
+            encoding="utf-8",
+        )
+        command.chmod(0o755)
+        return command, counter
+
+    def invoke(
+        self,
+        command: Path,
+        counter: Path,
+        failures: int,
+        result: int,
+        message: str,
+    ) -> subprocess.CompletedProcess[str]:
+        environment = dict(os.environ)
+        environment.update(
+            {
+                "COUNT_FILE": str(counter),
+                "FAILURES": str(failures),
+                "FAILURE_RESULT": str(result),
+                "FAILURE_MESSAGE": message,
+                "RRSYNC_LOCK_MAX_ATTEMPTS": "4",
+                "RRSYNC_LOCK_BASE_DELAY_SECONDS": "0",
+                "RRSYNC_LOCK_JITTER_MAX_SECONDS": "0",
+                "RRSYNC_LOCK_JITTER_KEY": "123:demo",
+            }
+        )
+        return subprocess.run(
+            [str(RSYNC_RETRY), "--", str(command)],
+            cwd=REPO,
+            env=environment,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+
+    def test_exact_rrsync_lock_code_retries_then_succeeds(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            command, counter = self.fake_command(Path(temporary))
+            completed = self.invoke(
+                command,
+                counter,
+                2,
+                12,
+                "rrsync error: Another instance of rrsync is already accessing this directory.",
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertEqual(counter.read_text(encoding="utf-8").strip(), "3")
+
+    def test_other_code_12_failure_is_not_retried(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            command, counter = self.fake_command(Path(temporary))
+            completed = self.invoke(command, counter, 3, 12, "rsync authentication failed")
+            self.assertEqual(completed.returncode, 12)
+            self.assertEqual(counter.read_text(encoding="utf-8").strip(), "1")
+
+    def test_lock_text_with_other_exit_code_is_not_retried(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            command, counter = self.fake_command(Path(temporary))
+            completed = self.invoke(
+                command,
+                counter,
+                3,
+                23,
+                "rrsync error: Another instance of rrsync is already accessing this directory.",
+            )
+            self.assertEqual(completed.returncode, 23)
+            self.assertEqual(counter.read_text(encoding="utf-8").strip(), "1")
+
+    def test_workflow_jitter_key_is_distinct_for_each_package(self) -> None:
+        workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn(
+            "RRSYNC_LOCK_JITTER_KEY: ${{ format('{0}:{1}', github.run_id, needs.prepare.outputs.package_id) }}",
+            workflow,
+        )
+        self.assertNotIn("RRSYNC_LOCK_JITTER_SEED: ${{ github.run_id }}", workflow)
+
 
 class BuildRequiresRetryTests(unittest.TestCase):
-    def test_retry_preserves_the_transaction_and_stops_after_success(self) -> None:
-        results = [
-            subprocess.CompletedProcess(["dnf"], 1),
-            subprocess.CompletedProcess(["dnf"], 92),
-            subprocess.CompletedProcess(["dnf"], 0),
-        ]
-        with mock.patch.object(builddeps.subprocess, "run", side_effect=results) as invoked:
-            with mock.patch.object(builddeps.time, "sleep") as sleeper:
-                used = builddeps.run_with_retries(["dnf", "install", "gcc"], delays=(0, 0))
-        self.assertEqual(used, 3)
-        self.assertEqual(invoked.call_count, 3)
-        self.assertEqual(sleeper.call_count, 2)
+    def test_buildrequires_uses_the_container_local_bounded_runner(self) -> None:
+        source = BUILDDEPS_PATH.read_text(encoding="utf-8")
+        self.assertIn('DNF_ATTEMPT_TIMEOUTS_SECONDS = "2100,1100"', source)
+        self.assertIn("DNF_TRANSACTION_BUDGET_SECONDS = 3300", source)
+        self.assertIn("DNF_KILL_AFTER_SECONDS = 10", source)
+        self.assertIn("dst={DNF_TRANSACTION_CONTAINER_PATH},readonly", source)
+        self.assertIn('"dependency_install_transaction"', source)
+        self.assertNotIn("run_with_retries", source)
 
-    def test_retry_is_bounded_for_deterministic_failures(self) -> None:
-        result = subprocess.CompletedProcess(["dnf"], 1)
-        with mock.patch.object(builddeps.subprocess, "run", return_value=result) as invoked:
-            with mock.patch.object(builddeps.time, "sleep"):
-                with self.assertRaises(subprocess.CalledProcessError):
-                    builddeps.run_with_retries(["dnf", "install", "missing"], delays=(0, 0))
-        self.assertEqual(invoked.call_count, 3)
+    def test_installed_smoke_allows_one_full_slow_metadata_attempt(self) -> None:
+        source = INSTALL_SMOKE.read_text(encoding="utf-8")
+        self.assertIn("--attempt-timeouts-seconds 2100,1100", source)
+        self.assertIn("--budget-seconds 3300", source)
+        for path, minimum in ((PACKAGE_WORKFLOW, 1), (GOLDEN_WORKFLOW, 2)):
+            workflow = path.read_text(encoding="utf-8")
+            # Dependency retrieval retains its one-hour bound. Package smoke
+            # separately follows the validated whole-job deadline.
+            self.assertGreaterEqual(
+                workflow.count("--max-bytes 52428800 --timeout-seconds 3600 --"),
+                minimum,
+            )
+            self.assertNotIn("--timeout-seconds 1500", workflow)
+        package_workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("  rpm-install-smoke:\n    name: rpm-install-smoke", package_workflow)
+        self.assertIn(
+            "timeout-minutes: ${{ fromJSON(needs.prepare.outputs.install_timeout_minutes || '70') }}",
+            package_workflow,
+        )
+        self.assertIn(
+            '--max-bytes 52428800 --timeout-seconds "$install_timeout_seconds" --',
+            package_workflow,
+        )
+        self.assertNotIn("    timeout-minutes: 30", package_workflow)
 
 
 if __name__ == "__main__":

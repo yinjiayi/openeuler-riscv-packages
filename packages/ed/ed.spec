@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ed
-Version:        1.22.5
+Version:        1.22.6
 Release:        1%{?dist}
 Summary:        GNU line-oriented text editor
 License:        GPL-2.0-only AND GFDL-1.3-no-invariants-or-later
 URL:            https://www.gnu.org/software/ed/
-Source0:        ed-%{version}.tar.lz
+Source0:        ed-1.22.6.tar.lz
 
 BuildRequires:  gcc
 BuildRequires:  lzip

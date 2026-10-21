@@ -1,0 +1,21 @@
+{
+  "package_id": "tcplay",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ad53cd814a23b4f61a1b2b6dc2539624ffb550504c400c45cbd8cd1da4c7d90a"
+      },
+      "filename": "tcplay-3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/bwalex/tc-play/archive/refs/tags/v3.3.tar.gz",
+      "version": "3.3"
+    }
+  ]
+}

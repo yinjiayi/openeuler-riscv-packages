@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "libbase58",
+  "rpm": {"name": "libbase58", "summary": "Base58 encoding and decoding library", "license": "MIT"},
+  "upstream": {
+    "component": "github.com-bitcoin-libbase58",
+    "homepage": "https://github.com/bitcoin/libbase58",
+    "source_repository": "https://github.com/bitcoin/libbase58.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/bitcoin/libbase58/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/bitcoin/libbase58/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "0.1.4", "release": "1", "latest_detected": "0.1.4"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T163424Z-39ddf6449a3f83ba",
+    "lineage": [
+      {"source": "aur", "package_name": "libbase58-git", "package_base": "libbase58-git", "source_version": "v0.1.4.r6.gbee00a6-1", "evidence_url": "https://aur.archlinux.org/packages/libbase58-git", "observed_at": "2026-08-08T16:34:24Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libbase58.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official v0.1.4 annotated tag resolves to immutable commit 16c2527608053d2cc2fa05b2e3b5ae96065d1410. Frozen AUR metadata provides discovery lineage; no AUR recipe was read or executed. The target primary repository contains the complete build and test dependency closure, while package, component, and libbase58.so.0 collision scans are clean. All 12 tests registered by upstream are enabled."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-releases"}
+}

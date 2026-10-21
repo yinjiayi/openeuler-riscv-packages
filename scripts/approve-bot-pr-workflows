@@ -1,0 +1,212 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Approve a bounded, explicit list of suppressed bot-created package PR runs.
+
+The default is read-only.  --apply approves only the two action_required
+pull_request workflows after repeating every PR, run, and main lease and the
+local credential guard immediately before each approval.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+import tempfile
+from typing import Any, Mapping
+
+
+REPOSITORY = "yinjiayi/openeuler-riscv-packages"
+SHA = re.compile(r"^[0-9a-f]{40}$")
+PACKAGE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+BRANCH = re.compile(r"^(?:onboard|update|repair|golden)/[A-Za-z0-9._/-]+$")
+WORKFLOWS = {
+    "Package CI": ".github/workflows/package-ci.yml",
+    "Auto Merge Policy": ".github/workflows/auto-merge.yml",
+}
+
+
+class ApprovalError(RuntimeError):
+    """A requested approval has no safe, current lease."""
+
+
+def command(argv: list[str]) -> str:
+    result = subprocess.run(argv, text=True, capture_output=True, check=False)
+    if result.returncode:
+        raise ApprovalError(f"{argv[0]} {argv[1] if len(argv) > 1 else ''} failed ({result.returncode})")
+    return result.stdout
+
+
+def api(path: str) -> Any:
+    try:
+        return json.loads(command(["gh", "api", path]))
+    except json.JSONDecodeError as error:
+        raise ApprovalError("GitHub returned malformed JSON") from error
+
+
+def obj(value: Any, name: str) -> Mapping[str, Any]:
+    if not isinstance(value, Mapping):
+        raise ApprovalError(f"{name} is not an object")
+    return value
+
+
+def sha(value: Any, name: str) -> str:
+    if not isinstance(value, str) or not SHA.fullmatch(value):
+        raise ApprovalError(f"{name} is not an exact commit SHA")
+    return value
+
+
+def main_sha() -> str:
+    ref = obj(api(f"repos/{REPOSITORY}/git/ref/heads/main"), "main ref")
+    item = obj(ref.get("object"), "main object")
+    if ref.get("ref") != "refs/heads/main" or item.get("type") != "commit":
+        raise ApprovalError("main ref identity changed")
+    return sha(item.get("sha"), "main head")
+
+
+def inspect_pr(number: int) -> dict[str, Any]:
+    pr = obj(api(f"repos/{REPOSITORY}/pulls/{number}"), "pull request")
+    head = obj(pr.get("head"), "PR head")
+    base = obj(pr.get("base"), "PR base")
+    head_sha = sha(head.get("sha"), "PR head")
+    base_sha = sha(base.get("sha"), "PR base")
+    ref = head.get("ref")
+    if (
+        pr.get("number") != number or pr.get("state") != "open"
+        or pr.get("merged") is not False or pr.get("merged_at") is not None
+        or pr.get("auto_merge") is not None or pr.get("draft") is not False
+        or obj(pr.get("user"), "PR author").get("login") != "github-actions[bot]"
+        or base.get("ref") != "main"
+        or obj(head.get("repo"), "head repository").get("full_name") != REPOSITORY
+        or obj(base.get("repo"), "base repository").get("full_name") != REPOSITORY
+        or not isinstance(ref, str) or not BRANCH.fullmatch(ref)
+    ):
+        raise ApprovalError(f"PR #{number} is not an open, disarmed, same-repository bot package PR")
+    count = pr.get("changed_files")
+    if type(count) is not int or not 1 <= count <= 100:
+        raise ApprovalError(f"PR #{number} changed-file count is outside the complete page boundary")
+    files = api(f"repos/{REPOSITORY}/pulls/{number}/files?per_page=100&page=1")
+    if not isinstance(files, list) or len(files) != count or not all(isinstance(item, Mapping) for item in files):
+        raise ApprovalError(f"PR #{number} file listing is incomplete")
+    paths = [item.get("filename") for item in files]
+    parts = paths[0].split("/") if isinstance(paths[0], str) else []
+    if len(parts) < 3 or parts[0] != "packages" or not PACKAGE.fullmatch(parts[1]):
+        raise ApprovalError(f"PR #{number} does not change one package directory")
+    package = parts[1]
+    if any(
+        not isinstance(path, str) or not path.startswith(f"packages/{package}/")
+        or item.get("previous_filename") is not None
+        for path, item in zip(paths, files)
+    ):
+        raise ApprovalError(f"PR #{number} changes paths outside packages/{package}")
+    return {"number": number, "head_sha": head_sha, "base_sha": base_sha,
+            "head_ref": ref, "package_id": package, "current_main_sha": main_sha()}
+
+
+def inspect_runs(pr: Mapping[str, Any]) -> list[dict[str, Any]]:
+    head = str(pr["head_sha"])
+    listing = obj(api(f"repos/{REPOSITORY}/actions/runs?head_sha={head}&event=pull_request&per_page=100"), "run listing")
+    runs = listing.get("workflow_runs")
+    total = listing.get("total_count")
+    if type(total) is not int or not isinstance(runs, list) or total != len(runs):
+        raise ApprovalError("workflow run listing is incomplete")
+    selected: list[dict[str, Any]] = []
+    for name, path in WORKFLOWS.items():
+        candidates = [run for run in runs if isinstance(run, Mapping) and run.get("path") == path]
+        if len(candidates) != 1:
+            raise ApprovalError(f"expected exactly one {name} run on PR #{pr['number']} head")
+        candidate = candidates[0]
+        run_id = candidate.get("id")
+        if type(run_id) is not int or run_id <= 0:
+            raise ApprovalError(f"{name} run id is invalid")
+        run = obj(api(f"repos/{REPOSITORY}/actions/runs/{run_id}"), name)
+        pulls = run.get("pull_requests")
+        pull = pulls[0] if isinstance(pulls, list) and len(pulls) == 1 else None
+        if (
+            run.get("id") != run_id or run.get("path") != path
+            or run.get("name") not in ({name, f"Package CI {head}"} if name == "Package CI" else {name})
+            or run.get("event") != "pull_request" or run.get("head_sha") != head
+            or obj(run.get("repository"), "run repository").get("full_name") != REPOSITORY
+            or obj(run.get("head_repository"), "run head repository").get("full_name") != REPOSITORY
+            or obj(run.get("actor"), "run actor").get("login") != "github-actions[bot]"
+            or not isinstance(pull, Mapping) or pull.get("number") != pr["number"]
+            or obj(pull.get("head"), "run PR head").get("sha") != head
+            or obj(pull.get("base"), "run PR base").get("sha") != pr["base_sha"]
+        ):
+            raise ApprovalError(f"{name} run provenance differs from the exact PR lease")
+        state = (run.get("status"), run.get("conclusion"))
+        if state == ("completed", "action_required"):
+            if obj(run.get("triggering_actor"), "run trigger actor").get("login") != "github-actions[bot]":
+                raise ApprovalError(f"{name} action-required run was not triggered by the bot")
+            decision = "approve"
+        elif state[0] in {"queued", "in_progress", "pending", "waiting"} or state == ("completed", "success"):
+            decision = "already-running-or-successful"
+        else:
+            raise ApprovalError(f"{name} run has unexpected state {state}")
+        selected.append({"name": name, "run_id": run_id, "status": state[0],
+                         "conclusion": state[1], "decision": decision})
+    return selected
+
+
+def approve_run(pr: Mapping[str, Any], target: Mapping[str, Any], root: Path) -> None:
+    # The guard and every remote lease are repeated before each separate POST.
+    command([str(root / "scripts/github-credential-guard"), "--local-only", "--require-auth"])
+    if inspect_pr(int(pr["number"])) != dict(pr):
+        raise ApprovalError("PR or main changed since its approval plan")
+    runs = inspect_runs(pr)
+    current = next(item for item in runs if item["name"] == target["name"])
+    if current["run_id"] != target["run_id"] or current["decision"] != "approve":
+        raise ApprovalError("workflow run changed since its approval plan")
+    command(["gh", "api", "-X", "POST", f"repos/{REPOSITORY}/actions/runs/{target['run_id']}/approve", "--silent"])
+
+
+def write_json(path: Path, document: Mapping[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, prefix=f".{path.name}.", delete=False) as stream:
+        temporary = Path(stream.name)
+        json.dump(document, stream, indent=2, sort_keys=True)
+        stream.write("\n")
+    os.replace(temporary, path)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--pr", action="append", type=int, required=True, help="explicit PR number; repeat up to 50 times")
+    parser.add_argument("--apply", action="store_true", help="approve only leased action_required runs")
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    if len(args.pr) > 50 or len(set(args.pr)) != len(args.pr) or any(number <= 0 for number in args.pr):
+        parser.error("provide 1-50 distinct positive PR numbers")
+    if not os.environ.get("GH_TOKEN"):
+        parser.error("set GH_TOKEN from the authenticated yinjiayi gh session")
+    if command(["gh", "api", "user", "--jq", ".login"]).strip() != "yinjiayi":
+        raise ApprovalError("GitHub authentication is not yinjiayi")
+    root = Path(__file__).resolve().parent.parent
+    results: list[dict[str, Any]] = []
+    mode = "apply" if args.apply else "dry-run"
+    for number in args.pr:
+        pr = inspect_pr(number)
+        runs = inspect_runs(pr)
+        record = {"pr": pr, "runs": runs}
+        results.append(record)
+        write_json(args.output, {"schema_version": 1, "mode": mode, "completed": False, "results": results})
+        if args.apply:
+            for target in runs:
+                if target["decision"] == "approve":
+                    approve_run(pr, target, root)
+                    target["decision"] = "approval-requested"
+                    write_json(args.output, {"schema_version": 1, "mode": mode, "completed": False, "results": results})
+    write_json(args.output, {"schema_version": 1, "mode": mode, "completed": True, "results": results})
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except ApprovalError as error:
+        print(f"approve-bot-pr-workflows: {error}", file=sys.stderr)
+        sys.exit(1)

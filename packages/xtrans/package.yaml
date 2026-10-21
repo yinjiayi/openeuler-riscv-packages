@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "xtrans",
+  "rpm": {
+    "name": "xtrans",
+    "summary": "Shared X.Org network transport source and headers",
+    "license": "HPND AND HPND-sell-variant AND MIT AND MIT-open-group AND X11"
+  },
+  "upstream": {
+    "component": "xorg.freedesktop.org-lib-xtrans",
+    "homepage": "https://gitlab.freedesktop.org/xorg/lib/libxtrans",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libxtrans.git",
+    "release_channel": "stable",
+    "release_api": "https://xorg.freedesktop.org/archive/individual/lib/",
+    "release_regex": "xtrans-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://xorg.freedesktop.org/archive/individual/lib/xtrans-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.6.0",
+    "release": "1",
+    "latest_detected": "1.6.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "xtrans",
+        "package_base": "xtrans",
+        "source_version": "1.4.0-1",
+        "evidence_url": "https://packages.debian.org/trixie/source/xtrans",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "xtrans",
+        "package_base": "xtrans",
+        "source_version": "1.6.0-1build1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/xtrans",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "xtrans.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official X.Org 1.6.0 announcement SHA-256 was independently matched. xtrans is source/header-only and installs no shared library. The release registers no upstream test programs; make check is retained and installed smoke compiles a consumer against packaged headers. Its source contains multiple permissive X.Org license variants, represented conservatively in the RPM expression."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

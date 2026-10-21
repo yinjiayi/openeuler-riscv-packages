@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-hexconvert-perl",
+  "rpm": {
+    "name": "perl-String-HexConvert",
+    "summary": "Convert ASCII strings to hexadecimal and back",
+    "license": "LGPL-3.0-only"
+  },
+  "upstream": {
+    "component": "libstring-hexconvert-perl",
+    "homepage": "https://metacpan.org/dist/String-HexConvert",
+    "source_repository": "https://metacpan.org/dist/String-HexConvert",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AH/AHERNIT/",
+    "release_regex": "String-HexConvert-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AH/AHERNIT/String-HexConvert-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.02",
+    "release": "1",
+    "latest_detected": "0.02"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-hexconvert-perl",
+        "package_base": "libstring-hexconvert-perl",
+        "source_version": "0.02",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-hexconvert-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-hexconvert-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official stable CPAN 0.02. Publisher CHECKSUMS SHA-256 and safe archive checked. Archive LICENSE, README and dist.ini identify LGPL version 3, resolving the historical license-blocked inventory marker; module merely abbreviates this as LGPL. Official target primary lacks same-name RPM/provider. All five unchanged default t/*.t files run: two ordinary files/three assertions passed locally, while three author-only suites skip by their upstream AUTHOR_TESTING condition and are not counted as passing. Target RPM build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

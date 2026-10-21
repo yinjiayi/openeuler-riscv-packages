@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "package_id": "html-xml-utils",
+  "rpm": {
+    "name": "html-xml-utils",
+    "summary": "Utilities for manipulating HTML and XML files",
+    "license": "W3C AND BSD-3-Clause"
+  },
+  "upstream": {
+    "component": "w3.org-tools-html-xml-utils",
+    "homepage": "https://www.w3.org/Tools/HTML-XML-utils/",
+    "source_repository": "https://gitlab.com/html-xml-utils/html-xml-utils.git",
+    "release_channel": "stable",
+    "release_api": "https://www.w3.org/Tools/HTML-XML-utils/",
+    "release_regex": "html-xml-utils-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://www.w3.org/Tools/HTML-XML-utils/html-xml-utils-{version}.tar.gz"
+  },
+  "version": {
+    "current": "8.8",
+    "release": "1",
+    "latest_detected": "8.8"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T074348Z-31246813686",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "html-xml-utils",
+        "package_base": "html-xml-utils",
+        "source_version": "8.8-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/html-xml-utils/",
+        "observed_at": "2026-08-08T07:43:58Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "html-xml-utils",
+        "package_base": "html-xml-utils",
+        "source_version": "8.8",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/html-xml-utils/html-xml-utils/",
+        "observed_at": "2026-08-12T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "html-xml-utils",
+        "package_base": "html-xml-utils",
+        "source_version": "8.8",
+        "evidence_url": "https://software.opensuse.org/package/html-xml-utils",
+        "observed_at": "2026-08-12T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "html-xml-utils",
+        "package_base": "html-xml-utils",
+        "source_version": "8.8",
+        "evidence_url": "https://packages.debian.org/source/stable/html-xml-utils",
+        "observed_at": "2026-08-12T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "html-xml-utils.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official 8.8 bytes are SHA-256 pinned and archive-safe. The libidn and libidn2 interfaces are enabled, and nmap supplies nc for the redirect-limit test, so the complete 172-case upstream Automake suite runs with zero skips. The package owns command-line tools only and introduces no shared-library ABI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

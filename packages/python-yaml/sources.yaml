@@ -1,0 +1,21 @@
+{
+  "package_id": "python-yaml",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9a1805b064ab6973ed8903ef46ee9a67e59a982c637f410c6561d81a4387bd8a"
+      },
+      "filename": "pyyaml-6.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official commit-pinned stable source is redistributable under MIT."
+      },
+      "signature": null,
+      "url": "https://github.com/yaml/pyyaml/archive/49790e73684bebad1df05ef8d828fa12f685bffb/pyyaml-6.0.3.tar.gz",
+      "version": "6.0.3"
+    }
+  ]
+}

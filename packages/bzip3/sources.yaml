@@ -1,0 +1,21 @@
+{
+  "package_id": "bzip3",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c4ff6bfe4a8a9fed987a9de4d6a6f4025a991acec9559fae4853a9d99ca8d76a"
+      },
+      "filename": "1.5.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Free-software source under LGPL-3.0-or-later, Apache-2.0, and BSD-2-Clause terms is fetched from the official GitHub tag archive in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kspalaiologos/bzip3/archive/refs/tags/1.5.4.tar.gz",
+      "version": "1.5.4"
+    }
+  ]
+}

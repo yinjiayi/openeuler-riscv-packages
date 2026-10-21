@@ -1,0 +1,109 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/libarchive/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libarchive",
+        "package_name": "libarchive",
+        "source": "arch-core",
+        "source_version": "3.8.9-1"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libarchive-static",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libarchive-static",
+        "package_name": "libarchive-static",
+        "source": "aur",
+        "source_version": "3.8.9-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/libarchive",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libarchive",
+        "package_name": "libarchive",
+        "source": "debian",
+        "source_version": "3.7.4-4+deb13u1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libarchive/libarchive/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libarchive",
+        "package_name": "libarchive",
+        "source": "fedora",
+        "source_version": "3.8.4-2.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libarchive",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libarchive",
+        "package_name": "libarchive",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.8.7-1.4"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libarchive",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libarchive",
+        "package_name": "libarchive",
+        "source": "ubuntu",
+        "source_version": "3.8.5-1ubuntu2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libarchive.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 3.8.9 release bytes are SHA-256 pinned; libarchive.so.13, the target command-package split, and libarchive-help are preserved, and the complete serial upstream check suite remains enabled. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "libarchive",
+  "rpm": {
+    "license": "BSD-2-Clause AND BSD-4-Clause-UC AND (Apache-2.0 OR CC0-1.0 OR OpenSSL)",
+    "name": "libarchive",
+    "summary": "Multi-format archive and compression library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "libarchive.org",
+    "homepage": "https://libarchive.org/",
+    "release_api": "https://api.github.com/repos/libarchive/libarchive/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "libarchive-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://github.com/libarchive/libarchive",
+    "source_url_template": "https://github.com/libarchive/libarchive/releases/download/v{version}/libarchive-{version}.tar.xz"
+  },
+  "version": {
+    "current": "3.8.9",
+    "latest_detected": "3.8.9",
+    "release": "1"
+  }
+}

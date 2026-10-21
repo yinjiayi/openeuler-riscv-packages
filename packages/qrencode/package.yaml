@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "qrencode",
+  "rpm": {
+    "name": "qrencode",
+    "summary": "QR Code encoding library and command-line tool",
+    "license": "LGPL-2.1-or-later"
+  },
+  "upstream": {
+    "component": "github.com-fukuchi-libqrencode",
+    "homepage": "https://fukuchi.org/works/qrencode/",
+    "source_repository": "https://github.com/fukuchi/libqrencode.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/fukuchi/libqrencode/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/fukuchi/libqrencode/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.1.1",
+    "release": "3",
+    "latest_detected": "4.1.1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "qrencode",
+        "package_base": "qrencode",
+        "source_version": "4.1.1-4",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/qrencode/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "qrencode",
+        "package_base": "qrencode",
+        "source_version": "4.1.1-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/qrencode",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "qrencode",
+        "package_base": "qrencode",
+        "source_version": "4.1.1-12.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/qrencode/qrencode/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "qrencode",
+        "package_base": "qrencode",
+        "source_version": "4.1.1-2.5",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/qrencode",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "qrencode",
+        "package_base": "qrencode",
+        "source_version": "4.1.1-2build1",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/qrencode",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 240,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "qrencode.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official v4.1.1 release is the current stable GitHub release. Source bytes are pinned to its resolved immutable commit 715e29fd4cd71b6e452ae0f4e36d917b43122ce8 rather than a mutable tag archive. Arch, Fedora 44, Debian, openSUSE, and Ubuntu corroborate the frozen lineage; AUR RPC returned no matching package and no external recipe was executed. Release 3 intentionally exceeds target EVR 4.1.1-2 while preserving libqrencode.so.4, the qrencode-libs capability, and target main/devel/help splits."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases-latest"
+  }
+}

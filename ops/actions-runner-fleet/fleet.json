@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "host_prefix": "10.230.50.",
+  "host_last_octet": {
+    "first": 201,
+    "last": 250
+  },
+  "runner_name_template": "oe-rva23-qemu-{last_octet}",
+  "runners_per_host": 1,
+  "rollout": {
+    "canary_last_octets": [201, 202, 203, 204, 205],
+    "conditional_last_octets": [211, 220, 224, 231],
+    "clean_host_count_including_canary": 46,
+    "remaining_clean_host_count_after_canary": 41
+  },
+  "observed_host_capacity": {
+    "logical_cpus": 32,
+    "memory_gib_approx": 60.8,
+    "opt_free_gib_approx": 951
+  }
+}

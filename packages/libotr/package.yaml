@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libotr/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libotr",
+        "package_name": "libotr",
+        "source": "arch-extra",
+        "source_version": "4.1.1-6"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/pidgin-otr",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pidgin-otr",
+        "package_name": "pidgin-otr",
+        "source": "aur",
+        "source_version": "4.0.2-6"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libotr",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libotr",
+        "package_name": "libotr",
+        "source": "debian",
+        "source_version": "4.1.1-6"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/libotr/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libotr",
+        "package_name": "libotr",
+        "source": "fedora",
+        "source_version": "4.1.1-25.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libotr",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libotr",
+        "package_name": "libotr",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.1.1-4.14"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/pidgin-otr",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pidgin-otr",
+        "package_name": "pidgin-otr",
+        "source": "ubuntu",
+        "source_version": "4.0.2-6build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libotr.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 4.1.1 release bytes, licensing, full Linux tests, and the Fedora 44 declaration-only test portability fix were reviewed; AUR content was not executed.",
+    "status": "active"
+  },
+  "package_id": "libotr",
+  "rpm": {
+    "license": "GPL-2.0-only AND LGPL-2.1-only",
+    "name": "libotr",
+    "summary": "Off-the-Record Messaging library and toolkit"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-release"
+  },
+  "upstream": {
+    "component": "otr.cypherpunks.ca",
+    "homepage": "https://otr.cypherpunks.ca/",
+    "release_api": "https://otr.cypherpunks.ca/",
+    "release_channel": "stable",
+    "release_regex": "libotr-([0-9]+\\.[0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://bugs.otr.im/git/libotr.git",
+    "source_url_template": "https://otr.cypherpunks.ca/libotr-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.1.1",
+    "latest_detected": "4.1.1",
+    "release": "1"
+  }
+}

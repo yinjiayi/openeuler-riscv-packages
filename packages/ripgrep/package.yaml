@@ -1,0 +1,108 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/BurntSushi/ripgrep",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ripgrep",
+        "package_name": "ripgrep",
+        "source": "arch-extra",
+        "source_version": "15.2.0-1"
+      },
+      {
+        "evidence_url": "https://github.com/BurntSushi/ripgrep",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ripgrep-git",
+        "package_name": "ripgrep-git",
+        "source": "aur",
+        "source_version": "15.1.0.r4.57c190d5-1"
+      },
+      {
+        "evidence_url": "https://github.com/BurntSushi/ripgrep",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "rust-ripgrep",
+        "package_name": "rust-ripgrep",
+        "source": "debian",
+        "source_version": "14.1.1-1"
+      },
+      {
+        "evidence_url": "https://github.com/BurntSushi/ripgrep",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "rust-ripgrep",
+        "package_name": "rust-ripgrep",
+        "source": "fedora",
+        "source_version": "14.1.1-4.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/BurntSushi/ripgrep",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ripgrep",
+        "package_name": "ripgrep",
+        "source": "opensuse-tumbleweed",
+        "source_version": "15.2.0-1.2"
+      },
+      {
+        "evidence_url": "https://github.com/BurntSushi/ripgrep",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "rust-ripgrep",
+        "package_name": "rust-ripgrep",
+        "source": "ubuntu",
+        "source_version": "15.1.0-1ubuntu1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "ripgrep.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 15.2.0 GitHub tag archive is SHA-256 pinned in sources.yaml and catalog/upstream-releases.yaml. The network-enabled target build uses Cargo's locked dependency graph, runs the complete upstream cargo test --all suite, and installs generated man/completion assets; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "ripgrep",
+  "rpm": {
+    "license": "MIT OR Unlicense",
+    "name": "ripgrep",
+    "summary": "A search tool that combines the usability of ag with the raw speed of grep"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-burntsushi-ripgrep",
+    "homepage": "https://github.com/BurntSushi/ripgrep",
+    "release_api": "https://api.github.com/repos/BurntSushi/ripgrep/releases",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/BurntSushi/ripgrep",
+    "source_url_template": "https://github.com/BurntSushi/ripgrep/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "15.2.0",
+    "latest_detected": "15.2.0",
+    "release": "1"
+  }
+}

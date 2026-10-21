@@ -1,0 +1,101 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/unifdef/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "unifdef",
+        "package_name": "unifdef",
+        "source": "arch-extra",
+        "source_version": "2.12-4"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/unifdef",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "unifdef",
+        "package_name": "unifdef",
+        "source": "debian",
+        "source_version": "2.12-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/unifdef/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "unifdef",
+        "package_name": "unifdef",
+        "source": "fedora",
+        "source_version": "2.12-7.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/unifdef",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "unifdef",
+        "package_name": "unifdef",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.12-3.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/unifdef",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "unifdef",
+        "package_name": "unifdef",
+        "source": "ubuntu",
+        "source_version": "2.12-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "unifdef.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official current 2.12 source bytes are SHA-256 pinned. The single-root archive contains the complete upstream regression corpus, which runs unchanged and offline.",
+    "status": "active"
+  },
+  "package_id": "unifdef",
+  "rpm": {
+    "license": "BSD-2-Clause AND BSD-3-Clause",
+    "name": "unifdef",
+    "summary": "Selectively remove C preprocessor conditionals"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "dotat.at-unifdef",
+    "homepage": "https://dotat.at/prog/unifdef/",
+    "release_api": "https://dotat.at/prog/unifdef/",
+    "release_channel": "stable",
+    "release_regex": "unifdef-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://dotat.at/git/unifdef.git",
+    "source_url_template": "https://dotat.at/prog/unifdef/unifdef-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2.12",
+    "latest_detected": "2.12",
+    "release": "1"
+  }
+}

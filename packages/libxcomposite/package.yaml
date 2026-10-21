@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libxcomposite",
+  "rpm": {
+    "name": "libXcomposite",
+    "summary": "X11 Composite extension client library",
+    "license": "HPND-sell-variant AND MIT"
+  },
+  "upstream": {
+    "component": "xorg.freedesktop.org-lib-libxcomposite",
+    "homepage": "https://gitlab.freedesktop.org/xorg/lib/libXcomposite",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libXcomposite.git",
+    "release_channel": "stable",
+    "release_api": "https://xorg.freedesktop.org/archive/individual/lib/",
+    "release_regex": "libXcomposite-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://xorg.freedesktop.org/archive/individual/lib/libXcomposite-{version}.tar.xz"
+  },
+  "version": {
+    "current": "0.4.7",
+    "release": "1",
+    "latest_detected": "0.4.7"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libxcomposite",
+        "package_base": "libxcomposite",
+        "source_version": "0.4.7-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libxcomposite/",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libXcomposite.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The exact libxcomposite inventory key maps to X.Org/RPM libXcomposite 0.4.7. The official release checksum is independently verified. Upstream registers no tests; installed smoke exercises the public display-free version API, not X-server protocol requests. XML-to-manpage generation is disabled while the library and devel interface remain enabled."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

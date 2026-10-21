@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "package_id": "recutils",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://ftp.gnu.org/gnu/recutils/recutils-1.9.tar.gz",
+      "filename": "recutils-1.9.tar.gz",
+      "version": "1.9",
+      "digests": {
+        "sha256": "6301592b0020c14b456757ef5d434d49f6027b8e5f3a499d13362f205c486e0e"
+      },
+      "signature": {
+        "url": "https://ftp.gnu.org/gnu/recutils/recutils-1.9.tar.gz.sig",
+        "key_fingerprint": "BDFA 5717 FC1D D35C 2C38 32A2 3EF9 0523 B304 AF08",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "redistribution": {
+        "allowed": true,
+        "reason": "GPL-3.0-or-later source is fetched from the official GNU release directory in CI."
+      }
+    }
+  ]
+}

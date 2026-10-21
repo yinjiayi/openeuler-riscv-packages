@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-asciitable-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-ASCIITable-0.22.tar.gz",
+      "version": "0.22",
+      "url": "https://cpan.metacpan.org/authors/id/L/LU/LUNATIC/Text-ASCIITable-0.22.tar.gz",
+      "digests": {
+        "sha256": "e4d39537db35d75eb88032d2d26a707733fe33b6baeb212f9c733fc4bff07e43"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Build.PL, README and module POD grant the same GPL/Artistic choice as Perl; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}

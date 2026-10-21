@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/cxxopts/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cxxopts",
+        "package_name": "cxxopts",
+        "source": "arch-extra",
+        "source_version": "3.3.1-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/cxxopts",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cxxopts",
+        "package_name": "cxxopts",
+        "source": "debian",
+        "source_version": "3.2.1-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/cxxopts/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cxxopts",
+        "package_name": "cxxopts",
+        "source": "fedora",
+        "source_version": "3.3.1-4.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/cxxopts",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cxxopts",
+        "package_name": "cxxopts",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.3.1-1.4"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/cxxopts",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "cxxopts",
+        "package_name": "cxxopts",
+        "source": "ubuntu",
+        "source_version": "3.3.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "cxxopts.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable tag 3.3.1 was archive-audited and pinned; the complete upstream CMake integration gate remains enabled.",
+    "status": "active"
+  },
+  "package_id": "cxxopts",
+  "rpm": {
+    "license": "MIT AND BSL-1.0",
+    "name": "cxxopts",
+    "summary": "Lightweight header-only C++ command-line option parser"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-jarro2783-cxxopts",
+    "homepage": "https://github.com/jarro2783/cxxopts",
+    "release_api": "https://api.github.com/repos/jarro2783/cxxopts/tags",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/jarro2783/cxxopts",
+    "source_url_template": "https://github.com/jarro2783/cxxopts/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.3.1",
+    "latest_detected": "3.3.1",
+    "release": "1"
+  }
+}

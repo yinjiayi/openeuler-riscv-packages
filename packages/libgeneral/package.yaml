@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/tihmstar/libgeneral",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libgeneral",
+        "package_name": "libgeneral",
+        "source": "aur",
+        "source_version": "90-1"
+      },
+      {
+        "evidence_url": "https://github.com/tihmstar/libgeneral",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libgeneral-git",
+        "package_name": "libgeneral-git",
+        "source": "aur",
+        "source_version": "83.r0.g2c3cce0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-fixed-release-version-and-consumer-link-flags.patch",
+      "sha256": "9a6dd8424d98f51e662e9e110a638aee7042411fabc89e37e63f70c0620f309b",
+      "purpose": "Stamp five Git-based version queries with verified official release 90 and exact commit for immutable source archives; omit Libtool-only -no-undefined from Linux pkg-config consumer flags, retaining -lpthread and original library build flags. Preserve complete default features, tests and assertions.",
+      "source": "Original downstream archive and pkg-config compatibility against tihmstar/libgeneral official stable release 90, commit 81e4636784f1bc3fda6a90911fc15bf529975577.",
+      "license": "LGPL-2.1-only",
+      "upstream_status": "not-submitted",
+      "remove_when": "An official release supports fixed archive versioning and compiler-usable Linux pkg-config flags without these compatibility changes."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libgeneral.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official published stable release 90 at fixed commit 81e4636784f1bc3fda6a90911fc15bf529975577; 33 complete Git files verified. Preserve full default shared/static features and original make check. Upstream registers no cases; downstream fixtures are separate. Target DNF/build/install remains remote CI; no local RPM/QEMU/upstream execution or native claim.",
+    "status": "active"
+  },
+  "package_id": "libgeneral",
+  "rpm": {
+    "license": "LGPL-2.1-only",
+    "name": "libgeneral",
+    "summary": "Common C++ utilities for tihmstar tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-tihmstar-libgeneral",
+    "homepage": "https://github.com/tihmstar/libgeneral",
+    "release_api": "https://api.github.com/repos/tihmstar/libgeneral/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+)$",
+    "source_repository": "https://github.com/tihmstar/libgeneral",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "90",
+    "latest_detected": "90",
+    "release": "1"
+  }
+}

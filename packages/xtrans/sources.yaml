@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "xtrans",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "xtrans-1.6.0.tar.xz",
+      "version": "1.6.0",
+      "url": "https://xorg.freedesktop.org/archive/individual/lib/xtrans-1.6.0.tar.xz",
+      "digests": {
+        "sha256": "faafea166bf2451a173d9d593352940ec6404145c5d1da5c213423ce4d359e92"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official X.Org permissively licensed release archive is fetched over HTTPS and SHA-256 verified by CI."
+      }
+    }
+  ]
+}

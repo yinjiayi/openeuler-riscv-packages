@@ -13,8 +13,8 @@
   <header>
     <div>
       <p class="eyebrow">openEuler 24.03 LTS SP3 · riscv64 · RVA23</p>
-      <h1>Package readiness dashboard</h1>
-      <p id="coverage-note">Loading observed package state…</p>
+      <h1>Full package inventory</h1>
+      <p id="coverage-note">Loading the committed inventory and current evidence…</p>
     </div>
     <a class="repo-link" href="https://github.com/yinjiayi/openeuler-riscv-packages">View repository</a>
   </header>
@@ -22,7 +22,47 @@
   <main>
     <section aria-labelledby="summary-title">
       <h2 id="summary-title">Current facts</h2>
+      <p id="generated-at"></p>
       <div id="summary" class="cards"></div>
+      <p id="history-coverage" class="section-note"></p>
+      <details><summary>Coverage gaps and evidence</summary><p id="coverage-gap-summary"></p><a href="build-history.json" download>Download complete gap records and evidence JSON</a></details>
+    </section>
+
+    <section aria-labelledby="history-title">
+      <div class="section-heading"><div><h2 id="history-title">Build history by canonical package</h2><p class="section-note">Cumulative: one package counted once after actual RPM build and installed-smoke steps succeed. Current main recipe: this exact whole recipe historically succeeded on main, separately from latest known CI status. Current open PR success is separate. Neither proves physical RPM acceptance, merge eligibility, publication or runner trust.</p></div><a class="download-link" href="build-history.json" download>Download history evidence</a></div>
+      <form id="history-filters" class="filters"><label>Search<input id="history-search" type="search" placeholder="canonical package ID…"></label><label>Evidence<select id="history-evidence"><option value="">All packages</option><option value="ever">Ever succeeded</option><option value="main">Current main succeeded</option><option value="pr">Current PR succeeded</option><option value="published">Verified publication evidence</option></select></label><button type="reset">Reset</button></form>
+      <div class="table-wrap"><table><thead><tr><th>Canonical package</th><th>Cumulative</th><th>Current main recipe</th><th>Latest open PR</th><th>Publication evidence</th><th>Last success / evidence</th></tr></thead><tbody id="history-rows"></tbody></table></div>
+      <p id="history-empty" class="empty" hidden>No packages match this evidence filter.</p>
+      <nav class="pagination" aria-label="Build history pages"><button id="history-prev" type="button">Previous</button><p id="history-result-count" aria-live="polite"></p><button id="history-next" type="button">Next</button></nav>
+    </section>
+
+    <section aria-labelledby="inventory-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="inventory-title">All inventory entries</h2>
+          <p class="section-note">One row per inventory key; version is current metadata. RPM/SRPM links show verified any-version availability, not publication of that current recipe. Published EVRs appear in history details.</p>
+        </div>
+        <a class="download-link" href="inventory.json" download>Download full JSON</a>
+      </div>
+      <form id="inventory-filters" class="filters inventory-filters">
+        <label>Search<input id="inventory-search" type="search" placeholder="package, alias, component…"></label>
+        <label>Status<select id="inventory-status"><option value="">All statuses</option></select></label>
+        <label>Evidence<select id="inventory-evidence"><option value="">All evidence</option><option value="published">Published RPM + SRPM</option><option value="ci">CI evidence</option><option value="none">No build/publication evidence</option></select></label>
+        <label>Rows<select id="inventory-page-size"><option>50</option><option selected>100</option><option>250</option></select></label>
+        <button type="reset">Reset</button>
+      </form>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Package</th><th>Status</th><th>Version</th><th>Components / decisions</th><th>Last fact</th><th>Evidence and artifacts</th></tr></thead>
+          <tbody id="inventory-rows"></tbody>
+        </table>
+      </div>
+      <p id="inventory-empty" class="empty" hidden>No inventory entries match these filters.</p>
+      <nav class="pagination" aria-label="Inventory pages">
+        <button id="inventory-prev" type="button">Previous</button>
+        <p id="inventory-result-count" aria-live="polite"></p>
+        <button id="inventory-next" type="button">Next</button>
+      </nav>
     </section>
 
     <section aria-labelledby="health-title">
@@ -32,28 +72,24 @@
 
     <section aria-labelledby="packages-title">
       <div class="section-heading">
-        <h2 id="packages-title">Managed packages</h2>
-        <p id="result-count" aria-live="polite"></p>
+        <div><h2 id="packages-title">Managed package details</h2><p class="section-note">Version, RISC-V and patch facts from managed package metadata.</p></div>
+        <p id="managed-result-count" aria-live="polite"></p>
       </div>
-      <form id="filters" class="filters">
-        <label>Status<select id="status-filter"><option value="">All</option></select></label>
-        <label>Source<input id="source-filter" type="search" placeholder="arch, aur, fedora…"></label>
-        <label>Version<select id="lag-filter"><option value="">All</option><option value="lag">Behind upstream</option><option value="current">Current</option></select></label>
-        <label>Patches<select id="patch-filter"><option value="">All</option><option value="yes">Has patches</option><option value="no">No patches</option></select></label>
-        <label>Failure<select id="failure-filter"><option value="">All</option></select></label>
-        <label>Updated<select id="age-filter"><option value="">Any time</option><option value="1">24 hours</option><option value="7">7 days</option><option value="30">30 days</option></select></label>
+      <form id="managed-filters" class="filters managed-filters">
+        <label>Search<input id="managed-search" type="search" placeholder="package or source…"></label>
+        <label>Status<select id="managed-status"><option value="">All statuses</option></select></label>
+        <label>Version<select id="managed-lag"><option value="">All</option><option value="lag">Behind upstream</option><option value="current">Current</option></select></label>
+        <label>Patches<select id="managed-patch"><option value="">All</option><option value="yes">Has patches</option><option value="no">No patches</option></select></label>
         <button type="reset">Reset</button>
       </form>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Package</th><th>State</th><th>Version</th><th>Upstream</th><th>Sources</th><th>RISC-V</th><th>Patches</th><th>Last fact</th><th>Evidence</th></tr></thead>
-          <tbody id="package-rows"></tbody>
-        </table>
-      </div>
-      <p id="empty" class="empty" hidden>No packages match these filters.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Package</th><th>Status</th><th>Version</th><th>Upstream</th><th>Sources</th><th>RISC-V</th><th>Patches</th><th>Evidence</th></tr></thead>
+        <tbody id="managed-rows"></tbody>
+      </table></div>
+      <p id="managed-empty" class="empty" hidden>No managed packages match these filters.</p>
     </section>
   </main>
-  <footer><p id="generated-at"></p><p id="snapshot-note"></p></footer>
+  <footer><p id="snapshot-note"></p></footer>
   <script src="app.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/zopfli/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zopfli",
+        "package_name": "zopfli",
+        "source": "arch-extra",
+        "source_version": "1.0.3-5"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/zopfli",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zopfli",
+        "package_name": "zopfli",
+        "source": "debian",
+        "source_version": "1.0.3-3"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/zopfli/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zopfli",
+        "package_name": "zopfli",
+        "source": "fedora",
+        "source_version": "1.0.3-15.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/zopfli",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zopfli",
+        "package_name": "zopfli",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.0.3-2.11"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/zopfli",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "zopfli",
+        "package_name": "zopfli",
+        "source": "ubuntu",
+        "source_version": "1.0.3-3build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "zopfli.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable tag zopfli-1.0.3 was resolved to an immutable commit archive; both shipped Go/CGO test packages were run against the built C and C++ implementations without network access.",
+    "status": "active"
+  },
+  "package_id": "zopfli",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "zopfli",
+    "summary": "High-density DEFLATE and PNG compression tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  },
+  "upstream": {
+    "component": "github.com-google-zopfli",
+    "homepage": "https://github.com/google/zopfli",
+    "release_api": "https://api.github.com/repos/google/zopfli/releases/latest",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/google/zopfli",
+    "source_url_template": "https://github.com/google/zopfli/archive/refs/tags/zopfli-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.3",
+    "latest_detected": "1.0.3",
+    "release": "3"
+  }
+}

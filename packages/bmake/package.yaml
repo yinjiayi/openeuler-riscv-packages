@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/bmake/",
+        "observed_at": "2026-08-08T07:43:58Z",
+        "package_base": "bmake",
+        "package_name": "bmake",
+        "source": "arch-extra",
+        "source_version": "20260714-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T074348Z-31246813686"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "bmake.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 20260824 release bytes are SHA-256 pinned and archive-safe. The full upstream boot-strap test operation remains mandatory. Target BuildRequires include ksh, tcsh, and Lua so shell cases and check-expect.lua are available. The fixed unprivileged build identity keeps the upstream objdir-writable permission test enabled; no network is needed after verified source and RPM dependencies have been acquired. The installed-RPM smoke test verifies the executable version against RPM metadata so version updates retain this check.",
+    "status": "active"
+  },
+  "package_id": "bmake",
+  "rpm": {
+    "license": "BSD-3-Clause AND BSD-2-Clause AND BSD-4-Clause-UC",
+    "name": "bmake",
+    "summary": "Portable version of the NetBSD make build tool"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": "2026-09-19T20:36:56Z",
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "crufty.net-help-sjg-bmake.html",
+    "homepage": "https://www.crufty.net/help/sjg/bmake.htm",
+    "release_api": "https://ftp.netbsd.org/pub/NetBSD/misc/sjg/",
+    "release_channel": "stable",
+    "release_regex": "bmake-(?P<version>[0-9]{8})\\.tar\\.gz",
+    "source_repository": "https://github.com/NetBSD/src/tree/trunk/usr.bin/make",
+    "source_url_template": "https://ftp.netbsd.org/pub/NetBSD/misc/sjg/bmake-{version}.tar.gz"
+  },
+  "version": {
+    "current": "20260912",
+    "latest_detected": "20260912",
+    "release": "2"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "liblo",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c08d14832e8dcf8f06840405824a4f9611a0cb3daed0198946326c740941c8b6"
+      },
+      "filename": "liblo-0.36.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official liblo source archive is LGPL-2.1-or-later."
+      },
+      "signature": null,
+      "url": "https://github.com/radarsat1/liblo/releases/download/0.36/liblo-0.36.tar.gz",
+      "version": "0.36"
+    }
+  ]
+}

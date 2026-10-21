@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "google-crc32c",
+  "sources": [
+    {
+      "id": "source0",
+      "version": "1.1.2",
+      "url": "https://github.com/google/crc32c/archive/refs/tags/1.1.2.tar.gz",
+      "filename": "google-crc32c-1.1.2.tar.gz",
+      "digests": {
+        "sha256": "ac07840513072b7fcebda6e821068aa04889018f24e10e46181068fb214d7e56"
+      },
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official BSD-3-Clause source archive; CI retrieves and verifies the pinned bytes."
+      }
+    }
+  ]
+}

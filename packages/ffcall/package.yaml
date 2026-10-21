@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "package_id": "ffcall",
+  "rpm": {
+    "name": "ffcall",
+    "summary": "Libraries for foreign function call interfaces",
+    "license": "GPL-2.0-or-later AND LGPL-2.1-or-later AND (GPL-2.0-or-later OR GFDL-1.2-no-invariants-or-later)"
+  },
+  "upstream": {
+    "component": "gnu.org-software-libffcall",
+    "homepage": "https://www.gnu.org/software/libffcall/",
+    "source_repository": "https://git.savannah.gnu.org/git/libffcall.git",
+    "release_channel": "stable",
+    "release_api": "https://ftp.gnu.org/gnu/libffcall/",
+    "release_regex": "libffcall-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://ftp.gnu.org/gnu/libffcall/libffcall-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.5",
+    "release": "1",
+    "latest_detected": "2.5"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "ffcall",
+        "package_base": "ffcall",
+        "source_version": "2.5-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/ffcall/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "ffcall",
+        "package_base": "ffcall",
+        "source_version": "2.5-2",
+        "evidence_url": "https://packages.debian.org/source/stable/ffcall",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "ffcall",
+        "package_base": "ffcall",
+        "source_version": "2.5-6.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/ffcall/ffcall/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "ffcall",
+        "package_base": "ffcall",
+        "source_version": "2.5-1.7",
+        "evidence_url": "https://software.opensuse.org/package/ffcall",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "ffcall",
+        "package_base": "ffcall",
+        "source_version": "2.5-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/ffcall",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "ffcall.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official GNU 2.5 archive independently verified and archive-safe. License metadata covers the GPL project, bundled LGPL gnulib sources, and dual GPL/GFDL manuals. The full C and C++ upstream suite is enabled. The build selects upstream's PIC RISC-V assembly branch for static libvacall, and test objects and executables retain openEuler PIE hardening. All five static archives are isolated in ffcall-static. No source patch is required. Fixed official and supplemental target repositories contain no conflicting RPM, Provides, file, or SONAME."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

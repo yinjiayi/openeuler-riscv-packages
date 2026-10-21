@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/rpc/v5/info?arg%5B%5D=python-first",
+        "observed_at": "2026-10-12T17:36:28.304161+00:00",
+        "package_base": "python-first",
+        "package_name": "python-first",
+        "source": "aur",
+        "source_version": "2.0.2-7"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-first.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "All14 immutable originals/full MIT retained. Original shared make test preserves complete unit/RST/module doctests with RPM-owned installed origin. Separate make cov, legacy matrix, tox manifest/PyPI-description routes preserved/unclaimed. Static proposal only; target CI unverified.",
+    "status": "active"
+  },
+  "package_id": "python-first",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-first",
+    "summary": "Return the first true value of an iterable"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-hynek-first",
+    "homepage": "https://github.com/hynek/first",
+    "release_api": "https://api.github.com/repos/hynek/first/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/hynek/first",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "2.0.2",
+    "latest_detected": "2.0.2",
+    "release": "1"
+  }
+}

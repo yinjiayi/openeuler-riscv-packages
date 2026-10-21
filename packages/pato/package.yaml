@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/UDC-GAC/PATO",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pato",
+        "package_name": "pato",
+        "source": "aur",
+        "source_version": "1.0.1-0"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "pato.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. Downstream release 3 matches the SPEC source root to the archive's exact PATO-1.0.1 top-level directory and configures explicit CMake source and out-of-source build directories while preserving the existing OpenMP and test behavior. External distribution packaging was not executed, and the RISC-V build status remains unknown pending fresh CI evidence.",
+    "status": "active"
+  },
+  "package_id": "pato",
+  "rpm": {
+    "license": "MIT",
+    "name": "pato",
+    "summary": "PATO: high PerformAnce TriplexatOr is a high performance tool for the fast and efficient detection of triple helices and triplex features in nucleotide sequ"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-udc-gac-pato",
+    "homepage": "https://doi.org/10.1093/bioinformatics/btad134",
+    "release_api": "https://api.github.com/repos/UDC-GAC/PATO/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/UDC-GAC/PATO",
+    "source_url_template": "https://github.com/UDC-GAC/PATO/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.1",
+    "latest_detected": "1.0.1",
+    "release": "3"
+  }
+}

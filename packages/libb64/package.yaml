@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 90,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/libb64/libb64",
+        "observed_at": "2026-08-19T00:00:00Z",
+        "package_base": "libb64",
+        "package_name": "libb64",
+        "source": "arch-extra",
+        "source_version": "2.0.0.1"
+      }
+    ],
+    "snapshot_id": "local-resolution"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libb64.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official GitHub release archive reviewed and pinned; the project is public-domain software and external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libb64",
+  "rpm": {
+    "license": "Public Domain",
+    "name": "libb64",
+    "summary": "Base64 encoding and decoding library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-libb64-libb64",
+    "homepage": "https://github.com/libb64/libb64",
+    "release_api": "https://api.github.com/repos/libb64/libb64/releases",
+    "release_channel": "stable",
+    "release_regex": "v(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/libb64/libb64",
+    "source_url_template": "https://github.com/libb64/libb64/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.0.0.1",
+    "latest_detected": "2.0.0.1",
+    "release": "1"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/lerc",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "lerc",
+        "package_name": "lerc",
+        "source": "aur",
+        "source_version": "4.1.1-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/lerc",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "lerc",
+        "package_name": "lerc",
+        "source": "debian",
+        "source_version": "4.0.0+ds-5"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/liblerc/tree/f44",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "liblerc",
+        "package_name": "liblerc",
+        "source": "fedora",
+        "source_version": "4.0.0-10.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/lerc",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "lerc",
+        "package_name": "lerc",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4.1.0-3.3"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/lerc",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "lerc",
+        "package_name": "lerc",
+        "source": "ubuntu",
+        "source_version": "4.0.0+ds-5ubuntu2"
+      }
+    ],
+    "snapshot_id": "discovery-20260812T010000Z-b30-lerc"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "lerc.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable tag 4.2.0 was archive-audited and pinned; the full maintained LercTest program remains mandatory.",
+    "status": "active"
+  },
+  "package_id": "lerc",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "lerc",
+    "summary": "Limited Error Raster Compression library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-esri-lerc",
+    "homepage": "https://github.com/Esri/lerc",
+    "release_api": "https://api.github.com/repos/Esri/lerc/tags",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/Esri/lerc",
+    "source_url_template": "https://github.com/Esri/lerc/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.2.0",
+    "latest_detected": "4.2.0",
+    "release": "1"
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/core/x86_64/psmisc/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "psmisc",
+        "package_name": "psmisc",
+        "source": "arch-core",
+        "source_version": "23.7-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/psmisc-selinux",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "psmisc-selinux",
+        "package_name": "psmisc-selinux",
+        "source": "aur",
+        "source_version": "23.7-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/psmisc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "psmisc",
+        "package_name": "psmisc",
+        "source": "debian",
+        "source_version": "23.7-2"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/psmisc/psmisc/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "psmisc",
+        "package_name": "psmisc",
+        "source": "fedora",
+        "source_version": "23.7-7.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/psmisc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "psmisc",
+        "package_name": "psmisc",
+        "source": "opensuse-tumbleweed",
+        "source_version": "23.7-5.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/psmisc",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "psmisc",
+        "package_name": "psmisc",
+        "source": "ubuntu",
+        "source_version": "23.7-2ubuntu2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "psmisc.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official generated psmisc 23.7 SourceForge release bytes are SHA-256 pinned. The complete upstream DejaGNU check target remains enabled with dejagnu and expect fixed in BuildRequires. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "psmisc",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "psmisc",
+    "summary": "Utilities for managing processes"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-sourceforge-files"
+  },
+  "upstream": {
+    "component": "psmisc",
+    "homepage": "https://gitlab.com/psmisc/psmisc",
+    "release_api": "https://sourceforge.net/projects/psmisc/files/psmisc/",
+    "release_channel": "stable",
+    "release_regex": "psmisc-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.com/psmisc/psmisc",
+    "source_url_template": "https://downloads.sourceforge.net/project/psmisc/psmisc/psmisc-{version}.tar.xz"
+  },
+  "version": {
+    "current": "23.7",
+    "latest_detected": "23.7",
+    "release": "1"
+  }
+}

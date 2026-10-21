@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/http-parser",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "http-parser",
+        "package_name": "http-parser",
+        "source": "aur",
+        "source_version": "2.9.4-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/http-parser",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "http-parser",
+        "package_name": "http-parser",
+        "source": "debian",
+        "source_version": "2.9.4-6"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/http-parser/tree/f44",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "http-parser",
+        "package_name": "http-parser",
+        "source": "fedora",
+        "source_version": "2.9.4-16.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/http-parser",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "http-parser",
+        "package_name": "http-parser",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.9.4-1.21"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/http-parser",
+        "observed_at": "2026-08-12T01:00:00Z",
+        "package_base": "http-parser",
+        "package_name": "http-parser",
+        "source": "ubuntu",
+        "source_version": "2.9.4-6build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260812T010000Z-b30-http-parser"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "http-parser.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Final official stable tag 2.9.4 was archive-audited and pinned; both strict and permissive upstream suites remain mandatory.",
+    "status": "active"
+  },
+  "package_id": "http-parser",
+  "rpm": {
+    "license": "MIT",
+    "name": "http-parser",
+    "summary": "Fast streaming HTTP request and response parser"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-nodejs-http-parser",
+    "homepage": "https://github.com/nodejs/http-parser",
+    "release_api": "https://api.github.com/repos/nodejs/http-parser/tags",
+    "release_channel": "stable",
+    "release_regex": "^v?(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/nodejs/http-parser",
+    "source_url_template": "https://github.com/nodejs/http-parser/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.9.4",
+    "latest_detected": "2.9.4",
+    "release": "4"
+  }
+}

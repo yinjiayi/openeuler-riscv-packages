@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "exec-as",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeberg.org/maandree/exec-as/archive/1.2.3.tar.gz",
+      "filename": "1.2.3.tar.gz",
+      "version": "1.2.3",
+      "digests": {
+        "sha256": "3813e2975216e3c332d69e6d9ff118efbf65eb3cabc87ea50cf33079540c5d44"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official fixed ISC release; complete copyright and permission notice retained in every explicit binary subpackage and unchanged QA/SRPM source archive."
+      }
+    }
+  ]
+}

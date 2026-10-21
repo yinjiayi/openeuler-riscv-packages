@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "lzop",
+  "rpm": {
+    "name": "lzop",
+    "summary": "Fast file compressor using the LZO library",
+    "license": "GPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "lzop.org",
+    "homepage": "https://www.lzop.org/",
+    "source_repository": "https://github.com/nemequ/lzop.git",
+    "release_channel": "stable",
+    "release_api": "https://www.lzop.org/download/",
+    "release_regex": "lzop-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://www.lzop.org/download/lzop-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.04",
+    "release": "4",
+    "latest_detected": "1.04"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "lzop",
+        "package_base": "lzop",
+        "source_version": "1.04-4",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/lzop/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "lzop",
+        "package_base": "lzop",
+        "source_version": "1.04-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/lzop",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "lzop",
+        "package_base": "lzop",
+        "source_version": "1.04-18.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/lzop/lzop/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "lzop",
+        "package_base": "lzop",
+        "source_version": "1.04-4.25",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/lzop",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "lzop",
+        "package_base": "lzop",
+        "source_version": "1.04-2build4",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/lzop",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "lzop.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official publisher's stable 1.04 archive and exact SHA-256 are pinned. Frozen Arch, Debian, Fedora 44, openSUSE, and Ubuntu evidence corroborates the lineage; read-only AUR RPC had no canonical row and no external packaging recipe was read or executed. Release 4 exceeds target EVR 1.04-3; this command-only package continues to consume target lzo-devel 2.10-5 without owning liblzo2 ABI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

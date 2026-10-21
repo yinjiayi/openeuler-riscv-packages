@@ -1,0 +1,79 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/lr",
+        "observed_at": null,
+        "package_base": "lr",
+        "package_name": "lr",
+        "source": "aur",
+        "source_version": "2.0.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-official-lr-N145-033d800569f5df55"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-check-input-boundaries.patch",
+        "license": "MIT",
+        "purpose": "Check numeric/time arithmetic, PATH_MAX, xattr termination and format escape input boundaries without changing default features.",
+        "remove_when": "An official stable release includes equivalent guards with preserved default semantics.",
+        "sha256": "18ad30f52f782cebfe85de9184339ca301d2f616ae9a869a79932f67a8f217d9",
+        "source": "Locally authored minimal bounds checks against official v2.0.1 lr.c SHA ff96f38fab8f67c94415bb295781e318d0a946cbfa823b2c62775af34b9ab748. No upstream write.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "lr.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v2.0.1 fixed source, current non-VCS AUR lr2.0.1-1 lineage; not frozen catalog membership. All12 original members preserved/read (11 text, one screenshot). Original all/install and default zsh completion retained; no original test/check target exists. Small downstream MIT source bounds patch has mandatory target-only original-negative/patched-positive instrumented controls, not UBSan/ASan/real allocator/general memory-safety proof. Mandatory default CLI/recursion/filter/order/format/stdin/symlink/color/error QA runs built/staged/installed. Both LICENSE and differing lr.c copyright-date notice retained. Complete hosted target CI, physical RPM/SRPM, normal DNF and publication remain separate gates.",
+    "status": "active"
+  },
+  "package_id": "lr",
+  "rpm": {
+    "license": "MIT",
+    "name": "lr",
+    "summary": "Recursive file listing with filtering and formatting"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-tags"
+  },
+  "upstream": {
+    "component": "github.com-leahneukirchen-lr",
+    "homepage": "https://github.com/leahneukirchen/lr",
+    "release_api": "https://api.github.com/repos/leahneukirchen/lr/tags",
+    "release_channel": "stable",
+    "release_regex": "v(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)",
+    "source_repository": "https://github.com/leahneukirchen/lr",
+    "source_url_template": "https://codeload.github.com/leahneukirchen/lr/tar.gz/refs/tags/v{version}"
+  },
+  "version": {
+    "current": "2.0.1",
+    "latest_detected": "2.0.1",
+    "release": "1"
+  }
+}

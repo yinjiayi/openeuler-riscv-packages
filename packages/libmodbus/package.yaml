@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "libmodbus",
+  "rpm": {"name": "libmodbus", "summary": "Fast and portable Modbus protocol library", "license": "LGPL-2.1-or-later"},
+  "upstream": {
+    "component": "github.com-stephane-libmodbus",
+    "homepage": "https://libmodbus.org/",
+    "source_repository": "https://github.com/stephane/libmodbus.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/stephane/libmodbus/releases/latest",
+    "release_regex": "v?(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/stephane/libmodbus/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {"current": "3.2.0", "release": "1", "latest_detected": "3.2.0"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T163424Z-39ddf6449a3f83ba",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "libmodbus", "package_base": "libmodbus", "source_version": "3.1.12-1", "evidence_url": "https://archlinux.org/packages/extra/x86_64/libmodbus/", "observed_at": "2026-08-08T16:34:24Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libmodbus.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official v3.2.0 tag resolves to immutable commit a9b025d12289855490b10d77461c99e001abfc0f. Frozen Arch metadata corroborates the component; no distribution recipe was read or executed. Target dependency closure and package/component/libmodbus.so.5 collision scans are clean. Both the registered unit TCP suite and the maintained proxy integration suite remain enabled."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-releases"}
+}
