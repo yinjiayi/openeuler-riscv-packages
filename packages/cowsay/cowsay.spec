@@ -126,7 +126,8 @@ with tempfile.TemporaryDirectory(prefix='cowsay-qa-') as temporary:
     face = run(['-e', 'AB', '-T', 'CD', 'qa-message']).stdout
     assert b'(AB)' in face and b'CD ||----w |' in face
     assert run(data=b'qa-message\n').stdout == rendered['default']
-    wrapped = run(['-W', '5', 'alpha beta gamma']).stdout
+    wrapped = run(['-W', '6', 'alpha beta gamma']).stdout
+    assert wrapped.splitlines()[:5] == [b' _______', b'/ alpha \\', b'| beta  |', b'\\ gamma /', b' -------']
     assert all(word in wrapped for word in (b'alpha', b'beta', b'gamma'))
     assert b'alpha beta gamma' not in wrapped and len(wrapped.splitlines()) > len(expected.splitlines())
     assert b'< alpha   beta >' in run(['-n'], data=b'alpha   beta\n').stdout
