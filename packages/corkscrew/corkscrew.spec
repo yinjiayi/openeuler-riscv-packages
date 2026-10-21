@@ -224,7 +224,13 @@ if __name__ == '__main__':
 CORKSCREW_QA
 
 %build
-%configure
+%configure || {
+    configure_status=$?
+    if test -f config.log; then
+        cat config.log
+    fi
+    exit "$configure_status"
+}
 %make_build
 
 %install
