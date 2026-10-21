@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libtickit",
+        "observed_at": "2026-10-20T16:47:40Z",
+        "package_base": "libtickit",
+        "package_name": "libtickit",
+        "source": "aur",
+        "source_version": "0.4.6-1"
+      }
+    ],
+    "snapshot_id": "intake148-libtickit-20261020T164740Z"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtickit.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 0.4.6 archive and fresh AUR metadata were reviewed independently in intake148-libtickit-20261020T164740Z. The complete 44 original TAP test sources and original conditional terminfo skips are retained; no external packaging recipe or source code was executed locally. The default preferred unibilium backend, shared and static libraries, four public headers, and all API manual pages are retained. Only the installed libtickit.la libtool metadata file is filtered. LicenseRef-wcwidth identifies the complete Markus Kuhn 2007 notice in unchanged src/unicode.h, installed with LICENSE in both runtime and devel packages. Target build/install and physical RPM/SRPM acceptance remain CI work, not a local success claim.",
+    "status": "active"
+  },
+  "package_id": "libtickit",
+  "rpm": {
+    "license": "MIT AND LicenseRef-wcwidth",
+    "name": "libtickit",
+    "summary": "Terminal Interface Construction Kit"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "leonerd.org.uk-code-libtickit",
+    "homepage": "https://www.leonerd.org.uk/code/libtickit/",
+    "release_api": "https://www.leonerd.org.uk/code/libtickit/",
+    "release_channel": "stable",
+    "release_regex": "libtickit-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/leonerd/libtickit.git",
+    "source_url_template": "https://www.leonerd.org.uk/code/libtickit/libtickit-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.4.6",
+    "latest_detected": "0.4.6",
+    "release": "1"
+  }
+}
