@@ -52,6 +52,15 @@
         "license": "GPL-2.0-only",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream fixed release retains persistent bounded auth storage and equivalent checked-input behavior"
+      },
+      {
+        "file": "patches/0002-configure-c99-probe-declarations.patch",
+        "sha256": "4b71be36f7ee95102d2ab1d8a33b1d3ebaad458c88c9b96104998d58643c3469",
+        "purpose": "Declare both generated compiler sanity main functions and exit in both ctype probes without relaxing flags or changing probe decisions",
+        "source": "Downstream source-bound review of shipped configure at ae4802b09e1c022e416f9654970794fb9d7ac8a2; exact-head hosted run 39642298429 config.log",
+        "license": "GPL-2.0-only",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream shipped configure declares both sanity-probe main functions and exit in both ctype probes, or an equivalent reviewed generated script replaces it"
       }
     ],
     "smoke_test": "tests/smoke.sh"

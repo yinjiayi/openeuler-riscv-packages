@@ -14,10 +14,22 @@ helper remain in Source0/SRPM, not in a duplicate installed test source archive.
 The original one-object default `all`, `make check` and binary `make install`
 are retained. `check-am: all-am` contains no upstream test cases, so no invented
 test-suite count is claimed. There is no upstream manual in this fixed source.
-Only obsolete config.guess/config.sub are refreshed from the declared target
-automake package under their explicit distribution exception. No autoreconf,
-compiler warning suppression or protocol option removal is applied.
+Obsolete config.guess/config.sub are refreshed from the declared target
+automake package under their explicit distribution exception. The separate
+generated-configure patch gives both compiler sanity probes an explicit
+`int main(void)` signature and includes stdlib.h for existing exit calls in
+both repeated ctype probes. All probes, conditions, flags and result decisions
+remain intact. No autoreconf, compiler warning suppression or protocol option
+removal is applied.
 Default install is unstripped; normal RPM debug processing remains enabled.
+
+Hosted run 39642298429 at 8a1cdc4415dacb950b97390845dda81c657057af
+failed before make: config.log identifies configure:909 implicit-int as the
+compiler sanity-probe error. The four-hunk patch is bound to the fixed source
+bytes; it is a compiler-compatibility correction, not a RISC-V-specific fix.
+The diagnostic config.log wrapper remains in place. Static applicability and
+repository tooling checks do not establish target build or runtime success;
+replacement exact-head CI and physical-product qualification remain required.
 
 The MIT tests subpackage ships only downstream QA with its full MIT notice.
 Target-only tests exercise usage exit255, absent/empty/whitespace/overlong-auth

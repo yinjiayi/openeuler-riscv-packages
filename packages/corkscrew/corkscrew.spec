@@ -7,6 +7,7 @@ License:        GPL-2.0-only
 URL:            https://github.com/patpadgett/corkscrew
 Source0:        corkscrew-2.0.tar.gz
 Patch0:         0001-persistent-bounded-proxy-auth.patch
+Patch1:         0002-configure-c99-probe-declarations.patch
 
 BuildRequires:  gcc
 BuildRequires:  make
