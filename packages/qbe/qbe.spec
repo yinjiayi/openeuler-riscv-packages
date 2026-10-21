@@ -6,6 +6,7 @@ Summary:        Small embeddable compiler backend
 License:        MIT
 URL:            https://c9x.me/compile/
 Source0:        qbe-%{version}.tar.xz
+Patch0:         0001-test-native-rv64-compiler.patch
 
 BuildRequires:  binutils
 BuildRequires:  coreutils
@@ -31,7 +32,7 @@ language and emits assembly for amd64, arm64, riscv64, and related ABIs.
 %make_install PREFIX=%{_prefix}
 
 %check
-%make_build check-rv64
+%make_build check-rv64 CC=%{__cc}
 
 %files
 %license LICENSE

@@ -10,7 +10,7 @@
     ],
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
-  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "qbe.spec"},
+  "files": {"patches": [{"file": "patches/0001-test-native-rv64-compiler.patch", "sha256": "fab76e85aa1aabb080582413b07f134b8e49854e246973c298581d6d3c3034da", "purpose": "Native-RV64 compiler discovery for the original test harness; no test suppression.", "source": "Official QBE 1.3 archive d587905d620dc5e1d2bfa7c2cc642b9b837aa89a3188c6e37b53d756cf66e320 tools/test.sh; exact failed Package39552897803/1 internal log.", "license": "MIT", "upstream_status": "not-submitted", "remove_when": "Upstream check-rv64 discovers the native compiler."}], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "qbe.spec"},
   "maintenance": {
     "maintainers": ["yinjiayi"],
     "notes": "Frozen Arch, Debian, Fedora, openSUSE, and Ubuntu lineage was deduplicated by the official QBE component. The official 1.3 release index publishes the independently matched archive SHA-256 and source commit. No distribution recipe was executed. The complete upstream riscv64 test route remains enabled.",
