@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "package_id": "cstream",
+  "rpm": {"name": "cstream", "summary": "General purpose stream handling tool", "license": "MIT"},
+  "version": {"current": "4.0.0", "latest_detected": "4.0.0", "release": "1"},
+  "upstream": {
+    "component": "cons.org/cracauer/cstream", "homepage": "https://www.cons.org/cracauer/cstream.html",
+    "source_repository": "https://www.cons.org/cracauer/download/", "release_channel": "stable",
+    "release_api": "https://www.cons.org/cracauer/download/",
+    "release_regex": "cstream-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_url_template": "https://www.cons.org/cracauer/download/cstream-{version}.tar.gz"
+  },
+  "discovery": {"snapshot_id": "intake161-cstream-20261021", "lineage": [{"source": "debian", "package_name": "cstream", "package_base": "cstream", "source_version": "4.0.0-1", "evidence_url": "https://sources.debian.org/src/cstream/4.0.0-1/", "observed_at": "2026-10-21T19:03:50.999556Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "files": {"spec": "cstream.spec", "sources": "sources.yaml", "patches": [{"file":"patches/0001-preserve-listener-address-lifetime.patch","sha256":"1c560e906cd27aebeaaade2c7addd0f04af59b0dbc25c7c3b67d0199ec404d08","purpose":"Keep IPv4/IPv6 listener address objects alive through bind and initialize full-size accept address storage","source":"Downstream source-bound static review of original cstream.c SHA25675de92c4dbbac55d51d98fde75c9ed8af771ccf4d8fe6ba83dc19b66c4e6a3cc","license":"MIT","upstream_status":"not-submitted","remove_when":"Upstream release retains listener address lifetime and initializes IPv4/IPv6 accept storage with equivalent functional regressions"},{"file":"patches/0002-handle-pipe-hangup-in-poll-mode.patch","sha256":"fa923039d7d4faf325d080cfd10d2d8869bfef6ea19af5ed8d234a735f731d25","purpose":"Read pending data or EOF on POLLHUP so concurrency mode4 drains and terminates after pipe writer closure","source":"Downstream source-bound static review of original loop_select at cstream.c SHA25675de92c4dbbac55d51d98fde75c9ed8af771ccf4d8fe6ba83dc19b66c4e6a3cc","license":"MIT","upstream_status":"not-submitted","remove_when":"Upstream release handles pipe input hangup in mode4 without suppressing buffered output or its EOF regression"}], "smoke_test": "tests/smoke.sh"},
+  "build": {"profile": "qemu-user", "native_reason": null, "network_during_build": false, "timeout_minutes": 120},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Debian4.0.0-1 delegates the author's official homepage and literal fixed4.0.0 archive. Preserve complete30-member source, default all/check/install and TCP/sound/resolver plus optional JACK library detection. Original TESTS is commented upstream; recursive make check has zero enabled cases, not a claimed upstream suite pass. Two narrow source patches correct listener address lifetime/accept capacity and mode4 pipe EOF handling, without disabling a feature. Main program/manual MIT notices retained; complete GPL2 text supplements the original GPL2-or-later auxdir/missing notice in SRPM. Tests contains only separately MIT-licensed authored installed checks. No local upstream/authored QA/target execution or native/performance/security assurance."},
+  "updates": {"enabled": true, "release_provider": "html-regex", "last_checked_at": null, "last_successful_check_at": null}
+}

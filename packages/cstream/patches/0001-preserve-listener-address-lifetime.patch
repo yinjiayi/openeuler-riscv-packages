@@ -1,0 +1,78 @@
+From: openEuler package maintenance <yinjiayi@users.noreply.github.com>
+Date: Wed, 21 Oct 2026 19:44:00 +0000
+Subject: [PATCH] Keep listener addresses alive and initialize accept storage
+
+The listener saves pointers to block-local IPv4/IPv6 addresses but binds
+after those blocks end. Keep both objects alive for the whole function.
+Give accept an initialized capacity and storage large enough for IPv6.
+No command-line feature, default, upstream test, or client path is removed.
+This source-level correction is not a claim of broader security assurance.
+
+--- a/cstream.c
++++ b/cstream.c
+@@ -492,6 +492,9 @@
+   int newfd = -1;
+   struct sockaddr *use_this_serv_addr = NULL;
+   socklen_t use_this_serv_addr_len = -1;
++  /* Keep listener addresses alive through bind (openEuler, 2026-10-21). */
++  struct sockaddr_in listen_addr4;
++  struct sockaddr_in6 listen_addr6;
+ 
+   if (mode == O_WRONLY) {
+     spec = o->o;
+@@ -517,25 +520,23 @@
+      /* Listen mode */
+     if (o->six == -1) {
+       /* fixme, pull in front, so that same code is useable for client */
+-      struct sockaddr_in serv_addr;
+-      use_this_serv_addr = (struct sockaddr *)&serv_addr;
+-      use_this_serv_addr_len = sizeof(serv_addr);
+-      bzero(&serv_addr, sizeof(serv_addr));
+-      serv_addr.sin_family = AF_INET;
+-      serv_addr.sin_addr.s_addr = INADDR_ANY;
+-      serv_addr.sin_port = htons(atoi(port));
++      use_this_serv_addr = (struct sockaddr *)&listen_addr4;
++      use_this_serv_addr_len = sizeof(listen_addr4);
++      bzero(&listen_addr4, sizeof(listen_addr4));
++      listen_addr4.sin_family = AF_INET;
++      listen_addr4.sin_addr.s_addr = INADDR_ANY;
++      listen_addr4.sin_port = htons(atoi(port));
+ 
+       fd = gimme_a_socket(AF_INET, SOCK_STREAM, 0);
+     } else { // allow or force ipv6
+-      struct sockaddr_in6 sin6;
+-      bzero(&sin6, sizeof(sin6));
+-      use_this_serv_addr = (struct sockaddr *)&sin6;
+-      use_this_serv_addr_len = sizeof(sin6);
+-      // sin6.sin6_len = sizeof(sin6);
+-      sin6.sin6_family = AF_INET6;
+-      sin6.sin6_flowinfo = 0;
+-      sin6.sin6_port = htons(atoi(port));
+-      sin6.sin6_addr = in6addr_any;
++      bzero(&listen_addr6, sizeof(listen_addr6));
++      use_this_serv_addr = (struct sockaddr *)&listen_addr6;
++      use_this_serv_addr_len = sizeof(listen_addr6);
++      // listen_addr6.sin6_len = sizeof(listen_addr6);
++      listen_addr6.sin6_family = AF_INET6;
++      listen_addr6.sin6_flowinfo = 0;
++      listen_addr6.sin6_port = htons(atoi(port));
++      listen_addr6.sin6_addr = in6addr_any;
+ 
+       fd = gimme_a_socket(AF_INET6, SOCK_STREAM, 0);
+     }
+@@ -555,10 +556,11 @@
+     if (o->v >= 1)
+       fprintf(stderr, "Accepting on port %d\n", atoi(port));
+ 
+-    struct sockaddr addr_here;
+-    socklen_t addr_here_size;
+-
+-    if ((newfd = accept(fd, &addr_here, &addr_here_size)) == -1) {
++    struct sockaddr_storage addr_here;
++    socklen_t addr_here_size = sizeof(addr_here);
++
++    if ((newfd = accept(fd, (struct sockaddr *)&addr_here,
++                        &addr_here_size)) == -1) {
+       fprintf(stderr, "errno: %d\n", errno);
+       perror("accept");
+       exit(2);

@@ -1,0 +1,20 @@
+From: openEuler package maintenance <yinjiayi@users.noreply.github.com>
+Date: Wed, 21 Oct 2026 19:44:00 +0000
+Subject: [PATCH] Read pending bytes or EOF when poll reports input hangup
+
+A pipe writer can close after its last bytes have been consumed. poll then
+reports POLLHUP, not POLLIN. Reading that ready descriptor obtains EOF and
+allows the existing drain-and-finish condition to terminate mode 4 normally.
+Preserve all buffer, output, throughput and byte-limit logic.
+
+--- a/cstream.c
++++ b/cstream.c
+@@ -1375,7 +1375,7 @@
+       curwrite += ret;
+     }
+ 
+-    if (want_to_read && pollfd[0].revents & (POLLIN|POLLRDNORM)) {
++    if (want_to_read && pollfd[0].revents & (POLLIN|POLLRDNORM|POLLHUP)) {
+       if (o->v >= 4)
+ 	fprintf(stderr, "Trying to read\n");
+ 
