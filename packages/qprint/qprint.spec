@@ -138,8 +138,13 @@ with tempfile.TemporaryDirectory(prefix='qprint-qa-') as temporary:
                         cwd=work, timeout=300)
     print(output.decode('utf-8', 'backslashreplace'), end='')
     print(error.decode('utf-8', 'backslashreplace'), file=sys.stderr, end='')
-    assert b'All tests passed.' in output and b'Wringer test passed.' in output
-    assert b'test failed' not in output.lower() and b'test failed' not in error.lower()
+    stdout_lines = [line.strip() for line in output.splitlines()]
+    stderr_lines = [line.strip() for line in error.splitlines()]
+    assert stdout_lines.count(b'All tests passed.') == 1
+    assert stdout_lines.count(b'Wringer test passed.') == 1
+    failure_markers = {b'** qprint:  Redirection test failed. **',
+                       b'** qprint:  Command line file argument test failed. **', b'** qprint Wringer test failed. **'}
+    assert not failure_markers.intersection(stdout_lines + stderr_lines)
     assert hashlib.sha256((work / 'wretch.bin').read_bytes()).hexdigest() == 'b4f06c6d99623e87ffd32aadd8e9f9b8a289dc54d10f85d5865851b861c32343'
     checks.append('original-check-and-thirteen-level-wringer')
     def command(args, data=b'', code=0):

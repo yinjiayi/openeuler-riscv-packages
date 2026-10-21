@@ -19,6 +19,13 @@ actually rebuilds it. A copy of the configured Makefile changes only literal
 `/tmp/` paths to a unique private test directory; no command/assertion is
 removed. Because upstream deliberately ignores cmp status, the downstream
 driver also requires both exact success markers and rejects failure markers.
+The first hosted build (PR2763, head d5f41b2aa1f0, run39583120909/1)
+completed both upstream targets, but the driver misread make's echoed,
+unexecuted failure branches as failures. Match whole trimmed output lines:
+require each stdout success marker exactly once and reject all three actual
+upstream failure markers on stdout or stderr. Keep every original command,
+make exit-status check and additional functional assertion unchanged; the
+new head still requires real target CI acceptance.
 Installed/staged QA replays those complete targets against the installed
 binary and unchanged bundled fixture without invoking a compiler; `-o` marks
 only those pre-existing inputs as already made. This is distinct from the
