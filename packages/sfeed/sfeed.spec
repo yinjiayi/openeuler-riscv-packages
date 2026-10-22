@@ -1,7 +1,11 @@
 # SPDX-License-Identifier: ISC
+# Upstream defaults produce no DWARF; retain those compiler flags unchanged.
+# Disable empty automatic debug subpackages, not upstream features or tests.
+%global debug_package %{nil}
+
 Name:           sfeed
 Version:        2.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RSS and Atom parser with feed formatting tools
 License:        ISC
 URL:            https://codemadness.org/sfeed-simple-feed-parser.html
@@ -263,6 +267,9 @@ python3 downstream-qa.py --bindir %{buildroot}%{_bindir}
 %{_libexecdir}/%{name}-tests
 
 %changelog
+* Thu Oct 22 2026 yinjiayi <yinjiayi@users.noreply.github.com> - 2.4-2
+- Disable empty automatic debug subpackages while preserving upstream flags.
+
 * Thu Oct 22 2026 yinjiayi <yinjiayi@users.noreply.github.com> - 2.4-1
 - Preserve the complete default build, curses UI, scripts and manuals.
 - Add target-only full-toolset functional checks without source patches.
