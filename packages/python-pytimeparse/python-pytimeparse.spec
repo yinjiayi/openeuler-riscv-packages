@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           python-pytimeparse
-Version:        1.1.9
+Version:        1.1.10
 Release:        1%{?dist}
 Summary:        Parse human-readable time expressions in Python
 License:        MIT
 URL:            https://github.com/wroberts/pytimeparse
-Source0:        pytimeparse-1.1.9-official.tar.gz
+Source0:        pytimeparse-1.1.10.tar.gz
 BuildArch:      noarch
 BuildRequires:  python3-devel >= 3.11
 BuildRequires:  python3-setuptools
