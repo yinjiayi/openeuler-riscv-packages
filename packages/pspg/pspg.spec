@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pspg
-Version:        5.8.16
+Version:        5.9.0
 Release:        1%{?dist}
 Summary:        Tabular data pager designed to be used with psql
 License:        BSD-2-Clause
 URL:            https://github.com/okbob/pspg
-Source0:        pspg-5.8.16.tar.gz
+Source0:        5.9.0.tar.gz
 BuildRequires:  gcc
 BuildRequires:  libpq-devel
 BuildRequires:  make
