@@ -1,0 +1,13 @@
+{
+  "schema_version":1,
+  "package_id":"sfeed",
+  "rpm":{"name":"sfeed","summary":"RSS and Atom parser with feed formatting tools","license":"ISC"},
+  "version":{"current":"2.4","latest_detected":null,"release":"1"},
+  "upstream":{"component":"codemadness.org/sfeed","homepage":"https://codemadness.org/sfeed-simple-feed-parser.html","source_repository":"https://git.codemadness.org/sfeed/","release_channel":"stable","release_api":null,"release_regex":null,"source_url_template":"https://codemadness.org/releases/sfeed/sfeed-{version}.tar.gz"},
+  "discovery":{"snapshot_id":"intake164-sfeed-20261022","lineage":[{"source":"aur","package_name":"sfeed","package_base":"sfeed","source_version":"2.4-1","evidence_url":"https://aur.archlinux.org/packages/sfeed","observed_at":null},{"source":"debian","package_name":"sfeed","package_base":"sfeed","source_version":"2.2-1","evidence_url":"https://packages.debian.org/stable/sfeed","observed_at":null}]},
+  "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+  "files":{"spec":"sfeed.spec","sources":"sources.yaml","patches":[],"smoke_test":"tests/smoke.sh"},
+  "build":{"profile":"qemu-user","native_reason":null,"network_during_build":false,"timeout_minutes":120},
+  "maintenance":{"status":"update-disabled","maintainers":["yinjiayi"],"notes":"Official HTTPS homepage and observed fixed archive bound by SHA256. Full default13 C programs including curses/mono,4 scripts,19 manuals and default build flags retained; no patches. Upstream release has no check target or regression fixtures. Target-only QA covers every installed tool, private loopback default updater with repeated merge and failure path, private read-state/config and curses PTY normal quit; external feed access and optional xclip/xdg-open integration not claimed. No authored QA/source/compiler/RPM/QEMU executed on packaging host. Actual target, native and physical acceptance pending."},
+  "updates":{"enabled":false,"release_provider":null,"last_checked_at":null,"last_successful_check_at":null}
+}
