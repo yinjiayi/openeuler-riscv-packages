@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "package_id": "dhex",
+  "rpm": {"name": "dhex", "summary": "Ncurses hexadecimal editor with a two-file diff mode", "license": "GPL-2.0-or-later"},
+  "version": {"current": "0.69", "latest_detected": "0.69", "release": "1"},
+  "upstream": {
+    "component": "dettus.net-dhex", "homepage": "https://www.dettus.net/dhex/",
+    "source_repository": "https://www.dettus.net/dhex/",
+    "release_channel": "stable", "release_api": "https://www.dettus.net/dhex/",
+    "release_regex": "dhex_(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://www.dettus.net/dhex/dhex_{version}.tar.gz"
+  },
+  "discovery": {
+    "snapshot_id": "intake150-dhex-source-20261020",
+    "lineage": [{"source": "arch-extra", "package_name": "dhex", "package_base": "dhex", "source_version": "0.69-5", "evidence_url": "https://archlinux.org/packages/extra/x86_64/dhex/", "observed_at": "2026-10-20T20:05:19Z"}]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "files": {"spec": "dhex.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "build": {"profile": "qemu-user", "native_reason": null, "network_during_build": false, "timeout_minutes": 120},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Official fixed HTTPS release 0.69, complete 36-member source retained. Source grants GPL-2.0-or-later despite Arch catalog GPL-2.0-only shorthand. Preserve original default all/install, all 13 objects, ncurses, embedded GPL, stripping and four manuals; relocate only installation paths. Upstream has no test/check target, and todo.txt explicitly requests a future test suite. Mandatory authored offline batch and PTY functional checks are not upstream tests or native/performance claims. Local preparation does not execute upstream C or target QA. Fresh target supplier/namespace admission and CI build/install/physical acceptance remain separate gates."
+  },
+  "updates": {"enabled": true, "release_provider": "html", "last_checked_at": null, "last_successful_check_at": null}
+}
