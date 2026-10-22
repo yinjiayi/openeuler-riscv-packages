@@ -1,0 +1,90 @@
+From: openEuler RISC-V packaging
+Subject: [PATCH] End variadic argument lists before returning
+SPDX-License-Identifier: ISC
+
+Nine public wrappers returned before va_end. Save the result, end the
+argument list, then return it. No default build, test or API is removed.
+Original downstream fix for 1.0.3.1; not submitted upstream. Remove after
+an official release pairs these va_start/va_end calls on the return path.
+
+--- a/libenv_filter_name_list.c
++++ b/libenv_filter_name_list.c
+@@ -7,0 +8 @@
++	size_t result;
+@@ -10 +11 @@
+-	return libenv_vfilter_name_list(variables, classes);
++	result = libenv_vfilter_name_list(variables, classes);
+@@ -11,0 +13 @@
++	return result;
+--- a/libenv_filter_name_list_with_dealloc.c
++++ b/libenv_filter_name_list_with_dealloc.c
+@@ -7,0 +8 @@
++	size_t result;
+@@ -10 +11 @@
+-	return libenv_vfilter_name_list_with_dealloc(variables, classes);
++	result = libenv_vfilter_name_list_with_dealloc(variables, classes);
+@@ -11,0 +13 @@
++	return result;
+--- a/libenv_filter_variable_list.c
++++ b/libenv_filter_variable_list.c
+@@ -7,0 +8 @@
++	size_t result;
+@@ -10 +11 @@
+-	return libenv_vfilter_variable_list(variables, classes);
++	result = libenv_vfilter_variable_list(variables, classes);
+@@ -11,0 +13 @@
++	return result;
+--- a/libenv_filter_variable_list_with_dealloc.c
++++ b/libenv_filter_variable_list_with_dealloc.c
+@@ -7,0 +8 @@
++	size_t result;
+@@ -10 +11 @@
+-	return libenv_vfilter_variable_list_with_dealloc(variables, classes);
++	result = libenv_vfilter_variable_list_with_dealloc(variables, classes);
+@@ -11,0 +13 @@
++	return result;
+--- a/libenv_get_chosen_list.c
++++ b/libenv_get_chosen_list.c
+@@ -7,0 +8 @@
++	const char **result;
+@@ -10 +11 @@
+-	return libenv_vget_chosen_list(classes_head, classes_tail);
++	result = libenv_vget_chosen_list(classes_head, classes_tail);
+@@ -11,0 +13 @@
++	return result;
+--- a/libenv_select_name_list.c
++++ b/libenv_select_name_list.c
+@@ -7,0 +8 @@
++	size_t result;
+@@ -10 +11 @@
+-	return libenv_vselect_name_list(variables, classes);
++	result = libenv_vselect_name_list(variables, classes);
+@@ -11,0 +13 @@
++	return result;
+--- a/libenv_select_name_list_with_dealloc.c
++++ b/libenv_select_name_list_with_dealloc.c
+@@ -7,0 +8 @@
++	size_t result;
+@@ -10 +11 @@
+-	return libenv_vselect_name_list_with_dealloc(variables, classes);
++	result = libenv_vselect_name_list_with_dealloc(variables, classes);
+@@ -11,0 +13 @@
++	return result;
+--- a/libenv_select_variable_list.c
++++ b/libenv_select_variable_list.c
+@@ -7,0 +8 @@
++	size_t result;
+@@ -10 +11 @@
+-	return libenv_vselect_variable_list(variables, classes);
++	result = libenv_vselect_variable_list(variables, classes);
+@@ -11,0 +13 @@
++	return result;
+--- a/libenv_select_variable_list_with_dealloc.c
++++ b/libenv_select_variable_list_with_dealloc.c
+@@ -7,0 +8 @@
++	size_t result;
+@@ -10 +11 @@
+-	return libenv_vselect_variable_list_with_dealloc(variables, classes);
++	result = libenv_vselect_variable_list_with_dealloc(variables, classes);
+@@ -11,0 +13 @@
++	return result;
