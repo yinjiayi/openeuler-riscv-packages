@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           brotli
-Version:        1.2.0
+Version:        1.2.1
 Release:        1%{?dist}
 Summary:        Generic-purpose lossless compression library
 License:        MIT
 URL:            https://github.com/google/brotli
-Source0:        brotli-%{version}.tar.gz
+Source0:        v1.2.1.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
