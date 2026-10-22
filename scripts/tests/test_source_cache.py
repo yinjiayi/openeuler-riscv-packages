@@ -196,12 +196,16 @@ class SourceCacheTests(unittest.TestCase):
         key.write_bytes(b"inert key")
         fingerprint = "A" * 40
         entry = copy.deepcopy(self.entry)
-        entry["signature"] = {"policy": "required", "path": sig.name, "keyring": key.name, "fingerprint": fingerprint}
+        entry["signature"] = {"policy": "required", "path": sig.name, "keyring": key.name, "key_fingerprint": fingerprint}
         with mock.patch.dict(self.globals, {"shutil": mock.Mock(which=mock.Mock(return_value="gpgv"))}), mock.patch.object(
-            self.globals["subprocess"], "run", return_value=mock.Mock(returncode=0, stdout="[GNUPG:] VALIDSIG " + fingerprint)
+            self.globals["subprocess"], "run", return_value=mock.Mock(returncode=0, stdout="[GNUPG:] VALIDSIG " + fingerprint + " 2026-10-20 1792497600 0 4 0 1 10 00\n")
         ) as verify:
             self.assertEqual(self.materialize(entry)["signature"]["status"], "verified")
-            self.assertEqual(verify.call_args.args[0], ["gpgv", "--keyring", str(key), "--status-fd", "1", str(sig), str(self.source)])
+            argv = verify.call_args.args[0]
+            self.assertEqual(argv[:2], ["gpgv", "--homedir"])
+            self.assertFalse(pathlib.Path(argv[2]).exists())
+            self.assertEqual(argv[3:], ["--keyring", str(key), "--status-fd", "1", str(sig), str(self.source)])
+            self.assertEqual(verify.call_args.kwargs["stderr"], self.globals["subprocess"].PIPE)
             verify.return_value = mock.Mock(returncode=1, stdout="bad signature")
             with self.assertRaisesRegex(ToolError, "signature verification failed"):
                 self.materialize(entry)
@@ -209,7 +213,7 @@ class SourceCacheTests(unittest.TestCase):
 
     def test_required_signature_missing_symlink_and_malformed_fail(self) -> None:
         entry = copy.deepcopy(self.entry)
-        entry["signature"] = {"policy": "required", "path": "signature.asc", "keyring": "keyring.gpg", "fingerprint": "A" * 40}
+        entry["signature"] = {"policy": "required", "path": "signature.asc", "keyring": "keyring.gpg", "key_fingerprint": "A" * 40}
         with self.assertRaisesRegex(ToolError, "missing or unreadable"):
             self.materialize(entry)
         (self.root / "real-signature").write_bytes(b"inert")

@@ -169,6 +169,38 @@ def fixture_path(url: str, repo_root: pathlib.Path) -> pathlib.Path:
     return candidate
 
 
+def signature_input(value: Any, repo_root: pathlib.Path) -> pathlib.Path:
+    """Require a canonical repository-relative path, then reject linked inputs."""
+    if not isinstance(value, str) or not re.fullmatch(r"[A-Za-z0-9._+~-]+(?:/[A-Za-z0-9._+~-]+)*", value):
+        raise ToolError("signature input needs a safe repository-relative path")
+    if any(part in {".", ".."} for part in value.split("/")):
+        raise ToolError("signature input escapes its declared root")
+    return regular_input(repo_root / value, repo_root)
+
+
+def exact_signature_status(status: str, fingerprint: str) -> bool:
+    """Pin the exact signing key, not a prefix or an optional primary-key field."""
+    signers: List[str] = []
+    for line in status.splitlines():
+        if not line.startswith("[GNUPG:] VALIDSIG "):
+            continue
+        fields = line.split()
+        # VALIDSIG has nine mandatory arguments and an optional primary-key
+        # fingerprint. The first argument identifies the key that signed.
+        if len(fields) not in {11, 12} or not re.fullmatch(r"(?:[0-9A-F]{40}|[0-9A-F]{64})", fields[2]):
+            return False
+        if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", fields[3]):
+            return False
+        if any(not field.isascii() or not field.isdecimal() for field in fields[4:10]):
+            return False
+        if not re.fullmatch(r"[0-9A-Fa-f]{2}", fields[10]):
+            return False
+        if len(fields) == 12 and not re.fullmatch(r"(?:[0-9A-F]{40}|[0-9A-F]{64})", fields[11]):
+            return False
+        signers.append(fields[2])
+    return signers == [fingerprint]
+
+
 def verify_signature(entry: Mapping[str, Any], source: pathlib.Path, repo_root: pathlib.Path, offline: bool) -> Dict[str, Any]:
     if entry.get("signature") is not None and not isinstance(entry["signature"], Mapping):
         raise ToolError("source signature policy must be an object or null")
@@ -188,25 +220,26 @@ def verify_signature(entry: Mapping[str, Any], source: pathlib.Path, repo_root: 
         raise ToolError("unknown signature policy: %s" % policy)
     signature_path = signature.get("path")
     keyring_path = signature.get("keyring")
-    fingerprint = str(signature.get("fingerprint") or signature.get("key_fingerprint") or "").replace(" ", "").upper()
-    if not signature_path or not keyring_path or not re.fullmatch(r"[0-9A-F]{40,64}", fingerprint):
-        raise ToolError("required signature policy needs path, keyring, and a 40-64 hex fingerprint")
-    sig = repo_root / str(signature_path)
-    keyring = repo_root / str(keyring_path)
-    for candidate in (sig, keyring):
-        regular_input(candidate, repo_root)
+    fingerprint = signature.get("key_fingerprint")
+    if not isinstance(fingerprint, str) or not re.fullmatch(r"(?:[0-9A-F]{40}|[0-9A-F]{64})", fingerprint):
+        raise ToolError("required signature policy needs a canonical 40- or 64-hex key_fingerprint")
+    sig = signature_input(signature_path, repo_root)
+    keyring = signature_input(keyring_path, repo_root)
     gpgv = shutil.which("gpgv")
     if not gpgv:
         raise ToolError("gpgv is required by source signature policy", 1)
-    completed = subprocess.run(
-        [gpgv, "--keyring", str(keyring), "--status-fd", "1", str(sig), str(source)],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        timeout=120,
-        check=False,
-    )
-    if completed.returncode != 0 or ("VALIDSIG " + fingerprint) not in completed.stdout:
+    # Explicit private home isolates configuration/trust state defensively;
+    # only the committed, regular keyring is supplied. Never fetch keys.
+    with tempfile.TemporaryDirectory(prefix="source-signature-") as home:
+        completed = subprocess.run(
+            [gpgv, "--homedir", home, "--keyring", str(keyring), "--status-fd", "1", str(sig), str(source)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=120,
+            check=False,
+        )
+    if completed.returncode != 0 or not exact_signature_status(completed.stdout, fingerprint):
         raise ToolError("source signature verification failed", 1)
     return {"policy": policy, "status": "verified", "fingerprint": fingerprint}
 
