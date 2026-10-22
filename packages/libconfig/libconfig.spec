@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libconfig
-Version:        1.8.2
+Version:        1.8.3
 Release:        1%{?dist}
 Summary:        C and C++ library for structured configuration files
 License:        LGPL-2.1-or-later AND GPL-3.0-or-later WITH Bison-exception-2.2
 URL:            https://hyperrealm.github.io/libconfig/
-Source0:        libconfig-%{version}.tar.gz
+Source0:        libconfig-1.8.3.tar.gz
 
 BuildRequires:  bison
 BuildRequires:  flex
