@@ -164,8 +164,53 @@ def command_plan(args: argparse.Namespace) -> int:
     return 0
 
 
+def pypi_release_record(version: str, files: Any) -> Dict[str, Any]:
+    """Keep every release identity; accept one declared, non-yanked source file.
+
+    Count declarations before validating URLs/digests so a malformed second
+    sdist cannot erase an ambiguity. Invalid newest releases must not cause an
+    older release to be selected. No wheel/filename-suffix guessing is used.
+    """
+    result: Dict[str, Any] = {"version": version}
+    def reject(reason: str) -> Dict[str, Any]:
+        return {**result, "pypi_source_error": reason}
+    if not isinstance(files, list) or any(not isinstance(item, Mapping) for item in files):
+        return reject("PyPI release files must be a list of file records")
+    candidates = [item for item in files
+                  if item.get("packagetype") == "sdist" and item.get("yanked") is not True]
+    if len(candidates) != 1:
+        return reject("PyPI release must declare exactly one non-yanked sdist")
+    source = candidates[0]
+    if source.get("yanked") is not False or source.get("python_version") != "source":
+        return reject("PyPI sdist must explicitly be non-yanked and python_version=source")
+    url = source.get("url")
+    if not isinstance(url, str) or not url or any(ord(char) <= 32 or ord(char) == 127 for char in url):
+        return reject("PyPI sdist URL must be a nonempty credential-free HTTPS URL")
+    try:
+        validate_https_url(url)
+        parsed = urllib.parse.urlsplit(url)
+        if (parsed.username is not None or parsed.password is not None
+                or "#" in url or parsed.port not in (None, 443)):
+            return reject("PyPI sdist URL forbids credentials, fragments and non-443 ports")
+    except (ToolError, ValueError):
+        return reject("PyPI sdist URL must be a credential-free HTTPS URL")
+    digests = source.get("digests")
+    digest = digests.get("sha256") if isinstance(digests, Mapping) else None
+    if not isinstance(digest, str) or re.fullmatch(r"[0-9a-fA-F]{64}", digest) is None:
+        return reject("PyPI sdist must declare a full SHA-256")
+    return {**result, "source_url": url, "sha256": digest.lower()}
+
+
 def releases_from_document(document: Any) -> List[Dict[str, Any]]:
     if isinstance(document, Mapping):
+        if (isinstance(document.get("info"), Mapping)
+                and isinstance(document["info"].get("name"), str)
+                and bool(document["info"]["name"])
+                and isinstance(document["info"].get("version"), str)
+                and isinstance(document.get("urls"), list)
+                and isinstance(document.get("releases"), Mapping)):
+            return [pypi_release_record(version, files)
+                    for version, files in document["releases"].items()]
         if isinstance(document.get("versions"), list):
             return [{"version": value} if not isinstance(value, Mapping) else dict(value) for value in document["versions"]]
         if isinstance(document.get("releases"), Mapping):
@@ -202,13 +247,16 @@ def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optio
     digest = first_value(raw, ["sha256", "checksum"]) if explicit_source and source_url == explicit_source else None
     if isinstance(digest, str) and digest.startswith("sha256:"):
         digest = digest.split(":", 1)[1]
-    return {
+    result = {
         "version": version_text,
         "tag": first_value(raw, ["tag_name"], version_text),
         "source_url": source_url,
         "sha256": str(digest).lower() if digest else None,
         "published_at": first_value(raw, ["published_at", "created_at", "date"]),
     }
+    if "pypi_source_error" in raw:
+        result["pypi_source_error"] = raw["pypi_source_error"]
+    return result
 
 
 def release_pattern(release_regex: str) -> re.Pattern[str]:
@@ -389,6 +437,8 @@ def scan_package(
         base["release_fetch"] = fetch_meta
         if tuple(version_key(latest["version"])) <= tuple(version_key(package.get("current_version"))):
             return {**base, "status": "no-update"}
+        if latest.get("pypi_source_error"):
+            return {**base, "status": "failed", "failure": {"category": "source", "message": latest["pypi_source_error"]}}
         if not latest.get("source_url"):
             return {**base, "status": "failed", "failure": {"category": "source", "message": "latest stable release has no official source URL"}}
         validate_https_url(str(latest["source_url"]), allow_file=True)
