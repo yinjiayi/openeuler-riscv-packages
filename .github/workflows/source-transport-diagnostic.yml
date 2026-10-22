@@ -1,0 +1,102 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Source Transport Diagnostic
+
+# An opt-in, source-only probe of the failed M56 inputs, not a package build.
+# No persistent dependency on previous runs or expiring artifacts is introduced.
+on:
+  pull_request:
+    paths:
+      - .github/workflows/source-transport-diagnostic.yml
+      - scripts/tests/test_source_transport_diagnostic.py
+
+permissions:
+  contents: read
+
+jobs:
+  source-transport:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out immutable M56 tooling and original source manifest
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: a59220b2321f5db3dc0b4520e4c72170e6cc498b
+          persist-credentials: false
+      - name: Record the hosted diagnostic environment
+        run: |
+          test "$(git rev-parse HEAD)" = a59220b2321f5db3dc0b4520e4c72170e6cc498b
+          test -z "$(git status --porcelain)"
+          ci/record-environment.sh artifacts/source/environment.json
+          python3 --version
+          cat /etc/os-release
+          command -v apt-get
+          test ! -e work/source-transport-diagnostic
+      - name: Fetch the three original HTTPS sources once using default TLS
+        run: |
+          # verify-only may query rpmspec when present. Isolate command lookup
+          # to the system Python interpreter, forcing its static SPEC fallback.
+          mkdir -p work/source-transport-tools
+          ln -s "$(command -v python3)" work/source-transport-tools/python3
+          PATH="$PWD/work/source-transport-tools" scripts/build-rpm \
+            --package-dir packages/libinjection --repo-root . \
+            --work-dir work/source-transport-diagnostic \
+            --result artifacts/source/source-phase-result.json \
+            --commit-sha a59220b2321f5db3dc0b4520e4c72170e6cc498b \
+            --verify-only --expected-arch riscv64 \
+            --download-timeout 25 --retries 0
+      - name: Require schema-valid fresh source evidence and physical checksums
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          import runpy
+          import sys
+
+          root = Path.cwd()
+          sys.path.insert(0, str(root / "scripts"))
+          validator = runpy.run_path(str(root / "scripts/validate-metadata"))
+          schema = json.loads((root / "schemas/build-result.schema.json").read_text())
+          result = json.loads((root / "artifacts/source/source-phase-result.json").read_text())
+          assert not validator["schema_errors"](result, schema, schema), "invalid source result schema"
+          assert result["commit_sha"] == "a59220b2321f5db3dc0b4520e4c72170e6cc498b"
+          assert result["package_id"] == "libinjection"
+          assert result["status"] == "source-verified" and result["phase"] == "source-verify"
+          assert result["exit_code"] == 0 and result["artifacts"] == []
+          assert result["dependency_plan"]["method"] == "spec-text-fallback"
+          expected = {
+              "libinjection-4.0.0.tar.gz": (
+                  "https://codeload.github.com/libinjection/libinjection/tar.gz/211782219663f889f471650150df12b623c5766e",
+                  "e9d20004c9c7419ffebab1dc17ac5072de2a9b8e43b1289025082dfcdccd25c0"),
+              "COPYING.GPL2": (
+                  "https://ftp.gnu.org/gnu/Licenses/gpl-2.0.txt",
+                  "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"),
+              "COPYING.GPL3": (
+                  "https://ftp.gnu.org/gnu/Licenses/gpl-3.0.txt",
+                  "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"),
+          }
+          rows = result["source_verification"]
+          assert len(rows) == len(expected) and {r["filename"] for r in rows} == set(expected)
+          for row in rows:
+              url, digest = expected[row["filename"]]
+              assert row["url"] == url and row["sha256"] == digest and row["verified"] is True
+              fetch = row["materialization"]["fetch"]
+              assert fetch["cached"] is False and fetch["status"] == 200
+              assert fetch["url"].startswith("https://") and fetch["fetched_at"] >= result["started_at"]
+              source = root / "work/source-transport-diagnostic/SOURCES" / row["filename"]
+              assert source.is_file() and not source.is_symlink()
+              assert source.stat().st_size == row["size"]
+              assert hashlib.sha256(source.read_bytes()).hexdigest() == digest
+          print("Original three source inputs verified; no build or install acceptance implied.")
+          PY
+      - name: Preserve source-only success or actual failure evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: source-transport-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/source/
+            work/source-transport-diagnostic/SOURCES/
+            work/source-transport-diagnostic/source-verification.json
+          if-no-files-found: error
+          retention-days: 7
