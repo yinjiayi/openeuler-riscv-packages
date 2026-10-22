@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "package_id": "qprint",
+  "rpm": {"name": "qprint", "summary": "Quoted-printable encoder and decoder", "license": "LicenseRef-Public-Domain"},
+  "version": {"current": "1.1", "latest_detected": "1.1", "release": "1"},
+  "upstream": {
+    "component": "fourmilab.ch/webtools/qprint", "homepage": "https://www.fourmilab.ch/webtools/qprint/",
+    "source_repository": "https://www.fourmilab.ch/webtools/qprint/", "release_channel": "stable",
+    "release_api": "https://www.fourmilab.ch/webtools/qprint/",
+    "release_regex": "qprint-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://www.fourmilab.ch/webtools/qprint/qprint-{version}.tar.gz"
+  },
+  "discovery": {"snapshot_id": "intake155-qprint-20261021", "lineage": [{"source": "arch-extra", "package_name": "qprint", "package_base": "qprint", "source_version": "1.1-3", "evidence_url": "https://archlinux.org/packages/extra/x86_64/qprint/", "observed_at": "2026-10-21T08:47:58.421298Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "files": {"spec": "qprint.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "build": {"profile": "qemu-user", "native_reason": null, "network_during_build": false, "timeout_minutes": 120},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official Arch extra1.1-3 delegates Fourmilab's fixed stable1.1 tarball. Preserve original default prog target, generated C, both original check and wringer targets, actual wretch fixture regeneration, binary/manual install, and all22 original regular source members including CWEB masters and notices. Only test temporary paths are rebased into a private directory; strict pass/failure markers supplement upstream ignored cmp status. Original RFC excerpts remain attributed source documentation, not a new public-domain assertion. Local validation never executes upstream or authored target QA."},
+  "updates": {"enabled": true, "release_provider": "official-html-index", "last_checked_at": null, "last_successful_check_at": null}
+}

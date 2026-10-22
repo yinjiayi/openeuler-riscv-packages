@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "mktorrent",
+  "rpm": {"name": "mktorrent", "summary": "Create BitTorrent metainfo files", "license": "GPL-2.0-or-later AND LicenseRef-Public-Domain"},
+  "version": {"current": "1.1", "latest_detected": null, "release": "1"},
+  "upstream": {"component": "github.com-pobrn-mktorrent", "homepage": "https://github.com/pobrn/mktorrent", "source_repository": "https://github.com/pobrn/mktorrent", "release_channel": "stable", "release_api": null, "release_regex": null, "source_url_template": "https://api.github.com/repos/pobrn/mktorrent/tarball/refs/tags/v{version}"},
+  "discovery": {"snapshot_id": "intake169-mktorrent-20261022", "lineage": [{"source": "arch-extra", "package_name": "mktorrent", "package_base": "mktorrent", "source_version": "1.1-7", "evidence_url": "https://archlinux.org/packages/extra/x86_64/mktorrent/", "observed_at": null}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "files": {"spec": "mktorrent.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "build": {"profile": "qemu-user", "native_reason": null, "network_during_build": false, "timeout_minutes": 120},
+  "maintenance": {"status": "update-disabled", "maintainers": ["yinjiayi"], "notes": "Stable v1.1 is bound to full commit b20ef699b4ee5ded2f078ead776c7deac969e19a and exact official archive SHA256. Original default six objects, bundled public-domain SHA1, prefix probe and normal install are preserved. No optional compile switches enabled or disabled, no patches, no upstream default check target. Unchanged optional SHA1_TEST vectors plus authored built/staged/installed deterministic bencode and hash checks run only in target CI. network_during_build:false is metadata policy, not proof of container network isolation. No local source/QA/compiler/RPM/QEMU execution or native/hardware claim."},
+  "updates": {"enabled": false, "release_provider": null, "last_checked_at": null, "last_successful_check_at": null}
+}

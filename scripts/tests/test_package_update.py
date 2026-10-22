@@ -451,6 +451,95 @@ class PackageUpdateTests(unittest.TestCase):
             self.assertEqual(summary["counts"]["failed"], 1)
             self.assertFalse(summary["complete"])
 
+    @staticmethod
+    def pypi_sdist(**changes):
+        return {"packagetype": "sdist", "python_version": "source", "yanked": False,
+                "url": "https://files.pythonhosted.org/source-2.0.tar.gz",
+                "digests": {"sha256": "e" * 64}, **changes}
+
+    @staticmethod
+    def pypi_document(releases):
+        return {"info": {"name": "demo", "version": "2.0"}, "urls": [], "releases": releases}
+
+    def test_pypi_typed_sdist_metadata_ignores_first_wheel(self) -> None:
+        # Reduced from official pytimeparse JSON captured 2026-10-22. This
+        # verifies metadata selection, not the referenced archive's bytes.
+        url = "https://files.pythonhosted.org/packages/92/bf/87bd96fd60abf241cae10e6f7fc3882c8a81ebdbe76f49f9c3116b5b38ab/pytimeparse-1.1.10.tar.gz"
+        digest = "ecf0ee613a72cb0b1d3d5404bd398a64266576fc36ccf3149178af6f2ec6f736"
+        wheel = self.pypi_sdist(packagetype="bdist_wheel", python_version="py3", url="https://example.invalid/wheel.whl")
+        with tempfile.TemporaryDirectory() as temporary:
+            result = self.scan_source_contract(pathlib.Path(temporary), self.pypi_document({
+                "1.1.9": [], "1.1.10": [wheel, self.pypi_sdist(url=url, digests={"sha256": digest})]}), None)
+            self.assertEqual((result["status"], result["version"], result["source_url"], result["sha256"]),
+                             ("update-available", "1.1.10", url, digest))
+
+    def test_pypi_rejects_ambiguous_sdists_before_validating_fields(self) -> None:
+        for second in (self.pypi_sdist(), self.pypi_sdist(url="http://bad.invalid/source", digests={})):
+            with self.subTest(second=second), tempfile.TemporaryDirectory() as temporary:
+                result = self.scan_source_contract(pathlib.Path(temporary), self.pypi_document({
+                    "2.0": [self.pypi_sdist(), second]}), None)
+                self.assertEqual((result["status"], result["latest_version"]), ("failed", "2.0"))
+                self.assertIn("exactly one", result["failure"]["message"])
+
+    def test_pypi_rejects_invalid_source_contracts(self) -> None:
+        bad = [dict(url="http://example.invalid/source"), dict(url="https://user:secret@example.invalid/source"),
+               dict(url="https://@example.invalid/source"), dict(url="https://example.invalid/source#fragment"),
+               dict(url="https://example.invalid:444/source"), dict(url="https://example.invalid:bad/source"),
+               dict(url="https://example.invalid/source\n"), dict(url=None), dict(digests={}),
+               dict(digests={"sha256": "a" * 63}), dict(digests={"sha256": "g" * 64}),
+               dict(python_version="py3"), dict(yanked="false"), dict(yanked=0)]
+        for changes in bad:
+            with self.subTest(changes=changes), tempfile.TemporaryDirectory() as temporary:
+                result = self.scan_source_contract(pathlib.Path(temporary), self.pypi_document({
+                    "2.0": [self.pypi_sdist(**changes)]}), None)
+                self.assertEqual((result["status"], result["latest_version"]), ("failed", "2.0"))
+                self.assertEqual(result["failure"]["category"], "source")
+
+    def test_pypi_newest_invalid_release_never_falls_back_to_older_source(self) -> None:
+        for newest in ([], [self.pypi_sdist(packagetype="bdist_wheel")], None, {}, [None],
+                       [self.pypi_sdist(url="http://bad.invalid/source")]):
+            with self.subTest(newest=newest), tempfile.TemporaryDirectory() as temporary:
+                result = self.scan_source_contract(pathlib.Path(temporary), self.pypi_document({
+                    "1.1": [self.pypi_sdist()], "2.0": newest}), None)
+                self.assertEqual((result["status"], result["latest_version"]), ("failed", "2.0"))
+                self.assertNotIn("source_url", result)
+
+    def test_pypi_yanked_declarations_are_not_source_candidates(self) -> None:
+        for only_yanked in (False, True):
+            with self.subTest(only_yanked=only_yanked), tempfile.TemporaryDirectory() as temporary:
+                files = [self.pypi_sdist(yanked=True, url="http://ignored.invalid/source")]
+                if not only_yanked:
+                    files.append(self.pypi_sdist())
+                result = self.scan_source_contract(pathlib.Path(temporary), self.pypi_document({"2.0": files}), None)
+                self.assertEqual(result["status"], "failed" if only_yanked else "update-available")
+
+    def test_pypi_keeps_existing_stable_version_and_prerelease_policy(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            result = self.scan_source_contract(pathlib.Path(temporary), self.pypi_document({
+                "2.0": [self.pypi_sdist()], "3.0rc1": [], "4.0dev1": []}), None)
+            self.assertEqual((result["status"], result["version"]), ("update-available", "2.0"))
+
+    def test_pypi_invalid_newest_cannot_be_overridden_by_a_template(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            source = root / "source-2.0.tar.gz"
+            source.write_bytes(b"must not be selected for ambiguous PyPI metadata")
+            result = self.scan_source_contract(root, self.pypi_document({"2.0": []}), root.as_uri()+"/source-{version}.tar.gz")
+            self.assertEqual((result["status"], result["latest_version"]), ("failed", "2.0"))
+            self.assertEqual(result["failure"]["category"], "source")
+
+    def test_pypi_failure_retains_aggregate_coverage_without_recovery_claim(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            result = self.scan_source_contract(root, self.pypi_document({"2.0": []}), None)
+            self.assertEqual(result["status"], "failed")
+            summary = root / "summary.json"
+            run_tool("check-update", ["aggregate", "--plan", str(root/"plan.json"), "--result", str(root/"result.json"), "--output", str(summary)], root)
+            aggregate = json.loads(summary.read_bytes())
+            self.assertEqual(aggregate["coverage"], 1.0)
+            self.assertEqual(aggregate["counts"]["failed"], 1)
+            self.assertFalse(aggregate["complete"])
+
     def scan_source_contract(self, root, records, template):
         feed = root / "release.json"
         write_json(feed, records)
