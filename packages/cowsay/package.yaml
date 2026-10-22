@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "package_id": "cowsay",
+  "rpm": {"name": "cowsay", "summary": "Configurable speaking and thinking cow", "license": "GPL-3.0-only"},
+  "version": {"current": "3.8.4", "latest_detected": "3.8.4", "release": "1"},
+  "upstream": {
+    "component": "github.com-cowsay-org-cowsay",
+    "homepage": "https://cowsay.diamonds",
+    "source_repository": "https://github.com/cowsay-org/cowsay.git",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/cowsay-org/cowsay/tags",
+    "release_regex": "v(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://codeload.github.com/cowsay-org/cowsay/tar.gz/refs/tags/v{version}"
+  },
+  "discovery": {
+    "snapshot_id": "intake152-cowsay-source-20261020T235355Z",
+    "lineage": [{"source": "arch-extra", "package_name": "cowsay", "package_base": "cowsay", "source_version": "3.8.4-1", "evidence_url": "https://archlinux.org/packages/extra/any/cowsay/", "observed_at": "2026-10-20T23:51:24.951348Z"}]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "files": {"spec": "cowsay.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "build": {"profile": "qemu-user", "native_reason": null, "network_during_build": false, "timeout_minutes": 120},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official homepage delegates cowsay-org/cowsay; stable v3.8.4 resolves to fixed commit 027c9268ac8571408e153214b9cf1a5e6fab0cfc. All75 inert archive members match complete upstream Git blobs and modes. Preserve original no-op make all, supported prefix/sysconfdir relocation, all51 default cows, both command/manual symlinks, site-cows and cowpath.d directories, complete GPLv3 license and original notices. Upstream has no automated test suite or test/check target; its manual release checklist is retained. Authored downstream installed functional QA is not an upstream suite or native/performance evidence. No local source or QA execution occurred. Supplier/namespace/target/physical acceptance remains separately gated."},
+  "updates": {"enabled": true, "release_provider": "github-tags", "last_checked_at": null, "last_successful_check_at": null}
+}
