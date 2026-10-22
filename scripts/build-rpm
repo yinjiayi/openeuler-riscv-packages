@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 import pathlib
 import platform
@@ -12,6 +13,7 @@ import re
 import shutil
 import stat
 import subprocess
+import tempfile
 import time
 import urllib.parse
 from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
@@ -209,6 +211,69 @@ def verify_signature(entry: Mapping[str, Any], source: pathlib.Path, repo_root: 
     return {"policy": policy, "status": "verified", "fingerprint": fingerprint}
 
 
+def normalize_cached_source(
+    destination: pathlib.Path, expected: str
+) -> Dict[str, Any]:
+    """Recreate verified cache bytes under the active build identity, not the runner."""
+
+    regular_input(destination, destination.parent.parent)
+    fd, temporary = tempfile.mkstemp(prefix=".%s." % destination.name, dir=str(destination.parent))
+    try:
+        digest = hashlib.sha256()
+        with os.fdopen(fd, "wb") as output:
+            source_fd = os.open(destination, os.O_RDONLY | os.O_NOFOLLOW)
+            with os.fdopen(source_fd, "rb") as source:
+                original = os.fstat(source.fileno())
+                if not stat.S_ISREG(original.st_mode):
+                    raise ToolError("cached source must remain a regular file", 1)
+                for chunk in iter(lambda: source.read(1024 * 1024), b""):
+                    output.write(chunk)
+                    digest.update(chunk)
+            if digest.hexdigest() != expected:
+                raise ToolError("cached source changed during metadata normalization", 1)
+            output.flush()
+            os.fchmod(output.fileno(), 0o644)
+            os.utime(output.fileno(), ns=(original.st_atime_ns, original.st_mtime_ns))
+            normalized = os.fstat(output.fileno())
+            if (normalized.st_uid, normalized.st_gid) != (os.geteuid(), os.getegid()):
+                raise ToolError("new cached source must use the effective build identity", 1)
+            os.fsync(output.fileno())
+        regular_input(destination, destination.parent.parent)
+        current = destination.lstat()
+        if (current.st_dev, current.st_ino) != (original.st_dev, original.st_ino):
+            raise ToolError("cached source identity changed during metadata normalization", 1)
+        os.replace(temporary, destination)
+        # Verify the installed inode, not only the descriptor we copied into:
+        # a concurrent workspace writer may have substituted the temporary path.
+        regular_input(destination, destination.parent.parent)
+        try:
+            installed_fd = os.open(destination, os.O_RDONLY | os.O_NOFOLLOW)
+        except OSError as exc:
+            raise ToolError("normalized cached source cannot be reopened safely", 1) from exc
+        with os.fdopen(installed_fd, "rb") as installed:
+            actual = os.fstat(installed.fileno())
+            if (actual.st_dev, actual.st_ino, actual.st_uid, actual.st_gid,
+                    stat.S_IMODE(actual.st_mode), actual.st_mtime_ns) != (
+                    normalized.st_dev, normalized.st_ino, os.geteuid(), os.getegid(),
+                    0o644, original.st_mtime_ns):
+                raise ToolError("normalized cached source identity or metadata changed", 1)
+            installed_digest = hashlib.sha256()
+            for chunk in iter(lambda: installed.read(1024 * 1024), b""):
+                installed_digest.update(chunk)
+            if installed_digest.hexdigest() != expected:
+                raise ToolError("normalized cached source checksum changed", 1)
+            os.utime(installed.fileno(), ns=(original.st_atime_ns, original.st_mtime_ns))
+            current = destination.lstat()
+            if (current.st_dev, current.st_ino) != (actual.st_dev, actual.st_ino):
+                raise ToolError("normalized cached source path changed", 1)
+        return {"policy": "effective-build-identity-0644", "uid": normalized.st_uid,
+                "gid": normalized.st_gid, "mode": stat.S_IMODE(normalized.st_mode),
+                "sha256": digest.hexdigest(), "bytes_unchanged": True,
+                "mtime_ns": normalized.st_mtime_ns}
+    finally:
+        pathlib.Path(temporary).unlink(missing_ok=True)
+
+
 def materialize_source(
     entry: Mapping[str, Any],
     *,
@@ -272,6 +337,8 @@ def materialize_source(
         destination.unlink(missing_ok=True)
         raise ToolError("source checksum mismatch for %s: expected %s, got %s" % (filename, expected, actual), 1)
     signature = verify_signature(entry, destination, repo_root, offline)
+    if offline:
+        materialization["cache_metadata_normalization"] = normalize_cached_source(destination, expected)
     return {
         "id": entry.get("id"),
         "filename": filename,

@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import os
 import pathlib
 import runpy
+import stat
 import sys
 import tempfile
 import unittest
@@ -50,6 +52,47 @@ class SourceCacheTests(unittest.TestCase):
         self.assertTrue(result["materialization"]["cache_reverified"])
         self.fetch.assert_not_called()
 
+    def test_cached_metadata_is_recreated_for_effective_build_identity(self) -> None:
+        self.source.chmod(0o600)
+        os.utime(self.source, ns=(1234567890000000000, 1234567890123456789))
+        previous = self.source.stat()
+        result = self.materialize()
+        current = self.source.stat()
+        self.assertEqual(self.source.read_bytes(), self.data)
+        self.assertEqual(stat.S_IMODE(current.st_mode), 0o644)
+        self.assertEqual((current.st_uid, current.st_gid), (os.geteuid(), os.getegid()))
+        self.assertEqual(current.st_mtime_ns, previous.st_mtime_ns)
+        self.assertNotEqual((current.st_dev, current.st_ino), (previous.st_dev, previous.st_ino))
+        self.assertEqual(result["materialization"]["cache_metadata_normalization"],
+                         {"policy": "effective-build-identity-0644", "uid": os.geteuid(),
+                          "gid": os.getegid(), "mode": 0o644,
+                          "sha256": self.entry["digests"]["sha256"], "bytes_unchanged": True,
+                          "mtime_ns": previous.st_mtime_ns})
+        self.assertEqual(sorted(p.name for p in self.sources.iterdir()), [self.source.name])
+        self.fetch.assert_not_called()
+
+    def test_normalization_preserves_pre_copy_timestamps(self) -> None:
+        os.utime(self.source, ns=(1234567890000000000, 1234567890123456789))
+        previous = self.source.stat()
+        self.module["normalize_cached_source"](self.source, self.entry["digests"]["sha256"])
+        current = self.source.stat()
+        self.assertEqual((current.st_atime_ns, current.st_mtime_ns),
+                         (previous.st_atime_ns, previous.st_mtime_ns))
+        self.assertEqual(self.source.read_bytes(), self.data)
+        self.fetch.assert_not_called()
+
+    def test_normalization_rechecks_copy_before_replacing_cache(self) -> None:
+        self.source.chmod(0o600)
+        previous = self.source.stat()
+        with self.assertRaisesRegex(ToolError, "changed during metadata normalization"):
+            self.module["normalize_cached_source"](self.source, "0" * 64)
+        current = self.source.stat()
+        self.assertEqual(self.source.read_bytes(), self.data)
+        self.assertEqual((current.st_dev, current.st_ino), (previous.st_dev, previous.st_ino))
+        self.assertEqual(stat.S_IMODE(current.st_mode), 0o600)
+        self.assertEqual(sorted(p.name for p in self.sources.iterdir()), [self.source.name])
+        self.fetch.assert_not_called()
+
     def test_missing_and_corrupt_cache_fail_without_fallback(self) -> None:
         self.source.unlink()
         with self.assertRaisesRegex(ToolError, "missing or unreadable"):
@@ -58,6 +101,30 @@ class SourceCacheTests(unittest.TestCase):
         with self.assertRaisesRegex(ToolError, "checksum mismatch"):
             self.materialize()
         self.assertFalse(self.source.exists())
+        self.fetch.assert_not_called()
+
+    def test_normalization_rejects_substituted_temporary_path(self) -> None:
+        replace = os.replace
+        for symlink in (False, True):
+            with self.subTest(symlink=symlink):
+                self.source.unlink(missing_ok=True)
+                self.source.write_bytes(self.data)
+                other = self.root / "substitution"
+                other.write_bytes(b"unverified substituted bytes")
+
+                def substitute(temporary, destination):
+                    pathlib.Path(temporary).unlink()
+                    if symlink:
+                        pathlib.Path(temporary).symlink_to(other)
+                    else:
+                        pathlib.Path(temporary).write_bytes(other.read_bytes())
+                    replace(temporary, destination)
+
+                with mock.patch.object(os, "replace", side_effect=substitute):
+                    with self.assertRaises(ToolError):
+                        self.module["normalize_cached_source"](
+                            self.source, self.entry["digests"]["sha256"])
+                self.assertEqual(sorted(p.name for p in self.sources.iterdir()), [self.source.name])
         self.fetch.assert_not_called()
 
     def test_cache_file_symlink_and_nonregular_entry_fail(self) -> None:
