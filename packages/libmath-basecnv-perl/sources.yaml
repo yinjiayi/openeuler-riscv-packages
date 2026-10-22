@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-basecnv-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-BaseCnv-1.14.tgz",
+      "version": "1.14",
+      "url": "https://cpan.metacpan.org/authors/id/P/PI/PIP/Math-BaseCnv-1.14.tgz",
+      "digests": {
+        "sha256": "c93566a0e9bbc9aab5998243ff8129d2389ed98cf2414bec88f5e5a57af4e7ee"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream BaseCnv.pm grants GPL-3-or-later, bundled LICENSE supplies GPLv3 text, and Debian source copyright applies GPL-3 to all original files; publisher CHECKSUMS pins this archive SHA-256."
+      }
+    }
+  ]
+}
