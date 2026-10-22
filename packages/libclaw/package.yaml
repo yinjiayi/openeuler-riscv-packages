@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "package_id": "libclaw",
+  "rpm": {
+    "name": "libclaw",
+    "summary": "General-purpose modular C++ library",
+    "license": "LGPL-2.1-or-later AND gnuplot"
+  },
+  "version": {
+    "current": "1.9.1",
+    "latest_detected": "1.9.1",
+    "release": "1"
+  },
+  "upstream": {
+    "component": "github.com-j-jorge-libclaw",
+    "homepage": "https://github.com/j-jorge/libclaw",
+    "source_repository": "https://github.com/j-jorge/libclaw",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/j-jorge/libclaw/tags",
+    "source_url_template": "https://codeload.github.com/j-jorge/libclaw/tar.gz/{version}",
+    "release_regex": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libclaw",
+        "package_base": "libclaw",
+        "source_version": "1.7.4-4",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/4a2dec873899a3abd2c2c75a15ea9080d7db1188/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libclaw",
+        "package_base": "libclaw",
+        "source_version": "1.9.1-1.6",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/4a2dec873899a3abd2c2c75a15ea9080d7db1188/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"
+      },
+      {
+        "source": "debian",
+        "package_name": "libclaw",
+        "package_base": "libclaw",
+        "source_version": "1.7.4-3",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/4a2dec873899a3abd2c2c75a15ea9080d7db1188/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libclaw",
+        "package_base": "libclaw",
+        "source_version": "1.7.4-45.fc44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/4a2dec873899a3abd2c2c75a15ea9080d7db1188/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclaw.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-multilib-CMake-config.patch",
+        "sha256": "79886c4a6764dad2952956345305b0db7327c9d6dde7bb02b00ca05080de4597",
+        "purpose": "Honor relative GNUInstallDirs for exported CMake config only.",
+        "source": "Locally authored downstream packaging patch, no upstream write.",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "downstream-only",
+        "remove_when": "Authenticated upstream provides equivalent install/verification behavior without changing original defaults or tests."
+      },
+      {
+        "file": "patches/0002-add-installed-QA.patch",
+        "sha256": "f5b7da76c7834477ddd08b21c5c394b292336ac7a4ec7e0b4c0b4ecc42625733",
+        "purpose": "Materialize original-suite wrapper and independent installed consumer through actual source staging.",
+        "source": "Locally authored downstream packaging patch, no upstream write.",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "downstream-only",
+        "remove_when": "Authenticated upstream provides equivalent install/verification behavior without changing original defaults or tests."
+      },
+      {
+        "file": "patches/0003-singleton-example-namespace.patch",
+        "sha256": "7a8ea61ab75ba75b8a0841632637c87c12ed4a04fccfe2f63008e614e203d7a3",
+        "purpose": "Use the fixed public claw::pattern singleton API in the original example, preserving its body and outputs.",
+        "source": "Locally authored minimal compatibility patch against the fixed official 1.9.1 source, no upstream write.",
+        "license": "LGPL-2.1-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Authenticated upstream singleton example uses the declared claw::pattern::basic_singleton public API."
+      }
+    ]
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "official-github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "status": "active",
+    "notes": "Fixed official unsigned tag1.9.1; original project/header1.9.0 retained. All431 Git files/modes verified; archive429 plus2 exact Git metadata sources. Preserve default static7libs/core, French localization, Doxygen HTML and all21 example archives/original compile-suite bytes. Installed downstream consumer is additional, not original runtime tests. No local upstream/RPM/QEMU execution; target/build/install/physical acceptance pending."
+  }
+}

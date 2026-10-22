@@ -1,0 +1,22 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Honor standard relative GNUInstallDirs for exported config
+Date: Sun, 18 Oct 2026 03:58:00 +0800
+Upstream-Status: Inappropriate [distribution multilib install paths]
+SPDX-License-Identifier: LGPL-2.1-or-later
+
+Only move the exported CMake package alongside the original multilib archives.
+Do not alter library sources, features, original example archives or tests.
+--- a/cmake/package/CMakeLists.txt
++++ b/cmake/package/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ install(
+   EXPORT claw
+-  DESTINATION lib/cmake/claw/
++  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/claw/
+   FILE claw-config-generated.cmake
+   )
+@@ -21,3 +21,3 @@
+     ${CMAKE_CURRENT_BINARY_DIR}/claw-config-version.cmake
+-  DESTINATION lib/cmake/claw/
++  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/claw/
+   )

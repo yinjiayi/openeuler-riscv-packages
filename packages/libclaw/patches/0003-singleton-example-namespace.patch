@@ -1,0 +1,19 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Fix original singleton example namespace
+Upstream-Status: Pending
+SPDX-License-Identifier: LGPL-2.1-or-later
+
+The fixed 1.9.1 source declares basic_singleton and its get_instance API in
+claw::pattern, but this original example still names claw::concept. Change
+only that namespace; preserve the class, all three outputs and original suite.
+--- a/example/singleton/main.cpp
++++ b/example/singleton/main.cpp
+@@ -3,7 +3,7 @@
+ #include <string>
+ 
+ class resource_manager
+-  : public claw::concept::basic_singleton<resource_manager>
++  : public claw::pattern::basic_singleton<resource_manager>
+ {
+ public:
+   void print(const std::string& s) const
