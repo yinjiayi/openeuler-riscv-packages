@@ -37,6 +37,21 @@ for notice_file in *; do
         *) cp -a "$notice_file" license-notices/ ;;
     esac
 done
+# Hash the original 32 members and auxiliary GPL2 text before regeneration.
+(
+    cd license-notices
+    for notice_file in * admin/*; do
+        if test -f "$notice_file"; then
+            sha256sum "$notice_file"
+        fi
+    done
+) > original-notices.sha256
+mv original-notices.sha256 license-notices/SHA256SUMS
+# Target configure macros recursively rewrite these exact basenames. Protect
+# only the inert notice copies; active build helpers still get target updates.
+for notice_file in config.guess config.sub ltmain.sh; do
+    mv "license-notices/admin/$notice_file" "license-notices/admin/$notice_file.original"
+done
 # Target-supplied current Autotools provide riscv64 configuration helpers.
 autoreconf -fi
 
@@ -125,6 +140,10 @@ gcc %{optflags} -UNDEBUG -I. api-smoke.c -L.libs -lident \
 
 %install
 %make_install
+# Configure has finished; restore original names before the later license copy.
+for notice_file in config.guess config.sub ltmain.sh; do
+    mv "license-notices/admin/$notice_file.original" "license-notices/admin/$notice_file"
+done
 # Libtool .la metadata is not an API or an upstream feature.
 rm -f %{buildroot}%{_libdir}/libident.la
 install -Dm755 api-smoke %{buildroot}%{_libexecdir}/libident-tests/api-smoke
@@ -132,6 +151,10 @@ install -Dm755 api-smoke %{buildroot}%{_libexecdir}/libident-tests/api-smoke
 %check
 set -eu
 export LC_ALL=C
+(
+    cd license-notices
+    sha256sum -c SHA256SUMS
+)
 # Original check target has no declared TESTS/check_PROGRAMS; do not invent any.
 %make_build check
 LD_LIBRARY_PATH="$PWD/.libs" ./api-smoke
@@ -154,4 +177,5 @@ test -x %{buildroot}%{_libexecdir}/libident-tests/api-smoke
 
 %changelog
 * Sat Oct 24 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.32-1
+- Protect original notice copies from recursive configure helper rewriting.
 - Preserve upstream defaults and check target; add installed local API checks.

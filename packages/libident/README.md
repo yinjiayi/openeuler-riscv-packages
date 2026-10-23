@@ -46,6 +46,16 @@ attribution/exceptions before generated-file replacement. Those source-only
 notice copies are not executed. This does not claim build macros are linked
 into the client library or convert its permissive license to GPL.
 
+The first exact-head target build exposed a packaging defect despite passing CI:
+target configure macros recursively replaced the notice copies named config.guess
+and config.sub and hardened ltmain.sh. Only those three inert copies now have
+temporary `.original` suffixes during regeneration/configure, restored after
+installation and before RPM's later license-copy phase. Active build helpers and
+target hardening remain unchanged. A pre-regeneration SHA256SUMS covers the 32
+original members plus auxiliary GPL2 text; both check and installed smoke verify
+it. Fresh repaired-head target CI and all 32 installed original-byte comparisons
+are still required; this recipe correction does not claim they have passed.
+
 Auxiliary Source1 `gpl-2.0.txt` is the verbatim GPLv2 license, not a GCC software
 component/dependency. Its immutable official gcc-mirror release14.3.0 commit
 `c9cd41fba9ebd288c4f101e4b99da934bcb96a11` COPYING Git blob was checked against

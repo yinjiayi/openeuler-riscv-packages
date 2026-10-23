@@ -15,6 +15,10 @@ test -r /usr/share/licenses/libident/license-notices/api-smoke.c
 work_dir=$(mktemp -d)
 trap 'rm -rf -- "$work_dir"' EXIT
 (
+    cd /usr/share/licenses/libident/license-notices
+    sha256sum -c SHA256SUMS
+)
+(
     cd /usr/libexec/libident-tests
     sha256sum -c SHA256SUMS
 )
