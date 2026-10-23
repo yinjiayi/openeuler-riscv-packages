@@ -38,6 +38,8 @@ class GenerationCachePolicyTests(unittest.TestCase):
         self.assertEqual(prefix.count("{"), prefix.count("}"), "map must be at HTTP level")
         self.assertLess(self.config.index(directive), self.config.index("server {"))
         rows = [shlex.split(row) for row in body.split(";") if row.strip()]
+        self.assertEqual(rows.count(["volatile"]), 1)
+        rows = [row for row in rows if row != ["volatile"]]
         self.assertTrue(all(len(row) == 2 for row in rows))
         policy = dict(rows)
         self.assertEqual(len(rows), len(policy), "duplicate map entries")
@@ -49,12 +51,19 @@ class GenerationCachePolicyTests(unittest.TestCase):
                 expected = IMMUTABLE if status in (200, 206, 304) else "no-store"
                 self.assertEqual(policy.get(str(status), policy["default"]), expected)
 
-    def test_generation_header_uses_final_status_even_for_errors(self) -> None:
+    def test_generation_header_uses_status_map_even_for_errors(self) -> None:
         body = self.block("location /generations/")
         self.assertIn("try_files $uri $uri/ =404;", body)
         headers = re.findall(r"add_header\s+Cache-Control\s+([^;]+);", body)
         self.assertEqual(headers, [f"{VARIABLE} always"])
         self.assertIn("add_header X-Content-Type-Options nosniff always;", body)
+
+    def test_late_range_errors_re_evaluate_status_map(self) -> None:
+        # A cached initial 200 must not be reused when the filter sees 416.
+        # This static guard does not prove native header-filter ordering or
+        # eliminate a header already appended before the range was rejected.
+        body = self.block(f"map $status {VARIABLE}")
+        self.assertRegex(body, r"(?m)^\s*volatile\s*;")
 
     def test_hidden_denials_keep_no_store_and_nosniff_fallback(self) -> None:
         server_headers = self.config.split("server {", 1)[1].split("location", 1)[0]

@@ -17,12 +17,26 @@ become available after publication. The server-level `no-store` fallback also
 covers hidden-file denial without weakening that denial or `nosniff`.
 The mutable `/state.json` remains `no-store`; other ordinary paths retain
 their `no-cache` policy. The status map belongs in the HTTP include context
-used by the installer, outside the `server` block.
+used by the installer, outside the `server` block. It must be `volatile`:
+an unsatisfiable byte range can first pass the header filter as 200, then
+re-enter it as 416. Caching the map result would append the initial immutable
+value again instead of adding `no-store` for the error.
+
+**Late range-error limitation:** an isolated Nginx 1.31.8 test found that even
+with `volatile`, a 416 response can retain the first immutable Cache-Control
+field alongside the second `no-store` field. The latter prohibits storage,
+but this is not a single-field/no-immutable-on-error result. A named 416 error
+page did not remove the first field either. Do not claim that stronger
+acceptance criterion has passed, or deploy this change on that assumption.
+Resolve and re-test header cleanup against the deployed Nginx before merge
+and deployment; do not disable valid range responses to hide this failure.
 
 The Python regression tests check this configuration contract, not a running
 Nginx instance. Before deploying, run `nginx -t` and verify actual 200, range
 206, conditional 304, redirect, hidden-file 403, missing 404 and unsupported
-method responses in an isolated server. In particular, a missing generation
+method and unsatisfiable-range 416 responses in an isolated server. Inspect
+every Cache-Control field, not a dictionary that hides duplicates. In
+particular, a missing generation
 must return `no-store`, then serve newly created content with `immutable`.
 This policy does not repair a missing generation or invalidate an error
 already stored by an intermediary; publisher diagnostics and public RPM/SRPM
