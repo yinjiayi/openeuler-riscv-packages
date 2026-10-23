@@ -1,0 +1,93 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/seanmiddleditch/libtelnet",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtelnet",
+        "package_name": "libtelnet",
+        "source": "aur",
+        "source_version": "0.23-1"
+      },
+      {
+        "evidence_url": "https://github.com/seanmiddleditch/libtelnet",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtelnet",
+        "package_name": "libtelnet",
+        "source": "debian",
+        "source_version": "0.23-1"
+      },
+      {
+        "evidence_url": "https://github.com/seanmiddleditch/libtelnet",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtelnet",
+        "package_name": "libtelnet",
+        "source": "fedora",
+        "source_version": "0.23-13.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/seanmiddleditch/libtelnet",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtelnet",
+        "package_name": "libtelnet",
+        "source": "ubuntu",
+        "source_version": "0.23-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtelnet.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release asset independently reviewed and SHA256 pinned in sources.yaml; complete base-only closure proven, actual target/supplemental acceptance pending. Distribution recipes and upstream sources were not executed locally.",
+    "status": "active"
+  },
+  "package_id": "libtelnet",
+  "rpm": {
+    "license": "LicenseRef-libtelnet-public-domain AND Zlib",
+    "name": "libtelnet",
+    "summary": "TELNET protocol parsing and negotiation library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-seanmiddleditch-libtelnet",
+    "homepage": "https://github.com/seanmiddleditch/libtelnet",
+    "release_api": "https://api.github.com/repos/seanmiddleditch/libtelnet/releases",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/seanmiddleditch/libtelnet",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.23",
+    "latest_detected": "0.23",
+    "release": "1"
+  }
+}

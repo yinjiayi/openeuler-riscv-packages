@@ -1,0 +1,21 @@
+{
+  "package_id": "libtelnet",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d2f01a9dc0cc01777844b6d27f0f836dad9a4b9a32a31c7bbde0762480262f25"
+      },
+      "filename": "libtelnet-0.23.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/seanmiddleditch/libtelnet/releases/download/0.23/libtelnet-0.23.tar.gz",
+      "version": "0.23"
+    }
+  ]
+}
