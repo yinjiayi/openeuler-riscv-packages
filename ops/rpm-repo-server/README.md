@@ -9,6 +9,28 @@ published. `state.json` identifies the latest generation; CI resolves that file
 once and then uses only the generation-specific URL, so a later upload cannot
 change dependencies midway through a build.
 
+**Generation response caching** means that only HTTP 200 (complete content),
+206 (partial content), and 304 (not modified) under `/generations/` receive
+the year-long `immutable` cache policy. Every other generation response uses
+`no-store`: a missing generation's 404 is not an immutable artifact and may
+become available after publication. The server-level `no-store` fallback also
+covers hidden-file denial without weakening that denial or `nosniff`.
+The mutable `/state.json` remains `no-store`; other ordinary paths retain
+their `no-cache` policy. The status map belongs in the HTTP include context
+used by the installer, outside the `server` block.
+
+The Python regression tests check this configuration contract, not a running
+Nginx instance. Before deploying, run `nginx -t` and verify actual 200, range
+206, conditional 304, redirect, hidden-file 403, missing 404 and unsupported
+method responses in an isolated server. In particular, a missing generation
+must return `no-store`, then serve newly created content with `immutable`.
+This policy does not repair a missing generation or invalidate an error
+already stored by an intermediary; publisher diagnostics and public RPM/SRPM
+checksum verification remain separate acceptance gates.
+
+Directive semantics: [Nginx status maps](https://nginx.org/en/docs/http/ngx_http_map_module.html)
+and [response headers](https://nginx.org/en/docs/http/ngx_http_headers_module.html).
+
 The `reposync` SSH account is not a general shell account. Its sole authorized
 key is forced through `rrsync -wo -no-del -no-overwrite` into the non-public
 `incoming/` directory. An upload becomes eligible only after a separately
