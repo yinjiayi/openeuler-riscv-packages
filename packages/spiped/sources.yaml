@@ -1,0 +1,21 @@
+{
+  "package_id": "spiped",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "424fb4d3769d912b04de43d21cc32748cdfd3121c4f1d26d549992a54678e06a"
+      },
+      "filename": "spiped-1.6.4.tgz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Project BSD-2-Clause and bundled external queue.h BSD-3-Clause permit source/binary redistribution with full notices, retained by the recipe. Official fixed tarball matches the publisher SHA-256; no detached signature or signed manifest was available at intake."
+      },
+      "signature": null,
+      "url": "https://www.tarsnap.com/spiped/spiped-1.6.4.tgz",
+      "version": "1.6.4"
+    }
+  ]
+}
