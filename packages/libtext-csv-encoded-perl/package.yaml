@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-csv-encoded-perl",
+  "rpm": {
+    "name": "perl-Text-CSV-Encoded",
+    "summary": "Encoding-aware CSV processing in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-csv-encoded-perl",
+    "homepage": "https://metacpan.org/dist/Text-CSV-Encoded",
+    "source_repository": "https://github.com/singingfish/Text-CSV-Encoded",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/",
+    "release_regex": "Text-CSV-Encoded-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/Text-CSV-Encoded-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.25",
+    "release": "1",
+    "latest_detected": "0.25"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-csv-encoded-perl",
+        "package_base": "libtext-csv-encoded-perl",
+        "source_version": "0.25-4",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-csv-encoded-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-csv-encoded-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.25 maps to official stable CPAN 0.25. Publisher CHECKSUMS full SHA-256 and 46 safe single-root archive entries verified. Archive LICENSE, README and all four modules grant Perl 5 dual terms. Official SP3 primary lacks the same RPM/module provider and supplies Text::CSV 2.04 plus both PP and XS backends; both are retained in all 14 default upstream t/*.t files. BuildRequires intentionally installs Test::Pod so its default test does not skip. Local macOS lacks Text::CSV, so only target CI can prove tests and RPM installation."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
