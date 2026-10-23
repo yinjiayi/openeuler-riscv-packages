@@ -1,0 +1,77 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/kaniini/libucontext",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libucontext",
+        "package_name": "libucontext",
+        "source": "arch-extra",
+        "source_version": "1.5.1-1"
+      },
+      {
+        "evidence_url": "https://github.com/kaniini/libucontext",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libucontext",
+        "package_name": "libucontext",
+        "source": "fedora",
+        "source_version": "1.5-2.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libucontext.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable tag1.5.2 and all131 archive blobs reviewed; immutable commit archive SHA256 in sources.yaml. Default three make-check variants retained, installed ELF/symbol-binding checks planned. Official base-only provider admission is not target or supplemental acceptance. No local source QA/RPM/QEMU executed.",
+    "status": "active"
+  },
+  "package_id": "libucontext",
+  "rpm": {
+    "license": "ISC AND LicenseRef-libucontext-test-public-domain",
+    "name": "libucontext",
+    "summary": "Userspace context switching with RISC-V support"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-kaniini-libucontext",
+    "homepage": "https://github.com/kaniini/libucontext",
+    "release_api": "https://api.github.com/repos/kaniini/libucontext/tags",
+    "release_channel": "stable",
+    "release_regex": "^libucontext-(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/kaniini/libucontext",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.5.2",
+    "latest_detected": "1.5.2",
+    "release": "1"
+  }
+}
