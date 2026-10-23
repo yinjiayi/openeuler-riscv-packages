@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "package_id": "csvprintf",
+  "rpm": {
+    "name": "csvprintf",
+    "summary": "Simple CSV file parser for the UNIX command line",
+    "license": "Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-archiecobbs-csvprintf",
+    "homepage": "https://github.com/archiecobbs/csvprintf",
+    "source_repository": "https://github.com/archiecobbs/csvprintf",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/archiecobbs/csvprintf/tags",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$"
+  },
+  "version": {"current": "1.3.4", "release": "1", "latest_detected": "1.3.4"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{
+      "source": "opensuse-tumbleweed",
+      "package_name": "csvprintf",
+      "package_base": "csvprintf",
+      "source_version": "1.3.4-1.4",
+      "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/f498addd77877d48e7ee4ddfd62ad3919c3ec02c/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+      "observed_at": "2026-08-08T16:50:00Z"
+    }]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "csvprintf.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Pinned official 1.3.4 Git snapshot; bootstrap preserves defaults and deterministic gitrev.c records exact official tag without consulting packaging Git. Original make tests and all 85 fixtures are retained; 83 static comparison/case slots are not executed pass evidence. Installed QA replays unchanged runners against the installed binary. Fresh official-only provider/namespace closure is complete; supplemental current state is unavailable, no supplemental dependency is required. Target shell pipefail, build/install, actual dependency resolution and physical products remain exact-head CI gates. No RISC-V or native success is claimed."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"}
+}
