@@ -14,6 +14,7 @@ import errno
 import fcntl
 import gzip
 import hashlib
+import http.client
 import io
 import json
 import os
@@ -355,6 +356,37 @@ class HostRateLimiter:
         self.last[host] = time.monotonic()
 
 
+def github_metadata_url(url: str) -> bool:
+    """Allow authentication only for public GitHub release/tag metadata routes."""
+    try:
+        parsed = urllib.parse.urlsplit(url)
+        return (
+            parsed.scheme == "https"
+            and parsed.hostname == "api.github.com"
+            and parsed.port in (None, 443)
+            and not parsed.username and not parsed.password and not parsed.fragment
+            and re.fullmatch(
+                r"/repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/"
+                r"(?:releases(?:/latest)?|tags|git/refs/tags)/?",
+                parsed.path,
+            ) is not None
+        )
+    except ValueError:
+        return False
+
+
+class _RejectGitHubMetadataRedirects(urllib.request.HTTPErrorProcessor):
+    def http_response(self, request: Any, response: Any) -> Any:
+        # Authenticated metadata never follows a redirect, including within
+        # api.github.com. Do not forward credentials to archive/CDN endpoints.
+        if 300 <= response.code < 400:
+            response.close()
+            raise ToolError("authenticated GitHub metadata returned a 3xx response", 1)
+        return super().http_response(request, response)
+
+    https_response = http_response
+
+
 def fetch_url(
     url: str,
     *,
@@ -363,9 +395,17 @@ def fetch_url(
     cache_dir: Optional[pathlib.Path] = None,
     limiter: Optional[HostRateLimiter] = None,
     max_bytes: int = 2 * 1024 * 1024 * 1024,
+    github_api_metadata: bool = False,
 ) -> Tuple[bytes, Dict[str, Any]]:
     validate_https_url(url, allow_file=True)
     parsed = urllib.parse.urlsplit(url)
+    if github_api_metadata and not github_metadata_url(url):
+        raise ToolError("GitHub metadata authentication requires an allowed HTTPS API metadata route", 1)
+    token = os.environ.get("GH_TOKEN", "") if github_api_metadata else ""
+    if any(ord(character) < 33 or ord(character) > 126 for character in token):
+        raise ToolError("invalid process GitHub metadata credential", 1)
+    if token and token in url:
+        raise ToolError("credential reflected in GitHub metadata request URL", 1)
     if parsed.scheme == "file":
         path = pathlib.Path(urllib.request.url2pathname(parsed.path))
         data = path.read_bytes()
@@ -382,10 +422,17 @@ def fetch_url(
         if meta_path and meta_path.exists():
             cached_meta = load_json(meta_path, {})
     headers = {"User-Agent": USER_AGENT, "Accept": "application/json, application/octet-stream;q=0.8"}
-    if cached_meta.get("etag"):
-        headers["If-None-Match"] = str(cached_meta["etag"])
-    if cached_meta.get("last_modified"):
-        headers["If-Modified-Since"] = str(cached_meta["last_modified"])
+    if token:
+        headers["Authorization"] = "Bearer " + token
+        headers["Accept"] = "application/vnd.github+json"
+        headers["X-GitHub-Api-Version"] = "2022-11-28"
+        opener = urllib.request.build_opener(_RejectGitHubMetadataRedirects())
+    else:
+        opener = None
+        if cached_meta.get("etag"):
+            headers["If-None-Match"] = str(cached_meta["etag"])
+        if cached_meta.get("last_modified"):
+            headers["If-Modified-Since"] = str(cached_meta["last_modified"])
 
     last_error: Optional[BaseException] = None
     for attempt in range(retries + 1):
@@ -393,11 +440,18 @@ def fetch_url(
             if limiter:
                 limiter.wait(parsed.hostname or "")
             request = urllib.request.Request(url, headers=headers, method="GET")
-            with urllib.request.urlopen(request, timeout=timeout) as response:
+            open_request = opener.open if opener is not None else urllib.request.urlopen
+            with open_request(request, timeout=timeout) as response:
+                if token and (300 <= response.status < 400 or response.geturl() != url):
+                    raise ToolError("authenticated GitHub metadata response changed URL or returned 3xx", 1)
+                if token and any(token in str(value) for value in response.headers.values()):
+                    raise ToolError("credential reflected in GitHub metadata response", 1)
                 content_length = response.headers.get("Content-Length")
                 if content_length and int(content_length) > max_bytes:
                     raise ToolError("download exceeds byte limit: %s" % url, 1)
                 data = response.read(max_bytes + 1)
+                if token and token.encode("ascii") in data:
+                    raise ToolError("credential reflected in GitHub metadata response", 1)
                 if len(data) > max_bytes:
                     raise ToolError("download exceeds byte limit: %s" % url, 1)
                 meta = {
@@ -413,18 +467,27 @@ def fetch_url(
                     atomic_write_json(meta_path, meta)
                 return data, meta
         except urllib.error.HTTPError as exc:
+            if token and 300 <= exc.code < 400:
+                raise ToolError("authenticated GitHub metadata returned a 3xx response", 1) from None
             if exc.code == 304 and body_path and body_path.exists():
                 data = body_path.read_bytes()
                 cached_meta.update({"status": 304, "cached": True})
                 return data, cached_meta
             if exc.code not in (408, 425, 429, 500, 502, 503, 504):
+                if token:
+                    raise ToolError("HTTP %s for authenticated GitHub metadata" % exc.code, 1) from None
                 raise ToolError("HTTP %s for %s" % (exc.code, url), 1) from exc
-            last_error = exc
+            last_error = "HTTP %s" % exc.code if token else exc
             retry_after = exc.headers.get("Retry-After")
             delay = float(retry_after) if retry_after and retry_after.isdigit() else min(2 ** attempt, 16)
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
-            last_error = exc
+            # Network exception strings are not credential-safe evidence.
+            last_error = type(exc).__name__ if token else exc
             delay = min(2 ** attempt, 16)
+        except http.client.HTTPException as exc:
+            if token:
+                raise ToolError("authenticated GitHub metadata protocol error: %s" % type(exc).__name__, 1) from None
+            raise
         if attempt < retries:
             time.sleep(delay)
     raise ToolError("failed to fetch %s after %d attempts: %s" % (url, retries + 1, last_error), 1)
@@ -437,10 +500,12 @@ def load_location(
     retries: int = 3,
     cache_dir: Optional[pathlib.Path] = None,
     limiter: Optional[HostRateLimiter] = None,
+    github_api_metadata: bool = False,
 ) -> Tuple[Any, Dict[str, Any]]:
     if location.startswith(("https://", "file://")):
         content, metadata = fetch_url(
-            location, timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter, max_bytes=512 * 1024 * 1024
+            location, timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter, max_bytes=512 * 1024 * 1024,
+            github_api_metadata=github_api_metadata,
         )
         return loads_document(content.decode("utf-8"), location), metadata
     path = pathlib.Path(location)

@@ -22,6 +22,7 @@ from _lib import (
     atomic_write_text,
     emit_json,
     fetch_url,
+    github_metadata_url,
     first_value,
     isoformat,
     is_prerelease,
@@ -374,6 +375,9 @@ def load_release_feed(
     cache_dir: Optional[pathlib.Path],
     limiter: HostRateLimiter,
 ) -> tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    # Authentication is opt-in for metadata only. source_digest() deliberately
+    # keeps the default unauthenticated transport, including archive downloads.
+    github_api_metadata = github_metadata_url(release_api)
     if release_regex:
         if release_api.startswith(("https://", "file://")):
             content, metadata = fetch_url(
@@ -383,6 +387,7 @@ def load_release_feed(
                 cache_dir=cache_dir,
                 limiter=limiter,
                 max_bytes=64 * 1024 * 1024,
+                github_api_metadata=github_api_metadata,
             )
         else:
             path = pathlib.Path(release_api)
@@ -399,7 +404,8 @@ def load_release_feed(
             return releases_from_json(document, release_regex), metadata
         return releases_from_index(content, release_regex, source_url_template), metadata
     document, metadata = load_location(
-        release_api, timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter
+        release_api, timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter,
+        github_api_metadata=github_api_metadata,
     )
     return releases_from_document(document), metadata
 
