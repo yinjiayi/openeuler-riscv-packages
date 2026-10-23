@@ -1,0 +1,77 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.remlab.net/libident/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libident",
+        "package_name": "libident",
+        "source": "debian",
+        "source_version": "0.32-4"
+      },
+      {
+        "evidence_url": "https://www.remlab.net/libident/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libident",
+        "package_name": "libident",
+        "source": "ubuntu",
+        "source_version": "0.32-5build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libident.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official HTTPS stable0.32 archive/index reviewed; exact Debian/Ubuntu frozen lineage retained. Original default shared/static and disabled optional testers/debug retained; make check has no upstream test cases. Added six-case local socketpair API driver, not server/network or timing validation. Full official-base static provider/namespace reviewed, not target or supplemental acceptance. No local source QA/RPM/QEMU executed.",
+    "status": "active"
+  },
+  "package_id": "libident",
+  "rpm": {
+    "license": "LicenseRef-libident AND FSFULLR AND MIT AND GPL-2.0-or-later AND ISC",
+    "name": "libident",
+    "summary": "RFC1413 Ident client library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "remlab.net-files-libident",
+    "homepage": "https://www.remlab.net/libident/",
+    "release_api": "https://www.remlab.net/files/libident/",
+    "release_channel": "stable",
+    "release_regex": "^libident-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2$",
+    "source_repository": "https://www.remlab.net/files/libident/",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.32",
+    "latest_detected": "0.32",
+    "release": "1"
+  }
+}
