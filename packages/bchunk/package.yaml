@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "package_id": "bchunk",
+  "rpm": {"name": "bchunk", "summary": "Convert BIN/CUE CD images to ISO, CDR and WAV tracks", "license": "GPL-2.0-or-later"},
+  "upstream": {
+    "component": "github.com-hessu-bchunk",
+    "homepage": "https://github.com/hessu/bchunk",
+    "source_repository": "https://github.com/hessu/bchunk",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/hessu/bchunk/tags",
+    "release_regex": "^release/(?P<version>[0-9]+(?:\\.[0-9]+)+)$"
+  },
+  "version": {"current": "1.2.2", "release": "1", "latest_detected": "1.2.2"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{
+      "source": "arch-extra", "package_name": "bchunk", "package_base": "bchunk",
+      "source_version": "1.2.2-8",
+      "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/f498addd77877d48e7ee4ddfd62ad3919c3ec02c/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+      "observed_at": "2026-08-08T16:50:00Z"
+    }]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "bchunk.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Official fixed bchunk 1.2.2 recipe; no target build/install result is claimed. Original Makefile has no test/check target or bundled tests in its complete seven-file source tree. Preserve unmodified source/default features and original all target with RPM flags. Packaging QA verifies deterministic file conversions in both %check and installed smoke; no mount/device privileges required. Dependencies are declared explicitly; current canonical/provider namespace and repository validation evidence must accompany admission. Exact-head CI/build/install and physical RPM/SRPM remain mandatory before merge."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-tags"}
+}
