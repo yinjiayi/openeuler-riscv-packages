@@ -1,0 +1,85 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.tarsnap.com/spiped.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "spiped",
+        "package_name": "spiped",
+        "source": "arch-extra",
+        "source_version": "1.6.4-2"
+      },
+      {
+        "evidence_url": "https://www.tarsnap.com/spiped.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "spiped",
+        "package_name": "spiped",
+        "source": "debian",
+        "source_version": "1.6.3-1"
+      },
+      {
+        "evidence_url": "https://www.tarsnap.com/spiped.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "spiped",
+        "package_name": "spiped",
+        "source": "ubuntu",
+        "source_version": "1.6.4-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "spiped.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 1.6.4 tarball and publisher SHA-256 matched; complete embedded BSD notices and original ten-scenario default QA retained. Generated POSIX Makefiles require GNU make, not developer-only bmake. No source patches or local target execution; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "spiped",
+  "rpm": {
+    "license": "BSD-2-Clause AND BSD-3-Clause",
+    "name": "spiped",
+    "summary": "Authenticated encrypted pipes between socket addresses"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "tarsnap.com-spiped.html",
+    "homepage": "https://www.tarsnap.com/spiped.html",
+    "release_api": "https://www.tarsnap.com/spiped.html",
+    "release_channel": "stable",
+    "release_regex": "spiped-(?P<version>[0-9]+[.][0-9]+[.][0-9]+)[.]tgz",
+    "source_repository": "https://github.com/Tarsnap/spiped",
+    "source_url_template": "https://www.tarsnap.com/spiped/spiped-{version}.tgz"
+  },
+  "version": {
+    "current": "1.6.4",
+    "latest_detected": "1.6.4",
+    "release": "1"
+  }
+}
