@@ -164,6 +164,29 @@ def command_plan(args: argparse.Namespace) -> int:
     return 0
 
 
+def github_tag_ref_record(record: Mapping[str, Any]) -> Dict[str, Any]:
+    """Recognize only typed GitHub tag refs; keep ordinary release records intact."""
+    result = dict(record)
+    if any(result.get(key) not in (None, "") for key in ("version", "tag_name", "name")):
+        return result
+    ref = result.get("ref")
+    target = result.get("object")
+    if not isinstance(ref, str) or not ref.startswith("refs/tags/"):
+        return result
+    tag = ref[len("refs/tags/"):]
+    # Git ref restrictions also keep a broad version selector from accepting a
+    # numeric substring in malformed or non-tag namespace data.
+    if (not tag or tag.endswith(("/", ".")) or ".." in tag or "@{" in tag
+            or any(ord(char) <= 32 or ord(char) == 127 or char in "~^:?*[\\" for char in tag)
+            or any(not part or part.startswith(".") or part.endswith(".lock") for part in tag.split("/"))):
+        return result
+    if (not isinstance(target, Mapping) or target.get("type") not in ("commit", "tag")
+            or not isinstance(target.get("sha"), str)
+            or re.fullmatch(r"[0-9a-fA-F]{40}", target["sha"]) is None):
+        return result
+    return {**result, "tag_name": tag}
+
+
 def pypi_release_record(version: str, files: Any) -> Dict[str, Any]:
     """Keep every release identity; accept one declared, non-yanked source file.
 
@@ -215,11 +238,11 @@ def releases_from_document(document: Any) -> List[Dict[str, Any]]:
             return [{"version": value} if not isinstance(value, Mapping) else dict(value) for value in document["versions"]]
         if isinstance(document.get("releases"), Mapping):
             return [{"version": key, **(dict(value) if isinstance(value, Mapping) else {})} for key, value in document["releases"].items()]
-        if any(key in document for key in ("tag_name", "version", "name")):
-            return [dict(document)]
+        if any(key in document for key in ("tag_name", "version", "name", "ref")):
+            return [github_tag_ref_record(document)]
     if isinstance(document, list):
-        return [{"version": value} if not isinstance(value, Mapping) else dict(value) for value in document]
-    return [dict(record) for record in iter_records(document)]
+        return [{"version": value} if not isinstance(value, Mapping) else github_tag_ref_record(value) for value in document]
+    return [github_tag_ref_record(record) for record in iter_records(document)]
 
 
 def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optional[Dict[str, Any]]:
