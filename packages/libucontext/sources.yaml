@@ -1,0 +1,21 @@
+{
+  "package_id": "libucontext",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c84f57298ed4bce278c31ed8e5c0b3da6f9bd8bc45c9dfb08656fe797bdc2c47"
+      },
+      "filename": "libucontext-1.5.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/kaniini/libucontext/tar.gz/49e671dd52ff6791295d8161ad3b6da7dc5f6f9d",
+      "version": "1.5.2"
+    }
+  ]
+}
