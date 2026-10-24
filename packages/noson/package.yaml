@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/janbar/noson",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "noson",
+        "package_name": "noson",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.10.2-1.12"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "noson.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "noson",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "noson",
+    "summary": "C++ library for accessing sonos devices"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-janbar-noson",
+    "homepage": "https://github.com/janbar/noson",
+    "release_api": "https://api.github.com/repos/janbar/noson/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/janbar/noson",
+    "source_url_template": "https://github.com/janbar/noson/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.10.2",
+    "latest_detected": "2.10.2",
+    "release": "1"
+  }
+}
