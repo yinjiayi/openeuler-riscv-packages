@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "package_id": "libdevel-findperl-perl",
+  "rpm": {"name": "perl-Devel-FindPerl", "summary": "Locate a Perl interpreter matching the current configuration", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "libdevel-findperl-perl",
+    "homepage": "https://metacpan.org/dist/Devel-FindPerl",
+    "source_repository": "https://metacpan.org/dist/Devel-FindPerl",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/",
+    "release_regex": "(?<![A-Za-z0-9])Devel-FindPerl-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Devel-FindPerl-{version}.tar.gz"
+  },
+  "version": {"current": "0.016", "release": "1", "latest_detected": "0.016"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "libdevel-findperl-perl", "package_base": "libdevel-findperl-perl", "source_version": "0.016-2", "evidence_url": "https://packages.debian.org/source/sid/libdevel-findperl-perl", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libdevel-findperl-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian libdevel-findperl-perl 0.016-2 lineage maps to the official LEONT stable CPAN release, publisher-CHECKSUMS SHA-256 pinned. Top-level LICENSE covers 'This software' and names both Randy Sims and Leon Timmermans; the only installed PM repeats the same-as-Perl grant, and no vendored/conflicting file exists. SHA-bound SP3 RVA23 primary has no same-name/Devel::FindPerl provider and supplies all core/runtime/test providers. The unchanged default suite has only two files/two assertions, including the taint-mode test; target %check rejects any skip. Installed smoke separately invokes the actual matching Perl interpreter under taint mode and checks its identity and untainted path."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
