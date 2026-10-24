@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "most",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/jedsoft/most/archive/refs/tags/v5.2.0.tar.gz",
+      "filename": "most-5.2.0.tar.gz",
+      "version": "5.2.0",
+      "digests": {"sha256": "5e51a02e45660ce81336046f6ed4110c406dfd8f5972601016e046d393dcdadb"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The upstream COPYRIGHT grants GPL-2.0-or-later redistribution; COPYING contains the GPL version 2 terms."}
+    }
+  ]
+}
