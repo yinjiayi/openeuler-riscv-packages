@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-pod-content-perl",
+  "rpm": {
+    "name": "perl-Test-Pod-Content",
+    "summary": "Test the contents of Perl POD documentation",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtest-pod-content-perl",
+    "homepage": "https://metacpan.org/dist/Test-Pod-Content",
+    "source_repository": "https://metacpan.org/dist/Test-Pod-Content",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MK/MKUTTER/",
+    "release_regex": "Test-Pod-Content-v?(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MK/MKUTTER/Test-Pod-Content-v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.0.6",
+    "release": "1",
+    "latest_detected": "0.0.6"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtest-pod-content-perl",
+        "package_base": "libtest-pod-content-perl",
+        "source_version": "0.0.6",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtest-pod-content-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtest-pod-content-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official stable CPAN Test-Pod-Content-v0.0.6; RPM version normalizes the upstream v-string to 0.0.6 while the source filename/root retain v. Official source SHA-256 matches publisher CHECKSUMS, archive paths/types are safe, and README/POD/Build.PL grant Perl terms. Official target primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks same-name package/provider and includes Module::Build, Pod::Simple, Test::More and version. Local default upstream seven-file/4-assertion suite passed with five upstream author-test skips; target RPM/check/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
