@@ -1,0 +1,21 @@
+{
+  "package_id": "fatcat",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5574f715f62a9feda7fffc8099f8bca7134ff4f1274bb1bc0db96a2969eea206"
+      },
+      "filename": "fatcat-1.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Gregwar/fatcat/archive/refs/tags/v1.1.1.tar.gz",
+      "version": "1.1.1"
+    }
+  ]
+}
