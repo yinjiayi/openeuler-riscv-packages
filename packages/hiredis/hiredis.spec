@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           hiredis
-Version:        1.4.1
+Version:        1.5.0
 Release:        1%{?dist}
 Summary:        Minimal C client library for Redis
 License:        BSD-3-Clause
 URL:            https://github.com/redis/hiredis
-Source0:        hiredis-1.4.1.tar.gz
+Source0:        v1.5.0.tar.gz
 Patch0:         0001-tests-use-riscv-qemu-safe-timeout.patch
 
 BuildRequires:  cmake
