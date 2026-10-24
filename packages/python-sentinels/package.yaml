@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/vmalloc/sentinels",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-sentinels",
+        "package_name": "python-sentinels",
+        "source": "arch-extra",
+        "source_version": "1.1.1-2"
+      },
+      {
+        "evidence_url": "https://github.com/vmalloc/sentinels",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-sentinels",
+        "package_name": "python-sentinels",
+        "source": "debian",
+        "source_version": "1.0.0-8"
+      },
+      {
+        "evidence_url": "https://github.com/vmalloc/sentinels",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-sentinels",
+        "package_name": "python-sentinels",
+        "source": "fedora",
+        "source_version": "1.1.1-2.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-sentinels.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official PyPI 1.1.1 sdist SHA-256 and keyless PEP740 publisher attestation verified; all 11 original files reviewed as inert text. Full upstream pytest tests and pylint checks preserved. No local upstream/RPM/QEMU execution or target success claim.",
+    "status": "active"
+  },
+  "package_id": "python-sentinels",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "python-sentinels",
+    "summary": "Singleton sentinel objects for special Python values"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-pypi"
+  },
+  "upstream": {
+    "component": "github.com-vmalloc-sentinels",
+    "homepage": "https://github.com/vmalloc/sentinels",
+    "release_api": "https://pypi.org/pypi/sentinels/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/vmalloc/sentinels",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.1.1",
+    "latest_detected": "1.1.1",
+    "release": "1"
+  }
+}
