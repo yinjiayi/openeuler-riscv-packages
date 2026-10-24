@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           xapp
-Version:        3.2.2
-Release:        3%{?dist}
+Version:        3.2.3
+Release:        1%{?dist}
 Summary:        Common library for X-Apps project
 License:        LGPL-3.0-or-later
 URL:            https://github.com/linuxmint/xapp
-Source0:        xapp-3.2.2.tar.gz
+Source0:        3.2.3.tar.gz
 BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  gobject-introspection-devel
