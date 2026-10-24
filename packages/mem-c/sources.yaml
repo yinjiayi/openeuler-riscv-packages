@@ -1,0 +1,21 @@
+{
+  "package_id": "mem-c",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "63ee894e9a71873df7979e2774c3a8765874d59f3cc8b80fa530f8103b073c0b"
+      },
+      "filename": "mem-c-1.1.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/alecksandr26/mem-c/archive/refs/tags/v1.1.4.tar.gz",
+      "version": "1.1.4"
+    }
+  ]
+}
