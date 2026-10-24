@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmurmurhash",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "version": "1.6",
+      "filename": "libmurmurhash-1.6.tar.gz",
+      "url": "https://codeload.github.com/kloetzl/libmurmurhash/tar.gz/8b7c9bf3ed1b8f83e5265c84a2cad5c1d6bb1d69",
+      "digests": {
+        "sha256": "6942827223d228c7a5efb791e6300d0cede1fa290815c79dd8f11957db5dc32b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official complete NOLICENSE and runtime/header/test notices disclaim copyright into the public domain; all 17 originals retained. Official fixed tag/commit archive locally SHA-256 verified, unsigned tag not claimed signed. Exact-head target CI remains required."
+      }
+    }
+  ]
+}
