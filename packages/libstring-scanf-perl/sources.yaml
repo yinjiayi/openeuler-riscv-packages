@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-scanf-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Scanf-2.1.tar.gz",
+      "version": "2.1",
+      "url": "https://cpan.metacpan.org/authors/id/J/JH/JHI/String-Scanf-2.1.tar.gz",
+      "digests": {
+        "sha256": "c519f6bf7c54f92a72a05f317c730f4fd450945672947782fb4e17b9c1176837"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The module POD expressly grants Perl terms, and the official CPAN HTTPS source SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
