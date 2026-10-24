@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           patch
-Version:        2.8
+Version:        2.8.1
 Release:        1%{?dist}
 Summary:        Utility for applying diff files
 License:        GPL-3.0-or-later
 URL:            https://savannah.gnu.org/projects/patch/
-Source0:        patch-%{version}.tar.xz
+Source0:        patch-2.8.1.tar.xz
 
 BuildRequires:  ed
 BuildRequires:  gcc
