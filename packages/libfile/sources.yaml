@@ -1,0 +1,21 @@
+{
+  "package_id": "libfile",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "cc979510cc4bf2755c415ff342347a37a981c382cad389e6de2dc5017c0f3b51"
+      },
+      "filename": "libfile-1.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/coolguy-09/libfile/archive/refs/tags/v1.0.2.tar.gz",
+      "version": "1.0.2"
+    }
+  ]
+}
