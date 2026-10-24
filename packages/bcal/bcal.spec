@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           bcal
-Version:        2.5
+Version:        2.6
 Release:        1%{?dist}
 Summary:        Storage conversion and expression calculator
 License:        GPL-3.0-only
 URL:            https://github.com/jarun/bcal
-Source0:        bcal-v2.5.tar.gz
+Source0:        bcal-v2.6.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  python3-pytest
