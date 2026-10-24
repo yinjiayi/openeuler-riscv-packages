@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstatistics-topk-perl",
+  "rpm": {
+    "name": "perl-Statistics-TopK",
+    "summary": "Bounded-memory top-k stream counters",
+    "license": "GPL-1.0-or-later"
+  },
+  "upstream": {
+    "component": "libstatistics-topk-perl",
+    "homepage": "https://metacpan.org/dist/Statistics-TopK",
+    "source_repository": "https://github.com/gray/statistics-topk",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/G/GR/GRAY/",
+    "release_regex": "Statistics-TopK-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/G/GR/GRAY/Statistics-TopK-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.02",
+    "release": "1",
+    "latest_detected": "0.02"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libstatistics-topk-perl",
+        "package_base": "libstatistics-topk-perl",
+        "source_version": "0.02-2",
+        "evidence_url": "https://packages.debian.org/trixie/source/libstatistics-topk-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstatistics-topk-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian trixie 0.02-2 lineage, official GRAY CPAN source matching publisher CHECKSUMS, module Perl 5 terms with GPL-1.0-or-later alternative. Three unchanged default t/*.t files; six xt/ author/release-only files remain in upstream SRPM and are not claimed as default test coverage."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
