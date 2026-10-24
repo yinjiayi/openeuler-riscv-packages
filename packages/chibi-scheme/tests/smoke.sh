@@ -23,8 +23,8 @@ work=$(mktemp -d)
 trap 'rm -rf -- "$work"' EXIT
 cd "$work"
 # Original upstream suite, now using installed executable and module paths.
-/usr/bin/chibi-scheme -mchibi.test \
-    -I /usr/share/chibi-scheme-tests -l r7rs-tests.scm -e '(test-exit)'
+/usr/bin/chibi-scheme /usr/share/chibi-scheme-tests/strict-r7rs.scm \
+    /usr/share/chibi-scheme-tests/r7rs-tests.scm
 actual=$(/usr/bin/chibi-scheme -p '(+ (expt 2 64) 1)')
 test "$actual" = 18446744073709551617
 actual=$(/usr/bin/chibi-scheme -mscheme.char -p '(char=? (char-upcase #\λ) #\Λ)')

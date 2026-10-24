@@ -44,14 +44,26 @@ runtime images; no image-related feature is disabled. No patch is applied.
 `%check` runs the original default `make test` (`test-r7rs`) without test/group
 filters. Since this original suite does not itself call `test-exit`, an additional
 strict replay loads the same unmodified file and invokes its exported `test-exit`.
-Chibi's `-l` resolves names by concatenating each module search directory, rather
-than accepting a working-directory-relative or absolute path directly. The build
-replay therefore explicitly prepends `tests` with `-I tests` and loads only the
-basename `r7rs-tests.scm`. Installed replay similarly prepends the installed test
-directory with `-I /usr/share/chibi-scheme-tests` before loading that basename.
-Installed smoke verifies that file's exact source SHA-256, replays it through the
-installed executable/modules, and checks bignum and Unicode output. It does not
-recompile source or substitute a reduced test suite.
+The initial exact-head build passed all 1225 original default cases, but the extra
+`-l`/`-e` replay ran before normal script startup initialized `command-line` and
+therefore failed the unchanged `(list? (command-line))` case. This was a packaging
+invocation defect, not an upstream suite failure or reason to remove that case.
+
+The repaired replay invokes a generated `strict-r7rs.scm` as a normal script,
+with the unchanged suite path as its argument. Its three top-level forms import
+`(scheme base)`, `(scheme load)`, `(scheme process-context)` and `(chibi test)`,
+load `(cadr (command-line))`, then call the same module's zero-argument `test-exit`.
+Normal startup supplies a real argument list; Scheme `load` opens the explicit
+relative build-suite or absolute installed-suite path without `-l` module lookup.
+The suite and wrapper share the original `(chibi test)` failure counter: no test,
+filter, feature or strict-exit behavior is removed or replaced.
+
+Installed smoke SHA-256-checks both wrapper and original suite via `SHA256SUMS`,
+also verifies the suite's fixed source SHA-256, replays them through the installed
+executable/modules, and retains bignum and Unicode checks. It does not recompile
+source or substitute a reduced test suite. The repaired invocation still requires
+fresh exact-head target CI and installed validation; static review is not proof
+that those target checks have passed.
 
 Declared build dependencies are bash, binutils, coreutils, diffutils, findutils,
 gcc, glibc-devel, grep, make and sed. Runtime shell utilities are declared; ELF

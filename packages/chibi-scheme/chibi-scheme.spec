@@ -35,6 +35,13 @@ find . -type f ! -path './original-notices/*' \
     -exec cp --parents '{}' original-notices/ ';'
 find original-notices -type f -exec chmod 0644 '{}' ';'
 cp %{SOURCE1} LICENSE-MIT-racket.txt
+# Normal script startup initializes command-line before loading this wrapper.
+cat > strict-r7rs.scm <<'EOF'
+;; SPDX-License-Identifier: Apache-2.0
+(import (scheme base) (scheme load) (scheme process-context) (chibi test))
+(load (cadr (command-line)))
+(test-exit)
+EOF
 
 %build
 # No feature overrides: use the original all target and detected Linux platform.
@@ -46,9 +53,11 @@ cp %{SOURCE1} LICENSE-MIT-racket.txt
     CC=gcc CFLAGS="%{optflags}" LDFLAGS="%{?build_ldflags}"
 install -Dm644 tests/r7rs-tests.scm \
     %{buildroot}%{_datadir}/chibi-scheme-tests/r7rs-tests.scm
+install -Dm644 strict-r7rs.scm \
+    %{buildroot}%{_datadir}/chibi-scheme-tests/strict-r7rs.scm
 (
     cd %{buildroot}%{_datadir}/chibi-scheme-tests
-    sha256sum r7rs-tests.scm > SHA256SUMS
+    sha256sum r7rs-tests.scm strict-r7rs.scm > SHA256SUMS
 )
 
 %check
@@ -61,7 +70,7 @@ unset TEST_FILTER TEST_REMOVE TEST_GROUP_FILTER TEST_GROUP_REMOVE
 # The original suite prints failures without calling test-exit. Replay the same
 # unmodified suite with its own exported test-exit to enforce a failing status.
 CHIBI_IGNORE_SYSTEM_PATH=1 CHIBI_MODULE_PATH=lib LD_LIBRARY_PATH=. \
-    ./chibi-scheme -mchibi.test -I tests -l r7rs-tests.scm -e '(test-exit)'
+    ./chibi-scheme strict-r7rs.scm tests/r7rs-tests.scm
 
 %files
 %license COPYING AUTHORS LICENSE-MIT-racket.txt original-notices
