@@ -2,12 +2,12 @@
 %global debug_package %{nil}
 
 Name:           semver-cpp
-Version:        1.0.0
-Release:        3%{?dist}
+Version:        1.0.1
+Release:        1%{?dist}
 Summary:        Semantic versioning for modern C++.
 License:        MIT
 URL:            https://github.com/Neargye/semver
-Source0:        semver-cpp-1.0.0.tar.gz
+Source0:        v1.0.1.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
