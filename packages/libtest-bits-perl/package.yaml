@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-bits-perl",
+  "rpm": {
+    "name": "perl-Test-Bits",
+    "summary": "Compare binary data byte by byte in Perl tests",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "libtest-bits-perl",
+    "homepage": "https://metacpan.org/dist/Test-Bits",
+    "source_repository": "https://metacpan.org/dist/Test-Bits",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/",
+    "release_regex": "Test-Bits-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Test-Bits-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.02",
+    "release": "1",
+    "latest_detected": "0.02"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtest-bits-perl",
+        "package_base": "libtest-bits-perl",
+        "source_version": "0.02",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtest-bits-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtest-bits-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official stable CPAN 0.02. Publisher CHECKSUMS SHA-256 and safe single-root archive verified. LICENSE and module POD grant Artistic-2.0. Official target primary lacks same RPM/provider but supplies List::AllUtils, Test::Fatal, Test::More and Test::Tester. Local macOS lacks List::AllUtils, so local original make test failed before functional assertions; target RPM build and full unchanged default tests remain CI evidence. Eight author/release tests are gated by upstream environment variables and stay unchanged."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
