@@ -1,0 +1,21 @@
+{
+  "package_id": "python-pyluach",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f8755477ae94b570e9717638570fab48dc00ed0c6d9255460b267aa9a87f888c"
+      },
+      "filename": "pyluach-2.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official fixed v2.3.0 source includes the complete MIT license.txt, copyright 2014 Meir S. List. Retain the full copyright, permission and disclaimer in the SRPM/source and installed RPM. No license text or upstream source is modified."
+      },
+      "signature": null,
+      "url": "https://github.com/simlist/pyluach/archive/c1ffe4265f25ab7f5d850f4720111470f27e7ce5.tar.gz",
+      "version": "2.3.0"
+    }
+  ]
+}
