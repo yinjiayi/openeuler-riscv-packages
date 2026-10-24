@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-streamdeserializer-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-StreamDeserializer-0.06.tar.gz",
+      "version": "0.06",
+      "url": "https://cpan.metacpan.org/authors/id/U/UN/UNERA/Data-StreamDeserializer-0.06.tar.gz",
+      "digests": {
+        "sha256": "22f43e0d88d4f612bddff8db87e767f5b6dd16714f18d394f2e2b41d3a8195f4"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD grant redistribution under the same terms as Perl 5.10.1 or later; official CPAN HTTPS SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
