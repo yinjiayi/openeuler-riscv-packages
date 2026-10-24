@@ -1,0 +1,34 @@
+{
+  "package_id": "libident",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a88a24adc377322008aaf7bf7078e6d409f5327e9515ce0d755345dd249dce22"
+      },
+      "filename": "libident-0.32.tar.bz2",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "COPYING permits copying/redistribution with or without modifications while preserving attribution; bundled build helpers retain their own notices."
+      },
+      "signature": null,
+      "url": "https://www.remlab.net/files/libident/libident-0.32.tar.bz2",
+      "version": "0.32"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/COPYING",
+      "filename": "gpl-2.0.txt",
+      "version": "GPL-2.0",
+      "digests": {"sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"},
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Verbatim GNU GPLv2 license text accompanying bundled Autotools macros; pinned official GCC mirror commit, no GCC code/recipe reused."
+      }
+    }
+  ]
+}
