@@ -1,0 +1,21 @@
+{
+  "package_id": "nvidia-system-monitor-qt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6fd022e10bfb25db53bb04783c472b598d223bda317d4928dc28252490b2f5dc"
+      },
+      "filename": "nvidia-system-monitor-qt-1.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/congard/nvidia-system-monitor-qt/archive/refs/tags/v1.6.tar.gz",
+      "version": "1.6"
+    }
+  ]
+}
