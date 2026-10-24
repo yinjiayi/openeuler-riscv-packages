@@ -1,0 +1,21 @@
+{
+  "package_id": "jasmine",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "18ddf1e9edf96ac62fb418449727feea5471f0263844e0c8d6e60405684429c9"
+      },
+      "filename": "jasmine-1.3.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/alamahant/Jasmine/archive/refs/tags/v1.3.3.tar.gz",
+      "version": "1.3.3"
+    }
+  ]
+}
