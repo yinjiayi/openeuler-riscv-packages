@@ -1,0 +1,21 @@
+{
+  "package_id": "libocxl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8a851ee54cac2ea87e1b22745d98ea06b062884c948f35fede238f2520bc26d0"
+      },
+      "filename": "libocxl-1.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/OpenCAPI/libocxl/archive/refs/tags/1.2.1.tar.gz",
+      "version": "1.2.1"
+    }
+  ]
+}
