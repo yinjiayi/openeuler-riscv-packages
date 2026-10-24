@@ -1,0 +1,74 @@
+# SPDX-License-Identifier: GPL-1.0-or-later OR Artistic-1.0-Perl
+# Copyright 2026 openEuler RISC-V Maintainers
+# Additive STDERR metadata observer only; no assertion or runtime changes.
+--- a/t/06persist.t
++++ b/t/06persist.t
+@@ -9,0 +10,50 @@
++# 2026-10-04 downstream packaging modification: diagnostic-only STDERR observer.
++# Additions use GPL-1.0-or-later OR Artistic-1.0-Perl, matching original terms.
++# Active generation is a logical fixture-copy counter, not stat/inode identity.
++# STDERR/stat overhead is not an internal syscall trace or deterministic rerun.
++# Localise special error/status variables so failed observer stats cannot leak.
++sub persist_observer {
++    local $!;
++    local $@;
++    local $?;
++    my ($phase, $persist, $generation, $iteration, $selected) = @_;
++    $selected = 'not-selected' unless defined $selected;
++    for my $path ('t/rotate.log', 't/rotate.tmp',
++                  't/rotate.tmp.1', 't/rotate.tmp.2', 't/rotate.tmp.3') {
++        my @s = stat $path;
++        my $errno = 0 + $!;
++        my $error = "$!";
++        my $label = "persist-observer phase=$phase persist=$persist active-generation=$generation iteration=$iteration selected=$selected path=$path";
++        if (@s) {
++            print STDERR "$label status=present dev=$s[0] ino=$s[1] size=$s[7] mode=$s[2] uid=$s[4] gid=$s[5] atime=$s[8] mtime=$s[9]\n";
++        } else {
++            my $status = $errno == 2 ? 'absent' : 'stat-failed';
++            print STDERR "$label status=$status errno=$errno error=$error\n";
++        }
++    }
++}
++
++sub persist_oracle_observer {
++    local $!;
++    local $@;
++    local $?;
++    my ($persist, $generation, $iteration, $selected, $old, $new) = @_;
++    for my $snapshot ([active=>$old], [selected_archive=>$new]) {
++        my ($kind, $s) = @$snapshot;
++        if (@$s) {
++            print STDERR "persist-observer phase=original-oracle-snapshot persist=$persist active-generation=$generation iteration=$iteration selected=$selected snapshot=$kind dev=$s->[0] ino=$s->[1] size=$s->[7] mode=$s->[2] uid=$s->[4] gid=$s->[5] atime=$s->[8] mtime=$s->[9]\n";
++        } else {
++            print STDERR "persist-observer phase=original-oracle-snapshot persist=$persist active-generation=$generation iteration=$iteration selected=$selected snapshot=$kind status=no-original-stat-result\n";
++        }
++    }
++    my @differences;
++    for my $field ([mode=>2], [atime=>8], [mtime=>9], [uid=>4], [gid=>5]) {
++        my ($name, $index) = @$field;
++        my $active = defined $old->[$index] ? $old->[$index] : 'undefined';
++        my $archive = defined $new->[$index] ? $new->[$index] : 'undefined';
++        push @differences, "$name:$active/$archive" if "$active" ne "$archive";
++    }
++    my $differences = @differences ? join(',', @differences) : 'none';
++    print STDERR "persist-observer phase=original-oracle-snapshots persist=$persist active-generation=$generation iteration=$iteration selected=$selected differences=$differences\n";
++}
++
+@@ -23,0 +74,3 @@
++	my $observer_generation = 0;
++	my $observer_iteration = 0;
++	persist_observer('before-initial-fixture-copy', $bool, $observer_generation, $observer_iteration, undef);
+@@ -24,0 +78 @@
++	persist_observer('after-initial-fixture-copy', $bool, $observer_generation, $observer_iteration, undef);
+@@ -33,0 +88,2 @@
++		$observer_iteration++;
++		persist_observer('before-rotate', $bool, $observer_generation, $observer_iteration, 't/rotate.tmp.' . $file_no);
+@@ -34,0 +91 @@
++		persist_observer('after-rotate', $bool, $observer_generation, $observer_iteration, 't/rotate.tmp.' . $file_no);
+@@ -44,0 +102 @@
++			persist_oracle_observer($bool, $observer_generation, $observer_iteration, $f, \@old_stat, \@new_stat);
+@@ -56,0 +115 @@
++		persist_observer('before-next-fixture-copy', $bool, $observer_generation, $observer_iteration, $f);
+@@ -57,0 +117,2 @@
++		$observer_generation++;
++		persist_observer('after-next-fixture-copy', $bool, $observer_generation, $observer_iteration, $f);
