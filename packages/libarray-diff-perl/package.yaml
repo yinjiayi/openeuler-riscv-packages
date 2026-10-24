@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-diff-perl",
+  "rpm": {
+    "name": "perl-Array-Diff",
+    "summary": "Find the differences between two sorted Perl arrays",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libarray-diff-perl",
+    "homepage": "https://metacpan.org/dist/Array-Diff",
+    "source_repository": "https://github.com/neilb/array-diff-perl",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_regex": "Array-Diff-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Array-Diff-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.09",
+    "release": "1",
+    "latest_detected": "0.09"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libarray-diff-perl",
+        "package_base": "libarray-diff-perl",
+        "source_version": "0.09-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libarray-diff-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libarray-diff-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libarray-diff-perl key maps to official CPAN Array-Diff 0.09. CPAN CHECKSUMS SHA-256, safe archive, LICENSE/POD Perl dual licensing, all six upstream t/ files, and official target dependencies were reviewed. The two functional files passed locally; target full six-file POD and RPM/QEMU results require exact-head CI. Official target primary metadata has no same-name RPM or module provider."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
