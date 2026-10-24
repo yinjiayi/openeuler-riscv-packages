@@ -1,0 +1,21 @@
+{
+  "package_id": "qperf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b0ef2ffe050607566d06102b4ef6268aad08fdc52898620d429096e7b0767e75"
+      },
+      "filename": "qperf-0.4.11.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linux-rdma/qperf/archive/refs/tags/v0.4.11.tar.gz",
+      "version": "0.4.11"
+    }
+  ]
+}
