@@ -1,0 +1,21 @@
+{
+  "package_id": "erlang-stringprep",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2089fdd0454e5b8b88258539888bbd2a03b51cc62cfd0414da240877bb59c93f"
+      },
+      "filename": "erlang-stringprep-1.0.33.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/processone/stringprep/archive/refs/tags/1.0.33.tar.gz",
+      "version": "1.0.33"
+    }
+  ]
+}
