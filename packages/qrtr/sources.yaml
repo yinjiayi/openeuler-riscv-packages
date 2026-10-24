@@ -1,0 +1,21 @@
+{
+  "package_id": "qrtr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7a82bf80246fe71287b13c66c0466208822e8337fcd4aaf302eee6c5fcb48a52"
+      },
+      "filename": "qrtr-1.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linux-msm/qrtr/archive/refs/tags/v1.2.tar.gz",
+      "version": "1.2"
+    }
+  ]
+}
