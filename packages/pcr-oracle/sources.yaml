@@ -1,0 +1,21 @@
+{
+  "package_id": "pcr-oracle",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e2efcf55a352d91bdbc828479aa1d52bb2bd31ed2c7e74d93b148b123c0021d4"
+      },
+      "filename": "pcr-oracle-0.6.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/openSUSE/pcr-oracle/archive/refs/tags/0.6.5.tar.gz",
+      "version": "0.6.5"
+    }
+  ]
+}
