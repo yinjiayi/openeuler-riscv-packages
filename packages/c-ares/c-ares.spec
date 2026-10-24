@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           c-ares
-Version:        1.34.8
+Version:        1.34.9
 Release:        1%{?dist}
 Summary:        Asynchronous DNS request library
 License:        MIT
 URL:            https://c-ares.org/
-Source0:        c-ares-%{version}.tar.gz
+Source0:        c-ares-1.34.9.tar.gz
 Patch0:         0001-cmake-drop-redundant-gtest-system-include.patch
 
 BuildRequires:  cmake
