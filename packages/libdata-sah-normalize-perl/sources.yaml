@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-sah-normalize-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Sah-Normalize-0.051.tar.gz",
+      "version": "0.051",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/Data-Sah-Normalize-0.051.tar.gz",
+      "digests": {
+        "sha256": "5e1d880bac8b887980d3311487bce6b67a15a78e74eb46d7a4c7d265c84e7758"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official publisher CHECKSUMS matches the independently downloaded HTTPS archive. Bundled LICENSE, README and the sole installed PM POD explicitly grant same-Perl redistribution from copyright holder perlancar; no conflicting file-level notice is present."
+      }
+    }
+  ]
+}
