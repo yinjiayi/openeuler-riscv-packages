@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sysinternalsebpf
-Version:        1.6.0
+Version:        2.2.2
 Release:        1%{?dist}
 Summary:        Sysinternals EBPF
 License:        LGPL-2.1-or-later
 URL:            https://github.com/microsoft/SysinternalsEBPF
-Source0:        sysinternalsebpf-1.6.0.tar.gz
+Source0:        2.2.2.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
