@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           fzf
-Version:        0.74.3
+Version:        0.74.5
 Release:        1%{?dist}
 %global debug_package %{nil}
 Summary:        Command-line fuzzy finder
 License:        MIT
 URL:            https://github.com/junegunn/fzf
-Source0:        fzf-0.74.3.tar.gz
+Source0:        fzf-0.74.5.tar.gz
 BuildRequires:  golang
 BuildRequires:  make
 
@@ -63,5 +63,9 @@ FZF_VERSION=%{version} FZF_REVISION=source %make_build test
 %{_mandir}/man1/fzf-tmux.1*
 
 %changelog
+* Thu Oct 15 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.74.5-1
+- Use the verified official source archive, not the Android arm64 release binary.
+- Bind the installed smoke version assertion to the installed RPM metadata.
+
 * Fri Aug 21 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.74.3-1
 - Package the upstream stable release with Go unit tests and shell integration.
