@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "package_id": "libkate",
+  "rpm": {"name": "libkate", "summary": "Kate text and subtitle codec with Ogg integration", "license": "BSD-3-Clause"},
+  "upstream": {
+    "component": "gitlab.xiph.org-xiph-kate",
+    "homepage": "https://wiki.xiph.org/Kate",
+    "source_repository": "https://gitlab.xiph.org/xiph/kate",
+    "release_channel": "stable",
+    "release_api": "https://downloads.xiph.org/releases/kate/",
+    "release_regex": "libkate-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://downloads.xiph.org/releases/kate/libkate-{version}.tar.gz"
+  },
+  "version": {"current": "0.4.3", "release": "1", "latest_detected": "0.4.3"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "libkate", "package_base": "libkate", "source_version": "0.4.3-4", "evidence_url": "https://archlinux.org/packages/extra/x86_64/libkate/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "libkate", "package_base": "libkate", "source_version": "0.4.3-1", "evidence_url": "https://packages.debian.org/source/stable/libkate", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "libkate", "package_base": "libkate", "source_version": "0.4.1-35.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/libkate/libkate/", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libkate.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Xiph's current official 0.4.3 archive was independently SHA-256 pinned; frozen distribution metadata provides discovery lineage only. No AUR or distribution build recipe was read or executed. Ogg and PNG integrations remain enabled, six registered upstream unit tests and textual/Ogg round trips run in %check, and installed smoke links both libraries. Optional KateDJ GUI requires wxPython and oggz tools and is not installed by upstream unless both are present."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}
