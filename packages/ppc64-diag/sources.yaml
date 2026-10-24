@@ -1,0 +1,21 @@
+{
+  "package_id": "ppc64-diag",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c8e2614ad237d0b9548bd6dea031ac6732cb08a19e7aa84ecf052e2fdca90c25"
+      },
+      "filename": "ppc64-diag-2.7.10.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/power-ras/ppc64-diag/archive/refs/tags/v2.7.10.tar.gz",
+      "version": "2.7.10"
+    }
+  ]
+}
