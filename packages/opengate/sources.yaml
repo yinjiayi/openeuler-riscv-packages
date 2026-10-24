@@ -1,0 +1,21 @@
+{
+  "package_id": "opengate",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "96c53f6ab1b25c0e540d8f9564bce0049371b378de80a7118a0ff8834c6c117c"
+      },
+      "filename": "opengate-9.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/OpenGATE/Gate/archive/refs/tags/v9.4.tar.gz",
+      "version": "9.4"
+    }
+  ]
+}
