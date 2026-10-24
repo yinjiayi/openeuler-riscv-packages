@@ -1,0 +1,21 @@
+{
+  "package_id": "l-smash",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e6f7c31de684f4b89ee27e5cd6262bf96f2a5b117ba938d2d606cf6220f05935"
+      },
+      "filename": "l-smash-2.14.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/l-smash/l-smash/archive/refs/tags/v2.14.5.tar.gz",
+      "version": "2.14.5"
+    }
+  ]
+}
