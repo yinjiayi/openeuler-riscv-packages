@@ -1,0 +1,21 @@
+{
+  "package_id": "doctest",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "174ebc4e769928959614789c5b4e9c3d0a0f81a62bb608756b127bfebfb21331"
+      },
+      "filename": "doctest-2.5.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/doctest/doctest/archive/refs/tags/v2.5.3.tar.gz",
+      "version": "2.5.3"
+    }
+  ]
+}
