@@ -1,0 +1,21 @@
+{
+  "package_id": "benchmark",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9631341c82bac4a288bef951f8b26b41f69021794184ece969f8473977eaa340"
+      },
+      "filename": "benchmark-1.9.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/google/benchmark/archive/refs/tags/v1.9.5.tar.gz",
+      "version": "1.9.5"
+    }
+  ]
+}
