@@ -1,0 +1,42 @@
+diff --git a/tests/Makefile.am b/tests/Makefile.am
+--- a/tests/Makefile.am
++++ b/tests/Makefile.am
+@@ -20,6 +20,7 @@
+ TESTS = \
+         test-manpage.sh \
+         test-duplicate-symbols.sh \
++        test-rsa-import.sh \
+         test-pkcs11-tool-sign-verify.sh \
+         test-pkcs11-tool-test.sh \
+         test-pkcs11-tool-test-threads.sh \
+diff --git a/tests/test-rsa-import.sh b/tests/test-rsa-import.sh
+new file mode 100755
+--- /dev/null
++++ b/tests/test-rsa-import.sh
+@@ -0,0 +1,26 @@
++#!/usr/bin/env bash
++# SPDX-License-Identifier: LGPL-2.1-or-later
++set -euo pipefail
++tool="${PKCS11_TOOL:-${BUILD_PATH:-..}/src/tools/pkcs11-tool}"
++module=/usr/lib64/pkcs11/libsofthsm2.so
++test -x "$tool"
++test -f "$module"
++case "$(openssl version)" in "OpenSSL 3."*) ;; *) echo "OpenSSL 3 is required"; exit 1;; esac
++scratch=$(mktemp -d)
++trap 'rm -rf "$scratch"' EXIT
++mkdir "$scratch/tokens"
++export SOFTHSM2_CONF="$scratch/softhsm.conf"
++printf 'objectstore.backend = file\ndirectories.tokendir = %s/tokens\n' "$scratch" > "$SOFTHSM2_CONF"
++export OPENSSL_CONF=/dev/null
++softhsm2-util --init-token --free --label rsa-import-regression --so-pin 12345678 --pin 123456
++openssl genrsa -traditional -out "$scratch/key.pem" 2048
++openssl rsa -in "$scratch/key.pem" -traditional -outform DER -out "$scratch/key.der"
++openssl rsa -in "$scratch/key.pem" -check -noout
++"$tool" --module "$module" --token-label rsa-import-regression --login --pin 123456 --write-object "$scratch/key.der" --type privkey --id 01 --label rsa-key
++openssl pkey -in "$scratch/key.pem" -pubout -outform DER -out "$scratch/pub.der"
++"$tool" --module "$module" --token-label rsa-import-regression --login --pin 123456 --write-object "$scratch/pub.der" --type pubkey --id 01 --label rsa-key
++printf 'OpenSC OpenSSL3 RSA private import regression\n' > "$scratch/input"
++"$tool" --module "$module" --token-label rsa-import-regression --login --pin 123456 --sign --mechanism SHA256-RSA-PKCS --id 01 --input-file "$scratch/input" --output-file "$scratch/signature"
++openssl pkey -in "$scratch/key.pem" -pubout -out "$scratch/pub.pem"
++openssl dgst -sha256 -verify "$scratch/pub.pem" -signature "$scratch/signature" "$scratch/input"
++echo "RSA PKCS1 private import and signature verification passed"
