@@ -1,0 +1,21 @@
+{
+  "package_id": "openrc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1b661016bd8cd4189be83b441dd7062c967b641fdc00f741e359e22d06857df8"
+      },
+      "filename": "openrc-0.63.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/OpenRC/openrc/archive/refs/tags/0.63.tar.gz",
+      "version": "0.63"
+    }
+  ]
+}
