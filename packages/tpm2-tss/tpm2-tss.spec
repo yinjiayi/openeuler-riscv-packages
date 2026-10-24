@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tpm2-tss
-Version:        4.1.3
-Release:        5%{?dist}
+Version:        4.2.0
+Release:        1%{?dist}
 Summary:        Implementation of the TCG Trusted Platform Module 2.0 Software Stack (TSS2)
 License:        BSD-2-Clause
 URL:            https://github.com/tpm2-software/tpm2-tss
-Source0:        tpm2-tss-4.1.3.tar.gz
+Source0:        tpm2-tss-4.2.0.tar.gz
 BuildRequires:  gcc
 BuildRequires:  json-c-devel
 BuildRequires:  libcmocka-devel
