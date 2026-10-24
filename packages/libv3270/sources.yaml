@@ -1,0 +1,21 @@
+{
+  "package_id": "libv3270",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "74a20001fe2e8752af32be8b2f5d71e561b5b28f0a27be826ce69f9a092effb9"
+      },
+      "filename": "libv3270-5.5.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/PerryWerneck/libv3270/archive/refs/tags/5.5.0.tar.gz",
+      "version": "5.5.0"
+    }
+  ]
+}
