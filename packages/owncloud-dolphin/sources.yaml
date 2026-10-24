@@ -1,0 +1,21 @@
+{
+  "package_id": "owncloud-dolphin",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5b9c701b66e799cc470f0072ba37d3834d9c132b348638c9deb81a77253a321e"
+      },
+      "filename": "owncloud-dolphin-6.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/owncloud/client-desktop-shell-integration-dolphin/archive/refs/tags/v6.0.0.tar.gz",
+      "version": "6.0.0"
+    }
+  ]
+}
