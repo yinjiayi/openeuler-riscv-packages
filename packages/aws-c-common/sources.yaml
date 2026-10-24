@@ -1,0 +1,21 @@
+{
+  "package_id": "aws-c-common",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f47dea1686742098db2ae5a9f7296af4fc8d27494dc80e03e4fa2fe802fa86ab"
+      },
+      "filename": "aws-c-common-0.14.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/awslabs/aws-c-common/archive/refs/tags/v0.14.4.tar.gz",
+      "version": "0.14.4"
+    }
+  ]
+}
