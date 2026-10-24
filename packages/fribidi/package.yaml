@@ -65,7 +65,9 @@
     "spec": "fribidi.spec"
   },
   "maintenance": {
-    "maintainers": ["yinjiayi"],
+    "maintainers": [
+      "yinjiayi"
+    ],
     "notes": "Official FriBidi 1.0.16 stable release asset is independently SHA-256 pinned and every frozen stable distribution lineage confirms the 1.0.16 line. The AUR fribidi-git row is VCS-only, older than 730 days at observation time, and excluded as a source. AUR was queried through RPC only; no AUR recipe or distribution spec was executed. Pre-generated documentation is present in the official tarball and the complete upstream Meson test suite remains enabled.",
     "status": "active"
   },
@@ -85,7 +87,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-10-14T23:59:25Z",
     "last_successful_check_at": null,
     "release_provider": "github-releases"
   },
@@ -98,5 +100,9 @@
     "source_repository": "https://github.com/fribidi/fribidi",
     "source_url_template": "https://github.com/fribidi/fribidi/releases/download/v{version}/fribidi-{version}.tar.xz"
   },
-  "version": {"current": "1.0.16", "latest_detected": "1.0.16", "release": "1"}
+  "version": {
+    "current": "1.0.17",
+    "latest_detected": "1.0.17",
+    "release": "1"
+  }
 }

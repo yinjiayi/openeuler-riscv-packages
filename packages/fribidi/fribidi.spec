@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           fribidi
-Version:        1.0.16
+Version:        1.0.17
 Release:        1%{?dist}
 Summary:        Unicode Bidirectional Algorithm implementation
 License:        LGPL-2.1-or-later AND Unicode-DFS-2016
 URL:            https://github.com/fribidi/fribidi
-Source0:        fribidi-%{version}.tar.xz
+Source0:        fribidi-1.0.17.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  meson
