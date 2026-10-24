@@ -1,0 +1,21 @@
+{
+  "package_id": "obs-noise",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4a130840928f6f71eac367974250bc16c3ae4508256b3676c8c5e72aa9178cd0"
+      },
+      "filename": "obs-noise-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/FiniteSingularity/obs-noise/archive/refs/tags/v1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
