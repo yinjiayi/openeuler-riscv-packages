@@ -49,6 +49,15 @@ Makefiles define zero upstream runtime cases: success alone is not a suite.
 Six added asserted API cases cover model lookup, template layout, session/domain,
 IPFIX headers, byte order and in-memory export/collection round-trip. They use
 no sockets, privileges or timing threshold. -UNDEBUG retains assertions.
+The buffer exporter overwrites its caller's buffer on every emit; the driver
+therefore explicitly emits and retains the Template Message before the Data
+Message. It asserts the template's header/domain, Set ID 2, Template ID 257,
+two IPv4 fields (IDs 8/12, each four bytes), and both message lengths. The
+collector receives the two complete messages in order and learns its external
+template from the wire; no external collector template is preinstalled. The
+original data header, network byte order and exact round-trip value assertions
+remain strict. Unbuffered diagnostic output preserves earlier case results if
+a later assertion fails.
 Installed smoke verifies post-strip driver/source hashes and all six cases;
 after clearing loader overrides it checks four exact function bindings to the
 installed library, accepts /lib64 and /usr/lib64 only after canonical path

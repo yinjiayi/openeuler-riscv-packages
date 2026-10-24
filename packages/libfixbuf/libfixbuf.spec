@@ -81,8 +81,10 @@ static fbTemplate_t *template_for(fbInfoModel_t *m) {
     return t;
 }
 int main(void) {
+    assert(setvbuf(stdout, NULL, _IONBF, 0) == 0);
     GError *err = NULL;
     uint8_t wire[4096] = {0};
+    uint8_t stream[sizeof(wire) * 2] = {0};
     uint32_t in[2] = {0x0a000001, 0xc0000201}, out[2] = {0, 0};
     const uint8_t expected[8] = {10, 0, 0, 1, 192, 0, 2, 1};
     fbInfoModel_t *model = fbInfoModelAlloc();
@@ -108,6 +110,22 @@ int main(void) {
     assert(writer != NULL);
     fBufSetExportTime(writer, 1700000000);
     assert(fbSessionExportTemplates(s, &err));
+    /* Buffer exporters replace buf[0] on each emit, rather than append.
+     * Preserve the complete template message before emitting the data. */
+    assert(fBufEmit(writer, &err));
+    assert(err == NULL);
+    size_t template_len = fbExporterGetMsgLen(exp);
+    assert(template_len == 32 && template_len <= sizeof(wire));
+    assert(wire[0] == 0 && wire[1] == 10);
+    assert((((size_t)wire[2] << 8) | wire[3]) == template_len);
+    assert(wire[12] == 0 && wire[13] == 1 && wire[14] == 0x23 && wire[15] == 0x45);
+    assert(wire[16] == 0 && wire[17] == 2);  /* Template Set */
+    assert(wire[18] == 0 && wire[19] == 16);
+    assert(wire[20] == 1 && wire[21] == 1);  /* Template 257 */
+    assert(wire[22] == 0 && wire[23] == 2);  /* Two fields */
+    assert(wire[24] == 0 && wire[25] == 8 && wire[26] == 0 && wire[27] == 4);
+    assert(wire[28] == 0 && wire[29] == 12 && wire[30] == 0 && wire[31] == 4);
+    memcpy(stream, wire, template_len);
     assert(fBufSetInternalTemplate(writer, 256, &err));
     assert(fBufSetExportTemplate(writer, 257, &err));
     assert(fBufAppend(writer, (uint8_t *)in, sizeof(in), &err));
@@ -121,13 +139,19 @@ int main(void) {
     puts("API case4 IPFIX-header PASS");
     assert(memcmp(wire + len - sizeof(expected), expected, sizeof(expected)) == 0);
     puts("API case5 network-byte-order PASS");
+    assert(len == 28 && wire[16] == 1 && wire[17] == 1);
+    assert(wire[18] == 0 && wire[19] == 12);
+    assert(template_len + len <= sizeof(stream));
+    memcpy(stream + template_len, wire, len);
     fbSession_t *rs = fbSessionAlloc(model);
     assert(rs != NULL);
     assert(fbSessionAddTemplate(rs, TRUE, 256, template_for(model), &err) == 256);
     fBuf_t *reader = fBufAllocForCollection(rs, NULL);
     assert(reader != NULL);
     assert(fBufSetInternalTemplate(reader, 256, &err));
-    fBufSetBuffer(reader, wire, len);
+    /* The reader must learn external 257 from the actual first wire message;
+     * only its internal memory template is registered in advance. */
+    fBufSetBuffer(reader, stream, template_len + len);
     size_t size = sizeof(out);
     assert(fBufNext(reader, (uint8_t *)out, &size, &err));
     assert(err == NULL && size == sizeof(in));
