@@ -1,0 +1,53 @@
+{
+  "package_id": "libfixbuf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "106b8e1e560928a4dc91d8264326bd2463767570d77417535964f450de1f972e"
+      },
+      "filename": "libfixbuf-2.5.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official published SHA256 matches. LGPL3 library, CC0 IANA registry data, bundled documentation JavaScript and build helpers retain their complete permissive/copyleft-exception notices. Preserve all119 originals plus GPL2/GPL3/CC0 texts and IANA policy."
+      },
+      "signature": null,
+      "url": "https://tools.netsa.cert.org/releases/libfixbuf-2.5.4.tar.gz",
+      "version": "2.5.4"
+    },
+    {
+      "id": "source1", "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/COPYING",
+      "filename": "gpl-2.0.txt", "version": "GPL-2.0",
+      "digests": {"sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Verbatim GPL2 license document for bundled helpers; fixed official GCC mirror commit, no GCC implementation reused."}
+    },
+    {
+      "id": "source2", "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/COPYING3",
+      "filename": "gpl-3.0.txt", "version": "GPL-3.0",
+      "digests": {"sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Verbatim GPL3 document incorporated by LGPL3 and used by bundled helpers; fixed official GCC mirror commit."}
+    },
+    {
+      "id": "source3", "kind": "upstream-release",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+      "filename": "CC0-1.0.txt", "version": "CC0-1.0",
+      "digests": {"sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Official CC0 legal text for IANA IPFIX registry data, affirmed by joint IANA/IETF statement."}
+    },
+    {
+      "id": "source4", "kind": "upstream-release",
+      "url": "https://www.iana.org/help/licensing-terms",
+      "filename": "iana-registry-licensing.html", "version": "2021-11-10",
+      "digests": {"sha256": "16887b36c23739ae51b44d02cfd4e909302ece8325f815a763287afcbd589ae3"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Verbatim licensing notice establishing CC0 for technical Protocol Registries; retained as rights evidence, not a grant over separately linked RFCs."}
+    }
+  ]
+}
