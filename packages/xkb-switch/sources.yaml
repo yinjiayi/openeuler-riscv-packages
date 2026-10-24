@@ -1,0 +1,21 @@
+{
+  "package_id": "xkb-switch",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "89e7cc64a3bfc481b0e341b79320de4f0adbdba49b551988fe4bf02f6ae9e003"
+      },
+      "filename": "xkb-switch-1.8.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/grwlf/xkb-switch/archive/refs/tags/1.8.5.tar.gz",
+      "version": "1.8.5"
+    }
+  ]
+}
