@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/spotrh/libxdiff",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libxdiff",
+        "package_name": "libxdiff",
+        "source": "fedora",
+        "source_version": "1.0-30.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libxdiff.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official tag1.0 commit9c6289c5a088bf24f18f0b7bf8acaaf643aa411d archive and all39 Git blobs verified; genuine frozen Fedora lineage retained. Preserve default shared/static, original make check has0 cases; packaging adds6 text diff/merge API cases and installed shared bindings. Full official-base static provider/namespace reviewed, not target or supplemental acceptance. No local source QA/RPM/QEMU executed.",
+    "status": "active"
+  },
+  "package_id": "libxdiff",
+  "rpm": {
+    "license": "LGPL-2.1-or-later AND BSD-3-Clause AND FSFULLR AND MIT AND (GPL-2.0-or-later WITH Autoconf-exception-generic) AND (GPL-3.0-or-later WITH Autoconf-exception-generic) AND (GPL-2.0-or-later WITH Libtool-exception) AND ISC",
+    "name": "libxdiff",
+    "summary": "Standalone text difference and merge library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-spotrh-libxdiff",
+    "homepage": "https://github.com/spotrh/libxdiff",
+    "release_api": "https://api.github.com/repos/spotrh/libxdiff/tags",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/spotrh/libxdiff",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.0",
+    "latest_detected": "1.0",
+    "release": "1"
+  }
+}
