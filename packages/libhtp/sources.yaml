@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libhtp",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "version": "0.5.53",
+      "filename": "libhtp-0.5.53.tar.gz",
+      "url": "https://codeload.github.com/OISF/libhtp/tar.gz/16e23594c61f7719f8cb1cd19ca69bbafb37a0eb",
+      "digests": {
+        "sha256": "47413d7da92edf6becec880985e660f2ece95c755ab59becfd062d369c71e35f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The OISF code is BSD-3-Clause; the included LZMA decoder declares public domain and vendored test-only Google Test is BSD-3-Clause."
+      }
+    }
+  ]
+}
