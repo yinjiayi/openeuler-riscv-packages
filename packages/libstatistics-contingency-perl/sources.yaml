@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstatistics-contingency-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Statistics-Contingency-0.09.tar.gz",
+      "version": "0.09",
+      "url": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Statistics-Contingency-0.09.tar.gz",
+      "digests": {
+        "sha256": "4b50621c4974937564ce76b523e9073db50e67de6f5bfae92f088b3ae22975bf"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Distribution-wide LICENSE and module POD grant Perl 5 terms, including GPL-1.0-or-later; Debian Files:* confirms. No vendored code or third-party data. KWILLIAMS publisher CHECKSUMS confirms the full SHA-256."
+      }
+    }
+  ]
+}
