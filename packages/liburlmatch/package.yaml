@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/clbr/urlmatch",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "liburlmatch",
+        "package_name": "liburlmatch",
+        "source": "aur",
+        "source_version": "1.0-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "liburlmatch.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v1.0 tag pinned to 24f72a0ea15402d28143fc84ca60b13f3dd033a7; source SHA-256 and all 25 Git blobs checked. AGPL-3.0-only grant and complete COPYING retained. Default static-only build and all eight original test programs retained; direct exit checks close the upstream runner's status-propagation gap. Installed replay compiles unchanged original sources against the installed header/archive. No local upstream/RPM/QEMU execution or target acceptance claimed; target CI must pass independently.",
+    "status": "active"
+  },
+  "package_id": "liburlmatch",
+  "rpm": {
+    "license": "AGPL-3.0-only",
+    "name": "liburlmatch",
+    "summary": "Static URL wildcard matching development library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-clbr-urlmatch",
+    "homepage": "https://github.com/clbr/urlmatch",
+    "release_api": "https://api.github.com/repos/clbr/urlmatch/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v?([0-9]+[.][0-9]+(?:[.][0-9]+)?)$",
+    "source_repository": "https://github.com/clbr/urlmatch",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.0",
+    "latest_detected": "1.0",
+    "release": "1"
+  }
+}
