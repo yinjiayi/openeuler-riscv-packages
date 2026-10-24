@@ -60,8 +60,15 @@ remain strict. Unbuffered diagnostic output preserves earlier case results if
 a later assertion fails.
 Installed smoke verifies post-strip driver/source hashes and all six cases;
 after clearing loader overrides it checks four exact function bindings to the
-installed library, accepts /lib64 and /usr/lib64 only after canonical path
-checks, and logs the full raw loader trace plus its SHA256 before cleanup.
+installed library, and logs the full raw loader trace plus its SHA256 before
+cleanup (also retaining the real driver status and trace on failure). The
+driver is invoked by its absolute installed path. Each exact `normal symbol`
+record must identify that installed driver and the same physical file as
+`/usr/lib64/libfixbuf.so.9.1.2`, using Bash file identity (`-ef`). Absolute
+loader aliases, including the observed `/lib64/lp64d/libfixbuf.so.9`, satisfy
+the check only if they identify that same installed file. Relative paths,
+different callers or files, similarly named symbols and contradictory target
+records do not satisfy the check; no library-path allowlist replaces identity.
 
 ## Scope and limitations
 
