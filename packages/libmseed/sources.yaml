@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "libmseed",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/EarthScope/libmseed/tar.gz/d6e6ad306de5b7bdde072e5a5e3d58ddcc11abd8",
+      "filename": "libmseed-3.5.4.tar.gz",
+      "version": "3.5.4",
+      "digests": {"sha256": "f803cb93168a055fc1ae1d79bade4ecf418d3091f2a6a9d84f728b7d5096e819"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Redistribution and modification are permitted by the official Apache-2.0 license."}
+    }
+  ]
+}
