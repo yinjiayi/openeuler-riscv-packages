@@ -43,6 +43,15 @@ performance or native-hardware claims. The original tests and fixtures are
 unchanged. The relative `lib64` CMake install directory is intentional because
 upstream also uses that variable in a build-tree `export(FILE ...)` path.
 
+Installed smoke retains the full loader trace before checking its results,
+including when the driver fails. For each of the four exact symbols it requires
+a binding from the installed driver to the same physical file as
+`/usr/lib64/libspatialindex_c.so.8`, using Bash file identity (`-ef`). Absolute
+symlink aliases are accepted only when they identify that same installed file;
+bindings to the C++ library, another file, a different caller or a similarly
+named symbol do not satisfy the check. This avoids relying on one loader path
+spelling without weakening the installed-library requirement.
+
 The fresh official-base audit joins all 18,503 primary package records with
 2,207,942 file-list rows, including exact header/library/CMake/pkg-config,
 private test, documentation, license and debug namespace boundaries. It finds
