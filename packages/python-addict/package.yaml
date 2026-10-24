@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/python-addict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-addict",
+        "package_name": "python-addict",
+        "source": "aur",
+        "source_version": "2.4.0-5"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/python-addict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-addict",
+        "package_name": "python-addict",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.4.0-2.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-addict.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official latest stable 2.4.0 fixed tag archive retains all 10 Git blobs, original full MIT notice, and unmodified tests. Frozen stale AUR and non-stale openSUSE lineage remains original discovery evidence; current official tag/PyPI establishes release identity. Original workflow pytest, Travis coverage run --source=addict setup.py test and documented unittest CLI are retained, including all 64 static methods inherited by two concrete classes. Setuptools68 preserves original test_suite failure propagation; source coverage uses fresh COVERAGE_FILE. Coveralls after_success is external publication, excluded by no-upstream-write policy, not a discarded test. Pytest is supplied and retained as an explicit installed acceptance dependency, not an upstream library runtime requirement. No source patches or local upstream/backend/test/RPM/QEMU execution; target CI pending.",
+    "status": "active"
+  },
+  "package_id": "python-addict",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-addict",
+    "summary": "Dictionary supporting attribute and item syntax"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-mewwts-addict",
+    "homepage": "https://github.com/mewwts/addict",
+    "release_api": "https://api.github.com/repos/mewwts/addict/tags",
+    "release_channel": "stable",
+    "release_regex": "^v?([0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/mewwts/addict",
+    "source_url_template": "https://github.com/mewwts/addict/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.4.0",
+    "latest_detected": "2.4.0",
+    "release": "1"
+  }
+}
