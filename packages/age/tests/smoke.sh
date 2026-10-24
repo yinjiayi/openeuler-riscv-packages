@@ -3,9 +3,10 @@
 set -euo pipefail
 
 rpm -q -- age
+expected_version=$(rpm -q --qf 'v%{VERSION}' -- age)
 for command in age age-keygen age-inspect age-plugin-batchpass; do
     test -x "/usr/bin/${command}"
-    "${command}" --version | grep -Fx 'v1.3.1'
+    "${command}" --version | grep -Fx -- "$expected_version"
 done
 
 smoke_dir=$(mktemp -d)
