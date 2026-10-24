@@ -207,6 +207,30 @@ failures produce an explicit `unavailable` resolution and a disabled
 supplemental repository file. Redirects, non-transient HTTP responses, JSON,
 URL, generation, and checksum integrity failures still fail closed.
 
+A **supplemental metadata capture** is the complete, inert metadata evidence
+retained by the package CI `repository-snapshot` job after resolution. It saves
+the exact immutable `state.json`, both `repomd.xml` files, and the compressed
+and opened primary/filelists bytes for both binary and source repositories
+(ten metadata files). The receipt binds these bytes to the resolution, exact
+package/tooling commits, package tree, run ID and attempt. A complete unique
+pkgid/NEVRA join and state-bound package counts cover the full namespace; this
+is metadata-only evidence, not RPM payload, build, installation, publication,
+or merge acceptance. The existing seven-day repository artifact retains it.
+
+Capture does not change repository selection, resolution fallback, DNF, or
+trust policy. An explicitly disabled official-only fallback is recorded as
+`not-applicable` without fetching supplemental metadata. Enabled metadata
+that is missing or invalid fails CI; it is never silently skipped. Gzip,
+bzip2 and xz decoding uses the standard library; zstd requires the already
+installed fixed `/usr/bin/zstd` executable, otherwise capture fails closed
+without installing anything. Actual endpoint compression and runner decoder
+availability are verified at execution, not assumed by this documentation.
+Single-file compressed/open XML limits (16/64 MiB), a 128 MiB xz/zstd decoder
+memory limit and zstd's 30-second deadline are defensive parser limits, not
+an artifact-size or aggregate M1 budget. Gzip/bzip2/xz require a single
+complete stream with no trailing bytes; all formats must match the declared
+compressed and open sizes and SHA-256 checksums.
+
 `RPM Repository Backfill` builds every active non-golden package whose policy
 does not require native RISC-V hardware. It runs up to 20 independent package
 builds in parallel, publishes both RPM and SRPM products, and records native,
