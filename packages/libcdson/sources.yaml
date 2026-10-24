@@ -1,0 +1,21 @@
+{
+  "package_id": "libcdson",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "74812cd93cc9051048cbeb2fb35c81d5cb22bfb0c918228f3ce11ff9b436447e"
+      },
+      "filename": "libcdson-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/frozencemetery/cdson/archive/refs/tags/v1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
