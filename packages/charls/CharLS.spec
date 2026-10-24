@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           CharLS
-Version:        2.4.4
+Version:        2.4.5
 Release:        1%{?dist}
 Summary:        JPEG-LS image codec library
 License:        BSD-3-Clause
 URL:            https://github.com/team-charls/charls
-Source0:        charls-%{version}.tar.gz
+Source0:        2.4.5.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
