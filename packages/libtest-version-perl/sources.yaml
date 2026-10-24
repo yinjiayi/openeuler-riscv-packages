@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-version-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Test-Version-2.09.tar.gz",
+      "version": "2.09",
+      "url": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Test-Version-2.09.tar.gz",
+      "digests": {
+        "sha256": "9ce1dd2897a5f30e1b7f8966ec66f57d8d8f280f605f28c7ca221fa79aca38e0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS; its archive-wide LICENSE and installed module explicitly grant Artistic-2.0 redistribution."
+      }
+    }
+  ]
+}
