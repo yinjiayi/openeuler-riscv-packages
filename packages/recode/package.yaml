@@ -60,7 +60,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "The official v3.7.15 release asset is the current stable upstream source and is pinned by SHA-256. Arch, Fedora 44, Debian, openSUSE, and Ubuntu corroborate the frozen lineage; AUR RPC returned no matching package and no external recipe was executed. Version 3.7.15-1 supersedes target EVR 3.7.14-1 while preserving librecode.so.3, recode-static, and the target main/devel/help splits.",
+    "notes": "The official v3.7.17 release asset is the current stable upstream source and is pinned by SHA-256. Arch, Fedora 44, Debian, openSUSE, and Ubuntu corroborate the frozen lineage; AUR RPC returned no matching package and no external recipe was executed. Version 3.7.17-2 supersedes target EVR 3.7.14-1 while preserving librecode.so.3, recode-static, and the target main/devel/help splits. All three ordinary subpackages preserve complete original BSD and mixed-license notice source files alongside COPYING and COPYING-LIB; installed smoke checks their whole-file SHA-256 and RPM license ownership.",
     "status": "active"
   },
   "package_id": "recode",
@@ -79,7 +79,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": "2026-09-23T22:27:40Z",
+    "last_checked_at": "2026-10-07T23:03:14Z",
     "last_successful_check_at": null,
     "release_provider": "github-releases-latest"
   },
@@ -93,8 +93,8 @@
     "source_url_template": "https://github.com/rrthomas/recode/releases/download/v{version}/recode-{version}.tar.gz"
   },
   "version": {
-    "current": "3.7.16",
-    "latest_detected": "3.7.16",
-    "release": "1"
+    "current": "3.7.17",
+    "latest_detected": "3.7.17",
+    "release": "2"
   }
 }
