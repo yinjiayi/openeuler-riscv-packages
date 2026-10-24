@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-numerical-sample-perl",
+  "rpm": {
+    "name": "perl-Algorithm-Numerical-Sample",
+    "summary": "Random sampling from finite and streamed sets in Perl",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "libalgorithm-numerical-sample-perl",
+    "homepage": "https://metacpan.org/dist/Algorithm-Numerical-Sample",
+    "source_repository": "https://github.com/Abigail/Algorithm--Numerical--Sample",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AB/ABIGAIL/",
+    "release_regex": "Algorithm-Numerical-Sample-(?P<version>[0-9]+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AB/ABIGAIL/Algorithm-Numerical-Sample-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2010011201",
+    "release": "1",
+    "latest_detected": "2010011201"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libalgorithm-numerical-sample-perl",
+        "package_base": "libalgorithm-numerical-sample-perl",
+        "source_version": "2010011201-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libalgorithm-numerical-sample-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libalgorithm-numerical-sample-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libalgorithm-numerical-sample-perl key maps to official CPAN release 2010011201. CPAN CHECKSUMS SHA-256, safe archive, included MIT text, and all four default test files were reviewed. The default tests primarily cover loading and POD, not statistical fairness; installed smoke adds bounded sampling invariants without claiming fairness. Test::Pod, Test::Pod::Coverage, and Test::NoWarnings are declared to keep the optional upstream checks active in target CI. The official target RVA23 Everything primary metadata has no same-name RPM or module provider."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
