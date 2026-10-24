@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://troydhanson.github.io/tpl/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtpl",
+        "package_name": "libtpl",
+        "source": "debian",
+        "source_version": "1.6.1-1.1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtpl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v1.6.1 tag commit and all 399 source blobs verified; BSD1 core and embedded GPL documentation retained. Original defaults and unchanged 125-compiled/124-answer-compared suite retained; six additional API cases and installed dynamic bindings await target CI. No distribution packaging code reused.",
+    "status": "active"
+  },
+  "package_id": "libtpl",
+  "rpm": {
+    "license": "BSD-1-Clause AND GPL-2.0-or-later AND ISC",
+    "name": "libtpl",
+    "summary": "Lightweight C serialization library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "troydhanson.github.io-tpl",
+    "homepage": "https://troydhanson.github.io/tpl/",
+    "release_api": "https://api.github.com/repos/troydhanson/tpl/releases",
+    "release_channel": "stable",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/troydhanson/tpl",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.6.1",
+    "latest_detected": "1.6.1",
+    "release": "1"
+  }
+}
