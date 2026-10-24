@@ -1,0 +1,21 @@
+{
+  "package_id": "ublksrv",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "77819bf5bc500640fc4c3af4e544da1d10b5a5ef2922cb0b7cf904d84d4e83b5"
+      },
+      "filename": "ublksrv-1.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/ublk-org/ublksrv/archive/refs/tags/v1.6.tar.gz",
+      "version": "1.6"
+    }
+  ]
+}
