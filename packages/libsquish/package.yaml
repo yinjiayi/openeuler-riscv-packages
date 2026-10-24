@@ -1,0 +1,79 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 90,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://sourceforge.net/projects/libsquish/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libsquish",
+        "package_name": "libsquish",
+        "source": "ubuntu",
+        "source_version": "1.15-4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-default-sse2-only-on-x86.patch",
+        "sha256": "eea91831aa8874fa79a228e7dff786dc1337d5ff1e0c7fa553704ad03b061efd",
+        "purpose": "Preserve the upstream x86 SSE2 default while choosing its existing scalar backend by default on other architectures; explicit overrides remain intact.",
+        "source": "Package-authored modification of fixed official libsquish 1.15 CMakeLists.txt line 18; no upstream write.",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "A verified official release selects architecture-compatible defaults with the same feature semantics without this patch."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libsquish.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed SourceForge archive and complete 54-member rights/default review retained in intake receipts; no catalog registry write or distribution recipe execution. Preserve default static/OpenMP build and add separate shared validation.",
+    "status": "active"
+  },
+  "package_id": "libsquish",
+  "rpm": {
+    "license": "MIT",
+    "name": "libsquish",
+    "summary": "DXT texture compression library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libsquish",
+    "homepage": "https://sourceforge.net/projects/libsquish/",
+    "release_api": "https://sourceforge.net/projects/libsquish/files/",
+    "release_channel": "stable",
+    "release_regex": "^libsquish-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz$",
+    "source_repository": "https://sourceforge.net/projects/libsquish/",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.15",
+    "latest_detected": "1.15",
+    "release": "1"
+  }
+}
