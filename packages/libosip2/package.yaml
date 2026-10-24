@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "package_id": "libosip2",
+  "rpm": {"name": "libosip2", "summary": "GNU oSIP library for SIP message parsing and transactions", "license": "LGPL-2.1-or-later"},
+  "upstream": {
+    "component": "gnu.org-software-osip",
+    "homepage": "https://www.gnu.org/software/osip/",
+    "source_repository": "https://git.savannah.gnu.org/git/osip.git",
+    "release_channel": "stable",
+    "release_api": "https://ftp.gnu.org/gnu/osip/",
+    "release_regex": "libosip2-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://ftp.gnu.org/gnu/osip/libosip2-{version}.tar.gz"
+  },
+  "version": {"current": "5.3.2", "release": "1", "latest_detected": "5.3.2"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "aur", "package_name": "libosip2", "package_base": "libosip2", "source_version": "1:5.3.1-1", "evidence_url": "https://aur.archlinux.org/packages/libosip2", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libosip2.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "The frozen AUR discovery is marked stale and only identifies the component; the current official GNU FTP 5.3.2 archive was independently verified and SHA-256 pinned. No AUR PKGBUILD or distribution recipe was read or executed. Multithreaded support and all upstream SIP fixtures remain enabled. The upstream test driver reports counts but returns zero on fixture failures, so %check enforces full pass counts."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "gnu-ftp-index"}
+}
