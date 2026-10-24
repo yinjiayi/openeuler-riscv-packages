@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-pond-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Pond-0.006.tar.gz",
+      "version": "0.006",
+      "url": "https://cpan.metacpan.org/authors/id/D/DB/DBOOK/Data-Pond-0.006.tar.gz",
+      "digests": {
+        "sha256": "9c0efa899e7cd575457c6f6894573e7bf0f645d4099e4ab64b6836540f5f403e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official publisher CHECKSUMS agrees with the independently downloaded HTTPS archive. Distribution-level META.json and Build.PL declare Perl 5 licensing; README and Data::Pond POD name both copyright holders and grant same-Perl redistribution. The source-local build shim and XS file have no contrary notice or third-party library attribution."
+      }
+    }
+  ]
+}
