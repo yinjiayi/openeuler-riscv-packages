@@ -1,0 +1,21 @@
+{
+  "package_id": "liboauth2",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7225b9c4c732eae8716143ef910c67b39bd364a3547b32e5dd70d539d4eacd67"
+      },
+      "filename": "liboauth2-2.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/OpenIDC/liboauth2/archive/refs/tags/v2.2.0.tar.gz",
+      "version": "2.2.0"
+    }
+  ]
+}
