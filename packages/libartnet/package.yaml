@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/atlesn/libartnet",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libartnet",
+        "package_name": "libartnet",
+        "source": "aur",
+        "source_version": "1.2.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-fix-configure-and-pkgconfig-contract.patch",
+      "sha256": "39f00f0de5a5e7e4cbbee398eb1d4ce278a594dec3a07d3ae61574f8d9f48450",
+      "purpose": "Make the existing IPv6 configure probe valid modern C and advertise the actual public-header include root to pkg-config consumers; no target or protocol workaround.",
+      "source": "Original downstream changes against official atlesn/libartnet commit 416a83e92d150e8e0295a9aabd7ad1fb1c1689bc; not copied from distribution packaging.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "not-submitted",
+      "remove_when": "A verified official stable release supplies a declared int main/stdlib IPv6 probe and pkg-config Cflags compatible with installed artnet headers."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libartnet.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v1.2.0 tag/fixed commit and all42 Git blobs independently checked. Retain historical AUR stale rejection as lineage, not release authority; current official source independently verified. Default autotools shared/static libraries, warnings including Werror and make check retained; no registered upstream test suite. One generic configure/pkg-config patch, no RISC-V/protocol workaround. Separate limited offline O0/O2 public-header/SONAME/NULL-argument consumer, not network/DMX interoperability. Complete original LGPL2.1 text and notices retained. Target DNF/build/install/physical and native/protocol acceptance pending; no local target execution.",
+    "status": "active"
+  },
+  "package_id": "libartnet",
+  "rpm": {
+    "license": "LGPL-2.1-or-later",
+    "name": "libartnet",
+    "summary": "ArtNet protocol implementation for DMX over IP"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-atlesn-libartnet",
+    "homepage": "https://github.com/atlesn/libartnet",
+    "release_api": "https://api.github.com/repos/atlesn/libartnet/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/atlesn/libartnet",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.2.0",
+    "latest_detected": "1.2.0",
+    "release": "1"
+  }
+}
