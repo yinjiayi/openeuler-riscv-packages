@@ -1,0 +1,21 @@
+{
+  "package_id": "playerctl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "75957ad5071956f563542c7557af16a57e40b4a7f66bc9b6373d022ec5eef548"
+      },
+      "filename": "playerctl-2.4.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/altdesktop/playerctl/archive/refs/tags/v2.4.1.tar.gz",
+      "version": "2.4.1"
+    }
+  ]
+}
