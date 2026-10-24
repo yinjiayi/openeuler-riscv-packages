@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tn93
-Version:        1.0.16
+Version:        1.1.0
 Release:        1%{?dist}
 Summary:        TN93 fast distance calculator
 License:        MIT
 URL:            https://github.com/veg/tn93
-Source0:        tn93-1.0.16.tar.gz
+Source0:        v1.1.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
