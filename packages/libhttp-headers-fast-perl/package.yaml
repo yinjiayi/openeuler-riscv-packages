@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libhttp-headers-fast-perl",
+  "rpm": {
+    "name": "perl-HTTP-Headers-Fast",
+    "summary": "HTTP header container compatible with HTTP::Headers",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libhttp-headers-fast-perl",
+    "homepage": "https://metacpan.org/dist/HTTP-Headers-Fast",
+    "source_repository": "https://github.com/tokuhirom/HTTP-Headers-Fast",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/",
+    "release_regex": "HTTP-Headers-Fast-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/HTTP-Headers-Fast-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.22",
+    "release": "1",
+    "latest_detected": "0.22"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libhttp-headers-fast-perl",
+        "package_base": "libhttp-headers-fast-perl",
+        "source_version": "0.22-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libhttp-headers-fast-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libhttp-headers-fast-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.22-3 maps to official CPAN 0.22; publisher CHECKSUMS matches the full source SHA-256. Distribution LICENSE explicitly grants Perl 5 GPL-1-or-later or Artistic-1.0 terms, consistent with README/POD/META. Official SP3 primary lacks same RPM/module and supplies Module::Build::Tiny, HTTP::Date, HTTP::Headers, URI, Test::Requires and all lazy runtime modules. Eight unchanged default tests passed 195 functional assertions locally without skips. No benchmark or native performance claim is made; exact-head target CI and physical products remain acceptance evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
