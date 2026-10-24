@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/python-grapheme",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-grapheme",
+        "package_name": "python-grapheme",
+        "source": "aur",
+        "source_version": "0.6.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-grapheme.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official PyPI final release 0.6.0 pinned by SHA-256, supplemented by same-source fixed Git commit for complete default tests, Unicode13 inputs and full MIT notice. No 0.6 Git tag; unsigned source policy disclosed. Full official Unicode data permission notice also pinned. No target build or installed acceptance claimed before CI.",
+    "status": "active"
+  },
+  "package_id": "python-grapheme",
+  "rpm": {
+    "license": "MIT AND Unicode-DFS-2016",
+    "name": "python-grapheme",
+    "summary": "Unicode grapheme cluster helpers for Python"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "github.com-alvinlindstam-grapheme",
+    "homepage": "https://github.com/alvinlindstam/grapheme",
+    "release_api": "https://pypi.org/pypi/grapheme/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/alvinlindstam/grapheme",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.6.0",
+    "latest_detected": "0.6.0",
+    "release": "1"
+  }
+}
