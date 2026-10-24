@@ -1,0 +1,239 @@
+From: openEuler RISC-V packaging
+Subject: [PATCH] Bound numeric parsing and close command pipes on every path
+SPDX-License-Identifier: ISC
+
+Original downstream static review of Libgeome 1.0. Check that each numeric
+conversion consumed input, reset errno per conversion, use unsigned ctype
+arguments, bound timezone coordinate indexing, and make command-output
+cleanup and limits explicit. Wait only for the owned child, retry EINTR.
+No build target, original driver, public API or optional service is removed.
+Not submitted upstream. Remove after an official release has equivalent
+fixes and passes the unchanged original drivers plus these regressions.
+
+--- a/util.c
++++ b/util.c
+@@ -174 +173,0 @@
+-		while (waitpid(-1, NULL, WNOHANG) != -1);
+@@ -185,2 +184,6 @@
+-
+-	if (waitpid(info->pid, status_out, 0) != info->pid) {
++	pid_t waited;
++
++	do {
++		waited = waitpid(info->pid, status_out, 0);
++	} while (waited < 0 && errno == EINTR);
++	if (waited != info->pid) {
+@@ -198 +200,0 @@
+-		while (waitpid(-1, NULL, WNOHANG) != -1);
+@@ -209 +211 @@
+-	char *p = s;
++	char *p = s, *start;
+@@ -219,2 +221,4 @@
+-	while (isspace(*p))
+-		p++;
++	while (isspace((unsigned char)*p))
++		p++;
++	errno = 0;
++	start = p;
+@@ -222,3 +226,3 @@
+-	if (errno)
+-		goto skip_latitude;
+-	while (isspace(*p))
++	if (errno || p == start)
++		goto skip_latitude;
++	while (isspace((unsigned char)*p))
+@@ -241,2 +245,4 @@
+-	while (isspace(*p))
+-		p++;
++	while (isspace((unsigned char)*p))
++		p++;
++	errno = 0;
++	start = p;
+@@ -244,3 +250,3 @@
+-	if (errno)
+-		goto skip_longitude;
+-	while (isspace(*p))
++	if (errno || p == start)
++		goto skip_longitude;
++	while (isspace((unsigned char)*p))
+@@ -261 +267 @@
+-	char *p = s;
++	char *p = s, *start;
+@@ -271 +277 @@
+-	while (isspace(*p))
++	while (isspace((unsigned char)*p))
+@@ -275,2 +281,4 @@
+-	while (isspace(*p))
+-		p++;
++	while (isspace((unsigned char)*p))
++		p++;
++	errno = 0;
++	start = p;
+@@ -278,3 +286,3 @@
+-	if (errno)
+-		goto skip_latitude;
+-	while (isspace(*p))
++	if (errno || p == start)
++		goto skip_latitude;
++	while (isspace((unsigned char)*p))
+@@ -297 +305 @@
+-	while (isspace(*p))
++	while (isspace((unsigned char)*p))
+@@ -301,2 +309,4 @@
+-	while (isspace(*p))
+-		p++;
++	while (isspace((unsigned char)*p))
++		p++;
++	errno = 0;
++	start = p;
+@@ -304,3 +314,3 @@
+-	if (errno)
+-		goto skip_longitude;
+-	while (isspace(*p))
++	if (errno || p == start)
++		goto skip_longitude;
++	while (isspace((unsigned char)*p))
+@@ -320,2 +330,3 @@
+-	errno = 0;
+-
++	char *start;
++	errno = 0;
++	start = s;
+@@ -323 +334 @@
+-	if (errno)
++	if (errno || s == start)
+@@ -326 +337 @@
+-	while (isspace(*s))
++	while (isspace((unsigned char)*s))
+@@ -330 +341 @@
+-	while (isspace(*s))
++	while (isspace((unsigned char)*s))
+@@ -332,0 +344,2 @@
++	errno = 0;
++	start = s;
+@@ -334 +347 @@
+-	if (errno)
++	if (errno || s == start)
+@@ -337 +350 @@
+-	while (isspace(*s))
++	while (isspace((unsigned char)*s))
+--- a/libgeome_get_from_file.c
++++ b/libgeome_get_from_file.c
+@@ -7,0 +8 @@
++	char *start;
+@@ -9 +10 @@
+-
++	start = s;
+@@ -11 +12 @@
+-	if (errno)
++	if (errno || s == start)
+@@ -14 +15 @@
+-	while (isspace(*s))
++	while (isspace((unsigned char)*s))
+@@ -18 +19 @@
+-	while (isspace(*s))
++	while (isspace((unsigned char)*s))
+@@ -20,0 +22,2 @@
++	errno = 0;
++	start = s;
+@@ -22 +25 @@
+-	if (errno)
++	if (errno || s == start)
+@@ -25 +28 @@
+-	while (isspace(*s) && *s != '\n')
++	while (isspace((unsigned char)*s) && *s != '\n')
+--- a/libgeome_get_from_timezone.c
++++ b/libgeome_get_from_timezone.c
+@@ -121,0 +122,3 @@
++	/* Bound both axes, allowing optional seconds independently. */
++	if (strlen(coords) != 11 && strlen(coords) != 13 && strlen(coords) != 15)
++		goto bad_coords;
+@@ -124,3 +127,3 @@
+-	if (!isdigit(coords[1]) || !isdigit(coords[2]))
+-		goto bad_coords;
+-	if (!isdigit(coords[3]) || !isdigit(coords[4]))
++	if (!isdigit((unsigned char)coords[1]) || !isdigit((unsigned char)coords[2]))
++		goto bad_coords;
++	if (!isdigit((unsigned char)coords[3]) || !isdigit((unsigned char)coords[4]))
+@@ -132 +135 @@
+-	if (isdigit(coords[0]) && isdigit(coords[1])) {
++	if (isdigit((unsigned char)coords[0]) && isdigit((unsigned char)coords[1])) {
+@@ -139,3 +142,3 @@
+-	if (!isdigit(coords[1]) || !isdigit(coords[2]) || !isdigit(coords[3]))
+-		goto bad_coords;
+-	if (!isdigit(coords[4]) || !isdigit(coords[5]))
++	if (!isdigit((unsigned char)coords[1]) || !isdigit((unsigned char)coords[2]) || !isdigit((unsigned char)coords[3]))
++		goto bad_coords;
++	if (!isdigit((unsigned char)coords[4]) || !isdigit((unsigned char)coords[5]))
+@@ -147 +150 @@
+-	if (isdigit(coords[0]) && isdigit(coords[1])) {
++	if (isdigit((unsigned char)coords[0]) && isdigit((unsigned char)coords[1])) {
+--- a/libgeome_get_from_command.c
++++ b/libgeome_get_from_command.c
+@@ -14,0 +15 @@
++	if (limit == SIZE_MAX) return NULL;
+@@ -18,0 +20,7 @@
++		if (len >= limit) {
++			/* Read one extra byte solely to reject truncated coordinate output. */
++			char extra;
++			do { r = read(fd, &extra, 1); } while (r < 0 && errno == EINTR);
++			if (!r) break;
++			goto read_fail;
++		}
+@@ -20,6 +28,4 @@
+-			size += 512U;
+-			new = realloc(ret, size);
+-			if (!new) {
+-				ctx->print_error(ctx, "realloc: %s\n", strerror(errno));
+-				goto read_fail;
+-			}
++			size_t grow = limit - size;
++			if (grow > 512U) grow = 512U;
++			new = realloc(ret, size + grow + 1U);
++			if (!new) goto read_fail;
+@@ -26,0 +33 @@
++			size += grow;
+@@ -29,12 +36,4 @@
+-		if (r <= 0) {
+-			if (!r)
+-				break;
+-			if (errno == EINTR)
+-				continue;
+-			ctx->print_error(ctx, "read <pipe>: %s\n", strerror(errno));
+-		read_fail:
+-			close(fd);
+-			free(ret);
+-			ret = NULL;
+-			libgeome_util_spawn_async_kill(ctx, &info, SIGKILL);
+-			break;
++		if (!r) break;
++		if (r < 0) {
++			if (errno == EINTR) continue;
++			goto read_fail;
+@@ -43,2 +41,0 @@
+-		if (len >= limit)
+-			break;
+@@ -46,6 +43,4 @@
+-
+-	if (len) {
+-		if (len == size)
+-			len--;
+-		ret[len] = '\0';
+-	} else {
++	close(fd);
++	if (ret) ret[len] = '\0';
++	if (libgeome_util_spawn_async_join(ctx, &info, &status) ||
++	    !WIFEXITED(status) || WEXITSTATUS(status) || !len) {
+@@ -54,0 +50 @@
++	return ret;
+@@ -56,4 +52,6 @@
+-	if (libgeome_util_spawn_async_join(ctx, &info, &status) || status != 0) {
+-		free(ret);
+-		ret = NULL;
+-	}
++read_fail:
++	close(fd);
++	free(ret);
++	libgeome_util_spawn_async_kill(ctx, &info, SIGKILL);
++	(void)libgeome_util_spawn_async_join(ctx, &info, &status);
++	ret = NULL;
