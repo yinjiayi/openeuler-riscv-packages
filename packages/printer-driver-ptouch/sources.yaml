@@ -1,0 +1,21 @@
+{
+  "package_id": "printer-driver-ptouch",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1033d1435cb080a740d3c5b3365422b8c318f4e04955bca35f7d21a116f16160"
+      },
+      "filename": "printer-driver-ptouch-1.7.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/philpem/printer-driver-ptouch/archive/refs/tags/v1.7.1.tar.gz",
+      "version": "1.7.1"
+    }
+  ]
+}
