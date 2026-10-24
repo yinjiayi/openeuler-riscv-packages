@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package_id": "libdevel-stacktrace-ashtml-perl",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release", "filename": "Devel-StackTrace-AsHTML-0.15.tar.gz", "version": "0.15",
+    "url": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/Devel-StackTrace-AsHTML-0.15.tar.gz",
+    "digests": {"sha256": "6283dbe2197e2f20009cc4b449997742169cdd951bfc44cbc6e62c2a962d3147"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "Official MIYAGAWA CHECKSUMS verifies the fixed HTTPS release. Top-level LICENSE grants same-as-Perl rights for this software and README applies its copyright statement to all files. README and PM credit HTML code from CGI::ExceptionManager; that earlier official distribution's README/PM and LICENSE explicitly grant same-as-Perl rights and name both Tokuhiro Matsuno and Kazuho Oku. No conflicting per-file notice was found."}
+  }]
+}
