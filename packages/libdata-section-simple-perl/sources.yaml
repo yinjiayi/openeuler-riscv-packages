@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-section-simple-perl",
+  "sources": [
+    {"id": "source0", "kind": "upstream-release", "filename": "Data-Section-Simple-0.07.tar.gz", "version": "0.07", "url": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/Data-Section-Simple-0.07.tar.gz", "digests": {"sha256": "0b3035ffdb909aa1f7ded6b608fa9d894421c82c097d51e7171170d67579a9cb"}, "signature": null, "redistribution": {"allowed": true, "reason": "Unchanged official CPAN release with Perl grant and Mojo attribution. Packaging separately preserves the verified original Artistic-2.0 license/disclaimer and derivative differences/non-overlapping namespace. This is a notice/accounting supplement, not a repack, invented rightsholder permission or legal certainty."}},
+    {"id": "source1", "kind": "upstream-release", "filename": "LICENSE.Mojo", "version": "2.0", "url": "https://raw.githubusercontent.com/mojolicious/mojo/3387874bbd0e8e8eadc8c8c2b9bb6903e7164fb6/LICENSE", "digests": {"sha256": "685e534b60d4e2b4fbb1a259a83b5a86e877a919bbb9efc95994276f706a3a71"}, "signature": null, "redistribution": {"allowed": true, "reason": "Byte-exact official Artistic-2.0 license supplement,8,894 bytes. Source kind uses the supported official-upstream-source vocabulary; version2.0 is the license version, not a claim that this historical Git commit is a Mojo stable release. The fixed origin LICENSE expressly permits verbatim license copies; original copyright/disclaimer is retained unchanged."}}
+  ]
+}
