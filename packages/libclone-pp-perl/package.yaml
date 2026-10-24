@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libclone-pp-perl",
+  "rpm": {
+    "name": "perl-Clone-PP",
+    "summary": "Pure-Perl cloning of nested data structures",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclone-pp-perl",
+    "homepage": "https://metacpan.org/dist/Clone-PP",
+    "source_repository": "https://github.com/neilbowers/Clone-PP",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_regex": "Clone-PP-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Clone-PP-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.09",
+    "release": "1",
+    "latest_detected": "1.09"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libclone-pp-perl",
+        "package_base": "libclone-pp-perl",
+        "source_version": "1.08-2",
+        "evidence_url": "https://packages.debian.org/source/stable/libclone-pp-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclone-pp-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian 1.08-2 lineage maps to official CPAN stable 1.09. Publisher CHECKSUMS matches archive SHA-256 4bb44697ef82105bd8d6204e550796a1eea89ce7108a98e0b7bf3ae4700d1c34; 20 safe archive entries. README and sole module POD grant this software the same use, modification and redistribution terms as Perl, including the acknowledged historical Ref.pm-derived portions; no contrary file notice found. Official SP3 RVA23 primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks the same RPM/module provider and supplies required Perl test/core providers. Unmodified local upstream default suite: seven files/48 planned tests passed, with two existing TODO diagnostics for documented reference-to-hash-element cloning limitations; target CI remains unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
