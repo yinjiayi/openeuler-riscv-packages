@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-Text-Wrapper
 Version:        1.05
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Wrap text by breaking long lines without changing spacing
-License:        GPL-1.0-or-later OR Artistic-1.0-Perl
+License:        GPL-1.0-or-later OR Artistic-1.0
 URL:            https://metacpan.org/dist/Text-Wrapper
 Source0:        Text-Wrapper-%{version}.tar.gz
 
@@ -43,5 +43,8 @@ find %{buildroot} -type f -name perllocal.pod -delete
 %{_mandir}/man3/Text::Wrapper.3*
 
 %changelog
+* Sun Oct 04 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.05-2
+- Correct the license identifier to the bundled generic Artistic 1.0 variant.
+
 * Wed Sep 30 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.05-1
 - Package official CPAN release with full default tests and installed smoke.
