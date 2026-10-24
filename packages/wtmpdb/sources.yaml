@@ -1,0 +1,21 @@
+{
+  "package_id": "wtmpdb",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fd7cabe65b20116d82a4452581a3754ea280bcca4241fdd567ea2ea84807006c"
+      },
+      "filename": "wtmpdb-0.76.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/thkukuk/wtmpdb/archive/refs/tags/v0.76.0.tar.gz",
+      "version": "0.76.0"
+    }
+  ]
+}
