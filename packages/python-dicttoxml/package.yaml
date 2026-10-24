@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/python-dicttoxml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-dicttoxml",
+        "package_name": "python-dicttoxml",
+        "source": "debian",
+        "source_version": "1.7.16-2"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/python-dicttoxml/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-dicttoxml",
+        "package_name": "python-dicttoxml",
+        "source": "fedora",
+        "source_version": "1.7.4-23.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/python-dicttoxml",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-dicttoxml",
+        "package_name": "python-dicttoxml",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.7.16-2.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-dicttoxml.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official PyPI sdist core source, README, setup.py and license match fixed upstream v1.7.16 commit. Upstream publishes no default test suite; additive README API checks run in RPM check and installed smoke. No local target build or upstream execution was performed.",
+    "status": "active"
+  },
+  "package_id": "python-dicttoxml",
+  "rpm": {
+    "license": "GPL-2.0-only",
+    "name": "python-dicttoxml",
+    "summary": "Convert native Python data into XML"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "github.com-quandyfactory-dicttoxml",
+    "homepage": "https://github.com/quandyfactory/dicttoxml",
+    "release_api": "https://pypi.org/simple/dicttoxml/",
+    "release_channel": "stable",
+    "release_regex": "(?P<source_url>https://files\\.pythonhosted\\.org/packages/[^\\\"<> ]+/dicttoxml-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz)",
+    "source_repository": "https://github.com/quandyfactory/dicttoxml",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.7.16",
+    "latest_detected": "1.7.16",
+    "release": "1"
+  }
+}
