@@ -1,0 +1,21 @@
+{
+  "package_id": "lambda",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "27009053e5f6b65f503cc60eb4473ac2a924192ce4d8ca84940aee2a8f198ac3"
+      },
+      "filename": "lambda-0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/drmenguin/lambda/archive/refs/tags/v0.2.tar.gz",
+      "version": "0.2"
+    }
+  ]
+}
