@@ -1,0 +1,21 @@
+{
+  "package_id": "aws-c-http",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4ccbdd33c798b590288330dec9e93abe2ff6cfb198b7a4db036c9d362f2e6506"
+      },
+      "filename": "aws-c-http-0.11.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/awslabs/aws-c-http/archive/refs/tags/v0.11.0.tar.gz",
+      "version": "0.11.0"
+    }
+  ]
+}
