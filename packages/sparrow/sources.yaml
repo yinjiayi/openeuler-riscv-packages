@@ -1,0 +1,21 @@
+{
+  "package_id": "sparrow",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "586c34c0f46ca878a735db0d2f3e7c6ce78390a65eb42f028bfe5d34dbeeb7b6"
+      },
+      "filename": "sparrow-0.6.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/man-group/sparrow/archive/refs/tags/0.6.0.tar.gz",
+      "version": "0.6.0"
+    }
+  ]
+}
