@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package_id": "samurai",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release", "version": "1.3", "filename": "samurai-1.3.tar.gz",
+    "url": "https://codeload.github.com/michaelforney/samurai/tar.gz/4288e71812493cb21b54ef23642a13214f44885f",
+    "digests": {"sha256": "c1e5052f438034bd2eb3cc6cba020952110c4b3411964c7b06267b05d04a64e3"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "Upstream LICENSE contains Forney ISC permission, complete Apache-2.0 terms and Ninja attribution, and Myrddin/musl MIT notices. Retain the complete unchanged LICENSE in both RPM packages and retain the exact source archive in the tests package. No signed-tag or signature assertion is made."}
+  }]
+}
