@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/any/python-frozendict/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-frozendict",
+        "package_name": "python-frozendict",
+        "source": "arch-extra",
+        "source_version": "1:2.4.7-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/python-frozendict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-frozendict",
+        "package_name": "python-frozendict",
+        "source": "debian",
+        "source_version": "2.4.6-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/python-frozendict/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-frozendict",
+        "package_name": "python-frozendict",
+        "source": "fedora",
+        "source_version": "2.4.6-9.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/python-frozendict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-frozendict",
+        "package_name": "python-frozendict",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.4.7-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-frozendict.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 2.4.7 immutable Git source and all 82 Git blobs verified. Preserve original optional-C backend and full target-3.11 sdist pytest 100% branch coverage plus original mypy checker. Restore full GPL3 companion and conservative CPython notices; exact original copied CPython revision remains unknown. No patch, upstream execution or local RPM/QEMU build. Target fallback, build, tests and install remain pending CI.",
+    "status": "active"
+  },
+  "package_id": "python-frozendict",
+  "rpm": {
+    "license": "LGPL-3.0-only AND Python-2.0",
+    "name": "python-frozendict",
+    "summary": "Immutable hashable Python dictionary with functional updates"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-marco-sulla-python-frozendict",
+    "homepage": "https://github.com/Marco-Sulla/python-frozendict",
+    "release_api": "https://api.github.com/repos/Marco-Sulla/python-frozendict/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/Marco-Sulla/python-frozendict",
+    "source_url_template": "https://github.com/Marco-Sulla/python-frozendict/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.4.7",
+    "latest_detected": "2.4.7",
+    "release": "1"
+  }
+}

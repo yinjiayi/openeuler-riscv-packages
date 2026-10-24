@@ -1,0 +1,41 @@
+{
+  "package_id": "python-frozendict",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ef1fdbca09c6e3e8d2969d059e2a231f62e89958363a752a2d0ca2930c714ee1"
+      },
+      "filename": "frozendict-2.4.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original complete LGPL-3.0 license and every source file preserved; GPL companion and conservative copied-CPython notices supplied separately. Exact copied CPython revision is unknown."
+      },
+      "signature": null,
+      "url": "https://github.com/Marco-Sulla/python-frozendict/archive/d4ee7590e2b507fd68124cd8a593778ce3c1158b.tar.gz",
+      "version": "2.4.7"
+    },
+    {
+      "digests": {"sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"},
+      "filename": "GPL-3.0.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {"allowed": true, "reason": "Unmodified complete FSF GPL version 3 companion notice, incorporated by the upstream LGPL version 3; preserved in source and binary RPMs."},
+      "signature": null,
+      "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "version": "3.0"
+    },
+    {
+      "digests": {"sha256": "f03e17cd594c2085f66a454e695c7ebe5b4d3c0eff534f4f194abc2fd164621b"},
+      "filename": "CPython-3.10.2-LICENSE",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {"allowed": true, "reason": "Unmodified complete official CPython notice from immutable v3.10.2 source, conservatively supplied for copied dict implementation. Notice version does not assert the unknown exact original copied revision; original upstream notices remain unchanged."},
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/python/cpython/a58ebcc701dd6c43630df941481475ff0f615a81/LICENSE",
+      "version": "3.10.2"
+    }
+  ]
+}
