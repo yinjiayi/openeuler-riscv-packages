@@ -448,6 +448,23 @@ jobs:
             printf '%s\n' '{"schema_version":1,"kind":"not-applicable","check":"repository-snapshot","reason":"no QEMU package build is in scope"}' \
               > artifacts/repository/not-applicable.json
           fi
+      - name: Retain complete state-bound supplemental metadata (not RPM acceptance)
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          SNAPSHOT_TOOLING_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
+          SNAPSHOT_RUN_ID: ${{ github.run_id }}
+          SNAPSHOT_RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python3 ci/capture-repository-metadata.py \
+            --resolution artifacts/repository/resolution.json \
+            --repo-file artifacts/repository/openeuler-riscv-project.repo \
+            --overlay artifacts/repository/tooling-overlay.json \
+            --output-dir artifacts/repository/metadata \
+            --package-id "$PACKAGE_ID" --package-commit "$PACKAGE_COMMIT_SHA" \
+            --tooling-commit "$SNAPSHOT_TOOLING_SHA" \
+            --run-id "$SNAPSHOT_RUN_ID" --run-attempt "$SNAPSHOT_RUN_ATTEMPT"
       - name: Upload immutable repository evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
