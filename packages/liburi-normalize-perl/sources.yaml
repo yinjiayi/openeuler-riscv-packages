@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liburi-normalize-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "URI-Normalize-0.002.tar.gz",
+      "version": "0.002",
+      "url": "https://cpan.metacpan.org/authors/id/H/HA/HANENKAMP/URI-Normalize-0.002.tar.gz",
+      "digests": {
+        "sha256": "e08b96b53f45bc2e4b1ffb1eddbbf85ae89e6177c7ad79ea112a2b92040b1e83"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README, shipped module POD, and LICENSE grant the Perl 5 dual terms; source/tests/build metadata are text-only with no contradictory notices. Official HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
