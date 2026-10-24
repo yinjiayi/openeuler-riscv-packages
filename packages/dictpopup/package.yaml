@@ -22,12 +22,12 @@
     "patches": [
       {
         "file": "patches/0001-cmake-do-not-force-native-architecture.patch",
-        "sha256": "56f9dc8b8566cf1b9a66f852548f8bfc28a01a5e5e7a7e5cb9895891c4fe062c",
-        "purpose": "Let the openEuler RVA23 compiler flags select the target instead of forcing the QEMU build host's native architecture.",
-        "source": "Downstream adaptation of dictpopup 0.3.2 CMakeLists.txt",
         "license": "GPL-3.0-or-later",
-        "upstream_status": "not-submitted",
-        "remove_when": "Upstream stops forcing -march=native and -mtune=native in release builds."
+        "purpose": "Let the openEuler RVA23 compiler flags select the target instead of forcing the QEMU build host's native architecture.",
+        "remove_when": "Upstream stops forcing -march=native and -mtune=native in release builds.",
+        "sha256": "56f9dc8b8566cf1b9a66f852548f8bfc28a01a5e5e7a7e5cb9895891c4fe062c",
+        "source": "Downstream adaptation of dictpopup 0.3.2 CMakeLists.txt",
+        "upstream_status": "not-submitted"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -57,7 +57,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-10-14T23:59:25Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
   },
@@ -71,8 +71,8 @@
     "source_url_template": "https://github.com/Ajatt-Tools/dictpopup/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "0.3.2",
-    "latest_detected": "0.3.2",
+    "current": "0.3.3",
+    "latest_detected": "0.3.3",
     "release": "8"
   }
 }
