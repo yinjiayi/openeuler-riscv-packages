@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liburi-query-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "URI-Query-0.16.tar.gz",
+      "version": "0.16",
+      "url": "https://cpan.metacpan.org/authors/id/G/GA/GAVINC/URI-Query-0.16.tar.gz",
+      "digests": {
+        "sha256": "b4e62de79b468dcd7ee835e4dfd0035c83faf92e6c44b79bcdd9a50287fb8c18"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Bundled LICENSE grants the full distribution GPL version 1 or later or Artistic License 1.0; README and module POD agree, and text-only test/build files have no contradictory notice. Official HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

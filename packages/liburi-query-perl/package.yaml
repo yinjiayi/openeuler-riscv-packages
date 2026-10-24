@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "liburi-query-perl",
+  "rpm": {
+    "name": "perl-URI-Query",
+    "summary": "Manipulate URI query strings in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "liburi-query-perl",
+    "homepage": "https://metacpan.org/dist/URI-Query",
+    "source_repository": "https://metacpan.org/dist/URI-Query",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/G/GA/GAVINC/",
+    "release_regex": "URI-Query-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/G/GA/GAVINC/URI-Query-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.16",
+    "release": "1",
+    "latest_detected": "0.16"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "liburi-query-perl",
+        "package_base": "liburi-query-perl",
+        "source_version": "0.16-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/liburi-query-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "liburi-query-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.16-2 maps to official CPAN 0.16; publisher CHECKSUMS matches exact SHA-256. LICENSE, README and module POD grant coherent Perl 5 dual terms. Official SP3 primary lacks this provider and supplies explicit runtime/test dependencies. All 12 original default test files are retained; local run passed 93 assertions with three upstream author/release-only skips. Exact-head target CI and physical product audit remain acceptance evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
