@@ -1,0 +1,21 @@
+{
+  "package_id": "nixd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2b46cc1e91fcf76e7b939905fa696217ea96639af9e9444cfe8afa18088cccbd"
+      },
+      "filename": "nixd-2.9.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nix-community/nixd/archive/refs/tags/2.9.2.tar.gz",
+      "version": "2.9.2"
+    }
+  ]
+}
