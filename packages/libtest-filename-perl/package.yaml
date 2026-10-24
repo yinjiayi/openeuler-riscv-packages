@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-filename-perl",
+  "rpm": {
+    "name": "perl-Test-Filename",
+    "summary": "Portable filename comparison for Perl tests",
+    "license": "Apache-2.0"
+  },
+  "upstream": {
+    "component": "libtest-filename-perl",
+    "homepage": "https://metacpan.org/dist/Test-Filename",
+    "source_repository": "https://github.com/dagolden/test-filename",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_regex": "Test-Filename-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Test-Filename-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.03",
+    "release": "1",
+    "latest_detected": "0.03"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtest-filename-perl",
+        "package_base": "libtest-filename-perl",
+        "source_version": "0.03-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtest-filename-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtest-filename-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu libtest-filename-perl 0.03-3 maps to official DAGOLDEN CPAN SHA-256 6a450cc4c6281ed1129f32a1c0741f228967feda2e32a2915ff621c36525fcbe, matching publisher CHECKSUMS. Archive LICENSE, module POD and dist.ini grant Apache-2.0 without vendored code. Official target primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same provider and supplies direct dependencies. Both original default tests remain; pristine local 27 assertions passed without skip. Target DNF and installed filename smoke must pass; PR CI is not public publication."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
