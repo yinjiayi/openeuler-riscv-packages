@@ -1,0 +1,21 @@
+{
+  "package_id": "nss-altfiles",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2ab9ff43ccb5b6f3f5d18e7eddb160828551eab7ac71beeca10727a1e8dcc2fc"
+      },
+      "filename": "nss-altfiles-2.23.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/flatcar/nss-altfiles/archive/refs/tags/v2.23.0.tar.gz",
+      "version": "2.23.0"
+    }
+  ]
+}
