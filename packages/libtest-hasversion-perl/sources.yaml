@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-hasversion-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Test-HasVersion-0.014.tar.gz",
+      "version": "0.014",
+      "url": "https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Test-HasVersion-0.014.tar.gz",
+      "digests": {
+        "sha256": "0555bb7ac67d839747056054669065e1305ff4b4e7283d9ac43b7a62cd007cbd"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS; archive LICENSE and installed module grant redistribution under the same terms as Perl."
+      }
+    }
+  ]
+}
