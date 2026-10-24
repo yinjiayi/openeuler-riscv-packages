@@ -84,8 +84,11 @@ Installed smoke clears inherited loader overrides, verifies notice and
 post-strip driver checksums, replays both programs, and retains raw
 LD_DEBUG=bindings stderr and its SHA-256 on success or failure.
 Six exact normal-symbol calls from the absolute installed API driver must
+carry the fixed linker-version-script ABI tag [libgssapi_CITI_2] and
 resolve to the same physical installed libgssglue.so.1.0.0 file using -ef;
 loader aliases such as /lib64/lp64d are not rejected by spelling alone.
+Unversioned lines, another ABI tag and mechanism-backend caller lines do
+not satisfy these six installed-driver bindings.
 
 ## Admission and evidence limits
 

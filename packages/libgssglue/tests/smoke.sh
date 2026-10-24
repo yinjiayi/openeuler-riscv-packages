@@ -30,7 +30,7 @@ sha256sum "$trace"
 verify_installed_binding() {
     local trace=$1 expected_driver=$2 expected_library=$3 symbol=$4
     local line caller target observed_symbol found=false
-    local binding_re="^[[:space:]]*[0-9]+:[[:space:]]+binding file ([^[:space:]]+) \\[[0-9]+\\] to ([^[:space:]]+) \\[[0-9]+\\]: normal symbol \`([^']+)'$"
+    local binding_re="^[[:space:]]*[0-9]+:[[:space:]]+binding file ([^[:space:]]+) \\[[0-9]+\\] to ([^[:space:]]+) \\[[0-9]+\\]: normal symbol \`([^']+)' \\[libgssapi_CITI_2\\]$"
     while IFS= read -r line; do
         if [[ $line =~ $binding_re ]]; then
             caller=${BASH_REMATCH[1]}
