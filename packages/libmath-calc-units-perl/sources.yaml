@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-calc-units-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Calc-Units-1.07.tar.gz",
+      "version": "1.07",
+      "url": "https://cpan.metacpan.org/authors/id/S/SF/SFINK/Math-Calc-Units-1.07.tar.gz",
+      "digests": {
+        "sha256": "61e3cfdb27bb3bee27beb97124dd930760e1039edc1eb7816c2f5627765f8f8f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official SFINK CHECKSUMS pins the archive. LICENSE directly grants GPL version 2 or Artistic; the embedded Parse::Yapp standalone driver retains Francois Desarmenien's notice, and his original Parse::Yapp 1.04 source directly grants GPL or Artistic distribution."
+      }
+    }
+  ]
+}
