@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://libspatialindex.github.io",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libspatialindex",
+        "package_name": "libspatialindex",
+        "source": "arch-extra",
+        "source_version": "2.1.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libspatialindex.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 2.1.0 tag/commit archive and all325 Git blobs verified; genuine frozen Arch-extra lineage retained. Preserve default shared libraries and complete original CTest set (7 shell suites including million-entry bulk load, and11 GTest cases); add6 installed functional API checks. Full official-base static provider/namespace passed, not target execution or complete supplemental acceptance. No local source QA/RPM/QEMU executed.",
+    "status": "active"
+  },
+  "package_id": "libspatialindex",
+  "rpm": {
+    "license": "MIT AND BSD-3-Clause AND FSFULLR AND Martin-Birgmeier AND ISC",
+    "name": "libspatialindex",
+    "summary": "Spatial indexing library with C and C++ interfaces"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "libspatialindex.github.io",
+    "homepage": "https://libspatialindex.github.io",
+    "release_api": "https://api.github.com/repos/libspatialindex/libspatialindex/tags",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/libspatialindex/libspatialindex",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "2.1.0",
+    "latest_detected": "2.1.0",
+    "release": "1"
+  }
+}

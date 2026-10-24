@@ -16,6 +16,12 @@ currently returns 404: this is not a claim that an unavailable repository has
 no newer release. Discovery lineage is the frozen Arch extra, Debian stable/main
 and Ubuntu resolute/universe catalog; no distribution packaging code is reused.
 
+The updater scans the complete RSS XML, so its selector matches the exact
+archive basename at path/XML boundaries instead of anchoring to the complete
+document. It rejects documentation, prerelease and extra-suffix lookalikes;
+the official feed and canonical source URL template are unchanged. Regression
+checks use retained official RSS bytes, not a fresh-release availability claim.
+
 ## Rights and complete original notices
 
 The official project explicitly describes BSD-licensed software; COPYING and

@@ -37,8 +37,10 @@ def primary(arch: str = "riscv64", packages: str | None = None, count: int = 1) 
 
 
 def filelists(arch: str = "riscv64", packages: str | None = None, count: int = 1) -> bytes:
+    paths = ('<file>fixture-1.0.tar.gz</file><file>fixture.spec</file>' if arch in {"src", "nosrc"} else
+             '<file>/usr/bin/fixture</file><file type="dir">/usr/share/fixture</file>')
     package = f'''<package pkgid="{PKGID}" name="fixture" arch="{arch}">
-      <version epoch="0" ver="1.0" rel="1"/><file>/usr/bin/fixture</file><file type="dir">/usr/share/fixture</file></package>'''
+      <version epoch="0" ver="1.0" rel="1"/>{paths}</package>'''
     return f'<filelists xmlns="{F}" packages="{count}">{package if packages is None else packages}</filelists>'.encode()
 
 
@@ -239,6 +241,40 @@ class MetadataCaptureTests(unittest.TestCase):
                                        b'<file>/usr/bin/fixture</file>'), "riscv64", 1)
         self.assertEqual(capture.joined_namespace(primary(), filelists().replace(b"/usr/share/fixture", b"/"),
                                                  "riscv64", 1)["file_count"], 2)
+
+    def test_source_relative_payload_members_and_safe_subdirectories(self):
+        # Regression for actual enabled metadata: 6tunnel's SRPM contains
+        # 6tunnel-0.14.tar.gz and 6tunnel.spec, not absolute installed paths.
+        for arch in ("src", "nosrc"):
+            for member in (b"6tunnel-0.14.tar.gz", b"6tunnel.spec", b"patches/fix.patch",
+                           b"sources/nested/fixture.tar.xz"):
+                with self.subTest(arch=arch, member=member):
+                    files = filelists(arch).replace(b"fixture-1.0.tar.gz", member)
+                    self.assertEqual(capture.joined_namespace(primary(arch), files, "source", 1)["file_count"], 2)
+
+    def test_source_rejects_absolute_traversal_empty_control_and_ambiguous_members(self):
+        for member in (b"", b"/", b"/usr/src/fixture", b"//server/fixture", b".", b"..",
+                       b"./fixture", b"../fixture", b"patches/../fixture", b"patches/./fixture",
+                       b"patches//fixture", b"patches/", b"patches/\\fixture", b"C:/fixture",
+                       b"file:fixture", b"https://example.test/fixture", b"bad\x7fname", b"bad&#9;name"):
+            with self.subTest(member=member), self.assertRaises(ValueError):
+                capture.joined_namespace(primary("src"),
+                                         filelists("src").replace(b"fixture-1.0.tar.gz", member), "source", 1)
+        with self.assertRaises(ValueError):
+            capture.joined_namespace(primary("src"),
+                                     filelists("src").replace(b"fixture.spec", b"fixture-1.0.tar.gz"), "source", 1)
+
+    def test_binary_relative_source_members_still_rejected(self):
+        for member in (b"6tunnel.spec", b"patches/fix.patch", b"fixture-1.0.tar.gz"):
+            with self.subTest(member=member), self.assertRaises(ValueError):
+                capture.joined_namespace(primary(), filelists().replace(b"/usr/bin/fixture", member), "riscv64", 1)
+
+    def test_source_path_acceptance_preserves_full_identity_join(self):
+        for files in (filelists("src").replace(PKGID.encode(), b"f" * 64),
+                      filelists("src").replace(b'ver="1.0"', b'ver="2.0"'),
+                      filelists("src").replace(b'packages="1"', b'packages="2"')):
+            with self.subTest(files=files), self.assertRaises(ValueError):
+                capture.joined_namespace(primary("src"), files, "source", 1)
 
     def test_standard_decoders_bound_open_bytes_and_reject_truncation(self):
         raw = b"metadata" * 100

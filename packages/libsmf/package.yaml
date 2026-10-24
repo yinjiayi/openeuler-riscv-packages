@@ -73,7 +73,7 @@
     "homepage": "https://sourceforge.net/projects/libsmf/",
     "release_api": "https://sourceforge.net/projects/libsmf/rss?path=/libsmf",
     "release_channel": "stable",
-    "release_regex": "^libsmf-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz$",
+    "release_regex": "(?:^|/)libsmf-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz(?=$|/|<|])",
     "source_repository": "https://sourceforge.net/projects/libsmf/",
     "source_url_template": "https://downloads.sourceforge.net/project/libsmf/libsmf/{version}/libsmf-{version}.tar.gz"
   },
