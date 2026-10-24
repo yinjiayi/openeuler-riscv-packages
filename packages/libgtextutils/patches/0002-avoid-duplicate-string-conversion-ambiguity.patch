@@ -1,0 +1,23 @@
+From: openEuler RISC-V packaging maintainers
+Subject: [PATCH] Avoid competing string copy and move conversions
+
+GCC 14 compiling the unchanged original test_text_reader.cpp fails on
+line = reader: conversion to both string and const string& makes the copy
+and move assignment candidates ambiguous. Keep the implicit const string&
+conversion: it still supports reference binding, string copy construction
+and assignment, including the exact failing original expression. Remove only
+the redundant by-value conversion overload, not a test or assertion. The
+explicit line_string/line_stream methods and implicit stream conversion
+are unchanged. A direct named call to operator std::string() is no longer
+available; consumers should copy the implicit reference or line_string().
+This is an upstream-generic C++11-and-later compatibility change, not a
+RISC-V-specific fix. Confirmed failure: Package CI 38793276327, exact head
+0a8eb781445958fbdb95ae5f4e9b6dacb2b08453. Remove when upstream supplies an
+equivalent unambiguous conversion interface.
+Upstream-Status: Not submitted (no upstream write authorized)
+License: AGPL-3.0-or-later
+
+--- a/src/gtextutils/text_line_reader.h
++++ b/src/gtextutils/text_line_reader.h
+@@ -57 +56,0 @@
+-	operator std::string() const { return line_string(); }
