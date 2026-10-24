@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/any/python-pytrie/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pytrie",
+        "package_name": "python-pytrie",
+        "source": "arch-extra",
+        "source_version": "0.4.0-10"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/pytrie",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-trie",
+        "package_name": "python-trie",
+        "source": "debian",
+        "source_version": "0.4.0+ds-1"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/python-PyTrie",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-PyTrie",
+        "package_name": "python-PyTrie",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.4.0-3.2"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/pytrie",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-trie",
+        "package_name": "python-trie",
+        "source": "ubuntu",
+        "source_version": "0.4.0+ds-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-pytrie.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official latest stable 0.4.0 fixed Git source/all 34 Git blobs verified. Original setuptools setup.py test retained including CPython test.mapping_tests supplied by target python3-devel. Preserve embedded docs and restore complete Sphinx/Pygments BSD and jQuery MIT notices using fixed Sources. Historical discovery decisions retained. CI pending; no local RPM/QEMU/upstream execution.",
+    "status": "active"
+  },
+  "package_id": "python-pytrie",
+  "rpm": {
+    "license": "BSD-3-Clause AND BSD-2-Clause AND MIT",
+    "name": "python-pytrie",
+    "summary": "Pure Python trie mappings with prefix lookup"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-gsakkis-pytrie",
+    "homepage": "https://github.com/gsakkis/pytrie",
+    "release_api": "https://api.github.com/repos/gsakkis/pytrie/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/gsakkis/pytrie",
+    "source_url_template": "https://github.com/gsakkis/pytrie/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.4.0",
+    "latest_detected": "0.4.0",
+    "release": "1"
+  }
+}
