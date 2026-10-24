@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-errorhandler-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Class-ErrorHandler-0.04.tar.gz",
+      "version": "0.04",
+      "url": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/Class-ErrorHandler-0.04.tar.gz",
+      "digests": {
+        "sha256": "342d2dcfc797a20bee8179b1b96b85c0ae7a5b48827359523cd8c74c3e704502"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the independently downloaded official HTTPS archive. The installed Class/ErrorHandler.pm and README grant same-as-Perl redistribution by original copyright holder Benjamin Trott, consistent with the bundled distribution LICENSE; both default tests are covered by that distribution grant and no third-party code is bundled."
+      }
+    }
+  ]
+}
