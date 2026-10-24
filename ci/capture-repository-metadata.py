@@ -209,11 +209,19 @@ def joined_namespace(primary: bytes, filelists: bytes, category: str, expected_c
             require(item.tag == "{" + FILES_NS + "}file" and item.get("type", "file") in
                     {"file", "dir", "ghost"}, "unexpected filelists item")
             path = item.text
-            require(isinstance(path, str) and path.startswith("/") and "\\" not in path and
-                    not any(ord(c) < 32 for c in path) and ".." not in path.split("/") and
+            require(isinstance(path, str) and bool(path) and "\\" not in path and
+                    not any(ord(c) < 32 or ord(c) == 127 for c in path) and ".." not in path.split("/") and
                     "." not in path.split("/") and "//" not in path and
                     (path == "/" or not path.endswith("/")) and path not in paths,
                     "unsafe, noncanonical, or duplicate filelists path")
+            if category == "source":
+                # SRPM filelists name source-payload members, not installed
+                # filesystem paths. Preserve safe subdirectories literally;
+                # never normalize an absolute, drive/URI, or traversal alias.
+                require(not path.startswith("/") and ":" not in path,
+                        "source filelists require safe relative member paths")
+            else:
+                require(path.startswith("/"), "binary filelists require absolute installed paths")
             paths.add(path)
         file_count += len(paths)
     require(seen == set(packages), "incomplete primary/filelists pkgid join")
