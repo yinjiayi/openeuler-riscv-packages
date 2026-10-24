@@ -1,0 +1,21 @@
+{
+  "package_id": "lest",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ff31a4ded6589387d029d7d10ec1d787420adf1ccdb2ec96ab2da92b4d5993a7"
+      },
+      "filename": "lest-1.37.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/martinmoene/lest/archive/refs/tags/v1.37.0.tar.gz",
+      "version": "1.37.0"
+    }
+  ]
+}
