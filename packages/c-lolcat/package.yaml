@@ -1,0 +1,86 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/jaseg/lolcat",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "c-lolcat",
+        "package_name": "c-lolcat",
+        "source": "aur",
+        "source_version": "1.4-1"
+      },
+      {
+        "evidence_url": "https://github.com/jaseg/lolcat",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lolcat",
+        "package_name": "lolcat",
+        "source": "fedora",
+        "source_version": "1.5-5.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-use-python3-for-original-table-generator.patch",
+        "sha256": "a5605831e70c5a164f1ca069ce8c3083a073b66f5de55003d3ae15cd8cbeec3b",
+        "purpose": "Select Python 3 for the unchanged original f-string table generator; retain default all/install and require identical generated table.",
+        "source": "https://github.com/jaseg/lolcat/blob/a9ab81839f2a00fa1d831648a1d79e268bb1ddac/Makefile",
+        "license": "WTFPL",
+        "upstream_status": "not-submitted",
+        "remove_when": "The stable upstream root Makefile explicitly invokes python3."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "c-lolcat.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable v1.5 fixed commit and complete source hashes verified. Preserve original default all/install for both tools and original generator/table; no upstream test target exists. Staged and RPM-owned installed CLI checks are downstream smoke, pending target CI. Conservative complete Pygments BSD notice and AUTHORS retained.",
+    "status": "active"
+  },
+  "package_id": "c-lolcat",
+  "rpm": {
+    "license": "WTFPL AND BSD-2-Clause",
+    "name": "c-lolcat",
+    "summary": "Colorful cat and censor command-line tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-jaseg-lolcat",
+    "homepage": "https://github.com/jaseg/lolcat",
+    "release_api": "https://api.github.com/repos/jaseg/lolcat/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/jaseg/lolcat",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.5",
+    "latest_detected": "1.5",
+    "release": "1"
+  }
+}

@@ -1,0 +1,18 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Use Python 3 for the original Python 3 table generator
+Upstream-source: https://github.com/jaseg/lolcat/blob/a9ab81839f2a00fa1d831648a1d79e268bb1ddac/Makefile
+License: WTFPL
+Reason: The original generator uses Python 3 f-strings while the root Makefile
+invokes an unversioned python command. Explicit python3 preserves the original
+generator and default all/install features on the target distribution.
+Upstream-status: not-submitted
+Remove-when: The stable upstream root Makefile explicitly invokes python3.
+Validation: Data-only GNU zero-fuzz byte delta; exact original Makefile digest
+is required in %prep. Target regeneration must reproduce the original header.
+No algorithm, table, tests, flags, notices or feature removal.
+
+--- a/Makefile
++++ b/Makefile
+@@ -16 +16 @@
+-	python $< > $@
++	python3 $< > $@
