@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "package_id": "libdate-holidayparser-perl",
+  "rpm": {"name": "perl-Date-HolidayParser", "summary": "Parse holiday definitions and export iCalendar events", "license": "Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "libdate-holidayparser-perl",
+    "homepage": "https://metacpan.org/dist/Date-HolidayParser",
+    "source_repository": "https://metacpan.org/dist/Date-HolidayParser",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/Z/ZE/ZERODOGG/",
+    "release_regex": "(?<![A-Za-z0-9])Date-HolidayParser-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/Z/ZE/ZERODOGG/Date-HolidayParser-{version}.tar.gz"
+  },
+  "version": {"current": "0.43", "release": "1", "latest_detected": "0.43"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "fedora", "package_name": "perl-Date-HolidayParser", "package_base": "perl-Date-HolidayParser", "source_version": "0.43-16.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Date-HolidayParser/perl-Date-HolidayParser/", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libdate-holidayparser-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Frozen Fedora Everything-source 0.43-16.fc44 lineage maps to the official ZERODOGG stable CPAN archive; its SHA-256 matches publisher CHECKSUMS. Top-level COPYING grants GPL-3.0-or-later or Artistic-1.0 for the program; both modules separately grant same-as-Perl terms. The package conservatively declares only the common Artistic-1.0 option. Fedora metadata expresses both notice families conjunctively and is not used to infer a broader grant. The SHA-bound official SP3 RVA23 primary lacks this RPM and both module Provides and supplies Moo, core modules and default test dependencies. All three original default files are unchanged; local TZ=GMT ran 374 assertions without skip. Target %check fixes TZ=GMT only to prevent an unrelated inherited fourth timezone, retains GMT/CET/EST, and demands all 374 assertions with zero skip. Installed smoke exercises both modules."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
