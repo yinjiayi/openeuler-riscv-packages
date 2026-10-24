@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "package_id": "liblog-trace-perl",
+  "sources": [
+    {"id": "source0", "kind": "upstream-release", "filename": "Log-Trace-1.070.tar.gz", "version": "1.070", "url": "https://cpan.metacpan.org/authors/id/B/BB/BBC/Log-Trace-1.070.tar.gz", "digests": {"sha256": "9ecb8258ef30c2f24deff4917240d0fe73242da5b2192402f79815b092ed36e3"}, "signature": null, "redistribution": {"allowed": true, "reason": "Original README (BBC2004) and module (BBC2005) explicitly grant GNU GPL without specifying a version; complete GPL2 COPYING is bundled, whose section9 permits choosing any published GPL version when the program specifies none. GPL-2.0-only records this distribution's present bundledGPLv2 choice, not upstream's maximum permissions, Fedora ownership or a new license grant. Original rights/notices remain unchanged; appendix sample is not an additional program grant. Preserve all24 original regular files/modes, author/contributor/CVS notices, full13 default tests and complete manual unchanged; install COPYING/README/module/Manual/Changes as notices. Bounded documented examples/attribution were independently reviewed without claiming complete historical ancestry or legal certainty. Official25548B fullSHA agrees with author HTTPS CHECKSUMS and authorized MetaCPAN API, not distribution recipe authority; PGP signature not verified. Target Serializer dependency hold is separate from source permission, with no test or feature fallback."}}
+  ]
+}
