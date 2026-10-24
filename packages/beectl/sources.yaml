@@ -1,0 +1,21 @@
+{
+  "package_id": "beectl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d2dc9b261d65fac0fabacbedfeb6cc7226921635b9ee1be8f87612c1f8f79555"
+      },
+      "filename": "beectl-1.5.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rosmanov/bee-host/archive/refs/tags/1.5.2.tar.gz",
+      "version": "1.5.2"
+    }
+  ]
+}
