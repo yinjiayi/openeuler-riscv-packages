@@ -1,0 +1,21 @@
+{
+  "package_id": "redsea",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2d1137dba23c1ae2d8af87bda45ab90ee962e55d3b93dc9295d1a53e15a8cfae"
+      },
+      "filename": "redsea-1.3.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/windytan/redsea/archive/refs/tags/v1.3.1.tar.gz",
+      "version": "1.3.1"
+    }
+  ]
+}
