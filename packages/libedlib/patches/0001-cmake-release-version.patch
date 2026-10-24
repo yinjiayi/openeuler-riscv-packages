@@ -1,0 +1,16 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Match CMake project version to the v1.2.7 release
+
+The v1.2.7 tag still declares 1.2.6 in CMakeLists.txt. Correcting it makes
+the installed shared library version, CMake package version and pkg-config
+metadata describe the tagged release.
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+-project(edlib VERSION 1.2.6)
++project(edlib VERSION 1.2.7)
+
+ option(EDLIB_ENABLE_INSTALL "Generate the install target" ON)
+ option(EDLIB_BUILD_EXAMPLES "Build examples" ON)
