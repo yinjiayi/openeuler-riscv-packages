@@ -1,0 +1,21 @@
+{
+  "package_id": "trojan",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "86cdb2685bb03a63b62ce06545c41189952f1ec4a0cd9147450312ed70956cbc"
+      },
+      "filename": "trojan-1.16.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/trojan-gfw/trojan/archive/refs/tags/v1.16.0.tar.gz",
+      "version": "1.16.0"
+    }
+  ]
+}
