@@ -1,0 +1,21 @@
+{
+  "package_id": "guile-curl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d241f27c2a6d2ac768ce1ae64fd27e6854b34ace6ce35ce810fb41a2a7b20ed6"
+      },
+      "filename": "guile-curl-0.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/spk121/guile-curl/archive/refs/tags/v0.9.tar.gz",
+      "version": "0.9"
+    }
+  ]
+}
