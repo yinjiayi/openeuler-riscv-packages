@@ -1,0 +1,21 @@
+{
+  "package_id": "mpv-mpris",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ecdc66f0182a38164b8bdc79502c575df3d2c4453bae5bff225c4e5ce9dbef6c"
+      },
+      "filename": "mpv-mpris-1.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/hoyon/mpv-mpris/archive/refs/tags/1.2.tar.gz",
+      "version": "1.2"
+    }
+  ]
+}
