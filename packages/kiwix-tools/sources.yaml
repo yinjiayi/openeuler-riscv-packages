@@ -1,0 +1,21 @@
+{
+  "package_id": "kiwix-tools",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7148522730a66cffb58a3b3674c6cbac548a1f95fd08c5f330565aad70c14d14"
+      },
+      "filename": "kiwix-tools-3.8.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/kiwix/kiwix-tools/archive/refs/tags/3.8.2.tar.gz",
+      "version": "3.8.2"
+    }
+  ]
+}
