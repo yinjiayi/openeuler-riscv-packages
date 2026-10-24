@@ -44,7 +44,7 @@ jobs:
             --max-concurrency "${{ vars.RPM_BACKFILL_MAX_CONCURRENCY || '50' }}" \
             --github-output "$GITHUB_OUTPUT"
       - name: Upload the immutable backfill plan
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: rpm-repository-backfill-plan-${{ github.run_id }}
           path: artifacts/rpm-repository-backfill/plan.json
