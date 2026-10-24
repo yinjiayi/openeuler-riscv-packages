@@ -1,0 +1,21 @@
+{
+  "package_id": "pamixer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8b7199e495dc19b190f8f02ace8782f533266a4bd7c7d3cf6f4cf09b2de13e71"
+      },
+      "filename": "pamixer-1.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/cdemoulins/pamixer/archive/refs/tags/1.6.tar.gz",
+      "version": "1.6"
+    }
+  ]
+}
