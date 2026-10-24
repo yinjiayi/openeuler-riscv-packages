@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "figlet",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/cmatsuoka/figlet/archive/refs/tags/2.2.5.tar.gz",
+      "filename": "figlet-2.2.5.tar.gz",
+      "version": "2.2.5",
+      "digests": {"sha256": "4d366c4a618ecdd6fdb81cde90edc54dbff9764efb635b3be47a929473f13930"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The upstream LICENSE grants BSD-3-Clause redistribution with notices and non-endorsement conditions."}
+    }
+  ]
+}
