@@ -1,0 +1,21 @@
+{
+  "package_id": "mqtt5",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "20aa5ce8d9c002bdd15ca253c283b68062d0f70340198658c2b575d3f80e340c"
+      },
+      "filename": "mqtt5-1.0.3.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/boostorg/mqtt5/archive/refs/tags/v1.0.3.tar.gz",
+      "version": "1.0.3"
+    }
+  ]
+}
