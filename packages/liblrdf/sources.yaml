@@ -1,0 +1,21 @@
+{
+  "package_id": "liblrdf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d579417c477ac3635844cd1b94f273ee2529a8c3b6b21f9b09d15f462b89b1ef"
+      },
+      "filename": "liblrdf-0.6.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/swh/LRDF/archive/refs/tags/v0.6.1.tar.gz",
+      "version": "0.6.1"
+    }
+  ]
+}
