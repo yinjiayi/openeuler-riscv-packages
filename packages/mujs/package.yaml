@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "package_id": "mujs",
+  "rpm": {
+    "name": "mujs",
+    "summary": "Lightweight embeddable JavaScript interpreter",
+    "license": "ISC"
+  },
+  "upstream": {
+    "component": "github.com-ccxvii-mujs",
+    "homepage": "https://mujs.com/",
+    "source_repository": "https://codeberg.org/ccxvii/mujs",
+    "release_channel": "stable",
+    "release_api": "https://mujs.com/downloads/",
+    "release_regex": "mujs-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://mujs.com/downloads/mujs-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.3.10",
+    "release": "1",
+    "latest_detected": "1.3.10"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "mujs",
+        "package_base": "mujs",
+        "source_version": "1.3.9-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/mujs/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "mujs",
+        "package_base": "mujs",
+        "source_version": "1.3.6-1",
+        "evidence_url": "https://packages.debian.org/trixie/source/mujs",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "mujs",
+        "package_base": "mujs",
+        "source_version": "1.3.7-2.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/mujs/mujs/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "mujs",
+        "package_base": "mujs",
+        "source_version": "1.3.7-3.4",
+        "evidence_url": "https://software.opensuse.org/package/mujs",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "mujs",
+        "package_base": "mujs",
+        "source_version": "1.3.8-2",
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/mujs",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "mujs.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official 1.3.10 archive was downloaded, SHA-256 verified, and inspected as a single-root archive with no links or unsafe members. Frozen distribution rows are lineage only; no distribution recipe was executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
