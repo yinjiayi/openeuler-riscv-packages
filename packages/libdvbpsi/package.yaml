@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "package_id": "libdvbpsi",
+  "rpm": {"name": "libdvbpsi", "summary": "Library for MPEG transport-stream and DVB PSI tables", "license": "LGPL-2.1-or-later"},
+  "upstream": {
+    "component": "videolan.org-developers-libdvbpsi.html",
+    "homepage": "https://www.videolan.org/developers/libdvbpsi.html",
+    "source_repository": "https://code.videolan.org/videolan/libdvbpsi",
+    "release_channel": "stable",
+    "release_api": "https://download.videolan.org/pub/libdvbpsi/",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)/",
+    "source_url_template": "https://download.videolan.org/pub/libdvbpsi/{version}/libdvbpsi-{version}.tar.bz2"
+  },
+  "version": {"current": "1.3.3", "release": "1", "latest_detected": "1.3.3"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "libdvbpsi", "package_base": "libdvbpsi", "source_version": "1:1.3.3-4", "evidence_url": "https://archlinux.org/packages/extra/x86_64/libdvbpsi/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "libdvbpsi", "package_base": "libdvbpsi", "source_version": "1.3.3-1", "evidence_url": "https://packages.debian.org/source/stable/libdvbpsi", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "libdvbpsi", "package_base": "libdvbpsi", "source_version": "1.3.3-18.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/libdvbpsi/libdvbpsi/", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libdvbpsi.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "The frozen cross-distribution record lacked an upstream checksum; VideoLAN's official 1.3.3 archive and adjacent SHA-256 file were independently checked. No external distribution recipe was read or executed. The upstream make check target does not invoke its complete descriptor test_dr binary, so %check runs that binary explicitly."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}
