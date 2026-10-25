@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-binary-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Binary-0.01.tar.gz",
+      "version": "0.01",
+      "url": "https://cpan.metacpan.org/authors/id/S/SN/SNKWATT/Data-Binary-0.01.tar.gz",
+      "digests": {
+        "sha256": "4821a2de10ac7108f4dcb284a71b876981b0cb1ea6c5ed6afb177bf2e7cb8d73"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official archive README grants the software under Artistic License 2.0; the sole installed module names the same copyright holder without conflicting terms. Publisher CHECKSUMS agrees with the independent HTTPS SHA-256."
+      }
+    }
+  ]
+}

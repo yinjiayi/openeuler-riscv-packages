@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-binary-perl",
+  "rpm": {
+    "name": "perl-Data-Binary",
+    "summary": "Detect binary versus text strings in Perl",
+    "license": "Artistic-2.0"
+  },
+  "upstream": {
+    "component": "libdata-binary-perl",
+    "homepage": "https://metacpan.org/dist/Data-Binary",
+    "source_repository": "https://metacpan.org/dist/Data-Binary",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SN/SNKWATT/",
+    "release_regex": "Data-Binary-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SN/SNKWATT/Data-Binary-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.01",
+    "release": "1",
+    "latest_detected": "0.01"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-binary-perl",
+        "package_base": "libdata-binary-perl",
+        "source_version": "0.01",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-binary-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-binary-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official CPAN Data-Binary 0.01 archive and publisher CHECKSUMS agree on SHA-256. The archive README grants Artistic License 2.0 for the software; the sole installed PM identifies the same copyright holder and has no conflicting grant. SP3 RVA23 primary has no same-name RPM or module provider and uniquely supplies Encode, base, Test::More and MakeMaker. The complete two-file default upstream suite passes locally with nine assertions and no skips."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
