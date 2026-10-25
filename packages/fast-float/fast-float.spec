@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           fast-float
-Version:        8.2.10
+Version:        8.3.2
 Release:        1%{?dist}
 Summary:        Fast and exact string-to-floating-point conversion library
 License:        Apache-2.0 OR BSL-1.0 OR MIT
 URL:            https://github.com/fastfloat/fast_float
-Source0:        fast-float-%{version}.tar.gz
+Source0:        v8.3.2.tar.gz
 Source1:        doctest-2.5.2.tar.gz
 
 BuildRequires:  cmake
@@ -45,6 +45,10 @@ of decimal strings into binary floating-point values.
 %{_datadir}/cmake/FastFloat/
 
 %changelog
+* Sat Oct 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 8.3.2-1
+- Update to the pinned official stable 8.3.2 release.
+- Retain the maintained C++17 suite, pinned doctest and installed consumer smoke.
+
 * Mon Aug 10 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 8.2.10-1
 - Run the upstream test suite offline with a pinned doctest release.
 - Exclude only supplemental data fetched from an unpinned mutable branch.
