@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libset-tiny-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Set-Tiny-0.06.tar.gz",
+      "version": "0.06",
+      "url": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Set-Tiny-0.06.tar.gz",
+      "digests": {
+        "sha256": "1e4621e6fa0931231fbcb211a140b54fc30e64cc453644605d830237364d4d33"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the independently downloaded HTTPS archive. The bundled LICENSE grants the entire distribution same-as-Perl redistribution by copyright holder Stanis Trendelenburg, consistent with installed PM POD, README, dist.ini and META SPDX expression."
+      }
+    }
+  ]
+}
