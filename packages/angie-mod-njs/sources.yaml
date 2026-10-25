@@ -1,0 +1,21 @@
+{
+  "package_id": "angie-mod-njs",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "56fe6560549cbcb7fb5740534b541bb153250d8772aa16ac18bc30eb0cc498dd"
+      },
+      "filename": "angie-mod-njs-1.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/nginx/njs/archive/refs/tags/1.0.0.tar.gz",
+      "version": "1.0.0"
+    }
+  ]
+}
