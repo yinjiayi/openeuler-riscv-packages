@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "lziprecover",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://download-mirror.savannah.gnu.org/releases/lzip/lziprecover/lziprecover-1.26.tar.gz",
+      "filename": "lziprecover-1.26.tar.gz",
+      "version": "1.26",
+      "digests": {"sha256": "e234005a756d5649f41686116d3e548736d4a77e5a5ec37b943ca6650787801d"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The official release archive is redistributable under GPL-2.0-or-later."}
+    }
+  ]
+}
