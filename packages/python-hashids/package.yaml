@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://hashids.org/python/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-hashids",
+        "package_name": "python-hashids",
+        "source": "debian",
+        "source_version": "1.3.1-5"
+      },
+      {
+        "evidence_url": "https://hashids.org/python/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-hashids",
+        "package_name": "python-hashids",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.3.1-1.29"
+      },
+      {
+        "evidence_url": "https://hashids.org/python/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-hashids",
+        "package_name": "python-hashids",
+        "source": "ubuntu",
+        "source_version": "1.3.1-5build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-hashids.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Latest official PyPI 1.3.1 matches fixed stable Git tag/commit; source SHA-256 and all 10 Git blob identities verified. MIT notices retained. Frozen canonical Debian/openSUSE/Ubuntu lineage is used; stale AUR and unrelated PostgreSQL/Django hashids rows are excluded. Target flit-core 3.8.0 satisfies original >=2,<4; pytest 7.4.4 satisfies >=2.1.0. Full original python -m pytest suite retained (33 current API and 27 legacy tests), and installed smoke reruns all 60 against RPM-installed hashids. Complete current official/supplemental metadata and filelists show no provider/namespace conflict. No patch or local upstream/backend/tests/RPM/QEMU execution; target status unknown pending exact-head CI.",
+    "status": "active"
+  },
+  "package_id": "python-hashids",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-hashids",
+    "summary": "Generate reversible short identifiers from integers"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-pypi"
+  },
+  "upstream": {
+    "component": "github.com-davidaurelio-hashids-python",
+    "homepage": "https://hashids.org/python/",
+    "release_api": "https://pypi.org/pypi/hashids/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/davidaurelio/hashids-python",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.3.1",
+    "latest_detected": "1.3.1",
+    "release": "1"
+  }
+}

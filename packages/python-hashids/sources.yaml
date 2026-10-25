@@ -1,0 +1,21 @@
+{
+  "package_id": "python-hashids",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "534d04f6902e2adb074f7cc4db227f1c2abebf88bb2c8470464ef0b2e5c83bc2"
+      },
+      "filename": "hashids-1.3.1-official.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed official stable commit archive retains the complete MIT LICENSE and original notices. All ten source file identities matched the official Git tree. No detached upstream signature supplied; exact SHA-256 is reverified before CI builds. Distribution recipes were not executed."
+      },
+      "signature": null,
+      "url": "https://github.com/davidaurelio/hashids-python/archive/138a12e85d09e7e76eebc1d0e059b2e28ba488e6.tar.gz",
+      "version": "1.3.1"
+    }
+  ]
+}
