@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-diff-perl",
+  "rpm": {
+    "name": "perl-Algorithm-Diff",
+    "summary": "Perl modules for computing differences between sequences",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libalgorithm-diff-perl",
+    "homepage": "https://metacpan.org/dist/Algorithm-Diff",
+    "source_repository": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/",
+    "release_regex": "Algorithm-Diff-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Algorithm-Diff-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.201",
+    "release": "1",
+    "latest_detected": "1.201"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libalgorithm-diff-perl",
+        "package_base": "libalgorithm-diff-perl",
+        "source_version": "1.201-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libalgorithm-diff-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libalgorithm-diff-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libalgorithm-diff-perl key maps to official CPAN Algorithm-Diff 1.201. CPAN CHECKSUMS SHA-256, safe archive structure, Perl dual-license terms in the module POD, both upstream t/ tests, and the upstream choice not to install its bin/ examples were reviewed. The CPAN release metadata says license unknown despite the explicit module POD terms. Target riscv64 build and smoke remain subject to exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
