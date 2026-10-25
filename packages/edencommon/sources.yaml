@@ -1,0 +1,21 @@
+{
+  "package_id": "edencommon",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "124b3ef1c28b5ad356c0ce13e8b2b52b84b85d46acb86e6e99b8345000c24015"
+      },
+      "filename": "edencommon-2025.10.20.00.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/facebookexperimental/edencommon/archive/refs/tags/v2025.10.20.00.tar.gz",
+      "version": "2025.10.20.00"
+    }
+  ]
+}
