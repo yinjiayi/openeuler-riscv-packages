@@ -1,0 +1,21 @@
+{
+  "package_id": "yabridge",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a1b2de847117a41d7c2c9142846449737ddeb1e6a5d0c4c9f06b7c97604fc4a0"
+      },
+      "filename": "yabridge-5.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/robbert-vdh/yabridge/archive/refs/tags/5.1.1.tar.gz",
+      "version": "5.1.1"
+    }
+  ]
+}
