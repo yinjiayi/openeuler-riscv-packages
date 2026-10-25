@@ -1,0 +1,21 @@
+{
+  "package_id": "qatlib",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7c68bf05f196153b1b1669a7d17e5bfba6253e7cafb69f67d30a0d17e7facecb"
+      },
+      "filename": "qatlib-26.02.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/intel/qatlib/archive/refs/tags/26.02.0.tar.gz",
+      "version": "26.02.0"
+    }
+  ]
+}
