@@ -1,0 +1,21 @@
+{
+  "package_id": "sslh",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "416b401cf8f0a43b575f7a1571bafd5375401d741833b27918aaecb200445f92"
+      },
+      "filename": "sslh-2.3.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/yrutschle/sslh/archive/refs/tags/v2.3.1.tar.gz",
+      "version": "2.3.1"
+    }
+  ]
+}
