@@ -1,0 +1,36 @@
+{
+  "package_id": "chibi-scheme",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "84b897fac59dc806d1ee7225e41d10918ffa3d920953be60ef428faf41109c38"
+      },
+      "filename": "chibi-scheme-0.12.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Root COPYING grants BSD-3-Clause; complete AUTHORS and original per-file MIT/public-domain notices are preserved without deleting source or tests. Racket benchmark attribution has separately pinned official MIT grant in source1."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/ashinn/chibi-scheme/tar.gz/08e23be118e7de8cf29d606bc4793371c0ace680",
+      "version": "0.12.0"
+    },
+    {
+      "digests": {
+        "sha256": "6ae314acf8e015716cdfbed46fdc6ded0a599411b8b98cd61c87f9940f85ffc7"
+      },
+      "filename": "LICENSE-MIT-racket.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Exact official Racket MIT grant, license text only; benchmark-source attributions remain in untouched Source0, with no claim that older transformed fragments equal current Racket bytes."
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/racket/racket/e8467c56c99457d3c1657e29ac80d58b9454ecdc/racket/src/LICENSE-MIT.txt",
+      "version": "e8467c56c99457d3c1657e29ac80d58b9454ecdc"
+    }
+  ]
+}
