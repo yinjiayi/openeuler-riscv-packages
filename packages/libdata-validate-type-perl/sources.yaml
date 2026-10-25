@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-validate-type-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Validate-Type-v1.6.0.tar.gz",
+      "version": "1.6.0",
+      "url": "https://cpan.metacpan.org/authors/id/A/AU/AUBERTG/Data-Validate-Type-v1.6.0.tar.gz",
+      "digests": {
+        "sha256": "5fb3c535906cff5064ce29307f96166ec02819818983dd72c6ea991943cd928d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Copyright holder Guillaume Aubert explicitly grants redistribution under Perl 5 terms in the bundled LICENSE, installed PM POD, and t/LocalTest.pm POD. The LICENSE spells out GPL 1 or later or Artistic 1.0. Publisher CHECKSUMS matches the independently downloaded official HTTPS archive SHA-256."
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-validate-type-perl",
+  "rpm": {
+    "name": "perl-Data-Validate-Type",
+    "summary": "Type validation functions for Perl data",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-validate-type-perl",
+    "homepage": "https://metacpan.org/dist/Data-Validate-Type",
+    "source_repository": "https://github.com/guillaumeaubert/Data-Validate-Type",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AU/AUBERTG/",
+    "release_regex": "Data-Validate-Type-v?(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AU/AUBERTG/Data-Validate-Type-v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.6.0",
+    "release": "1",
+    "latest_detected": "1.6.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-validate-type-perl",
+        "package_base": "libdata-validate-type-perl",
+        "source_version": "1.6.0-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-validate-type-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-validate-type-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu libdata-validate-type-perl 1.6.0-2 key maps to official CPAN Data-Validate-Type v1.6.0. Publisher CHECKSUMS and independently downloaded HTTPS archive SHA-256 agree. LICENSE, the sole installed PM, and t/LocalTest.pm give the copyright holder same-Perl redistribution grant. Target SP3 RVA23 has no same-name/module provider and uniquely provides the runtime and full default-test dependency closure. All thirteen original t/*.t tests remain in %check. Test::FailWarnings is unavailable on the local Mac, so the complete upstream suite is unverified locally; exact-head target CI must prove all thirteen with no skip. The optional xt/ author checks are only selected by RELEASE_TESTING in upstream Build.PL and are not part of the default suite."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
