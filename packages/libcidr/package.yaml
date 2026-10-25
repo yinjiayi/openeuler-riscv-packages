@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "package_id": "libcidr",
+  "rpm": {
+    "name": "libcidr",
+    "summary": "IPv4 and IPv6 CIDR address manipulation library",
+    "license": "BSD-2-Clause AND BSD-4-Clause-UC"
+  },
+  "upstream": {
+    "component": "over-yonder.net-libcidr",
+    "homepage": "https://www.over-yonder.net/~fullermd/projects/libcidr",
+    "source_repository": "https://www.over-yonder.net/~fullermd/projects/libcidr",
+    "release_channel": "stable",
+    "release_api": "https://www.over-yonder.net/~fullermd/projects/libcidr",
+    "release_regex": "libcidr-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://www.over-yonder.net/~fullermd/projects/libcidr/libcidr-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.2.3",
+    "release": "1",
+    "latest_detected": "1.2.3"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libcidr",
+        "package_base": "libcidr",
+        "source_version": "1.2.3-1",
+        "evidence_url": "https://aur.archlinux.org/packages/libcidr",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libcidr",
+        "package_base": "libcidr",
+        "source_version": "1.2.3-3",
+        "evidence_url": "https://packages.debian.org/source/stable/libcidr",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libcidr",
+        "package_base": "libcidr",
+        "source_version": "1.2.3-3build1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libcidr",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libcidr.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-regression-report-failures.patch",
+        "sha256": "617a3f90d2547326b4fd39c0fc03a8bbca4171748eb215aa30c3b80ef790d53e",
+        "license": "BSD-2-Clause",
+        "purpose": "Propagate upstream regression-case and setup failures into CI status without removing cases.",
+        "source": "Downstream review of the official 1.2.3 test.pl script.",
+        "upstream_status": "downstream-only",
+        "remove_when": "Upstream test.pl reliably exits nonzero when any regression case or setup step fails."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact libcidr lineage maps to the official stable 1.2.3 tarball. The full registered upstream regression cases run under %check; a package-local patch only makes mismatches and setup failures return nonzero. All seven upstream test executables are built. Installed smoke exercises the public IPv4/IPv6 C API and cidrcalc. tools/lorder is a BSD-4-Clause-UC build-only script, not installed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
