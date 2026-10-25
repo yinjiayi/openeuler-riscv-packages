@@ -426,13 +426,22 @@ cat > libsmf-lifetime.mk <<'LIBSMF_LIFETIME_MAKE_EOF'
 # Draft supplemental Makefile: trusted target CI only, after configure.
 # Invoke using: make -C src -f Makefile -f ../libsmf-lifetime.mk <target>
 # Configured CC/DEFS/includes/GLib flags remain those of the original Makefile.
-.PHONY: lifetime-fixed-diagnostic lifetime-original-diagnostic lifetime-regression
+.PHONY: lifetime-compiler-identity lifetime-fixed-diagnostic lifetime-original-diagnostic lifetime-regression
+lifetime-compiler-identity:
+	$(CC) --version
+	$(CC) -dumpfullversion -dumpversion
+	$(CC) -dumpmachine
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libsmf_la_CFLAGS) $(CFLAGS) -Werror=use-after-free -Wuse-after-free=3 -Q --help=warnings -x c -c /dev/null -o ../lifetime-warning-options.o > ../lifetime-warning-options.txt
+	cat ../lifetime-warning-options.txt
+	grep -E '^[[:space:]]+-Wuse-after-free=[^[:space:]]+[[:space:]]+3[[:space:]]*$$' ../lifetime-warning-options.txt
+	sha256sum ../lifetime-warning-options.txt
+
 lifetime-fixed-diagnostic:
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libsmf_la_CFLAGS) $(CFLAGS) -Wuse-after-free=3 -Werror=use-after-free -x c -c smf_save.c -o ../lifetime-fixed.o
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libsmf_la_CFLAGS) $(CFLAGS) -Werror=use-after-free -Wuse-after-free=3 -x c -c smf_save.c -o ../lifetime-fixed.o
 
 lifetime-original-diagnostic:
 	@set +e; \
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libsmf_la_CFLAGS) $(CFLAGS) -Wuse-after-free=3 -Werror=use-after-free -x c -c ../license-notices/src/smf_save.c.notice -o ../lifetime-original.o > ../lifetime-original-compiler.stdout 2> ../lifetime-original-compiler.stderr; \
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libsmf_la_CFLAGS) $(CFLAGS) -Werror=use-after-free -Wuse-after-free=3 -x c -c ../license-notices/src/smf_save.c.notice -o ../lifetime-original.o > ../lifetime-original-compiler.stdout 2> ../lifetime-original-compiler.stderr; \
 	compiler_status=$$?; \
 	printf '%%s\n' "$$compiler_status" > ../lifetime-original-compiler.status || exit 125; \
 	cat ../lifetime-original-compiler.stdout || exit 125; \
@@ -447,19 +456,23 @@ cat > libsmf-lifetime-check.sh <<'LIBSMF_LIFETIME_CHECK_EOF'
 # Unexecuted draft %%check addition: target CI only, never run locally.
 # Preserve existing original check and six build/installed API cases.
 set -euo pipefail
+LC_ALL=C make -C src -f Makefile -f ../libsmf-lifetime.mk lifetime-compiler-identity
 LC_ALL=C make -C src -f Makefile -f ../libsmf-lifetime.mk lifetime-fixed-diagnostic
 for output in lifetime-original-compiler.stdout lifetime-original-compiler.stderr lifetime-original-compiler.status lifetime-original.o lifetime-original-diagnostic.log; do
     test ! -e "$output" && test ! -L "$output"
 done
 if LC_ALL=C make -C src -f Makefile -f ../libsmf-lifetime.mk lifetime-original-diagnostic > lifetime-original-diagnostic.log 2>&1; then
-    cat lifetime-original-diagnostic.log
-    echo 'FAIL: exact original source unexpectedly accepted by diagnostic control' >&2
-    exit 1
+    original_make_status=0
 else
     original_make_status=$?
 fi
 cat lifetime-original-diagnostic.log
 sha256sum lifetime-original-diagnostic.log lifetime-original-compiler.stdout lifetime-original-compiler.stderr lifetime-original-compiler.status
+printf 'original-source raw status: compiler=%%s make=%%s\n' "$(cat lifetime-original-compiler.status)" "$original_make_status"
+if test "$original_make_status" -eq 0; then
+    echo 'FAIL: exact original source unexpectedly accepted by diagnostic control' >&2
+    exit 1
+fi
 test "$original_make_status" -eq 2
 test "$(cat lifetime-original-compiler.status)" = 1
 test ! -s lifetime-original-compiler.stdout

@@ -100,11 +100,24 @@ includes the complete patched writer source with private symbol renaming; the
 unchanged API cases separately exercise the actually linked patched library.
 Moving allocations do not imply that the original undefined arithmetic must
 fail at runtime. A distinct GCC-specific negative compiles exact preserved
-original source with -Wuse-after-free=3 -Werror=use-after-free and requires compiler exit1/make2,
+original source with -Werror=use-after-free -Wuse-after-free=3 and requires compiler exit1/make2,
 the original line77 previous_file_buffer error and line65 realloc note, no
 unrelated error/fatal-error diagnostics, and no object. Multiple identical
 causal diagnostics are permitted, not claimed unique. The patched source must
 first compile with the same flags. Unsupported/wrong diagnostics fail closed.
-Full raw compiler streams/status and hashes are emitted. These controls are
+Category error promotion precedes the explicit level3 selection: GCC's category
+promotion can set its implied warning level to 1, which excludes the conditional
+may-use-after-free diagnostic; the explicit level3 selection must remain effective.
+The upstream GCC 14.3.0 [option processing](https://github.com/gcc-mirror/gcc/blob/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/gcc/opts-common.cc)
+and [diagnostic source](https://github.com/gcc-mirror/gcc/blob/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/gcc/gimple-ssa-warn-access.cc)
+support this ordering; they are not proof of the target
+distribution's GCC 14.3.1 behavior. Before either source control, target CI emits
+the configured compiler's version and target triple and queries effective warning
+options with the same flags, requiring the reported use-after-free level to be 3.
+Full raw original compiler streams/status and hashes are emitted before even the
+unexpected-success rejection, so a failed negative control retains its evidence.
+The earlier two target attempts failed this control; this third attempt is still
+unverified until actual target CI passes, and is the final bounded harness repair.
+These controls are
 mandatory target CI checks, not locally executed proof or general parser safety.
 The added regression source retains its full ISC grant in the SPEC/SRPM.
