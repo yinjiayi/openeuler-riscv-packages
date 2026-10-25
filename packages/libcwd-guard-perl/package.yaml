@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "package_id": "libcwd-guard-perl",
+  "rpm": {
+    "name": "perl-Cwd-Guard",
+    "summary": "Temporarily change directory with scope-based restoration",
+    "license": "Artistic-1.0"
+  },
+  "upstream": {
+    "component": "search.cpan.org-dist-cwd-guard",
+    "homepage": "https://metacpan.org/dist/Cwd-Guard",
+    "source_repository": "https://github.com/kazeburo/Cwd-Guard",
+    "release_channel": "stable",
+    "release_api": "https://fastapi.metacpan.org/v1/release/Cwd-Guard",
+    "release_regex": null,
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KA/KAZEBURO/Cwd-Guard-{version}.tar.gz"
+  },
+  "version": {"current": "0.05", "release": "1", "latest_detected": "0.05"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{
+      "source": "debian",
+      "package_name": "libcwd-guard-perl",
+      "package_base": "libcwd-guard-perl",
+      "source_version": "0.05-4",
+      "evidence_url": "https://deb.debian.org/debian/dists/stable/main/source/Sources.xz",
+      "observed_at": "2026-08-08T16:50:00Z"
+    }]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libcwd-guard-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official authorized KAZEBURO stable0.05 archive10253B/SHA7afc7ca2 with API and publisher CHECKSUMS agreement; preserve all12 original files/modes/default3files7 assertions. Original Masahiro Nagano same-Perl grant, full GPL1-or-later and generic nine-clause Artistic1 license, contributor and Changes notices remain unchanged; this distribution selects Artistic-1.0 without relicensing. Full original Module::Build test retained before exact Harness3.48 strict3/7 statistics and zero failures/skips/TODO/bonus. Original default File::Spec::Link >=0.080 is test-only BuildRequires, supplied by state-bound supplemental perl-File-Copy-Link0:0.200-1; before defaults it must load and original USE_FCHDIR must be true, no skipped renamed test or altered constant. Complete target metadata supplier closure is not DNF or runtime proof. Installed ordinary10001 private smoke covers scope/nested/renamed-inode restoration and undefined-return/Error failure behavior, installed module/full6notice bytes/version/provider; no native/timing/security or public release claim. Active updates metadata is not exact-head target acceptance; hosted full default suite, physical RPM/SRPM and installed smoke evidence remain required."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-metacpan-api"}
+}
