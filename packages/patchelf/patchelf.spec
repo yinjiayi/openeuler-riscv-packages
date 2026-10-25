@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           patchelf
-Version:        0.19.1
+Version:        0.19.2
 Release:        1%{?dist}
 Summary:        Utility for modifying ELF executables and libraries
 License:        GPL-3.0-or-later
 URL:            https://github.com/NixOS/patchelf
-Source0:        patchelf-%{version}.tar.bz2
+Source0:        patchelf-0.19.2.tar.bz2
 
 BuildRequires:  binutils
 BuildRequires:  coreutils
