@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-cidr-set-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Net-CIDR-Set-0.23.tar.gz",
+      "version": "0.23",
+      "url": "https://cpan.metacpan.org/authors/id/R/RR/RRWO/Net-CIDR-Set-0.23.tar.gz",
+      "digests": {
+        "sha256": "806bfaa0b4e23c7d862358e21f941d9b4d375ccc865423b1ab92b721dbd36d36"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS binds the full archive. LICENSE and README.md give the distribution the same terms as Perl 5; each of its three shipped modules repeats that grant and META.json identifies Artistic-1.0-Perl OR GPL-1.0-or-later. Set.pm credits copied Net::CIDR::Lite encode/decode routines, whose own official module POD also grants the same terms as Perl. Test and build files carry no conflicting notice."
+      }
+    }
+  ]
+}
