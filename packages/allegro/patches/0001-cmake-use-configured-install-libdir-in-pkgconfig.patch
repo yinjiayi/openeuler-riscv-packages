@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Sun, 6 Sep 2026 00:00:00 +0000
+Subject: [PATCH] cmake: use configured install libdir in pkg-config files
+
+GNUInstallDirs selects the target library directory through
+CMAKE_INSTALL_LIBDIR, but the generated pkg-config metadata still hard-codes
+lib plus the obsolete LIB_SUFFIX variable.  Use the same configured directory
+for both installation and consumer linker flags so riscv64 metadata points at
+lib64 without relying on a deprecated option.
+
+Patch-Source: openEuler RISC-V package review
+Patch-License: Zlib
+Upstream-Status: Not Submitted (automated upstream writes are not authorized)
+Remove-When: Upstream generates pkg-config libdir from CMAKE_INSTALL_LIBDIR.
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1185 +1185 @@
+-set(libdir "\${exec_prefix}/lib${LIB_SUFFIX}")
++set(libdir "\${exec_prefix}/${CMAKE_INSTALL_LIBDIR}")
