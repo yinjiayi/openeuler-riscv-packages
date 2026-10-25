@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-intspan-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Array-IntSpan-2.004.tar.gz",
+      "version": "2.004",
+      "url": "https://cpan.metacpan.org/authors/id/D/DD/DDUMONT/Array-IntSpan-2.004.tar.gz",
+      "digests": {
+        "sha256": "4dcd17afce0955ee6b2a9bdd6e06669b9fa1daca161e11b4808f0e33a0ce0c99"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN source includes an Artistic-2.0 LICENSE and is fetched over HTTPS with its official SHA-256 checksum."
+      }
+    }
+  ]
+}
