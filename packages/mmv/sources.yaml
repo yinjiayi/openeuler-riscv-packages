@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "package_id": "mmv",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/rrthomas/mmv/releases/download/v2.10/mmv-2.10.tar.gz",
+      "filename": "mmv-2.10.tar.gz",
+      "version": "2.10",
+      "digests": {"sha256": "2bbba14c099b512b4a7e9effacec53caa06998069d108a5669ff424ffc879d03"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "The official current mmv source and README grant GPL-3.0-or-later redistribution with notice and source obligations."}
+    }
+  ]
+}
