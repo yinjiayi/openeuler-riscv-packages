@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "package_id": "liblinear",
+  "rpm": {"name": "liblinear", "summary": "Linear classification and regression library", "license": "BSD-3-Clause"},
+  "upstream": {
+    "component": "csie.ntu.edu.tw-cjlin-liblinear",
+    "homepage": "https://www.csie.ntu.edu.tw/~cjlin/liblinear/",
+    "source_repository": "https://github.com/cjlin1/liblinear.git",
+    "release_channel": "stable",
+    "release_api": "https://www.csie.ntu.edu.tw/~cjlin/liblinear/",
+    "release_regex": "liblinear-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://www.csie.ntu.edu.tw/~cjlin/liblinear/liblinear-{version}.tar.gz"
+  },
+  "version": {"current": "2.50", "release": "1", "latest_detected": "2.50"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "liblinear", "package_base": "liblinear", "source_version": "2.3.0+dfsg-5", "evidence_url": "https://packages.debian.org/source/sid/liblinear", "observed_at": "2026-09-28T00:00:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "liblinear.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "The official LIBLINEAR 2.50 release is pinned to annotated v250 tag commit 491c9f1188b97ba70847c70a68be363d186ddf9d. The upstream source contains no registered test suite; %check trains and predicts the shipped heart_scale dataset, runs five-fold cross-validation, and checks the shared C API. Sample training accuracy is a functional assertion only, not a generalization or performance claim."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}
