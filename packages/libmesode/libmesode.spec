@@ -6,6 +6,7 @@ Summary:        Lightweight XMPP client library with OpenSSL support
 License:        MIT AND LicenseRef-Public-Domain AND LicenseRef-Patrick-Powell
 URL:            https://github.com/boothj5/libmesode
 Source0:        libmesode-%{version}.tar.gz
+Patch0:         0001-bound-DNS-compression-jumps.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  bash
@@ -20,6 +21,7 @@ BuildRequires:  gzip
 BuildRequires:  libtool
 BuildRequires:  make
 BuildRequires:  openssl-devel
+BuildRequires:  patch
 BuildRequires:  pkgconf
 BuildRequires:  sed
 BuildRequires:  tar
@@ -32,7 +34,7 @@ library, mesode.h header and pkg-config identity. OpenSSL and Expat support,
 shared/static libraries and all upstream default checks/examples are preserved.
 
 %prep
-%autosetup -n libmesode-%{version} -p1
+%setup -q -n libmesode-%{version}
 set -eu
 set -o pipefail
 # Preserve all 83 original regular members before any generated helper changes.
@@ -46,6 +48,7 @@ while IFS= read -r -d '' member; do
 done
 test "$(find license-notices -type f -name '*.notice' | wc -l)" -eq 83
 (cd license-notices; find . -type f -name '*.notice' -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS)
+%autopatch -p1
 # Same bootstrap operation as upstream bootstrap.sh; no default feature switches.
 mkdir -p m4
 autoreconf -fi
@@ -171,6 +174,180 @@ int main(void)
     return 0;
 }
 LIBMESODE_API_EOF
+cat > dns-compression-regression.c <<'LIBMESODE_DNS_EOF'
+/*
+ * Copyright 2026 openEuler RISC-V package contributors.
+ * SPDX-License-Identifier: MIT
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * Target-only deterministic checks. Never compiled or run by local tooling.
+ * The positive executable links the actual default static library. Only the
+ * separate negative control includes preserved, unmodified original resolver C.
+ */
+#include <assert.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "mesode.h"
+#include "resolver.h"
+
+#ifdef LIBMESODE_ORIGINAL_NEGATIVE
+#include "license-notices/src/resolver.c.notice"
+static volatile unsigned decoder_entries;
+static volatile int armed;
+void __cyg_profile_func_enter(void *, void *) __attribute__((no_instrument_function));
+void __cyg_profile_func_exit(void *, void *) __attribute__((no_instrument_function));
+void __cyg_profile_func_enter(void *fn, void *caller)
+{
+    (void)caller;
+    if (armed && fn == (void *)message_name_get) {
+        ++decoder_entries;
+        if (decoder_entries == 65) {
+            /* On the fixed self-pointer, every recursive frame gets exactly
+             * the same bytes, offset12, NULL destination and SIZE_MAX limit.
+             * Stop before uncontrolled stack growth; this is not a timeout.
+             */
+            fputs("libmesode original compression self-cycle decoder entries=65 EXIT97\n", stderr);
+            _Exit(97);
+        }
+    }
+}
+void __cyg_profile_func_exit(void *fn, void *caller)
+{
+    (void)fn;
+    (void)caller;
+}
+#endif
+
+static void header(unsigned char *p, unsigned qd, unsigned an)
+{
+    memset(p, 0, 12);
+    p[2] = 0x80;
+    p[4] = (unsigned char)(qd >> 8);
+    p[5] = (unsigned char)qd;
+    p[6] = (unsigned char)(an >> 8);
+    p[7] = (unsigned char)an;
+}
+static void pointer(unsigned char *p, unsigned offset)
+{
+    assert(offset < 16384);
+    p[0] = (unsigned char)(0xc0 | (offset >> 8));
+    p[1] = (unsigned char)offset;
+}
+static void rejected(xmpp_ctx_t *ctx, const unsigned char *p, size_t size)
+{
+    resolver_srv_rr_t *rr = (resolver_srv_rr_t *)(uintptr_t)1;
+    int rc = resolver_srv_lookup_buf(ctx, p, size, &rr);
+    assert(rc == XMPP_DOMAIN_NOT_FOUND && rr == NULL);
+}
+static void accepted(xmpp_ctx_t *ctx, const unsigned char *p, size_t size,
+                     const char *target)
+{
+    resolver_srv_rr_t *rr = NULL;
+    assert(resolver_srv_lookup_buf(ctx, p, size, &rr) == XMPP_DOMAIN_FOUND);
+    assert(rr != NULL && rr->next == NULL);
+    assert(rr->priority == 1 && rr->weight == 2 && rr->port == 5222);
+    assert(strcmp(rr->target, target) == 0);
+    resolver_srv_free(ctx, rr);
+}
+int main(void)
+{
+    unsigned char p[16384];
+    xmpp_ctx_t *ctx;
+    setvbuf(stdout, NULL, _IONBF, 0);
+    xmpp_initialize();
+    ctx = xmpp_ctx_new(NULL, NULL);
+    assert(ctx != NULL);
+    header(p, 1, 0);
+    pointer(p + 12, 12);
+    p[14] = 0; p[15] = 33; p[16] = 0; p[17] = 1;
+#ifdef LIBMESODE_ORIGINAL_NEGATIVE
+    /* Execute only the original self-cycle. No generic pass/failure fallback:
+     * expected success for this control is exact97 plus the exact entry marker.
+     */
+    armed = 1;
+    rejected(ctx, p, 18);
+    fputs("original self-cycle unexpectedly returned\n", stderr);
+    return 1;
+#else
+    rejected(ctx, p, 18);
+    puts("DNS case1 self-cycle rejected");
+
+    header(p, 1, 0);
+    pointer(p + 12, 18);
+    p[14] = 0; p[15] = 33; p[16] = 0; p[17] = 1;
+    pointer(p + 18, 12);
+    rejected(ctx, p, 20);
+    puts("DNS case2 two-node cycle rejected");
+
+    /* A 4096-pointer acyclic chain ending at the root label remains legal.
+     * Its first pointer consumes two bytes; subsequent question fields are
+     * followed by a genuine SRV answer. Chain bytes are trailing message data.
+     */
+    header(p, 1, 1);
+    pointer(p + 12, 64);
+    p[14] = 0; p[15] = 33; p[16] = 0; p[17] = 1;
+    p[18] = 0; /* root owner name */
+    p[19] = 0; p[20] = 33; p[21] = 0; p[22] = 1;
+    memset(p + 23, 0, 4);
+    p[27] = 0; p[28] = 7;
+    p[29] = 0; p[30] = 1; p[31] = 0; p[32] = 2;
+    p[33] = 0x14; p[34] = 0x66; p[35] = 0;
+    for (unsigned i = 0; i < 4095; ++i) pointer(p + 64 + 2 * i, 64 + 2 * (i + 1));
+    p[64 + 2 * 4095] = 0;
+    accepted(ctx, p, 64 + 2 * 4095 + 1, "");
+    puts("DNS case3 long acyclic compression chain accepted");
+    pointer(p + 64 + 2 * 4094, 64);
+    rejected(ctx, p, 64 + 2 * 4095 + 1);
+    puts("DNS case4 long compression cycle rejected");
+
+    header(p, 1, 0);
+    p[12] = 0xc0;
+    rejected(ctx, p, 13);
+    pointer(p + 12, 16383);
+    rejected(ctx, p, 18);
+    p[12] = 3; p[13] = 'a';
+    rejected(ctx, p, 14);
+    p[12] = 0x40;
+    rejected(ctx, p, 18);
+    puts("DNS case5 truncated pointer label out-of-range and reserved forms rejected");
+
+    /* Question a.example; compressed answer owner and target b.example. */
+    header(p, 1, 1);
+    p[12] = 1; p[13] = 'a'; p[14] = 7;
+    memcpy(p + 15, "example", 7); p[22] = 0;
+    p[23] = 0; p[24] = 33; p[25] = 0; p[26] = 1;
+    pointer(p + 27, 12);
+    p[29] = 0; p[30] = 33; p[31] = 0; p[32] = 1;
+    memset(p + 33, 0, 4);
+    p[37] = 0; p[38] = 10;
+    p[39] = 0; p[40] = 1; p[41] = 0; p[42] = 2;
+    p[43] = 0x14; p[44] = 0x66;
+    p[45] = 1; p[46] = 'b'; pointer(p + 47, 14);
+    accepted(ctx, p, 49, "b.example");
+    puts("DNS case6 legitimate compressed owner and target accepted");
+    xmpp_ctx_free(ctx);
+    xmpp_shutdown();
+    puts("libmesode DNS compression regression cases 6/6 PASS");
+    return 0;
+#endif
+}
+LIBMESODE_DNS_EOF
 
 %build
 %configure --enable-shared --enable-static CFLAGS="%{optflags} -UNDEBUG"
@@ -199,10 +376,37 @@ for example in active basic bot component roster uuid vcard; do
 done
 (cd license-notices; sha256sum -c SHA256SUMS)
 LD_LIBRARY_PATH="$PWD/.libs" ./api-smoke
+# Supplemental deterministic target-only decoder regression. Original tests above
+# remain byte-for-byte unchanged; original source control is separately linked.
+set -eu
+mkdir dns-compression-results
+gcc %{optflags} -UNDEBUG -I. -Isrc dns-compression-regression.c \
+    .libs/libmesode.a $(pkg-config --libs openssl expat) -lresolv \
+    %{?__global_ldflags} -o dns-compression-patched
+gcc %{optflags} -UNDEBUG -I. -Isrc -DLIBMESODE_ORIGINAL_NEGATIVE \
+    -finstrument-functions dns-compression-regression.c .libs/libmesode.a \
+    $(pkg-config --libs openssl expat) -lresolv %{?__global_ldflags} \
+    -o dns-compression-original
+set +x
+if ./dns-compression-original > dns-compression-results/original.stdout 2> dns-compression-results/original.stderr; then original_status=0; else original_status=$?; fi
+if ./dns-compression-patched > dns-compression-results/patched.stdout 2> dns-compression-results/patched.stderr; then patched_status=0; else patched_status=$?; fi
+printf '%%s\n' "$original_status" > dns-compression-results/original.exit
+printf '%%s\n' "$patched_status" > dns-compression-results/patched.exit
+sha256sum dns-compression-regression.c src/resolver.c license-notices/src/resolver.c.notice dns-compression-patched dns-compression-original dns-compression-results/*
+cat dns-compression-results/original.stderr dns-compression-results/patched.stdout
+test "$original_status" -eq 97
+test "$patched_status" -eq 0
+test ! -s dns-compression-results/original.stdout
+test ! -s dns-compression-results/patched.stderr
+test "$(wc -l < dns-compression-results/original.stderr)" -eq 1
+grep -Fx 'libmesode original compression self-cycle decoder entries=65 EXIT97' dns-compression-results/original.stderr
+test "$(wc -l < dns-compression-results/patched.stdout)" -eq 7
+grep -Fx 'libmesode DNS compression regression cases 6/6 PASS' dns-compression-results/patched.stdout
+set -x
 
 %files
 %license LICENSE.txt MIT-LICENSE.txt GPL-LICENSE.txt COPYING license-notices
-%doc README.markdown AUTHORS ChangeLog NEWS examples/README.md
+%doc README.markdown AUTHORS ChangeLog NEWS examples/README.md dns-compression-regression.c
 %{_libdir}/libmesode.so.0
 %{_libdir}/libmesode.so.0.0.0
 %{_libdir}/libmesode.so
