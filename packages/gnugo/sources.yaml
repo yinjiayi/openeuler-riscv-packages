@@ -1,0 +1,21 @@
+{
+  "package_id": "gnugo",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "da68d7a65f44dcf6ce6e4e630b6f6dd9897249d34425920bfdd4e07ff1866a72"
+      },
+      "filename": "gnugo-3.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/gnugo/gnugo-3.8.tar.gz",
+      "version": "3.8"
+    }
+  ]
+}
