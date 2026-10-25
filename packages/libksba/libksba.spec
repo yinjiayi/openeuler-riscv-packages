@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libksba
-Version:        1.8.0
+Version:        1.8.1
 Release:        1%{?dist}
 Summary:        CMS and X.509 certificate access library
 License:        GPL-3.0-or-later AND LGPL-2.1-or-later AND (LGPL-3.0-or-later OR GPL-2.0-or-later)
 URL:            https://gnupg.org/related_software/libksba/
-Source0:        libksba-%{version}.tar.bz2
+Source0:        libksba-1.8.1.tar.bz2
 
 BuildRequires:  gcc
 BuildRequires:  gawk
