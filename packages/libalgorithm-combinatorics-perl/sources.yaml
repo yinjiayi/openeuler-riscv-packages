@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-combinatorics-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Algorithm-Combinatorics-0.27.tar.gz",
+      "version": "0.27",
+      "url": "https://cpan.metacpan.org/authors/id/F/FX/FXN/Algorithm-Combinatorics-0.27.tar.gz",
+      "digests": {
+        "sha256": "8378da39ecdb37d5cc89cc130a3b1353fd75d56c7690905673473fe4c25cd132"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official source README and module POD expressly license this release under the same terms as Perl itself; its SHA-256 matches the publisher's CPAN CHECKSUMS."
+      }
+    }
+  ]
+}
