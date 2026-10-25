@@ -1,0 +1,31 @@
+{
+  "package_id": "libgse",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "cdf4158f0952501d80e8eaec1a5c39ed7862e997ae40f104b1caeb82a0a4c58b"
+      },
+      "filename": "libgse-1.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original LGPL3-or-later library/TAS grant and Regents Berkeley CRC notices retained. BSD-4-Clause-UC and Berkeley's retroactive advertising-clause amendment are scoped to Regents-owned code, not a blanket relicense of modifications. Complete original LGPL/BSD and official GPL3 texts supplied."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/CNES/libgse/tar.gz/8d7fe35d2cc0a669af89ca039f506e787a6ebaa6",
+      "version": "1.2.1"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "filename": "COPYING.GPL3",
+      "version": "3.0",
+      "digests": {"sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Official GNU GPL3 document permits verbatim copying; complete unmodified text accompanies original LGPL3 license."}
+    }
+  ]
+}
