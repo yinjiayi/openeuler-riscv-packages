@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/s3fs-fuse/s3fs-fuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "s3fs-fuse",
+        "package_name": "s3fs-fuse",
+        "source": "arch-extra",
+        "source_version": "1.97-1"
+      },
+      {
+        "evidence_url": "https://github.com/s3fs-fuse/s3fs-fuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "s3fs-fuse",
+        "package_name": "s3fs-fuse",
+        "source": "debian",
+        "source_version": "1.95-1"
+      },
+      {
+        "evidence_url": "https://github.com/s3fs-fuse/s3fs-fuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "s3fs-fuse",
+        "package_name": "s3fs-fuse",
+        "source": "fedora",
+        "source_version": "1.97-1.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/s3fs-fuse/s3fs-fuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "s3fs",
+        "package_name": "s3fs",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.97-1.6"
+      },
+      {
+        "evidence_url": "https://github.com/s3fs-fuse/s3fs-fuse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "s3fs-fuse",
+        "package_name": "s3fs-fuse",
+        "source": "ubuntu",
+        "source_version": "1.95-1build2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "s3fs-fuse.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "s3fs-fuse",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "s3fs-fuse",
+    "summary": "FUSE-based file system backed by Amazon S3"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-s3fs-fuse-s3fs-fuse",
+    "homepage": "https://github.com/s3fs-fuse/s3fs-fuse",
+    "release_api": "https://api.github.com/repos/s3fs-fuse/s3fs-fuse/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+){1,3})$",
+    "source_repository": "https://github.com/s3fs-fuse/s3fs-fuse",
+    "source_url_template": "https://github.com/s3fs-fuse/s3fs-fuse/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.97",
+    "latest_detected": "1.97",
+    "release": "1"
+  }
+}
