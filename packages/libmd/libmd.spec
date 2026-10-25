@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libmd
-Version:        1.2.0
+Version:        1.3.0
 Release:        1%{?dist}
 Summary:        Message-digest functions from BSD systems
 License:        BSD-3-Clause AND BSD-2-Clause AND ISC AND LicenseRef-Beerware AND LicenseRef-Public-Domain
 URL:            https://hadrons.org/software/libmd
-Source0:        libmd-%{version}.tar.xz
+Source0:        libmd-1.3.0.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  make
