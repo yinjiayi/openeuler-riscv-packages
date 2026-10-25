@@ -1,0 +1,21 @@
+{
+  "package_id": "clad",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "69502d31bc4f399e696652373e6c77ded5f015c9639fce0c177ad98b207337e9"
+      },
+      "filename": "clad-2.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/vgvassilev/clad/archive/refs/tags/v2.4.tar.gz",
+      "version": "2.4"
+    }
+  ]
+}
