@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           objcurses
-Version:        1.3.0
-Release:        2%{?dist}
+Version:        2.2.1
+Release:        1%{?dist}
 Summary:        Minimalistic 3D object viewer for the terminal using ncurses
 License:        MIT
 URL:            https://github.com/admtrv/objcurses
-Source0:        objcurses-1.3.0.tar.gz
+Source0:        v2.2.1.tar.gz
 Patch0:         patches/0001-cmake-exclude-compiler-probes.patch
 BuildRequires:  cmake
 BuildRequires:  gcc

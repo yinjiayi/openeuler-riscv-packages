@@ -22,12 +22,12 @@
     "patches": [
       {
         "file": "patches/0001-cmake-exclude-compiler-probes.patch",
-        "sha256": "f885a827138b5ba58b6a65b2ac39c8b3c632d20a67cfee16c832ef1c5dc44bfb",
-        "purpose": "Exclude generated CMake compiler probes from the upstream recursive source glob.",
-        "source": "openEuler RISC-V package CI failure analysis",
         "license": "MIT",
-        "upstream_status": "downstream-only",
-        "remove_when": "Upstream excludes CMakeFiles or stops using an unbounded recursive source glob."
+        "purpose": "Exclude generated CMake compiler probes from the upstream recursive source glob.",
+        "remove_when": "Upstream excludes CMakeFiles or stops using an unbounded recursive source glob.",
+        "sha256": "f885a827138b5ba58b6a65b2ac39c8b3c632d20a67cfee16c832ef1c5dc44bfb",
+        "source": "openEuler RISC-V package CI failure analysis",
+        "upstream_status": "downstream-only"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -57,7 +57,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-10-14T23:59:24Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
   },
@@ -71,8 +71,8 @@
     "source_url_template": "https://github.com/admtrv/objcurses/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "1.3.0",
-    "latest_detected": "1.3.0",
+    "current": "2.2.1",
+    "latest_detected": "2.2.1",
     "release": "2"
   }
 }
