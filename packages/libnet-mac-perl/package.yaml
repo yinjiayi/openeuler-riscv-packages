@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-mac-perl",
+  "rpm": {
+    "name": "perl-Net-MAC",
+    "summary": "Represent and manipulate MAC addresses in Perl",
+    "license": "GPL-2.0-only"
+  },
+  "upstream": {
+    "component": "libnet-mac-perl",
+    "homepage": "https://metacpan.org/dist/Net-MAC",
+    "source_repository": "https://metacpan.org/dist/Net-MAC",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/O/OL/OLIVER/",
+    "release_regex": "Net-MAC-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/O/OL/OLIVER/Net-MAC-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.103622",
+    "release": "1",
+    "latest_detected": "2.103622"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libnet-mac-perl",
+        "package_base": "libnet-mac-perl",
+        "source_version": "2.103622-3",
+        "evidence_url": "https://sources.debian.org/src/libnet-mac-perl/2.103622-3/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libnet-mac-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Debian 2.103622-3 and official CPAN 2.103622. Publisher CHECKSUMS SHA-256 verified. Distribution LICENSE, README and module POD grant GPL version 2; module header also permits later versions, so metadata uses their common GPL-2.0-only path. Official SP3 RVA23 primary lacks same-name RPM/module provider and supplies all runtime and POD-test dependencies. All seven original default test files are retained; local 964 assertions passed while POD coverage skipped only because that optional test dependency is absent locally. Target BuildRequires forces both POD test providers. Target RPM and installed smoke remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
