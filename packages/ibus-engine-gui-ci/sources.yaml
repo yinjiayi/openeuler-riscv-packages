@@ -1,0 +1,21 @@
+{
+  "package_id": "ibus-engine-gui-ci",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c20d778e97311f0c040683f34aec8fd05289ba03e8c4e99b3558a939b0072f4a"
+      },
+      "filename": "ibus-engine-gui-ci-1.0.0.20220118.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/fujiwarat/ibus-engine-gui-ci/archive/refs/tags/1.0.0.20220118.tar.gz",
+      "version": "1.0.0.20220118"
+    }
+  ]
+}
