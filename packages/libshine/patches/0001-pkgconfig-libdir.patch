@@ -1,0 +1,11 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Honor configured libdir in pkg-config metadata
+
+The upstream template hard-codes libdir to prefix/lib, which is wrong on
+multilib targets that install into lib64. Use Autoconf's configured libdir.
+
+--- a/shine.pc.in
++++ b/shine.pc.in
+@@ -4 +4 @@
+-libdir=${exec_prefix}/lib
++libdir=@libdir@
