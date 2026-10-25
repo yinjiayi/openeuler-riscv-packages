@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "package_id": "libxmlb",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "version": "0.3.29",
+      "filename": "libxmlb-0.3.29.tar.xz",
+      "url": "https://github.com/hughsie/libxmlb/releases/download/0.3.29/libxmlb-0.3.29.tar.xz",
+      "digests": {"sha256": "448294be33bfae62f00fa66e506f1cae80237ce71b7ab6530aefa75005eeb08a"},
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "LGPL-2.1-or-later permits source redistribution; CI fetches the publisher's HTTPS release asset."
+      }
+    }
+  ]
+}
