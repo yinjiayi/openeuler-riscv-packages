@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "libxmu",
+  "rpm": {
+    "name": "libXmu",
+    "summary": "X11 miscellaneous utility libraries",
+    "license": "MIT-open-group AND SMLNJ AND X11 AND ISC"
+  },
+  "upstream": {
+    "component": "xorg.freedesktop.org-lib-libxmu",
+    "homepage": "https://gitlab.freedesktop.org/xorg/lib/libxmu",
+    "source_repository": "https://gitlab.freedesktop.org/xorg/lib/libxmu.git",
+    "release_channel": "stable",
+    "release_api": "https://xorg.freedesktop.org/archive/individual/lib/",
+    "release_regex": "libXmu-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_url_template": "https://xorg.freedesktop.org/archive/individual/lib/libXmu-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.3.1",
+    "release": "1",
+    "latest_detected": "1.3.1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libxmu",
+        "package_base": "libxmu",
+        "source_version": "1.3.1-1",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libxmu/",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libXmu.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-reallocarray-test-avoid-qemu-ignored-rlimit.patch",
+        "sha256": "19ad16ab20f73aff43a77aefea20a2ada6ba0ce21f844ca57caeb002788267f7",
+        "purpose": "Retain all upstream reallocarray assertions while making the oversize allocation fail independently of QEMU's ignored RLIMIT_AS setting.",
+        "source": "downstream QEMU user-mode compatibility",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream changes the oversize test to avoid reliance on RLIMIT_AS under QEMU user mode."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The exact libxmu inventory key maps to X.Org/RPM libXmu 1.3.1. The official release checksum is independently verified. All 11 upstream GLib test executables and their cases remain enabled in %check; a test-only patch uses a non-overflowing SIZE_MAX-1 request for the reallocarray oversize assertion because QEMU linux-user ignores RLIMIT_AS. Installed smoke exercises a display-free public function and verifies libXmu linkage. Optional DocBook generation is disabled, with both libraries/devel interfaces retained."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
