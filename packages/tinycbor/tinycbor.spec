@@ -2,12 +2,12 @@
 # Copyright (c) 2026 yinjiayi
 %global upstream_commit 6442e749ca811e24afad1551338a45c75e09808f
 Name:           tinycbor
-Version:        7.0
+Version:        7.1
 Release:        1%{?dist}
 Summary:        Compact CBOR encoder, decoder and diagnostic tool
 License:        MIT
 URL:            https://github.com/intel/tinycbor
-Source0:        https://codeload.github.com/intel/tinycbor/tar.gz/%{upstream_commit}#/tinycbor-%{version}.tar.gz
+Source0:        v7.1
 Source1:        https://raw.githubusercontent.com/intel/tinycbor/%{upstream_commit}/.gitattributes#/upstream-gitattributes
 Source2:        https://raw.githubusercontent.com/intel/tinycbor/%{upstream_commit}/.gitignore#/upstream-gitignore
 Source3:        https://raw.githubusercontent.com/intel/tinycbor/%{upstream_commit}/tests/.gitignore#/upstream-tests-gitignore

@@ -1,66 +1,66 @@
 {
-  "schema_version": 1,
   "package_id": "tinycbor",
+  "schema_version": 1,
   "sources": [
     {
+      "digests": {
+        "sha256": "08c0a4c0a983000806f3d8c1599ec07995789ae49e9a23034db4cbfccc81c2e5"
+      },
+      "filename": "v7.1",
       "id": "source0",
       "kind": "upstream-release",
-      "filename": "tinycbor-7.0.tar.gz",
-      "version": "7.0",
-      "url": "https://codeload.github.com/intel/tinycbor/tar.gz/6442e749ca811e24afad1551338a45c75e09808f",
-      "digests": {
-        "sha256": "5e9a9f379bc2378bbc5f4bc9bbf16f3a3f9837393b4520ed061309b92a57a8f4"
-      },
-      "signature": null,
       "redistribution": {
         "allowed": true,
         "reason": "Official fixed unsigned tag/commit. Complete MIT grants and author notices retained. Archive export-ignore/subst explicitly verified; no signature claim."
-      }
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/intel/tinycbor/tar.gz/v7.1",
+      "version": "7.1"
     },
     {
-      "id": "source1",
-      "kind": "upstream-release",
-      "filename": "upstream-gitattributes",
-      "version": "6442e749ca811e24afad1551338a45c75e09808f",
-      "url": "https://raw.githubusercontent.com/intel/tinycbor/6442e749ca811e24afad1551338a45c75e09808f/.gitattributes",
       "digests": {
         "sha256": "92ae9520a1a29354bfa2c4b104800023dc0abd83fc7fac70fd328c58e5171dc0"
       },
-      "signature": null,
+      "filename": "upstream-gitattributes",
+      "id": "source1",
+      "kind": "upstream-release",
       "redistribution": {
         "allowed": true,
         "reason": "Exact official fixed Git metadata excluded by export-ignore; MIT project provenance. Non-hidden transport basename restored to original dotfile destination."
-      }
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/intel/tinycbor/6442e749ca811e24afad1551338a45c75e09808f/.gitattributes",
+      "version": "6442e749ca811e24afad1551338a45c75e09808f"
     },
     {
-      "id": "source2",
-      "kind": "upstream-release",
-      "filename": "upstream-gitignore",
-      "version": "6442e749ca811e24afad1551338a45c75e09808f",
-      "url": "https://raw.githubusercontent.com/intel/tinycbor/6442e749ca811e24afad1551338a45c75e09808f/.gitignore",
       "digests": {
         "sha256": "4eef1f6e5775ae2605ef91fd0d36284a751303f2db78acb150978b7e01ea3abc"
       },
-      "signature": null,
+      "filename": "upstream-gitignore",
+      "id": "source2",
+      "kind": "upstream-release",
       "redistribution": {
         "allowed": true,
         "reason": "Exact official fixed Git metadata excluded by export-ignore; MIT project provenance. Non-hidden transport basename restored to original dotfile destination."
-      }
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/intel/tinycbor/6442e749ca811e24afad1551338a45c75e09808f/.gitignore",
+      "version": "6442e749ca811e24afad1551338a45c75e09808f"
     },
     {
-      "id": "source3",
-      "kind": "upstream-release",
-      "filename": "upstream-tests-gitignore",
-      "version": "6442e749ca811e24afad1551338a45c75e09808f",
-      "url": "https://raw.githubusercontent.com/intel/tinycbor/6442e749ca811e24afad1551338a45c75e09808f/tests/.gitignore",
       "digests": {
         "sha256": "2044f4e5abc4ee4a881df20e375dadeae820f615c6892ef34cd35dc470fa3efe"
       },
-      "signature": null,
+      "filename": "upstream-tests-gitignore",
+      "id": "source3",
+      "kind": "upstream-release",
       "redistribution": {
         "allowed": true,
         "reason": "Exact official fixed Git metadata excluded by export-ignore; MIT project provenance. Non-hidden transport basename restored to original dotfile destination."
-      }
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/intel/tinycbor/6442e749ca811e24afad1551338a45c75e09808f/tests/.gitignore",
+      "version": "6442e749ca811e24afad1551338a45c75e09808f"
     }
   ]
 }

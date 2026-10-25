@@ -1,95 +1,95 @@
 {
-  "schema_version": 1,
-  "package_id": "tinycbor",
-  "rpm": {
-    "name": "tinycbor",
-    "summary": "Compact CBOR encoder, decoder and diagnostic tool",
-    "license": "MIT"
-  },
-  "version": {
-    "current": "7.0",
-    "latest_detected": "7.0",
-    "release": "1"
-  },
-  "upstream": {
-    "component": "github.com-intel-tinycbor",
-    "homepage": "https://github.com/intel/tinycbor",
-    "source_repository": "https://github.com/intel/tinycbor",
-    "release_channel": "stable",
-    "release_api": "https://api.github.com/repos/intel/tinycbor/tags",
-    "source_url_template": "https://codeload.github.com/intel/tinycbor/tar.gz/v{version}",
-    "release_regex": null
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
   },
   "discovery": {
-    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
     "lineage": [
       {
-        "source": "debian",
-        "package_name": "tinycbor",
-        "package_base": "tinycbor",
-        "source_version": "0.6.1-1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/b4648c93ca8ffba957bea7af8a6c38af674ba4aa/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
         "observed_at": "2026-08-08T16:50:00Z",
-        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/b4648c93ca8ffba957bea7af8a6c38af674ba4aa/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"
+        "package_base": "tinycbor",
+        "package_name": "tinycbor",
+        "source": "debian",
+        "source_version": "0.6.1-1"
       },
       {
-        "source": "ubuntu",
-        "package_name": "tinycbor",
-        "package_base": "tinycbor",
-        "source_version": "0.6.1-1ubuntu1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/b4648c93ca8ffba957bea7af8a6c38af674ba4aa/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
         "observed_at": "2026-08-08T16:50:00Z",
-        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/b4648c93ca8ffba957bea7af8a6c38af674ba4aa/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"
+        "package_base": "tinycbor",
+        "package_name": "tinycbor",
+        "source": "ubuntu",
+        "source_version": "0.6.1-1ubuntu1"
       }
-    ]
-  },
-  "target": {
-    "os": "openEuler",
-    "release": "24.03-LTS-SP3",
-    "arch": "riscv64",
-    "isa": "RVA23",
-    "riscv_status": "unknown"
-  },
-  "build": {
-    "profile": "qemu-user",
-    "network_during_build": false,
-    "timeout_minutes": 120,
-    "native_reason": null
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "spec": "tinycbor.spec",
-    "sources": "sources.yaml",
-    "smoke_test": "tests/smoke.sh",
     "patches": [
       {
         "file": "patches/0001-correct-pkgconfig-install-paths.patch",
-        "sha256": "b63500b69aad446a0e3719ad89db132de15bb0319cf6bee24669c3d96a781250",
-        "purpose": "Use GNUInstallDirs full paths in pkg-config while keeping relative CMake install exports.",
-        "source": "Locally authored distribution integration; no upstream mutation.",
         "license": "MIT",
-        "upstream_status": "downstream-only",
-        "remove_when": "Equivalent authenticated upstream integration preserves all original defaults/tests and correct staged and installed consumers."
+        "purpose": "Use GNUInstallDirs full paths in pkg-config while keeping relative CMake install exports.",
+        "remove_when": "Equivalent authenticated upstream integration preserves all original defaults/tests and correct staged and installed consumers.",
+        "sha256": "b63500b69aad446a0e3719ad89db132de15bb0319cf6bee24669c3d96a781250",
+        "source": "Locally authored distribution integration; no upstream mutation.",
+        "upstream_status": "downstream-only"
       },
       {
         "file": "patches/0002-add-installed-QA.patch",
-        "sha256": "ee176de9cb0a74bec2274495ae62c2490476c399c5988fae759f0f17117f0f93",
-        "purpose": "Add separate installed original-suite replay, independent consumers and verbatim upstream notices.",
-        "source": "Locally authored distribution integration; no upstream mutation.",
         "license": "MIT",
-        "upstream_status": "downstream-only",
-        "remove_when": "Equivalent authenticated upstream integration preserves all original defaults/tests and correct staged and installed consumers."
+        "purpose": "Add separate installed original-suite replay, independent consumers and verbatim upstream notices.",
+        "remove_when": "Equivalent authenticated upstream integration preserves all original defaults/tests and correct staged and installed consumers.",
+        "sha256": "ee176de9cb0a74bec2274495ae62c2490476c399c5988fae759f0f17117f0f93",
+        "source": "Locally authored distribution integration; no upstream mutation.",
+        "upstream_status": "downstream-only"
       }
-    ]
-  },
-  "updates": {
-    "enabled": true,
-    "release_provider": "official-github-tags",
-    "last_checked_at": null,
-    "last_successful_check_at": null
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tinycbor.spec"
   },
   "maintenance": {
     "maintainers": [
       "yinjiayi"
     ],
-    "status": "active",
-    "notes": "Official unsigned v7.0 fixed commit; all66 Git bytes/modes, archive63 plus3 export-ignore metadata and exact .tag export-subst modeled. Full per-file MIT notices retained. Preserve original static/floating/CBOR2JSON/tools/defaults; explicitly enable all5 original test suites with mandatory Qt6+cJSON. Original Qt exclusions unchanged; no zero-skip claim. All target/ordinary DNF/physical acceptance pending."
+    "notes": "Official unsigned v7.0 fixed commit; all66 Git bytes/modes, archive63 plus3 export-ignore metadata and exact .tag export-subst modeled. Full per-file MIT notices retained. Preserve original static/floating/CBOR2JSON/tools/defaults; explicitly enable all5 original test suites with mandatory Qt6+cJSON. Original Qt exclusions unchanged; no zero-skip claim. All target/ordinary DNF/physical acceptance pending.",
+    "status": "active"
+  },
+  "package_id": "tinycbor",
+  "rpm": {
+    "license": "MIT",
+    "name": "tinycbor",
+    "summary": "Compact CBOR encoder, decoder and diagnostic tool"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": "2026-10-23T21:23:13Z",
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-intel-tinycbor",
+    "homepage": "https://github.com/intel/tinycbor",
+    "release_api": "https://api.github.com/repos/intel/tinycbor/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/intel/tinycbor",
+    "source_url_template": "https://codeload.github.com/intel/tinycbor/tar.gz/v{version}"
+  },
+  "version": {
+    "current": "7.1",
+    "latest_detected": "7.1",
+    "release": "1"
   }
 }
