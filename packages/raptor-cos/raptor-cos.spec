@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           raptor-cos
-Version:        0.8.1
-Release:        6%{?dist}
+Version:        0.8.2
+Release:        1%{?dist}
 Summary:        Vertically-scrolling shoot 'em up from 1994
 License:        GPL-2.0-or-later
 URL:            https://github.com/skynettx/raptor
-Source0:        raptor-cos-0.8.1.tar.gz
+Source0:        v0.8.2.tar.gz
 Patch0:         0001-cmake-fallback-to-pkg-config-for-sdl2.patch
 Patch1:         0002-cmake-use-pkg-config-for-alsa.patch
 BuildRequires:  alsa-lib-devel
