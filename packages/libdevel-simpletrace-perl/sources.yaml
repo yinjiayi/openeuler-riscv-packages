@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package_id": "libdevel-simpletrace-perl",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release", "filename": "Devel-SimpleTrace-0.08.tar.gz", "version": "0.08",
+    "url": "https://cpan.metacpan.org/authors/id/S/SA/SAPER/Devel-SimpleTrace-0.08.tar.gz",
+    "digests": {"sha256": "d318a85bb29ee3c770e6b888585692a6f1a0173faf001be995e97481212536bf"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "Official SAPER CHECKSUMS verifies the fixed HTTPS tar. Top-level LICENSE expressly covers the program under the same terms as Perl and includes Artistic and GPL texts; README and the installed module repeat the grant. No contrary notice appears in the archive."}
+  }]
+}
