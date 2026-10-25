@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-perl-perl",
+  "rpm": {
+    "name": "perl-Data-Perl",
+    "summary": "Classes wrapping fundamental Perl data types",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-perl-perl",
+    "homepage": "https://metacpan.org/dist/Data-Perl",
+    "source_repository": "https://github.com/tobyink/Data-Perl",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/",
+    "release_regex": "Data-Perl-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/Data-Perl-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.002011",
+    "release": "1",
+    "latest_detected": "0.002011"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-perl-perl",
+        "package_base": "libdata-perl-perl",
+        "source_version": "0.002011-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-perl-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-perl-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu libdata-perl-perl 0.002011-2 key maps to official CPAN Data-Perl 0.002011. Publisher CHECKSUMS and independent HTTPS archive SHA-256 agree. Bundled LICENSE, README, and every installed PM grant same-Perl terms from copyright holder Matthew Phillips; no file states conflicting terms. SP3 RVA23 primary has no same-name or module provider and supplies all runtime/default-test dependencies. The untouched upstream make test runs nine functional files and 194 assertions locally; two author-only POD files self-skip by upstream AUTHOR_TESTING design. The target must reproduce the same functional coverage and explicit author-only skips."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
