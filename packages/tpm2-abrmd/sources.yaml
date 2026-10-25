@@ -1,0 +1,21 @@
+{
+  "package_id": "tpm2-abrmd",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7f5951375c7cae8698db7bf64e8c7068bed20be645e67f3a9ad8c2bd62a1c57f"
+      },
+      "filename": "tpm2-abrmd-3.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/tpm2-software/tpm2-abrmd/archive/refs/tags/3.0.0.tar.gz",
+      "version": "3.0.0"
+    }
+  ]
+}
