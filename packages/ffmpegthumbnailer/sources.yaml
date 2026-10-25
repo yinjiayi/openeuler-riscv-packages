@@ -1,0 +1,21 @@
+{
+  "package_id": "ffmpegthumbnailer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ddf561e294385f07d0bd5a28d0aab9de79b8dbaed29b576f206d58f3df79b508"
+      },
+      "filename": "ffmpegthumbnailer-2.3.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dirkvdb/ffmpegthumbnailer/archive/refs/tags/v2.3.0.tar.gz",
+      "version": "2.3.0"
+    }
+  ]
+}
