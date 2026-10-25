@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-which-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Which-1.27.tar.gz",
+      "version": "1.27",
+      "url": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/File-Which-1.27.tar.gz",
+      "digests": {
+        "sha256": "3201f1a60e3f16484082e6045c896842261fc345de9fb2e620fd2a2c7af3a93a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN archive includes the Perl GPL/Artistic license and is fetched over HTTPS with the official CPAN CHECKSUMS SHA-256."
+      }
+    }
+  ]
+}
