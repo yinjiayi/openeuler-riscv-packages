@@ -1,0 +1,21 @@
+{
+  "package_id": "xdg-dbus-proxy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "232d2eb9b456fa1e307322da1bfeb4849eb410750a2a16a5de51ed2c2eb919e6"
+      },
+      "filename": "xdg-dbus-proxy-0.1.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/flatpak/xdg-dbus-proxy/archive/refs/tags/0.1.7.tar.gz",
+      "version": "0.1.7"
+    }
+  ]
+}
