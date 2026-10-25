@@ -1,0 +1,21 @@
+{
+  "package_id": "wavpack",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b5291bc4e6d69ebbd3da3800c5bf4a70f19bb92679b23e09b3b612c1e648d1ff"
+      },
+      "filename": "wavpack-5.9.0.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release source asset is redistributable under the project licenses plus the generated-tool licenses and exceptions carried in the archive."
+      },
+      "signature": null,
+      "url": "https://github.com/dbry/WavPack/releases/download/5.9.0/wavpack-5.9.0.tar.xz",
+      "version": "5.9.0"
+    }
+  ]
+}
