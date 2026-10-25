@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package_id": "cowsay",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release", "version": "3.8.4", "filename": "cowsay-3.8.4.tar.gz",
+    "url": "https://codeload.github.com/cowsay-org/cowsay/tar.gz/027c9268ac8571408e153214b9cf1a5e6fab0cfc",
+    "digests": {"sha256": "74e78cd8a5d89c60ed4de1dc8211ccb395868234f5ffe2c6cab93088dc5010f2"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "Explicit upstream README GPLv3 project grant and complete LICENSE.txt; CHANGELOG records original-author GPLv3 relicensing in3.04, and new contribution policy permits GPL1.0-or-later or Artistic1.0. Preserve all51 cow attributions, unused archive members and full notices in the unchanged source archive; install all default cows without filtering. No contradictory separate restriction was found in the75 member contents. No detached signature was advertised in captured official homepage or matching published release assets; no signed-tag assertion or required-signature downgrade is made."}
+  }]
+}
