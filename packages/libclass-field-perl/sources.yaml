@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-field-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Class-Field-0.24.tar.gz",
+      "version": "0.24",
+      "url": "https://cpan.metacpan.org/authors/id/I/IN/INGY/Class-Field-0.24.tar.gz",
+      "digests": {
+        "sha256": "233064e094442f2e449844da9aec9ce0e0ed65a7da7abdb25ec0dc1be454df98"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official INGY CHECKSUMS matches the fixed HTTPS archive. The archive's top-level LICENSE explicitly grants same-as-Perl rights for this software, and the installed POD and README repeat the grant. Default tests and generated build files have no conflicting notices or vendored code."
+      }
+    }
+  ]
+}
