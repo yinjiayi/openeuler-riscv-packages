@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-chdir-perl",
+  "rpm": {
+    "name": "perl-File-chdir",
+    "summary": "Localizable current working directory for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-chdir-perl",
+    "homepage": "https://metacpan.org/dist/File-chdir",
+    "source_repository": "https://github.com/dagolden/File-chdir.git",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_regex": "File-chdir-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/File-chdir-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.1011",
+    "release": "1",
+    "latest_detected": "0.1011"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-chdir-perl",
+        "package_base": "libfile-chdir-perl",
+        "source_version": "0.1008-1.2",
+        "evidence_url": "https://packages.ubuntu.com/source/questing/perl/libfile-chdir-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-chdir-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libfile-chdir-perl key carried 0.1008; the current official stable CPAN release is 0.1011. The official CPAN CHECKSUMS SHA-256, safe archive structure, included Perl dual license, and all seven default upstream test files were reviewed. Opt-in author/release tests and upstream skips are not represented as passes. Target riscv64 results remain subject to exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
