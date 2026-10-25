@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-basecalc-perl",
+  "rpm": {
+    "name": "perl-Math-BaseCalc",
+    "summary": "Convert numbers between arbitrary bases in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-basecalc-perl",
+    "homepage": "https://metacpan.org/dist/Math-BaseCalc",
+    "source_repository": "https://github.com/kenahoo/perl-math-basecalc",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/",
+    "release_regex": "Math-BaseCalc-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Math-BaseCalc-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.019",
+    "release": "1",
+    "latest_detected": "1.019"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-basecalc-perl",
+        "package_base": "libmath-basecalc-perl",
+        "source_version": "1.019-3",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libmath-basecalc-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-basecalc-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.019-3 lineage matches official CPAN stable 1.019. Publisher CHECKSUMS pins source SHA-256; LICENSE and module POD grant Perl GPL-1+/Artistic-1 terms. All eight default t files retained; target BigInt and POD coverage dependencies are explicit, and TEST_POD enables the original optional coverage test. The original author-only critic test explicitly skips without AUTHOR_TESTING; no target Test::Perl::Critic provider exists. Official target metadata has no same-name RPM or module provider. Target build and installed smoke require exact-head hosted CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
