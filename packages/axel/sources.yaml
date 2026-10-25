@@ -1,0 +1,21 @@
+{
+  "package_id": "axel",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f6f2a5369d78003ab162a774cff0be71096bea6929333a79c8168c82caced07d"
+      },
+      "filename": "axel-2.17.14.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/axel-download-accelerator/axel/archive/refs/tags/v2.17.14.tar.gz",
+      "version": "2.17.14"
+    }
+  ]
+}
