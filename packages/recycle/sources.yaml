@@ -1,0 +1,21 @@
+{
+  "package_id": "recycle",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "dcda732e4be5986b0947e2b9b0168f9b3bf675bc9305663afb3254b872191dd8"
+      },
+      "filename": "recycle-7.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/steinwurf/recycle/archive/refs/tags/7.0.0.tar.gz",
+      "version": "7.0.0"
+    }
+  ]
+}
