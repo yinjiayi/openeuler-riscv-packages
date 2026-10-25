@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-touch-perl",
+  "rpm": {
+    "name": "perl-File-Touch",
+    "summary": "Update file access and modification times from Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-touch-perl",
+    "homepage": "https://metacpan.org/dist/File-Touch",
+    "source_repository": "https://metacpan.org/dist/File-Touch",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_regex": "File-Touch-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/File-Touch-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.12",
+    "release": "1",
+    "latest_detected": "0.12"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-touch-perl",
+        "package_base": "libfile-touch-perl",
+        "source_version": "0.12-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-touch-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-touch-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory exact key libfile-touch-perl maps to official stable CPAN 0.12. CPAN CHECKSUMS SHA-256 and the bundled Perl GPL/Artistic license were verified. The official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a contains neither same-name RPM nor perl(File::Touch) Provide, while perl(Time::HiRes) is available. Both upstream default test files remain intact (1 require assertion and 18 filesystem timestamp assertions). The timestamp test creates and deletes only its isolated t/example-file.txt path in the fresh CI source tree. Target result awaits exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
