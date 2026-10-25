@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libgrapheme",
+  "rpm": {
+    "name": "libgrapheme",
+    "summary": "Unicode string segmentation and case conversion library",
+    "license": "ISC AND Unicode-3.0"
+  },
+  "upstream": {
+    "component": "libs.suckless.org-libgrapheme",
+    "homepage": "https://libs.suckless.org/libgrapheme/",
+    "source_repository": "https://git.suckless.org/libgrapheme",
+    "release_channel": "stable",
+    "release_api": "https://dl.suckless.org/libgrapheme/",
+    "release_regex": "libgrapheme-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://dl.suckless.org/libgrapheme/libgrapheme-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.0.0",
+    "release": "1",
+    "latest_detected": "3.0.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libgrapheme",
+        "package_base": "libgrapheme",
+        "source_version": null,
+        "evidence_url": "https://libs.suckless.org/libgrapheme/",
+        "observed_at": null
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libgrapheme.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libgrapheme maps to official stable 3.0.0. Official SHA256 sums match the independently downloaded source. The upstream make test target comprises eight executables, including generated Unicode conformance data shipped in the tarball; %check builds and runs those eight with explicit fail-fast behavior because the upstream shell loop could mask earlier failures. No benchmark target is invoked. Installed smoke checks the public UTF-8 API. The tarball's library is ISC licensed and the bundled Unicode 17 data is Unicode-3.0 licensed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
