@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libansilove
-Version:        1.4.2
+Version:        1.4.3
 Release:        1%{?dist}
 Summary:        ANSI and text-art to PNG conversion library
 License:        BSD-2-Clause
 URL:            https://github.com/ansilove/libansilove
-Source0:        libansilove-%{version}.tar.gz
+Source0:        libansilove-1.4.3.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  coreutils
