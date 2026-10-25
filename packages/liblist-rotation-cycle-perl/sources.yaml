@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liblist-rotation-cycle-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "List-Rotation-Cycle-1.009.tar.gz",
+      "version": "1.009",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PELAGIC/List-Rotation-Cycle-1.009.tar.gz",
+      "digests": {
+        "sha256": "103f9bb9e43b4c0396218b5c919258d28ef80b89074d96cd0d0240147b9f76f6"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Module POD expressly grants the same terms as Perl; META.yml declares perl license and official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
