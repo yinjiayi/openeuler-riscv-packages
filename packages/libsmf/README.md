@@ -30,7 +30,8 @@ disclaimer. The short VLQ routine attribution in smf_save.c is retained under
 that file's BSD grant, with no contrary separate grant found in the archive.
 All 36 original archive files are preserved as inert .notice copies before
 normal configure helper refresh; their original path structure and SHA-256
-manifest remain installed. No original source or notice is edited.
+manifest remain installed. Original notice bytes are copied before the downstream
+source patch; none of these original notices is edited.
 
 GNU helper notices include GPL-2.0-or-later with Autoconf or Libtool exceptions,
 FSFAP copying grants, FSFUL unlimited-copy notices, and the full X11 install-sh
@@ -77,3 +78,33 @@ compilation/execution, RPM build, QEMU or target QA is claimed. The recipe
 requires no undeclared network fetch; actual target CI bridge is network-enabled
 and checks pinned inputs, so this is not a network-isolation claim. Target
 riscv64/RVA23 build, install and physical RPM/SRPM acceptance remain pending.
+
+## Downstream buffer-lifetime repair
+
+The original smf_extend evaluates old base/track pointers after successful
+realloc, outside their allocation lifetime. The package patch saves integer
+offsets while the original allocation is live and reconstructs from only the
+returned new base. Failed offset allocation/realloc retains the original owned
+buffer and length; invalid/overflowing extension sizes fail before allocation.
+NULL inactive tracks stay NULL. Loading's borrowed external input is not adopted:
+the original successful loader clears all file-buffer fields before returning.
+No crash, corruption, exploit, native-only defect or failing historical CI is
+claimed. The fix is downstream-only; remove it when official stable source
+provides equivalent lifetime-safe reconstruction and ownership handling.
+
+Target-only additional controls preserve default make check (zero upstream
+runtime cases), all six build/installed APIs and all six installed bindings.
+A forced-moving allocator tests repeated offsets, NULL tracks and allocation
+failure ownership, then two exact four-track wire/load/save roundtrips. It
+includes the complete patched writer source with private symbol renaming; the
+unchanged API cases separately exercise the actually linked patched library.
+Moving allocations do not imply that the original undefined arithmetic must
+fail at runtime. A distinct GCC-specific negative compiles exact preserved
+original source with -Werror=use-after-free=3 and requires compiler exit1/make2,
+the original line77 previous_file_buffer error and line65 realloc note, no
+unrelated error/fatal-error diagnostics, and no object. Multiple identical
+causal diagnostics are permitted, not claimed unique. The patched source must
+first compile with the same flags. Unsupported/wrong diagnostics fail closed.
+Full raw compiler streams/status and hashes are emitted. These controls are
+mandatory target CI checks, not locally executed proof or general parser safety.
+The added regression source retains its full ISC grant in the SPEC/SRPM.
