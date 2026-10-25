@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libpng
 Epoch:          2
-Version:        1.6.58
+Version:        1.6.59
 Release:        1%{?dist}
 Summary:        PNG reference library
 License:        libpng-2.0
 URL:            https://libpng.sourceforge.io/
-Source0:        libpng-%{version}.tar.xz
+Source0:        libpng-1.6.59.tar.xz
 
 BuildRequires:  gcc
 BuildRequires:  make
