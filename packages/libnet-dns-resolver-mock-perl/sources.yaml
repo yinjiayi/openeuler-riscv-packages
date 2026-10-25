@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-dns-resolver-mock-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Net-DNS-Resolver-Mock-1.20230216.tar.gz",
+      "version": "1.20230216",
+      "url": "https://cpan.metacpan.org/authors/id/M/MB/MBRADSHAW/Net-DNS-Resolver-Mock-1.20230216.tar.gz",
+      "digests": {
+        "sha256": "ed4930577fd1a29d6435b5875533d3b28f5c1258a35833fe6ca2cb6a2685a49b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The distribution-wide LICENSE grants Perl 5 dual terms; the archive and publisher CHECKSUMS SHA-256 were verified. The zone fixture contains only synthetic example.net data."
+      }
+    }
+  ]
+}
