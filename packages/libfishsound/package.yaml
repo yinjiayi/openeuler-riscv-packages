@@ -1,0 +1,98 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 90
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "libfishsound",
+        "package_base": "libfishsound",
+        "source_version": "1.0.1-2",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libfishsound/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libfishsound",
+        "package_base": "libfishsound",
+        "source_version": "1.0.1-1",
+        "evidence_url": "https://packages.debian.org/source/stable/libfishsound",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libfishsound",
+        "package_base": "libfishsound",
+        "source_version": "1.0.0-35.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libfishsound/libfishsound/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libfishsound",
+        "package_base": "libfishsound",
+        "source_version": "1.0.1-1.5",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/libfishsound",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libfishsound",
+        "package_base": "libfishsound",
+        "source_version": "1.0.1-1build2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfishsound",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libfishsound.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official Xiph Libfishsound 1.0.1 release is SHA-256 pinned and matches Xiph's published checksum. Vorbis, Speex, and FLAC development packages are required, with both encode and decode enabled and all four upstream functional tests run serially. Installed smoke checks the public API for all three codecs. No external distribution recipe is executed.",
+    "status": "active"
+  },
+  "package_id": "libfishsound",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "libfishsound",
+    "summary": "Simple audio encode and decode API for Xiph codecs"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libfishsound",
+    "homepage": "https://xiph.org/fishsound/",
+    "release_api": "https://downloads.xiph.org/releases/libfishsound/",
+    "release_channel": "stable",
+    "release_regex": "libfishsound-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://gitlab.xiph.org/xiph/libfishsound",
+    "source_url_template": "https://downloads.xiph.org/releases/libfishsound/libfishsound-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.1",
+    "latest_detected": "1.0.1",
+    "release": "1"
+  }
+}
