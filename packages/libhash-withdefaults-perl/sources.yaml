@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-withdefaults-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Hash-WithDefaults-0.05.tar.gz",
+      "version": "0.05",
+      "url": "https://cpan.metacpan.org/authors/id/J/JE/JENDA/Hash-WithDefaults-0.05.tar.gz",
+      "digests": {
+        "sha256": "6e1df2778355c1a5ca4a9421ecccfd1d109d2e20fbc5f070562a8736ddfaea97"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream README and the only module's POD explicitly attribute Jan/Jenda Krynicky and grant redistribution/modification under the same terms as Perl; bundled build files and tests have no contrary notices. README is retained as the license notice. Publisher J/JE/JENDA/CHECKSUMS pins the archive SHA-256."
+      }
+    }
+  ]
+}
