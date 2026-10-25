@@ -1,0 +1,21 @@
+{
+  "package_id": "qdia",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6e6117366211cf12ffde89fa96226d042482766e40ec8b23ecdf58fad12417f8"
+      },
+      "filename": "qdia-0.64.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/sunderme/qdia/archive/refs/tags/0.64.tar.gz",
+      "version": "0.64"
+    }
+  ]
+}
