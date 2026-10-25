@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-amoeba-perl",
+  "rpm": {
+    "name": "perl-Math-Amoeba",
+    "summary": "Downhill simplex numerical optimization in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-amoeba-perl",
+    "homepage": "https://metacpan.org/dist/Math-Amoeba",
+    "source_repository": "https://metacpan.org/dist/Math-Amoeba",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TO/TOM/",
+    "release_regex": "Math-Amoeba-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TO/TOM/Math-Amoeba-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.05",
+    "release": "1",
+    "latest_detected": "0.05"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-amoeba-perl",
+        "package_base": "libmath-amoeba-perl",
+        "source_version": "0.05-3",
+        "evidence_url": "https://packages.ubuntu.com/resolute/arm64/libmath-amoeba-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-amoeba-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.05-3 lineage; official CPAN 0.05 archive pinned to publisher CHECKSUMS. README and module grant Perl terms for the distribution; no conflicting file-specific notice. Official target primary has no same-name RPM/provider and supplies MakeMaker, Test::More, Test::Pod and Test::Pod::Coverage. Default MakeMaker test retains all three original t files; local macOS lacked POD coverage, so target CI must establish its execution."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
