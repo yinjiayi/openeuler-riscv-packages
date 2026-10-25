@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-c3-adopt-next-perl",
+  "rpm": {
+    "name": "perl-Class-C3-Adopt-NEXT",
+    "summary": "Use C3 method resolution for legacy NEXT dispatch",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclass-c3-adopt-next-perl",
+    "homepage": "https://metacpan.org/dist/Class-C3-Adopt-NEXT",
+    "source_repository": "https://metacpan.org/dist/Class-C3-Adopt-NEXT",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/",
+    "release_regex": "(?<![A-Za-z0-9])Class-C3-Adopt-NEXT-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Class-C3-Adopt-NEXT-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.14",
+    "release": "1",
+    "latest_detected": "0.14"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libclass-c3-adopt-next-perl",
+        "package_base": "libclass-c3-adopt-next-perl",
+        "source_version": "0.14-2",
+        "evidence_url": "https://sources.debian.org/src/libclass-c3-adopt-next-perl/0.14-2/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "perl-Class-C3-Adopt-NEXT",
+        "package_base": "perl-Class-C3-Adopt-NEXT",
+        "source_version": "0.14-31.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Class-C3-Adopt-NEXT/perl-Class-C3-Adopt-NEXT/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclass-c3-adopt-next-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian/Fedora/openSUSE lineage maps to official stable CPAN Class-C3-Adopt-NEXT 0.14. Publisher CHECKSUMS matches the fixed HTTPS archive. Distribution LICENSE and installed PM/README grant same-as-Perl rights, with no contrary file notice or vendored code. Official SP3 RVA23 primary has no name/provider collision and provides MRO::Compat 0.15, NEXT 0.69, List::Util 1.63, Module::Build::Tiny 0.047 and Test::Exception 0.43. Unmodified default suite has eight files/26 assertions and no skips. PERL5LIB=. only makes the SHA-verified bundled prereq-report data visible on Perl without '.' in @INC, preserving its optional-report branch. Local original suite passes 26 assertions with that path; target CI must prove all eight files, 26 assertions, zero skips, physical products and installed NEXT dispatch smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
