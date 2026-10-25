@@ -1,0 +1,20 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Correct indexed subsequence newline offsets
+
+SPDX-License-Identifier: Apache-2.0
+
+This generic correction is not a RISC-V architecture workaround. The number
+of completed lines before a zero-based start is start / line_blen, and their
+byte contribution includes the complete LF or CRLF width. The original
+crlf.fasta fixture places chr:4 at byte 15 (G), not byte 11 (LF). Keep all
+original fixtures and exercise them through an independent sequential oracle.
+Remove this patch when the selected upstream release includes this correction.
+
+--- a/Fasta.cpp
++++ b/Fasta.cpp
+@@ -325 +325 @@
+-    int newlines_before = start > 0 ? (start - 1) / entry.line_blen : 0;
++    int newlines_before = start / entry.line_blen;
+@@ -331 +331 @@
+-    fseek64(file, (off_t) (entry.offset + newlines_before + start), SEEK_SET);
++    fseek64(file, (off_t) (entry.offset + newlines_before * bytes_per_newline + start), SEEK_SET);
