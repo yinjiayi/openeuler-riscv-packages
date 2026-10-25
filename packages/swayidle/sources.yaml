@@ -1,0 +1,21 @@
+{
+  "package_id": "swayidle",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "161f5827b8c79bc486a472d27690e98d75da6615bb2dee9f24393cbbb13af656"
+      },
+      "filename": "swayidle-1.9.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/swaywm/swayidle/archive/refs/tags/v1.9.0.tar.gz",
+      "version": "1.9.0"
+    }
+  ]
+}
