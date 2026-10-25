@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-vector-real-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Vector-Real-0.18.tar.gz",
+      "version": "0.18",
+      "url": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/Math-Vector-Real-0.18.tar.gz",
+      "digests": {
+        "sha256": "b24d1907e60619300db24af21c6ee95327c51d9f75c5a0c3921d6ed64e3e54fa"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The upstream README and primary module grant redistribution/modification on Perl 5.10.0-or-later terms for this library, including its bundled test helper, with no contrary per-file notice. The publisher's official CPAN CHECKSUMS fixes the archive SHA-256."
+      }
+    }
+  ]
+}
