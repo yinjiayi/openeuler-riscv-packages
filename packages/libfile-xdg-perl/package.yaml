@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-xdg-perl",
+  "rpm": {
+    "name": "perl-File-XDG",
+    "summary": "Access XDG base directories from Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-xdg-perl",
+    "homepage": "https://metacpan.org/dist/File-XDG",
+    "source_repository": "https://github.com/uperl/File-XDG",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/",
+    "release_regex": "File-XDG-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/File-XDG-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.03",
+    "release": "1",
+    "latest_detected": "1.03"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-xdg-perl",
+        "package_base": "libfile-xdg-perl",
+        "source_version": "1.03-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-xdg-perl",
+        "observed_at": "2026-09-29T00:25:04Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-xdg-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory exact key libfile-xdg-perl maps to official stable CPAN 1.03. CPAN CHECKSUMS SHA-256, 31 safe archive entries, and bundled Perl GPL/Artistic LICENSE resolve the frozen automated license-blocked flag. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has neither same-name RPM nor perl(File::XDG) Provide; Path::Class, Path::Tiny and Ref::Util are available. Both upstream default test files remain intact. The tests modify XDG paths: %check isolates HOME in a fresh temporary directory and clears inherited XDG home overrides, preserving all cases without touching the runner's real home. Path::Class is an explicit runtime dependency because the default API selects it dynamically. Target result awaits exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
