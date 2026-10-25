@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtest-classapi-perl",
+  "rpm": {
+    "name": "perl-Test-ClassAPI",
+    "summary": "First-pass API tests for Perl class hierarchies",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtest-classapi-perl",
+    "homepage": "https://metacpan.org/dist/Test-ClassAPI",
+    "source_repository": "https://metacpan.org/dist/Test-ClassAPI",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/",
+    "release_regex": "Test-ClassAPI-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Test-ClassAPI-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.07",
+    "release": "1",
+    "latest_detected": "1.07"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libtest-classapi-perl",
+        "package_base": "libtest-classapi-perl",
+        "source_version": "1.07-2",
+        "evidence_url": "https://packages.debian.org/source/sid/libtest-classapi-perl",
+        "observed_at": "2026-10-03T01:00:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtest-classapi-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libtest-classapi-perl. Official CPAN CHECKSUMS pins SHA-256 30e9dbfc5e0cc2ee14eae8f3465a908a710daecbd0a3ebdb2888fc4504fa18aa. Release-wide LICENSE explicitly grants GPL-1.0-or-later or Artistic-1.0-Perl. Official SP3 RVA23 primary lacks same-name RPM/module provider but supplies all versioned runtime and default-test providers. All five original default tests remain; local Mac lacks Config::Tiny and therefore cannot provide a passing local upstream run. Target CI must prove every test and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
