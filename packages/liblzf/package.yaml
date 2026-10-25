@@ -1,0 +1,90 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "liblzf",
+        "package_base": "liblzf",
+        "source_version": "3.6-5",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/liblzf/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "liblzf",
+        "package_base": "liblzf",
+        "source_version": "3.6-4",
+        "evidence_url": "https://packages.debian.org/source/stable/liblzf",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "liblzf",
+        "package_base": "liblzf",
+        "source_version": "3.6-34.fc44",
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/liblzf/liblzf/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "liblzf",
+        "package_base": "liblzf",
+        "source_version": "3.6-4build1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/liblzf",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "liblzf.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official schmorp HTTPS release 3.6 is SHA-256 pinned. Upstream has no test target; this package adds compression/decompression round trips in RPM check and installed smoke. Shared library has SONAME liblzf.so.1. No external packaging recipe is executed.",
+    "status": "active"
+  },
+  "package_id": "liblzf",
+  "rpm": {
+    "license": "BSD-2-Clause",
+    "name": "liblzf",
+    "summary": "Small LZF compression library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "liblzf",
+    "homepage": "https://software.schmorp.de/pkg/liblzf.html",
+    "release_api": "https://dist.schmorp.de/liblzf/",
+    "release_channel": "stable",
+    "release_regex": "liblzf-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cvs.schmorp.de/liblzf/",
+    "source_url_template": "https://dist.schmorp.de/liblzf/liblzf-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.6",
+    "latest_detected": "3.6",
+    "release": "1"
+  }
+}
