@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdate-tiny-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Date-Tiny-1.07.tar.gz",
+      "version": "1.07",
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Date-Tiny-1.07.tar.gz",
+      "digests": {
+        "sha256": "6d7539e0be273d789575544f00c8ba1aa857d22f41d2cb3f40fa8681dc6f3b8e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official DAGOLDEN CHECKSUMS matches the independently downloaded HTTPS archive. Installed Date/Tiny.pm directly grants same-as-Perl redistribution; the top-level LICENSE expressly covers this software, README and META agree, and generated default tests/build metadata have no contrary notices or vendored code."
+      }
+    }
+  ]
+}
