@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-pushd-perl",
+  "rpm": {
+    "name": "perl-File-pushd",
+    "summary": "Perl module for scoped temporary directory changes",
+    "license": "Apache-2.0"
+  },
+  "upstream": {
+    "component": "libfile-pushd-perl",
+    "homepage": "https://metacpan.org/dist/File-pushd",
+    "source_repository": "https://github.com/dagolden/File-pushd",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_regex": "File-pushd-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/File-pushd-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.016",
+    "release": "1",
+    "latest_detected": "1.016"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-pushd-perl",
+        "package_base": "libfile-pushd-perl",
+        "source_version": "1.016-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-pushd-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-pushd-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libfile-pushd-perl key maps to official stable CPAN File-pushd 1.016. Official CPAN CHECKSUMS SHA-256, archive safety, bundled Apache-2.0 license, and all four default test files were reviewed. The functional suite exercises directory restoration, temporary-directory lifecycle, and owner-process cleanup under fork; target QEMU outcome awaits exact-head CI. The xt/ author and release tests are not registered in the upstream default MakeMaker test target and require separate development dependencies."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
