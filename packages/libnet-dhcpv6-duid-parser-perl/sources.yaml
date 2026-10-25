@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libnet-dhcpv6-duid-parser-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Net-DHCPv6-DUID-Parser-1.01.tar.gz",
+      "version": "1.01",
+      "url": "https://cpan.metacpan.org/authors/id/T/TW/TWRIGHT/Net-DHCPv6-DUID-Parser-1.01.tar.gz",
+      "digests": {
+        "sha256": "913a98ca32f05a0ee3ba84d11dc8f6da81f3bfa53e0d77257a256a8f62c515e6"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream META.yml says license unknown, but the author-controlled README contains the complete two-clause BSD redistribution grant and views sentence, repeated in Parser.pm; the sole original test and build files have no conflicting or third-party notice. The full text matches SPDX BSD-2-Clause-Views and is retained as RPM license material. Official publisher CHECKSUMS SHA-256 matches the complete archive."
+      }
+    }
+  ]
+}
