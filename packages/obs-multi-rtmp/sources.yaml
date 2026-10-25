@@ -1,0 +1,21 @@
+{
+  "package_id": "obs-multi-rtmp",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ecd1b7835a5b76af7e904392c5eacb8fb99760efe90dcd1e2bbd0409de7fd826"
+      },
+      "filename": "obs-multi-rtmp-0.7.3.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/sorayuki/obs-multi-rtmp/archive/refs/tags/0.7.3.2.tar.gz",
+      "version": "0.7.3.2"
+    }
+  ]
+}
