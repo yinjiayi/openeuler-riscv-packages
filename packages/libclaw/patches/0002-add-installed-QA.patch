@@ -1,0 +1,80 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Add separate installed original-suite wrapper and consumer
+Upstream-Status: Inappropriate [distribution installed QA]
+SPDX-License-Identifier: LGPL-2.1-or-later
+
+Original sources and check-examples.sh remain byte-for-byte unchanged.
+--- /dev/null
++++ b/downstream/consumer.cpp
+@@ -0,0 +1,16 @@
++// SPDX-License-Identifier: LGPL-2.1-or-later
++// Copyright (c) 2026 yinjiayi
++#include <claw/version.hpp>
++#include <claw/graphic/image.hpp>
++#include <claw/tween/easing/easing_linear.hpp>
++#include <cassert>
++#include <cmath>
++int main() {
++  static_assert(CLAW_MAJOR_VERSION == 1 && CLAW_MINOR_VERSION == 9 &&
++                CLAW_RELEASE_NUMBER == 0, "Original tag1.9.1 reports project1.9.0");
++  claw::graphic::image image(3, 2);
++  assert(image.width() == 3 && image.height() == 2);
++  assert(std::isfinite(claw::tween::easing_linear_func(0.25)));
++  assert(claw::tween::easing_linear_func(0.25) == 0.25);
++  return 0;
++}
+--- /dev/null
++++ b/downstream/CMakeLists.txt
+@@ -0,0 +1,10 @@
++# SPDX-License-Identifier: LGPL-2.1-or-later
++# Copyright (c) 2026 yinjiayi
++cmake_minimum_required(VERSION 3.14)
++project(claw_installed_consumer LANGUAGES CXX)
++find_package(claw 1.9 REQUIRED)
++add_executable(consumer consumer.cpp)
++target_compile_features(consumer PRIVATE cxx_std_11)
++target_compile_options(consumer PRIVATE -UNDEBUG)
++target_link_libraries(consumer PRIVATE claw_application claw_configuration_file
++  claw_dynamic_library claw_graphic claw_logger claw_net claw_tween claw_core)
+--- /dev/null
++++ b/downstream/run-tests.sh
+@@ -0,0 +1,39 @@
++#!/bin/bash
++# SPDX-License-Identifier: LGPL-2.1-or-later
++# Copyright (c) 2026 yinjiayi
++set -euo pipefail
++export LC_ALL=C
++prefix=/usr
++qa=/usr/share/libclaw
++if [[ ${1:-} == --staged && $# == 2 ]]; then
++    prefix="$2/usr"
++    qa="$prefix/share/libclaw"
++elif [[ $# != 0 ]]; then
++    echo 'usage: run-tests.sh [--staged BUILDROOT]' >&2
++    exit 2
++fi
++[[ $prefix == /* && $qa == /* ]]
++if [[ $# == 0 ]]; then rpm -V libclaw libclaw-tests; fi
++(cd "$qa/original" && sha256sum -c "$qa/SHA256SUMS")
++mapfile -t archives < <(find "$prefix/share/doc/libclaw1/example" -maxdepth 1 -type f -name '*.tar.gz' | sort)
++[[ ${#archives[@]} == 21 ]]
++for archive in "${archives[@]}"; do test -s "$archive"; done
++test -s "$prefix/share/doc/libclaw1/html/index.html"
++test -s "$prefix/share/locale/fr/LC_MESSAGES/libclaw.mo"
++for module in application configuration_file dynamic_library graphic logger net tween; do
++    test -s "$prefix/lib64/libclaw_${module}.a"
++    [[ -n $(ar t "$prefix/lib64/libclaw_${module}.a") ]]
++done
++work=$(mktemp -d)
++trap 'rm -rf -- "$work"' EXIT
++# Run the ORIGINAL complete default installed-example compile suite unchanged.
++# It prints failures but returns success; retain it and validate its summary.
++bash "$qa/original/check-examples.sh" "$prefix" 2>&1 | tee "$work/original.log"
++[[ $(grep -Fxc '21 pass, 0 fail.' "$work/original.log") == 1 ]]
++[[ $(grep -c '\[PASS\]' "$work/original.log") == 21 ]]
++if grep -q '\[FAIL\]' "$work/original.log"; then exit 1; fi
++cmake -S "$qa" -B "$work/consumer" -DCMAKE_PREFIX_PATH="$prefix" \
++    -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="${CXXFLAGS:-} -UNDEBUG"
++cmake --build "$work/consumer" --parallel 2
++"$work/consumer/consumer"
++echo 'libclaw: original21 installed-example compiles and separate downstream consumer passed'
