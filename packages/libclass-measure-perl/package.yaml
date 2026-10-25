@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-measure-perl",
+  "rpm": {
+    "name": "perl-Class-Measure",
+    "summary": "Create, compare, and convert units of measurement in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclass-measure-perl",
+    "homepage": "https://metacpan.org/dist/Class-Measure",
+    "source_repository": "https://github.com/bluefeet/Class-Measure",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BL/BLUEFEET/",
+    "release_regex": "(?<![A-Za-z0-9])Class-Measure-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BL/BLUEFEET/Class-Measure-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.10",
+    "release": "1",
+    "latest_detected": "0.10"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libclass-measure-perl",
+        "package_base": "libclass-measure-perl",
+        "source_version": "0.10-1",
+        "evidence_url": "https://packages.debian.org/source/trixie/libclass-measure-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libclass-measure-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian libclass-measure-perl 0.10-1 lineage maps to official stable CPAN Class-Measure 0.10. Publisher CHECKSUMS matches fixed HTTPS archive. Top-level LICENSE grants same-as-Perl rights for this software, including unmodified tests and metadata; README and both installed modules repeat the grant and acknowledge contributor Roland van Ipenburg without a contrary notice. Target SP3 RVA23 has no package/provider collision and provides Module::Build::Tiny 0.047, Sub::Exporter 0.990, Test2::V0 0.000155 and the remaining hard dependencies. All four original default tests and 29 assertions passed locally with no skips; exact-head target CI must prove full tests and installed conversion smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
