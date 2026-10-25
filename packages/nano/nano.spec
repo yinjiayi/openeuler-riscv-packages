@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           nano
-Version:        9.2
+Version:        9.3
 Release:        1%{?dist}
 Summary:        Small and friendly text editor
 License:        GPL-3.0-or-later
 URL:            https://nano-editor.org
-Source0:        nano-9.2.tar.xz
+Source0:        nano-9.3.tar.xz
 BuildRequires:  gcc
 BuildRequires:  file-devel
 BuildRequires:  gettext-devel
