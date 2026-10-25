@@ -1,0 +1,21 @@
+{
+  "package_id": "wayvnc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1dcb54f58d1637995bfb59c17709efca7833bae41f31b33eb47e608668a89d66"
+      },
+      "filename": "wayvnc-0.10.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/any1/wayvnc/archive/refs/tags/v0.10.1.tar.gz",
+      "version": "0.10.1"
+    }
+  ]
+}
