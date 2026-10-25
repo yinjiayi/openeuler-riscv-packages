@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-faker-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Faker-0.10.tar.gz",
+      "version": "0.10",
+      "url": "https://cpan.metacpan.org/authors/id/W/WS/WSHELDAHL/Data-Faker-0.10.tar.gz",
+      "digests": {
+        "sha256": "caa5d56e05145ca093735adaaf5fe7389974c4334e44b68aec7a78c089c7443f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official distribution README and every installed module POD grant redistribution under Perl's GPL/Artistic terms; the bundled CLI names the same author. Publisher CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
