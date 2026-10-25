@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 Name:           cglm
-Version:        0.9.6
+Version:        0.9.7
 Release:        1%{?dist}
 Summary:        Optimized OpenGL mathematics library for C
 License:        MIT
 URL:            https://github.com/recp/cglm
-Source0:        cglm-%{version}.tar.gz
+Source0:        v0.9.7.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
