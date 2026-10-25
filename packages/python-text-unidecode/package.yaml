@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "package_id": "python-text-unidecode",
+  "rpm": {"name": "python-text-unidecode", "summary": "Basic Unicode transliteration for Python", "license": "Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "github.com-kmike-text-unidecode",
+    "homepage": "https://github.com/kmike/text-unidecode",
+    "source_repository": "https://github.com/kmike/text-unidecode",
+    "release_channel": "stable", "release_api": "https://pypi.org/pypi/text-unidecode/json",
+    "release_regex": null, "source_url_template": null
+  },
+  "version": {"current": "1.3", "release": "1", "latest_detected": "1.3"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "python-text-unidecode", "package_base": "python-text-unidecode", "source_version": "1.3-13", "evidence_url": "https://github.com/kmike/text-unidecode", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "python-text-unidecode", "package_base": "python-text-unidecode", "source_version": "1.3-1", "evidence_url": "https://github.com/kmike/text-unidecode", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "python-text-unidecode", "package_base": "python-text-unidecode", "source_version": "1.3-25.fc44", "evidence_url": "https://github.com/kmike/text-unidecode", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "opensuse-tumbleweed", "package_name": "python-text-unidecode", "package_base": "python-text-unidecode", "source_version": "1.3-3.4", "evidence_url": "https://github.com/kmike/text-unidecode", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "python-text-unidecode.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Pin the full official 1.3 release tree. Original tox py.test [] resolves to unfiltered py.test for empty posargs, proven from supplied tox 4.11.1 parser. Retain all source/default files and the shipped data table; run whole defaults for target Python 3.11 only, without claiming the historical matrix or local target/CI success."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-pypi"}
+}

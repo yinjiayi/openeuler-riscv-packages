@@ -1,0 +1,21 @@
+{
+  "package_id": "liblogging",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5d235b7da35329d7d13349a4b941a197506a3c47bf8c27758c5e56b51c142c58"
+      },
+      "filename": "liblogging-1.0.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rsyslog/liblogging/archive/refs/tags/v1.0.6.tar.gz",
+      "version": "1.0.6"
+    }
+  ]
+}

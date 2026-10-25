@@ -65,8 +65,10 @@
     "spec": "libxmp.spec"
   },
   "maintenance": {
-    "maintainers": ["yinjiayi"],
-    "notes": "Official libxmp 4.7.2 SourceForge release bytes are SHA-256 pinned and match the upstream-published release digest. The complete release-archive regression target remains enabled. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official libxmp 4.7.3 SourceForge release bytes are SHA-256 pinned and match the upstream-published release digest. The complete release-archive regression target remains enabled. AUR was read-only RPC metadata only; no external packaging content was executed.",
     "status": "active"
   },
   "package_id": "libxmp",
@@ -85,7 +87,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-09-11T20:56:09Z",
     "last_successful_check_at": null,
     "release_provider": "official-sourceforge-files"
   },
@@ -99,8 +101,8 @@
     "source_url_template": "https://downloads.sourceforge.net/project/xmp/libxmp/{version}/libxmp-{version}.tar.gz"
   },
   "version": {
-    "current": "4.7.2",
-    "latest_detected": "4.7.2",
+    "current": "4.7.3",
+    "latest_detected": "4.7.3",
     "release": "1"
   }
 }

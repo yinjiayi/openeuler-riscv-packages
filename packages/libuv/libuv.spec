@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libuv
-Version:        1.52.1
+Version:        1.53.0
 Release:        1%{?dist}
 Summary:        Asynchronous I/O support library
 License:        MIT AND CC-BY-4.0 AND ISC AND BSD-2-Clause
 URL:            https://github.com/libuv/libuv
-Source0:        libuv-1.52.1.tar.gz
+Source0:        v1.53.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make

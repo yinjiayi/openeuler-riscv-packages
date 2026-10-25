@@ -1,9 +1,10 @@
 {
   "build": {
     "native_reason": null,
-    "network_during_build": true,
+    "network_during_build": false,
     "profile": "qemu-user",
-    "timeout_minutes": 60
+    "timeout_minutes": 60,
+    "user": "unprivileged"
   },
   "discovery": {
     "lineage": [
@@ -28,14 +29,14 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Selected from the full discovery inventory; the exact official GitHub stable tag archive was independently downloaded, safety-inspected, checked for a top-level license file and supported build system, and pinned by SHA-256. External distribution packaging was not executed.",
+    "notes": "Four exact official archives, complete Git blob comparisons, original per-file notices and project grants; offline private dependency layout. Original two upstream unit registrations are no-ops, supplemented by six strict noninteractive API cases and installed static-consumer linkage checks. Target acceptance remains pending.",
     "status": "active"
   },
   "package_id": "termox",
   "rpm": {
     "license": "MIT",
     "name": "termox",
-    "summary": "C++17 Terminal User Interface(TUI) Library."
+    "summary": "C++20 terminal UI static library with private pinned dependencies"
   },
   "schema_version": 1,
   "target": {
@@ -63,6 +64,6 @@
   "version": {
     "current": "2.0.0",
     "latest_detected": "2.0.0",
-    "release": "4"
+    "release": "5"
   }
 }

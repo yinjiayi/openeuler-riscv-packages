@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-inplace-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Inplace-0.20.tar.gz",
+      "version": "0.20",
+      "url": "https://cpan.metacpan.org/authors/id/C/CH/CHIPT/File-Inplace-0.20.tar.gz",
+      "digests": {
+        "sha256": "00d63cf15fdd03a166ecb7af2813a684251254f992fcf5da722ff557b4f10a3e"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Module POD and README grant Perl's redistributable dual-license terms; official CPAN HTTPS archive SHA-256 matches CHECKSUMS."
+      }
+    }
+  ]
+}

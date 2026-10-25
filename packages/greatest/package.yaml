@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "package_id": "greatest",
+  "rpm": {
+    "name": "greatest",
+    "summary": "Single-header C unit testing framework",
+    "license": "ISC"
+  },
+  "upstream": {
+    "component": "github.com-silentbicycle-greatest",
+    "homepage": "https://github.com/silentbicycle/greatest",
+    "source_repository": "https://github.com/silentbicycle/greatest",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/silentbicycle/greatest/tags",
+    "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$"
+  },
+  "version": {
+    "current": "1.5.0",
+    "release": "1",
+    "latest_detected": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "greatest",
+        "package_base": "greatest",
+        "source_version": "1.5.0-1",
+        "evidence_url": "https://aur.archlinux.org/packages/greatest",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 30,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "greatest.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Historical AUR component metadata is discovery only; no PKGBUILD is executed. Official fixed stable tag and all 18 Git files are verified independently. All default examples, intentional failure/skip outcomes, random cases and slow Fibonacci cases are retained; no native performance claim."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-tags"
+  }
+}

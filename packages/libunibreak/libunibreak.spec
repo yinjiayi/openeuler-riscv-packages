@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libunibreak
-Version:        7.0
+Version:        8.0
 Release:        1%{?dist}
 Summary:        Unicode line and word breaking library
 License:        Zlib
 URL:            https://github.com/adah1972/libunibreak
-Source0:        libunibreak-%{version}.tar.gz
+Source0:        libunibreak-8.0.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  libtool
@@ -40,14 +40,12 @@ rm -f %{buildroot}%{_libdir}/libunibreak.la
 %files
 %license LICENCE
 %doc AUTHORS NEWS README.md
-%{_libdir}/libunibreak.so.7*
+%{_libdir}/libunibreak.so.8*
 
 %files devel
 %license LICENCE
-%{_includedir}/eastasianwidthdef.h
 %{_includedir}/graphemebreak.h
 %{_includedir}/linebreak.h
-%{_includedir}/linebreakdef.h
 %{_includedir}/unibreakbase.h
 %{_includedir}/unibreakdef.h
 %{_includedir}/wordbreak.h

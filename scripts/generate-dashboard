@@ -5,9 +5,12 @@
 from __future__ import annotations
 
 import argparse
+import datetime
+import runpy
 import pathlib
 import re
 import shutil
+import subprocess
 import urllib.parse
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
@@ -53,6 +56,8 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--output-dir", required=True)
     result.add_argument("--github-state")
     result.add_argument("--build-results")
+    result.add_argument("--build-history", help="validated package-build-history JSON; unavailable history is shown as a lower bound")
+    result.add_argument("--published-state", help="checksum-verified live repository state/metadata/RPM+SRPM inventory")
     result.add_argument("--package-inventory", help="full package inventory JSON or JSON.GZ")
     result.add_argument("--update-summary")
     result.add_argument("--catalog-snapshot")
@@ -71,7 +76,19 @@ def labels(record: Mapping[str, Any]) -> List[str]:
     return values
 
 
-def package_from_pr(pr: Mapping[str, Any]) -> Optional[str]:
+def package_from_pr(pr: Mapping[str, Any], allow_unverified: bool = False) -> Optional[str]:
+    paths = pr.get("actual_files", pr.get("files", []))
+    if isinstance(paths, Mapping):
+        paths = paths.get("nodes", [])
+    ids = {match.group(1) for item in paths if (match := re.match(r"^packages/([^/]+)/", str(item.get("path") or item.get("filename") or "") if isinstance(item, Mapping) else str(item)))}
+    if len(ids) == 1:
+        return next(iter(ids))
+    if len(ids) > 1:
+        return None
+    if "files" in pr or "actual_files" in pr:
+        return None
+    if not allow_unverified:
+        return None
     if pr.get("package_id"):
         return str(pr["package_id"])
     for label in labels(pr):
@@ -81,6 +98,14 @@ def package_from_pr(pr: Mapping[str, Any]) -> Optional[str]:
     head = str(pr.get("headRefName") or pr.get("head_ref") or head_data.get("ref") or "")
     match = re.match(r"(?:onboard|update|repair|golden)/([a-z0-9._+-]+?)(?:-[vV]?\d|$)", head)
     return match.group(1) if match else None
+
+
+def complete_pr_identity(pr: Mapping[str, Any], package_id: str) -> bool:
+    paths = pr.get("actual_files", pr.get("files"))
+    complete = pr.get("actual_files_complete") is True or pr.get("files_complete") is True
+    if isinstance(paths, Mapping):
+        complete = paths.get("pageInfo", {}).get("hasNextPage") is False and paths.get("totalCount") == len(paths.get("nodes", []))
+    return complete and package_from_pr(pr) == package_id
 
 
 def github_prs(path: Optional[str]) -> List[Mapping[str, Any]]:
@@ -177,48 +202,88 @@ def published_links(
     package_id: str,
     publication: Optional[Sequence[Mapping[str, Mapping[str, Any]]]],
 ) -> Dict[str, Any]:
-    empty = {"rpm": [], "srpm": [], "state": None, "commit_sha": None, "generation": None, "verified_at": None}
-    for pair in publication or []:
-        verification = pair.get("verification")
-        upload = pair.get("upload")
-        if not isinstance(verification, Mapping) or not isinstance(upload, Mapping):
-            continue
-        if verification.get("status") != "passed" or upload.get("status") != "staged":
-            continue
-        identity = (str(verification.get("package_id")), str(verification.get("commit_sha")), str(verification.get("generation")))
-        upload_identity = (str(upload.get("package_id")), str(upload.get("commit_sha")), str(upload.get("generation")))
-        if identity != upload_identity or identity[0] != package_id:
-            continue
-        repositories = verification.get("repositories") if isinstance(verification.get("repositories"), Mapping) else {}
-        binary = repositories.get("riscv64") if isinstance(repositories.get("riscv64"), Mapping) else {}
-        source = repositories.get("source") if isinstance(repositories.get("source"), Mapping) else {}
-        binary_base = str(binary.get("baseurl") or "")
-        source_base = str(source.get("baseurl") or "")
-        if urllib.parse.urlparse(binary_base).scheme not in {"http", "https"} or urllib.parse.urlparse(source_base).scheme not in {"http", "https"}:
-            continue
-        artifacts = upload.get("artifacts")
-        if not isinstance(artifacts, list):
-            continue
-        rpm = sorted(
-            binary_base.rstrip("/") + "/Packages/" + urllib.parse.quote(str(item["filename"]))
-            for item in artifacts
-            if isinstance(item, Mapping) and item.get("kind") == "binary" and item.get("filename")
-        )
-        srpm = sorted(
-            source_base.rstrip("/") + "/Packages/" + urllib.parse.quote(str(item["filename"]))
-            for item in artifacts
-            if isinstance(item, Mapping) and item.get("kind") == "source" and item.get("filename")
-        )
-        if rpm and srpm:
-            return {
-                "rpm": rpm,
-                "srpm": srpm,
-                "state": verification.get("state_url"),
-                "commit_sha": identity[1],
-                "generation": identity[2],
-                "verified_at": verification.get("verified_at"),
-            }
-    return empty
+    """Retained envelopes alone do not verify every public artifact byte."""
+    return {"rpm": [], "srpm": [], "state": None, "commit_sha": None, "generation": None, "verified_at": None}
+
+
+def pr_checks(pr: Mapping[str, Any]) -> List[Mapping[str, Any]]:
+    checks = list(pr.get("statusCheckRollup") or pr.get("checks") or pr.get("check_runs") or [])
+    # Legacy display fixtures are not current-head acceptance evidence.
+    if "checks_complete" not in pr:
+        checks.extend({"name": item.get("context"), "conclusion": item.get("state"), "status": item.get("state")} for item in pr.get("status_contexts", []) if isinstance(item, Mapping))
+        return [dict(item, _current_check_verified=False) for item in checks if isinstance(item, Mapping)]
+    unknown = [{"name": "current-checks-unverified", "status": "unknown", "conclusion": None, "_current_check_verified": False}]
+    if pr.get("check_selection_version") != 1 or pr.get("check_selection_metadata_complete") is not True or pr.get("checks_complete") is not True or pr.get("snapshot_head_current") is not True:
+        return unknown
+    head = pr_head(pr)
+    if not re.fullmatch(r"[a-f0-9]{40}", head):
+        return unknown
+    def timestamp(value: Any) -> datetime.datetime:
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})", value):
+            raise ValueError("missing or malformed current-check timestamp")
+        return datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    groups: Dict[Tuple[Any, ...], List[Tuple[Any, Mapping[str, Any]]]] = {}
+    identities: Dict[Tuple[str, Any], Mapping[str, Any]] = {}
+    try:
+        for item in checks:
+            if not isinstance(item, Mapping) or item.get("head_sha") != head or not isinstance(item.get("name"), str) or not item["name"]:
+                raise ValueError("unbound CheckRun")
+            for field in ("check_run_id", "app_id", "check_suite_id"):
+                if type(item.get(field)) is not int or item[field] <= 0:
+                    raise ValueError("missing CheckRun identity")
+            created = timestamp(item.get("check_suite_created_at"))
+            started = timestamp(item["started_at"]) if item.get("started_at") is not None else None
+            completed = timestamp(item["completed_at"]) if item.get("completed_at") is not None else None
+            if started and started < created or completed and completed < (started or created):
+                raise ValueError("inconsistent CheckRun chronology")
+            if item.get("status") not in {"completed", "queued", "pending", "requested", "waiting", "in_progress"}:
+                raise ValueError("unknown CheckRun status")
+            if item.get("status") == "completed" and (completed is None or not item.get("conclusion")):
+                raise ValueError("incomplete terminal CheckRun")
+            identity = ("check-run", item["check_run_id"])
+            if identity in identities:
+                if identities[identity] != item:
+                    raise ValueError("conflicting CheckRun identity")
+                continue
+            identities[identity] = item
+            key = ("check-run", item["name"], item["app_id"])
+            groups.setdefault(key, []).append(((created, started, item["check_run_id"]), dict(item, _current_check_verified=True)))
+        for item in pr.get("status_contexts", []):
+            if not isinstance(item, Mapping) or item.get("head_sha") != head or not all(isinstance(item.get(field), str) and item[field] for field in ("id", "context", "creator_login")):
+                raise ValueError("unbound StatusContext")
+            created, updated = timestamp(item.get("created_at")), timestamp(item.get("updated_at"))
+            if updated < created or item.get("state") not in {"success", "failure", "error", "pending"}:
+                raise ValueError("invalid StatusContext chronology/state")
+            identity = ("status-context", item["id"])
+            if identity in identities:
+                if identities[identity] != item:
+                    raise ValueError("conflicting StatusContext identity")
+                continue
+            identities[identity] = item
+            key = ("status-context", item["context"], item["creator_login"])
+            state = item["state"]
+            groups.setdefault(key, []).append(((created, updated, item["id"]), dict(item, name=item["context"], conclusion=None if state == "pending" else ("failure" if state == "error" else state), status="queued" if state == "pending" else "completed", _current_check_verified=True)))
+        selected = []
+        for key, values in sorted(groups.items()):
+            # A suite can be reused by a later rerun: its creation is not run order.
+            if key[0] == "check-run":
+                if len(values) > 1 and any(order[1] is None for order, _ in values):
+                    raise ValueError("ambiguous unstarted CheckRun ordering across suites/reruns")
+                minimum = datetime.datetime.min.replace(tzinfo=datetime.timezone.utc)
+                latest = max(order[1] or minimum for order, _ in values)
+                candidates = [item for order, item in values if (order[1] or minimum) == latest]
+                if len(candidates) != 1:
+                    raise ValueError("ambiguous tied CheckRun start times")
+                selected.append(candidates[0])
+            else:
+                latest = max(order[:2] for order, _ in values)
+                candidates = [item for order, item in values if order[:2] == latest]
+                if len(candidates) != 1:
+                    raise ValueError("ambiguous tied StatusContext times")
+                selected.append(candidates[0])
+        return selected or unknown
+    except (ValueError, TypeError, KeyError):
+        return unknown
 
 
 def pr_state(pr: Mapping[str, Any]) -> str:
@@ -228,7 +293,7 @@ def pr_state(pr: Mapping[str, Any]) -> str:
     for state in ("needs-human", "needs-native-riscv", "codex-repairing", "repair-queued"):
         if state in pr_labels:
             return state
-    checks = pr.get("statusCheckRollup") or pr.get("checks") or []
+    checks = pr_checks(pr)
     conclusions: List[str] = []
     statuses: List[str] = []
     for check in checks:
@@ -242,25 +307,33 @@ def pr_state(pr: Mapping[str, Any]) -> str:
             statuses.append(str(status).lower())
     if any(value in {"failure", "failed", "cancelled", "timed_out", "action_required"} for value in conclusions):
         return "failed"
-    if checks and conclusions and all(value in {"success", "neutral", "skipped"} for value in conclusions):
-        return "passed"
     if any(value in {"in_progress", "running"} for value in statuses):
         return "building"
     if any(value in {"queued", "pending", "requested", "waiting"} for value in statuses):
         return "ci-queued"
+    if checks and conclusions and all(check.get("_current_check_verified") is True for check in checks) and all(value in {"success", "neutral", "skipped"} for value in conclusions):
+        return "passed"
     return "pr-open"
+
+
+def current_pr_success_checks(pr: Mapping[str, Any]) -> bool:
+    checks = pr_checks(pr)
+    names = {str(check.get("name")): str(check.get("conclusion") or "").lower() for check in checks if check.get("app_id") == 15368}
+    return pr.get("checks_complete") is True and pr.get("snapshot_head_current") is True and all(check.get("_current_check_verified") is True for check in checks) and pr_state(pr) == "passed" and all(names.get(name) == "success" for name in ("rpmbuild-riscv64", "rpm-install-smoke"))
 
 
 def latest_prs(prs: Iterable[Mapping[str, Any]]) -> Dict[str, Mapping[str, Any]]:
     result: Dict[str, Mapping[str, Any]] = {}
     for pr in prs:
-        package_id = package_from_pr(pr)
+        package_id = pr.get("package_id") or package_from_pr(pr)
         if not package_id:
             continue
         prior = result.get(package_id)
         timestamp = str(pr.get("updatedAt") or pr.get("updated_at") or pr.get("createdAt") or "")
         prior_time = str(prior.get("updatedAt") or prior.get("updated_at") or prior.get("createdAt") or "") if prior else ""
-        if not prior or timestamp >= prior_time:
+        is_open = str(pr.get("state") or "").lower() in {"open", "opened"}
+        prior_open = bool(prior and str(prior.get("state") or "").lower() in {"open", "opened"})
+        if not prior or (is_open and not prior_open) or (is_open == prior_open and timestamp >= prior_time):
             result[package_id] = pr
     return result
 
@@ -283,24 +356,47 @@ def http_link(value: Any) -> Optional[str]:
     if not value:
         return None
     text = str(value)
-    parsed = urllib.parse.urlparse(text)
-    return text if parsed.scheme in {"http", "https"} and bool(parsed.netloc) else None
+    # Catalog strings are untrusted IRIs, not already-safe browser URIs.
+    # Unresolved packaging placeholders are not real upstream locations.
+    if any(ord(char) < 32 or ord(char) == 127 for char in text) or any(char in text for char in "{}\\"):
+        return None
+    if re.search(r"%(?![0-9a-fA-F]{2})", text):
+        return None
+    try:
+        parsed = urllib.parse.urlsplit(text)
+        if parsed.scheme not in {"http", "https"} or not parsed.hostname or parsed.username is not None or parsed.password is not None:
+            return None
+        if any(char.isspace() for char in parsed.netloc):
+            return None
+        host = parsed.hostname.encode("idna").decode("ascii")
+        if parsed.netloc.startswith("[") and ":" not in host:
+            # Unsupported IPvFuture must not be reinterpreted as a DNS name.
+            return None
+        if ":" in host:
+            host = "[" + host + "]"
+        port = parsed.port  # Invalid and out-of-range ports fail closed.
+        authority = host + (":" + str(port) if port is not None else "")
+        safe = "/:@!$&'()*+,;=-._~%"
+        return urllib.parse.urlunsplit((parsed.scheme, authority,
+            urllib.parse.quote(parsed.path, safe=safe),
+            urllib.parse.quote(parsed.query, safe=safe + "?"),
+            urllib.parse.quote(parsed.fragment, safe=safe + "?")))
+    except (ValueError, UnicodeError):
+        return None
 
 
 def verified_build(entry: Optional[Mapping[str, Any]], pr: Optional[Mapping[str, Any]], build: Optional[Mapping[str, Any]]) -> Optional[Mapping[str, Any]]:
     """Reject stale package build results that cannot be tied to a recorded head."""
     if not build:
         return None
-    if build.get("latest_head_verified") is True:
-        return build
     commit = str(build.get("commit_sha") or "")
     expected = {pr_head(pr)} if pr else set()
-    if entry:
-        expected.update(
-            str(item.get("head_sha") or "")
-            for item in entry.get("pull_requests", [])
-            if isinstance(item, Mapping)
-        )
+    if not pr and entry:
+        recorded = latest_recorded_pr(entry)
+        expected.add(pr_head(recorded))
+    # A collector's live-main binding is useful only without a conflicting PR.
+    if not pr and build.get("latest_head_verified") is True and re.fullmatch(r"[a-f0-9]{40}", commit):
+        return build
     return build if commit and commit in expected else None
 
 
@@ -335,6 +431,10 @@ def package_row(
     latest_value = update.get("latest_version") if update else version_data.get("latest_detected")
     latest_version = str(latest_value) if latest_value not in (None, "") else None
     state = str(entry.get("status")) if entry and entry.get("status") in INVENTORY_STATES else "managed"
+    # The committed inventory is a snapshot. A package directory on current main
+    # is stronger evidence than its older discovered/reviewed catalog status.
+    if state in {"discovered", "reviewed"}:
+        state = "managed"
     if pr and str(pr.get("state") or "").lower() in {"open", "opened"}:
         state = pr_state(pr)
     if build and not pr:
@@ -347,7 +447,7 @@ def package_row(
             state = "failed"
     if published["rpm"] and published["srpm"]:
         state = "published"
-    elif build and build.get("status") == "passed":
+    elif build and build.get("status") == "passed" and not (pr and str(pr.get("state") or "").lower() in {"open", "opened"} and pr_state(pr) != "passed"):
         state = "build-succeeded"
     if state not in VALID_STATES:
         state = "failed"
@@ -432,7 +532,7 @@ def inventory_row(
         status = pr_state(pr)
     if build:
         build_status = str(build.get("status") or "")
-        if build_status == "passed":
+        if build_status == "passed" and not (pr and str(pr.get("state") or "").lower() in {"open", "opened"} and pr_state(pr) != "passed"):
             status = "build-succeeded"
         elif build_status == "needs-native-riscv":
             status = "needs-native-riscv"
@@ -461,7 +561,8 @@ def inventory_row(
         "aliases": names[1:] or None,
         "component_ids": sorted({str(value) for value in entry.get("component_ids", []) if value}) or None,
         "summary": str(managed.get("summary")) if managed.get("summary") else None,
-        "decisions": sorted(str(key) for key in entry.get("decisions", {}) if key) or None,
+        "decisions": sorted({str(key) for key in entry.get("decisions", {}) if key} |
+            ({"invalid-upstream-link"} if any(value and http_link(value) is None for value in entry.get("upstream_urls", [])) else set())) or None,
         "updated_at": max((value for value in timestamps if value), default=None),
     }
     row.update({key: value for key, value in optional.items() if value is not None})
@@ -496,6 +597,288 @@ def copy_assets(root: pathlib.Path, output: pathlib.Path) -> None:
             shutil.copyfile(asset, destination)
 
 
+def load_history(path: Optional[str]) -> Mapping[str, Any]:
+    if not path:
+        return {"observations": [], "snapshot": {"coverage_complete": False, "lower_bound": True, "reasons": ["build-history input unavailable"], "cutoff": None}, "generated_at": None}
+    document = load_json(path)
+    schema_path = pathlib.Path(__file__).resolve().parent.parent / "schemas" / "build-history.schema.json"
+    if not schema_path.is_file():
+        raise ToolError("package-build-history schema is unavailable")
+    validator = runpy.run_path(str(pathlib.Path(__file__).resolve().parent / "validate-metadata"))["schema_errors"]
+    schema = load_json(schema_path)
+    errors = validator(document, schema, schema)
+    if errors:
+        raise ToolError("build-history input-invalid: " + "; ".join(errors[:10]))
+    if document["repository"] != "yinjiayi/openeuler-riscv-packages":
+        raise ToolError("build-history repository identity mismatch")
+    observed_summary = {
+        "distinct_package_count": len({item["package_id"] for item in document["observations"]}),
+        "distinct_recipe_count": len({(item["package_id"], item["recipe_tree_sha"]) for item in document["observations"]}),
+        "success_tuple_count": len(document["observations"]),
+    }
+    # Durable public seeds must satisfy the collector's merge_seed entry point,
+    # not only its summary validator. Browser view inputs may still deduplicate.
+    if document["summary"] != observed_summary:
+        raise ToolError("build-history summary disagrees with actual observations")
+    if len({item["id"] for item in document["observations"]}) != len(document["observations"]):
+        raise ToolError("duplicate build-history seed observations")
+    if document["snapshot"]["coverage_complete"] == document["snapshot"]["lower_bound"]:
+        raise ToolError("build-history completeness/lower-bound conflict")
+    if document["snapshot"]["coverage_complete"] and document["snapshot"]["unresolved_count"]:
+        raise ToolError("complete build-history has unresolved attempts")
+    seen_attempts = set()
+    for attempt in document["attempts"]:
+        identity = "%s:%s:%s" % (attempt["run_id"], attempt["run_attempt"], attempt["head_sha"])
+        if attempt["id"] != identity or identity in seen_attempts:
+            raise ToolError("build-history checkpoint identity conflict")
+        seen_attempts.add(identity)
+        if attempt["status"] == "success" and not any(item["run_id"] == attempt["run_id"] and item["run_attempt"] == attempt["run_attempt"] and item.get("workflow_head_sha", item["head_sha"]) == attempt["head_sha"] for item in document["observations"]):
+            raise ToolError("build-history success checkpoint has no successful observation")
+        if (attempt["status"] == "not-successful" and not attempt["terminal"]) or (attempt["status"] == "pending" and attempt["terminal"]):
+            raise ToolError("build-history checkpoint terminal status conflict")
+        if attempt["status"] == "unresolved" and (not attempt["terminal"] or not attempt.get("reason")):
+            raise ToolError("build-history unresolved checkpoint lacks terminal reason")
+    for item in document["observations"]:
+        if item["provenance"]["identity_method"] == "scope-log+exact-package-tree" and item["event"] != "workflow_dispatch":
+            raise ToolError("build-history scoped whole-tree identity is only valid for dispatch")
+        if item["provenance"]["identity_method"] == "legacy-workflow-contract+exact-package-tree":
+            reviewed_contracts = {"729eb4d5b19325b09ab3f675c0725e54f18eb424d9a880a7df9910c49b9f9e75", "c240903907a69bb7b9de2bdb27ef991fef6b891c53113628823046bcb86b4747", "c25f7293303280b72e5f9c34d11279662bc0614600be4dd90f43878949f8ce30"}
+            if item["event"] != "workflow_dispatch" or item["provenance"].get("workflow_contract_sha256") not in reviewed_contracts:
+                raise ToolError("build-history legacy identity lacks reviewed dispatch workflow contract")
+        if item["event"] == "workflow_dispatch" and (not re.fullmatch(r"[0-9a-f]{40}", item.get("workflow_head_sha", "")) or not (item["provenance"]["identity_method"] == "legacy-workflow-contract+exact-package-tree" or item["provenance"]["identity_method"].startswith("scope-log+"))):
+            raise ToolError("dispatch history lacks distinct workflow/candidate scope identity")
+        expected_id = "%s:%s:%s:%s" % (item["run_id"], item["run_attempt"], item["head_sha"], item["package_id"])
+        if item["id"] != expected_id or item["recipe"]["ref"] != item["head_sha"] or item["run_url"] != "https://github.com/yinjiayi/openeuler-riscv-packages/actions/runs/%s" % item["run_id"]:
+            raise ToolError("build-history exact observation identity mismatch")
+        jobs = item["jobs"]
+        if jobs["build"]["name"] != "rpmbuild-riscv64" or jobs["build"]["step_name"] not in {"Build SRPM and RPM without network", "Build SRPM and RPM with verified source networking"} or jobs["smoke"]["name"] != "rpm-install-smoke" or jobs["smoke"]["step_name"] != "Install RPM and run smoke test" or jobs["build"]["id"] == jobs["smoke"]["id"]:
+            raise ToolError("build-history successful RPM/smoke step identity mismatch")
+        times = [parse_now(jobs[k]["completed_at"]) for k in ("build", "smoke")]
+        if parse_now(item["created_at"]) > min(times) or parse_now(item["completed_at"]) != max(times) or parse_now(item["completed_at"]) > parse_now(document["snapshot"]["cutoff"]):
+            raise ToolError("build-history job/observation timestamp mismatch")
+        if item["event"] in {"pull_request", "merge_group"} and any("self-hosted" in jobs[k]["runner_labels"] for k in ("build", "smoke")):
+            raise ToolError("build-history PR self-hosted evidence is forbidden")
+    return document
+
+
+def load_published_state(path: Optional[str]) -> Tuple[Mapping[str, Any], Dict[str, Dict[str, Any]]]:
+    if not path:
+        return {}, {}
+    document = load_json(path)
+    schema_root = pathlib.Path(__file__).resolve().parent.parent / "schemas"
+    schema = load_json(schema_root / "dashboard-published-state.schema.json")
+    validator = runpy.run_path(str(pathlib.Path(__file__).resolve().parent / "validate-metadata"))["schema_errors"]
+    errors = validator(document, schema, schema)
+    if errors:
+        raise ToolError("published-state input-invalid: " + "; ".join(errors[:10]))
+    links: Dict[str, Dict[str, Any]] = {}
+    generation = str(document["generation"])
+    origin = "http://2.27.148.101:38080/generations/" + generation + "/"
+    if document["generation_state_url"] != origin + "state.json":
+        raise ToolError("publication generation state URL mismatch")
+    for kind in ("riscv64", "source"):
+        repository = document["repositories"][kind]
+        metadata = document["metadata"][kind]
+        primary_tail = metadata["primary_url"].removeprefix(repository["baseurl"] + "repodata/")
+        if repository["baseurl"] != origin + kind + "/" or repository["repomd_sha256"] != document["verified_repomd_sha256"][kind] or metadata["repomd_sha256"] != repository["repomd_sha256"] or metadata["repomd_url"] != repository["baseurl"] + "repodata/repomd.xml" or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._+-]*", primary_tail):
+            raise ToolError("publication state/repomd/primary binding mismatch")
+    verified_artifacts: Dict[str, Mapping[str, Any]] = {}
+    for artifact in document["verified_artifacts"]:
+        kind = "source" if artifact["arch"] in {"src", "nosrc"} else "riscv64"
+        filename = artifact["filename"]
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._+~-]*\.rpm", filename) or artifact["url"] != origin + kind + "/Packages/" + filename or artifact["url"] in verified_artifacts:
+            raise ToolError("verified publication artifact URL is unsafe or duplicate")
+        verified_artifacts[artifact["url"]] = artifact
+    paired_artifacts: Dict[str, Mapping[str, Any]] = {}
+    counts = {"source": 0, "riscv64": 0}
+    for package in document.get("packages", []):
+        package_id = str(package["package_id"])
+        if package_id in links:
+            raise ToolError("duplicate canonical package ID in published-state")
+        rpm, srpm, timestamps = [], [], []
+        for version in package.get("versions", []):
+            source = version["source"]
+            binaries = version["binaries"]
+            if not binaries:
+                raise ToolError("published source has no matching verified binary")
+            for artifact, kind in [(source, "source"), *[(item, "riscv64") for item in binaries]]:
+                filename = str(artifact["filename"])
+                if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._+~-]*\.rpm", filename) or artifact["url"] != origin + kind + "/Packages/" + filename:
+                    raise ToolError("published artifact is outside the fixed immutable generation")
+                if not re.fullmatch(r"[a-f0-9]{64}", str(artifact["sha256"])) or not isinstance(artifact["size"], int) or isinstance(artifact["size"], bool) or artifact["size"] <= 0:
+                    raise ToolError("published artifact byte binding is invalid")
+                if artifact["url"] in paired_artifacts:
+                    raise ToolError("duplicate publication artifact URL")
+                if verified_artifacts.get(artifact["url"]) != artifact:
+                    raise ToolError("linked publication artifact is not an exact verified subset")
+                if artifact["arch"] not in ({"src", "nosrc"} if kind == "source" else {"riscv64", "noarch"}):
+                    raise ToolError("published artifact architecture mismatch")
+                suffix = "-%s-%s.%s.rpm" % (version["version"], version["release"], artifact["arch"])
+                if not filename.endswith(suffix) or (kind == "source" and filename != package["rpm_name"] + suffix):
+                    raise ToolError("publication artifact/source EVR mismatch")
+                paired_artifacts[artifact["url"]] = artifact
+                counts[kind] += 1
+                timestamps.append(artifact["verified_at"])
+            srpm.append(source["url"])
+            rpm.extend(item["url"] for item in binaries)
+        if rpm and srpm:
+            links[package_id] = {"rpm": sorted(set(rpm)), "srpm": sorted(set(srpm)), "state": origin + "state.json", "commit_sha": None, "generation": generation, "verified_at": max(timestamps), "versions": [{key: version[key] for key in ("epoch", "version", "release")} for version in package["versions"]]}
+    coverage = document["coverage"]
+    if not coverage["source_packages"] >= coverage["matched_packages"] >= coverage["verified_packages"] or (coverage["status"] == "partial" and not coverage["gaps"]):
+        raise ToolError("publication coverage grain is inconsistent")
+    if coverage["verified_packages"] != len(links) or coverage["verified_files"] != len(verified_artifacts) or coverage["verified_bytes"] != sum(item["size"] for item in verified_artifacts.values()):
+        raise ToolError("publication verified coverage does not reconcile")
+    if coverage["status"] == "complete" and (coverage["gaps"] or len(paired_artifacts) != len(verified_artifacts) or coverage["source_packages"] != len(links) or coverage["matched_packages"] != len(links) or coverage["rpm_files"] != counts["riscv64"] or coverage["srpm_files"] != counts["source"] or any(document["repositories"][kind]["rpm_count"] != counts[kind] or document["metadata"][kind]["package_count"] != counts[kind] for kind in counts)):
+        raise ToolError("complete publication coverage does not reconcile")
+    return document, links
+
+
+class CanonicalPackages:
+    """Exact, case-folded explicit aliases only; ambiguity never selects a winner."""
+
+    def __init__(self) -> None:
+        self.ids: set[str] = set()
+        self.aliases: Dict[str, set[str]] = {}
+        self.diagnostics: List[Dict[str, Any]] = []
+
+    def add(self, package_id: str, aliases: Iterable[str]) -> None:
+        if len(package_id) > 100 or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", package_id):
+            raise ToolError("invalid canonical package ID")
+        self.ids.add(package_id)
+        for name in [package_id, *aliases]:
+            if name:
+                self.aliases.setdefault(str(name).casefold(), set()).add(package_id)
+
+    def resolve(self, names: Iterable[str]) -> Optional[str]:
+        candidates: set[str] = set()
+        for name in names:
+            if name:
+                candidates.update(self.aliases.get(str(name).casefold(), set()))
+        return next(iter(candidates)) if len(candidates) == 1 else None
+
+    def entry(self, entry: Mapping[str, Any]) -> Optional[str]:
+        managed = entry.get("managed_package") or {}
+        if managed.get("package_id") in self.ids:
+            names = [entry.get("discovery_key"), *entry.get("names", []), *entry.get("aliases", []), *entry.get("component_ids", [])]
+            other_ids = {identity for name in names if name for identity in self.aliases.get(str(name).casefold(), set()) if identity != managed["package_id"]}
+            if other_ids:
+                conflict = {"managed_package_id": managed["package_id"], "conflicting_package_ids": sorted(other_ids), "discovery_key": entry.get("discovery_key")}
+                if conflict not in self.diagnostics:
+                    self.diagnostics.append(conflict)
+            return str(managed["package_id"])
+        return self.resolve([entry.get("discovery_key"), *entry.get("names", []), *entry.get("aliases", []), *entry.get("component_ids", [])])
+
+
+def metadata_aliases(metadata: Mapping[str, Any]) -> List[str]:
+    aliases = [str(metadata.get("rpm", {}).get("name") or ""), str(metadata.get("upstream", {}).get("component") or "")]
+    aliases.extend(str(value) for value in metadata.get("aliases", []) if value)
+    # Lineage may describe a functional provider (e.g. Debianutils -> Which),
+    # not an identity alias. Never turn that relationship into a join key.
+    aliases.extend(str(value) for value in metadata.get("discovery_keys", []) if value)
+    return aliases
+
+
+def checked_recipe_trees(root: pathlib.Path, ids: Iterable[str]) -> Dict[str, Optional[str]]:
+    """Only clean package trees from this actual checkout; no version-string guess."""
+    result: Dict[str, Optional[str]] = {}
+    for package_id in ids:
+        dirty = subprocess.run(["git", "-C", str(root), "status", "--porcelain", "--untracked-files=all", "--", "packages/" + package_id], capture_output=True, text=True)
+        tree = subprocess.run(["git", "-C", str(root), "rev-parse", "HEAD:packages/" + package_id], capture_output=True, text=True)
+        value = tree.stdout.strip()
+        result[package_id] = value if dirty.returncode == 0 and not dirty.stdout and tree.returncode == 0 and re.fullmatch(r"[a-f0-9]{40}", value) else None
+    return result
+
+
+def history_view(
+    history: Mapping[str, Any], resolver: CanonicalPackages, metadata: Mapping[str, Mapping[str, Any]],
+    trees: Mapping[str, Optional[str]], prs: Mapping[str, Mapping[str, Any]], builds: Mapping[str, Mapping[str, Any]],
+    publications: Mapping[str, Any], published_state: Mapping[str, Any], github_state: Optional[Mapping[str, Any]] = None,
+) -> Dict[str, Any]:
+    records: Dict[str, Mapping[str, Any]] = {}
+    duplicate_count = 0
+    for item in history.get("observations", []):
+        identity = str(item["id"])
+        if identity in records:
+            if stable_json(records[identity]) != stable_json(item):
+                raise ToolError("conflicting build-history observation identity")
+            duplicate_count += 1
+        records[identity] = item
+    by_package: Dict[str, List[Mapping[str, Any]]] = {}
+    for item in records.values():
+        if item.get("build_status") == "passed" and item.get("smoke_status") == "passed" and item.get("evidence_strength") == "hosted-step":
+            by_package.setdefault(str(item["package_id"]), []).append(item)
+    packages = []
+    for package_id in sorted(resolver.ids):
+        observations = sorted(by_package.get(package_id, []), key=lambda item: (str(item.get("completed_at") or ""), str(item["id"])))
+        main = [item for item in observations if trees.get(package_id) and item.get("recipe_tree_sha") == trees[package_id] and item.get("event") in {"push", "workflow_dispatch"} and item.get("head_branch") == "main" and (item.get("event") != "workflow_dispatch" or item.get("workflow_head_sha") == item.get("head_sha"))]
+        pr = prs.get(package_id)
+        current_pr = [item for item in observations if pr and pr.get("canonical_identity_verified") is True and current_pr_success_checks(pr) and pr_head(pr) == item.get("head_sha") and str(pr.get("state") or "").lower() in {"open", "opened"}]
+        main_status = "passed" if main else "unknown"
+        pr_status = "passed" if current_pr else "unknown"
+        if pr and pr_state(pr) in {"failed", "building", "ci-queued", "needs-human", "needs-native-riscv", "repair-queued", "codex-repairing"}:
+            pr_status = pr_state(pr)
+        build = builds.get(package_id)
+        if build and build.get("status") == "failed" and trees.get(package_id) and build.get("recipe_tree_sha") == trees[package_id] and build.get("head_branch") == "main":
+            main_status = "failed"
+        published = publications.get(package_id) or published_links(package_id, None)
+        latest = observations[-1] if observations else None
+        packages.append({
+            "package_id": package_id, "name": metadata.get(package_id, {}).get("rpm", {}).get("name") or package_id,
+            "on_current_main": package_id in metadata, "current_recipe_tree_sha": trees.get(package_id),
+            "ever_succeeded": bool(observations), "success_observation_count": len(observations),
+            "current_main_status": main_status, "current_pr_status": pr_status,
+            "current_main_recipe_succeeded": bool(main),
+            "current_pr_head_sha": pr_head(pr) or None,
+            "published": bool(published["rpm"] and published["srpm"]),
+            "last_success_at": latest.get("completed_at") if latest else None,
+            "last_success_run_url": http_link(latest.get("run_url")) if latest else None,
+            "observations": [{key: item.get(key) for key in ("id", "head_sha", "workflow_head_sha", "recipe_tree_sha", "run_id", "run_attempt", "event", "head_branch", "completed_at", "evidence_strength", "jobs")} | {"run_url": http_link(item.get("run_url")), "recipe": item.get("recipe")} for item in observations],
+            "publication": published,
+        })
+    snapshot = history.get("snapshot", {})
+    # Raw connection coverage is not proof that current contexts can be ordered.
+    selection_gaps = []
+    for current in (github_state or {}).get("pull_requests", []):
+        if current.get("canonical_identity_verified") is True and str(current.get("state") or "").lower() in {"open", "opened"}:
+            if not all(check.get("_current_check_verified") is True for check in pr_checks(current)):
+                selection_gaps.append({"pr": current.get("number"), "head_sha": pr_head(current), "reason": "current-check identity, ordering, or snapshot completeness unverified"})
+    return {
+        "url": "build-history.json", "source_generated_at": history.get("generated_at"), "cutoff": snapshot.get("cutoff"),
+        "current_pr_source_available": bool(github_state and github_state.get("generated_at") and github_state.get("coverage", {}).get("complete") is True and isinstance(github_state.get("pull_requests"), list)),
+        "current_pr_source_generated_at": github_state.get("generated_at") if github_state else None,
+        "current_pr_source_complete": bool(github_state and github_state.get("coverage", {}).get("complete") is True and not selection_gaps),
+        "current_pr_selection_gaps": selection_gaps,
+        "coverage_complete": snapshot.get("coverage_complete") is True,
+        "lower_bound": snapshot.get("lower_bound") is not False,
+        "reasons": list(snapshot.get("reasons", [])),
+        "listed_run_count": int(snapshot.get("listed_run_count") or 0),
+        "processed_attempt_count": int(snapshot.get("processed_attempt_count") or 0),
+        "unresolved_count": int(snapshot.get("unresolved_count") or 0),
+        "duplicate_observations_ignored": duplicate_count,
+        "publication_coverage": str(published_state.get("coverage", {}).get("status") or "unavailable"),
+        "publication_source_generated_at": published_state.get("generated_at"),
+        "publication_gaps": list(published_state.get("coverage", {}).get("gaps", [])),
+        "publication_files": {key: published_state.get("coverage", {}).get(key) for key in ("verified_files", "rpm_files", "srpm_files")},
+        "mapping_conflicts": [{"alias": alias, "package_ids": sorted(ids)} for alias, ids in sorted(resolver.aliases.items()) if len(ids) > 1],
+        "managed_mapping_conflicts": resolver.diagnostics,
+        "metrics": {
+            "cumulative_success_packages": sum(item["ever_succeeded"] for item in packages),
+            "current_main_success_packages": sum(item["current_main_recipe_succeeded"] for item in packages),
+            "current_pr_success_packages": sum(item["current_pr_status"] == "passed" for item in packages),
+            "published_packages": sum(item["published"] for item in packages) if published_state.get("coverage", {}).get("status") == "complete" else None,
+            "observed_published_packages": sum(item["published"] for item in packages),
+        },
+        "definitions": {
+            "cumulative": "Unique canonical package IDs with an observed successful build AND installed-smoke step; old versions and PR-only packages remain counted. Hosted step evidence is not physical RPM acceptance.",
+            "current_main": "Clean current-checkout whole package Git tree has historically succeeded in an actual main push/dispatch run. This stable historical recipe count is separate from latest known CI status; PR-only success and version-string matches do not qualify.",
+            "current_pr": "Successful observation matches the latest OPEN PR exact head; current failures/queued checks take precedence. This is not a main merge or publication.",
+            "published": "Unique canonical IDs with any version available in live state-bound primary metadata, matching source/binary EVR and every linked RPM/SRPM byte SHA/size verified. Published EVRs are separate from current-main version. Only complete publication coverage yields a total; partial/unavailable input is not zero. Historical CI never establishes publication.",
+            "coverage": "Complete refers only to available listed Actions history through cutoff; deleted or inaccessible runs cannot be reconstructed. Partial snapshots yield a lower bound.",
+        },
+        "packages": packages,
+    }
+
+
 def main() -> int:
     args = parser().parse_args()
     root = pathlib.Path(args.repo_root).resolve()
@@ -503,30 +886,75 @@ def main() -> int:
     packages_dir = root / "packages"
     if not packages_dir.is_dir():
         raise ToolError("packages directory does not exist")
-    prs = latest_prs(github_prs(args.github_state))
+    raw_prs = github_prs(args.github_state)
+    github_document = load_json(args.github_state) if args.github_state else None
     builds = build_results(args.build_results)
     publications = publication_evidence(args.build_results)
+    published_state, published = load_published_state(args.published_state)
+    history = load_history(args.build_history)
     inventory_path = pathlib.Path(args.package_inventory).resolve() if args.package_inventory else root / "catalog" / "package-index.json.gz"
     inventory_document = load_json(inventory_path) if inventory_path.is_file() else {}
     inventory_entries = inventory_document.get("entries", []) if isinstance(inventory_document, Mapping) else []
     if not isinstance(inventory_entries, list):
         raise ToolError("package inventory entries must be an array")
-    entries_by_package: Dict[str, Mapping[str, Any]] = {}
-    for entry in inventory_entries:
-        if not isinstance(entry, Mapping):
-            continue
-        managed = entry.get("managed_package") if isinstance(entry.get("managed_package"), Mapping) else {}
-        package_id = managed.get("package_id") or entry.get("discovery_key")
-        if package_id:
-            entries_by_package[str(package_id)] = entry
-    update_summary = load_json(args.update_summary) if args.update_summary else {}
-    updates = update_entries(update_summary)
-    rows: List[Dict[str, Any]] = []
+    metadata_by_id: Dict[str, Mapping[str, Any]] = {}
+    package_dirs: Dict[str, pathlib.Path] = {}
+    resolver = CanonicalPackages()
     for package_dir in sorted(packages_dir.iterdir(), key=lambda path: path.name):
-        if not package_dir.is_dir() or package_dir.name.startswith("_") or not (package_dir / "package.yaml").exists():
+        if not package_dir.is_dir() or package_dir.name.startswith("_") or not (package_dir / "package.yaml").is_file():
             continue
         metadata = load_json(package_dir / "package.yaml")
         package_id = str(metadata.get("package_id") or package_dir.name)
+        if package_id != package_dir.name:
+            raise ToolError("package metadata ID conflicts with actual directory")
+        metadata_by_id[package_id] = metadata
+        package_dirs[package_id] = package_dir
+        resolver.add(package_id, metadata_aliases(metadata))
+    for observation in history.get("observations", []):
+        recipe = observation.get("recipe", {})
+        resolver.add(str(observation["package_id"]), [recipe.get("rpm_name") or "", *recipe.get("aliases", []), *recipe.get("discovery_keys", [])])
+    for package_id in published:
+        source_package = next(item for item in published_state["packages"] if item["package_id"] == package_id)
+        if package_id not in metadata_by_id or source_package["rpm_name"] != metadata_by_id[package_id].get("rpm", {}).get("name"):
+            raise ToolError("published canonical ID/RPM name does not match current metadata")
+        resolver.add(package_id, [])
+    for pr in raw_prs:
+        candidate = package_from_pr(pr, allow_unverified=True)
+        paths = pr.get("actual_files", pr.get("files"))
+        if candidate and paths and complete_pr_identity(pr, candidate):
+            resolver.add(candidate, [])
+    # Only an already-unambiguous inventory association can contribute aliases.
+    associations = [(entry, resolver.entry(entry)) for entry in inventory_entries if isinstance(entry, Mapping)]
+    for entry, package_id in associations:
+        if package_id:
+            resolver.add(package_id, [str(entry.get("discovery_key") or ""), *entry.get("names", []), *entry.get("aliases", []), *entry.get("component_ids", [])])
+    normalized_prs = []
+    for pr in raw_prs:
+        candidate = package_from_pr(pr, allow_unverified=True)
+        package_id = candidate if candidate in resolver.ids else resolver.resolve([candidate])
+        if package_id:
+            normalized_prs.append(dict(pr, package_id=package_id, canonical_identity_verified=complete_pr_identity(pr, package_id)))
+    prs = latest_prs(normalized_prs)
+    entries_by_package: Dict[str, Mapping[str, Any]] = {}
+    normalized_entries = []
+    for entry in inventory_entries:
+        if not isinstance(entry, Mapping):
+            continue
+        package_id = resolver.entry(entry)
+        if package_id:
+            managed = dict(entry.get("managed_package") or {})
+            managed["package_id"] = package_id
+            if package_id in metadata_by_id:
+                meta = metadata_by_id[package_id]
+                managed.update(directory="packages/" + package_id, version=str(meta.get("version", {}).get("current") or "unknown"), summary=meta.get("rpm", {}).get("summary"))
+            entry = dict(entry, managed_package=managed)
+            entries_by_package[package_id] = entry
+        normalized_entries.append(entry)
+    update_summary = load_json(args.update_summary) if args.update_summary else {}
+    updates = update_entries(update_summary)
+    rows: List[Dict[str, Any]] = []
+    for package_id, metadata in sorted(metadata_by_id.items()):
+        package_dir = package_dirs[package_id]
         rows.append(
             package_row(
                 root,
@@ -543,6 +971,7 @@ def main() -> int:
     catalog = load_json(args.catalog_snapshot) if args.catalog_snapshot else default_catalog(root)
     catalog_summary = catalog.get("summary", {}) if isinstance(catalog, Mapping) else {}
     update_health = {
+        "source_available": bool(args.update_summary and isinstance(update_summary, Mapping) and all(key in update_summary for key in ("coverage", "checked_count", "expected_count"))),
         "last_scheduled_at": update_summary.get("scheduled_at"),
         "last_started_at": update_summary.get("started_at") or update_summary.get("scheduled_at"),
         "last_completed_at": update_summary.get("completed_at"),
@@ -554,6 +983,10 @@ def main() -> int:
         "consecutive_missed_days": update_summary.get("consecutive_missed_days", 0),
     }
     generated_at = isoformat(parse_now(args.now))
+    for row in rows:
+        links = published.get(row["package_id"])
+        if links:
+            row["links"].update(rpm=links["rpm"], srpm=links["srpm"], publication=links["state"])
     full_inventory_rows = [
         inventory_row(
             entry,
@@ -561,10 +994,14 @@ def main() -> int:
             builds.get(str((entry.get("managed_package") or {}).get("package_id") or entry.get("discovery_key") or "")),
             publications.get(str((entry.get("managed_package") or {}).get("package_id") or entry.get("discovery_key") or "")),
         )
-        for entry in inventory_entries
+        for entry in normalized_entries
         if isinstance(entry, Mapping)
     ]
     inventory_positions: Dict[str, int] = {}
+    for row in full_inventory_rows:
+        links = published.get(row.get("package_id"))
+        if links:
+            row.setdefault("links", {}).update(rpm=links["rpm"], srpm=links["srpm"], publication=links["state"])
     for index, row in enumerate(full_inventory_rows):
         inventory_positions[str(row["inventory_id"])] = index
         if row.get("package_id"):
@@ -598,6 +1035,12 @@ def main() -> int:
             current["status"] = managed_row["status"]
         current["updated_at"] = max(str(current.get("updated_at") or ""), str(managed_row["updated_at"]))
         current.setdefault("links", {}).update(compact_managed["links"])
+    present_ids = {row.get("package_id") for row in full_inventory_rows}
+    for package_id in sorted(resolver.ids - present_ids):
+        pr = prs.get(package_id)
+        observation = next((item for item in reversed(history.get("observations", [])) if item["package_id"] == package_id), None)
+        recipe = observation.get("recipe", {}) if observation else {}
+        full_inventory_rows.append({"inventory_id": "canonical:" + package_id, "package_id": package_id, "name": recipe.get("rpm_name") or package_id, "version": str(recipe.get("version") or "unknown"), "status": pr_state(pr) if pr else "discovered", "links": {key: value for key, value in {"pr": http_link(pr_url(pr)), "ci": http_link(observation.get("run_url")) if observation else None}.items() if value}})
     if not full_inventory_rows:
         full_inventory_rows = [
             {
@@ -656,10 +1099,16 @@ def main() -> int:
         },
         "update_health": update_health,
         "packages": rows,
+        "build_history": history_view(history, resolver, metadata_by_id, checked_recipe_trees(root, metadata_by_id), prs, builds, published, published_state, github_document if isinstance(github_document, Mapping) else None),
     }
     output.mkdir(parents=True, exist_ok=True)
     copy_assets(root, output)
     atomic_write_json(output / "data.json", data)
+    atomic_write_json(output / "build-history.json", data["build_history"])
+    if args.build_history:
+        # Preserve the validated raw envelope separately from the browser view.
+        # Only this schema-valid ledger is suitable for a later collector seed.
+        atomic_write_json(output / "build-history-ledger.json", history)
     atomic_write_text(output / "inventory.json", stable_json(inventory_data, pretty=False) + "\n")
     summary = {"generated_at": data["generated_at"], "output_dir": str(output), "package_count": len(rows), "inventory_count": len(full_inventory_rows), "data": str(output / "data.json"), "inventory": str(output / "inventory.json"), "assets": [str(output / name) for name in ("index.html", "app.js", "styles.css")]}
     emit_json(summary, args.output)

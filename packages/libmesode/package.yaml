@@ -1,0 +1,87 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 90,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/boothj5/libmesode",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmesode",
+        "package_name": "libmesode",
+        "source": "arch-extra",
+        "source_version": "0.10.1-3"
+      },
+      {
+        "evidence_url": "https://github.com/boothj5/libmesode",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmesode",
+        "package_name": "libmesode-doc",
+        "source": "arch-extra",
+        "source_version": "0.10.1-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-bound-DNS-compression-jumps.patch",
+        "license": "MIT",
+        "purpose": "Replace recursive DNS compression jumps with bounded iteration while preserving compressed length and bounded name output.",
+        "remove_when": "Official stable source provides equivalent bounded decoding and all default and supplemental target regressions pass.",
+        "sha256": "4469882e256ffd50c2fa14abf4480c2ccf76a5119797d861253afecf1d1fdb03",
+        "source": "Locally authored defensive patch against official 0.10.1 resolver.c SHA256 51af8944b73ad18948f66469272d8f963d7db3ef746b92e064042778e0f1a3ac. No upstream write.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libmesode.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 0.10.1 release/tag a3d894f2626bd2d97dfae03ca924782ce850294e and fixed codeload bytes independently reviewed. Retained frozen Arch extra lineage is discovery only; no catalog or upstream write and no distribution recipe execution. Preserve default TLS/Expat/shared+static/12 tests/7 examples. Full original notices are installed and checksum-checked. Downstream DNS compression decoding is iterative with one message-size pointer budget; original notices are copied before patching. Six supplemental target-only cases and exact original decoder-entry negative control require new-head CI; local tooling is not target proof.",
+    "status": "active"
+  },
+  "package_id": "libmesode",
+  "rpm": {
+    "license": "MIT AND LicenseRef-Public-Domain AND LicenseRef-Patrick-Powell",
+    "name": "libmesode",
+    "summary": "Lightweight XMPP client library with OpenSSL support"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "libmesode",
+    "homepage": "https://github.com/boothj5/libmesode",
+    "release_api": "https://api.github.com/repos/boothj5/libmesode/tags",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/boothj5/libmesode",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.10.1",
+    "latest_detected": "0.10.1",
+    "release": "1"
+  }
+}

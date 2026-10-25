@@ -22,14 +22,25 @@
   <main>
     <section aria-labelledby="summary-title">
       <h2 id="summary-title">Current facts</h2>
+      <p id="generated-at"></p>
       <div id="summary" class="cards"></div>
+      <p id="history-coverage" class="section-note"></p>
+      <details><summary>Coverage gaps and evidence</summary><p id="coverage-gap-summary"></p><a href="build-history.json" download>Download complete gap records and evidence JSON</a></details>
+    </section>
+
+    <section aria-labelledby="history-title">
+      <div class="section-heading"><div><h2 id="history-title">Build history by canonical package</h2><p class="section-note">Cumulative: one package counted once after actual RPM build and installed-smoke steps succeed. Current main recipe: this exact whole recipe historically succeeded on main, separately from latest known CI status. Current open PR success is separate. Neither proves physical RPM acceptance, merge eligibility, publication or runner trust.</p></div><a class="download-link" href="build-history.json" download>Download history evidence</a></div>
+      <form id="history-filters" class="filters"><label>Search<input id="history-search" type="search" placeholder="canonical package ID…"></label><label>Evidence<select id="history-evidence"><option value="">All packages</option><option value="ever">Ever succeeded</option><option value="main">Current main succeeded</option><option value="pr">Current PR succeeded</option><option value="published">Verified publication evidence</option></select></label><button type="reset">Reset</button></form>
+      <div class="table-wrap"><table><thead><tr><th>Canonical package</th><th>Cumulative</th><th>Current main recipe</th><th>Latest open PR</th><th>Publication evidence</th><th>Last success / evidence</th></tr></thead><tbody id="history-rows"></tbody></table></div>
+      <p id="history-empty" class="empty" hidden>No packages match this evidence filter.</p>
+      <nav class="pagination" aria-label="Build history pages"><button id="history-prev" type="button">Previous</button><p id="history-result-count" aria-live="polite"></p><button id="history-next" type="button">Next</button></nav>
     </section>
 
     <section aria-labelledby="inventory-title">
       <div class="section-heading">
         <div>
           <h2 id="inventory-title">All inventory entries</h2>
-          <p class="section-note">One row per inventory key. RPM/SRPM links appear only after immutable repository publication is verified.</p>
+          <p class="section-note">One row per inventory key; version is current metadata. RPM/SRPM links show verified any-version availability, not publication of that current recipe. Published EVRs appear in history details.</p>
         </div>
         <a class="download-link" href="inventory.json" download>Download full JSON</a>
       </div>
@@ -78,7 +89,7 @@
       <p id="managed-empty" class="empty" hidden>No managed packages match these filters.</p>
     </section>
   </main>
-  <footer><p id="generated-at"></p><p id="snapshot-note"></p></footer>
+  <footer><p id="snapshot-note"></p></footer>
   <script src="app.js" defer></script>
 </body>
 </html>

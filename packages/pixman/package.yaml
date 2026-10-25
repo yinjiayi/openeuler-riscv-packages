@@ -1,0 +1,94 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/pixman/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pixman",
+        "package_name": "pixman",
+        "source": "arch-extra",
+        "source_version": "0.46.4-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/pixman",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pixman",
+        "package_name": "pixman",
+        "source": "debian",
+        "source_version": "0.44.0-3"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/pixman/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pixman",
+        "package_name": "pixman",
+        "source": "fedora",
+        "source_version": "0.46.2-3.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/pixman",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pixman",
+        "package_name": "pixman",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.46.4-2.5"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/pixman",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pixman",
+        "package_name": "pixman",
+        "source": "ubuntu",
+        "source_version": "0.46.4-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "pixman.spec"
+  },
+  "maintenance": {
+    "maintainers": ["yinjiayi"],
+    "notes": "Official pixman 0.46.4 stable release bytes are SHA-256 pinned and also match the upstream SHA-512. Arch stable, openSUSE Tumbleweed, and Ubuntu GA corroborate 0.46.4; Fedora 44 and Debian stable provide older reviewed baselines. The committed discovery snapshot's only AUR match was the stale pixman-git VCS entry, so it was excluded by the pre-release and 24-month policies. A supplemental AUR RPC query was metadata-only; no AUR recipe or distribution spec was executed. Exact-head run 33723149338 built four binary RPMs and one SRPM and passed all 35 upstream Meson tests, then exposed a smoke-source defect because NULL was used without its standard definition. Release 2 adds the missing stddef.h include without changing the package build or runtime API exercise. Exact-head run 33727184465 passed 33 tests with zero failures or skips, but shared-runner contention pushed composite and tolerance-test beyond the 1,200-second per-test limit; both had passed in 944 and 909 seconds in run 33723149338. Release 3 raises only the Meson timeout multiplier from 10 to 20 while retaining every test, its inputs, four-way execution, and the 180-minute package deadline.",
+    "status": "active"
+  },
+  "package_id": "pixman",
+  "rpm": {
+    "license": "MIT",
+    "name": "pixman",
+    "summary": "Pixel manipulation library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gitlab.freedesktop.org-pixman-pixman",
+    "homepage": "https://www.pixman.org/",
+    "release_api": "https://cairographics.org/releases/",
+    "release_channel": "stable",
+    "release_regex": "pixman-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://gitlab.freedesktop.org/pixman/pixman",
+    "source_url_template": "https://cairographics.org/releases/pixman-{version}.tar.xz"
+  },
+  "version": {"current": "0.46.4", "latest_detected": "0.46.4", "release": "3"}
+}

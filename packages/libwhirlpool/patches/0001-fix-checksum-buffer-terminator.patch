@@ -1,0 +1,16 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] whirlpoolsum: terminate the digest buffer within its allocation
+
+The check-mode buffer has DIGESTBYTES * 2 + 1 bytes. After encoding
+DIGESTBYTES bytes, digest_ptr points at its last byte. Writing one byte
+beyond that pointer is out of bounds. Terminate at digest_ptr instead.
+The checksum comparison, error exit and original API tests are unchanged.
+
+Source: review of official v1.1 src/whirlpoolsum.c
+Upstream-Status: Not submitted (no upstream writes authorized)
+SPDX-License-Identifier: Apache-2.0
+--- a/src/whirlpoolsum.c
++++ b/src/whirlpoolsum.c
+@@ -285 +285 @@
+-			*(digest_ptr + 1) = '\0';
++			*digest_ptr = '\0';

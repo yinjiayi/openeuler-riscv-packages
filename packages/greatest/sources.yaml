@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "greatest",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeload.github.com/silentbicycle/greatest/tar.gz/11a6af1919049df502405913da64fb385c219361",
+      "filename": "greatest-1.5.0.tar.gz",
+      "version": "1.5.0",
+      "digests": {
+        "sha256": "e1ddc85dc4892318993e0dee0acf891a123eeff9748c549cc19d5387d73b98e1"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete original ISC LICENSE permits redistribution with copyright and permission text retained. Official archive matches all 18 fixed Git files/modes; unsigned tag checksum/tree binding is not signature authentication."
+      }
+    }
+  ]
+}

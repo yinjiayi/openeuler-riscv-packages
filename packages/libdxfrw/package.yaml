@@ -1,0 +1,105 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/LibreCAD/libdxfrw",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdxfrw",
+        "package_name": "libdxfrw",
+        "source": "fedora",
+        "source_version": "1.1.0-0.11.rc1.fc43"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-correct-installed-pkgconfig-paths.patch",
+        "sha256": "83a95f0e54fc71f470788140b2867edae348e7fdc9fd1f4b63d6aca55ea5afcd",
+        "purpose": "Correct two upstream pkg-config installation paths; retain every default target and converter.",
+        "source": "Original downstream packaging correction based on the fixed official 1.0.1 CMake installation contract.",
+        "license": "Apache-2.0",
+        "upstream_status": "downstream-only",
+        "remove_when": "An adopted official stable release emits a valid libdir and include/libdxfrw pkg-config path without this patch."
+      },
+      {
+        "file": "patches/0002-preserve-entity-dispatch-handoff.patch",
+        "sha256": "98b98b40222c24f3c522e36914e9d85a419d6114e9628553e864663ac1a8ab7e",
+        "purpose": "Preserve the next-entity handoff after successful handlers; retain handler failures, terminators and unknown-record fallback.",
+        "source": "Derived from official LibreCAD/libdxfrw 1.0.1 commit 945f2161a13ee521f66f9c52dcfff998e8ccae99 src/libdxfrw.cpp; actual Package CI 38862014075 failed the unchanged DXF contract after compilation/install.",
+        "license": "GPL-2.0-or-later",
+        "upstream_status": "downstream-only",
+        "remove_when": "An adopted official stable release preserves the successful entity-handler handoff without this patch."
+      },
+      {
+        "file": "patches/0003-preserve-pkgconfig-template-variables.patch",
+        "sha256": "f4d332682641b05a47c7a3698359c9cda88279968d4336d3e31a4af39743edff",
+        "purpose": "Preserve pkg-config variables during CMake template expansion so installed consumers receive the real include/library paths.",
+        "source": "Original downstream metadata correction after exact-head Package CI 38882588742 installed headers but failed installed-header consumer compilation.",
+        "license": "Apache-2.0",
+        "upstream_status": "downstream-only",
+        "remove_when": "An adopted official stable release preserves pkg-config variables while configuring its metadata."
+      },
+      {
+        "file": "patches/0004-write-header-booleans-at-binary-width.patch",
+        "sha256": "88e1624729189eb2faf2327aa72e0fabf5a4f29b971aac2a4f99ef4c000029a2",
+        "purpose": "Serialize header group290 booleans with one binary byte rather than two, preserving record alignment and every existing roundtrip assertion.",
+        "source": "Derived from official LibreCAD/libdxfrw 1.0.1 commit 945f2161a13ee521f66f9c52dcfff998e8ccae99 src/drw_header.cpp; exact-head Package CI 38903023174 passes binary magic then fails binary fileImport.",
+        "license": "GPL-2.0-or-later",
+        "upstream_status": "downstream-only",
+        "remove_when": "An adopted official stable release writes these header boolean fields with the binary boolean width."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdxfrw.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 1.0.1 fixed archive and all 90 Git blobs verified. Discovery 1.1.0 is an rc1 distribution version, not an official stable tag. Preserve default static library and converter and add shared ABI; correct pkg-config paths and generic entity-dispatch handoff identified after actual CI compilation/install and unchanged percent-check failure. No registered original semantic suite; separately labeled installed API/CLI DXF replay checks coordinates, shared/static/pkg-config/CMake consumption and CLI failures. No DWG corpus/native/performance claim. GPL2-or-later COPYING, original Simon Rockliff 1991 codec permission/attribution and helper notices/exceptions plus complete GPL3 text retained. No upstream, local RPM/QEMU or source execution, auto-merge, merge or publication claim.",
+    "status": "active"
+  },
+  "package_id": "libdxfrw",
+  "rpm": {
+    "license": "GPL-2.0-or-later AND LicenseRef-Rockliff-1991",
+    "name": "libdxfrw",
+    "summary": "C++ library and converter for ASCII and binary DXF drawings"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-librecad-libdxfrw",
+    "homepage": "https://github.com/LibreCAD/libdxfrw",
+    "release_api": "https://api.github.com/repos/LibreCAD/libdxfrw/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^([0-9]+[.][0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/LibreCAD/libdxfrw",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.0.1",
+    "latest_detected": "1.0.1",
+    "release": "1"
+  }
+}

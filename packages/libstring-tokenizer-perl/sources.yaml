@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-tokenizer-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Tokenizer-0.06.tar.gz",
+      "version": "0.06",
+      "url": "https://cpan.metacpan.org/authors/id/S/ST/STEVAN/String-Tokenizer-0.06.tar.gz",
+      "digests": {
+        "sha256": "a921507044b7db43a06abb96bc0aeedafdc68657dd21d3f5a8cfd37d2478e697"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE expressly grants GPL-1-or-later or Artistic-1.0 terms; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

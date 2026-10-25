@@ -28,6 +28,7 @@
       "additionalProperties": false,
       "required": ["last_scheduled_at", "last_started_at", "last_completed_at", "expected", "checked", "coverage_percent", "failed_shards", "due_rechecks", "consecutive_missed_days"],
       "properties": {
+        "source_available": {"type": "boolean"},
         "last_scheduled_at": {"type": ["string", "null"], "format": "date-time"},
         "last_started_at": {"type": ["string", "null"], "format": "date-time"},
         "last_completed_at": {"type": ["string", "null"], "format": "date-time"},
@@ -37,6 +38,56 @@
         "failed_shards": {"type": "integer", "minimum": 0},
         "due_rechecks": {"type": "integer", "minimum": 0},
         "consecutive_missed_days": {"type": "integer", "minimum": 0}
+      }
+    },
+    "build_history": {
+      "type": "object",
+      "required": ["url", "source_generated_at", "cutoff", "coverage_complete", "lower_bound", "reasons", "publication_coverage", "metrics", "definitions", "packages"],
+      "properties": {
+        "url": {"const": "build-history.json"},
+        "source_generated_at": {"type": ["string", "null"], "format": "date-time"},
+        "current_pr_source_available": {"type": "boolean"},
+        "current_pr_source_generated_at": {"type": ["string", "null"], "format": "date-time"},
+        "current_pr_source_complete": {"type": "boolean"},
+        "cutoff": {"type": ["string", "null"], "format": "date-time"},
+        "coverage_complete": {"type": "boolean"},
+        "lower_bound": {"type": "boolean"},
+        "reasons": {"type": "array", "items": {"type": ["string", "object"]}},
+        "publication_coverage": {"enum": ["complete", "partial", "unavailable"]},
+        "publication_source_generated_at": {"type": ["string", "null"], "format": "date-time"},
+        "publication_gaps": {"type": "array", "items": {"type": ["object", "string"]}},
+        "publication_files": {"type": "object", "additionalProperties": {"type": ["integer", "null"], "minimum": 0}},
+        "listed_run_count": {"type": "integer", "minimum": 0},
+        "processed_attempt_count": {"type": "integer", "minimum": 0},
+        "unresolved_count": {"type": "integer", "minimum": 0},
+        "duplicate_observations_ignored": {"type": "integer", "minimum": 0},
+        "mapping_conflicts": {"type": "array", "items": {"type": "object", "required": ["alias", "package_ids"], "properties": {"alias": {"type": "string"}, "package_ids": {"type": "array", "items": {"type": "string"}, "minItems": 2}}}},
+        "managed_mapping_conflicts": {"type": "array", "items": {"type": "object"}},
+        "metrics": {"type": "object", "additionalProperties": false, "required": ["cumulative_success_packages", "current_main_success_packages", "current_pr_success_packages", "published_packages"], "properties": {
+          "cumulative_success_packages": {"type": "integer", "minimum": 0},
+          "current_main_success_packages": {"type": "integer", "minimum": 0},
+          "current_pr_success_packages": {"type": "integer", "minimum": 0},
+          "published_packages": {"type": ["integer", "null"], "minimum": 0},
+          "observed_published_packages": {"type": "integer", "minimum": 0}
+        }},
+        "definitions": {"type": "object", "additionalProperties": {"type": "string"}},
+        "packages": {"type": "array", "items": {"type": "object", "required": ["package_id", "name", "on_current_main", "ever_succeeded", "success_observation_count", "current_main_status", "current_pr_status", "published", "observations", "publication"], "properties": {
+          "package_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$", "maxLength": 100},
+          "name": {"type": "string"},
+          "on_current_main": {"type": "boolean"},
+          "current_recipe_tree_sha": {"type": ["string", "null"], "pattern": "^[a-f0-9]{40}$"},
+          "current_pr_head_sha": {"type": ["string", "null"], "pattern": "^[a-f0-9]{40}$"},
+          "ever_succeeded": {"type": "boolean"},
+          "success_observation_count": {"type": "integer", "minimum": 0},
+          "current_main_status": {"enum": ["passed", "failed", "unknown"]},
+          "current_main_recipe_succeeded": {"type": "boolean"},
+          "current_pr_status": {"enum": ["passed", "failed", "building", "ci-queued", "needs-human", "needs-native-riscv", "repair-queued", "codex-repairing", "unknown"]},
+          "published": {"type": "boolean"},
+          "last_success_at": {"type": ["string", "null"], "format": "date-time"},
+          "last_success_run_url": {"type": ["string", "null"], "format": "uri"},
+          "observations": {"type": "array", "items": {"type": "object"}},
+          "publication": {"type": "object"}
+        }}}
       }
     },
     "packages": {

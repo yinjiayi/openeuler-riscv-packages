@@ -1,0 +1,21 @@
+{
+  "package_id": "libdali",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "367f847b145a8dd5b3918167ceb9f999849e6abba128ece7caf4440b745eb62e"
+      },
+      "filename": "libdali-1.8.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://api.github.com/repos/EarthScope/libdali/tarball/v1.8.1",
+      "version": "1.8.1"
+    }
+  ]
+}

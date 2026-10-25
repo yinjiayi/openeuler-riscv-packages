@@ -1,0 +1,21 @@
+{
+  "package_id": "libtmx",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "498732f076a344387c04946a9da2542e532547526d633d08bd2d289dfe2a0578"
+      },
+      "filename": "libtmx-1.10.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/baylej/tmx/tar.gz/b671187d51a5616b80774c94650a360ce48a872f",
+      "version": "1.10.1"
+    }
+  ]
+}

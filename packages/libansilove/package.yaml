@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libansilove",
+  "rpm": {
+    "name": "libansilove",
+    "summary": "ANSI and text-art to PNG conversion library",
+    "license": "BSD-2-Clause"
+  },
+  "upstream": {
+    "component": "github.com-ansilove-libansilove",
+    "homepage": "https://github.com/ansilove/libansilove",
+    "source_repository": "https://github.com/ansilove/libansilove",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/ansilove/libansilove/releases/latest",
+    "release_regex": null,
+    "source_url_template": "https://github.com/ansilove/libansilove/releases/download/{version}/libansilove-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.4.2",
+    "release": "1",
+    "latest_detected": "1.4.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libansilove",
+        "package_base": "libansilove",
+        "source_version": "1.4.1-2",
+        "evidence_url": "https://packages.debian.org/source/stable/libansilove",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libansilove",
+        "package_base": "libansilove",
+        "source_version": "1.4.2-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libansilove",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libansilove.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official stable release asset verified over HTTPS and SHA-256 pinned. Upstream has no executable test target; package checks and installed smoke render ANSI input and verify PNG output."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
+  }
+}

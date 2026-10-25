@@ -10,6 +10,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 from helpers import SCRIPTS, run_tool, write_json
 
@@ -17,6 +18,99 @@ sys.path.insert(0, str(SCRIPTS))
 
 
 class RepairDashboardTests(unittest.TestCase):
+    @staticmethod
+    def queue_page(nodes, total, cursor=None):
+        return {"nodes": nodes, "totalCount": total, "pageInfo": {"hasNextPage": cursor is not None, "endCursor": cursor}}
+
+    def queued_pr(self, number):
+        return {
+            "number": number, "title": "untrusted title", "url": "https://example.invalid/%s" % number,
+            "author": {"login": "yinjiayi"}, "headRefName": "update/demo", "headRefOid": "a" * 40,
+            "headRepository": {"nameWithOwner": "yinjiayi/openeuler-riscv-packages", "owner": {"login": "yinjiayi"}},
+            "isCrossRepository": False, "labels": self.queue_page([{"name": "repair-queued"}], 1),
+            "commits": {"nodes": [{"commit": {"oid": "a" * 40, "statusCheckRollup": None}}]},
+        }
+
+    def watcher(self):
+        return runpy.run_path(str(SCRIPTS / "watch-failed-prs"))
+
+    def test_watcher_reads_repository_connection_beyond_search_cap(self) -> None:
+        watcher = self.watcher()
+        args = watcher["parser"]().parse_args(["--repo", "yinjiayi/openeuler-riscv-packages", "--output", "unused"])
+        pages = [{"pullRequests": self.queue_page([self.queued_pr(i) for i in range(start, min(start + 100, 1102))], 1101, "page-%s" % start if start < 1101 else None)} for start in range(1, 1102, 100)]
+        with mock.patch.dict(watcher["load_prs"].__globals__, {"graphql": mock.Mock(side_effect=pages)}), mock.patch("shutil.which", return_value="gh"):
+            prs = watcher["load_prs"](args)
+        self.assertEqual(len(prs), 1101)
+        queue = watcher["trusted_queue"](args, prs)
+        self.assertEqual(queue["summary"], {"queried": 1101, "queued": 1101, "ignored": 0})
+        self.assertEqual(queue["pull_requests"][-1]["number"], 1101)
+        self.assertIn("pullRequests(states:OPEN", watcher["QUEUE_QUERY"])
+        self.assertNotIn("search(", watcher["QUEUE_QUERY"])
+        self.assertNotIn("__typename id", watcher["CONTEXT_FIELDS"])
+        self.assertIn("... on CheckRun { id", watcher["CONTEXT_FIELDS"])
+        self.assertIn("... on StatusContext { id", watcher["CONTEXT_FIELDS"])
+
+    def test_watcher_pages_all_exact_head_contexts(self) -> None:
+        watcher = self.watcher()
+        args = watcher["parser"]().parse_args(["--repo", "yinjiayi/openeuler-riscv-packages", "--output", "unused"])
+        pr = self.queued_pr(1)
+        contexts = [{"id": str(i), "__typename": "CheckRun", "name": "check-%s" % i} for i in range(101)]
+        pr["commits"]["nodes"][0]["commit"]["statusCheckRollup"] = {"contexts": self.queue_page(contexts[:100], 101, "next-check")}
+        fake = mock.Mock(side_effect=[{"pullRequests": self.queue_page([pr], 1)}, {"object": {"oid": "a" * 40, "statusCheckRollup": {"contexts": self.queue_page(contexts[100:], 101)}}}])
+        with mock.patch.dict(watcher["load_prs"].__globals__, {"graphql": fake}), mock.patch("shutil.which", return_value="gh"):
+            result = watcher["load_prs"](args)
+        self.assertEqual(len(result[0]["statusCheckRollup"]), 101)
+        self.assertEqual(fake.call_args.kwargs, {"head": "a" * 40, "cursor": "next-check"})
+
+    def test_watcher_rejects_partial_duplicate_and_changed_pages(self) -> None:
+        watcher = self.watcher()
+        args = watcher["parser"]().parse_args(["--repo", "yinjiayi/openeuler-riscv-packages", "--output", "unused"])
+        pr = self.queued_pr(1)
+        cases = [
+            [{"pullRequests": self.queue_page([pr], 2)}],
+            [{"pullRequests": self.queue_page([pr], 2, "next")}, {"pullRequests": self.queue_page([pr], 2)}],
+            [{"pullRequests": self.queue_page([pr], 2, "next")}, {"pullRequests": self.queue_page([self.queued_pr(2)], 3)}],
+            [{"pullRequests": self.queue_page([], 2, "next")}],
+        ]
+        for pages in cases:
+            with self.subTest(pages=len(pages)), mock.patch.dict(watcher["load_prs"].__globals__, {"graphql": mock.Mock(side_effect=pages)}), mock.patch("shutil.which", return_value="gh"):
+                with self.assertRaises(watcher["ToolError"]):
+                    watcher["load_prs"](args)
+
+    def test_watcher_rejects_changed_head_or_partial_labels(self) -> None:
+        watcher = self.watcher()
+        args = watcher["parser"]().parse_args(["--repo", "yinjiayi/openeuler-riscv-packages", "--output", "unused"])
+        for kind in ("head", "labels"):
+            pr = self.queued_pr(1)
+            if kind == "head":
+                pr["commits"]["nodes"][0]["commit"]["oid"] = "b" * 40
+            else:
+                pr["labels"] = self.queue_page([{"name": "repair-queued"}], 2, "labels-next")
+            with self.subTest(kind=kind), mock.patch.dict(watcher["load_prs"].__globals__, {"graphql": mock.Mock(return_value={"pullRequests": self.queue_page([pr], 1)})}), mock.patch("shutil.which", return_value="gh"):
+                with self.assertRaises(watcher["ToolError"]):
+                    watcher["load_prs"](args)
+
+    def test_watcher_graphql_errors_and_null_repository_fail_closed(self) -> None:
+        watcher = self.watcher()
+        args = watcher["parser"]().parse_args(["--repo", "yinjiayi/openeuler-riscv-packages", "--output", "unused"])
+        for response in ({"data": {"repository": None}}, {"data": {"repository": {}}, "errors": [{"message": "partial"}]}, []):
+            completed = subprocess.CompletedProcess([], 0, json.dumps(response), "")
+            with self.subTest(response=response), mock.patch("subprocess.run", return_value=completed):
+                with self.assertRaises(watcher["ToolError"]):
+                    watcher["graphql"]("gh", args, watcher["QUEUE_QUERY"])
+
+    def test_watcher_live_normalization_keeps_fork_and_actor_filters(self) -> None:
+        watcher = self.watcher()
+        args = watcher["parser"]().parse_args(["--repo", "yinjiayi/openeuler-riscv-packages", "--output", "unused"])
+        good, fork, actor = [self.queued_pr(i) for i in (1, 2, 3)]
+        fork["isCrossRepository"] = True
+        actor["author"] = {"login": "untrusted"}
+        fake = mock.Mock(return_value={"pullRequests": self.queue_page([good, fork, actor], 3)})
+        with mock.patch.dict(watcher["load_prs"].__globals__, {"graphql": fake}), mock.patch("shutil.which", return_value="gh"):
+            queue = watcher["trusted_queue"](args, watcher["load_prs"](args))
+        self.assertEqual([row["number"] for row in queue["pull_requests"]], [1])
+        self.assertEqual(queue["summary"]["ignored"], 2)
+
     def test_process_token_is_allowed_but_never_recorded_or_exposed(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
@@ -258,7 +352,47 @@ class RepairDashboardTests(unittest.TestCase):
             self.assertTrue((output / "index.html").is_file())
             self.assertTrue((output / "inventory.json").is_file())
 
-    def test_dashboard_publishes_links_only_for_matching_verified_generation(self) -> None:
+    def test_dashboard_refresh_is_batched_and_does_not_cancel_an_active_snapshot(self) -> None:
+        workflow = (SCRIPTS.parent / ".github" / "workflows" / "dashboard.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("schedule:\n    - cron: '17 * * * *'", workflow)
+        self.assertNotIn("workflow_run:", workflow)
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertIn("group: github-pages-dashboard", workflow)
+        self.assertIn("cancel-in-progress: false", workflow)
+
+    def test_live_managed_directory_overrides_stale_discovery_status(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            (root / "dashboard").mkdir()
+            for name in ("index.html", "app.js", "styles.css"):
+                shutil.copyfile(SCRIPTS.parent / "dashboard" / name, root / "dashboard" / name)
+            entries = []
+            for package_id, frozen_status in (("discovered-demo", "discovered"), ("reviewed-demo", "reviewed")):
+                package = root / "packages" / package_id
+                package.mkdir(parents=True)
+                write_json(package / "package.yaml", {"package_id": package_id, "rpm": {"name": package_id}, "version": {"current": "1.0"}})
+                entries.append({
+                    "discovery_key": package_id,
+                    "names": [package_id],
+                    "status": frozen_status,
+                    "stable_versions": ["1.0"],
+                })
+            inventory = root / "package-index.json"
+            write_json(inventory, {"entries": entries})
+            output = root / "public"
+            run_tool("generate-dashboard", ["--repo-root", str(root), "--output-dir", str(output), "--package-inventory", str(inventory), "--now", "2026-08-08T02:00:00Z"], root)
+            data = json.loads((output / "data.json").read_text(encoding="utf-8"))
+            full = json.loads((output / "inventory.json").read_text(encoding="utf-8"))
+            self.assertEqual({row["package_id"]: row["status"] for row in data["packages"]}, {"discovered-demo": "managed", "reviewed-demo": "managed"})
+            self.assertEqual({row["inventory_id"]: row["status"] for row in full["entries"]}, {"discovered-demo": "managed", "reviewed-demo": "managed"})
+            self.assertEqual(full["status_counts"]["managed"], 2)
+            for row in full["entries"]:
+                self.assertNotIn("rpm", row["links"])
+                self.assertNotIn("srpm", row["links"])
+
+    def test_dashboard_does_not_publish_links_from_unverified_retained_envelopes(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)
             (root / "dashboard").mkdir()
@@ -289,9 +423,10 @@ class RepairDashboardTests(unittest.TestCase):
             self.assertEqual(schema_errors(full, inventory_schema, inventory_schema), [])
             self.assertEqual(data["coverage_claim"], "full-package-inventory")
             self.assertEqual(data["inventory"]["entry_count"], 1)
-            self.assertEqual(full["entries"][0]["status"], "published")
-            self.assertEqual(full["entries"][0]["links"]["rpm"], ["http://2.27.148.101:38080/generations/%s/riscv64/Packages/demo-1.0-1.riscv64.rpm" % generation])
-            self.assertEqual(full["entries"][0]["links"]["srpm"], ["http://2.27.148.101:38080/generations/%s/source/Packages/demo-1.0-1.src.rpm" % generation])
+            self.assertEqual(full["entries"][0]["status"], "build-succeeded")
+            self.assertEqual(full["entries"][0]["links"].get("rpm", []), [])
+            self.assertEqual(full["entries"][0]["links"].get("srpm", []), [])
+            self.assertIsNone(data["build_history"]["metrics"]["published_packages"])
             verification.unlink()
             second_output = root / "public-without-verification"
             arguments[3] = str(second_output)

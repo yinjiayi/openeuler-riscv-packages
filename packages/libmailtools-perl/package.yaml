@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmailtools-perl",
+  "rpm": {
+    "name": "perl-MailTools",
+    "summary": "Perl modules for handling basic Internet mail",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmailtools-perl",
+    "homepage": "https://metacpan.org/dist/MailTools",
+    "source_repository": "https://github.com/markov2/perl5-MailTools.git",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MA/MARKOV/",
+    "release_regex": "MailTools-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MA/MARKOV/MailTools-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.22",
+    "release": "1",
+    "latest_detected": "2.22"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmailtools-perl",
+        "package_base": "libmailtools-perl",
+        "source_version": "2.22-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libmailtools-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmailtools-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libmailtools-perl key maps to official CPAN MailTools 2.22. Source SHA-256, archive structure, Perl dual licensing, metadata dependencies, all seven standard t/ tests, and the extended POD test were reviewed. The runtime provides Mail::Mailer for libytnef; target dependency availability remains subject to exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
