@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           parlatype
-Version:        4.0
-Release:        8%{?dist}
+Version:        4.3
+Release:        1%{?dist}
 Summary:        GNOME audio player for transcription
 License:        GPL-3.0-or-later
 URL:            https://github.com/gkarsay/parlatype
-Source0:        parlatype-4.0.tar.gz
+Source0:        v4.3.tar.gz
 BuildRequires:  dbus-x11
 BuildRequires:  gcc
 BuildRequires:  gettext
