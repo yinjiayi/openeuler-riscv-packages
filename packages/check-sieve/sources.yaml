@@ -1,0 +1,21 @@
+{
+  "package_id": "check-sieve",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "447f65bb235e180e330195514acf5b8a5b042511f9793ce3f06afbd1debfde88"
+      },
+      "filename": "check-sieve-1.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dburkart/check-sieve/archive/refs/tags/v1.0.1.tar.gz",
+      "version": "1.0.1"
+    }
+  ]
+}
