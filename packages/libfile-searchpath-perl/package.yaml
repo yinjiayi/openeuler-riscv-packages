@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-searchpath-perl",
+  "rpm": {
+    "name": "perl-File-SearchPath",
+    "summary": "Search for files in a PATH-like environment variable",
+    "license": "GPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "libfile-searchpath-perl",
+    "homepage": "https://metacpan.org/dist/File-SearchPath",
+    "source_repository": "https://metacpan.org/dist/File-SearchPath",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TJ/TJENNESS/",
+    "release_regex": "File-SearchPath-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TJ/TJENNESS/File-SearchPath-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.07",
+    "release": "1",
+    "latest_detected": "0.07"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-searchpath-perl",
+        "package_base": "libfile-searchpath-perl",
+        "source_version": "0.07-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-searchpath-perl",
+        "observed_at": "2026-09-30T05:27:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-searchpath-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-searchpath-perl maps to official CPAN latest 0.07. Official HTTPS archive SHA-256 be4a2594ef1a7577e773135add940179c6a324e07e12bcfdc463cb49119a2cb9 matches CPAN CHECKSUMS; all 21 entries stay under one safe top-level tree. Source README, module POD and Build.PL explicitly grant GPL-2.0-or-later. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(File::SearchPath) Provide; perl-Module-Build and perl-Test-Simple are present. Env::Path is only recommended by upstream and absent from target; upstream's documented core-Perl fallback remains enabled and the complete one-file/16-test suite passed locally without Env::Path. Target QEMU remains unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
