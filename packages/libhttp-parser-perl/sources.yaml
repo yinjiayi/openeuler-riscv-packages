@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libhttp-parser-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "HTTP-Parser-0.06.tar.gz",
+      "version": "0.06",
+      "url": "https://cpan.metacpan.org/authors/id/E/ED/EDECA/HTTP-Parser-0.06.tar.gz",
+      "digests": {
+        "sha256": "f8c5a1e1cbd8f2775bd3d1ce5facc8431f059108bf575a0c8dbda432e5c0bc45"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN publisher CHECKSUMS SHA-256 matches the archive. Its README grants redistribution under the same terms as Perl itself; META.yml and Makefile.PL identify the same perl license and no shipped file contradicts it."
+      }
+    }
+  ]
+}
