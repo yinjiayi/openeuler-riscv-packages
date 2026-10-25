@@ -100,7 +100,7 @@ includes the complete patched writer source with private symbol renaming; the
 unchanged API cases separately exercise the actually linked patched library.
 Moving allocations do not imply that the original undefined arithmetic must
 fail at runtime. A distinct GCC-specific negative compiles exact preserved
-original source with -Werror=use-after-free=3 and requires compiler exit1/make2,
+original source with -Wuse-after-free=3 -Werror=use-after-free and requires compiler exit1/make2,
 the original line77 previous_file_buffer error and line65 realloc note, no
 unrelated error/fatal-error diagnostics, and no object. Multiple identical
 causal diagnostics are permitted, not claimed unique. The patched source must

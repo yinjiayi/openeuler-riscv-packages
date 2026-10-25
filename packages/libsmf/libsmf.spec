@@ -428,11 +428,11 @@ cat > libsmf-lifetime.mk <<'LIBSMF_LIFETIME_MAKE_EOF'
 # Configured CC/DEFS/includes/GLib flags remain those of the original Makefile.
 .PHONY: lifetime-fixed-diagnostic lifetime-original-diagnostic lifetime-regression
 lifetime-fixed-diagnostic:
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libsmf_la_CFLAGS) $(CFLAGS) -Werror=use-after-free=3 -x c -c smf_save.c -o ../lifetime-fixed.o
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libsmf_la_CFLAGS) $(CFLAGS) -Wuse-after-free=3 -Werror=use-after-free -x c -c smf_save.c -o ../lifetime-fixed.o
 
 lifetime-original-diagnostic:
 	@set +e; \
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libsmf_la_CFLAGS) $(CFLAGS) -Werror=use-after-free=3 -x c -c ../license-notices/src/smf_save.c.notice -o ../lifetime-original.o > ../lifetime-original-compiler.stdout 2> ../lifetime-original-compiler.stderr; \
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libsmf_la_CFLAGS) $(CFLAGS) -Wuse-after-free=3 -Werror=use-after-free -x c -c ../license-notices/src/smf_save.c.notice -o ../lifetime-original.o > ../lifetime-original-compiler.stdout 2> ../lifetime-original-compiler.stderr; \
 	compiler_status=$$?; \
 	printf '%%s\n' "$$compiler_status" > ../lifetime-original-compiler.status || exit 125; \
 	cat ../lifetime-original-compiler.stdout || exit 125; \
