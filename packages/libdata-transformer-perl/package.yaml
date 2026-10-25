@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-transformer-perl",
+  "rpm": {
+    "name": "perl-Data-Transformer",
+    "summary": "Traverse and transform Perl data structures in place",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-transformer-perl",
+    "homepage": "https://metacpan.org/dist/Data-Transformer",
+    "source_repository": "https://metacpan.org/dist/Data-Transformer",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BA/BALDUR/",
+    "release_regex": "Data-Transformer-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BA/BALDUR/Data-Transformer-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04",
+    "release": "1",
+    "latest_detected": "0.04"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-transformer-perl",
+        "package_base": "libdata-transformer-perl",
+        "source_version": "0.04-3",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libdata-transformer-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-transformer-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official CPAN Data-Transformer 0.04 and publisher CHECKSUMS agree on SHA-256. Copyright holder Baldur Kristinsson explicitly grants same-Perl terms in the sole installed PM POD and README; the bundled LICENSE spells out those terms. SP3 RVA23 primary lacks the RPM/module and uniquely supplies hard build/test dependencies. The sole unchanged default upstream test file passes 29 assertions without skips locally; exact-head target CI must prove the same suite and installed functional smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
