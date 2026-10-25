@@ -6,15 +6,18 @@ Summary:        General-purpose C utility functions
 License:        ISC
 URL:            https://codeberg.org/maandree/libsimple
 Source0:        libsimple-1.8.tar.gz
+Patch0:         0001-capture-glibc-checked-stderr-in-tests.patch
 BuildRequires:  bash
 BuildRequires:  binutils
 BuildRequires:  coreutils
 BuildRequires:  findutils
+BuildRequires:  gawk
 BuildRequires:  gcc
 BuildRequires:  glibc-devel
 BuildRequires:  grep
 BuildRequires:  gzip
 BuildRequires:  make
+BuildRequires:  patch
 BuildRequires:  sed
 BuildRequires:  tar
 Requires:       bash
@@ -27,7 +30,7 @@ time-conversion and other utility functions. Both upstream static and shared
 libraries, public headers and complete committed manuals are included.
 
 %prep
-%autosetup -n libsimple -p1
+%setup -q -n libsimple
 set -eu
 set -o pipefail
 # Preserve all original ordinary source members before adding the API driver.
@@ -41,6 +44,8 @@ done
 test "$(find license-notices -type f | wc -l)" -eq 1353
 (cd license-notices && find . -type f -print0 | sort -z | xargs -0 sha256sum) > original-notice-sha256
 mv original-notice-sha256 license-notices/SHA256SUMS
+# Apply only after preserving all exact original source notices.
+%autopatch -p1
 
 cat > api-smoke.c <<'LIBSIMPLE_API_EOF'
 /* SPDX-License-Identifier: ISC
@@ -154,6 +159,61 @@ install -m 0644 api-smoke.c %{buildroot}%{_libexecdir}/libsimple-tests/api-smoke
 %check
 set -eu
 set -o pipefail
+test ! -e libsimple-fortify-control.mk
+cat > libsimple-fortify-control.mk <<'LIBSIMPLE_FORTIFY_MAKE_EOF'
+libsimple-original-test.o: license-notices/test.c.notice
+	$(CC) -c -o $@ -x c $< $(CFLAGS) $(CPPFLAGS) -DTEST -O0 -ffreestanding -I.
+
+libsimple-original-ealigned-memdup.test: ealigned_memdup.to libsimple-original-test.o libsimple.a
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+.PHONY: libsimple-fortify-evidence
+libsimple-fortify-evidence:
+	$(CC) -dumpfullversion
+	$(CC) -dumpmachine
+	$(CC) $(CFLAGS) $(CPPFLAGS) -dM -E -include stdio.h -x c /dev/null > fortify-production.macros
+	$(CC) $(CFLAGS) $(CPPFLAGS) -DTEST -O0 -ffreestanding -dM -E -include stdio.h -x c /dev/null > fortify-test.macros
+LIBSIMPLE_FORTIFY_MAKE_EOF
+make -f Makefile -f libsimple-fortify-control.mk libsimple-original-ealigned-memdup.test libsimple-fortify-evidence CC="%{__cc} -std=c11" CFLAGS="%{optflags} -Wall -Wextra -UNDEBUG" CPPFLAGS="-D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 -D_GNU_SOURCE" LDFLAGS="%{build_ldflags} -lm"
+grep -E '^#define (_FORTIFY_SOURCE|__USE_FORTIFY_LEVEL|__OPTIMIZE__) ' fortify-production.macros
+grep -E '^#define (_FORTIFY_SOURCE|__USE_FORTIFY_LEVEL|__OPTIMIZE__) ' fortify-test.macros
+grep -Fx '#define __USE_FORTIFY_LEVEL 2' fortify-production.macros
+grep -Fx '#define __USE_FORTIFY_LEVEL 0' fortify-test.macros
+readelf -rW vweprintf.o > fortify-production.relocations
+readelf -Ws test.o > fortify-test.symbols
+cat fortify-production.relocations fortify-test.symbols
+grep -E '[[:space:]]__fprintf_chk([[:space:]]|$)' fortify-production.relocations
+grep -E '[[:space:]]__vfprintf_chk([[:space:]]|$)' fortify-production.relocations
+gawk '$8 == "__fprintf_chk" && $5 == "GLOBAL" && $7 != "UND" { n++ } END { exit n != 1 }' fortify-test.symbols
+gawk '$8 == "__vfprintf_chk" && $5 == "GLOBAL" && $7 != "UND" { n++ } END { exit n != 1 }' fortify-test.symbols
+# Capture every actual status and byte stream before enforcing the causal gate.
+if LC_ALL=C ./libsimple-original-ealigned-memdup.test > fortify-original.stdout 2> fortify-original.stderr; then
+    original_status=0
+else
+    original_status=$?
+fi
+printf 'libsimple original stderr-control status: %%s\n' "$original_status"
+cat fortify-original.stdout fortify-original.stderr
+sha256sum fortify-original.stdout fortify-original.stderr
+test "$original_status" -eq 1
+test ! -s fortify-original.stdout
+test "$(wc -l < fortify-original.stderr)" -eq 2
+test "$(grep -Fxc '<test>: aligned_memdup: Cannot allocate memory' fortify-original.stderr)" -eq 1
+test "$(grep -Fxc 'Failed at ealigned_memdup.c:33: (size_t)len__ == stderr_n' fortify-original.stderr)" -eq 1
+if LC_ALL=C ./ealigned_memdup.test > fortify-patched.stdout 2> fortify-patched.stderr; then
+    patched_status=0
+else
+    patched_status=$?
+fi
+printf 'libsimple patched stderr-control status: %%s\n' "$patched_status"
+cat fortify-patched.stdout fortify-patched.stderr
+sha256sum fortify-patched.stdout fortify-patched.stderr
+test "$patched_status" -eq 0
+test ! -s fortify-patched.stdout
+test ! -s fortify-patched.stderr
+sha256sum vweprintf.o ealigned_memdup.to libsimple.a test.o license-notices/test.c.notice libsimple-original-test.o libsimple-original-ealigned-memdup.test ealigned_memdup.test fortify-production.macros fortify-test.macros fortify-production.relocations fortify-test.symbols
+echo 'libsimple checked-entry stderr control: original1/patched0; production FORTIFY2 retained'
+
 # Keep all 1074 original programs and the original fail-fast check loop unchanged.
 if make check CC="%{__cc} -std=c11" CFLAGS="%{optflags} -Wall -Wextra -UNDEBUG" CPPFLAGS="-D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 -D_GNU_SOURCE" LDFLAGS="%{build_ldflags} -lm" > upstream-check.log 2>&1; then
     cat upstream-check.log

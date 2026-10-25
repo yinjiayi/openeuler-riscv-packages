@@ -72,9 +72,41 @@ The first exact-head target run (40184744585, attempt 1) exhausted the original
 It had not reached installation or `make check`; there was no observed fatal
 compiler error. The package budget is now a bounded 180 minutes, as supported
 by the existing workflow, to allow the complete unchanged workload to finish.
-The SPEC, parallelism, flags, 1074 original test targets and six added API cases
-are unchanged. This is a budget repair, not a source fix or proof that the
-replacement run will pass; its fresh complete build/install results are required.
+That budget-only repair left the SPEC, parallelism, flags, 1074 original test
+targets and six added API cases unchanged. It was not a source fix or proof
+that the replacement run would pass; its complete results are described below.
+
+## Checked-entry test interposition repair (final bounded attempt)
+
+The second target run40201280237 failed in the330th original invocation,
+`ealigned_memdup.test`, at its exact captured-stderr length assertion. Its exit55
+assertion had passed; the real ENOMEM message appeared on real stderr. This is
+not a second timeout or evidence that all1074 programs passed. Actual installed
+glibc-devel0:2.38-84 headers route optimized FORTIFY2 fprintf/vfprintf to checked
+entries, while upstream test.o is deliberately O0 and interposes only ordinary
+entries. Header/compile-command evidence supports this source-level mismatch;
+the final target must still prove actual relocations and paired behavior.
+
+The package-local ISC patch changes only test.c. It adds the two checked stream
+ABI interceptors and uses the same exact capture engine. Checked formatting
+retains the supplied flag through __vsnprintf_chk with real destination sizes;
+ordinary calls retain their prior formatter. Production library sources,
+FORTIFY2/optimization/link-hardening flags, features, all1074 original targets
+and exact exit/error assertions are unchanged. The1353 original ordinary notices
+are preserved before applying the patch. No upstream write was made.
+
+Target-only controls record configured compiler identity, effective production
+FORTIFY2 versus test FORTIFY0, actual production checked-entry relocations and
+test definitions. The same original ealigned_memdup.to and hardened libsimple.a
+are linked once with preserved original test.c and once with the patched test.o.
+The original must reproduce exact status1 and the observed two stderr lines;
+the patched original case must return0 with empty streams. Raw streams/status
+and hashes are emitted before enforcing these gates. The full original make
+check loop and existing six API/installed binding checks remain mandatory.
+This is not native evidence, production stream-I/O/security validation, or proof
+that the proposed target attempt has passed. This is the third and final
+automatic target attempt in the same semantic episode (two prior failures);
+any further target failure requires needs-human, not a per-head counter reset.
 
 The recipe needs no undeclared network fetch. This does not claim network
 isolation by the actual CI bridge. Local checks are trusted repository tooling,
