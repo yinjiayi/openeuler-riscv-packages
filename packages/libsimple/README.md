@@ -67,6 +67,15 @@ assume that the loader spells a path `/usr/lib64` rather than an equivalent alia
 
 ## Evidence boundary
 
+The first exact-head target run (40184744585, attempt 1) exhausted the original
+60-minute job budget during the default build, after 3235 seconds of rpmbuild.
+It had not reached installation or `make check`; there was no observed fatal
+compiler error. The package budget is now a bounded 180 minutes, as supported
+by the existing workflow, to allow the complete unchanged workload to finish.
+The SPEC, parallelism, flags, 1074 original test targets and six added API cases
+are unchanged. This is a budget repair, not a source fix or proof that the
+replacement run will pass; its fresh complete build/install results are required.
+
 The recipe needs no undeclared network fetch. This does not claim network
 isolation by the actual CI bridge. Local checks are trusted repository tooling,
 schema, syntax and checksum/source-materialization checks only: upstream source,
