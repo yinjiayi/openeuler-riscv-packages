@@ -383,10 +383,17 @@ mkdir dns-compression-results
 gcc %{optflags} -UNDEBUG -I. -Isrc dns-compression-regression.c \
     .libs/libmesode.a $(pkg-config --libs openssl expat) -lresolv \
     %{?__global_ldflags} -o dns-compression-patched
-gcc %{optflags} -UNDEBUG -I. -Isrc -DLIBMESODE_ORIGINAL_NEGATIVE \
-    -finstrument-functions dns-compression-regression.c .libs/libmesode.a \
-    $(pkg-config --libs openssl expat) -lresolv %{?__global_ldflags} \
-    -o dns-compression-original
+# The untouched resolver includes snprintf.h and must receive the same actual
+# configure feature definitions as the default library, not invented fallbacks.
+cat > dns-compression-control.mk <<'LIBMESODE_CONTROL_MAKE_EOF'
+.PHONY: libmesode-original-control
+libmesode-original-control:
+	$(CC) $(DEFS) %{optflags} -UNDEBUG -I. -Isrc -DLIBMESODE_ORIGINAL_NEGATIVE \
+	    -finstrument-functions dns-compression-regression.c .libs/libmesode.a \
+	    $(shell pkg-config --libs openssl expat) -lresolv %{?__global_ldflags} \
+	    -o dns-compression-original
+LIBMESODE_CONTROL_MAKE_EOF
+make -f Makefile -f dns-compression-control.mk libmesode-original-control
 set +x
 if ./dns-compression-original > dns-compression-results/original.stdout 2> dns-compression-results/original.stderr; then original_status=0; else original_status=$?; fi
 if ./dns-compression-patched > dns-compression-results/patched.stdout 2> dns-compression-results/patched.stderr; then patched_status=0; else patched_status=$?; fi

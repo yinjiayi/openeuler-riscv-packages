@@ -51,3 +51,15 @@ Remove the patch only after an official source update provides equivalent bounde
 decoding and both original default tests and these positive/negative controls
 are re-established on the replacement exact head. The source archive and installed
 API smoke remain unchanged.
+
+The original-source control is compiled through a separate supplemental make
+target that reads `CC` and `DEFS` from the same generated `Makefile` as the
+default library. This preserves the actual configure feature decisions,
+including the `snprintf`/`vsnprintf` wrappers, rather than supplying fake
+compatibility functions or hard-coding a successful feature probe. The earlier
+standalone command omitted those definitions and failed to link `xmpp_snprintf`;
+that was a test-harness failure before either DNS control executed. The control
+source, instrumentation, exact 97/0 status requirements, output hashes, twelve
+original tests and installed API smoke remain unchanged. A corrected recipe
+still requires replacement exact-head target CI; local tooling checks are not
+proof that these target programs link or pass.
