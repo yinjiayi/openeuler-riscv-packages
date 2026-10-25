@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "package_id": "libclass-gomor-perl",
+  "rpm": {
+    "name": "perl-Class-Gomor",
+    "summary": "Hash- and array-backed Perl class builders",
+    "license": "Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libclass-gomor-perl",
+    "homepage": "https://metacpan.org/dist/Class-Gomor",
+    "source_repository": "https://metacpan.org/dist/Class-Gomor",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/G/GO/GOMOR/",
+    "release_regex": "(?<![A-Za-z0-9])Class-Gomor-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/G/GO/GOMOR/Class-Gomor-{version}.tar.gz"
+  },
+  "version": {"current": "1.03", "release": "1", "latest_detected": "1.03"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "libclass-gomor-perl", "package_base": "libclass-gomor-perl", "source_version": "1.03-3", "evidence_url": "https://packages.debian.org/source/sid/libclass-gomor-perl", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {
+    "spec": "libclass-gomor-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [{"file": "patches/0001-fix-hash-nested-fullclone.patch", "license": "Artistic-1.0-Perl", "purpose": "Fix upstream-generic Hash cgFullClone assignment precedence so nested Class::Gomor objects really clone.", "remove_when": "Upstream fixes the Hash nested full-clone assignment precedence.", "sha256": "1386182cf748ab05c5078a0b5538636b0d3132a1106fd38ac95507bb638417e4", "source": "Official Class-Gomor 1.03 Hash.pm and reproducible nested-clone identity regression", "upstream_status": "not-submitted"}],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian libclass-gomor-perl 1.03-3 lineage maps to publisher-pinned official CPAN Class-Gomor 1.03. Top-level LICENSE grants Artistic 1.0 redistribution for this program; all installed PMs repeat Artistic 1.0 and no contrary/vendored notice exists. SHA-bound SP3 RVA23 target has no same-name or Class::Gomor provider and supplies Module::Build, Data::Dumper, Test::Pod, Test::Pod::Coverage, Pod::Coverage::CountParents and core test dependencies. Preserve all 13 upstream tests. Kwalitee metadata/author-quality file self-skips unchanged because target lacks Test::Kwalitee; both POD files must run on target. Hash nested cgFullClone has an upstream-generic assignment-precedence bug hidden by weak original tests; package-local patch and installed behavior smoke prove Hash/Array accessors, shallow clone, and nested full clone."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
