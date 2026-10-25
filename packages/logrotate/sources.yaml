@@ -1,0 +1,21 @@
+{
+  "package_id": "logrotate",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f55b0f105f8ff145ea5b98166247d0c5d107f7fa8e8708130a2213dbde992db9"
+      },
+      "filename": "logrotate-3.22.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/logrotate/logrotate/archive/refs/tags/3.22.0.tar.gz",
+      "version": "3.22.0"
+    }
+  ]
+}
