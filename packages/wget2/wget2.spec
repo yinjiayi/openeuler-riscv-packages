@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           wget2
-Version:        2.2.1
-Release:        5%{?dist}
+Version:        2.3.0
+Release:        1%{?dist}
 Summary:        Modern non-interactive network downloader
 License:        GPL-3.0-or-later AND LGPL-3.0-or-later AND GFDL-1.3-or-later
 URL:            https://gitlab.com/gnuwget/wget2
-Source0:        wget2-%{version}.tar.gz
+Source0:        wget2-2.3.0.tar.gz
 Source1:        COPYING.GFDL13
 Patch0:         0001-libproxy-prefer-explicit-proxy.patch
 
