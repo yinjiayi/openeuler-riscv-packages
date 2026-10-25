@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/geos/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "geos",
+        "package_name": "geos",
+        "source": "arch-extra",
+        "source_version": "3.14.1-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/mingw-w64-geos",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "mingw-w64-geos",
+        "package_name": "mingw-w64-geos",
+        "source": "aur",
+        "source_version": "3.14.1-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/geos",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "geos",
+        "package_name": "geos",
+        "source": "debian",
+        "source_version": "3.13.1-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/geos/geos/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "geos",
+        "package_name": "geos",
+        "source": "fedora",
+        "source_version": "3.14.1-2.fc44"
+      },
+      {
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/geos",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "geos",
+        "package_name": "geos",
+        "source": "opensuse-tumbleweed",
+        "source_version": "3.14.1-2.3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "geos.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official OSGeo 3.14.1 release bytes are SHA-256 pinned and the full CTest suite remains enabled. The fixed target and this release both provide libgeos_c.so.1. AUR was read-only RPC metadata only; no external packaging content was executed.",
+    "status": "active"
+  },
+  "package_id": "geos",
+  "rpm": {
+    "license": "LGPL-2.1-only",
+    "name": "geos",
+    "summary": "Geometry Engine Open Source"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-osgeo-index"
+  },
+  "upstream": {
+    "component": "trac.osgeo.org-geos",
+    "homepage": "https://libgeos.org/",
+    "release_api": "https://download.osgeo.org/geos/",
+    "release_channel": "stable",
+    "release_regex": "geos-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+    "source_repository": "https://github.com/libgeos/geos",
+    "source_url_template": "https://download.osgeo.org/geos/geos-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "3.14.1",
+    "latest_detected": "3.14.1",
+    "release": "1"
+  }
+}
