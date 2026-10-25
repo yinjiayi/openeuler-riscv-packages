@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-mkpasswd-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-MkPasswd-0.05.tar.gz",
+      "version": "0.05",
+      "url": "https://cpan.metacpan.org/authors/id/C/CG/CGRAU/String-MkPasswd-0.05.tar.gz",
+      "digests": {
+        "sha256": "5310f83460045475071666b5423db2f0aa82d6685c802ec7abe6c2c410639b96"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE grants GPL-1-or-later or Artistic-1.0-Perl terms; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

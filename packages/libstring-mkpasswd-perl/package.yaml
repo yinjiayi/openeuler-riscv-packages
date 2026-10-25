@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-mkpasswd-perl",
+  "rpm": {
+    "name": "perl-String-MkPasswd",
+    "summary": "Legacy Perl password-string generator",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-mkpasswd-perl",
+    "homepage": "https://metacpan.org/dist/String-MkPasswd",
+    "source_repository": "https://github.com/sirhc/string-mkpasswd",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CG/CGRAU/",
+    "release_regex": "String-MkPasswd-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CG/CGRAU/String-MkPasswd-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.05",
+    "release": "1",
+    "latest_detected": "0.05"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-mkpasswd-perl",
+        "package_base": "libstring-mkpasswd-perl",
+        "source_version": "0.05-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-mkpasswd-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-mkpasswd-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu 0.05-3 and official stable CPAN 0.05. Publisher CHECKSUMS SHA-256, single-root archive and included Perl dual-license texts verified. Official target primary lacks same-name RPM and perl(String::MkPasswd) provider. Runtime uses Perl core modules; the complete five-file default test suite remains enabled. Upstream uses Perl rand, so no cryptographic-strength password or entropy claim is made. Target RPM build, test and install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
