@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-group-perl",
+  "rpm": {
+    "name": "perl-Array-Group",
+    "summary": "Group Perl arrays into rows or interleaved columns",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libarray-group-perl",
+    "homepage": "https://metacpan.org/dist/Array-Group",
+    "source_repository": "https://metacpan.org/dist/Array-Group",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AC/ACCARDO/",
+    "release_regex": "Array-Group-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AC/ACCARDO/Array-Group-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4.2",
+    "release": "1",
+    "latest_detected": "4.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libarray-group-perl",
+        "package_base": "libarray-group-perl",
+        "source_version": "4.2-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libarray-group-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libarray-group-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libarray-group-perl key maps to official CPAN Array-Group 4.2. CPAN CHECKSUMS SHA-256, safe archive, same-terms-as-Perl license text, and all nine default functional assertions were reviewed. The official target RVA23 Everything primary metadata has no same-name RPM or module provider. Exact-head target CI remains necessary."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

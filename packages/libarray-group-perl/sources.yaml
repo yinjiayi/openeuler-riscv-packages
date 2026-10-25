@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libarray-group-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Array-Group-4.2.tar.gz",
+      "version": "4.2",
+      "url": "https://cpan.metacpan.org/authors/id/A/AC/ACCARDO/Array-Group-4.2.tar.gz",
+      "digests": {
+        "sha256": "393053cf98f9be9132c9739175b739f426ee81f4dd3e7f8470cbc5ff9e5a1681"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included README and module POD grant the same GPL/Artistic choice as Perl; the official CPAN archive is fetched over HTTPS with SHA-256 verification."
+      }
+    }
+  ]
+}
