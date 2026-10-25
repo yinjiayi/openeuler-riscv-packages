@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdevel-checkbin-perl",
+  "rpm": {
+    "name": "perl-Devel-CheckBin",
+    "summary": "Check whether an external command is available from Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdevel-checkbin-perl",
+    "homepage": "https://metacpan.org/dist/Devel-CheckBin",
+    "source_repository": "https://metacpan.org/dist/Devel-CheckBin",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/",
+    "release_regex": "Devel-CheckBin-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/Devel-CheckBin-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04",
+    "release": "1",
+    "latest_detected": "0.04"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdevel-checkbin-perl",
+        "package_base": "libdevel-checkbin-perl",
+        "source_version": "0.04-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdevel-checkbin-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdevel-checkbin-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.04-3 maps to official stable CPAN 0.04. Publisher CHECKSUMS matches the fixed HTTPS archive. Installed PM, README and LICENSE explicitly grant same-as-Perl redistribution by tokuhirom; no vendored files or contrary notices are present. Official SP3 RVA23 primary has no name/module collision and supplies EUMM, Test::More, File::Temp, File::Spec, Config, Exporter, parent and coreutils with ls. All three unchanged default tests passed locally with five top-level assertions, both t/02 branches and zero skips. Target CI must prove the suite, physical RPM/SRPM and installed positive/negative lookup; upstream check_bin intentionally exits zero when missing."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
