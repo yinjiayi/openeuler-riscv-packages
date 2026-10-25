@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package_id": "picocom",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release", "version": "3.1", "filename": "picocom-3.1.tar.gz",
+    "url": "https://codeload.github.com/npat-efault/picocom/tar.gz/90385aabe2b51f39fa130627d46b377569f82d4a",
+    "digests": {"sha256": "a38f431d27b6c6275b0c281c7d53f0bfc7bf22d251122d53a56fb407457e2054"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "Core C/header and manual notices explicitly grant GPL version2 or later; complete LICENSE.txt retained. Vendored linenoise1.0 C/header/LICENSE carry compatible BSD2-clause notices, retained in both binary packages and unchanged complete source archive. All40 regular files retained, including contributors, four helper examples and pregenerated documentation. Official release3.1 body and empty asset list, README and complete member inventory advertise no detached signature or signing-key route; annotated tag3.1 is explicitly unsigned. This bounded observation is not a claim no signature exists elsewhere and does not bypass any advertised signature."}
+  }]
+}
