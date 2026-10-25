@@ -188,7 +188,14 @@ LIBARENA_API_EOF
 %install
 make install DESTDIR=%{buildroot} prefix=%{_prefix} libdir=%{_libdir}
 install -d %{buildroot}%{_libexecdir}/libarena %{buildroot}%{_datadir}/libarena-tests
-gcc %{optflags} -UNDEBUG -Wall -Wextra -Werror -I%{buildroot}%{_includedir} api-smoke.c \
+# Keep installed-header equivalence while avoiding BUILDROOT in driver DWARF.
+for header in arena.h pool.h proto.h rbits.h util.h align.h; do
+    cmp src/"$header" %{buildroot}%{_includedir}/arena/"$header"
+done
+test ! -e api-include
+mkdir api-include
+ln -s ../src api-include/arena
+gcc %{optflags} -UNDEBUG -Wall -Wextra -Werror -Iapi-include api-smoke.c \
     -L%{buildroot}%{_libdir} -Wl,--no-as-needed -larena %{build_ldflags} \
     -o %{buildroot}%{_libexecdir}/libarena/api-smoke
 install -m 0644 api-smoke.c %{buildroot}%{_datadir}/libarena-tests/api-smoke.c

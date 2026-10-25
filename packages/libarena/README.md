@@ -92,6 +92,14 @@ only through `-ef` file identity, not hard-coded path spellings or broad
 substring matches. Data-symbol directional bindings are not asserted.
 The driver/source manifest is written after RPM install-post stripping.
 
+The API driver compiles through a build-local `api-include/arena` view of the
+original `src/` headers. Before compilation, all six public headers must be
+byte-identical to the copies installed into the build root. This preserves
+the installed-header API contract without embedding the absolute staged
+include directory in driver debug information. Linkage still targets the
+staged installed library; RPM debug processing and `check-buildroot` remain
+enabled, and installed smoke still verifies all six real library bindings.
+
 ## Evidence boundaries
 
 Local intake is inert source/metadata review and trusted repository tooling
