@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 Name:           btop
-Version:        1.4.7
+Version:        1.4.8
 Release:        1%{?dist}
 Summary:        A monitor of system resources, bpytop ported to C++
 License:        Apache-2.0
 URL:            https://github.com/aristocratos/btop
-Source0:        btop-1.4.7.tar.gz
+Source0:        v1.4.8.tar.gz
 BuildRequires:  gcc-c++
 BuildRequires:  make
 
