@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libeconf",
+  "rpm": {
+    "name": "libeconf",
+    "summary": "Configuration-file parser and merge library",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "opensuse.github.io-libeconf",
+    "homepage": "https://opensuse.github.io/libeconf/",
+    "source_repository": "https://github.com/openSUSE/libeconf",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/openSUSE/libeconf/tags",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.8.4",
+    "release": "1",
+    "latest_detected": "0.8.4"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libeconf",
+        "package_base": "libeconf",
+        "source_version": "0.7.10-1",
+        "evidence_url": "https://aur.archlinux.org/packages/libeconf",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 180,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libeconf.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libeconf maps to the official stable v0.8.4 tag, dereferenced to immutable commit 4f951d11b1ec5dcea9fd6b4fbe192226d93050c5. The source archive is SHA-256 pinned. BUILD_TESTS=ON retains all 45 registered C tests and all three Bash econftool tests; optional generated HTML documentation is off while the shipped manual pages remain installed. Installed smoke checks the public parsing API and econftool."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}
