@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-miscellany-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Miscellany-1.100850.tar.gz",
+      "version": "1.100850",
+      "url": "https://cpan.metacpan.org/authors/id/M/MA/MARCEL/Data-Miscellany-1.100850.tar.gz",
+      "digests": {
+        "sha256": "aacc5fec3cd9d441d9538c3c12d9d9623d228e56828b35daa652143d1b336531"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release LICENSE and sole installed PM POD grant redistribution under the same GPL/Artistic terms as Perl; adapted Test::More code is similarly licensed. Publisher CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
