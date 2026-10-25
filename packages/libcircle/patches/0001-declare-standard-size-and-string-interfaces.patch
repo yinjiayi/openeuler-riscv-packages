@@ -1,0 +1,25 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Include the standard declarations used by headers and queue tests
+
+Generic declaration-only compatibility, identified by inert source inspection
+of hpc/libcircle v0.3 (3d8fbfae2b95fafe71a309fcfbb7c1c993f16ad8).
+size_t requires stddef.h; memset, strlen and strcmp require string.h. Preserve
+every original test body, assertion, default feature and compiler diagnostic.
+License: LicenseRef-LANL-BSD (the original COPYING terms).
+Upstream-Status: Not submitted; no upstream write authorized.
+
+diff --git a/libcircle/libcircle.h b/libcircle/libcircle.h
+--- a/libcircle/libcircle.h
++++ b/libcircle/libcircle.h
+@@ -3,0 +4 @@
++#include <stddef.h>
+diff --git a/libcircle/queue.h b/libcircle/queue.h
+--- a/libcircle/queue.h
++++ b/libcircle/queue.h
+@@ -3,0 +4 @@
++#include <stddef.h>
+diff --git a/tests/check_queue.c b/tests/check_queue.c
+--- a/tests/check_queue.c
++++ b/tests/check_queue.c
+@@ -2,0 +3 @@
++#include <string.h>

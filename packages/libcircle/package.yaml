@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/hpc/libcircle",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcircle",
+        "package_name": "libcircle",
+        "source": "fedora",
+        "source_version": "0.3-21.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/hpc/libcircle",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcircle",
+        "package_name": "libcircle",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.3-2.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {"file": "patches/0001-declare-standard-size-and-string-interfaces.patch", "sha256": "8bd4d6ecaed048a62ff1dac12cca79cbf864abad37d28d45dcb0b357022aa8f4", "purpose": "Declare size_t and string functions with their standard headers; preserve every original test body, assertion, default MPI/shared/static feature and compiler diagnostic.", "source": "Original downstream generic declaration-only patch against hpc/libcircle v0.3 commit 3d8fbfae2b95fafe71a309fcfbb7c1c993f16ad8, identified by inert source inspection; not a target-execution or RISC-V-specific claim.", "license": "LicenseRef-LANL-BSD", "upstream_status": "not-submitted", "remove_when": "An official release supplies equivalent standard size and string declarations."}
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libcircle.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v0.3 fixed archive and all 38 Git blobs verified. RPM tag version 0.3 differs from unchanged upstream API/pkg-config version 0.3.0. Retain mandatory MPI, default shared/static features, strict flags and all four original Check queue cases with only standard-header declarations patched. Compatible official OpenMPI, Check and libxcrypt-devel providers are pinned. Source-only/trusted-tooling validation is not target build/install acceptance. No local upstream/RPM/QEMU execution, native proof, auto-merge or publication claim.",
+    "status": "active"
+  },
+  "package_id": "libcircle",
+  "rpm": {
+    "license": "LicenseRef-LANL-BSD AND BSD-3-Clause AND FSFAP",
+    "name": "libcircle",
+    "summary": "MPI-based distributed work queue library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-hpc-libcircle",
+    "homepage": "https://github.com/hpc/libcircle",
+    "release_api": "https://api.github.com/repos/hpc/libcircle/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^v?([0-9]+[.][0-9]+(?:[.][0-9]+)?)$",
+    "source_repository": "https://github.com/hpc/libcircle",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.3",
+    "latest_detected": "0.3",
+    "release": "1"
+  }
+}
