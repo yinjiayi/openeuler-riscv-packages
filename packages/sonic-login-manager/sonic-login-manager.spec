@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sonic-login-manager
-Version:        6.7.3
+Version:        6.8.0.1
 Release:        1%{?dist}
 Summary:        Sonic Login Manager
 License:        GPL-2.0-or-later
 URL:            https://github.com/Sonic-DE/sonic-login-manager
-Source0:        sonic-login-manager-6.7.3.tar.gz
+Source0:        6.8.0.1.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
