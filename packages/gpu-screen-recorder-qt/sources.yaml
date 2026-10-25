@@ -1,0 +1,21 @@
+{
+  "package_id": "gpu-screen-recorder-qt",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "69296a702fa76493b14eb1cd285a1aa4867d8dde08feb2de5da660a60aa310d9"
+      },
+      "filename": "gpu-screen-recorder-qt-5.7.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/Coobyk/gpu-screen-recorder-qt/archive/refs/tags/v5.7.9.tar.gz",
+      "version": "5.7.9"
+    }
+  ]
+}
