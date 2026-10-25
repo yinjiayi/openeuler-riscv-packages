@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libbloom",
+  "rpm": {
+    "name": "libbloom",
+    "summary": "Small C Bloom filter library",
+    "license": "BSD-2-Clause AND MIT"
+  },
+  "upstream": {
+    "component": "github.com-jvirkki-libbloom",
+    "homepage": "https://github.com/jvirkki/libbloom",
+    "source_repository": "https://github.com/jvirkki/libbloom",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/jvirkki/libbloom/tags",
+    "release_regex": "v(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://codeload.github.com/jvirkki/libbloom/tar.gz/refs/tags/v{version}"
+  },
+  "version": {
+    "current": "2.0",
+    "release": "1",
+    "latest_detected": "2.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libbloom",
+        "package_base": "libbloom",
+        "source_version": "2.0-0.2",
+        "evidence_url": "https://packages.debian.org/trixie/source/libbloom",
+        "observed_at": "2026-09-28T14:40:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libbloom.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official v2.0 tag resolves to commit 57b35ea256b803b5fa6cd7cd2a2c36ecff9109c9. The source archive was SHA-256 and archive-safety checked. The frozen inventory's license-blocked flag was resolved by inspecting LICENSE (BSD-2-Clause) and murmur2/README (MurmurHash2 public-domain or MIT for business use); package metadata selects the latter grant. Upstream's full default make test target, covering shared and static libraries, remains enabled. Long-running optional release/collision benchmarks are not claimed. Debian lineage is discovery evidence only; no distribution recipe is executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-tags"
+  }
+}
