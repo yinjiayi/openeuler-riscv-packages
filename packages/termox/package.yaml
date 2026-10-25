@@ -20,7 +20,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-zzz-propagate-completed-generator-exceptions.patch",
+        "sha256": "f342603420578586c531ee28ec3a52d67d61c2aaad86ae0e1ce60196d1528cda",
+        "purpose": "Rethrow stored exceptions after both generator resume sites before completed handles become end iterators; preserve frame ownership and all defaults.",
+        "source": "Minimal downstream change against pinned a-n-t-h-o-n-y/zzz commit 9d7c047f47c81a95a5ea824075253618356593a2 include/zzz/coro.hpp.",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "The pinned official stable dependency supplies equivalent exception propagation at both iterator resume sites and all strict case-5 regressions pass without this patch."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "termox.spec"
@@ -29,7 +39,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Four exact official archives, complete Git blob comparisons, original per-file notices and project grants; offline private dependency layout. Original two upstream unit registrations are no-ops, supplemented by six strict noninteractive API cases and installed static-consumer linkage checks. Target acceptance remains pending.",
+    "notes": "Four exact official archives, complete Git blob comparisons, original per-file notices and project grants; offline private dependency layout. Original two upstream unit registrations are no-ops, supplemented by six strict noninteractive API cases and installed static-consumer linkage checks. Target acceptance remains pending. Package-contained zzz exception-propagation patch retains all 126 prepatch notices; strict case 5 additionally covers invalid-prefix, empty input, typed initial/increment exceptions and frame-local cleanup. One observed failed target in this semantic repair episode; head changes do not reset the three-failure budget.",
     "status": "active"
   },
   "package_id": "termox",
@@ -64,6 +74,6 @@
   "version": {
     "current": "2.0.0",
     "latest_detected": "2.0.0",
-    "release": "5"
+    "release": "6"
   }
 }

@@ -3,7 +3,7 @@
 
 Name:           termox
 Version:        2.0.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        C++20 terminal UI static library with private pinned dependencies
 License:        MIT
 URL:            https://github.com/a-n-t-h-o-n-y/TermOx
@@ -11,6 +11,7 @@ Source0:        termox-2.0.0.tar.gz
 Source1:        zzz-9d7c047f47c81a95a5ea824075253618356593a2.tar.gz
 Source2:        Escape-f797e8194b531663f01873f43007d2439fa89276.tar.gz
 Source3:        signals-light-5b873d0aa515a2085138359e69746cd7d7a5362f.tar.gz
+Patch0:         0001-zzz-propagate-completed-generator-exceptions.patch
 BuildRequires:  bash
 BuildRequires:  binutils
 BuildRequires:  cmake
@@ -24,6 +25,7 @@ BuildRequires:  glibc-devel
 BuildRequires:  grep
 BuildRequires:  libicu-devel
 BuildRequires:  make
+BuildRequires:  patch
 BuildRequires:  pkgconf-pkg-config
 BuildRequires:  sed
 BuildRequires:  tar
@@ -75,6 +77,7 @@ cat > .packaging-api.cpp <<'TERMOX_API_EOF'
 #include <ox/core/terminal.hpp>
 #include <ox/core/glyph.hpp>
 #include <signals_light/signal.hpp>
+#include <zzz/coro.hpp>
 #include <cstdio>
 #include <cstdlib>
 #include <stdexcept>
@@ -85,6 +88,60 @@ static void require(bool ok, char const* what) {
 }
 static void passed(int n, char const* name) {
     std::printf("TERMOX_API_CASE_%d %s PASS\n", n, name);
+}
+// Explicit generator coverage is part of API case 5, not an original test.
+struct GeneratorFault { int phase; };
+static auto generator_probe(int mode, int& destroyed) -> zzz::Generator<int> {
+    struct Guard { int& n; ~Guard() { ++n; } } guard{destroyed};
+    if (mode == 0) co_return;
+    if (mode == 1) throw GeneratorFault{1};
+    co_yield 11;
+    if (mode == 2) throw GeneratorFault{2};
+    co_yield 22;
+}
+static void check_generators() {
+    int destroyed = 0;
+    bool caught = false;
+    {
+        auto g = generator_probe(1, destroyed);
+        auto const& cg = g;
+        try { (void)cg.cbegin(); }
+        catch (GeneratorFault const& fault) { caught = fault.phase == 1; }
+        require(caught && destroyed == 1, "initial exception type/value and unwinding");
+    }
+    require(destroyed == 1, "initial exception frame-local cleanup once");
+    destroyed = 0; caught = false;
+    {
+        auto g = generator_probe(2, destroyed);
+        auto it = g.begin();
+        require(it != g.end() && *it == 11 && destroyed == 0,
+                "valid yielded prefix before increment exception");
+        try { ++it; }
+        catch (GeneratorFault const& fault) { caught = fault.phase == 2; }
+        require(caught && destroyed == 1, "increment exception type/value and unwinding");
+    }
+    require(destroyed == 1, "increment exception frame-local cleanup once");
+    destroyed = 0;
+    {
+        auto g = generator_probe(0, destroyed);
+        require(g.begin() == g.end() && destroyed == 1, "empty generator is ordinary end");
+    }
+    require(destroyed == 1, "empty generator cleanup once");
+    destroyed = 0;
+    {
+        auto g = generator_probe(3, destroyed);
+        int count = 0, sum = 0;
+        for (auto value : g) { ++count; sum += value; }
+        require(count == 2 && sum == 33 && destroyed == 1, "normal generator completes");
+    }
+    require(destroyed == 1, "normal generator cleanup once");
+    destroyed = 0;
+    {
+        auto g = generator_probe(3, destroyed);
+        auto it = g.begin();
+        require(*it == 11 && destroyed == 0, "suspended generator remains owned");
+    }
+    require(destroyed == 1, "owner destruction unwinds suspended generator");
 }
 int main() {
     std::setvbuf(stdout, nullptr, _IONBF, 0);
@@ -134,6 +191,12 @@ int main() {
     try { (void)esc::detail::utf8_to_glyphs(std::string_view{"\xff", 1}); }
     catch (std::runtime_error const&) { rejected = true; }
     require(rejected, "invalid UTF-8 rejected by original decoder");
+    rejected = false;
+    try { (void)esc::detail::utf8_to_glyphs(std::string_view{"A\xff", 2}); }
+    catch (std::runtime_error const&) { rejected = true; }
+    require(rejected, "invalid UTF-8 after valid prefix rejected by original decoder");
+    require(esc::detail::utf8_to_glyphs(std::string_view{}).empty(), "empty UTF-8 is valid");
+    check_generators();
     passed(5, "unicode-and-invalid-input");
 
     int total = 0;
@@ -230,6 +293,9 @@ test -s %{name}.files
 %doc README.md
 
 %changelog
+* Sun Oct 25 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.0-6
+- Rethrow stored bundled-generator exceptions before treating completion as end.
+- Extend case 5 with prefix-invalid/empty input and explicit generator lifetime QA.
 * Sun Oct 25 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.0.0-5
 - Pin all original dependency archives for offline unprivileged configuration.
 - Preserve all 126 source notices and complete installed static-consumer closure.

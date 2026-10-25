@@ -18,7 +18,8 @@ including every grant, copyright, README and original test. They are not treated
 as new packaging code or relicensed by this repository.
 
 Configuration is unprivileged and offline using explicit FetchContent source
-overrides; no original sources or defaults are patched. Global ox headers and
+overrides; upstream configuration defaults are unchanged. A package-contained
+MIT patch changes only bundled zzz iterator exception propagation after resume. Global ox headers and
 libTermOx.a retain their original installed names. Exact dependency headers live
 only below /usr/include/termox/third-party, and libescape.a below /usr/lib64/termox.
 The upstream signals-light global install rule is not invoked. termox.pc exposes
@@ -40,7 +41,8 @@ remain required after the guarded package-only repair push.
 
 Installed termox.pc also declares -std=c++20, so consumer compilation tests the
 actual pkgconfig language contract. Prep explicitly uses declared tar/gzip;
-%setup precedes verbatim notice preservation, then %autopatch (currently empty).
+%setup precedes verbatim notice preservation, then %autopatch applies the one
+bundled zzz header patch. All 126 original notice bytes remain prepatch inputs.
 Additional API stdout must byte-match seven expected lines (six cases plus
 summary), with exit0 and empty stderr at both build and installed stages.
 Installed positive-link failures preserve and print real status/raw diagnostics.
@@ -49,3 +51,28 @@ transcode.cpp.o members and their selected defined symbols, not just arbitrary
 archive presence. These are future CI assertions, not local target results.
 
 The exact stdout comparator cmp is supplied by explicitly declared diffutils at build and installed-test roles, not presumed to belong to coreutils.
+
+
+The previous exact-head target run 40231282085 failed case 5: invalid-first-byte
+UTF-8 was not rejected. Preserved source shows zzz stores the decoder exception
+but treats the completed coroutine as end before rethrowing. The patch checks
+the stored exception immediately after initial resume and increment, before
+done/null handling. It neither transfers nor destroys iterator ownership: the
+Generator still owns/destroys its frame. This is a source-control-flow diagnosis
+consistent with the target assertion, not an instrumented target exception trace.
+
+Case 5 retains its original valid Unicode and invalid-first-byte assertions and
+adds valid-prefix/invalid-byte rejection, valid empty input, typed initial and
+increment exceptions, normal and empty generator completion, and frame-local
+RAII cleanup during exception unwinding and suspended-owner destruction. These
+new target assertions have not run locally; cleanup counters do not claim a
+general heap-leak audit. Cases 1-4/6 and the exact seven stdout lines remain
+unchanged, as do installed archive/link-map/negative-link assertions. The original
+two no-op registrations are retained, not promoted to functional coverage.
+
+Remove the downstream patch only when the pinned official dependency provides
+equivalent checks at both resume sites and the complete target regressions pass
+without it. This episode has one observed failed target; at most two target
+attempts remain under the three-failure cap. A new commit does not reset that
+budget. New-head target build/install, physical RPM/SRPM and namespace acceptance
+remain mandatory; a completed repair push is not target or merge acceptance.
