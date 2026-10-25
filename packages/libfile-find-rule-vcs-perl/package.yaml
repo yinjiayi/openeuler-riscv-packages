@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-find-rule-vcs-perl",
+  "rpm": {
+    "name": "perl-File-Find-Rule-VCS",
+    "summary": "Exclude version-control directories from File::Find::Rule searches",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-find-rule-vcs-perl",
+    "homepage": "https://metacpan.org/dist/File-Find-Rule-VCS",
+    "source_repository": "https://github.com/karenetheridge/File-Find-Rule-VCS",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/",
+    "release_regex": "File-Find-Rule-VCS-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/File-Find-Rule-VCS-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.09",
+    "release": "1",
+    "latest_detected": "1.09"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-find-rule-vcs-perl",
+        "package_base": "libfile-find-rule-vcs-perl",
+        "source_version": "1.09-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-find-rule-vcs-perl",
+        "observed_at": "2026-09-30T04:34:36Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-find-rule-vcs-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libfile-find-rule-vcs-perl maps to official CPAN stable 1.09. Archive SHA-256 43c798bff0a1f6ac196cfa0f28eddac768954df2d02a04d01974a8fafeafbb49 matches CPAN CHECKSUMS; archive has a single safe top-level tree. LICENSE explicitly grants Perl 5 dual terms. Official openEuler SP3 RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or perl(File::Find::Rule::VCS) Provide; dependencies perl-File-Find-Rule 0.34 and perl-Text-Glob 0.11 are present. Default upstream three-file suite has 12 assertions and passed on local Perl 5.34.1; target QEMU is unverified until exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
