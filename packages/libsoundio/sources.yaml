@@ -1,0 +1,21 @@
+{
+  "package_id": "libsoundio",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a07e692ae236fd196a0e9544499104ff7919ca55b8d0ae9c39c1838c342712c4"
+      },
+      "filename": "libsoundio-2.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/andrewrk/libsoundio/tar.gz/dc4f84339039ac518b6cd1c0e7683e88e25be470",
+      "version": "2.0.0"
+    }
+  ]
+}
