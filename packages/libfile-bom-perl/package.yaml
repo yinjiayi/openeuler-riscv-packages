@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-bom-perl",
+  "rpm": {
+    "name": "perl-File-BOM",
+    "summary": "Perl utilities for handling Unicode byte order marks",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-bom-perl",
+    "homepage": "https://metacpan.org/dist/File-BOM",
+    "source_repository": "https://github.com/mattlaw/File-BOM",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MA/MATTLAW/",
+    "release_regex": "File-BOM-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MA/MATTLAW/File-BOM-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.18",
+    "release": "1",
+    "latest_detected": "0.18"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-bom-perl",
+        "package_base": "libfile-bom-perl",
+        "source_version": "0.18-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-bom-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-bom-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen inventory's exact libfile-bom-perl key maps to official stable CPAN File-BOM 0.18. CPAN CHECKSUMS SHA-256, archive safety, Perl dual-license declaration, six upstream test files, and complete POD test dependencies were reviewed. Target dependency availability and test outcome await exact-head CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
