@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-sparsevector-perl",
+  "rpm": {
+    "name": "perl-Math-SparseVector",
+    "summary": "Sparse vector arithmetic for Perl",
+    "license": "GPL-2.0-or-later"
+  },
+  "upstream": {
+    "component": "libmath-sparsevector-perl",
+    "homepage": "https://metacpan.org/dist/Math-SparseVector",
+    "source_repository": "https://cpan.metacpan.org/authors/id/T/TP/TPEDERSE/",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TP/TPEDERSE/",
+    "release_regex": "Math-SparseVector-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TP/TPEDERSE/Math-SparseVector-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04",
+    "release": "1",
+    "latest_detected": "0.04"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-sparsevector-perl",
+        "package_base": "libmath-sparsevector-perl",
+        "source_version": "0.04-2build1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libmath-sparsevector-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-sparsevector-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.04-2build1 and Debian 0.04-2 lineage; official TPEDERSE CPAN CHECKSUMS pins the archive. Module, README and bundled INSTALL.pod attribute Amruta Purandare, Ted Pedersen and Mahesh Joshi and expressly grant GPL version 2 or later. No bundled file has a contrary notice. Official SP3 RVA23 primary lacks both RPM and module provider and supplies MakeMaker and Test::More. The one unchanged default test passed all 20 assertions with zero skips."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
