@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libcanlock",
+  "sources": [
+    {
+      "id": "source0",
+      "version": "3.3.3",
+      "url": "https://micha.freeshell.org/libcanlock/src/libcanlock-3.3.3.tar.bz2",
+      "filename": "libcanlock-3.3.3.tar.bz2",
+      "digests": {
+        "sha256": "6a05291c4ca12169287d78f9e6d083c85b4eb180ceeb16403924e4310b681651"
+      },
+      "kind": "upstream-release",
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The upstream BSD-3-Clause, ICU, and NLPL notices permit redistribution of their respective source and documentation files."
+      }
+    }
+  ]
+}

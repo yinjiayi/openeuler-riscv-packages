@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libcanlock",
+  "rpm": {
+    "name": "libcanlock",
+    "summary": "RFC 8315 Netnews Cancel-Lock library and header parsers",
+    "license": "BSD-3-Clause AND ICU AND NLPL"
+  },
+  "upstream": {
+    "component": "micha.freeshell.org-libcanlock",
+    "homepage": "https://micha.freeshell.org/libcanlock/",
+    "source_repository": "https://micha.freeshell.org/libcanlock/src/info.html",
+    "release_channel": "stable",
+    "release_api": "https://micha.freeshell.org/libcanlock/src/info.html",
+    "release_regex": "libcanlock-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.bz2",
+    "source_url_template": "https://micha.freeshell.org/libcanlock/src/libcanlock-{version}.tar.bz2"
+  },
+  "version": {
+    "current": "3.3.3",
+    "release": "1",
+    "latest_detected": "3.3.3"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libcanlock",
+        "package_base": "libcanlock",
+        "source_version": "3.3.3-1.2",
+        "evidence_url": "https://build.opensuse.org/package/show/openSUSE:Factory/libcanlock",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libcanlock.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official 2026-07-07 3.3.3 announcement and source index provide the release archive and SHA-256; archive paths and relative symlinks were reviewed. Both root and header-parser default Automake suites remain enabled, including upstream's two expected failures. Distribution data is lineage only."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}
