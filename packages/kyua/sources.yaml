@@ -1,0 +1,21 @@
+{
+  "package_id": "kyua",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "530bd8eb852dc3d49bbb3a8221cbb2c6bfaaaf57f303e33371dec85fea13dc97"
+      },
+      "filename": "kyua-0.13.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/jmmv/kyua/archive/refs/tags/kyua-0.13.tar.gz",
+      "version": "0.13"
+    }
+  ]
+}
