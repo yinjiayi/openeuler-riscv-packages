@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-base36-perl",
+  "rpm": {
+    "name": "perl-Math-Base36",
+    "summary": "Encode and decode base-36 numbers in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-base36-perl",
+    "homepage": "https://metacpan.org/dist/Math-Base36",
+    "source_repository": "https://metacpan.org/dist/Math-Base36",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BR/BRICAS/",
+    "release_regex": "Math-Base36-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BR/BRICAS/Math-Base36-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.14",
+    "release": "1",
+    "latest_detected": "0.14"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-base36-perl",
+        "package_base": "libmath-base36-perl",
+        "source_version": "0.14-3",
+        "evidence_url": "https://packages.ubuntu.com/resolute/arm64/libmath-base36-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-base36-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.14-3 original archive MD5 equals official CPAN 0.14; publisher CHECKSUMS pins SHA-256. Upstream module/README and Debian source copyright establish Perl terms for all files, including third-party vendored Module::Install helpers, which are excluded from the installed RPM. Official target primary has no same-name RPM/provider and supplies Math::BigInt, Test::Exception, Test::Pod and Test::Pod::Coverage. Default MakeMaker test runs all five original t files; local macOS skipped POD coverage, so target CI must establish its execution."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

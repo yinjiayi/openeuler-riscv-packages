@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-base36-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Base36-0.14.tar.gz",
+      "version": "0.14",
+      "url": "https://cpan.metacpan.org/authors/id/B/BR/BRICAS/Math-Base36-0.14.tar.gz",
+      "digests": {
+        "sha256": "eedcc8cb22b8f6b6c07742e55931f6e9d03771d221d0b76639f18a3b7d19f47f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream module POD/README grant Perl terms; Debian source copyright applies Artistic or GPL-1-or-later to all files including separately attributed vendored Module::Install helpers; publisher CHECKSUMS pins this archive SHA-256."
+      }
+    }
+  ]
+}
