@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/dpath-python",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dpath-python",
+        "package_name": "dpath-python",
+        "source": "ubuntu",
+        "source_version": "2.2.0-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/python-dpath",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-dpath",
+        "package_name": "python-dpath",
+        "source": "aur",
+        "source_version": "2.2.0-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/python-dpath/tree/f44",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-dpath",
+        "package_name": "python-dpath",
+        "source": "fedora",
+        "source_version": "2.2.0-12.fc44"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/dpath-python",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dpath-python",
+        "package_name": "dpath-python",
+        "source": "debian",
+        "source_version": "2.2.0-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-dpath.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official 2.2.0 tag and PyPI stable release reviewed; sources.yaml pins the full commit and SHA-256. Original nose2/hypothesis suite and flake8 gate retained. No distribution recipe or upstream code was executed locally.",
+    "status": "active"
+  },
+  "package_id": "python-dpath",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-dpath",
+    "summary": "Filesystem-like pathing and searching for Python dictionaries"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-dpath-maintainers-dpath-python",
+    "homepage": "https://github.com/dpath-maintainers/dpath-python",
+    "release_api": "https://api.github.com/repos/dpath-maintainers/dpath-python/tags",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/dpath-maintainers/dpath-python",
+    "source_url_template": "https://github.com/dpath-maintainers/dpath-python/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.2.0",
+    "latest_detected": "2.2.0",
+    "release": "1"
+  }
+}

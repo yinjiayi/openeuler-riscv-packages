@@ -1,0 +1,21 @@
+{
+  "package_id": "python-dpath",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "651a30e79544b5cc65f9c4755643100096ffcddadbd228835281991b4110dc09"
+      },
+      "filename": "dpath-2.2.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/dpath-maintainers/dpath-python/archive/c8722e6b815bedf4e6aaeea9ccc7d6ff3e9b4f84.tar.gz",
+      "version": "2.2.0"
+    }
+  ]
+}
