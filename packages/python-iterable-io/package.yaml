@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "package_id": "python-iterable-io",
+  "rpm": {
+    "name": "python-iterable-io",
+    "summary": "Adapt generators and other iterables to a file-like interface",
+    "license": "LGPL-3.0-only"
+  },
+  "upstream": {
+    "component": "github.com-pr0ps-iterable-io",
+    "homepage": "https://github.com/pR0Ps/iterable-io",
+    "source_repository": "https://github.com/pR0Ps/iterable-io",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/pR0Ps/iterable-io/tags?per_page=100",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.0.4",
+    "release": "1",
+    "latest_detected": "1.0.4"
+  },
+  "discovery": {
+    "snapshot_id": "arch-primary-observation-20261013T205138Z-9c00e857ac90",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "python-iterable-io",
+        "package_base": "python-iterable-io",
+        "source_version": "1.0.4-1",
+        "evidence_url": "https://archlinux.org/packages/extra/any/python-iterable-io/json/",
+        "observed_at": "2026-10-13T20:51:38.191123+00:00"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "python-iterable-io.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "All7 fixed upstream originals and original unfiltered wheel-installed py.test --cov=iterableio retained. Supplemental exact SPDX v3.29.0 LGPL3/GPL3 texts preserve declared LGPL-3.0-only. Strict20/no-skips is a future acceptance assertion, not an observed pass. No local target execution."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}
