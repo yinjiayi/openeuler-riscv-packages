@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-checktree-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-CheckTree-4.42.tar.gz",
+      "version": "4.42",
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/File-CheckTree-4.42.tar.gz",
+      "digests": {
+        "sha256": "66fb417f8ff8a5e5b7ea25606156e70e204861c59fa8c3831925b4dd3f155f8a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN archive includes the Perl GPL/Artistic license choice and is fetched over HTTPS with the official CPAN CHECKSUMS SHA-256."
+      }
+    }
+  ]
+}
