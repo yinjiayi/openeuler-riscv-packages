@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Package Automation <noreply@example.invalid>
+Date: Mon, 28 Sep 2026 00:00:00 +0000
+Subject: [PATCH] tests: pass GEA direction as the declared enum
+
+The upstream Makefile compiles the .c fixtures with g++. Its GEA fixture
+passes an int directly to functions declared with gprs_cipher_direction,
+which modern C++ rejects. Cast the two test arguments after retaining the
+fixture's existing 0/1 values. This keeps all GEA vectors in %check.
+
+Patch-Source: openEuler RISC-V review of the official v4.0.0 archive
+Patch-License: GPL-2.0-or-later
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+Remove-When: An upstream release uses the declared direction enum in the
+ GEA fixture or otherwise makes the fixture compile as C++.
+---
+ gea_test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gea_test.c b/gea_test.c
+--- a/gea_test.c
++++ b/gea_test.c
+@@ -25,3 +25,3 @@
+     uint8_t out[len];
+-    osmo_gea3(out, len, kc, iv, dir);
++    osmo_gea3(out, len, kc, iv, (enum gprs_cipher_direction)dir);
+     print_check(res, out, len);
+@@ -33,3 +33,3 @@
+     osmo_hexparse(kc, ck, len);
+-    osmo_gea4(out, len, ck, iv, dir);
++    osmo_gea4(out, len, ck, iv, (enum gprs_cipher_direction)dir);
+     print_check(res, out, len);
