@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           udns
-Version:        0.6
+Version:        0.7
 Release:        1%{?dist}
 Summary:        Asynchronous DNS stub resolver library
 License:        LGPL-2.1-or-later
 URL:            https://www.corpit.ru/mjt/udns.html
-Source0:        udns-%{version}.tar.gz
+Source0:        udns-0.7.tar.gz
 
 BuildRequires:  gawk
 BuildRequires:  gcc
