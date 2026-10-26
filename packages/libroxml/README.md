@@ -16,8 +16,8 @@ The original default make check is retained and has zero registered runtime case
 
 RPM shell tracing is suspended outside each redirected original-runner/API
 capture and restored before checking the retained raw streams. This prevents
-shell trace commands from contaminating program stderr; genuine program stderr
-must still be empty, list status/count must still be34/34, original full-run/API
+shell trace commands from contaminating program stderr; normal/API and list stderr remain empty; tiny runtime stderr is compared to the
+source-derived exact disabled-feature oracle below. List status/count remains34/34; full-run/API
 failures retain their actual exit status, and no source test or assertion changes.
 The first target attempt stopped at the list-stderr assertion after observed
 status34 and34 names. Its stderr file was not retained, so trace contamination is
@@ -31,3 +31,24 @@ The sole patch changes four internal-header tentative definitions to extern; exi
 The added six cases cover buffer parsing/navigation, content/attributes, XPath result ownership, edit/exact serialization, temporary-file parse roundtrip, and specified NULL boundaries. They retain assert with -UNDEBUG and use six volatile function pointers. They do not prove full XML conformance, hostile-input security, concurrency, native timing or production suitability. Normal installed execution must have exact seven-line stdout and empty stderr; a separate LD_DEBUG run preserves its raw trace/SHA/failure status and proves all six exact driver symbols bind to the same installed libroxml.so.0.0.0 inode (not a brittle loader path spelling). All four installed ELF files must be RISC-V ELF64. The installed driver/source/fixtures manifest is generated after install-post stripping in %check.
 
 No upstream compilation, bootstrap, tests, RPM or QEMU runs were executed locally during onboarding. Trusted repository metadata/tooling/source-verify-only gates are not target tests. The recipe requires no undeclared source fetch; actual CI containers are network-enabled and checksum-reverify their source cache, not proven network-isolated. Real target build, all original and added checks, physical notice/RPM/SRPM inspection, complete repository namespace, and protected-main publication remain independent gates.
+
+## Tiny-mode diagnostic oracle
+
+Original tiny flags deliberately undefine COMMIT/EDIT/XPATH. The unchanged
+original stubs emit fixed diagnostics. Expectations derive from the pinned
+source template and active call sites, never copied from a CI log. Only
+ test_del_node predicts5 and test_write_namespaces predicts22 diagnostic lines;
+every other tiny registration and all normal cases require empty stderr.
+Original aggregate runs retain their original fixture cwd/state FIRST, then
+all34 original --exec name selections run in registration order in that same
+fixture cwd without cleanup. Exact source-derived list bytes, statuses and
+function-specific OK/separator output are mandatory: unknown names can return0
+without executing a test. Extra, missing, reordered or wrong-function output or
+diagnostics fail. This does not bypass an original assertion or enable a tiny
+feature.
+
+The34 tiny registrations are not34 full-feature functional tests. Four compile
+out substantive assertion blocks: test_parse_xpath, test_xpath,
+test_del_namespaces and test_write_tree. Static assertion-site counts are not
+measured runtime assertion counts. API6 and installed gates remain unchanged.
+Semantic failed target attempts2/3 leave one final attempt across heads.

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: ISC
 Name:           libroxml
 Version:        3.0.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Small C XML parser with XPath and editing support
 License:        LicenseRef-libroxml-LGPL-2.1-or-later-static-linking-exception AND GPL-2.0-or-later AND ISC
 URL:            https://libroxml.net/
@@ -143,6 +143,170 @@ int main(void)
 }
 LIBROXML_API_EOF
 
+cat > qa-oracle.sh <<'LIBROXML_ORACLE_EOF'
+#!/bin/sh
+# Copyright (c) 2026 openEuler RISC-V packaging contributors.
+# Permission to use, copy, modify, and/or distribute this software for any purpose
+# with or without fee is hereby granted, provided that the above copyright
+# notice and this permission notice appear in all copies.
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+# REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+# AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+# INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+set -eu
+test "$#" -eq 7
+mode=$1; variant=$2; selected=$3; status=$4; out=$5; err=$6; wanted_names=$7
+base=$(dirname "$0")
+cat "$out"; cat "$err" >&2
+case "$status" in ''|*[!0-9]*) exit 2 ;; esac
+test "$status" -le 255
+case "$variant" in roxml.unitC|roxml.tiny.unitC) ;; *) exit 2 ;; esac
+wanted_err="$base/qa-empty.err"
+case "$mode" in
+    list)
+        test "$selected" = all; test "$status" -eq 34
+        cmp "$base/qa-names" "$wanted_names"
+        cmp "$base/qa-names" "$out"
+        cmp "$wanted_err" "$err"
+        exit 0 ;;
+    aggregate)
+        test "$selected" = all
+        cmp "$base/qa-names" "$wanted_names"
+        count=34
+        if test "$variant" = roxml.tiny.unitC; then wanted_err="$base/qa-tiny-aggregate.err"; fi ;;
+    one)
+        test "$(grep -Fxc -- "$selected" "$base/qa-names")" -eq 1
+        printf '%%s\n' "$selected" | cmp - "$wanted_names"
+        count=1
+        if test "$variant" = roxml.tiny.unitC; then
+            case "$selected" in
+                test_del_node|test_write_namespaces) wanted_err="$base/qa-$selected.err" ;;
+            esac
+        fi ;;
+    *) exit 2 ;;
+esac
+if test "$status" -ne 0; then exit "$status"; fi
+gawk -v count="$count" '
+FILENAME == ARGV[1] {
+    if ($0 !~ /^test_[a-z_]+$/) exit 1
+    expected[++n] = $0
+    next
+}
+{
+    actual++
+    if (actual %% 2 == 1) {
+        q = sprintf("%%c", 39)
+        pattern = "^OK:  \tfile " q "unittest/roxml[.]test[.]c" q " function " q expected[(actual+1)/2] q " in thread id 0x[0-9a-f]+ in process [0-9]+: OK$"
+        if ($0 !~ pattern) exit 1
+    } else if ($0 != "--------------------------------------------------------------------------------------") exit 1
+}
+END { if (n != count || actual != 2*count) exit 1 }
+' "$wanted_names" "$out"
+test "$(wc -l < "$out")" -eq "$((count * 2))"
+cmp "$wanted_err" "$err"
+LIBROXML_ORACLE_EOF
+cat > qa-names <<'LIBROXML_ORACLE_DATA_EOF'
+test_load_doc
+test_load_fd
+test_tree_on_doc
+test_names_on_doc
+test_load_buf
+test_tree_on_buf
+test_names_on_buf
+test_load_human_doc
+test_tree_on_human_doc
+test_names_on_human_doc
+test_load_human_buf
+test_tree_on_human_buf
+test_names_on_human_buf
+test_malloc_release
+test_create_node
+test_get_root
+test_get_chld
+test_get_sibl
+test_get_chld_nb
+test_get_content
+test_get_attr_nb
+test_get_attr
+test_del_node
+test_parse_xpath
+test_xpath
+test_get_node_type
+test_get_node_index
+test_write_tree
+test_spec_nodes
+test_whitespaces_in_attr
+test_parse_namespaces
+test_write_namespaces
+test_del_namespaces
+test_escape
+LIBROXML_ORACLE_DATA_EOF
+cat > qa-empty.err <<'LIBROXML_ORACLE_DATA_EOF'
+LIBROXML_ORACLE_DATA_EOF
+cat > qa-test_del_node.err <<'LIBROXML_ORACLE_DATA_EOF'
+** roxml_del_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_xpath: function not implemented. You may need to reconfigure libroxml. **
+** roxml_del_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_xpath: function not implemented. You may need to reconfigure libroxml. **
+** roxml_del_node: function not implemented. You may need to reconfigure libroxml. **
+LIBROXML_ORACLE_DATA_EOF
+cat > qa-test_write_namespaces.err <<'LIBROXML_ORACLE_DATA_EOF'
+** roxml_commit_changes: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_set_ns: function not implemented. You may need to reconfigure libroxml. **
+** roxml_set_ns: function not implemented. You may need to reconfigure libroxml. **
+** roxml_set_ns: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_set_ns: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+LIBROXML_ORACLE_DATA_EOF
+cat > qa-tiny-aggregate.err <<'LIBROXML_ORACLE_DATA_EOF'
+** roxml_del_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_xpath: function not implemented. You may need to reconfigure libroxml. **
+** roxml_del_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_xpath: function not implemented. You may need to reconfigure libroxml. **
+** roxml_del_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_commit_changes: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_set_ns: function not implemented. You may need to reconfigure libroxml. **
+** roxml_set_ns: function not implemented. You may need to reconfigure libroxml. **
+** roxml_set_ns: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_set_ns: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+** roxml_add_node: function not implemented. You may need to reconfigure libroxml. **
+LIBROXML_ORACLE_DATA_EOF
+
 %build
 # Official Git tag has no generated configure; use upstream's own bootstrap.
 sh ./autogen.sh
@@ -168,32 +332,26 @@ cp -p unittest/roxml.test.xml* %{buildroot}%{_datadir}/libroxml-tests/original/
 %make_build
 for program in roxml.unitC roxml.tiny.unitC roxml.perf roxml.mem; do test -x "unittest/$program"; done
 for program in roxml.unitC roxml.tiny.unitC; do
-    # Original runner --list deliberately returns34, not0.
-    # Suspend RPM shell tracing BEFORE redirection; retain real program stderr.
     set +x
-    if (cd unittest; "./$program" --list) >"$program.list" 2>"$program.list.err"; then
-        status=0
-    else
-        status=$?
-    fi
+    if (cd unittest; "./$program" --list) >"$program.list" 2>"$program.list.err"; then status=0; else status=$?; fi
     set -x
-    cat "$program.list"; cat "$program.list.err" >&2
-    test "$status" -eq 34
-    test "$(wc -l < "$program.list")" -eq 34
-    test ! -s "$program.list.err"
+    sh ./qa-oracle.sh list "$program" all "$status" "$program.list" "$program.list.err" qa-names
+    # Preserve the unchanged original aggregate FIRST and its original fixture state.
     set +x
-    if (cd unittest; "./$program") >"$program.log" 2>"$program.err"; then
-        status=0
-    else
-        status=$?
-    fi
+    if (cd unittest; "./$program") >"$program.log" 2>"$program.err"; then status=0; else status=$?; fi
     set -x
-    cat "$program.log"; cat "$program.err" >&2
-    if test "$status" -ne 0; then exit "$status"; fi
-    test ! -s "$program.err"
+    sh ./qa-oracle.sh aggregate "$program" all "$status" "$program.log" "$program.err" qa-names
     test "$(grep -c '^OK:' "$program.log")" -eq 34
     if grep -E '^(ERROR|FAILED)' "$program.log"; then exit 1; fi
-    printf 'original %s: 34/34 passed\n' "$program"
+    # Then use the original implemented per-test selector, same fixture cwd/order.
+    while IFS= read -r selected; do
+        printf '%%s\n' "$selected" > qa-one.names
+        set +x
+        if (cd unittest; "./$program" --exec "$selected") >"$program.$selected.log" 2>"$program.$selected.err"; then status=0; else status=$?; fi
+        set -x
+        sh ./qa-oracle.sh one "$program" "$selected" "$status" "$program.$selected.log" "$program.$selected.err" qa-one.names
+    done < qa-names
+    printf 'original %%s: aggregate34/per-test34 registrations checked; tiny feature-conditional coverage applies\n' "$program"
 done
 mkdir -p api-work
 set +x
@@ -236,6 +394,9 @@ cmp api.expected api.log
 %{_datadir}/libroxml-tests
 
 %changelog
+* Mon Oct 26 2026 openEuler RISC-V packaging contributors - 3.0.2-3
+- Check source-derived tiny disabled-feature diagnostics per original selector.
+
 * Mon Oct 26 2026 openEuler RISC-V packaging contributors - 3.0.2-2
 - Isolate program stderr from RPM shell xtrace without weakening QA gates.
 
