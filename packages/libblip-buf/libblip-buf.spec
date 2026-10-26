@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libblip-buf
 Version:        1.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Band-limited audio waveform synthesis library
 License:        LGPL-2.1-or-later
 URL:            https://gitlab.com/TASVideos/libblip_buf
@@ -196,7 +196,10 @@ install -D -m 0644 blip_buf.h %{buildroot}%{_includedir}/blip_buf.h
 install -D -m 0644 api-smoke.c %{buildroot}%{_datadir}/libblip-buf-tests/api-smoke.c
 install -m 0644 run-qa.sh %{buildroot}%{_datadir}/libblip-buf-tests/run-qa.sh
 mkdir -p %{buildroot}%{_libexecdir}/libblip-buf
-gcc %{optflags} -std=c99 -I%{buildroot}%{_includedir} api-smoke.c \
+# Prove the source include view equals the staged installed header, without
+# embedding an absolute BUILDROOT include directory in driver debug records.
+cmp blip_buf.h %{buildroot}%{_includedir}/blip_buf.h
+gcc %{optflags} -std=c99 -I. api-smoke.c \
     -L%{buildroot}%{_libdir} %{?build_ldflags} -Wl,-z,now -lblip_buf \
     -o %{buildroot}%{_libexecdir}/libblip-buf/api-smoke
 
@@ -233,6 +236,10 @@ bash run-qa.sh "%{buildroot}"
 %{_datadir}/libblip-buf-tests/SHA256SUMS
 
 %changelog
+* Mon Oct 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.1-2
+- Compare staged header bytes before compiling the QA driver with a source include view.
+- Keep debuginfo, check-buildroot, original outputs and all build/install QA enabled.
+
 * Mon Oct 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.1.1-1
 - Package exact official release; retain both default outputs and all source notices.
 - Add installed-header API and strict same-file loader checks; no native/audio-quality claim.

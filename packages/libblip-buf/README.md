@@ -29,13 +29,25 @@ There is no upstream install/test/check target. Historical makefile_orig and
 README mention demos/tests that are absent in both official artifacts; no
 upstream suite success is claimed, and no provided test is removed or replaced.
 
-Additive QA compiles against staged installed headers/shared library, checks6
+Additive QA first byte-compares the staged installed header with its original
+source header, then compiles through that equal source include view and links
+against the staged shared library. It checks6
 bounded API contracts (allocation, rates/counts/clear, partial mono silence,
 stereo stride, normal/fast deltas) and10 exact same-file dynamic symbol bindings.
 It is rerun after RPM installation. Driver/helper source checksums and complete
 loader traces are retained. This is not a reference-audio/fidelity/performance,
 device, native RISC-V or general memory-safety claim. No local source/RPM/QEMU
 build has been executed; real target build/install remains CI's gate.
+
+Release2 repairs the first target run's install-post check-buildroot rejection:
+the generated driver debug file contained an absolute temporary BUILDROOT path.
+The absolute staged-header include directory was removed after adding the
+byte-equality guard; the exact DWARF field was not independently retained or
+parsed. Debuginfo, find-debuginfo, check-buildroot and every build/install QA
+gate remain enabled. That failed run never reached %check or installation;
+replacement target CI and physical products must establish recovery.
+Metadata requests no build networking, but the first run's container identity
+recorded network access enabled; no network-isolation success is claimed.
 
 Audited dependency/namespace projection uses complete official18503 packages
 and fixed M157 supplemental1588 binary/495 source packages; it is not DNF SAT
