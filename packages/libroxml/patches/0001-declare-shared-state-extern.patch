@@ -1,0 +1,26 @@
+From: openEuler RISC-V packaging <packaging@example.invalid>
+Subject: [PATCH] Declare shared state extern in internal headers
+License: LGPL-2.1-or-later with the original static-linking exception
+Origin: package-local static source review, not an upstream commit
+Root-Cause: Header tentative definitions become multiple definitions with modern
+ GCC -fno-common. roxml_mem.c already owns head_cell and roxml_core.c already
+ owns the three __DEBUG counters. Optional original test libraries use __DEBUG.
+Fix: Change only four header declarations to extern; retain their initialized
+ definitions, all defaults, test bodies and normal compiler hardening flags.
+Removal: Drop when upstream provides equivalent single-definition declarations.
+Validation: Pure textual review only here; target build and all original tests
+ remain required. No local upstream compilation or execution was performed.
+--- a/src/roxml_mem.h
++++ b/src/roxml_mem.h
+@@ -17 +17 @@
+-memory_cell_t head_cell;
++extern memory_cell_t head_cell;
+--- a/src/roxml_core.h
++++ b/src/roxml_core.h
+@@ -18,3 +18,3 @@
+-unsigned int _nb_node;
+-unsigned int _nb_attr;
+-unsigned int _nb_text;
++extern unsigned int _nb_node;
++extern unsigned int _nb_attr;
++extern unsigned int _nb_text;
