@@ -50,8 +50,58 @@ ar t /usr/lib64/termox/libescape.a > "$tmp/escape.members"
 cat "$tmp/termox.members" "$tmp/escape.members"
 test "$(grep -c -Fx 'terminal.cpp.o' "$tmp/termox.members")" -eq 1
 test "$(grep -c -Fx 'transcode.cpp.o' "$tmp/escape.members")" -eq 1
-grep -E '^/usr/lib64/libTermOx[.]a\(terminal[.]cpp[.]o\)' "$tmp/consumer.map"
-grep -E '^/usr/lib64/termox/libescape[.]a\(transcode[.]cpp[.]o\)' "$tmp/consumer.map"
+# SPDX-License-Identifier: Apache-2.0
+# Packaging QA only: no source, compiler or target execution in fixture checks.
+assert_archive_extractions() {
+    local map=$1 termox_archive=$2 escape_archive=$3
+    local LC_ALL=C line path member base state=0 headers=0 termox_count=0 escape_count=0
+    # Bash read can discard NUL: reject it and other non-text control bytes first.
+    test "$(LC_ALL=C tr -d '\11\12\40-\176\200-\377' < "$map" | wc -c)" -eq 0 || return 1
+    while IFS= read -r line || [[ -n $line ]]; do
+        if [[ $line == 'Archive member included to satisfy reference by file (symbol)' ]]; then
+            test "$headers" -eq 0 || return 1
+            headers=1
+            state=1
+            continue
+        fi
+        test "$state" -eq 1 || continue
+        case "$line" in
+            'As-needed library included to satisfy reference by file (symbol)'|\
+            'Allocating common symbols'|'Discarded input sections'|\
+            'Memory Configuration'|'Linker script and memory map')
+                state=2
+                continue
+                ;;
+        esac
+        [[ -z $line || $line == [[:space:]]* ]] && continue
+        # Unindented extraction records must be complete absolute archive(member) lines.
+        [[ $line =~ ^(/[^\(\)]+)\(([^\(\)]+)\)$ ]] || return 1
+        path=${BASH_REMATCH[1]}
+        member=${BASH_REMATCH[2]}
+        [[ $path =~ ^/[[:alnum:]_./+@-]+$ ]] || return 1
+        [[ $member =~ ^[[:alnum:]_.+-]+$ ]] || return 1
+        base=${path##*/}
+        case "$base" in
+            libTermOx.a)
+                [[ -f $path && $path -ef $termox_archive ]] || return 1
+                if [[ $member == terminal.cpp.o ]]; then
+                    termox_count=$((termox_count + 1))
+                    printf '%s\n' "$line"
+                fi
+                ;;
+            libescape.a)
+                [[ -f $path && $path -ef $escape_archive ]] || return 1
+                if [[ $member == transcode.cpp.o ]]; then
+                    escape_count=$((escape_count + 1))
+                    printf '%s\n' "$line"
+                fi
+                ;;
+        esac
+    done < "$map"
+    test "$headers" -eq 1 && test "$state" -eq 2 && \
+        test "$termox_count" -eq 1 && test "$escape_count" -eq 1
+}
+assert_archive_extractions "$tmp/consumer.map" /usr/lib64/libTermOx.a /usr/lib64/termox/libescape.a
 nm -C -A --defined-only /usr/lib64/libTermOx.a /usr/lib64/termox/libescape.a > "$tmp/archives.nm"
 nm -C --defined-only "$tmp/consumer" > "$tmp/consumer.nm"
 cat "$tmp/archives.nm" "$tmp/consumer.nm"

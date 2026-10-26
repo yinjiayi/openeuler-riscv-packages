@@ -72,7 +72,22 @@ two no-op registrations are retained, not promoted to functional coverage.
 
 Remove the downstream patch only when the pinned official dependency provides
 equivalent checks at both resume sites and the complete target regressions pass
-without it. This episode has one observed failed target; at most two target
-attempts remain under the three-failure cap. A new commit does not reset that
-budget. New-head target build/install, physical RPM/SRPM and namespace acceptance
+without it. This episode has two observed failed targets; exactly one target
+attempt remains under the three-failure cap. A new commit does not reset that
+budget; another target failure requires needs-human without a fourth attempt. New-head target build/install, physical RPM/SRPM and namespace acceptance
 remain mandatory; a completed repair push is not target or merge acceptance.
+
+
+The second actual target run 40240684055 passed the build and all six installed
+driver cases, then stopped at the first static map assertion: GNU ld recorded
+/lib64/../lib64/libTermOx.a(terminal.cpp.o), not the literal /usr/lib64 spelling.
+The installed-QA parser now reads only the archive-extraction section, requires
+one exact terminal.cpp.o/transcode.cpp.o extraction from the correct archive
+basename, and proves each absolute target path is the expected package-owned
+archive with shell -ef. A basename, suffix, later cross-reference, or member name
+alone is insufficient; a conflicting physical archive fails. The captured map
+does not itself prove alias identity: the next target must establish -ef and all
+unchanged symbol, RISC-V, six-case consumer, negative-link and digest assertions.
+No source patch, default graph, original test, source archive, or notice changes
+are part of this QA-path repair. Synthetic empty-file map fixtures are packaging
+parser checks only, not target functionality or physical acceptance.
