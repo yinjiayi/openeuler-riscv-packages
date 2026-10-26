@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "package_id": "libbf",
+  "rpm": {"name": "libbf", "summary": "Arbitrary precision binary and decimal floating point library", "license": "MIT AND Apache-2.0"},
+  "upstream": {
+    "component": "bellard.org-libbf",
+    "homepage": "https://bellard.org/libbf/",
+    "source_repository": "https://bellard.org/libbf/",
+    "release_channel": "stable",
+    "release_api": "https://bellard.org/libbf/",
+    "release_regex": "libbf-(?P<version>[0-9]{4}-[0-9]{2}-[0-9]{2})\\.tar\\.gz",
+    "source_url_template": null
+  },
+  "version": {"current": "2025.06.03", "latest_detected": "2025.06.03", "release": "1"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [
+    {"source": "arch-extra", "package_name": "libbf", "package_base": "libbf", "source_version": "2021.03.27-1", "evidence_url": "https://bellard.org/libbf", "observed_at": "2026-08-08T16:50:00Z"}
+  ]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "libbf.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "N225 official news+VERSION date2025-06-03 selected after original2021.03.27 lineage; RPM date normalized2025.06.03. Exact literal dated archive SHA256 and all25members retained,18complete MIT grants+7associated metadata. No observed offered signature in page/readme/archive, no guessedkey or publisherchecksum claim. Originalall3programs/test2Pi+2hash remain; static archive/public-header install is explicit additive packaging, not an invented upstream target. Automatic date-to-RPM URL mapping is disabled until reviewed support exists; manual official release review is required and full Daily automatic coverage is not claimed. No guessed dotted-date source template. Source/audit evidence lives in N225, not a fabricated shared catalog release pin. Provider/namespace/repository validation and actual target proof are separate gates."},
+  "updates": {"enabled": false, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}
