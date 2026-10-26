@@ -14,6 +14,16 @@ Autotools is the documented primary Unix build. Upstream autogen.sh bootstraps t
 
 The original default make check is retained and has zero registered runtime cases. Additional QA reconfigures the same source tree with only --enable-tests after the default installation has been materialized. This avoids a blind out-of-tree build: configure probes relative unittest/unittest.c and the original runner reads relative fixtures. It builds all four original programs (normal, tiny, perf, mem) and executes the full unmodified normal and tiny runners. Each has34 registrations: --list must return34 and emit34 names, each full run must exit0 and emit34 OK lines without ERROR/FAILED. The tiny variant retains its original conditional test bodies; 34 registrations per variant do not mean68 distinct effective assertions. The perf/mem tools are compiled, not benchmarked; no performance or native-only validation is claimed.
 
+RPM shell tracing is suspended outside each redirected original-runner/API
+capture and restored before checking the retained raw streams. This prevents
+shell trace commands from contaminating program stderr; genuine program stderr
+must still be empty, list status/count must still be34/34, original full-run/API
+failures retain their actual exit status, and no source test or assertion changes.
+The first target attempt stopped at the list-stderr assertion after observed
+status34 and34 names. Its stderr file was not retained, so trace contamination is
+a shell-semantics inference, not a claim to have inspected those missing bytes.
+Replacement target CI must validate all original and added runtime gates.
+
 The sole patch changes four internal-header tentative definitions to extern; existing initialized .c definitions remain untouched. This addresses modern GCC -fno-common rather than relaxing that flag, disabling features or removing tests. It is a static diagnosis until actual target CI validates it.
 
 ## Added installed-library QA and limits

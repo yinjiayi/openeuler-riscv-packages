@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: ISC
 Name:           libroxml
 Version:        3.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Small C XML parser with XPath and editing support
 License:        LicenseRef-libroxml-LGPL-2.1-or-later-static-linking-exception AND GPL-2.0-or-later AND ISC
 URL:            https://libroxml.net/
@@ -169,26 +169,42 @@ cp -p unittest/roxml.test.xml* %{buildroot}%{_datadir}/libroxml-tests/original/
 for program in roxml.unitC roxml.tiny.unitC roxml.perf roxml.mem; do test -x "unittest/$program"; done
 for program in roxml.unitC roxml.tiny.unitC; do
     # Original runner --list deliberately returns34, not0.
+    # Suspend RPM shell tracing BEFORE redirection; retain real program stderr.
+    set +x
     if (cd unittest; "./$program" --list) >"$program.list" 2>"$program.list.err"; then
         status=0
     else
         status=$?
     fi
+    set -x
+    cat "$program.list"; cat "$program.list.err" >&2
     test "$status" -eq 34
     test "$(wc -l < "$program.list")" -eq 34
     test ! -s "$program.list.err"
-    if (cd unittest; "./$program") >"$program.log" 2>"$program.err"; then :; else
-        status=$?; cat "$program.log" "$program.err" >&2; exit "$status"
+    set +x
+    if (cd unittest; "./$program") >"$program.log" 2>"$program.err"; then
+        status=0
+    else
+        status=$?
     fi
+    set -x
     cat "$program.log"; cat "$program.err" >&2
+    if test "$status" -ne 0; then exit "$status"; fi
     test ! -s "$program.err"
     test "$(grep -c '^OK:' "$program.log")" -eq 34
     if grep -E '^(ERROR|FAILED)' "$program.log"; then exit 1; fi
     printf 'original %s: 34/34 passed\n' "$program"
 done
 mkdir -p api-work
-(cd api-work; LD_LIBRARY_PATH=%{buildroot}%{_libdir} %{buildroot}%{_libexecdir}/libroxml/api-smoke) > api.log 2>api.err
+set +x
+if (cd api-work; LD_LIBRARY_PATH=%{buildroot}%{_libdir} %{buildroot}%{_libexecdir}/libroxml/api-smoke) > api.log 2>api.err; then
+    status=0
+else
+    status=$?
+fi
+set -x
 cat api.log; cat api.err >&2
+if test "$status" -ne 0; then exit "$status"; fi
 test ! -s api.err
 cat > api.expected <<'LIBROXML_EXPECTED_EOF'
 ok 1 parse-navigation
@@ -220,6 +236,9 @@ cmp api.expected api.log
 %{_datadir}/libroxml-tests
 
 %changelog
+* Mon Oct 26 2026 openEuler RISC-V packaging contributors - 3.0.2-2
+- Isolate program stderr from RPM shell xtrace without weakening QA gates.
+
 * Mon Oct 26 2026 openEuler RISC-V packaging contributors - 3.0.2-1
 - Preserve autotools defaults and original optional normal/tiny test suites.
 - Declare shared state extern for modern GCC without relaxing -fno-common.
