@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "package_id": "libhat-trie",
+  "rpm": {
+    "name": "libhat-trie",
+    "summary": "Cache-conscious string trie and array hash table library",
+    "license": "LicenseRef-hat-trie-MIT-truncated AND BSD-3-Clause AND LGPL-2.1-only AND LicenseRef-Public-Domain AND ISC AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-dcjones-hat-trie",
+    "homepage": "https://github.com/dcjones/hat-trie",
+    "source_repository": "https://github.com/dcjones/hat-trie",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/dcjones/hat-trie/tags",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://api.github.com/repos/dcjones/hat-trie/tarball/v{version}"
+  },
+  "version": {
+    "current": "0.1.2",
+    "latest_detected": "0.1.2",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libhat-trie",
+        "package_base": "libhat-trie",
+        "source_version": "0.1.2-3",
+        "evidence_url": "https://github.com/dcjones/hat-trie",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libhat-trie",
+        "package_base": "libhat-trie",
+        "source_version": "0.1.2-3build1",
+        "evidence_url": "https://github.com/dcjones/hat-trie",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libhat-trie.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-preserve-flags-fix-pc-and-clear-counts.patch",
+        "sha256": "d8f41becbf553969aa30623e4e607729297d13d778c5740728d5ff033388ba2e",
+        "purpose": "Preserve caller hardening flags/default build modes, repair pkg-config consumer flags, and reset stale clear cardinality/threshold state.",
+        "source": "Package-local change against exact official commit 6dfc9ed82b188e9ba9b6d8a8bef21fef46416e11; static implementation and default-test review under N223.",
+        "license": "LicenseRef-hat-trie-MIT-truncated",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream release contains equivalent CFLAGS/pkg-config/clear-state fixes and regression tests."
+      }
+    ]
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "N223 official exact commit archive/all27 Git members and complete rights groups reviewed; original truncated COPYING, separate BSD3/PD and current code-only LGPL2.1 derivative election retained. Fresh full provider/namespace and actual target gates remain required. No shared catalog pin or target success is inferred. Original default static build and two executed/three built check programs preserved; six asserted added static-consumer cases."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}
