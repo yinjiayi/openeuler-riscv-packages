@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
+# Upstream installs a static archive and no ELF payload. Avoid an empty automatic
+# debuginfo subpackage; preserve compiler flags, archive processing and all QA.
+%global debug_package %{nil}
 Name:           libhat-trie
 Version:        0.1.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cache-conscious string trie and array hash table library
 License:        LicenseRef-hat-trie-MIT-truncated AND BSD-3-Clause AND LGPL-2.1-only AND LicenseRef-Public-Domain AND ISC AND Apache-2.0
 URL:            https://github.com/dcjones/hat-trie
@@ -222,5 +225,8 @@ sha256sum usr/lib64/libhat-trie.a usr/lib64/libhat-trie.la usr/lib64/pkgconfig/h
 %{_datadir}/%{name}-tests
 
 %changelog
+* Mon Oct 26 2026 openEuler RISC-V package contributors - 0.1.2-2
+- Avoid the empty automatic debuginfo subpackage for the static-only payload.
+
 * Mon Oct 26 2026 openEuler RISC-V package contributors - 0.1.2-1
 - Preserve upstream static/default checks with explicit rights and strict API QA.

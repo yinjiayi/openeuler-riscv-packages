@@ -79,3 +79,17 @@ tests, RPM or QEMU execution establishes target success. Real target build,
 both original checks, installed consumer, full product rights/namespace and
 publication acceptance remain separate required gates; optimized unaligned
 accesses are not silently disabled to make a RISC-V claim.
+
+## First target packaging correction
+
+The retained exact-head run 40392512666, attempt 1, passed the two original
+registered checks (zero failures/skips) and all six added build-time API cases.
+RPM packaging then failed on the empty automatic `libhat-trie-debuginfo`
+`debugfiles.list`; no RPM was produced and installed smoke did not execute.
+Release 2 uses `%global debug_package %{nil}` for this upstream static-only
+payload. It does not enable a shared variant, remove tests, change source or
+patch bytes, or alter compiler debug/hardening flags and optflags. Standard
+archive post-processing remains unchanged: this is not a claim that the final
+archive retains DWARF. The replacement head still needs actual RPM/SRPM,
+installed-consumer and full physical/namespace acceptance; old-head partial
+QA evidence is not transferred as new-head success.
