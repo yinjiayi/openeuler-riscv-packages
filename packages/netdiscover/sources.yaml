@@ -1,0 +1,21 @@
+{
+  "package_id": "netdiscover",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "bb5a6ffec88eb632662ffb88d6672ad0a10822113e2088c5ce480a783896ccc9"
+      },
+      "filename": "netdiscover-0.21.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/netdiscover-scanner/netdiscover/archive/refs/tags/0.21.tar.gz",
+      "version": "0.21"
+    }
+  ]
+}
