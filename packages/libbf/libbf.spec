@@ -112,7 +112,7 @@ int main(void) {
     assert(parse_fn(&a,input,&end,10,128,BF_RNDN)==0);
     assert(end==input+5 && !strcmp(end,"tail") && integer(&a)==12345);
     size_t length=0;
-    char *formatted=bf_ftoa(&length,&a,10,128,BF_FTOA_FORMAT_FREE|BF_RNDN);
+    char *formatted=bf_ftoa(&length,&a,10,128,BF_FTOA_FORMAT_FREE_MIN|BF_RNDN);
     assert(formatted!=NULL && length==5 && !strcmp(formatted,"12345"));
     bf_free(&ctx,formatted);
     puts("case 2 parse consumed suffix format ownership PASS");

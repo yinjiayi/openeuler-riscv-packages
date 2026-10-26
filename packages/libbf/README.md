@@ -57,6 +57,18 @@ the RISC-V ELF64 consumer. Exact seven-line output and empty stderr are required
 This is functional/static binding evidence, not a dynamic LD_DEBUG claim.
 The installed manifest is generated in %check after RPM install-post stripping.
 
+The first target CI run at commit 805eb13e2cee7289a408d3dbc6d1d7c6a11844b1
+passed both original Pi checksum regressions, then stopped at added case 2.
+That case requires the shortest decimal string "12345". Upstream libbf.h
+documents BF_FTOA_FORMAT_FREE as precision-based round-trip formatting for
+nonbinary bf_ftoa radices, not necessarily minimal formatting. The QA consumer
+now explicitly requests BF_FTOA_FORMAT_FREE_MIN, retaining the exact five-byte
+length/string assertion and allocation ownership check. Decimal case 5 keeps
+its original FREE flag, which is documented as already minimal for bfdec_ftoa.
+No upstream source, original default/test, other API case or assertion is
+removed. Replacement exact-head CI must still establish all six cases and
+installed smoke; repository/source-only validation is not that target proof.
+
 No original or added target code was compiled/executed during local onboarding.
 Source-only verification and repository tooling tests are not target tests;
 actual build/install/physical/publication evidence must come from subsequent
