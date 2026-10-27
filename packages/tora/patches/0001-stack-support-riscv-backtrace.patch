@@ -1,0 +1,65 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 27 Aug 2026 00:00:00 +0000
+Subject: [PATCH] stack: support glibc backtrace on RISC-V
+
+The bundled dbg::stack implementation rejects every GNU architecture except
+x86 and PowerPC at compile time. openEuler's RISC-V glibc provides execinfo.h,
+so collect return addresses with backtrace() and resolve the same symbol and
+module fields through dladdr(). Preserve the requested depth and skip the
+fill_frames frame itself, matching the existing implementations.
+
+Patch-Source: downstream adaptation of tora 3.2 extlibs/stack/stack.cpp
+Patch-License: BSL-1.0
+Upstream-Status: Not Submitted (automated upstream writes forbidden)
+---
+ extlibs/stack/stack.cpp | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
+
+diff --git a/extlibs/stack/stack.cpp b/extlibs/stack/stack.cpp
+--- a/extlibs/stack/stack.cpp
++++ b/extlibs/stack/stack.cpp
+@@ -26,6 +26,9 @@
+ #elif defined(__GNUC__)
+     #include <dlfcn.h>
+     #include <cxxabi.h>
++    #if defined(__riscv)
++        #include <execinfo.h>
++    #endif
+ #endif
+ 
+ namespace
+@@ -400,8 +403,30 @@
+         while (frame && ip);
+     }
+     
++    #elif defined(__riscv)
++
++    void fill_frames(std::list<dbg::stack_frame> &frames, dbg::stack::depth_type limit)
++    {
++        const int maximum_depth = 256;
++        void *addresses[maximum_depth];
++        int requested_depth = maximum_depth;
++
++        if (limit != 0 && limit < static_cast<dbg::stack::depth_type>(maximum_depth - 1))
++            requested_depth = static_cast<int>(limit) + 1;
++
++        const int depth = backtrace(addresses, requested_depth);
++        for (int index = 1; index < depth; ++index)
++        {
++            Dl_info info;
++            if (dladdr(addresses[index], &info))
++                frames.push_back(dbg::stack_frame(addresses[index], demangle(info.dli_sname), info.dli_fname));
++            else
++                frames.push_back(dbg::stack_frame(addresses[index], "[unknown function]", "[unknown module]"));
++        }
++    }
++
+     #else
+-        // GNU, but not x86, x64 nor PPC
++        // GNU, but not x86, x64, PPC nor RISC-V
+         #error "Sorry but dbg::stack is not supported on this architecture"
+     #endif
+ #else
+-- 
+2.50.1
