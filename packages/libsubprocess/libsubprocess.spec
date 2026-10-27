@@ -8,6 +8,7 @@ URL:            https://github.com/arun11299/cpp-subprocess
 Source0:        libsubprocess-v2.5.tar.gz
 Source1:        Apache-2.0.txt
 Patch0:         0001-repair-export-and-bound-process-I-O.patch
+Patch1:         0002-use-canonical-cmake-version-file-name.patch
 BuildRequires:  bash
 BuildRequires:  binutils
 BuildRequires:  cmake >= 3.23
@@ -317,3 +318,4 @@ bash run-qa.sh %{buildroot}%{_prefix}
 %changelog
 * Tue Oct 27 2026 Codex <codex@users.noreply.github.com> - 2.5-1
 - Initial openEuler riscv64 package; preserve original CTests and add installed consumers.
+- Correct the canonical installed CMake config-version filename; keep exact-version checks.

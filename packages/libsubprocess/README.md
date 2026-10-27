@@ -60,3 +60,23 @@ source verification, target compilation/original CTests/owned consumers, physica
 RPM inspection, namespace acceptance and publication are distinct gates. This
 proposal does not assert any unrun target result, full Daily coverage, native,
 performance, loader-equivalence or general security correctness.
+
+## N233 exact installed-version correction
+
+The first exact-head target (H6ffcbdb88fa3ff7356ae6985daa6a82d9a4cb2bb,
+Package CI40486701223/1) passed all ten original CTests, then failed the
+required installed-prefix `find_package(subprocess 2.5 EXACT ...)` consumer:
+`subprocess-config.cmake, version: unknown`. The package generated and installed
+`subprocess-version.cmake`, not the canonical companion
+`subprocess-config-version.cmake`. [CMake3.27's config-mode version lookup](https://cmake.org/cmake/help/v3.27/command/find_package.html#config-mode-search-procedure)
+was checked against the actual3.27.9 provider by the root operator.
+
+Patch0002 changes only those two CMake output/install filename references.
+It preserves `ExactVersion`, strict `EXACT CONFIG REQUIRED`/`NO_DEFAULT_PATH`,
+the exported Threads dependency, all ten original CTests/assertions, and all
+ten additive consumer groups in both target phases. It does not weaken the
+consumer or add an ambient search fallback. The filename byte models are inert
+checks, not a local CMake/target execution or evidence that replacement CI
+passed. Fixed source archives and patch0001 are unchanged; release remains1
+because the failed attempt produced no RPM or publication. Fresh replacement
+target build/install and full physical/namespace gates remain required.

@@ -60,6 +60,15 @@
         "license": "MIT",
         "upstream_status": "not-submitted",
         "remove_when": "A fixed official release supplies equivalent export and bounded behavior; all ten original CTests with assertions plus ten exact build/installed consumer groups pass without the patch."
+      },
+      {
+        "file": "patches/0002-use-canonical-cmake-version-file-name.patch",
+        "sha256": "6ce755a537367fbb1174bbd2d7236415bf974b0db65965d3dbd9cbc4e8fe2f30",
+        "purpose": "Generate and install subprocess-config-version.cmake, the canonical version companion to subprocess-config.cmake. Two zero-context CMakeLists.txt hunks after patch0001; retain strict 2.5 EXACT consumers and every original/additive test.",
+        "source": "Derived from exact failed H6ffcbdb88fa3ff7356ae6985daa6a82d9a4cb2bb and its pinned v2.5 archive; actual run40486701223/1 passed ten original CTests then reported installed config version unknown. CMake3.27 canonical filename rule was independently checked by the root operator. No upstream write.",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "An official release generates and installs the canonical CMake config-version filename and passes the unchanged ten original CTests plus ten strict build/installed consumer groups."
       }
     ]
   },
@@ -68,7 +77,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Actual N232 source capture a91f1c4d... selects official formal246362665 v2.5/highest numeric tag/official latest, exact fixed commit/tree and all27 Git file blobs/modes. The offered signed commit was independently reconstructed and verified with the current REST-linked GitHub web-flow certificate (309c1317..., fingerprint968479A1AFF927E37D1A566BB5690EEEBB952194); this is not personal-author or detached archive attestation. Full original MIT, all27 pre-patch notices/raw hashes including two never-executed/never-installed Mach-O artifacts, and full downstream Apache2 text retained. Original CMake tests/install default OFF; this recipe explicitly enables both and preserves all ten original CTest registration bodies with assertions active, then adds ten exact CMake-installed-header consumer groups. Original project2.2/header-doc1.0.0 versus formal2.5 mismatch is recorded; CMake package version is repaired to2.5. No fabricated DSO/static archive/pc/CLI, Catch dependency, target result, full Daily coverage, Windows/native/performance/general-security claim. Complete fresh source-identity/provider, metadata/tool and target-CI/physical/namespace gates remain separate."
+    "notes": "Actual N232 source capture a91f1c4d... selects official formal246362665 v2.5/highest numeric tag/official latest, exact fixed commit/tree and all27 Git file blobs/modes. The offered signed commit was independently reconstructed and verified with the current REST-linked GitHub web-flow certificate (309c1317..., fingerprint968479A1AFF927E37D1A566BB5690EEEBB952194); this is not personal-author or detached archive attestation. Full original MIT, all27 pre-patch notices/raw hashes including two never-executed/never-installed Mach-O artifacts, and full downstream Apache2 text retained. Original CMake tests/install default OFF; this recipe explicitly enables both and preserves all ten original CTest registration bodies with assertions active, then adds ten exact CMake-installed-header consumer groups. Original project2.2/header-doc1.0.0 versus formal2.5 mismatch is recorded; CMake package version is repaired to2.5. No fabricated DSO/static archive/pc/CLI, Catch dependency, target result, full Daily coverage, Windows/native/performance/general-security claim. Complete fresh source-identity/provider, metadata/tool and target-CI/physical/namespace gates remain separate. N233 exact first target failure is scoped to the downstream CMake version-companion filename, not a RISC-V, process-I/O or original-CTest failure. Patch0002 changes only generation/install output names to subprocess-config-version.cmake. Same fixed two sources, patch0001 bytes, dependencies, version/release2.5-1 and strict test consumers remain; no RPM was produced/published by the failed original attempt. New target and physical acceptance remain required."
   },
   "updates": {
     "enabled": true,
