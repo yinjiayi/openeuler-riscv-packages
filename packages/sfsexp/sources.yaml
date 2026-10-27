@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "package_id": "sfsexp",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/mjsottile/sfsexp/releases/download/v1.4.1/sfsexp-1.4.1.tar.gz",
+      "filename": "sfsexp-1.4.1.tar.gz",
+      "version": "1.4.1",
+      "digests": {
+        "sha256": "15e9a18bb0d5c3c5093444a9003471c2d25ab611b4219ef1064f598668723681"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete project LGPL2.1-or-later grant and unmodified full license; all81 original notices preserve associated project and generated helper scopes/exceptions. Exact62Git files plus19generated extras; no blanket all-Git identity claim. Optional omitted UTF8 fixture is not included."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "filename": "GPL-3.0.txt",
+      "version": "3.0",
+      "digests": {
+        "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full GPL3 text for permitted later-version election of GNU helper source scopes, with every original exception preserved; not a whole-library GPL assertion."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "test-dependency",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "version": "2.0",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full Apache2 text for downstream packaging and owned QA, not a compiled dependency."
+      }
+    }
+  ]
+}
