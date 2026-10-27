@@ -157,9 +157,9 @@ int main(void) {
     parent = nsync_note_new(NULL, nsync_time_no_deadline);
     counter = nsync_counter_new(0);
     CHECK(parent != NULL && counter != NULL);
-    objects[0].v = &parent;
+    objects[0].v = parent;
     objects[0].funcs = &nsync_note_waitable_funcs;
-    objects[1].v = &counter;
+    objects[1].v = counter;
     objects[1].funcs = &nsync_counter_waitable_funcs;
     CHECK(nsync_wait_n(NULL, NULL, NULL, nsync_time_zero, 2, waitables) == 1);
     nsync_counter_free(counter);

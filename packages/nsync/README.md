@@ -64,3 +64,33 @@ still required. Source JSON authority is not inferred from a catalog version.
 Raw Arch/openSUSE discovery labels map only to schema arch-core and
 opensuse-tumbleweed; observed publisher tags drive the supported numeric
 update feed, not a claim of full Daily coverage.
+
+## N240 owned waitable-pointer correction (target verification pending)
+
+Exact head b491c2dea845936f306a3fcfc0933be8709aa17a, Package CI
+40575912213 attempt1, passed all 26 original CTests in 156.38 seconds, then
+the added C consumer exited with signal status -11. Its captured stdout and
+stderr were empty; buffered output does not prove that any earlier owned
+group passed. The C++ owned consumer and installed smoke were not reached.
+Capture receipt
+5e432a923389dfeb88fc0ae498e4c8a78d515ffc57ca46a3bcb2fc800b809801
+retains the actual failed build/smoke ZIPs and inner log.
+
+Owned group6 incorrectly put the addresses of the local opaque-handle
+variables into the waitable objects. The actual implementation casts each
+void pointer directly to nsync_note or nsync_counter. Its own note.c249 and
+counter.c98 wrappers, and testing/wait_test.c65/76, pass the handles themselves.
+The nsync_waiter.h38-40 illustration contradicts those implementations/tests:
+it uses addresses of the handle variables. The original source/header notices
+remain unchanged; no upstream patch or documentation rewrite is introduced.
+
+The only executable-text correction removes those two address-of operators
+in the embedded owned consumer. Both language profiles, all six groups,
+the ready-counter index1 oracle, deadlines, output, assertions, imported targets,
+archive/link-map binding and negative omitted-library controls are preserved.
+The existing one-hunk C++ export patch and all 315 source-notice bytes are
+unchanged, as are all 26 original CTests and source/dependency declarations.
+This is a package-owned QA API-usage correction, not an ISA/native defect,
+a library implementation fix, a verified replacement-target result or proof
+of the exact crashing instruction. No local C/compiler/RPM/QEMU or source-test
+execution was performed; the new exact head must establish recovery.
