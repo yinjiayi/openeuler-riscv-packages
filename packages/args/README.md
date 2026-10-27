@@ -1,0 +1,16 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+# args 6.6.1
+
+This single SDK package targets openEuler 24.03 LTS SP3, riscv64/RVA23. Formal release 422047677 and its lightweight tag fix commit 35414206ed9b8aa838a4a0b4c9194604c564d5ac/tree 63ebc7fb8060983608b0af68f28f7ba0fdf4e9a4. The observed 119,682-byte archive has SHA-256 150a142bc45b898dfc27b8520584aa68083458731fc9cbca9c36b6867e60df10; all 209 regular files match Git bytes and executable modes. That calculated digest is not an independent publisher checksum. The captured commit is unsigned and this release offers no assets; no global signature-absence claim is made.
+
+The header/project uses MIT. The editor helper .ycm_extra_conf.py instead has the complete Unlicense/public-domain grant and explicitly is not GPL. Full Apache-2.0 text covers original downstream packaging/QA. All 209 original source byte strings, including optional fuzz corpora, historical PoC and metadata, are installed as inert .notice records with checksums; no source patch is applied.
+
+The README-supported CMake route preserves both default examples, all 96 original unfiltered CTest registrations (97 test translation units), test -Werror/-fno-exceptions handling, and default hardening. Sanitizers/fuzzers keep their original OFF defaults; tests/examples are not disabled. The original root Makefile starts with uninstall and is never run as bare make. Doxygen is a separate non-default documentation route. Alternative Meson/Buck/Conan/editor/PoC/fuzz workflows remain unexecuted source, not additional successful evidence.
+
+The suite uses original custom assertion helpers, not Catch2 or build-time downloads. Its locale test creates an anonymous facet from the classic C++ locale and needs no installed locale archive. Some original cases are smoke/demonstration-style, so 96 invocations does not mean 96 strict independent assertions. The recipe will require every original registration, without filtering, but no target result is yet observed.
+
+Upstream installs exactly four SDK files: /usr/include/args.hxx, /usr/share/cmake/args/args-config.cmake, /usr/share/cmake/args/args-config-version.cmake, and /usr/share/pkgconfig/args.pc. The examples are built but not installed upstream. No DSO, static archive, SONAME, CLI or man-page contract is invented. Header-only debug-package suppression reflects the absence of installed ELF, not a removed binary feature; the RPM remains under fixed riscv64 policy.
+
+Owned QA compiles a fresh C++11 stock find_package(args 6.6.1 EXACT CONFIG) consumer linked to taywee::args. It checks six exact-output public-API groups, compiler dependency same-file binding to installed args.hxx, pkg-config version/cflags, and unchanged hashes for all four SDK files and selected QA assets. Exact version 6.6.2 must fail configuration with no executable. This is not a missing-archive, dynamic-loader or ABI proof. Raw streams, dependency bytes and SDK hashes remain in target evidence.
+
+Compiler/build/inspection tools are explicit dependencies for both build and installed QA roles. Full current provider/namespace/canonical identity review, source verification, repository validation and real target CI remain required before acceptance. No native, timing, performance, comprehensive safety, Unicode-normalization or full Daily-coverage claim is made.
