@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           mbelib-neo
-Version:        2.0.0
-Release:        2%{?dist}
+Version:        2.6.4
+Release:        1%{?dist}
 Summary:        P25 Phase 1 and ProVoice IMBE and Half-rate AMBE vocoder library (modernized fork)
 License:        GPL-2.0-or-later
 URL:            https://github.com/arancormonk/mbelib-neo
-Source0:        mbelib-neo-2.0.0.tar.gz
+Source0:        v2.6.4.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
