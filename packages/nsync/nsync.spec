@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 openEuler package contributors.
+# Static-only SDK: no installed ELF executable/DSO for automatic debuginfo.
+# Keep compiler optflags/debug flags and every original/owned check unchanged.
+%global debug_package %{nil}
+
 Name:           nsync
 Version:        1.30.0
 Release:        1%{?dist}

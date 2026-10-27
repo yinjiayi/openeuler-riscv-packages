@@ -94,3 +94,51 @@ This is a package-owned QA API-usage correction, not an ISA/native defect,
 a library implementation fix, a verified replacement-target result or proof
 of the exact crashing instruction. No local C/compiler/RPM/QEMU or source-test
 execution was performed; the new exact head must establish recovery.
+
+## N241 static-only automatic debuginfo policy (proposal, not target-verified)
+
+Exact replacement head 61b08bc02d7b7de6da619a394a010874091a9b6a, run
+40581789265 attempt 1, passed all 26 original CTests in 160.96 seconds. Both
+owned C and C++ build-root consumers passed all six groups; their positive
+links, same-file archive evidence and intended nonzero omitted-library links
+completed. SDK/source/QA before/after bytes matched and the final original
+source check passed. These results do not establish installed-DNF smoke:
+rpmbuild later failed, so that separate stage was not executed.
+
+The actual failure was automatic nsync-debuginfo packaging with an empty
+debugfiles.list, after `%check` exited 0. The upstream installation and
+this SDK package install only libnsync.a and libnsync_cpp.a, headers, CMake
+exports, documentation, licenses and owned QA source/helper data. The two
+temporary owned consumer executables are not installed SDK payload. The
+retained archive-header evidence has 17 ELF64 RISC-V relocatable objects in
+each archive; it is not evidence of an installed executable or shared library.
+
+The proposed `%global debug_package %{nil}` suppresses that nonexistent
+ELF debuginfo subpackage. It does not change upstream source, the one CMake
+export patch, production layout, static defaults, compiler CFLAGS/CXXFLAGS
+optflags, LDFLAGS, original 26 CTests, owned positive/negative checks or source
+verification. The failed build already used -g in its optflags, so this is
+not repaired by adding debug flags. No final archive DWARF-retention claim is
+made: the retained RPM postprocessing includes brp-strip-static-archive.
+All 315 original notice bytes and both static libraries remain required.
+
+Capture 221556954c0310125ed365256b3d39acf07c6f79403b0bbb8c111791151c1284
+and inner log 8bc90f06493c0253f08edb883a78a2e6807880dbfc41c8b50a18fccc3e6f3aa6
+retain the observed error and checks. Two real heavy failures are observed
+across the known lineage; complete fresh visible history/timeline must still
+validate the cumulative 2/3, remaining 1 boundary before another leased repair.
+This is only an inert package-policy proposal. No local source/compiler/RPM/
+QEMU execution, new lease, target rerun, actual checkout edit or verified
+replacement-target/RPM/install/publication result is claimed.
+
+## N242 execution scope and replacement-target boundary
+
+The N241 section above records the historical inert proposal and its then-unclaimed
+state. The N242 repair flow separately requires fresh complete visible lineage,
+all-head attempts and the original exact-head lease before checkout edits. It
+changes only the automatic static-only debuginfo policy and this README; it does
+not integrate current main into the branch. All original/default and owned tests,
+source/patch bytes, compiler flags and installed production layout stay intact.
+Local repository/source-only validation, a normal push or lease release cannot
+establish replacement-target recovery. That exact new head still needs its own
+build and installed smoke results; the cumulative failure budget is not reset.
