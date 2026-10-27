@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "package_id": "sfsexp",
+  "rpm": {
+    "name": "sfsexp",
+    "summary": "Small and fast S-expression C library",
+    "license": "LGPL-2.1-or-later AND LicenseRef-SFSEXP-GNU-Helpers AND X11 AND FSFAP AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-mjsottile-sfsexp",
+    "homepage": "https://github.com/mjsottile/sfsexp",
+    "source_repository": "https://github.com/mjsottile/sfsexp",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/mjsottile/sfsexp/releases",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+){1,2})$",
+    "source_url_template": "https://github.com/mjsottile/sfsexp/releases/download/v{version}/sfsexp-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.4.1",
+    "latest_detected": "1.4.1",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-core",
+        "package_name": "sfsexp",
+        "package_base": "sfsexp",
+        "source_version": "1.4.1-2",
+        "evidence_url": "https://github.com/mjsottile/sfsexp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "sfsexp",
+        "package_base": "sfsexp",
+        "source_version": "1.4.1-2",
+        "evidence_url": "https://github.com/mjsottile/sfsexp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "sfsexp",
+        "package_base": "sfsexp",
+        "source_version": "1.4.1-8.fc44",
+        "evidence_url": "https://github.com/mjsottile/sfsexp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "sfsexp",
+        "package_base": "sfsexp",
+        "source_version": "1.4.1-1.5",
+        "evidence_url": "https://github.com/mjsottile/sfsexp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "sfsexp",
+        "package_base": "sfsexp",
+        "source_version": "1.4.1-2build1",
+        "evidence_url": "https://github.com/mjsottile/sfsexp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "sfsexp.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": []
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official release96760932 v1.4.1; fixed commit b7d3bea0effb6663a6d69897bc1c4ea3cc08b682. Preserve original configure/all/install and check0; default no-cache policy; eight examples/eight test binaries built. Six additive original deterministic binaries and six public API groups; no timing/watchdog/Valgrind/native/fullDaily claims. All81 notices, LGPL2.1 fulltext, GNU helper exceptions/laterGPL3 election and owned Apache2 retained. Optional omitted CC-BY UTF8 fixture not redistributed. Archive19extras/42omissions explicitly recorded; no allGitidentical claim. Raw arch/opensuse lineage mapped to schema arch-core/opensuse-tumbleweed only. Automatic source template is the observed v1.4.0/v1.4.1 sfsexp pattern, not the earlier sexpr basename."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}
