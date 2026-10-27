@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "package_id": "libsubprocess",
+  "rpm": {
+    "name": "libsubprocess",
+    "summary": "Header-only C++ subprocess and pipe library",
+    "license": "MIT AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-arun11299-cpp-subprocess",
+    "homepage": "https://github.com/arun11299/cpp-subprocess",
+    "source_repository": "https://github.com/arun11299/cpp-subprocess",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/arun11299/cpp-subprocess/releases",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+){1,2})$",
+    "source_url_template": "https://api.github.com/repos/arun11299/cpp-subprocess/tarball/v{version}"
+  },
+  "version": {
+    "current": "2.5",
+    "latest_detected": "2.5",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libsubprocess",
+        "package_base": "libsubprocess",
+        "source_version": "2.5-1",
+        "evidence_url": "https://github.com/arun11299/cpp-subprocess",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libsubprocess.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-repair-export-and-bound-process-I-O.patch",
+        "sha256": "7396116f87b85f44635cda5fd4aeb9070774f086a6af2ae3891f3430b7a9bd69",
+        "purpose": "Repair original CMake header/export/version/Threads dependency and test-data location; bound joins, empty commands, process I/O errors/draining/redirection and moved-stream communication. Twenty-two zero-context hunks in four source files.",
+        "source": "Derived from official fixed commit60d4ad8d528173a2e4c98fd64aa9191728832355/archivef2c947e0dcfd800652275d6f7deb76d155a953a1a5df969383530445f01c29eb; full original27 notices copied before patch, no upstream write or unrelated shared infrastructure change.",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "A fixed official release supplies equivalent export and bounded behavior; all ten original CTests with assertions plus ten exact build/installed consumer groups pass without the patch."
+      }
+    ]
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Actual N232 source capture a91f1c4d... selects official formal246362665 v2.5/highest numeric tag/official latest, exact fixed commit/tree and all27 Git file blobs/modes. The offered signed commit was independently reconstructed and verified with the current REST-linked GitHub web-flow certificate (309c1317..., fingerprint968479A1AFF927E37D1A566BB5690EEEBB952194); this is not personal-author or detached archive attestation. Full original MIT, all27 pre-patch notices/raw hashes including two never-executed/never-installed Mach-O artifacts, and full downstream Apache2 text retained. Original CMake tests/install default OFF; this recipe explicitly enables both and preserves all ten original CTest registration bodies with assertions active, then adds ten exact CMake-installed-header consumer groups. Original project2.2/header-doc1.0.0 versus formal2.5 mismatch is recorded; CMake package version is repaired to2.5. No fabricated DSO/static archive/pc/CLI, Catch dependency, target result, full Daily coverage, Windows/native/performance/general-security claim. Complete fresh source-identity/provider, metadata/tool and target-CI/physical/namespace gates remain separate."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}
