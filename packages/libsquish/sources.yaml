@@ -1,0 +1,21 @@
+{
+  "package_id": "libsquish",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "628796eeba608866183a61d080d46967c9dda6723bc0a3ec52324c85d2147269"
+      },
+      "filename": "libsquish-1.15.tgz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://downloads.sourceforge.net/project/libsquish/libsquish-1.15.tgz",
+      "version": "1.15"
+    }
+  ]
+}
