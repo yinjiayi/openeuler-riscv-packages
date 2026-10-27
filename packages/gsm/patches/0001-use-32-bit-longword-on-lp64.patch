@@ -1,0 +1,23 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Keep GSM longword arithmetic at 32 bits on LP64
+
+The GSM arithmetic requires a 32-bit longword. On riscv64, long is 64 bits;
+use int, which is 32 bits under the target LP64 ABI. Upstream documents the
+same substitution for platforms with 64-bit long in its release notes.
+
+Patch-License: TU-Berlin-2.0
+Upstream-Status: Not submitted
+Remove-When: Upstream uses fixed-width 32-bit types in a newer release.
+---
+ inc/private.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/inc/private.h b/inc/private.h
+--- a/inc/private.h
++++ b/inc/private.h
+@@ -18 +18 @@
+-typedef long			longword;	/* 32 bit signed int	*/
++typedef int			longword;	/* 32 bit signed int	*/
+@@ -21 +21 @@
+-typedef unsigned long		ulongword;	/* unsigned longword	*/
++typedef unsigned int		ulongword;	/* unsigned longword	*/

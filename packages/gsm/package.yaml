@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "package_id": "gsm",
+  "rpm": {"name": "gsm", "summary": "GSM 06.10 speech codec library and tools", "license": "TU-Berlin-2.0"},
+  "upstream": {
+    "component": "quut.com-gsm",
+    "homepage": "https://www.quut.com/gsm/",
+    "source_repository": "https://www.quut.com/gsm/",
+    "release_channel": "stable",
+    "release_api": "https://www.quut.com/gsm/",
+    "release_regex": "gsm-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://www.quut.com/gsm/gsm-{version}.tar.gz"
+  },
+  "version": {"current": "1.0.24", "release": "1", "latest_detected": "1.0.24"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "gsm", "package_base": "gsm", "source_version": "1.0.24-1", "evidence_url": "https://archlinux.org/packages/extra/x86_64/gsm/", "observed_at": "2026-09-28T00:00:00Z"},
+      {"source": "fedora", "package_name": "gsm", "package_base": "gsm", "source_version": "1.0.24-2.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/gsm/gsm/", "observed_at": "2026-09-28T00:00:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "files": {
+    "spec": "gsm.spec", "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-use-32-bit-longword-on-lp64.patch",
+        "sha256": "b8581aebdecba0f33121802c697fb0bf9d5553fdad7398cef5d4a7c4a9d7ac44",
+        "purpose": "Preserve the codec's required 32-bit signed and unsigned longword arithmetic on riscv64 LP64.",
+        "source": "https://www.quut.com/gsm/",
+        "license": "TU-Berlin-2.0",
+        "upstream_status": "not-submitted",
+        "remove_when": "A newer upstream release uses fixed-width 32-bit longword types."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Official release SHA-256 verified; canonical gsm component covers libgsm as well as toast, avoiding a duplicate libgsm package. The ETSI vectors are not bundled, so CI runs the shipped arithmetic fixture with mismatch detection and a public API encode/decode test; this is not the complete upstream codec conformance suite. The LP64 type patch follows upstream's stated 64-bit-long portability guidance."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-release"}
+}
