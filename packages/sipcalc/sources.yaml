@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "package_id": "sipcalc",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://www.routemeister.net/projects/sipcalc/files/sipcalc-1.1.6.tar.gz",
+      "filename": "sipcalc-1.1.6.tar.gz",
+      "version": "1.1.6",
+      "digests": {
+        "sha256": "cfd476c667f7a119e49eb5fe8adcfb9d2339bc2e0d4d01a1d64b7c229be56357"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official author explicitly offers stable1.1.6; original literalHTTP link upgraded onlysameauthorhost/path HTTPS and captured32files. FullBSD3 root/source notices plus FSFUL/FSFULLR/X11/public-domain and GNUhelper complete exceptions are preserved before patch. No source byte or grant removed. No signature/checksum link offered in retained actualpublisher pages; no global absence or independent publisher signature claimed."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "filename": "GPL-3.0.txt",
+      "version": "3.0",
+      "digests": {
+        "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official unmodified fullGPL3 legal text for elected GPL3-or-later branch of original depcomp/missing GPL2-or-later grants, retaining their exact Autoconf distribution exceptions. Legal source-verification QA dependency, not an added runnable upstream test."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "test-dependency",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "version": "2.0",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full officialApache2 legal text for original downstream packaging/strictregression shell; not relabelling upstream BSD3 or helpers. Legal-purpose source-verification QA dependency; existing independently captured exactbytes may be reused after checksum/provenance binding."
+      }
+    }
+  ]
+}
