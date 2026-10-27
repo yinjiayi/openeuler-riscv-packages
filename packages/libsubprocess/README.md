@@ -80,3 +80,22 @@ checks, not a local CMake/target execution or evidence that replacement CI
 passed. Fixed source archives and patch0001 are unchanged; release remains1
 because the failed attempt produced no RPM or publication. Fresh replacement
 target build/install and full physical/namespace gates remain required.
+
+## N234 header-only debug package correction
+
+The second exact-head target, Ha9d5fda5690a3073a65653f148993af45041afa0
+(Package CI40492433647/1), passed all ten original CTests and all ten strict
+buildroot installed-prefix consumer groups. It then failed in RPM file processing:
+`libsubprocess-debuginfo` had an empty `debugfiles.list`. The consumer executable
+was temporary target QA and was not installed in the package payload. This is
+not a new source/API test failure, nor an installed-DNF smoke success.
+
+This header-only recipe installs the header, CMake exports and QA source/text,
+not an ELF library or program. The package-local `debug_package` macro is set to
+`nil` so RPM does not invent an empty debuginfo subpackage. No architecture,
+version/release, source bytes, either source patch, dependency, test body,
+assertion or strict consumer is changed. All ten original CTests and all ten
+owned consumer groups remain mandatory in the replacement target run. The two
+actual failed target attempts remain retained; the head change does not reset
+the three-attempt budget. Fresh target build/install, physical payload and
+namespace acceptance remain required; no replacement success is claimed here.

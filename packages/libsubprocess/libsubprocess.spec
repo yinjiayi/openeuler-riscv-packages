@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
+# Header-only payload installs no ELF; target consumer executables are temporary QA.
+# Do not generate an empty debuginfo subpackage; all original and owned tests remain.
+%global debug_package %{nil}
 Name:           libsubprocess
 Version:        2.5
 Release:        1%{?dist}
@@ -319,3 +322,4 @@ bash run-qa.sh %{buildroot}%{_prefix}
 * Tue Oct 27 2026 Codex <codex@users.noreply.github.com> - 2.5-1
 - Initial openEuler riscv64 package; preserve original CTests and add installed consumers.
 - Correct the canonical installed CMake config-version filename; keep exact-version checks.
+- Avoid an empty debuginfo subpackage for the header-only payload; preserve all tests.
