@@ -75,3 +75,39 @@ actual build/install/physical/publication evidence must come from subsequent
 exact-head CI and independent product acceptance. Fresh canonical/open identity,
 full official/fixed supplemental provider+namespace review and root-reviewed
 atomic creation/repository gates remain required before submission.
+
+
+## Package-local bfcalc file-I/O validation
+
+Release 2 carries a narrow MIT source-derived patch to `bfcalc.c:load_file`
+for the official 2025-06-03 source. Review of H65bcc967 found unchecked
+seek/tell results, narrowing from long to int, allocation and short-read
+results before `buf[buf_len] = 0`. This is a source-visible error-path risk,
+not an observed crash/exploit, CVE or failed target CI: H65's original Pi
+checks and six API cases passed. The finding does not add a failed attempt;
+the prior semantic budget was one failure of three, two attempts remaining.
+
+The patch keeps the fatal filename/perror/exit-1 convention. It retains ftell
+as long and rejects negative or greater-than-INT_MAX-minus-one lengths before
+allocation/narrowing, checks both seeks, allocation, exact read and close,
+and preserves the original error across close/free cleanup without double
+closing a failed fclose stream. The native filename caller/parser and
+compilation/hardening flags are unchanged. All 25 original source notices
+are copied before patch application; original grants, both original portable
+Pi cases/checksums, all three default programs, six API cases and installed
+static-consumer proof remain. The two pinned source inputs are unchanged.
+
+Four additive target-only CLI checks require empty and regular input success,
+exact nonseekable-pipe rejection, and rejection of a sparse file with logical
+size INT_MAX. Capacity and actual allocated sectors are logged; the test
+limits allocation to 64KiB, never fills/reads the logical two-gigabyte file,
+and removes it before checking the exact exit-1/File-too-large diagnostic.
+Only the nonseekable pipeline temporarily suspends shell xtrace outside the
+redirection and restores it before assertions. These checks do not inject
+allocation/short-read/close failures or test every filesystem/concurrent-file
+race. Local repository/source-only validation is not target execution; new
+exact-head CI and independent installed/physical acceptance are still required.
+
+The patch is not submitted upstream. Remove it only after a reviewed official
+stable source provides equivalent checks and all four regressions pass with
+the original defaults, tests and license notices preserved.

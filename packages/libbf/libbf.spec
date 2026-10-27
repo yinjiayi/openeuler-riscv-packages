@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libbf
 Version:        2025.06.03
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Arbitrary precision binary and decimal floating point library
 License:        MIT AND Apache-2.0
 URL:            https://bellard.org/libbf/
 Source0:        libbf-2025-06-03.tar.gz
 Source1:        Apache-2.0.txt
+Patch0:         0001-bfcalc-check-file-io.patch
 BuildRequires:  bash
 BuildRequires:  binutils
 BuildRequires:  coreutils
@@ -17,6 +18,7 @@ BuildRequires:  glibc-devel
 BuildRequires:  grep
 BuildRequires:  gzip
 BuildRequires:  make
+BuildRequires:  patch
 BuildRequires:  tar
 BuildRequires:  time
 Requires:       bash
@@ -58,6 +60,8 @@ readline.c additionally credits Charlie Gordon (2017-2024); those notices
 are not replaced by a single-author summary. Algorithm/idea attributions
 to GMP, MPFR and named papers remain in the original complete source.
 NOTICE
+# Preserve every original member notice before modifying the source.
+%autopatch -p1
 cat > api-smoke.c <<'C'
 /* Copyright 2026 openEuler RISC-V package contributors
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -194,6 +198,60 @@ fi
 cmp expected.stdout api.stdout
 test ! -s api.stderr
 cat api.stdout
+: > fileio-empty.bf
+if ./bfcalc fileio-empty.bf > fileio-empty.stdout 2> fileio-empty.stderr; then :; else
+    status=$?; cat fileio-empty.stdout fileio-empty.stderr >&2; exit "$status"
+fi
+if test ! -s fileio-empty.stdout && test ! -s fileio-empty.stderr; then :; else
+    cat fileio-empty.stdout fileio-empty.stderr >&2; exit 1
+fi
+printf '%%s\n' 'print(1+1);' > fileio-regular.bf
+printf '2\n' > fileio-regular.expected
+if ./bfcalc fileio-regular.bf > fileio-regular.stdout 2> fileio-regular.stderr; then :; else
+    status=$?; cat fileio-regular.stdout fileio-regular.stderr >&2; exit "$status"
+fi
+if cmp fileio-regular.expected fileio-regular.stdout && test ! -s fileio-regular.stderr; then :; else
+    cat fileio-regular.stdout fileio-regular.stderr >&2; exit 1
+fi
+# Empty producer means no FIFO/background process, input writer or SIGPIPE oracle.
+# Suspend only shell xtrace, outside redirects, then restore it before assertions.
+fileio_trace=0
+case $- in *x*) fileio_trace=1; set +x ;; esac
+if : | ./bfcalc /dev/stdin > fileio-pipe.stdout 2> fileio-pipe.stderr; then
+    fileio_status=0
+else
+    fileio_status=$?
+fi
+if test "$fileio_trace" -eq 1; then set -x; fi
+printf '%%s\n' '/dev/stdin: Illegal seek' > fileio-pipe.expected
+if test "$fileio_status" -eq 1 && test ! -s fileio-pipe.stdout && cmp fileio-pipe.expected fileio-pipe.stderr; then :; else
+    printf 'bfcalc nonseekable status=%%s\n' "$fileio_status" >&2
+    cat fileio-pipe.stdout fileio-pipe.stderr >&2; exit 1
+fi
+cat fileio-pipe.stderr
+# Logical INT_MAX size only: never read or fill the sparse extent. Record capacity
+# and exact st_blocks; bound material allocation to 128 sectors (64KiB), not 2GB.
+/usr/bin/df -Pk .
+/usr/bin/truncate -s 2147483647 fileio-large.bf
+fileio_sparse_size=$(/usr/bin/stat -c '%%s' fileio-large.bf)
+fileio_sparse_blocks=$(/usr/bin/stat -c '%%b' fileio-large.bf)
+printf 'bfcalc sparse size=%%s blocks=%%s\n' "$fileio_sparse_size" "$fileio_sparse_blocks"
+if test "$fileio_sparse_size" -eq 2147483647 && test "$fileio_sparse_blocks" -le 128; then :; else
+    /usr/bin/rm -f -- fileio-large.bf; exit 1
+fi
+if ./bfcalc fileio-large.bf > fileio-large.stdout 2> fileio-large.stderr; then
+    fileio_status=0
+else
+    fileio_status=$?
+fi
+/usr/bin/rm -f -- fileio-large.bf
+printf '%%s\n' 'fileio-large.bf: File too large' > fileio-large.expected
+if test "$fileio_status" -eq 1 && test ! -s fileio-large.stdout && cmp fileio-large.expected fileio-large.stderr; then :; else
+    printf 'bfcalc oversize status=%%s\n' "$fileio_status" >&2
+    cat fileio-large.stdout fileio-large.stderr >&2; exit 1
+fi
+cat fileio-large.stderr
+printf '%%s\n' 'bfcalc file I/O: empty regular nonseekable oversize PASS'
 # RPM install-post has already stripped installed products before this phase.
 (cd %{buildroot}; sha256sum usr/bin/bfbench usr/bin/bfpi usr/bin/bfcalc usr/lib64/libbf.a usr/include/libbf.h usr/share/libbf-tests/api-smoke.c usr/share/libbf-tests/expected.stdout) > %{buildroot}%{_datadir}/libbf-tests/SHA256SUMS
 
@@ -208,6 +266,8 @@ cat api.stdout
 %{_datadir}/libbf-tests/
 
 %changelog
+* Tue Oct 27 2026 openEuler package contributors - 2025.06.03-2
+- Check bfcalc file I/O and length boundaries; retain defaults and add target regressions.
 * Mon Oct 26 2026 openEuler RISC-V package contributors - 2025.06.03-1
 - Package official dated source with original portable defaults and Pi tests.
 - Add explicit static consumer archive/install contract and six strict cases.

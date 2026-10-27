@@ -1,0 +1,106 @@
+From: openEuler package maintenance
+Subject: [PATCH] bfcalc: reject invalid file lengths and failed file I/O
+SPDX-License-Identifier: MIT
+Source: https://bellard.org/libbf/libbf-2025-06-03.tar.gz
+Source-SHA256: 4b23394d67a4a3c3266a38b66831094523fffb5d01974a5c05a0327b36b0a340
+Original-file: bfcalc.c
+Original-file-SHA256: b6e805a51cff6058db6479a2411eda76157c8c4013c4183b17e5ebc124b90a2f
+Applies-to: official LibBF 2025-06-03 (RPM version 2025.06.03), native bfcalc
+Root-cause: unchecked seek/tell/narrowing/allocation/read results reach a buffer write.
+Upstream-status: not submitted; no upstream write is authorized.
+Remove-when: a later reviewed official source checks equivalent file-I/O and
+ length/allocation boundaries and retains empty, regular and nonseekable regressions.
+Scope: preserve original fatal load-error convention, parser/caller, defaults,
+ original Pi checks, arithmetic APIs and compilation/hardening flags.
+Evidence: source-visible error path only; no runtime crash, exploit or CVE claim.
+
+The following complete original bfcalc.c MIT notice is retained for this
+source-derived patch; original unmodified member notices remain packaged:
+/*
+ * Command line Calculator using libBF
+ *
+ * Copyright (c) 2008-2025 Fabrice Bellard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+--- a/bfcalc.c
++++ b/bfcalc.c
+@@ -31,0 +32,2 @@
++#include <errno.h>
++#include <limits.h>
+@@ -10582,2 +10584,3 @@
+-    uint8_t *buf;
+-    int buf_len;
++    uint8_t *buf = NULL;
++    long file_len;
++    int saved_errno;
+@@ -10586,11 +10589,28 @@
+-    if (!f) {
+-        perror(filename);
+-        exit(1);
+-    }
+-    fseek(f, 0, SEEK_END);
+-    buf_len = ftell(f);
+-    fseek(f, 0, SEEK_SET);
+-    buf = malloc(buf_len + 1);
+-    fread(buf, 1, buf_len, f);
+-    buf[buf_len] = '\0';
+-    fclose(f);
++    if (!f)
++        goto fail;
++    errno = 0;
++    if (fseek(f, 0, SEEK_END) != 0)
++        goto fail;
++    file_len = ftell(f);
++    if (file_len < 0)
++        goto fail;
++    if (file_len > INT_MAX - 1) {
++        errno = EFBIG;
++        goto fail;
++    }
++    if (fseek(f, 0, SEEK_SET) != 0)
++        goto fail;
++    buf = malloc((size_t)file_len + 1);
++    if (!buf) {
++        errno = ENOMEM;
++        goto fail;
++    }
++    errno = 0;
++    if (fread(buf, 1, (size_t)file_len, f) != (size_t)file_len)
++        goto fail;
++    if (fclose(f) != 0) {
++        f = NULL;
++        goto fail;
++    }
++    f = NULL;
++    buf[(size_t)file_len] = '\0';
+@@ -10598 +10618 @@
+-        *plen = buf_len;
++        *plen = (int)file_len;
+@@ -10599,0 +10620,9 @@
++
++ fail:
++    saved_errno = errno ? errno : EIO;
++    if (f)
++        fclose(f);
++    free(buf);
++    errno = saved_errno;
++    perror(filename);
++    exit(1);
