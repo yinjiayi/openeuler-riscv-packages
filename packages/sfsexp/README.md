@@ -1,6 +1,8 @@
 # sfsexp 1.4.1
 
-This is an inert package proposal, not evidence of a target build or a submitted PR.
+This recipe is maintained in PR #2838. Its first exact-head target build failed
+at the packaging checksum boundary described below; a repair is not accepted
+until the replacement head obtains its own complete target evidence.
 Canonical package ID sfsexp follows the five retained distribution lineages;
 libsexp is the actual library/ABI name and must also be checked for collisions.
 
@@ -63,3 +65,30 @@ Explicit build prerequisites include gawk and sed for the original generated
 configure/Libtool commands. Their exact command owners must be in the build-role
 closure; an ambient image tool or incidental provider is not assumed. The runtime
 QA requirements and all source/default/API behavior are unchanged by this revision.
+
+## Configure helper checksum boundary
+
+Run [40556752014 attempt 1](https://github.com/yinjiayi/openeuler-riscv-packages/actions/runs/40556752014)
+at head 4cf84cab83ce811a2e4b5a9f0a34971ee0caf0d3 passed source verification,
+dependency installation and the initial 81-file source checksum check. The trusted
+openEuler configure macro then copied config.guess/config.sub from
+/usr/lib/rpm/openEuler and applied its normal ltmain.sh linker-hardening
+substitution. All eight examples and eight test binaries were built, but the
+later original-source checksum check rejected exactly those three helpers while
+the other 78 hashes passed. The build stopped before make check or the additive
+original/API invocations; installed smoke did not run. This is a packaging
+checksum-invariant error, not observed upstream, RISC-V, timeout or API breakage.
+
+A post-configure build-input manifest means the 78 still-original files plus
+the exact three helper outputs immediately after that trusted macro. It does
+not redefine refreshed helper bytes as original release bytes. The repair keeps
+all 81 original hashes and raw notices, checks all 81 again before configure,
+verifies the two helper copies against their actual system files, and accepts
+ltmain.sh only as the exact recorded hardening-line substitution with an
+unchanged original backup. It records both original/post-configure SHA256 values,
+system paths and hardening flags in a separate JSON record printed into the full
+build log. All 81 typed build-input hashes are checked after configure, after
+build and before/after the unchanged check commands. No original source or test
+is patched, removed or ignored; configure refresh, hardening flags, make check,
+six original invocations and six build/installed API groups remain enabled.
+Replacement target and physical acceptance are still required.

@@ -470,7 +470,67 @@ sha256sum -c packaging-source.sha256
 %build
 export CFLAGS="%{optflags}"
 export CXXFLAGS="%{optflags}"
+# The original 81-file manifest remains the pre-configure source boundary.
+sha256sum -c packaging-source.sha256
 %configure
+# Only the three helpers changed by the trusted openEuler macro become typed
+# build inputs. Their raw original notices and original hashes remain intact.
+python3 - <<'PY_BUILD_INPUTS'
+import hashlib, json, os
+from pathlib import Path
+digest = lambda data: hashlib.sha256(data).hexdigest()
+original = dict(line.split('  ', 1)[::-1] for line in Path('packaging-source.sha256').read_text().splitlines())
+helpers = {'config.guess', 'config.sub', 'ltmain.sh'}
+assert len(original) == 81 and helpers <= set(original)
+for name, expected in original.items():
+    assert digest(Path('packaging-notices', name + '.notice').read_bytes()) == expected, name
+    if name not in helpers:
+        assert digest(Path(name).read_bytes()) == expected, name
+provenance = {}
+for name in ['config.guess', 'config.sub']:
+    system = Path('/usr/lib/rpm/openEuler') / name
+    assert Path(name).read_bytes() == system.read_bytes(), name
+    provenance[name] = {'operation': 'trusted openEuler %%configure copy',
+                        'system_path': str(system), 'system_sha256': digest(system.read_bytes())}
+before = Path('packaging-notices/ltmain.sh.notice').read_bytes()
+after = Path('ltmain.sh').read_bytes()
+assert Path('ltmain.sh.backup').read_bytes() == before
+old_lines, new_lines = before.splitlines(keepends=True), after.splitlines(keepends=True)
+assert len(old_lines) == len(new_lines)
+changes = [(a, b) for a, b in zip(old_lines, new_lines) if a != b]
+assert changes
+hardening = set()
+for a, b in changes:
+    assert a.endswith(b'compiler_flags=\n')
+    prefix = a[:-len(b'compiler_flags=\n')] + b'compiler_flags="'
+    assert b.startswith(prefix) and b.endswith(b'"\n')
+    flags = b[len(prefix):-2]
+    assert flags and b'"' not in flags and b'\n' not in flags
+    assert flags in os.environ['LDFLAGS'].encode()
+    hardening.add(flags)
+assert len(hardening) == 1
+flags = next(iter(hardening))
+assert before.replace(b'compiler_flags=\n', b'compiler_flags="' + flags + b'"\n') == after
+provenance['ltmain.sh'] = {'operation': 'trusted openEuler %%configure hardening substitution',
+                           'original_backup_sha256': digest(before),
+                           'hardening_flags': flags.decode(),
+                           'full_macro_commands': 'rpmbuild-internal.log %%configure shell trace'}
+build_inputs = dict(original)
+for name in sorted(helpers):
+    build_inputs[name] = digest(Path(name).read_bytes())
+    provenance[name].update(original_sha256=original[name], postconfigure_sha256=build_inputs[name],
+                            postconfigure_bytes=Path(name).stat().st_size)
+Path('packaging-build-inputs.sha256').write_text(''.join(build_inputs[name] + '  ' + name + '\n' for name in original))
+boundary = {'schema_version': 1, 'kind': 'sfsexp-postconfigure-build-input-boundary',
+            'original_source_files': 81, 'unchanged_original_files': 78,
+            'typed_helper_refreshes': provenance,
+            'original_source_manifest_sha256': digest(Path('packaging-source.sha256').read_bytes()),
+            'build_input_manifest_sha256': digest(Path('packaging-build-inputs.sha256').read_bytes()),
+            'original_raw_notices_unchanged': True, 'upstream_source_patch': False}
+Path('packaging-qa/build-input-boundary.json').write_text(json.dumps(boundary, indent=2) + '\n')
+print(json.dumps(boundary, sort_keys=True))
+PY_BUILD_INPUTS
+sha256sum -c packaging-build-inputs.sha256
 %make_build
 grep -F -- '-D_NO_MEMORY_MANAGEMENT_' src/Makefile
 grep -F -- '-DNODEBUG' src/Makefile
@@ -480,7 +540,7 @@ done
 for name in binmode callbacks continuations packunpack paultest rcfile sexpvis simple_interp; do
     test -x "examples/.libs/$name"
 done
-sha256sum -c packaging-source.sha256
+sha256sum -c packaging-build-inputs.sha256
 
 %install
 make DESTDIR=%{buildroot} install
@@ -498,10 +558,10 @@ test ! -d %{buildroot}%{_bindir}
 %check
 export LC_ALL=C LANG=C
 make check
-sha256sum -c packaging-source.sha256
+sha256sum -c packaging-build-inputs.sha256
 python3 packaging-qa/original-oracles.py "$PWD" "$PWD/packaging-qa/original-results"
 python3 packaging-qa/run-qa.py build "$PWD"
-sha256sum -c packaging-source.sha256
+sha256sum -c packaging-build-inputs.sha256
 
 %files
 %license %{_licensedir}/%{name}
@@ -518,3 +578,4 @@ sha256sum -c packaging-source.sha256
 %changelog
 * Tue Oct 27 2026 openEuler RISC-V package contributors - 1.4.1-1
 - Package official release with unchanged defaults and additive SDK checks.
+- Distinguish original sources from the three trusted configure-refreshed helpers.
