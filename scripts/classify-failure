@@ -15,6 +15,21 @@ from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, par
 
 RPM_WRAPPER_PATTERN = r"bad exit status from /var/tmp/rpm-tmp"
 
+# A target architecture or an atomic-looking executable name is provenance,
+# not a compiler diagnosis. Require an explicit natural-language atomic failure
+# and keep path/identifier fragments (for example riscv64/.../atomic_test) out.
+RISCV_TARGET = r"(?<![/\\A-Za-z0-9_.-])(?:riscv(?:32|64)?|risc-v|rv(?:32|64))\b"
+ATOMIC_SUBJECT = r"atomic(?:s|\s+(?:operations?|instructions?|extension|support))?\b"
+ATOMIC_FAILURE = r"(?:not\s+(?:supported|available)|unsupported|unavailable|invalid|requires?|needs?|error|failure)\b"
+RISCV_ATOMIC_DIAGNOSTIC_PATTERN = (
+    RISCV_TARGET + r"(?:\s+|:\s*(?:fatal\s+)?error:\s*)"
+    + ATOMIC_SUBJECT + r"\s+(?:(?:is|are)\s+)?" + ATOMIC_FAILURE
+)
+ATOMIC_RISCV_DIAGNOSTIC_PATTERN = (
+    ATOMIC_SUBJECT + r"\s+(?:(?:is|are)\s+)?" + ATOMIC_FAILURE
+    + r"\s+(?:on|for|by)\s+" + RISCV_TARGET
+)
+
 
 RULES: List[Tuple[str, List[str], str, bool, bool, Optional[str]]] = [
     (
@@ -81,7 +96,10 @@ RULES: List[Tuple[str, List[str], str, bool, bool, Optional[str]]] = [
             r"unknown register name.*(?:eax|ebx|ecx|edx|xmm|ymm|zmm)",
             r"impossible constraint in ['\"]asm|invalid output constraint",
             r"__x86_64__|__i386__|x86[-_ ]only|inline asm",
-            r"-march=(?:x86|native)|unsupported ISA string|riscv.*atomic|__riscv",
+            r"-march=(?:x86|native)|unsupported ISA string",
+            RISCV_ATOMIC_DIAGNOSTIC_PATTERN,
+            ATOMIC_RISCV_DIAGNOSTIC_PATTERN,
+            r"(?:#error|\berror:)\s+[^\n]*\b__riscv\b",
         ],
         "Find a trusted existing RISC-V fix first; otherwise create the smallest local patch and keep it under packages/<id>/patches/.",
         True,
