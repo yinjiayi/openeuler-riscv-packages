@@ -1,0 +1,22 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+# args 6.6.1
+
+This single SDK package targets openEuler 24.03 LTS SP3, riscv64/RVA23. Formal release 422047677 and its lightweight tag fix commit 35414206ed9b8aa838a4a0b4c9194604c564d5ac/tree 63ebc7fb8060983608b0af68f28f7ba0fdf4e9a4. The observed 119,682-byte archive has SHA-256 150a142bc45b898dfc27b8520584aa68083458731fc9cbca9c36b6867e60df10; all 209 regular files match Git bytes and executable modes. That calculated digest is not an independent publisher checksum. The captured commit is unsigned and this release offers no assets; no global signature-absence claim is made.
+
+The header/project uses MIT. The editor helper .ycm_extra_conf.py instead has the complete Unlicense/public-domain grant and explicitly is not GPL. Full Apache-2.0 text covers original downstream packaging/QA. All 209 original source byte strings, including optional fuzz corpora, historical PoC and metadata, are installed as inert .notice records with checksums; no source patch is applied.
+
+The README-supported CMake route preserves both default examples, all 96 original unfiltered CTest registrations (97 test translation units), test -Werror/-fno-exceptions handling, and default hardening. Sanitizers/fuzzers keep their original OFF defaults; tests/examples are not disabled. The original root Makefile starts with uninstall and is never run as bare make. Doxygen is a separate non-default documentation route. Alternative Meson/Buck/Conan/editor/PoC/fuzz workflows remain unexecuted source, not additional successful evidence.
+
+The suite uses original custom assertion helpers, not Catch2 or build-time downloads. Its locale test creates an anonymous facet from the classic C++ locale and needs no installed locale archive. Some original cases are smoke/demonstration-style, so 96 invocations does not mean 96 strict independent assertions. The recipe requires every original registration without filtering; the observed build limitation is recorded below.
+
+Upstream installs exactly four SDK files: /usr/include/args.hxx, /usr/share/cmake/args/args-config.cmake, /usr/share/cmake/args/args-config-version.cmake, and /usr/share/pkgconfig/args.pc. The examples are built but not installed upstream. No DSO, static archive, SONAME, CLI or man-page contract is invented. Header-only debug-package suppression reflects the absence of installed ELF, not a removed binary feature; the RPM remains under fixed riscv64 policy.
+
+Owned QA compiles a fresh C++11 stock find_package(args 6.6.1 EXACT CONFIG) consumer linked to taywee::args. It checks six exact-output public-API groups, compiler dependency same-file binding to installed args.hxx, pkg-config version/cflags, and unchanged hashes for all four SDK files and selected QA assets. Exact version 6.6.2 must fail configuration with no executable. This is not a missing-archive, dynamic-loader or ABI proof. Raw streams, dependency bytes and SDK hashes remain in target evidence.
+
+Compiler/build/inspection tools are explicit dependencies for both build and installed QA roles. Full current provider/namespace/canonical identity review, source verification, repository validation and real target CI remain required before acceptance. No native, timing, performance, comprehensive safety, Unicode-normalization or full Daily-coverage claim is made.
+
+## Bounded build scheduling (N244)
+
+The first target run [40591194902, attempt 1](https://github.com/yinjiayi/openeuler-riscv-packages/actions/runs/40591194902) reached the `argstest-simple_commands` compilation at 86% and exhausted the recorded 6,811-second build allowance. It had not entered CTest or owned QA; this is not evidence that any test passed or that the source/compiler was defective. The log has no per-translation-unit timing or CPU-utilization measurement.
+
+The package now requests `cmake --build .packaging-build --parallel 2`, matching the existing target container's two-CPU quota rather than the host CPU count. This is an unverified package-only scheduling change, not a demonstrated speedup or confirmed timeout cure. It does not raise the timeout, change shared CI, disable examples, filter tests, change compiler flags, or alter any of the 209 original source files. All 99 translation units (97 test plus two example units), 96 original CTest registrations, and six owned QA groups remain required. Effective concurrency and memory pressure were not measured in the failed run; the replacement head must complete all original and owned build/install checks before acceptance.
