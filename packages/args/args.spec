@@ -229,7 +229,7 @@ chmod 0755 .packaging-qa/run-qa.py
 export CXXFLAGS="%{optflags}"
 export LDFLAGS="%{?build_ldflags}"
 cmake -S . -B .packaging-build -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_INSTALL_LIBDIR=%{_lib} -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-cmake --build .packaging-build
+cmake --build .packaging-build --parallel 2
 
 %install
 DESTDIR=%{buildroot} cmake --install .packaging-build
