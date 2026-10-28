@@ -25,7 +25,7 @@
 +	enable_testing()
 @@ -111 +113,2 @@
 -	add_test("Testcases docopt" ${TESTPROG})
-+	add_test(NAME "Testcases docopt"
++	add_test(NAME docopt-testcases
 +		COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/run_tests")
 --- a/run_tests.py
 +++ b/run_tests.py

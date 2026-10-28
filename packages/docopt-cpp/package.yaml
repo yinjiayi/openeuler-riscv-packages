@@ -78,7 +78,7 @@
     "patches": [
       {
         "file": "patches/0001-align-release-and-wire-original-python3-tests.patch",
-        "sha256": "d2e818de2ebf963db402f29f565b69e2ca738e82f55dfbd1164714483b2e0209",
+        "sha256": "e5926bcb05e07d06c6293bc77b0d19f2d010ce912c87029bba8e7d2c529bdb8f",
         "purpose": "Correct the formal release stamp and register the complete original175-case Python3 driver with CTest, preserving all original parser data/defaults.",
         "source": "Exact official Docopt.cpp v0.6.3 commit42ebcec9dc2c99a1b3a4542787572045763ad196/archive334f5b9d1cb7d437c62282f0a97370ddfdfbe33de02428be9b79c7719a8a57f3; original18 raw files/notices preserved before the two-file patch.",
         "license": "MIT OR BSL-1.0",

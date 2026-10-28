@@ -33,3 +33,20 @@ mandatory shared/static routes. No Boost dependency is needed by default stdrege
 Production uses CMAKE_BUILD_TYPE=None with RPM flags and -UNDEBUG. Normal RPM
 debuginfo/debugsource generation is retained. No native ABI, performance, target,
 physical, merge or publication success is inferred before its actual evidence.
+
+## Target CTest registration repair (2026-10-28)
+
+Initial head 96cde794181bc124cfae59b0348c9223ae40787f, Package CI
+40639718318 attempt 1, compiled the SDK and staged it into the RPM buildroot, then failed in %check.
+No RPM installation/smoke acceptance was reached.
+With CMP0110 unset at the original minimum-policy level, the whitespace-bearing
+CTest name became `Testcases` and `docopt` became the executable token. CTest
+reported Not Run/exit 8; none of the original 175 cases ran and owned downstream
+QA was not reached. This is a downstream wiring error, not evidence of a parser,
+exception-type, architecture or native-only defect.
+
+Use the whitespace-free name `docopt-testcases` in the existing metadata patch
+and its exact registry assertion. The Python command, complete 175-case driver,
+case data, all 18 original notices, SDK, flags and all additive QA are unchanged.
+The proposed correction is not target-verified until fresh CI on its new head
+passes; no old result or product is transferred.
