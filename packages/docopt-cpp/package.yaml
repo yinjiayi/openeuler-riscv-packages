@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "package_id": "docopt-cpp",
+  "rpm": {
+    "name": "docopt-cpp",
+    "summary": "C++11 command-line parser shared and static SDK",
+    "license": "BSL-1.0 AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-docopt-docopt.cpp",
+    "homepage": "https://github.com/docopt/docopt.cpp",
+    "source_repository": "https://github.com/docopt/docopt.cpp",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/docopt/docopt.cpp/releases",
+    "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_url_template": "https://api.github.com/repos/docopt/docopt.cpp/tarball/v{version}"
+  },
+  "version": {
+    "current": "0.6.3",
+    "latest_detected": "0.6.3",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "docopt",
+        "package_base": "docopt",
+        "source_version": "0.6.3-6",
+        "evidence_url": "https://github.com/docopt/docopt.cpp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "docopt.cpp",
+        "package_base": "docopt.cpp",
+        "source_version": "0.6.3-5",
+        "evidence_url": "https://github.com/docopt/docopt.cpp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "docopt-cpp",
+        "package_base": "docopt-cpp",
+        "source_version": "0.6.3-21.fc44",
+        "evidence_url": "https://github.com/docopt/docopt.cpp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "docopt.cpp",
+        "package_base": "docopt.cpp",
+        "source_version": "0.6.3-5build1",
+        "evidence_url": "https://github.com/docopt/docopt.cpp",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "docopt-cpp.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-align-release-and-wire-original-python3-tests.patch",
+        "sha256": "e5926bcb05e07d06c6293bc77b0d19f2d010ce912c87029bba8e7d2c529bdb8f",
+        "purpose": "Correct the formal release stamp and register the complete original175-case Python3 driver with CTest, preserving all original parser data/defaults.",
+        "source": "Exact official Docopt.cpp v0.6.3 commit42ebcec9dc2c99a1b3a4542787572045763ad196/archive334f5b9d1cb7d437c62282f0a97370ddfdfbe33de02428be9b79c7719a8a57f3; original18 raw files/notices preserved before the two-file patch.",
+        "license": "MIT OR BSL-1.0",
+        "upstream_status": "not-submitted",
+        "remove_when": "An accepted official stable source supplies correct release metadata and a Python3/CTest entry point for the same full original workload."
+      }
+    ]
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official formal v0.6.3, exact unsigned lightweight tag/commit and all18 original Git files/modes retained. Choose the explicit whole-port BSL1 offer; retain original MIT/Boost grants and all borrowed-code provenance, without invented historical Boost attribution. Narrow two-file metadata/test patch fixes the stale CMake version and invokes the same full175-case original driver with Python3. Production shared and static stdregex defaults remain; original tests are opt-in, not falsely called default175. Owned installed CMake shared/static and pkgconfig consumers are additive, same-file bound and independently negative-controlled. No installed header-only, native ABI, target, or physical acceptance claim."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}
