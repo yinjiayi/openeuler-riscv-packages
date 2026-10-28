@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "package_id": "zchunk",
+  "rpm": {
+    "name": "zchunk",
+    "summary": "Independent-chunk compression tools and public C SDK",
+    "license": "BSD-2-Clause AND BSD-1-Clause AND BSD-3-Clause AND MIT AND LicenseRef-Public-Domain AND MPL-2.0 AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-zchunk-zchunk",
+    "homepage": "https://github.com/zchunk/zchunk",
+    "source_repository": "https://github.com/zchunk/zchunk",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/zchunk/zchunk/tags",
+    "release_regex": "^(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_url_template": "https://api.github.com/repos/zchunk/zchunk/tarball/refs/tags/{version}"
+  },
+  "version": {
+    "current": "1.5.5",
+    "latest_detected": "1.5.5",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "zchunk",
+        "package_base": "zchunk",
+        "source_version": "1.5.3-1",
+        "evidence_url": "https://github.com/zchunk/zchunk",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "zchunk",
+        "package_base": "zchunk",
+        "source_version": "1.5.1+ds1-1",
+        "evidence_url": "https://github.com/zchunk/zchunk",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "zchunk",
+        "package_base": "zchunk",
+        "source_version": "1.5.1-4.fc44",
+        "evidence_url": "https://github.com/zchunk/zchunk",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "zchunk",
+        "package_base": "zchunk",
+        "source_version": "1.5.3-1.5",
+        "evidence_url": "https://github.com/zchunk/zchunk",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "zchunk.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": []
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Highest complete official numeric stable tag1.5.5, no formal release. README stability policy and Meson version agree. All166 originals remain byte/mode unchanged, including40 original default Meson registrations on little-endian target. Defaults auto zstd/OpenSSL/curl, docs/testsON, shared library and sixCLIs remain; required providers must be present, wraps cannot download. RPM flags with plain Meson buildtype preserve assertions; normal automatic debuginfo/debugsource retained. Original nondefault ABI comparison tools/reference are not executed and no native ABI/performance assurance is claimed. Owned six-group CLI/C SDK tests are additive and installed same-file DSO-bound. Target/build/install/physical acceptance is pending."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-tags"
+  }
+}
