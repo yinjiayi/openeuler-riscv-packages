@@ -177,7 +177,20 @@ EOF_QA_SHA
 export CFLAGS="%{optflags} -O3 -Wall"
 export LDFLAGS="%{?build_ldflags} -Wl,--build-id"
 # Checked-in configure uses Bash += syntax. No autoreconf or helper replacement.
-/bin/bash ./configure --prefix=%{_prefix} --bindir=%{_bindir} --mandir=%{_mandir}
+# Preserve the original configure argv and exit status; diagnostics are not a fix.
+if /bin/bash ./configure --prefix=%{_prefix} --bindir=%{_bindir} --mandir=%{_mandir}; then
+    :
+else
+    configure_status=$?
+    printf 'PDFRESURRECT_CONFIG_LOG_BEGIN status=%%s\n' "$configure_status"
+    if test -f config.log && test ! -L config.log; then
+        if cat -- config.log; then :; else printf 'PDFRESURRECT_CONFIG_LOG_READ_FAILED\n'; fi
+    else
+        printf 'PDFRESURRECT_CONFIG_LOG_MISSING_OR_SYMLINK\n'
+    fi
+    printf 'PDFRESURRECT_CONFIG_LOG_END status=%%s\n' "$configure_status"
+    exit "$configure_status"
+fi
 make %{?_smp_mflags}
 test -x pdfresurrect
 ! grep -E -- '(^|[[:space:]])-DPDFRESURRECT_EXPERIMENTAL([=[:space:]]|$)' Makefile

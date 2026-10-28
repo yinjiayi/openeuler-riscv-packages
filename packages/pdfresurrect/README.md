@@ -37,3 +37,13 @@ Functional target success, generated debug paths, physical RPM/SRPM acceptance a
 full fresh provider/namespace admission remain separate required gates. These
 bounded classic-PDF cases do not establish security, performance, comprehensive
 PDF compatibility, rendering, native execution or full-Daily coverage.
+
+N244 diagnostic-only follow-up: the initial target run 40607517284/a1 failed
+while configure checked whether a compiled C program could run. The build
+artifact did not retain config.log, so the underlying cause remains unknown.
+The packaging now prints the regular, non-symlink config.log on configure
+failure between explicit status-bearing markers, preserving the original
+configure arguments and exit status. Missing/read-failed log diagnostics do
+not replace that failure status. This is not a source/native-execution fix,
+main alignment, successful target build or newly accepted physical product.
+Sources, flags, probes, owned QA, test assertions and dependencies are unchanged.
