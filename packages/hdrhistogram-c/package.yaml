@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "package_id": "hdrhistogram-c",
+  "rpm": {
+    "name": "hdrhistogram-c",
+    "summary": "C99 dense and packed histogram shared and static SDK",
+    "license": "CC0-1.0 AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-hdrhistogram-hdrhistogram_c",
+    "homepage": "https://github.com/HdrHistogram/HdrHistogram_c",
+    "source_repository": "https://github.com/HdrHistogram/HdrHistogram_c",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/HdrHistogram/HdrHistogram_c/releases",
+    "release_regex": "^(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_url_template": "https://api.github.com/repos/HdrHistogram/HdrHistogram_c/tarball/{version}"
+  },
+  "version": {
+    "current": "0.12.1",
+    "latest_detected": "0.12.1",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "fedora",
+        "package_name": "HdrHistogram_c",
+        "package_base": "HdrHistogram_c",
+        "source_version": "0.11.8-10.fc44",
+        "evidence_url": "https://github.com/HdrHistogram/HdrHistogram_c",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libhdr-histogram",
+        "package_base": "libhdr-histogram",
+        "source_version": "0.11.8-4build1",
+        "evidence_url": "https://github.com/HdrHistogram/HdrHistogram_c",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "hdrhistogram-c.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": []
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "REVIEW DRAFT, NOT PR-READY until fresh provider/canonical/main and complete recipe gates. Root ordinary packaging grant review accepts published parent CC0 and explicit JoinPaths CC0 choice, plus the complete official Google benchmark Apache2 distribution with all original author/adaptation contexts. All168 bundled files bytes/executable classes match official v1.6.1. This is not an external author's personal-origin warranty or a GPL-copy conclusion from See also. Signed fixed parent101 and actual default input closure are complete; unused gitlink full Git graph remains incomplete and no optional source is deleted. Preserve all original production defaults, empty upstream buildtype/RPM optflags/no-NDEBUG guard, all9 verbose unfiltered CTests and full LastTest.log. One deliberate shared/static SDK retains all12 original installed programs without running timing tools. Owned16 C99/C11 installed/relocated CMake/pkgconf shared/static consumers plus4 typed negative controls are additive, never controller-executed. No target/physical acceptance claim."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}
