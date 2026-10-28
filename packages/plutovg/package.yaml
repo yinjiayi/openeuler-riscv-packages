@@ -1,0 +1,85 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 120,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/sammycage/plutovg",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "plutovg",
+        "package_name": "plutovg",
+        "source": "aur",
+        "source_version": "1.3.3-1"
+      },
+      {
+        "evidence_url": "https://github.com/sammycage/plutovg",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "plutovg",
+        "package_name": "plutovg",
+        "source": "fedora",
+        "source_version": "1.3.2-2.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/sammycage/plutovg",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "plutovg",
+        "package_name": "plutovg",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.3.2-1.3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "plutovg.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Exact official1.3.3/source35 retained unchanged. Native CMake static default/example ON/font-cache loading enabled; no source patch and no registered original test suite. Select explicit STB MIT alternative, preserve exact FTL and every original file as notices plus binary acknowledgement. Owned static C99/C11 CMake/pkgconf installed/relocated and real pinned-font checks are additive. No target acceptance or independent crypto claim.",
+    "status": "active"
+  },
+  "package_id": "plutovg",
+  "rpm": {
+    "license": "MIT AND FTL AND Apache-2.0",
+    "name": "plutovg",
+    "summary": "Static C vector graphics SDK with additive consumer validation"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  },
+  "upstream": {
+    "component": "github.com-sammycage-plutovg",
+    "homepage": "https://github.com/sammycage/plutovg",
+    "release_api": "https://api.github.com/repos/sammycage/plutovg/releases",
+    "release_channel": "stable",
+    "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/sammycage/plutovg",
+    "source_url_template": "https://api.github.com/repos/sammycage/plutovg/tarball/v{version}"
+  },
+  "version": {
+    "current": "1.3.3",
+    "latest_detected": "1.3.3",
+    "release": "1"
+  }
+}
