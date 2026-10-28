@@ -110,6 +110,7 @@
           ]
         },
         "remote_sync_phase": {
+          "description": "Live authority requires postconditions-verified; fixture authority is offline-only. Missing legacy origin remains schema-readable history, not live authorization.",
           "enum": ["reserved", "before-label-command", "label-command-returned", "before-comment-command", "comment-command-returned", "before-postcondition-read", "postconditions-verified", "offline-fixture-confirmed"]
         },
         "completed_at": {"type": "string", "format": "date-time"},

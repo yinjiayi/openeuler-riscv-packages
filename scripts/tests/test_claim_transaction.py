@@ -184,6 +184,85 @@ class ClaimTransactionTests(unittest.TestCase):
         self.assertEqual(after["attempts"][self.key + "@" + "b" * 40], 1)
         self.assertEqual(after["history"], state["history"])
 
+    def fixture_args(self):
+        fixture = self.root / "fixture-PR.json"
+        write_json(fixture, {"headRefOid": self.head, "headRefName": "repair/demo", "isCrossRepository": False})
+        write_json(pathlib.Path(self.args.queue), {"pull_requests": [{"number": 7, "head_sha": self.head, "head_ref": "repair/demo"}]})
+        self.args.fixture_pr = str(fixture)
+
+    def test_real_fixture_state_cannot_be_promoted_by_switching_to_live_invocation(self):
+        self.fixture_args()
+        # Real current_pr/check_head read isolated files; any gh fallthrough fails.
+        with mock.patch.dict(self.globals, {"gh": mock.Mock(side_effect=AssertionError("fixture gh call"))}):
+            self.assertEqual(self.tool["command_claim"](self.args), 0)
+            self.args.output = str(self.root / "fixture-verify.json")
+            self.assertEqual(self.tool["command_verify"](self.args), 0)
+        result = json.loads(pathlib.Path(self.args.output).read_text())
+        self.assertFalse(result["safe_to_push_same_branch"])
+        self.assertEqual(result["verification_source"], "offline-fixture-not-sufficient-for-push")
+        state = self.state()
+        self.assertEqual(state["leases"][self.key]["remote_sync_phase"], "offline-fixture-confirmed")
+        self.args.fixture_pr = None
+        self.args.output = str(self.root / "must-not-exist.json")
+        live = dict(self.pr, labels=[{"name": "codex-repairing"}])
+        with mock.patch.dict(self.globals, {"current_pr": mock.Mock(return_value=live), "gh": mock.Mock(side_effect=AssertionError("live mutation from fixture"))}):
+            for action in ("command_claim", "command_verify", "command_renew", "command_release", "command_fail"):
+                with self.subTest(action=action), self.assertRaisesRegex(self.tool["ToolError"], "origin"):
+                    self.tool[action](self.args)
+                self.assertEqual(self.state(), state)
+        self.assertFalse(pathlib.Path(self.args.output).exists())
+
+    def test_fixture_invocation_cannot_operate_on_known_live_lease(self):
+        self.assertEqual(self.claim(), 0)
+        state = self.state()
+        self.fixture_args()
+        self.args.output = str(self.root / "fixture-must-not-exist.json")
+        with mock.patch.dict(self.globals, {"gh": mock.Mock(side_effect=AssertionError("fixture mutation of live lease"))}):
+            for action in ("command_claim", "command_verify", "command_renew", "command_release", "command_fail"):
+                with self.subTest(action=action), self.assertRaisesRegex(self.tool["ToolError"], "origin"):
+                    self.tool[action](self.args)
+                self.assertEqual(self.state(), state)
+        self.assertFalse(pathlib.Path(self.args.output).exists())
+
+    def test_legacy_unknown_origin_is_not_upgraded_by_live_or_fixture_readback(self):
+        self.assertEqual(self.claim(), 0)
+        legacy = self.state()
+        del legacy["leases"][self.key]["remote_sync_phase"]
+        write_json(pathlib.Path(self.args.state_file), legacy)
+        self.args.output = str(self.root / "legacy-must-not-exist.json")
+        for fixture in (False, True):
+            if fixture:
+                self.fixture_args()
+            with mock.patch.dict(self.globals, {"check_head": self.check, "gh": mock.Mock(side_effect=AssertionError("legacy mutation"))}):
+                for action in ("command_claim", "command_verify", "command_renew", "command_release", "command_fail"):
+                    with self.subTest(fixture=fixture, action=action), self.assertRaisesRegex(self.tool["ToolError"], "origin"):
+                        self.tool[action](self.args)
+                    self.assertEqual(self.state(), legacy)
+        self.assertFalse(pathlib.Path(self.args.output).exists())
+
+    def test_expiry_owner_or_new_head_cannot_promote_fixture_origin(self):
+        self.fixture_args()
+        self.assertEqual(self.tool["command_claim"](self.args), 0)
+        state = self.state()
+        self.args.fixture_pr = None
+        self.args.owner = "worker-b"
+        self.args.now = "2026-10-29T00:00:00Z"
+        self.args.expected_head_sha = "c" * 40
+        with mock.patch.dict(self.globals, {"check_head": mock.Mock(return_value=({"headRefName": "repair/demo"}, "c" * 40))}):
+            with self.assertRaisesRegex(self.tool["ToolError"], "origin"):
+                self.tool["command_claim"](self.args)
+        self.assertEqual(self.state(), state)
+
+    def test_closed_record_in_current_slot_cannot_return_idempotent_success(self):
+        self.assertEqual(self.claim(), 0)
+        closed = self.state()
+        closed["leases"][self.key]["status"] = "complete"
+        write_json(pathlib.Path(self.args.state_file), closed)
+        with mock.patch.dict(self.globals, {"check_head": self.check}):
+            with self.assertRaisesRegex(self.tool["ToolError"], "origin"):
+                self.tool["command_claim"](self.args)
+        self.assertEqual(self.state(), closed)
+
     def test_success_is_confirmed_then_idempotent_and_schema_valid(self):
         self.assertEqual(self.claim(), 0)
         state = self.state()

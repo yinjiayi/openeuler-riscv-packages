@@ -75,6 +75,16 @@ automatic recovery transition or retry authorization. Errors before reservation
 (such as a failed initial head read) do not consume a claim attempt. A confirmed
 claim still requires all original head, credential, source, budget and push gates.
 
+A **lease origin** distinguishes live synchronization (`postconditions-verified`)
+from isolated fixture confirmation (`offline-fixture-confirmed`). Every owned
+operation and idempotent claim must match that origin to its invocation mode.
+Never convert fixture/unknown legacy origin into live push authority by omitting
+`--fixture-pr`, by waiting for expiry, by changing owner, or by a fresh head read.
+Fixture mode likewise cannot archive or mutate a known live lease. Closed or
+unknown-origin records in the current lease slot stop for separate reviewed
+reconciliation; historical records/counters are not rewritten. No automatic
+origin migration or recovery write is supplied by this correction.
+
 5. Fetch and check out the exact same-repository PR head without force operations. Download the structured artifact/check evidence for that SHA. Verify its schema and provenance before reading full logs.
 6. Re-materialize the verified sources in an isolated work directory, then reproduce with the immutable target image:
 

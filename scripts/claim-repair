@@ -166,6 +166,13 @@ def lease_result(action: str, args: argparse.Namespace, lease: Mapping[str, Any]
     }
 
 
+def require_confirmed_origin(args: argparse.Namespace, lease: Mapping[str, Any]) -> None:
+    """A fixture or unknown legacy origin is never independent live authority."""
+    expected = "offline-fixture-confirmed" if args.fixture_pr else "postconditions-verified"
+    if lease.get("status") != "codex-repairing" or lease.get("remote_sync_phase") != expected:
+        raise ToolError("lease origin is not confirmed for this invocation; reconciliation required", 1)
+
+
 def command_claim(args: argparse.Namespace) -> int:
     if args.lease_seconds < 60 or not 1 <= args.max_attempts <= 3:
         raise ToolError("lease-seconds must be at least 60 and max-attempts must be between 1 and 3")
@@ -181,6 +188,7 @@ def command_claim(args: argparse.Namespace) -> int:
         if isinstance(prior, Mapping):
             if prior.get("status") in {"claim-pending", "reconciliation-required"}:
                 raise ToolError("prior claim requires reconciliation; no automatic replay or expiry takeover", 1)
+            require_confirmed_origin(args, prior)
             expiry = parse_time(prior.get("expires_at"))
             if expiry and expiry > now and prior.get("owner") != args.owner:
                 raise ToolError("repair is actively leased by %s until %s" % (prior.get("owner"), prior.get("expires_at")), 1)
@@ -267,6 +275,7 @@ def owned_lease(args: argparse.Namespace, state: Mapping[str, Any], now: Any, re
         raise ToolError("lease belongs to a different head SHA", 1)
     if lease.get("status") != "codex-repairing":
         raise ToolError("repair lease is not confirmed; reconciliation required", 1)
+    require_confirmed_origin(args, lease)
     expiry = parse_time(lease.get("expires_at"))
     if require_live and (not expiry or expiry <= now):
         raise ToolError("repair lease expired at %s" % lease.get("expires_at"), 1)

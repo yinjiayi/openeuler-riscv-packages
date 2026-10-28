@@ -102,6 +102,18 @@ synchronization failed or its effects are uncertain. Neither is a confirmed
 reject it, including after expiry or under another owner. Only successful remote
 label/comment commands and exact-head label readback permit confirmation.
 
+A **lease origin** is the recorded proof boundary of a confirmed reservation:
+`postconditions-verified` means live labels/comment and the exact-head readback
+completed; `offline-fixture-confirmed` means only isolated fixture data was used.
+A fixture-origin lease cannot be reused by any live claim, verify, renew, release
+or fail invocation. Conversely, a fixture invocation cannot operate on a known
+live lease. Missing/unknown legacy origin and closed records left in the current
+lease slot require explicit reconciliation; neither expiry nor same-owner
+idempotence upgrades them. Historical rows remain readable and unchanged. These
+markers do not authorize copying fixture state into live state or manually adding
+a live-origin marker. This revision provides no migration/recovery write: current
+readback alone cannot synthesize the missing original live claim protocol.
+
 The local `attempts` value counts **claim reservations**, not target CI failures.
 An ambiguous remote error consumes that reservation; it must not decrement any
 counter or erase prior history. Errors before reservation do not consume one.
