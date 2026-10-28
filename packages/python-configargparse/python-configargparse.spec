@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           python-configargparse
-Version:        1.8.0
+Version:        1.9.0
 Release:        1%{?dist}
 Summary:        Argument parser with configuration-file and environment-variable support
 License:        MIT
 URL:            https://github.com/bw2/ConfigArgParse
-Source0:        configargparse-1.8.0.tar.gz
+Source0:        configargparse-1.9.0.tar.gz
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
