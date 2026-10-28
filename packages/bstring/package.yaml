@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/msteinert/bstring",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "bstring",
+        "package_name": "bstring",
+        "source": "fedora",
+        "source_version": "1.0.3-1.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "bstring.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official stable v1.1.1/3ad93de7 source: all53 Git bytes/modes match. Independently verified current rdmark signed tag; GitHub bad_email and distinct key/tagger emails remain recorded, not waived or treated as personal-rights evidence. Root selects the published BSD3 component/per-file grants, retains full COPYING/GPL alternative and all original attributions/comparative documentation; no independent CERT personal-origin grant is claimed. Default shared/UTF8 and existing opt-in3 Check suites83 cases are preserved, tests explicitly enabled as upstream CI, no CK or VALGRIND_OPTS overrides. Additive4 C99/C11 installed/relocated shared multi-TU consumers plus3 negatives are target-only; no local compiler/source functional/RPM/QEMU execution or target/physical acceptance claim.",
+    "status": "active"
+  },
+  "package_id": "bstring",
+  "rpm": {
+    "license": "BSD-3-Clause AND Apache-2.0",
+    "name": "bstring",
+    "summary": "C99 shared Better String Library with UTF-8 SDK"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  },
+  "upstream": {
+    "component": "github.com-msteinert-bstring",
+    "homepage": "https://github.com/msteinert/bstring",
+    "release_api": "https://api.github.com/repos/msteinert/bstring/releases",
+    "release_channel": "stable",
+    "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/msteinert/bstring",
+    "source_url_template": "https://api.github.com/repos/msteinert/bstring/tarball/v{version}"
+  },
+  "version": {
+    "current": "1.1.1",
+    "latest_detected": "1.1.1",
+    "release": "1"
+  }
+}
