@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "package_id": "pdfresurrect",
+  "rpm": {
+    "name": "pdfresurrect",
+    "summary": "Inspect classic PDF revision history and extract revision selectors",
+    "license": "BSD-3-Clause AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-enferex-pdfresurrect",
+    "homepage": "https://github.com/enferex/pdfresurrect",
+    "source_repository": "https://github.com/enferex/pdfresurrect",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/enferex/pdfresurrect/tags",
+    "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+)?)$",
+    "source_url_template": "https://api.github.com/repos/enferex/pdfresurrect/tarball/refs/tags/v{version}"
+  },
+  "version": {
+    "current": "0.23",
+    "latest_detected": "0.23",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "pdfresurrect",
+        "package_base": "pdfresurrect",
+        "source_version": "0.23-2",
+        "evidence_url": "https://github.com/enferex/pdfresurrect",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "pdfresurrect",
+        "package_base": "pdfresurrect",
+        "source_version": "0.23-10.fc44",
+        "evidence_url": "https://github.com/enferex/pdfresurrect",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "pdfresurrect",
+        "package_base": "pdfresurrect",
+        "source_version": "0.23-2build1",
+        "evidence_url": "https://github.com/enferex/pdfresurrect",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "pdfresurrect.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": []
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Highest official numeric stable tag v0.23, not a formal release; main.h VER and ChangeLog confirm 0.23. All 13 source files exactly match fixed Git bytes/modes and remain unpatched, including complete configure FSF unlimited-copy/modify grants. Original make all builds one binary and supplied manual; no upstream test target or fixtures exists. Additive six semantic groups run ten exact CLI cases in build and installed roles. Extraction retains the full original bytes plus selected startxref trailer; it is not scrubbing. Experimental scrub remains disabled. Target ELF64/RISC-V and build-ID, same-file installed binary and helper/raw-output hashes are actual CI gates, not a present target acceptance claim. No security, performance, rendering, all-PDF, native or full-Daily claim."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-tags"
+  }
+}
