@@ -17,7 +17,23 @@ debug paths/build IDs and ELF payloads require independent target verification.
 
 All40 original Meson tests on the intended little-endian target remain unfiltered,
 with their original expected-negative case and version-dependent zstd checksum
-oracles. The owned six-group QA is additive: six exact CLI versions, zstd/nocomp
+oracles. Upstream's truncated-preface regression returns77 with the exact
+"Skipping: needs valgrind or AddressSanitizer" message when no memory checker is
+active. The normal tree retains that declared result (or requires its normal OK),
+not a fabricated preload or compiler macro. A separate non-installed Meson tree
+in .packaging-qa/asan-build uses actual AddressSanitizer instrumentation and must
+run all40 unfiltered tests:39OK/1original expected failure/zero skips. Its compiler
+commands must contain -fsanitize=address, and both its DSO and original bounds
+regression must need libasan.so.8. Existing gcc's exact official runtime closure
+supplies libasan; no source or dependency declarations change. Sanitizer options,
+leak-disable overrides and LD_PRELOAD are rejected; no sanitized library is
+installed. All166 source bytes/modes are checked again after this companion run.
+The first target run40628732712/a1 completed38OK/1XFAIL/1declared memory-check
+SKIP, then failed the owned post-check assertion; it did not establish memory-test
+coverage. This package-only change adds that missing coverage, not an upstream
+or native defect fix. ASAN under QEMU is not yet verified and remains a required
+fresh-target gate, not a claimed pass. Failure evidence:
+https://github.com/yinjiayi/openeuler-riscv-packages/actions/runs/40628732712. The owned six-group QA is additive: six exact CLI versions, zstd/nocomp
 binary CLI roundtrips, malformed input, installed public C API roundtrips with exact
 same-file DSO/linker-map/trace proof, and a no-library negative link control.
 The runner records every raw stdout/stderr/status/argv/cwd/environment and hashes

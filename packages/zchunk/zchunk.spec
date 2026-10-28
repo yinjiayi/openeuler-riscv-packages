@@ -243,9 +243,82 @@ rows=[json.loads(line) for line in Path('build/meson-logs/testlog.json').read_te
 assert len(rows)==40 and len({r['name'] for r in rows})==40
 for name in expected:
     found=[r for r in rows if r['name'] in [name,'zck / '+name]];assert len(found)==1,(name,[r['name'] for r in rows]);r=found[0]
-    assert r['result']==('EXPECTEDFAIL' if name=='check verbosity in zckdl' else 'OK'),r
-print('all40 unfiltered original Meson tests completed with original expected status')
+    if name=='rejects truncated preface without over-reading' and r['result']=='SKIP':
+        assert r['returncode']==77 and r['stdout']=='Skipping: needs valgrind or AddressSanitizer\n',r
+    else:assert r['result']==('EXPECTEDFAIL' if name=='check verbosity in zckdl' else 'OK'),r
+print('ZCHUNK_NORMAL_40_COMPLETE_MEMORY_GATE_ONLY_DECLARED_SKIP')
+raw=Path('build/meson-logs/testlog.json').read_bytes()
+import base64,hashlib
+print('ZCHUNK_NORMAL_TESTLOG_JSON '+json.dumps(dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),base64=base64.b64encode(raw).decode()),sort_keys=True))
 PY_ORIGINAL_TESTS
+# Keep the production/default tree unchanged. The upstream memory regression
+# intentionally returns77 without a memory checker; execute its full original
+# suite again in a separate genuinely AddressSanitizer-instrumented tree.
+python3 - <<'PY_ASAN_ENV'
+import os
+assert not any(os.environ.get(k) for k in ['ASAN_OPTIONS','LSAN_OPTIONS','LD_PRELOAD']), 'No sanitizer disable/preload override is permitted'
+PY_ASAN_ENV
+asan_build=.packaging-qa/asan-build
+test ! -e "$asan_build"
+CFLAGS="%{optflags} -g -UNDEBUG" LDFLAGS="%{?build_ldflags}" meson setup "$asan_build" . --prefix=%{_prefix} --libdir=%{_lib} --buildtype=plain --wrap-mode=nodownload -Db_sanitize=address
+python3 - <<'PY_ASAN_OPTIONS'
+import json,shlex
+from pathlib import Path
+p=Path('.packaging-qa/asan-build');options={r['name']:r['value'] for r in json.loads((p/'meson-info/intro-buildoptions.json').read_text())}
+for key,value in {'with-zstd':'auto','with-openssl':'auto','with-curl':'auto','coverity':False,'docs':True,'tests':True,'default_library':'shared','c_std':'gnu11','b_sanitize':'address'}.items():assert options[key]==value,(key,options[key])
+rows=json.loads((p/'compile_commands.json').read_text());assert rows
+for row in rows:
+    args=row.get('arguments') or shlex.split(row['command'])
+    assert '-fsanitize=address' in args and not any(v.startswith(('-fno-sanitize','-D__SANITIZE_ADDRESS__')) for v in args),row
+assert any(Path(r['file']).name=='read_header_bounds.c' for r in rows)
+print('ZCHUNK_ASAN_COMPILE_COMMANDS '+json.dumps(rows,sort_keys=True))
+PY_ASAN_OPTIONS
+meson compile -C "$asan_build"
+python3 - <<'PY_ASAN_ELF'
+import hashlib,json,subprocess
+from pathlib import Path
+p=Path('.packaging-qa/asan-build');proof=[]
+for rel in ['src/lib/libzck.so.1.5.5','test/read_header_bounds']:
+    q=p/rel;b=q.read_bytes();assert b[:6]==b'\x7fELF\x02\x01' and int.from_bytes(b[18:20],'little')==243
+    v=subprocess.run(['readelf','-W','-d',str(q)],check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    assert v.stderr==b'' and b'Shared library: [libasan.so.8]' in v.stdout
+    proof.append(dict(path=str(q),sha256=hashlib.sha256(b).hexdigest(),DT_NEEDED_raw=v.stdout.decode()))
+print('ZCHUNK_ASAN_ELF_INSTRUMENTATION '+json.dumps(proof,sort_keys=True))
+PY_ASAN_ELF
+set +e
+meson test -C "$asan_build" --no-rebuild --print-errorlogs -v > .packaging-qa/asan-tests.log 2>&1
+asan_status=$?
+set -e
+cat .packaging-qa/asan-tests.log
+test "$asan_status" -eq 0
+python3 - <<'PY_ASAN_TESTS'
+import base64,hashlib,json
+from pathlib import Path
+expected = ['create and validate empty zchunk file', 'rejects malicious multipart responses', 'rejects out-of-range values when reading', 'rejects truncated preface without over-reading', 'check version info in zck', 'check version info in unzck', 'check version info in zckdl', 'check version info in zck_read_header', 'check version info in zck_delta_size', 'check opening file with optional flags', 'checksum with non-hex character', 'read single chunk', 'read single compressed chunk', 'check verbosity in unzck', 'check verbosity in zck', 'check verbosity in zckdl', 'check verbosity in zck_read_header', 'check verbosity in zck_delta_size', 'copy chunks from source', 'decompress previously generated auto-chunked file - nocomp', 'decompress previously generated auto-chunked file - no dict', 'decompress previously generated auto-chunked file - dict', 'decompress previously generated manual file - no dict', 'decompress previously generated manual file - dict', 'decompress dict from previously generated auto-chunked file', 'compress auto-chunked file - no dict', 'decompress auto-chunked file - no dict', 'compress auto-chunked file - dict', 'decompress auto-chunked file - dict', 'compress manual file - no dict', 'decompress manual file - no dict', 'compress manual file - dict', 'decompress manual file - dict', 'handles integer overflow in header', 'handles empty file', "handles compressed int that's too large - variant 1", "handles compressed int that's too large - variant 2", "handles compressed int that's too large - variant 3", "handles compressed int that's too large - variant 4", "handles compressed int that's too large - variant 5"]
+p=Path('.packaging-qa/asan-build/meson-logs/testlog.json');raw=p.read_bytes();rows=[json.loads(line) for line in raw.decode().splitlines() if line.strip()]
+assert len(rows)==40 and len({r['name'] for r in rows})==40
+for name in expected:
+    found=[r for r in rows if r['name'] in [name,'zck / '+name]];assert len(found)==1,(name,[r['name'] for r in rows]);r=found[0]
+    assert r['result']==('EXPECTEDFAIL' if name=='check verbosity in zckdl' else 'OK'),r
+    if name=='check verbosity in zckdl':assert r['returncode']==10,r
+    assert not any(token in (r.get('stdout','')+r.get('stderr','')) for token in ['AddressSanitizer','LeakSanitizer','Sanitizer CHECK failed']),r
+whole=Path('.packaging-qa/asan-tests.log').read_text()
+assert not any(token in whole for token in ['AddressSanitizer','LeakSanitizer','Sanitizer CHECK failed']), 'Sanitizer diagnostic must not hide behind an expected failure'
+print('ZCHUNK_ASAN_40_COMPLETE_39_OK_1_XFAIL_0_SKIP')
+print('ZCHUNK_ASAN_TESTLOG_JSON '+json.dumps(dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),base64=base64.b64encode(raw).decode()),sort_keys=True))
+PY_ASAN_TESTS
+python3 - <<'PY_ASAN_UNCHANGED'
+import base64,hashlib,json,stat
+from pathlib import Path
+base=Path('.packaging-source-records/source-notices');original=json.loads((base/'original-manifest.json').read_text());assert len(original)==166
+for name,row in original.items():
+    p=Path(name);b=p.read_bytes();assert p.is_file() and not p.is_symlink() and len(b)==row['bytes'] and hashlib.sha256(b).hexdigest()==row['sha256'] and bool(p.stat().st_mode&0o111)==(row['Git_mode']=='100755'),name
+    notice=(base/(name+'.notice')).read_bytes()
+    if row['encoding']=='base64':
+        v=json.loads(notice);assert v['encoding']=='base64' and v['original_sha256']==row['sha256'] and v['original_Git_mode']==row['Git_mode'];notice=base64.b64decode(v['data'],validate=True)
+    assert notice==b,name
+print('all166 original source bytes/modes and reversible notices unchanged')
+PY_ASAN_UNCHANGED
 (cd %{buildroot}%{_datadir}/zchunk-tests && sha256sum -c SHA256SUMS)
 python3 %{buildroot}%{_datadir}/zchunk-tests/run-qa.py --root %{buildroot} --output "$PWD/.packaging-qa/build-qa-results"
 
