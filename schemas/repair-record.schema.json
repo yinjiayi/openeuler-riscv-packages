@@ -100,12 +100,17 @@
         "status": {
           "enum": [
             "codex-repairing",
+            "claim-pending",
+            "reconciliation-required",
             "complete",
             "requeue",
             "abandoned",
             "repair-queued",
             "needs-human"
           ]
+        },
+        "remote_sync_phase": {
+          "enum": ["reserved", "before-label-command", "label-command-returned", "before-comment-command", "comment-command-returned", "before-postcondition-read", "postconditions-verified", "offline-fixture-confirmed"]
         },
         "completed_at": {"type": "string", "format": "date-time"},
         "reason": {"type": "string"},

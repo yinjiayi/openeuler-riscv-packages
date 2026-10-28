@@ -93,6 +93,32 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. The hosted source job fetches these bytes once; CI's target container rehashes the same-run source cache against that committed digest before `rpmbuild`, without a second fetch.
 - Required native-kernel or hardware validation becomes `needs-native-riscv`. The self-hosted fleet accelerates protected-main QEMU user-mode builds on x86_64 only; it is never treated as native RISC-V validation, and pull-request/merge-queue jobs remain on disposable GitHub-hosted runners.
 - Repair runs only on a maintainer's local Codex through local `gh` authentication or an explicitly authorized process-scoped `GH_TOKEN`. Using that token for local `gh`/Git operations is permitted; persisting or publishing its value in repository content, commits, PR text/comments, logs, artifacts, Actions configuration, or Pages is forbidden. `scripts/github-credential-guard` checks the active token against repository, staged, and publication content without printing it. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`; a claimed lease changes that state to `codex-repairing`. These labels mean the exact head is awaiting or undergoing a maintainer repair, and both make the evaluation-only policy ineligible until a maintainer verifies the replacement head and explicitly releases the repair state.
+
+A **claim synchronization state** records whether the original local lease
+reservation has also completed its remote label/comment protocol. `claim-pending`
+is persisted before the first remote edit; `reconciliation-required` means that
+synchronization failed or its effects are uncertain. Neither is a confirmed
+`codex-repairing` lease: verify-head, renew, release, fail and a second claim must
+reject it, including after expiry or under another owner. Only successful remote
+label/comment commands and exact-head label readback permit confirmation.
+
+The local `attempts` value counts **claim reservations**, not target CI failures.
+An ambiguous remote error consumes that reservation; it must not decrement any
+counter or erase prior history. Errors before reservation do not consume one.
+An EOF does not prove a failed mutation had no effects: retain the last command
+phase, original stderr and state, then observe current exact head/ref,
+labels, fully paginated timeline/comments and all counters read-only. An observed
+orphan routing label may be corrected only by separately approved scoped label
+maintenance with fresh guard/actor/permissions/head/state fences and before/after
+readback; that correction does not confirm or discard the blocked lease. No
+readback alone resolves uncertainty into push authority. This patch deliberately
+provides no automatic recovery transition: a blocked reservation remains blocked
+until a separately reviewed reconciliation operation preserves its consumed
+attempt/history and explicitly accounts for every remote effect. Do not manually
+edit live state, replay claim writes, bypass the original guard, or substitute an
+offline fixture. Historical failed protocols such as Args keep their exact old
+records; this change is not retroactive reconstruction of a missing lease.
+
 - The only custom Actions secret is `RPM_REPO_SSH_PRIVATE_KEY`. It is a forced-command, write-only `rrsync` deployment identity for `/opt/openeuler-riscv-rpm-repo/incoming`; it cannot run a shell, delete or overwrite remote files, and is never available to build commands. It is not an OpenAI/Codex credential.
 - Successful package output is published only after the exact package build and installed-RPM smoke pass on a protected `main` push (or an explicit trusted backfill call). Pull-request builds never publish RPMs.
 - The supplemental project repository is served from the operator-provided HTTP endpoint `http://2.27.148.101:38080`. Its unsigned project RPMs use `gpgcheck=0`; CI compensates with a pinned SSH host key for publication, per-file upload SHA-256, immutable generations, no HTTP redirects, and a state-bound `repomd.xml` digest. The official openEuler HTTPS/GPG-checked repository remains enabled and authoritative.
