@@ -255,7 +255,7 @@ try:
     if route=='pkgconf':
      run(label+'-compile',['/usr/bin/gcc','-std=c'+standard,'-Wall','-Wextra','-Werror','-UNDEBUG','-H',str(assets/'consumer.c'),str(assets/'font.c'),'-o',str(binary),'-Wl,-Map='+str(mapfile),'-Wl,-t']+flags)
     else:
-     run(label+'-configure',['/usr/bin/cmake','-S',str(assets),'-B',str(build),'-DCMAKE_C_COMPILER=/usr/bin/gcc','-DCMAKE_EXPORT_COMPILE_COMMANDS=ON','-DSDK_PREFIX='+str(sdk),'-DOWNED_C_STANDARD='+standard]);run(label+'-compile',['/usr/bin/cmake','--build',str(build),'--parallel','2','--verbose']);commands=json.loads((build/'compile_commands.json').read_text());assert len(commands)==2 and all('-DPLUTOVG_BUILD_STATIC' in c['command'] and '-std=c'+standard in c['command'] and str(sdk/'include/plutovg') in c['command'] for c in commands)
+     run(label+'-configure',['/usr/bin/cmake','-S',str(assets),'-B',str(build),'-DCMAKE_C_COMPILER=/usr/bin/gcc','-DCMAKE_EXPORT_COMPILE_COMMANDS=ON','-DSDK_PREFIX='+str(sdk),'-DOWNED_C_STANDARD='+standard]);run(label+'-compile',['/usr/bin/cmake','--build',str(build),'--parallel','1','--verbose']);commands=json.loads((build/'compile_commands.json').read_text());assert len(commands)==2 and all('-DPLUTOVG_BUILD_STATIC' in c['command'] and '-std=c'+standard in c['command'] and str(sdk/'include/plutovg') in c['command'] for c in commands)
     trace=(out/(label+'-compile.stdout')).read_text()+(out/(label+'-compile.stderr')).read_text()
     maploads=re.findall(r'^LOAD (.+libplutovg[.]a)$',mapfile.read_text(),re.M)
     actual_archives=[line.strip() for line in trace.splitlines() if line.strip().endswith('/libplutovg.a') and not any(c in line.strip() for c in [' ','\t'])]
