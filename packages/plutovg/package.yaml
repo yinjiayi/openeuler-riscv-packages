@@ -36,7 +36,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-fix-UTF16-surrogate-lookahead.patch",
+        "license": "MIT",
+        "purpose": "Fix generic UTF-16 supplementary-pair decoding by testing the next code unit for a low surrogate under the existing length guard.",
+        "remove_when": "An upstream fixed release contains the equivalent lookahead correction and full default plus owned build/install/physical gates pass.",
+        "sha256": "763a9a52a47e2770904246ab18fb1eeac221023971b7a6812c39629095eba1e9",
+        "source": "Derived from official v1.3.3 commit bbd91f0d06a71491691b36330f29dffa4af87ccf/source/plutovg-font.c and actual first-target Unicode regression; no upstream write.",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "plutovg.spec"
@@ -45,7 +55,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Exact official1.3.3/source35 retained unchanged. Native CMake static default/example ON/font-cache loading enabled; no source patch and no registered original test suite. Select explicit STB MIT alternative, preserve exact FTL and every original file as notices plus binary acknowledgement. Owned static C99/C11 CMake/pkgconf installed/relocated and real pinned-font checks are additive. No target acceptance or independent crypto claim.",
+    "notes": "Exact original1.3.3 archive/source35 verified before one generic UTF-16 font.c lookahead patch. All35 original notices retained; only font.c differs in exact postpatch manifest, other34 unchanged. Existing functional consumers/runner, valid supplementary regression, static/example/font-cache defaults and grant scopes preserved. Not RISC-V-specific or native-only; replacement target success pending.",
     "status": "active"
   },
   "package_id": "plutovg",

@@ -10,6 +10,7 @@ License:        MIT AND FTL AND Apache-2.0
 URL:            https://github.com/sammycage/plutovg
 Source0:        plutovg-1.3.3-Git.tar.gz
 Source1:        Apache-2.0.txt
+Patch0:         0001-fix-UTF16-surrogate-lookahead.patch
 BuildRequires:  bash
 BuildRequires:  binutils
 BuildRequires:  cmake >= 3.20
@@ -19,6 +20,7 @@ BuildRequires:  gcc
 BuildRequires:  glibc-devel
 BuildRequires:  gzip
 BuildRequires:  make
+BuildRequires:  patch
 BuildRequires:  pkgconf
 BuildRequires:  python3 >= 3.9
 BuildRequires:  tar
@@ -289,7 +291,7 @@ for path,row in expected.items():
  p=actual[path];assert not p.is_symlink() and p.stat().st_size==row['bytes'] and hashlib.sha256(p.read_bytes()).hexdigest()==row['sha256']
 if a.cache:
  cache={line.split('=',1)[0]:line.split('=',1)[1] for line in pathlib.Path(a.cache).read_text().splitlines() if '=' in line and not line.startswith(('#','//'))};assert cache['PLUTOVG_BUILD_EXAMPLES:BOOL']=='ON' and cache['PLUTOVG_DISABLE_FONT_FACE_CACHE_LOAD:BOOL']=='OFF' and cache.get('BUILD_SHARED_LIBS:BOOL','OFF') in {'OFF','FALSE','0'}
-print(json.dumps({'original_files':len(expected),'all_original_SHA256_unchanged':True,'native_static_default':bool(a.cache),'font_cache_load_enabled':bool(a.cache),'original_example_enabled':bool(a.cache)}))
+print(json.dumps({'source_files':len(expected),'source_snapshot':'original' if pathlib.Path(a.manifest).name=='source-manifest.json' else 'package-patched','all_source_files_match_manifest':True,'manifest_sha256':hashlib.sha256(pathlib.Path(a.manifest).read_bytes()).hexdigest(),'native_static_default':bool(a.cache),'font_cache_load_enabled':bool(a.cache),'original_example_enabled':bool(a.cache)}))
 OWNED_PLUTOVG_ASSET_4
 cat > .packaging-qa/assets/smiley.c <<'OWNED_PLUTOVG_ASSET_5'
 #include <plutovg.h>
@@ -533,7 +535,9 @@ Project (www.freetype.org). All rights reserved.
 The seven original plutovg-ft-*.c/h files retain their exact original
 David Turner, Robert Wilhelm, and Werner Lemberg notices and years.
 The unmodified original FTL.TXT is installed byte-for-byte, not transcoded.
-This package makes no changes to any of the 35 upstream files.
+This package changes only source/plutovg-font.c to fix generic UTF-16
+surrogate lookahead. The seven FT-derived files and three STB headers
+remain unchanged. All 35 original files are retained as source notices.
 Packaging-owned SDK consumers and checks are additive, outside upstream.
 No endorsement, personal warranty, or separate CERT permission is claimed.
 The three STB headers are used under their explicit MIT alternative A;
@@ -543,7 +547,7 @@ in this package. Its own package retains its Bitstream Vera/PD attribution.
 OWNED_PLUTOVG_ASSET_7
 cat > .packaging-qa/assets/rights-ledger.json <<'OWNED_PLUTOVG_ASSET_8'
 {
-  "binary_acknowledgement": "FreeType acknowledgement and downstream changes statement\n\nThis software is based in part on the work of the FreeType Team.\nPortions of this software are copyright (C) 1996-2020 The FreeType\nProject (www.freetype.org). All rights reserved.\n\nThe seven original plutovg-ft-*.c/h files retain their exact original\nDavid Turner, Robert Wilhelm, and Werner Lemberg notices and years.\nThe unmodified original FTL.TXT is installed byte-for-byte, not transcoded.\nThis package makes no changes to any of the 35 upstream files.\nPackaging-owned SDK consumers and checks are additive, outside upstream.\nNo endorsement, personal warranty, or separate CERT permission is claimed.\nThe three STB headers are used under their explicit MIT alternative A;\nboth original offered alternatives and all embedded attributions remain.\nThe DejaVu font is an external runtime/build dependency, not redistributed\nin this package. Its own package retains its Bitstream Vera/PD attribution.\n",
+  "binary_acknowledgement": "FreeType acknowledgement and downstream changes statement\n\nThis software is based in part on the work of the FreeType Team.\nPortions of this software are copyright (C) 1996-2020 The FreeType\nProject (www.freetype.org). All rights reserved.\n\nThe seven original plutovg-ft-*.c/h files retain their exact original\nDavid Turner, Robert Wilhelm, and Werner Lemberg notices and years.\nThe unmodified original FTL.TXT is installed byte-for-byte, not transcoded.\nThis package changes only source/plutovg-font.c to fix generic UTF-16\nsurrogate lookahead. The seven FT-derived files and three STB headers\nremain unchanged. All 35 original files are retained as source notices.\nPackaging-owned SDK consumers and checks are additive, outside upstream.\nNo endorsement, personal warranty, or separate CERT permission is claimed.\nThe three STB headers are used under their explicit MIT alternative A;\nboth original offered alternatives and all embedded attributions remain.\nThe DejaVu font is an external runtime/build dependency, not redistributed\nin this package. Its own package retains its Bitstream Vera/PD attribution.\n",
   "formal_rights_admission": false,
   "license_choices": "MIT AND FTL AND Apache-2.0",
   "per_file": [
@@ -981,7 +985,9 @@ cat > .packaging-qa/assets/rights-ledger.json <<'OWNED_PLUTOVG_ASSET_8'
       "selected_scope": "MIT (project LICENSE)"
     }
   ],
-  "source_changes": false,
+  "source_changes": true,
+  "source_change_scope": "Only source/plutovg-font.c: generic UTF-16 lookahead; original35 notices retained before patch",
+  "patched_source_sha256": "09c5cba0d63aa9e7d144c83b2960851b23106c87ca0c23bb370e0cb33c12f054",
   "source_files": 35
 }
 OWNED_PLUTOVG_ASSET_8
@@ -1005,6 +1011,24 @@ cat > .packaging-qa/assets/font-input.json <<'OWNED_PLUTOVG_ASSET_9'
 }
 OWNED_PLUTOVG_ASSET_9
 python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/source-manifest.json
+python3 - <<'PY_PLUTOVG_ORIGINAL_SNAPSHOT'
+import hashlib,json,pathlib,shutil
+manifest=json.loads(pathlib.Path('.packaging-qa/assets/source-manifest.json').read_text())['files'];assert len(manifest)==35
+snapshot=pathlib.Path('.packaging-qa/original-source');snapshot.mkdir(exist_ok=False)
+for p,row in sorted(manifest.items()):
+ src=pathlib.Path(p);raw=src.read_bytes();assert not src.is_symlink() and len(raw)==row['bytes'] and hashlib.sha256(raw).hexdigest()==row['sha256'];dest=snapshot/p;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dest);assert dest.read_bytes()==raw
+PY_PLUTOVG_ORIGINAL_SNAPSHOT
+%patch0 -p1
+python3 - <<'PY_PLUTOVG_PATCHED_MANIFEST'
+import copy,hashlib,json,pathlib
+original=json.loads(pathlib.Path('.packaging-qa/assets/source-manifest.json').read_text());post=copy.deepcopy(original);p='source/plutovg-font.c';assert len(original['files'])==35 and original['files'][p]['sha256']=='e121cbbb3930a1812d4c2a2ab2ee930003092064e79d869420dcb267979d93c9'
+raw=pathlib.Path(p).read_bytes();assert len(raw)==35952 and hashlib.sha256(raw).hexdigest()=='09c5cba0d63aa9e7d144c83b2960851b23106c87ca0c23bb370e0cb33c12f054'
+post['files'][p]['sha256']='09c5cba0d63aa9e7d144c83b2960851b23106c87ca0c23bb370e0cb33c12f054';post['files'][p]['bytes']=35952
+assert [name for name in original['files'] if original['files'][name]!=post['files'][name]]==[p]
+post['source_snapshot']='package-patched';post['source_patch_count']=1;post['patch_sha256']='763a9a52a47e2770904246ab18fb1eeac221023971b7a6812c39629095eba1e9'
+pathlib.Path('.packaging-qa/assets/post-patch-manifest.json').write_text(json.dumps(post,indent=2,sort_keys=True)+'\n')
+PY_PLUTOVG_PATCHED_MANIFEST
+python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/post-patch-manifest.json
 
 %build
 %set_build_flags
@@ -1012,7 +1036,7 @@ cmake -S . -B .packaging-qa/build -DCMAKE_BUILD_TYPE=None \
   -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_INSTALL_LIBDIR=%{_lib} \
   -DCMAKE_C_FLAGS="%{build_cflags} -UNDEBUG" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 cmake --build .packaging-qa/build --parallel 2 --verbose
-python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/source-manifest.json --cache .packaging-qa/build/CMakeCache.txt
+python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/post-patch-manifest.json --cache .packaging-qa/build/CMakeCache.txt
 
 %install
 DESTDIR=%{buildroot} cmake --install .packaging-qa/build
@@ -1028,17 +1052,17 @@ python3 - "%{buildroot}%{_licensedir}/%{name}/source-notices" <<'PY_PLUTOVG_NOTI
 import hashlib,json,pathlib,shutil,sys
 root=pathlib.Path(sys.argv[1]);manifest=json.loads(pathlib.Path('.packaging-qa/assets/source-manifest.json').read_text())['files'];sums=[]
 for p,row in sorted(manifest.items()):
- src=pathlib.Path(p);assert hashlib.sha256(src.read_bytes()).hexdigest()==row['sha256'];dest=root/(p+'.notice');dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dest);assert dest.read_bytes()==src.read_bytes();sums.append(row['sha256']+'  '+p+'.notice')
+ src=pathlib.Path('.packaging-qa/original-source')/p;assert not src.is_symlink() and src.stat().st_size==row['bytes'] and hashlib.sha256(src.read_bytes()).hexdigest()==row['sha256'];dest=root/(p+'.notice');dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dest);assert dest.read_bytes()==src.read_bytes();sums.append(row['sha256']+'  '+p+'.notice')
 (root/'SHA256SUMS').write_text('\n'.join(sums)+'\n')
 PY_PLUTOVG_NOTICES
-python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/source-manifest.json
+python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/post-patch-manifest.json
 
 %check
-python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/source-manifest.json --cache .packaging-qa/build/CMakeCache.txt
+python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/post-patch-manifest.json --cache .packaging-qa/build/CMakeCache.txt
 python3 .packaging-qa/assets/run-qa.py --prefix %{buildroot}%{_prefix} --phase build \
   --output .packaging-qa/build-validation --font-contract .packaging-qa/assets/font-input.json \
   --smiley .packaging-qa/build/examples/smiley
-python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/source-manifest.json
+python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/post-patch-manifest.json
 
 %files
 %{_includedir}/plutovg/
@@ -1052,3 +1076,4 @@ python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/source-manif
 %changelog
 * Wed Oct 28 2026 yinjiayi <yinjiayi@users.noreply.github.com> - 1.3.3-1
 - Preserve the native static SDK and example; add target-only consumer validation.
+- Fix generic UTF-16 surrogate lookahead; retain the failing supplementary regression.
