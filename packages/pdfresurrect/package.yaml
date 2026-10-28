@@ -67,14 +67,24 @@
     "spec": "pdfresurrect.spec",
     "sources": "sources.yaml",
     "smoke_test": "tests/smoke.sh",
-    "patches": []
+    "patches": [
+      {
+        "file": "patches/0001-preserve-CFLAGS-in-compiler-checks.patch",
+        "sha256": "0019baf693ce147e7ba9af598548e30fe75ffdf329bb3965dd56fdffb83f13c9",
+        "purpose": "Preserve incoming CFLAGS during compiler probes while retaining hardened LDFLAGS, original X save/restore, default optimizations and all checks.",
+        "source": "Package-local source-derived patch against official fixed Pdfresurrect 0.23 archive SHA256 e47a75a328020e4ebac5768921daa50b77c30610e787f0e78139fd4766a970ed; configure.ac SHA256 2b41e4cf75641bb78e2f8cc6ec8ac644f1a9b48361fa7bf62bf6f235d58b6d27 and checked-in configure SHA256 e52956911193d03199bdb6ca072450ada8153d9a9fb9244ee7ba2b36ff1d62fd.",
+        "license": "BSD-3-Clause project grant for configure.ac; original FSF unlimited copy/distribute/modify permission for generated configure, with all verbatim notices preserved.",
+        "upstream_status": "not-submitted",
+        "remove_when": "A reviewed official stable source retains incoming compiler flags in both configure inputs and passes the unchanged target build/install QA with the same hardening flags."
+      }
+    ]
   },
   "maintenance": {
     "status": "active",
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Highest official numeric stable tag v0.23, not a formal release; main.h VER and ChangeLog confirm 0.23. All 13 source files exactly match fixed Git bytes/modes and remain unpatched, including complete configure FSF unlimited-copy/modify grants. Original make all builds one binary and supplied manual; no upstream test target or fixtures exists. Additive six semantic groups run ten exact CLI cases in build and installed roles. Extraction retains the full original bytes plus selected startxref trailer; it is not scrubbing. Experimental scrub remains disabled. Target ELF64/RISC-V and build-ID, same-file installed binary and helper/raw-output hashes are actual CI gates, not a present target acceptance claim. No security, performance, rendering, all-PDF, native or full-Daily claim."
+    "notes": "Highest official numeric stable tag v0.23, not a formal release; main.h VER and ChangeLog confirm 0.23. All 13 original source files/modes and complete configure FSF unlimited-copy/modify grants are retained as raw notices. One pinned package-local patch changes only the two configure inputs to preserve incoming CFLAGS during compiler probes; 11 source files remain original and two postpatch digests are verified at prep/build/check. Original make all builds one binary and supplied manual; no upstream test target or fixtures exists. Additive six semantic groups run ten exact CLI cases in build and installed roles. Extraction retains the full original bytes plus selected startxref trailer; it is not scrubbing. Experimental scrub remains disabled. Target ELF64/RISC-V and build-ID, same-file installed binary and helper/raw-output hashes are actual CI gates, not a present repaired-target acceptance claim. No security, performance, rendering, all-PDF, native or full-Daily claim."
   },
   "updates": {
     "enabled": true,

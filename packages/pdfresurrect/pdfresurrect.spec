@@ -10,6 +10,7 @@ URL:            https://github.com/enferex/pdfresurrect
 Source0:        pdfresurrect-0.23.tar.gz
 # Official legal URL: https://www.apache.org/licenses/LICENSE-2.0.txt
 Source1:        Apache-2.0.txt
+Patch0:         0001-preserve-CFLAGS-in-compiler-checks.patch
 BuildRequires:  bash
 BuildRequires:  binutils
 BuildRequires:  coreutils
@@ -21,6 +22,7 @@ BuildRequires:  glibc-devel
 BuildRequires:  grep
 BuildRequires:  gzip
 BuildRequires:  make
+BuildRequires:  patch
 BuildRequires:  python3
 BuildRequires:  sed
 BuildRequires:  tar
@@ -53,6 +55,24 @@ Path('.packaging-originals/source.json').write_text(json.dumps(original,sort_key
 (notices/'SHA256SUMS').write_text(''.join(row['sha256']+'  '+name+'.notice\n' for name,row in sorted(original.items())))
 Path('.packaging-qa').mkdir()
 PY_ORIGINALS
+# Preserve all 13 original notices before applying the one pinned source patch.
+sha256sum -c <<'EOF_PATCH_SHA'
+0019baf693ce147e7ba9af598548e30fe75ffdf329bb3965dd56fdffb83f13c9  %{PATCH0}
+EOF_PATCH_SHA
+patch --batch --forward --fuzz=0 -p1 < %{PATCH0}
+python3 - <<'PY_POSTPATCH'
+import hashlib,json
+from pathlib import Path
+original=json.loads(Path('.packaging-originals/source.json').read_text());assert len(original)==13
+post={'configure.ac': {'sha256': '7e52e65eaadeaeffa3bc4562a836b460a8ab7ab46d5f34c5f02b8c8b2a3db0f6', 'bytes': 1141, 'executable': False}, 'configure': {'sha256': '43090de5ab38f9d965e98f9108e4c08fe1fb0caaf246a98ee3b88feda9624617', 'bytes': 144749, 'executable': True}}
+assert set(post)=={'configure','configure.ac'}
+for name,row in original.items():
+    p=Path(name);b=p.read_bytes();expected=post.get(name,row)
+    assert p.is_file() and not p.is_symlink() and len(b)==expected['bytes'] and hashlib.sha256(b).hexdigest()==expected['sha256'] and bool(p.stat().st_mode&0o111)==row['executable'],name
+    notice=Path('.packaging-originals/source-notices',name+'.notice');original_bytes=notice.read_bytes()
+    assert notice.is_file() and not notice.is_symlink() and len(original_bytes)==row['bytes'] and hashlib.sha256(original_bytes).hexdigest()==row['sha256'],name
+print('PDFRESURRECT_SOURCE_PATCH_PROOF '+json.dumps(dict(phase='prep',original_files=13,unchanged_original_files=11,postpatch_files=post,all_13_original_notice_bytes_unchanged=True,patch_sha256='0019baf693ce147e7ba9af598548e30fe75ffdf329bb3965dd56fdffb83f13c9'),sort_keys=True))
+PY_POSTPATCH
 cat > .packaging-qa/run-qa.py <<'EOF_QA'
 #!/usr/bin/python3
 # SPDX-License-Identifier: Apache-2.0
@@ -173,6 +193,19 @@ cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30  %{SOURCE1}
 EOF_QA_SHA
 
 %build
+python3 - <<'PY_SOURCE_BEFORE_BUILD'
+import hashlib,json
+from pathlib import Path
+original=json.loads(Path('.packaging-originals/source.json').read_text());assert len(original)==13
+post={'configure.ac': {'sha256': '7e52e65eaadeaeffa3bc4562a836b460a8ab7ab46d5f34c5f02b8c8b2a3db0f6', 'bytes': 1141, 'executable': False}, 'configure': {'sha256': '43090de5ab38f9d965e98f9108e4c08fe1fb0caaf246a98ee3b88feda9624617', 'bytes': 144749, 'executable': True}}
+assert set(post)=={'configure','configure.ac'}
+for name,row in original.items():
+    p=Path(name);b=p.read_bytes();expected=post.get(name,row)
+    assert p.is_file() and not p.is_symlink() and len(b)==expected['bytes'] and hashlib.sha256(b).hexdigest()==expected['sha256'] and bool(p.stat().st_mode&0o111)==row['executable'],name
+    notice=Path('.packaging-originals/source-notices',name+'.notice');original_bytes=notice.read_bytes()
+    assert notice.is_file() and not notice.is_symlink() and len(original_bytes)==row['bytes'] and hashlib.sha256(original_bytes).hexdigest()==row['sha256'],name
+print('PDFRESURRECT_SOURCE_PATCH_PROOF '+json.dumps(dict(phase='build',original_files=13,unchanged_original_files=11,postpatch_files=post,all_13_original_notice_bytes_unchanged=True,patch_sha256='0019baf693ce147e7ba9af598548e30fe75ffdf329bb3965dd56fdffb83f13c9'),sort_keys=True))
+PY_SOURCE_BEFORE_BUILD
 # Keep the original effective -O3 -Wall as well as the target RPM flags.
 export CFLAGS="%{optflags} -O3 -Wall"
 export LDFLAGS="%{?build_ldflags} -Wl,--build-id"
@@ -212,11 +245,14 @@ python3 - <<'PY_SOURCE_AFTER'
 import hashlib,json
 from pathlib import Path
 original=json.loads(Path('.packaging-originals/source.json').read_text());assert len(original)==13
+post={'configure.ac': {'sha256': '7e52e65eaadeaeffa3bc4562a836b460a8ab7ab46d5f34c5f02b8c8b2a3db0f6', 'bytes': 1141, 'executable': False}, 'configure': {'sha256': '43090de5ab38f9d965e98f9108e4c08fe1fb0caaf246a98ee3b88feda9624617', 'bytes': 144749, 'executable': True}}
+assert set(post)=={'configure','configure.ac'}
 for name,row in original.items():
-    p=Path(name);b=p.read_bytes()
-    assert len(b)==row['bytes'] and hashlib.sha256(b).hexdigest()==row['sha256'] and bool(p.stat().st_mode&0o111)==row['executable'],name
-    assert Path('.packaging-originals/source-notices',name+'.notice').read_bytes()==b,name
-print('All 13 original upstream files, executable modes and raw notices unchanged; no original test target exists')
+    p=Path(name);b=p.read_bytes();expected=post.get(name,row)
+    assert p.is_file() and not p.is_symlink() and len(b)==expected['bytes'] and hashlib.sha256(b).hexdigest()==expected['sha256'] and bool(p.stat().st_mode&0o111)==row['executable'],name
+    notice=Path('.packaging-originals/source-notices',name+'.notice');original_bytes=notice.read_bytes()
+    assert notice.is_file() and not notice.is_symlink() and len(original_bytes)==row['bytes'] and hashlib.sha256(original_bytes).hexdigest()==row['sha256'],name
+print('PDFRESURRECT_SOURCE_PATCH_PROOF '+json.dumps(dict(phase='check',original_files=13,unchanged_original_files=11,postpatch_files=post,all_13_original_notice_bytes_unchanged=True,patch_sha256='0019baf693ce147e7ba9af598548e30fe75ffdf329bb3965dd56fdffb83f13c9'),sort_keys=True))
 PY_SOURCE_AFTER
 sha256sum -c <<'EOF_CHECK_SHA'
 5358f476e15a3c51ccd4a2d261258dfcc5bb3ecbea25ad9f01338165d3859d75  .packaging-qa/run-qa.py
@@ -235,5 +271,6 @@ python3 .packaging-qa/run-qa.py --program "$PWD/pdfresurrect"
 
 %changelog
 * Wed Oct 28 2026 openEuler RISC-V package contributors - 0.23-1
-- Preserve the stable-tag source, original binary/manual defaults and all notices.
+- Preserve incoming compiler hardening flags in both configure inputs.
+- Preserve original binary/manual defaults, all notices and strict QA.
 - Add bounded classic-PDF revision checks without enabling experimental scrub.
