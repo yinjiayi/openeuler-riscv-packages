@@ -14,6 +14,7 @@ from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, par
 
 
 RPM_WRAPPER_PATTERN = r"bad exit status from /var/tmp/rpm-tmp"
+IMAGE_INFRASTRUCTURE_PATTERN = r"failed to (?:pull|resolve).*image|manifest unknown|image.*digest"
 
 # A target architecture or an atomic-looking executable name is provenance,
 # not a compiler diagnosis. Require an explicit natural-language atomic failure
@@ -64,7 +65,7 @@ RULES: List[Tuple[str, List[str], str, bool, bool, Optional[str]]] = [
             r"\bexit_code:\s*124\b|\bcontext canceled\b",
             r"no space left on device|disk quota exceeded",
             r"runner (?:lost|disconnected|shutdown)|the operation was canceled",
-            r"failed to (?:pull|resolve).*image|manifest unknown|image.*digest",
+            IMAGE_INFRASTRUCTURE_PATTERN,
             r"base-image-rpm-baseline-invalid|target runtime RPM database is (?:empty|missing)",
             r"temporary failure in name resolution|connection (?:reset|timed out)|HTTP (?:429|5\d\d)",
             r"RVA23 representative instruction probe was not reported",
@@ -226,8 +227,45 @@ def zero_count_test_summary(text: str, match: re.Match[str]) -> bool:
     )
 
 
+def image_failure_diagnostic(text: str, match: re.Match[str]) -> bool:
+    """Image names/digests in echoed code or provenance are not failures."""
+
+    start = text.rfind("\n", 0, match.start()) + 1
+    end = text.find("\n", match.end())
+    line = text[start:len(text) if end < 0 else end].strip()
+    # Python traceback source excerpts and shell traces can contain quoted
+    # diagnostics. Do not mistake those statements for their execution result.
+    if re.match(
+        r"(?:\+\s*)?(?:echo|printf)\b|"
+        r"(?:assert|raise|return|def|class|if|elif|for|while|with)\b|"
+        r"print\s*\(|#|"
+        r"[A-Za-z_]\w*(?:\.[A-Za-z_]\w*|\[[^\]]+\])*\s*(?:=|:=)",
+        line,
+    ):
+        return False
+    if re.search(r"failed to (?:pull|resolve).*image|manifest unknown", match.group(0), re.I):
+        return True
+    # Keep the existing broad rule for compatibility, but require a real
+    # digest failure in the same diagnostic clause. In particular, the suffix
+    # hexdigest() in a QA source statement is not the word 'digest'.
+    failure = (
+        r"\b(?:mismatch(?:ed)?|invalid|incorrect|missing|untrusted|unexpected|"
+        r"rejected|failed|failure|different|differs)\b|"
+        r"\bdoes not match\b|\bnot (?:found|available)\b|"
+        r"\bcould not (?:verify|resolve|validate)\b"
+    )
+    return any(
+        re.search(r"\bimage\b|\bimage_digest\b", clause, re.I)
+        and re.search(r"\bdigest\b|\bimage_digest\b", clause, re.I)
+        and re.search(failure, clause, re.I)
+        for clause in line.split(";")
+    )
+
+
 def first_effective_match(pattern: str, text: str) -> Optional[re.Match[str]]:
     for match in re.finditer(pattern, text, re.I | re.M):
+        if pattern == IMAGE_INFRASTRUCTURE_PATTERN and not image_failure_diagnostic(text, match):
+            continue
         if not zero_count_test_summary(text, match):
             return match
     return None
