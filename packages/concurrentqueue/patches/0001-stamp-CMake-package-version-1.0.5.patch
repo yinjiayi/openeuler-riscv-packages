@@ -1,0 +1,18 @@
+From: openEuler RISC-V packaging
+Subject: [PATCH] Stamp the exported CMake package as release 1.0.5
+
+The official v1.0.5 source still declares project VERSION 1.0.0.
+Update only that declaration so find_package(concurrentqueue 1.0.5 EXACT)
+can validate the release actually packaged. No implementation/test changes.
+Upstream status: packaging-local version metadata correction; not submitted.
+Removal condition: upstream project VERSION matches the packaged stable tag.
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,2 +1,2 @@
+ cmake_minimum_required(VERSION 3.9)
+-project(concurrentqueue VERSION 1.0.0)
++project(concurrentqueue VERSION 1.0.5)
