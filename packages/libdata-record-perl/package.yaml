@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-record-perl",
+  "rpm": {
+    "name": "perl-Data-Record",
+    "summary": "Configurable record splitting for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-record-perl",
+    "homepage": "https://metacpan.org/dist/Data-Record",
+    "source_repository": "https://metacpan.org/dist/Data-Record",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/O/OV/OVID/",
+    "release_regex": "Data-Record-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/O/OV/OVID/Data-Record-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.02",
+    "release": "1",
+    "latest_detected": "0.02"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libdata-record-perl",
+        "package_base": "libdata-record-perl",
+        "source_version": "0.02-8",
+        "evidence_url": "https://packages.debian.org/source/sid/libdata-record-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-record-perl",
+        "package_base": "libdata-record-perl",
+        "source_version": "0.02-8",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-record-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-record-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory 0.02 was unverified upstream; official CPAN CHECKSUMS and copyright-holder README/module grant resolve provenance and license. Official SP3 RVA23 primary lacks same-name and perl(Data::Record) provider but supplies all declared hard dependencies including Sub::Uplevel 0.2800, Test::Exception 0.43, Test::Pod 1.52, Test::Pod::Coverage 1.10 and MakeMaker. All four default upstream tests remain unchanged. Local macOS ran 31 assertions but the POD-coverage file self-skipped because Test::Pod::Coverage is absent; target has a hard BuildRequires and must run all four files without skips. Exact-head hosted CI must prove full tests, RPM/SRPM and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
