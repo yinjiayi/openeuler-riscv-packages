@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-findindent-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-FindIndent-0.12.tar.gz",
+      "version": "0.12",
+      "url": "https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Text-FindIndent-0.12.tar.gz",
+      "digests": {
+        "sha256": "93cf7c74b313ac842108f272cd00cd6f705aa711a997d8a6345e3b4cae9242ca"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE and module POD expressly grant the same terms as Perl itself; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
