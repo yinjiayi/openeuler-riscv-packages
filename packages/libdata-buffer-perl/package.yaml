@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-buffer-perl",
+  "rpm": {
+    "name": "perl-Data-Buffer",
+    "summary": "Read and write binary buffers in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-buffer-perl",
+    "homepage": "https://metacpan.org/dist/Data-Buffer",
+    "source_repository": "https://metacpan.org/dist/Data-Buffer",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TI/TIMLEGGE/",
+    "release_regex": "Data-Buffer-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TI/TIMLEGGE/Data-Buffer-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.06",
+    "release": "1",
+    "latest_detected": "0.06"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libdata-buffer-perl",
+        "package_base": "libdata-buffer-perl",
+        "source_version": "0.06-1",
+        "evidence_url": "https://packages.debian.org/source/sid/libdata-buffer-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-buffer-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Debian 0.06-1 inventory was unverified upstream; official SHA-256-matched CPAN CHECKSUMS and archive LICENSE/module copyright-holder grant resolve provenance and license. Official SP3 RVA23 primary lacks same-name and perl(Data::Buffer) providers and uniquely supplies MakeMaker and Test2::V0 0.000155. Sole default upstream test file remains unchanged with 55 assertions, passed locally without skips. Exact-head hosted target CI must prove 55/55, RPM/SRPM and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
