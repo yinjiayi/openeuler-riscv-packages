@@ -97,3 +97,18 @@ main/open-PR identity and credential guards are rechecked before submission.
 Target build/install, complete original suites, all8 owned routes/four
 negatives, physical RPM/SRPM and independent main/publication proof remain
 unobserved for this recipe. No local upstream/QEMU/RPM build is authorized.
+
+Patch-context repair after first target CI
+
+CI40789576754 failed in %prep before compilation: GNU patch with --fuzz=0
+rejected the shortened two-line version hunk. The repaired representation
+retains trailing CMake context and spells the unchanged empty line as an
+explicit delete/add pair. No fuzz or offset relaxation is requested. Its
+complete post-patch CMakeLists.txt is unchanged from the reviewed one-byte
+version correction, SHA-256
+e417b6dc9a7ed4832686123995715e6d1c8456ef592abab2cba5ab871b0b889d.
+All implementation, original test/default/benchmark sources and owned QA
+remain unchanged. Isolated host GNU patch2.8 dry-runs reproduce old rejection,
+accept the repaired hunk and reject five negative inputs. This is data-only
+patch-parser evidence, not target GNU patch2.7.6, build or test acceptance;
+fresh exact-head target CI and physical RPM/SRPM proof remain required.
