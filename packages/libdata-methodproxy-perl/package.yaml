@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-methodproxy-perl",
+  "rpm": {
+    "name": "perl-Data-MethodProxy",
+    "summary": "Inject dynamic method results into static Perl data",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-methodproxy-perl",
+    "homepage": "https://metacpan.org/dist/Data-MethodProxy",
+    "source_repository": "https://github.com/bluefeet/Data-MethodProxy",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BL/BLUEFEET/",
+    "release_regex": "Data-MethodProxy-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BL/BLUEFEET/Data-MethodProxy-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.05",
+    "release": "1",
+    "latest_detected": "0.05"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-methodproxy-perl",
+        "package_base": "libdata-methodproxy-perl",
+        "source_version": "0.05",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-methodproxy-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-methodproxy-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official CPAN Data-MethodProxy 0.05 and publisher CHECKSUMS agree on SHA-256. The release LICENSE and both installed module POD grant the Perl GPL/Artistic terms. SP3 RVA23 primary lacks the RPM and both Data::MethodProxy and Config::MethodProxy providers and uniquely supplies all hard dependencies. Both unchanged default upstream test files pass 10 local assertions without skips."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
