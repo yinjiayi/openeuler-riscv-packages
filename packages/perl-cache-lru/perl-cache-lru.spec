@@ -25,7 +25,7 @@ Simple in-process least-recently-used cache for Perl
 %autosetup -p1 -n Cache-LRU-%{version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
+%{__perl} -I. Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
 %make_build
 
 %install
