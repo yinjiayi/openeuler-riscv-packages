@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-ansi-util-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-ANSI-Util-0.234.tar.gz",
+      "version": "0.234",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/Text-ANSI-Util-0.234.tar.gz",
+      "digests": {
+        "sha256": "17eb1f7bb270b1cb2a827262587a66c0e04abfa535a80bb0800ec44317035240"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included LICENSE expressly grants the same terms as Perl itself; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
