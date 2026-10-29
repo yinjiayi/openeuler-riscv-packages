@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-dirlist-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-DirList-0.05.tar.gz",
+      "version": "0.05",
+      "url": "https://cpan.metacpan.org/authors/id/T/TP/TPABA/File-DirList/File-DirList-0.05.tar.gz",
+      "digests": {
+        "sha256": "993b7d7662e55798448a1edaccb9abd281d2bd23be7eab99f569b8e2962d3bc3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN HTTPS archive matches its publisher CHECKSUMS SHA-256; the main module POD and README expressly grant redistribution and modification under Perl 5.8.4 or later terms."
+      }
+    }
+  ]
+}
