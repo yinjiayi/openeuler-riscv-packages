@@ -13,6 +13,7 @@ BuildRequires:  perl
 BuildRequires:  perl-ExtUtils-MakeMaker
 BuildRequires:  perl-Test-Harness
 BuildRequires:  perl-generators
+BuildArch:      noarch
 Requires:       perl
 
 %description
