@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmime-base64-urlsafe-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "MIME-Base64-URLSafe-0.01.tar.gz",
+      "version": "0.01",
+      "url": "https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/MIME-Base64-URLSafe-0.01.tar.gz",
+      "digests": {
+        "sha256": "cb9966c50538bb676ab67bc40a7c841019b23ba2243d0ffcc2ccf084e5c33798"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The archived module and README explicitly grant the same terms as Perl 5.8.7 or later; the official CPAN archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
