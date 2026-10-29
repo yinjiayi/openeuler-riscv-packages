@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libHX
-Version:        5.4
+Version:        5.5
 Release:        1%{?dist}
 Summary:        Utility library for C and C++ programs
 License:        GPL-3.0-only AND LGPL-2.1-or-later
 URL:            https://inai.de/projects/libhx/
-Source0:        libHX-%{version}.tar.zst
+Source0:        libHX-5.5.tar.zst
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
