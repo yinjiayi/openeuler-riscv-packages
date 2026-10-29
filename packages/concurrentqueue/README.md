@@ -112,3 +112,16 @@ remain unchanged. Isolated host GNU patch2.8 dry-runs reproduce old rejection,
 accept the repaired hunk and reject five negative inputs. This is data-only
 patch-parser evidence, not target GNU patch2.7.6, build or test acceptance;
 fresh exact-head target CI and physical RPM/SRPM proof remain required.
+
+Parallel default-build directory preparation
+
+CI40794731462 applied the version patch and verified all original source
+postimages, then failed during the unchanged default make -C build -j2.
+Four upstream recipes use test -d bin || mkdir bin; concurrent unit/fuzz
+recipes raced and mkdir reported that bin already existed. The SPEC now
+creates build/bin once with mkdir -p before invoking that same default make.
+No upstream source, compiler flags, parallelism, default target, benchmark,
+original test or owned QA assertion changes. This is recipe preparation,
+not a RISC-V source patch or a test waiver. Two real target failures remain
+in this lineage and only one target round remains before mandatory pause.
+Replacement exact-head build/install/physical acceptance is still required.

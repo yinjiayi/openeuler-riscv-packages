@@ -16078,6 +16078,7 @@ python3 .packaging-qa/assets/source-check.py . .packaging-qa/assets/source-manif
 unset MAKEFLAGS MFLAGS CPATH CPLUS_INCLUDE_PATH C_INCLUDE_PATH LIBRARY_PATH GCC_EXEC_PREFIX COMPILER_PATH LD_PRELOAD LD_LIBRARY_PATH
 cmake -S . -B .packaging-qa/export-build -G 'Unix Makefiles'   -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_INSTALL_LIBDIR=%{_lib} -DCMAKE_BUILD_TYPE=None
 cmake --build .packaging-qa/export-build --parallel 2 --verbose
+mkdir -p build/bin
 if make -C build -j2 >.packaging-qa/default-build.stdout 2>.packaging-qa/default-build.stderr; then
   echo '{"command":["make","-C","build","-j2"],"exit":0,"default_targets":["tests","benchmarks"]}' >.packaging-qa/default-build-status.json
 else
