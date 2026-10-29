@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libwbxml",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libwbxml-0.11.10.tar.gz",
+      "version": "0.11.10",
+      "url": "https://github.com/libwbxml/libwbxml/archive/refs/tags/libwbxml-0.11.10.tar.gz",
+      "digests": {
+        "sha256": "027b77ab7c06458b73cbcf1f06f9cf73b65acdbb2ac170b234c1d736069acae4"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release code is LGPL-2.1-or-later; unused bundled files also carry GPL/BSD/MIT grants. Their licenses permit redistribution. CI fetches the tag over HTTPS and verifies SHA-256."
+      }
+    }
+  ]
+}
