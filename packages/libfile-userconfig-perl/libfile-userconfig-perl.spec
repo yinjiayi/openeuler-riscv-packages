@@ -30,7 +30,7 @@ Locate user configuration or copy defaults
 %autosetup -p1 -n File-UserConfig-%{version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
+%{__perl} -I. Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1
 %make_build
 
 %install
