@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/sid/libclass-loader-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-loader-perl",
+        "package_name": "libclass-loader-perl",
+        "source": "debian",
+        "source_version": "2.03-4"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Class-Loader/perl-Class-Loader/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Class-Loader",
+        "package_name": "perl-Class-Loader",
+        "source": "fedora",
+        "source_version": "2.03-53.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-loader.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release archive pinned by SHA-256; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-class-loader",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Class-Loader",
+    "summary": "Load Perl modules and create objects on demand"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-class-loader",
+    "homepage": "https://metacpan.org/release/Class-Loader",
+    "release_api": "https://cpan.metacpan.org/authors/id/V/VI/VIPUL/",
+    "release_channel": "stable",
+    "release_regex": "Class-Loader-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/V/VI/VIPUL/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/V/VI/VIPUL/Class-Loader-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.03",
+    "latest_detected": "2.03",
+    "release": "1"
+  }
+}
