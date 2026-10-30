@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libpath-iter-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Path-Iter-0.2.tar.gz",
+      "version": "0.2",
+      "url": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/Path-Iter-0.2.tar.gz",
+      "digests": {
+        "sha256": "70883c387e224b7d07d1fea88dbd430bac3a94f5bf6f8e98beb718d1d6b4c0dd"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive matches publisher CHECKSUMS; README and module POD grant redistribution under Perl 5 terms."
+      }
+    }
+  ]
+}
