@@ -1,0 +1,43 @@
+--- a/snooze.c
++++ b/snooze.c
+@@ -66,7 +66,7 @@
+ static long
+ parse_dur(char *s)
+ {
+-	unsigned long n;
++	unsigned long n, factor = 1;
+ 	char *end;
+ 
+ 	errno = 0;
+@@ -87,13 +87,13 @@
+ 
+ 	switch (*end) {
+ 	case 'm':
+-		n *= 60;
++		factor = 60;
+ 		break;
+ 	case 'h':
+-		n *= 60*60;
++		factor = 60*60;
+ 		break;
+ 	case 'd':
+-		n *= 24*60*60;
++		factor = 24*60*60;
+ 		break;
+ 	case 0:
+ 		break;
+@@ -103,12 +103,12 @@
+ 		exit(1);
+ 	}
+ 
+-	if (n > MAX_DURATION) {
++	if (n > MAX_DURATION / factor) {
+ 		fprintf(stderr, "duration out of range: %s\n", s);
+ 		exit(1);
+ 	}
+ 
+-	return n;
++	return n * factor;
+ }
+ 
+ static int

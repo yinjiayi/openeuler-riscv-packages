@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "docopt-cpp",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "version": "0.6.3",
+      "url": "https://api.github.com/repos/docopt/docopt.cpp/tarball/v0.6.3",
+      "filename": "docopt-cpp-0.6.3-Git.tar.gz",
+      "digests": {
+        "sha256": "334f5b9d1cb7d437c62282f0a97370ddfdfbe33de02428be9b79c7719a8a57f3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete explicit upstream dual MIT/Boost1.0 offer, selecting BSL1.0 for this port; both full grants, all18 original notices and the exact Boost hash-combine provenance comment remain. No historical Boost author/version is invented or blanket MIT relicensing claimed. Actual formal v0.6.3 source has an unsigned lightweight tag/commit and no offered selected-release assets. The unchanged original archive and all18 bytes/modes remain in the SRPM, with before-patch installed notice snapshots; a narrow two-file patch changes only release/test metadata."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "version": "2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete verified official Apache2 text for downstream packaging and owned additive QA only, not a relicensing of upstream. Reuse exact previously captured legal text without a new legal-text GET."
+      }
+    }
+  ]
+}

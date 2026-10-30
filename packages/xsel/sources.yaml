@@ -1,0 +1,36 @@
+{
+  "package_id": "xsel",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "18487761f5ca626a036d65ef2db8ad9923bf61685e06e7533676c56d7d60eb14"
+      },
+      "filename": "xsel-1.2.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original core HPND-sell-variant and auxiliary build-helper notices retained; see package README for the exact license map."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/kfish/xsel/tar.gz/refs/tags/1.2.1",
+      "version": "1.2.1"
+    },
+    {
+      "digests": {
+        "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+      },
+      "filename": "GPL-2.0.txt",
+      "id": "source1",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official GPL version 2 license document, copied verbatim as permitted by its preamble; accompanies the original missing helper in the retained QA source archive."
+      },
+      "signature": null,
+      "url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
+      "version": "2.0"
+    }
+  ]
+}

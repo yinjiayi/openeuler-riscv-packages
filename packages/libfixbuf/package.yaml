@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://tools.netsa.cert.org/fixbuf2/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfixbuf",
+        "package_name": "libfixbuf",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.5.4-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libfixbuf.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 2.5.4 archive and published SHA256 verified; 3.x is explicitly pre-release. Original defaults and make check retained; added six API cases and installed dynamic binding checks await real target CI. No packaging code borrowed from distribution recipes.",
+    "status": "active"
+  },
+  "package_id": "libfixbuf",
+  "rpm": {
+    "license": "LGPL-3.0-only AND MIT AND X11 AND FSFAP AND FSFULLR AND CC0-1.0 AND (GPL-2.0-or-later WITH Autoconf-exception-generic) AND (GPL-3.0-or-later WITH Autoconf-exception-generic) AND (GPL-2.0-or-later WITH Libtool-exception) AND ISC",
+    "name": "libfixbuf",
+    "summary": "IPFIX message format implementation library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "tools.netsa.cert.org-fixbuf",
+    "homepage": "https://tools.netsa.cert.org/fixbuf2/",
+    "release_api": "https://tools.netsa.cert.org/fixbuf2/download.html",
+    "release_channel": "stable",
+    "release_regex": "^libfixbuf-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz$",
+    "source_repository": "https://tools.netsa.cert.org/fixbuf2/",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "2.5.4",
+    "latest_detected": "2.5.4",
+    "release": "1"
+  }
+}

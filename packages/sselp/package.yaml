@@ -1,0 +1,77 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "user": "unprivileged",
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/sselp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "sselp",
+        "package_name": "sselp",
+        "source": "aur",
+        "source_version": "0.2-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-correct-property-chunk-offset-and-validation.patch",
+      "sha256": "366c5fc5fec9d38e5e6dd05a2cde7507320d7c69574339c01d0b3a138fff97fa",
+      "purpose": "Correct 32-bit-unit XGetWindowProperty offsets for format-8 byte lengths; reset failed/refused reads, validate property type/format, check allocation and release Xlib data.",
+      "source": "Locally authored against official sselp 0.2; generic correctness fix, not claimed RISC-V-specific; no upstream write.",
+      "license": "MIT",
+      "upstream_status": "downstream-only",
+      "remove_when": "A stable upstream release correctly handles multi-chunk UTF-8 selections, failed/refused conversion and malformed property format, passing the retained boundary regressions."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "sselp.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed 0.2 source SHA256 and all five members/MIT notices reviewed; AUR is discovery lineage only. Preserve original default all/install, C99/pedantic/Wall/-Os/VERSION and Xlib/libc; omit upstream -s only to defer stripping to standard RPM processing. Upstream has no test/check target. A minimal generic property-read correctness patch accompanies staged and installed offline private-Xvfb checks. No local source execution; not native desktop/input, timing, security, performance or full ICCCM proof.",
+    "status": "active"
+  },
+  "package_id": "sselp",
+  "rpm": {
+    "license": "MIT",
+    "name": "sselp",
+    "summary": "Simple X11 PRIMARY selection printer"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "tools.suckless.org-x-sselp",
+    "homepage": "https://tools.suckless.org/x/sselp/",
+    "release_api": "https://dl.suckless.org/tools/",
+    "release_channel": "stable",
+    "release_regex": "sselp-(?P<version>[0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://git.suckless.org/sselp/",
+    "source_url_template": "https://dl.suckless.org/tools/sselp-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2",
+    "latest_detected": "0.2",
+    "release": "1"
+  }
+}

@@ -159,6 +159,7 @@ jobs:
       package_id: ${{ steps.scope.outputs.package_id }}
       needs_native: ${{ steps.policy.outputs.needs_native }}
       timeout_minutes: ${{ steps.policy.outputs.timeout_minutes }}
+      install_timeout_minutes: ${{ steps.policy.outputs.install_timeout_minutes }}
       build_user: ${{ steps.policy.outputs.build_user }}
     steps:
       - name: Check out the immutable protected-base tooling
@@ -447,6 +448,23 @@ jobs:
             printf '%s\n' '{"schema_version":1,"kind":"not-applicable","check":"repository-snapshot","reason":"no QEMU package build is in scope"}' \
               > artifacts/repository/not-applicable.json
           fi
+      - name: Retain complete state-bound supplemental metadata (not RPM acceptance)
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        env:
+          PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
+          PACKAGE_COMMIT_SHA: ${{ inputs.commit_sha || github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
+          SNAPSHOT_TOOLING_SHA: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
+          SNAPSHOT_RUN_ID: ${{ github.run_id }}
+          SNAPSHOT_RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python3 ci/capture-repository-metadata.py \
+            --resolution artifacts/repository/resolution.json \
+            --repo-file artifacts/repository/openeuler-riscv-project.repo \
+            --overlay artifacts/repository/tooling-overlay.json \
+            --output-dir artifacts/repository/metadata \
+            --package-id "$PACKAGE_ID" --package-commit "$PACKAGE_COMMIT_SHA" \
+            --tooling-commit "$SNAPSHOT_TOOLING_SHA" \
+            --run-id "$SNAPSHOT_RUN_ID" --run-attempt "$SNAPSHOT_RUN_ATTEMPT"
       - name: Upload immutable repository evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -728,13 +746,22 @@ jobs:
     needs: [authorize-trusted-dispatch, prepare, metadata-validate, patch-policy, source-verify, repository-snapshot, rpmbuild-riscv64]
     if: always() && needs.authorize-trusted-dispatch.outputs.authorized == 'true'
     runs-on: ${{ fromJSON(needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && '["self-hosted","linux","x64","oe-rva23-qemu"]' || '["ubuntu-24.04"]') }}
-    timeout-minutes: 70
+    timeout-minutes: ${{ fromJSON(needs.prepare.outputs.install_timeout_minutes || '70') }}
     steps:
       - name: Check out the immutable protected-base tooling
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.authorize-trusted-dispatch.outputs.tooling_sha }}
           persist-credentials: false
+      - name: Establish the validated install deadline
+        if: needs.prepare.outputs.mode == 'package' && needs.prepare.outputs.needs_native != 'true'
+        id: install_budget
+        env:
+          INSTALL_TIMEOUT_MINUTES: ${{ needs.prepare.outputs.install_timeout_minutes || '70' }}
+        run: |
+          ci/rpmbuild-timeout-budget.py start --phase rpm-install-smoke \
+            --timeout-minutes "$INSTALL_TIMEOUT_MINUTES" --reserve-seconds 600 \
+            --output artifacts/smoke/timeout-budget.json --github-output "$GITHUB_OUTPUT"
       - name: Materialize only the exact package tree
         if: needs.prepare.outputs.mode == 'package'
         env:
@@ -784,10 +811,16 @@ jobs:
         env:
           PACKAGE_ID: ${{ needs.prepare.outputs.package_id }}
           IMAGE_REF: ${{ steps.image.outputs.ref }}
+          INSTALL_DEADLINE_EPOCH: ${{ steps.install_budget.outputs.deadline_epoch }}
         run: |
           mkdir -p artifacts/smoke
+          install_timeout_seconds=$(ci/rpmbuild-timeout-budget.py remaining \
+            --phase rpm-install-smoke --deadline-epoch "$INSTALL_DEADLINE_EPOCH" \
+            --output artifacts/smoke/timeout-remaining.json \
+            --failure-output artifacts/smoke/timeout-expired.json)
+          [[ "$install_timeout_seconds" =~ ^[1-9][0-9]*$ ]]
           ci/run-capped.sh --log artifacts/smoke/smoke.log \
-            --max-bytes 52428800 --timeout-seconds 3600 -- \
+            --max-bytes 52428800 --timeout-seconds "$install_timeout_seconds" -- \
             docker run --rm --platform linux/riscv64 \
               --memory 6g --cpus 2 --pids-limit 1024 \
               --security-opt no-new-privileges \

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "nsync",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://api.github.com/repos/google/nsync/tarball/refs/tags/1.30.0",
+      "filename": "nsync-1.30.0.tar.gz",
+      "version": "1.30.0",
+      "digests": {
+        "sha256": "bb9b1823f6246afd7e7a78497c43ffca62970c94cfebe39c3d58d3a70850a7bd"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Proposed complete Apache2 project grant with164 Google notices and associated build/docs metadata; all315 original byte strings/notices copied before the single CMake export visibility patch. Full source LICENSE also covers owned Apache2 packaging/QA. Patch carries source/applicability/rootcause/license/status/removal and modified-file notice;314 source files stay unchanged and one post-patch CMake SHA is pinned. Official annotated tag and commit have unsigned/null signature fields; empty formal releases do not establish global signature absence. Archive every315 file and executable mode matches fixed Git tree; root fresh source/rights/namespace review is still required."
+      }
+    }
+  ]
+}

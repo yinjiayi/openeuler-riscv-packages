@@ -1,0 +1,56 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Date: Wed, 21 Oct 2026 15:20:00 +0000
+Subject: [PATCH] Keep proxy authentication input alive and bound its read
+
+Keep authentication storage alive until main returns. Reject empty/unreadable
+input and credentials beyond the buffer limit before attempting a connection.
+This does not change the original CONNECT protocol or forwarding loop and is
+not a general security audit of this historical implementation.
+
+--- a/corkscrew.c
++++ b/corkscrew.c
+@@ -1,5 +1,11 @@
++/*
++ * Downstream modification by yinjiayi, 2026-10-21:
++ * Keep proxy credentials in main-scope storage and bound/check their read.
++ * Original notices and the distribution's GPL version 2 remain unchanged.
++ */
+ #include "config.h"
+ #include <arpa/inet.h>
++#include <ctype.h>
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <netdb.h>
+@@ -176,6 +182,8 @@
+ #endif
+ 	char *host = NULL, *desthost = NULL, *destport = NULL;
+ 	char *up = NULL;
++	char auth[BUFSIZE];
++	int next;
+ 	int port, sent, setup, code, csock;
+ 	fd_set rfd, sfd;
+ 	struct timeval tv;
+@@ -201,11 +209,19 @@
+ 				fprintf(stderr, "Error opening %s: %s\n", argv[5], strerror(errno));
+ 				exit(-1);
+ 			} else {
+-				char line[4096];
+-				fscanf(fp, "%s", line);
+-				up = malloc(sizeof(line));
+-				up = line;
++				if (fscanf(fp, "%4095s", auth) != 1) {
++					fprintf(stderr, "Error reading proxy credentials from %s\n", argv[5]);
++					fclose(fp);
++					exit(-1);
++				}
++				next = fgetc(fp);
++				if (next != EOF && !isspace((unsigned char)next)) {
++					fprintf(stderr, "Proxy credentials exceed buffer limit in %s\n", argv[5]);
++					fclose(fp);
++					exit(-1);
++				}
+ 				fclose(fp);
++				up = auth;
+ 			}
+ 		}
+ 	} else {

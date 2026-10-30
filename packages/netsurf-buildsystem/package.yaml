@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "package_id": "netsurf-buildsystem",
+  "rpm": {"name": "netsurf-buildsystem", "summary": "Shared makefiles and test tools for NetSurf libraries", "license": "MIT AND NCSA AND LicenseRef-Sorttable-2007"},
+  "upstream": {
+    "component": "source.netsurf-browser.org-buildsystem",
+    "homepage": "https://source.netsurf-browser.org/buildsystem",
+    "source_repository": "https://source.netsurf-browser.org/buildsystem.git",
+    "release_channel": "stable",
+    "release_api": "https://download.netsurf-browser.org/libs/releases/",
+    "release_regex": "buildsystem-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://download.netsurf-browser.org/libs/releases/buildsystem-{version}.tar.gz"
+  },
+  "version": {"current": "1.10", "release": "1", "latest_detected": "1.10"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "arch-extra", "package_name": "netsurf-buildsystem", "package_base": "netsurf-buildsystem", "source_version": "1.10-3", "evidence_url": "https://archlinux.org/packages/extra/any/netsurf-buildsystem/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "netsurf-buildsystem", "package_base": "netsurf-buildsystem", "source_version": "1.10-8.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/netsurf-buildsystem/netsurf-buildsystem/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "opensuse-tumbleweed", "package_name": "netsurf-buildsystem", "package_base": "netsurf-buildsystem", "source_version": "1.10-1.7", "evidence_url": "https://build.opensuse.org/package/show/openSUSE:Factory/netsurf-buildsystem", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "netsurf-buildsystem.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Separate stable buildsystem 1.10 component from the catalog's aggregated browser lineage; only exact three stable buildsystem rows retained. Official fixed archive checked without executing source locally. Original root make test (dummy by upstream design), original example all/test, and both original example test drivers retained. All original archive notices retained, including uninstalled LLVM and SortTable sources. Target build/install evidence must come from CI."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}

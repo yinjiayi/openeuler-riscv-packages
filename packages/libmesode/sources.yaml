@@ -1,0 +1,21 @@
+{
+  "package_id": "libmesode",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c9dd90648e73d92b90f2b0ae41a75d8f469b116d3e6aa297c14cd57be937d99e"
+      },
+      "filename": "libmesode-0.10.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Root and per-file MIT branch selected for dual-MIT/GPLv3 material; public-domain MD5/SHA1 members and Patrick Powell notice-preservation terms retained in full. All 83 original regular members preserved as .notice copies; the original README symlink stays in the pinned source archive."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/boothj5/libmesode/tar.gz/refs/tags/0.10.1",
+      "version": "0.10.1"
+    }
+  ]
+}

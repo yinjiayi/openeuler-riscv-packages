@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "package_id": "libjodycode",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeberg.org/jbruchon/libjodycode/archive/v4.2.tar.gz",
+      "filename": "libjodycode-4.2.tar.gz",
+      "version": "4.2",
+      "digests": {"sha256": "eeb54fc50b9ebec4e43c954704e69f56c104fede67aaee9f375fbecbb87933b0"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Official v4.2 explicitly Stable; actual commit64bca2874f895df98003f8bf4ca267dd6926b17f/tree4f5ca67a815b1885118e7f04ce8b849445fed6cc and every81 source file bind to archive bytes. Complete project MIT, original skeleton MIT/relicensing addendum and four explicit public-domain notices retained before patches. Actual tag/commit offer no signature. Tag URL remains mutable; fixed digest and before/after tag fence are recorded, not a publisher-signature claim."}
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "version": "2.0",
+      "digests": {"sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Unmodified full Apache2 legal text supports original package QA/SPEC/shell test material under repository policy, including SRPM packaging; not a fabricated software release or replacement for the upstream MIT/PD grants. Fixed official11358-byte text reused only after byte-hash verification."}
+    }
+  ]
+}
