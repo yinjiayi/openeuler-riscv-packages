@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 Name:           lerc
-Version:        4.2.0
+Version:        4.3.0
 Release:        1%{?dist}
 Summary:        Limited Error Raster Compression library
 License:        Apache-2.0
 URL:            https://github.com/Esri/lerc
-Source0:        lerc-%{version}.tar.gz
+Source0:        v4.3.0.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
