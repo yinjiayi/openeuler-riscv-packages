@@ -35,6 +35,8 @@ Locate user configuration or copy defaults
 
 %install
 make pure_install PERL_INSTALL_ROOT=%{buildroot}
+# Module::Install also copies this fixture to a spurious buildroot /blib path.
+rm -f %{buildroot}/blib/lib/auto/share/dist/File-UserConfig/afile.conf
 find %{buildroot} -type f \( -name .packlist -o -name perllocal.pod \) -delete
 
 %check
