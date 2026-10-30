@@ -11,6 +11,7 @@ BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  gcc
 BuildRequires:  perl
+BuildRequires:  perl-devel
 BuildRequires:  perl-ExtUtils-MakeMaker
 BuildRequires:  perl(Test)
 BuildRequires:  perl(Data::Dumper)
