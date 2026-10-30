@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libfile-save-home-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfile-save-home-perl",
+        "package_name": "libfile-save-home-perl",
+        "source": "ubuntu",
+        "source_version": "0.12-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libfile-save-home-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release archive pinned by SHA-256; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libfile-save-home-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-File-Save-Home",
+    "summary": "Temporarily save and restore files under a home directory"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libfile-save-home-perl",
+    "homepage": "https://metacpan.org/release/File-Save-Home",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/",
+    "release_channel": "stable",
+    "release_regex": "File-Save-Home-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/File-Save-Home-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.12",
+    "latest_detected": "0.12",
+    "release": "1"
+  }
+}
