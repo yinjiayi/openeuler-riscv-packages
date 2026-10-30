@@ -44,6 +44,7 @@ find %{buildroot} -type f \( -name .packlist -o -name perllocal.pod \) -delete
 %license LICENSE
 %doc README Changes
 %{perl_vendorlib}/File/Save/Home.pm
+%{perl_vendorlib}/File/Save/.version_info.pl
 %{_mandir}/man3/File::Save::Home.3*
 
 %changelog
