@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libunarr
-Version:        1.1.1
-Release:        2%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        A lightweight decompression library with support for rar, tar and zip archives.
 License:        LGPL-3.0-or-later
 URL:            https://github.com/selmf/unarr
-Source0:        libunarr-1.1.1.tar.gz
+Source0:        v1.2.0.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  libcmocka-devel
