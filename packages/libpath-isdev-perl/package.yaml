@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libpath-isdev-perl",
+  "rpm": {
+    "name": "perl-Path-IsDev",
+    "summary": "Detect Perl development source trees",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libpath-isdev-perl",
+    "homepage": "https://metacpan.org/dist/Path-IsDev",
+    "source_repository": "https://metacpan.org/dist/Path-IsDev",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KE/KENTNL/",
+    "release_regex": "Path-IsDev-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KE/KENTNL/Path-IsDev-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.001003",
+    "release": "1",
+    "latest_detected": "1.001003"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libpath-isdev-perl",
+        "package_base": "libpath-isdev-perl",
+        "source_version": "1.001003-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libpath-isdev-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libpath-isdev-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.001003-3 maps to official CPAN 1.001003. Publisher CHECKSUMS matches full source SHA-256; regular-file archive and distribution LICENSE explicitly grant GPL-1-or-later OR Artistic-1.0, repeated by all 27 modules. Official SP3 RVA23 primary has no RPM or Path::IsDev Provide and uniquely supplies perl(File::HomeDir) 1.006 plus all declared runtime/test modules. All 39 upstream default tests remain unchanged. A fresh Mac local source run FAILED 11 files/18 assertions solely because File::HomeDir is absent locally; target BuildRequires and Requires explicitly install the verified official provider. Exact-head target CI must prove the full RISC-V tests and installed smoke; local failure is not a pass."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
