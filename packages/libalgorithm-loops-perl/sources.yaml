@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-loops-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Algorithm-Loops-1.032.tar.gz",
+      "version": "1.032",
+      "url": "https://cpan.metacpan.org/authors/id/T/TY/TYEMQ/Algorithm-Loops-1.032.tar.gz",
+      "digests": {
+        "sha256": "437eebed042093b365c1a90c65e53bf9ca2859dd889a0ae845fe9f9da3c6c006"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included LICENSE dedicates the source to the public domain under the Unlicense; the official CPAN archive is fetched over HTTPS with SHA-256 verification."
+      }
+    }
+  ]
+}
