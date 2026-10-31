@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "package_id": "libtime-piece-mysql-perl",
+  "sources": [{
+    "id": "source0", "kind": "upstream-release", "filename": "Time-Piece-MySQL-0.06.tar.gz", "version": "0.06",
+    "url": "https://cpan.metacpan.org/authors/id/K/KA/KASEI/Time-Piece-MySQL-0.06.tar.gz",
+    "digests": {"sha256": "319601feec17fae344988a5ee91cfc6a0bcfe742af77dba254724c3268b2a60f"},
+    "signature": null,
+    "redistribution": {"allowed": true, "reason": "Official KASEI CHECKSUMS verifies this immutable HTTPS archive. The distribution README and sole installed module both credit Dave Rolsky and Marty Pauley and grant this program the same terms as Perl. No contrary notice appears in tests, Makefile.PL, Changes or metadata."}
+  }]
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "libtime-piece-mysql-perl",
+  "rpm": {"name": "perl-Time-Piece-MySQL", "summary": "MySQL date and time helpers for Time::Piece", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "libtime-piece-mysql-perl",
+    "homepage": "https://metacpan.org/dist/Time-Piece-MySQL",
+    "source_repository": "https://metacpan.org/dist/Time-Piece-MySQL",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KA/KASEI/",
+    "release_regex": "(?<![A-Za-z0-9])Time-Piece-MySQL-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KA/KASEI/Time-Piece-MySQL-{version}.tar.gz"
+  },
+  "version": {"current": "0.06", "release": "1", "latest_detected": "0.06"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "fedora", "package_name": "perl-Time-Piece-MySQL", "package_base": "perl-Time-Piece-MySQL", "source_version": "0.06-29.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Time-Piece-MySQL/perl-Time-Piece-MySQL/", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "libtime-piece-mysql-perl", "package_base": "libtime-piece-mysql-perl", "source_version": "0.06-3", "evidence_url": "https://packages.ubuntu.com/source/resolute/libtime-piece-mysql-perl", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libtime-piece-mysql-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Frozen Fedora 0.06-29.fc44 and Ubuntu 0.06-3 lineage maps to the official KASEI stable CPAN tar with matching publisher CHECKSUMS SHA-256. Distribution README and sole installed PM both credit Dave Rolsky and Marty Pauley and grant same-as-Perl terms; no contrary file notice was found. The SHA-bound official SP3 RVA23 primary lacks this RPM/module and supplies Time::Piece and Time::Seconds 1.3401, Test::More and build tools. All three original default files remain unchanged; isolated local Perl ran 26 assertions without skip. Target %check insists on the same complete count and no skip; installed smoke covers date, datetime and timestamp round trips."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
