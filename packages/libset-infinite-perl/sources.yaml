@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libset-infinite-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Set-Infinite-0.65.tar.gz",
+      "version": "0.65",
+      "url": "https://cpan.metacpan.org/authors/id/F/FG/FGLOCK/Set-Infinite-0.65.tar.gz",
+      "digests": {
+        "sha256": "07bc880734492de40b4a3a8b5a331762f64e69b4629029fd9a9d357b25b87e1f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Each installed module grants redistribution on Perl's GPL/Artistic terms, which the bundled LICENSE details; official FGLOCK CPAN CHECKSUMS SHA-256 matches an independent HTTPS source download."
+      }
+    }
+  ]
+}
