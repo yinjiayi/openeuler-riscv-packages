@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "package_id": "gsl-lite",
+  "rpm": {
+    "name": "gsl-lite",
+    "summary": "Header-only defensive programming SDK for C++98 and later",
+    "license": "MIT AND BSL-1.0 AND BSD-3-Clause AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-gsl-lite-gsl-lite",
+    "homepage": "https://github.com/gsl-lite/gsl-lite",
+    "source_repository": "https://github.com/gsl-lite/gsl-lite",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/gsl-lite/gsl-lite/releases",
+    "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_url_template": "https://api.github.com/repos/gsl-lite/gsl-lite/tarball/v{version}"
+  },
+  "version": {
+    "current": "1.1.1",
+    "latest_detected": "1.1.1",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "fedora",
+        "package_name": "gsl-lite",
+        "package_base": "gsl-lite",
+        "source_version": "0.43.0-3.fc44",
+        "evidence_url": "https://github.com/gsl-lite/gsl-lite",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "gsl-lite.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": []
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Actual official stable1.1.1 fixedb19adc1, full55 Gitbytes/nonexec modes and hosted-committer GPG verified; sourcearchive raw0664 differs from normal unpack umask but no original bytes/execute bits are changed. RootMIT, bundledlestBSL1, IITCMakeBSD3 and CPMMIT notices stay distinct; fullfixedSPDX standard terms complement original real notices without assigning placeholder copyrights. Productionall4defaultOFF options remain; optin separateGNU>=14<15 tree compiles52 originaltargets and runs15 original unfilteredCTests, with37 originalCOMPILE_ONLY targets never claimedrun. No patch or pkgconfig invention. Additive installed/relocated CMake3primary+3alias,2header,3standard,multiTU and negativecontract QA remains target-only pending. Actual officialgcc14.3.1 selects the original C++23 stacktrace compile-only family; unchanged -lstdc++exp is retained and its exact existing libstdc++-devel archive/header owner is verified prospectively, with target ELF/archive/link evidence mandatory. No stacktrace runtime/native claim."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}
