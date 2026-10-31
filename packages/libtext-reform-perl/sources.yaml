@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-reform-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Reform-1.20.tar.gz",
+      "version": "1.20",
+      "url": "https://cpan.metacpan.org/authors/id/C/CH/CHORNY/Text-Reform-1.20.tar.gz",
+      "digests": {
+        "sha256": "a8792dd8c1aac97001032337b36a356be96e2d74c4f039ef9a363b641db4ae61"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive SHA-256 matches CHECKSUMS; README/module POD/Build.PL/META grant the same license terms as Perl."
+      }
+    }
+  ]
+}
