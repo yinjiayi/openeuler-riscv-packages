@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libcleri",
+  "rpm": {
+    "name": "libcleri",
+    "summary": "C language parser library",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "github.com-cesbit-libcleri",
+    "homepage": "https://github.com/cesbit/libcleri",
+    "source_repository": "https://github.com/cesbit/libcleri",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/cesbit/libcleri/releases/latest",
+    "release_regex": "v(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://codeload.github.com/cesbit/libcleri/tar.gz/refs/tags/v{version}"
+  },
+  "version": {
+    "current": "1.0.2",
+    "release": "1",
+    "latest_detected": "1.0.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libcleri",
+        "package_base": "libcleri",
+        "source_version": "1.0.2-1",
+        "evidence_url": "https://packages.debian.org/trixie/source/libcleri",
+        "observed_at": "2026-09-28T14:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 90,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libcleri.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The official Cesbit v1.0.2 tag resolves to commit 2964b6ce6ee57dac5d6dfd13f5a3a351c568fb2f. The HTTPS archive is SHA-256 pinned and safety inspected. The inventory's license-blocked marker is resolved for this selected upstream component by its LICENSE.md MIT grant; another component merged into the discovery key is not packaged. The complete upstream Release make test target runs every test_* functional program; optional valgrind coverage depends on tool availability and is not claimed if absent. Installed smoke uses the linked shared library. Debian source metadata is lineage only; no distribution recipe is executed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}
