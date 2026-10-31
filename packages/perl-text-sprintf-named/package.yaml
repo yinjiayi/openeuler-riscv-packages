@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/perl-Text-Sprintf-Named",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Text-Sprintf-Named",
+        "package_name": "perl-Text-Sprintf-Named",
+        "source": "fedora",
+        "source_version": "0.0405-15.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-text-sprintf-named.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release pinned by SHA-256; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-text-sprintf-named",
+  "rpm": {
+    "license": "MIT",
+    "name": "perl-Text-Sprintf-Named",
+    "summary": "sprintf-like function with named conversions"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-text-sprintf-named",
+    "homepage": "https://metacpan.org/release/Text-Sprintf-Named",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/",
+    "release_channel": "stable",
+    "release_regex": "Text-Sprintf-Named-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Text-Sprintf-Named-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.0405",
+    "latest_detected": "0.0405",
+    "release": "1"
+  }
+}
