@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           uriparser
-Version:        1.0.2
+Version:        1.0.3
 Release:        1%{?dist}
 Summary:        Strictly RFC 3986 compliant URI parsing library
 License:        BSD-3-Clause
 URL:            https://uriparser.github.io/
-Source0:        uriparser-%{version}.tar.bz2
+Source0:        uriparser-1.0.3.tar.bz2
 
 BuildRequires:  cmake
 BuildRequires:  gcc
