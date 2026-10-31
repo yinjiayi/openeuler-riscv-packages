@@ -57,7 +57,9 @@
     "spec": "uriparser.spec"
   },
   "maintenance": {
-    "maintainers": ["yinjiayi"],
+    "maintainers": [
+      "yinjiayi"
+    ],
     "notes": "Official uriparser 1.0.2 stable release asset is SHA-256 pinned. Arch stable and openSUSE Tumbleweed corroborate 1.0.2; Fedora 44, Debian stable, and Ubuntu GA provide older reviewed baselines. AUR RPC returned no matching package, which is recorded as absence rather than corroboration. No AUR recipe or distribution spec was executed.",
     "status": "active"
   },
@@ -77,7 +79,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-10-31T21:31:20Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-releases"
   },
@@ -90,5 +92,9 @@
     "source_repository": "https://github.com/uriparser/uriparser",
     "source_url_template": "https://github.com/uriparser/uriparser/releases/download/uriparser-{version}/uriparser-{version}.tar.bz2"
   },
-  "version": {"current": "1.0.2", "latest_detected": "1.0.2", "release": "1"}
+  "version": {
+    "current": "1.0.3",
+    "latest_detected": "1.0.3",
+    "release": "1"
+  }
 }
