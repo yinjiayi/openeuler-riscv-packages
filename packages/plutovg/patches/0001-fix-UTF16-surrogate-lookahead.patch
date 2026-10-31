@@ -1,0 +1,23 @@
+From: downstream package maintenance
+Subject: [PATCH] text: inspect the next UTF-16 unit for a low surrogate
+
+The leading code unit already matched 0xd800 under mask 0xfffffc00.
+Testing that same value against 0xdc00 can never succeed. Inspect the
+next unit under the existing length guard before consuming the pair.
+This is an upstream-generic correction, not a RISC-V-specific change.
+
+Origin: downstream, official v1.3.3 commit bbd91f0d06a71491691b36330f29dffa4af87ccf
+Upstream-Status: Not submitted (no upstream write authorized)
+License: MIT (same as affected project source)
+
+--- a/source/plutovg-font.c
++++ b/source/plutovg-font.c
+@@ -90,7 +90,7 @@
+         const uint16_t* text = it->text;
+         codepoint = text[it->index++];
+         if(((codepoint) & 0xfffffc00) == 0xd800) {
+-            if(it->index < it->length && (((codepoint) & 0xfffffc00) == 0xdc00)) {
++            if(it->index < it->length && (((text[it->index]) & 0xfffffc00) == 0xdc00)) {
+                 uint16_t trail = text[it->index++];
+                 codepoint = (codepoint << 10) + trail - ((0xD800u << 10) - 0x10000u + 0xDC00u);
+             }

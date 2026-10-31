@@ -1,0 +1,77 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Sat, 12 Sep 2026 22:12:00 +0800
+Subject: [PATCH] Port libomemo to Mini-XML 4
+
+Mini-XML 4 is intentionally parallel-installable with Mini-XML 3.  It
+renamed the pkg-config module to mxml4 and replaced the per-call load/save
+callbacks with an options object.  Preserve libomemo's existing parsing
+semantics through small local wrappers and use the renamed traversal values.
+---
+ CMakeLists.txt      |  2 +-
+ libomemo.pc.cmake   |  2 +-
+ src/libomemo.c      | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 44 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1ef1ce2..793672b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -82 +82 @@ pkg_check_modules(GCRYPT REQUIRED "libgcrypt")
+-pkg_check_modules(MXML REQUIRED "mxml")
++pkg_check_modules(MXML REQUIRED "mxml4")
+diff --git a/libomemo.pc.cmake b/libomemo.pc.cmake
+index 273fc61..9e6a0f3 100644
+--- a/libomemo.pc.cmake
++++ b/libomemo.pc.cmake
+@@ -11 +11 @@ Requires: glib-2.0
+-Requires.private: libgcrypt mxml sqlite3
++Requires.private: libgcrypt mxml4 sqlite3
+diff --git a/src/libomemo.c b/src/libomemo.c
+index ac31568..a2ca7b5 100644
+--- a/src/libomemo.c
++++ b/src/libomemo.c
+@@ -10,0 +11,42 @@
++/*
++ * Mini-XML 4 replaced the load/save callback arguments with an options
++ * object.  Keep the two parsing modes used by libomemo 0.8.1 explicit so
++ * the protocol and test-suite behavior remains unchanged.
++ */
++static mxml_node_t *
++omemo_mxml_load_string(mxml_node_t *top, const char *string, bool opaque)
++{
++  mxml_options_t *options = NULL;
++  mxml_node_t *tree;
++
++  if (opaque) {
++    options = mxmlOptionsNew();
++    if (!options) {
++      return NULL;
++    }
++    mxmlOptionsSetTypeValue(options, MXML_TYPE_OPAQUE);
++  }
++
++  tree = mxmlLoadString(top, options, string);
++  if (options) {
++    mxmlOptionsDelete(options);
++  }
++  return tree;
++}
++
++static char *
++omemo_mxml_save_alloc_string(mxml_node_t *node)
++{
++  return mxmlSaveAllocString(node, NULL);
++}
++
++#define MXML_NO_PARENT NULL
++#define MXML_ADD_TO_PARENT NULL
++#define MXML_DESCEND MXML_DESCEND_ALL
++#define MXML_NO_CALLBACK false
++#define MXML_OPAQUE_CALLBACK true
++#define mxmlLoadString(top, string, type_callback) \
++  omemo_mxml_load_string((top), (string), (type_callback))
++#define mxmlSaveAllocString(node, save_callback) \
++  omemo_mxml_save_alloc_string((node))
++
+--
+2.53.0

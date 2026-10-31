@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "corkscrew",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "version": "2.0",
+      "filename": "corkscrew-2.0.tar.gz",
+      "url": "https://codeload.github.com/patpadgett/corkscrew/tar.gz/ae4802b09e1c022e416f9654970794fb9d7ac8a2",
+      "digests": {
+        "sha256": "73e0d75d193f13c3a9ece504344d6517c824480d22e5ef6f5c2c3da55c36687a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete original GPLv2 COPYING and explicit ChangeLog GPL addition cover this distribution; Tamas Szerb's base64 attribution and all source/helper notices remain intact. All21 original regular members are retained unchanged in Source0/SRPM. The separately dated GPL2 downstream auth patch is manifested, not an archive rewrite. Installed QA is MIT with full notice. Captured v2.0 is a lightweight tag pointing directly at the fixed unsigned commit; GitHub releases are empty and no separate signature advertisement was found within the complete fixed source and captured official repository/release metadata. This bounded observation is not universal signature absence."
+      }
+    }
+  ]
+}

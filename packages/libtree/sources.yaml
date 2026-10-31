@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "libtree",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://api.github.com/repos/haampie/libtree/tarball/1521dfe063284551b955958fd7deb3426fd75d84",
+      "filename": "libtree-v3.1.1.tar.gz",
+      "version": "3.1.1",
+      "digests": {
+        "sha256": "07fa7a3f151f4c8264a5402697c2ffb5e9be577eb66dc92cbb2759cfefbc05fd"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Actual formal stable v3.1.1 source selected, exact full commit/tree and every archive Git blob/mode verified. Full original MIT LICENSE Harmen Stoppels retained with all24 notices before the package-local patches. No offered tag/commit signature in actual immutable objects, no guessed certificate or prebuilt binary checksum accepted as source authentication."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "version": "2.0",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unmodified full official Apache2 license text for original downstream packaging and additive strict CLI Python/shell QA. Legal-purpose verification input, not an invented upstream feature dependency."
+      }
+    }
+  ]
+}

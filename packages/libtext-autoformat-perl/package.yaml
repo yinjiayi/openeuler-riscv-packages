@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-autoformat-perl",
+  "rpm": {
+    "name": "perl-Text-Autoformat",
+    "summary": "Automatically wrap and reformat text in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-autoformat-perl",
+    "homepage": "https://metacpan.org/dist/Text-Autoformat",
+    "source_repository": "https://github.com/neilb/Text-Autoformat",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_regex": "Text-Autoformat-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Autoformat-{version}.tar.gz"
+  },
+  "version": {"current": "1.75", "release": "1", "latest_detected": "1.75"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{
+      "source": "ubuntu",
+      "package_name": "libtext-autoformat-perl",
+      "package_base": "libtext-autoformat-perl",
+      "source_version": "1.750000-2",
+      "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-autoformat-perl",
+      "observed_at": "2026-08-08T16:50:00Z"
+    }]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libtext-autoformat-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu exact lineage; official CPAN 1.75 archive SHA-256 9dd4f4ce3daec4b4dbf5b59dac4568a8946aed12c28b4e5988c8e8c602c6b771 matches publisher CHECKSUMS. Text::Reform is available in the verified project RPM generation. All upstream default tests retained; target CI must prove build and installation."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}

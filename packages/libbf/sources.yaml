@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "package_id": "libbf",
+  "sources": [
+    {"id": "source0", "kind": "upstream-release", "url": "https://bellard.org/libbf/libbf-2025-06-03.tar.gz", "filename": "libbf-2025-06-03.tar.gz", "version": "2025.06.03", "digests": {"sha256": "4b23394d67a4a3c3266a38b66831094523fffb5d01974a5c05a0327b36b0a340"}, "signature": null, "redistribution": {"allowed": true, "reason": "Author homepage news explicitly announces2025-06-03, archive basename and VERSION agree. All25ordinary members bound to exact original bytes;18full original MIT grant headers and7associated project docs/version/Pi-checksum metadata are preserved. Official HTTPS dated URL is not claimed immutable or authenticated by a preknown publisher digest. Actual page/readme/archive offer no observed signature; no sidecar/key URL is guessed."}},
+    {"id": "source1", "kind": "test-dependency", "url": "https://www.apache.org/licenses/LICENSE-2.0.txt", "filename": "Apache-2.0.txt", "version": "2.0", "digests": {"sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"}, "signature": null, "redistribution": {"allowed": true, "reason": "Unmodified full official Apache2 text for original package SPEC/shell and added consumer QA source including SRPM; legal-purpose test dependency, not a fabricated upstream software release or substitute for the original MIT grants. Reuse retained11358byte fixed text only after SHA verification."}}
+  ]
+}

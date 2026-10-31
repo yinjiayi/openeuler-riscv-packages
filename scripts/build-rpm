@@ -5,12 +5,15 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 import pathlib
 import platform
 import re
 import shutil
+import stat
 import subprocess
+import tempfile
 import time
 import urllib.parse
 from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
@@ -76,10 +79,81 @@ def parser() -> argparse.ArgumentParser:
 
 
 def prepare_dirs(work: pathlib.Path) -> Dict[str, pathlib.Path]:
+    if work.is_symlink():
+        raise ToolError("work directory must not be a symlink: %s" % work)
     result = {name: work / name for name in ("BUILD", "BUILDROOT", "RPMS", "SOURCES", "SPECS", "SRPMS", "logs", "home")}
+    for path in result.values():
+        if path.is_symlink():
+            raise ToolError("work directory entry must not be a symlink: %s" % path)
     for path in result.values():
         path.mkdir(parents=True, exist_ok=True)
     return result
+
+
+def work_path(path: pathlib.Path, repo_root: pathlib.Path) -> pathlib.Path:
+    """Preserve the cache path long enough to reject linked workspace parents."""
+    candidate = path.absolute()
+    try:
+        relative = candidate.relative_to(repo_root)
+    except ValueError:
+        # External work roots are explicit operator inputs, not artifact paths.
+        if candidate.is_symlink():
+            raise ToolError("work directory must not be a symlink: %s" % candidate)
+        return candidate
+    current = repo_root
+    for part in relative.parts:
+        if part == "..":
+            raise ToolError("work path must not traverse parent directories")
+        current = current / part
+        if current.is_symlink():
+            raise ToolError("work path must not contain symlink ancestors: %s" % current)
+    return candidate
+
+
+def regular_input(path: pathlib.Path, boundary: pathlib.Path) -> pathlib.Path:
+    """Reject linked ancestors and non-regular downloaded or signature inputs."""
+    try:
+        relative = path.relative_to(boundary)
+    except ValueError as exc:
+        raise ToolError("source input escapes its declared root: %s" % path) from exc
+    if ".." in relative.parts:
+        raise ToolError("source input escapes its declared root: %s" % path)
+    current = boundary
+    for part in (None, *relative.parts):
+        if part is not None:
+            current = current / part
+        try:
+            mode = current.lstat().st_mode
+        except OSError as exc:
+            raise ToolError("source input is missing or unreadable: %s" % current, 1) from exc
+        expected = stat.S_ISREG if current == path else stat.S_ISDIR
+        if stat.S_ISLNK(mode) or not expected(mode):
+            raise ToolError("source input must be a regular file/directory without symlinks: %s" % current, 1)
+    return path
+
+
+def source_entries(document: Any, package_id: str) -> List[Mapping[str, Any]]:
+    if not isinstance(document, Mapping) or document.get("package_id") != package_id:
+        raise ToolError("sources.yaml must identify the exact selected package")
+    entries = document.get("sources")
+    if not isinstance(entries, list) or not entries:
+        raise ToolError("sources.yaml must contain at least one source")
+    filenames: set[str] = set()
+    identifiers: set[str] = set()
+    for entry in entries:
+        if not isinstance(entry, Mapping):
+            raise ToolError("source entry must be an object")
+        name = entry.get("filename")
+        identifier = entry.get("id")
+        if not isinstance(name, str) or name in {".", ".."} or not re.fullmatch(r"[A-Za-z0-9._+~-]+", name):
+            raise ToolError("source filename is missing or unsafe")
+        if not isinstance(identifier, str) or not re.fullmatch(r"[A-Za-z0-9_.-]+", identifier):
+            raise ToolError("source id is missing or unsafe")
+        if name in filenames or identifier in identifiers:
+            raise ToolError("source filenames and ids must be unique")
+        filenames.add(name)
+        identifiers.add(identifier)
+    return entries
 
 
 def fixture_path(url: str, repo_root: pathlib.Path) -> pathlib.Path:
@@ -95,7 +169,41 @@ def fixture_path(url: str, repo_root: pathlib.Path) -> pathlib.Path:
     return candidate
 
 
+def signature_input(value: Any, repo_root: pathlib.Path) -> pathlib.Path:
+    """Require a canonical repository-relative path, then reject linked inputs."""
+    if not isinstance(value, str) or not re.fullmatch(r"[A-Za-z0-9._+~-]+(?:/[A-Za-z0-9._+~-]+)*", value):
+        raise ToolError("signature input needs a safe repository-relative path")
+    if any(part in {".", ".."} for part in value.split("/")):
+        raise ToolError("signature input escapes its declared root")
+    return regular_input(repo_root / value, repo_root)
+
+
+def exact_signature_status(status: str, fingerprint: str) -> bool:
+    """Pin the exact signing key, not a prefix or an optional primary-key field."""
+    signers: List[str] = []
+    for line in status.splitlines():
+        if not line.startswith("[GNUPG:] VALIDSIG "):
+            continue
+        fields = line.split()
+        # VALIDSIG has nine mandatory arguments and an optional primary-key
+        # fingerprint. The first argument identifies the key that signed.
+        if len(fields) not in {11, 12} or not re.fullmatch(r"(?:[0-9A-F]{40}|[0-9A-F]{64})", fields[2]):
+            return False
+        if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", fields[3]):
+            return False
+        if any(not field.isascii() or not field.isdecimal() for field in fields[4:10]):
+            return False
+        if not re.fullmatch(r"[0-9A-Fa-f]{2}", fields[10]):
+            return False
+        if len(fields) == 12 and not re.fullmatch(r"(?:[0-9A-F]{40}|[0-9A-F]{64})", fields[11]):
+            return False
+        signers.append(fields[2])
+    return signers == [fingerprint]
+
+
 def verify_signature(entry: Mapping[str, Any], source: pathlib.Path, repo_root: pathlib.Path, offline: bool) -> Dict[str, Any]:
+    if entry.get("signature") is not None and not isinstance(entry["signature"], Mapping):
+        raise ToolError("source signature policy must be an object or null")
     signature = entry.get("signature") if isinstance(entry.get("signature"), Mapping) else {}
     policy = str(signature.get("policy") or "not-provided")
     if policy in {"not-provided", "optional", "none"}:
@@ -112,32 +220,91 @@ def verify_signature(entry: Mapping[str, Any], source: pathlib.Path, repo_root: 
         raise ToolError("unknown signature policy: %s" % policy)
     signature_path = signature.get("path")
     keyring_path = signature.get("keyring")
-    fingerprint = str(signature.get("fingerprint") or signature.get("key_fingerprint") or "").replace(" ", "").upper()
-    if not signature_path or not keyring_path or not re.fullmatch(r"[0-9A-F]{40,64}", fingerprint):
-        raise ToolError("required signature policy needs path, keyring, and a 40-64 hex fingerprint")
-    sig = (repo_root / str(signature_path)).resolve()
-    keyring = (repo_root / str(keyring_path)).resolve()
-    for candidate in (sig, keyring):
-        try:
-            candidate.relative_to(repo_root.resolve())
-        except ValueError as exc:
-            raise ToolError("signature material escapes repository root") from exc
-        if not candidate.is_file():
-            raise ToolError("signature material is missing: %s" % candidate)
+    fingerprint = signature.get("key_fingerprint")
+    if not isinstance(fingerprint, str) or not re.fullmatch(r"(?:[0-9A-F]{40}|[0-9A-F]{64})", fingerprint):
+        raise ToolError("required signature policy needs a canonical 40- or 64-hex key_fingerprint")
+    sig = signature_input(signature_path, repo_root)
+    keyring = signature_input(keyring_path, repo_root)
     gpgv = shutil.which("gpgv")
     if not gpgv:
         raise ToolError("gpgv is required by source signature policy", 1)
-    completed = subprocess.run(
-        [gpgv, "--keyring", str(keyring), "--status-fd", "1", str(sig), str(source)],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        timeout=120,
-        check=False,
-    )
-    if completed.returncode != 0 or ("VALIDSIG " + fingerprint) not in completed.stdout:
+    # Explicit private home isolates configuration/trust state defensively;
+    # only the committed, regular keyring is supplied. Never fetch keys.
+    with tempfile.TemporaryDirectory(prefix="source-signature-") as home:
+        completed = subprocess.run(
+            [gpgv, "--homedir", home, "--keyring", str(keyring), "--status-fd", "1", str(sig), str(source)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=120,
+            check=False,
+        )
+    if completed.returncode != 0 or not exact_signature_status(completed.stdout, fingerprint):
         raise ToolError("source signature verification failed", 1)
     return {"policy": policy, "status": "verified", "fingerprint": fingerprint}
+
+
+def normalize_cached_source(
+    destination: pathlib.Path, expected: str
+) -> Dict[str, Any]:
+    """Recreate verified cache bytes under the active build identity, not the runner."""
+
+    regular_input(destination, destination.parent.parent)
+    fd, temporary = tempfile.mkstemp(prefix=".%s." % destination.name, dir=str(destination.parent))
+    try:
+        digest = hashlib.sha256()
+        with os.fdopen(fd, "wb") as output:
+            source_fd = os.open(destination, os.O_RDONLY | os.O_NOFOLLOW)
+            with os.fdopen(source_fd, "rb") as source:
+                original = os.fstat(source.fileno())
+                if not stat.S_ISREG(original.st_mode):
+                    raise ToolError("cached source must remain a regular file", 1)
+                for chunk in iter(lambda: source.read(1024 * 1024), b""):
+                    output.write(chunk)
+                    digest.update(chunk)
+            if digest.hexdigest() != expected:
+                raise ToolError("cached source changed during metadata normalization", 1)
+            output.flush()
+            os.fchmod(output.fileno(), 0o644)
+            os.utime(output.fileno(), ns=(original.st_atime_ns, original.st_mtime_ns))
+            normalized = os.fstat(output.fileno())
+            if (normalized.st_uid, normalized.st_gid) != (os.geteuid(), os.getegid()):
+                raise ToolError("new cached source must use the effective build identity", 1)
+            os.fsync(output.fileno())
+        regular_input(destination, destination.parent.parent)
+        current = destination.lstat()
+        if (current.st_dev, current.st_ino) != (original.st_dev, original.st_ino):
+            raise ToolError("cached source identity changed during metadata normalization", 1)
+        os.replace(temporary, destination)
+        # Verify the installed inode, not only the descriptor we copied into:
+        # a concurrent workspace writer may have substituted the temporary path.
+        regular_input(destination, destination.parent.parent)
+        try:
+            installed_fd = os.open(destination, os.O_RDONLY | os.O_NOFOLLOW)
+        except OSError as exc:
+            raise ToolError("normalized cached source cannot be reopened safely", 1) from exc
+        with os.fdopen(installed_fd, "rb") as installed:
+            actual = os.fstat(installed.fileno())
+            if (actual.st_dev, actual.st_ino, actual.st_uid, actual.st_gid,
+                    stat.S_IMODE(actual.st_mode), actual.st_mtime_ns) != (
+                    normalized.st_dev, normalized.st_ino, os.geteuid(), os.getegid(),
+                    0o644, original.st_mtime_ns):
+                raise ToolError("normalized cached source identity or metadata changed", 1)
+            installed_digest = hashlib.sha256()
+            for chunk in iter(lambda: installed.read(1024 * 1024), b""):
+                installed_digest.update(chunk)
+            if installed_digest.hexdigest() != expected:
+                raise ToolError("normalized cached source checksum changed", 1)
+            os.utime(installed.fileno(), ns=(original.st_atime_ns, original.st_mtime_ns))
+            current = destination.lstat()
+            if (current.st_dev, current.st_ino) != (actual.st_dev, actual.st_ino):
+                raise ToolError("normalized cached source path changed", 1)
+        return {"policy": "effective-build-identity-0644", "uid": normalized.st_uid,
+                "gid": normalized.st_gid, "mode": stat.S_IMODE(normalized.st_mode),
+                "sha256": digest.hexdigest(), "bytes_unchanged": True,
+                "mtime_ns": normalized.st_mtime_ns}
+    finally:
+        pathlib.Path(temporary).unlink(missing_ok=True)
 
 
 def materialize_source(
@@ -152,8 +319,8 @@ def materialize_source(
     offline: bool,
 ) -> Dict[str, Any]:
     url = str(entry.get("url") or "")
-    filename = pathlib.PurePosixPath(str(entry.get("filename") or "")).name
-    if not filename or not re.fullmatch(r"[A-Za-z0-9._+~-]+", filename):
+    filename = str(entry.get("filename") or "")
+    if filename in {".", ".."} or not re.fullmatch(r"[A-Za-z0-9._+~-]+", filename):
         raise ToolError("source filename is missing or unsafe")
     digests = entry.get("digests") if isinstance(entry.get("digests"), Mapping) else {}
     expected = str(digests.get("sha256") or entry.get("sha256") or "").lower()
@@ -161,12 +328,20 @@ def materialize_source(
         raise ToolError("source %s has no valid SHA-256" % filename)
     destination = sources_dir / filename
     materialization: Dict[str, Any] = {}
-    if offline:
-        if not destination.is_file():
-            raise ToolError("verified source cache is incomplete in offline mode: %s" % destination, 1)
-    elif url.startswith("fixture://"):
+    # The committed source manifest remains authoritative in either mode;
+    # artifact receipts never replace HTTPS/provenance or digest validation.
+    if url.startswith("fixture://"):
         if not package_id.startswith("golden-"):
             raise ToolError("fixture:// sources are restricted to golden packages")
+    else:
+        validate_https_url(url, allow_file=package_id.startswith("golden-"))
+        parsed = urllib.parse.urlsplit(url)
+        if parsed.hostname and parsed.hostname.lower() == "aur.archlinux.org":
+            raise ToolError("AUR package archives are metadata evidence, not official build sources")
+    if offline:
+        regular_input(destination, sources_dir.parent)
+        materialization = {"cache_reverified": True, "size": destination.stat().st_size}
+    elif url.startswith("fixture://"):
         source = fixture_path(url, repo_root)
         if source.is_dir():
             prefix = str(entry.get("archive_root") or "%s-%s" % (package_id, entry.get("version", "fixture")))
@@ -177,10 +352,6 @@ def materialize_source(
         else:
             raise ToolError("fixture source does not exist: %s" % source)
     else:
-        validate_https_url(url, allow_file=package_id.startswith("golden-"))
-        parsed = urllib.parse.urlsplit(url)
-        if parsed.hostname and parsed.hostname.lower() == "aur.archlinux.org":
-            raise ToolError("AUR package archives are metadata evidence, not official build sources")
         data, fetch_meta = fetch_url(
             url,
             timeout=timeout,
@@ -199,6 +370,8 @@ def materialize_source(
         destination.unlink(missing_ok=True)
         raise ToolError("source checksum mismatch for %s: expected %s, got %s" % (filename, expected, actual), 1)
     signature = verify_signature(entry, destination, repo_root, offline)
+    if offline:
+        materialization["cache_metadata_normalization"] = normalize_cached_source(destination, expected)
     return {
         "id": entry.get("id"),
         "filename": filename,
@@ -369,7 +542,7 @@ def main() -> int:
     started = parse_now(args.now)
     package_dir = pathlib.Path(args.package_dir).resolve()
     repo_root = pathlib.Path(args.repo_root).resolve()
-    work = pathlib.Path(args.work_dir).resolve()
+    work = pathlib.Path(args.work_dir).absolute()
     result_path = pathlib.Path(args.result)
     build_result: Dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
@@ -389,6 +562,7 @@ def main() -> int:
     try:
         if args.timeout <= 0:
             raise ToolError("timeout must be positive")
+        work = work_path(work, repo_root)
         if not package_dir.is_dir():
             raise ToolError("package directory does not exist: %s" % package_dir)
         try:
@@ -404,9 +578,7 @@ def main() -> int:
         topdir = prepare_dirs(work)
         build_result["work_dir"] = str(work)
         cache_dir = pathlib.Path(args.cache_dir) if args.cache_dir else work / "download-cache"
-        entries = sources.get("sources", [])
-        if not isinstance(entries, list) or not entries:
-            raise ToolError("sources.yaml must contain at least one source")
+        entries = source_entries(sources, package_id)
         build_result["phase"] = "source-verify"
         verifications = [
             materialize_source(
@@ -441,6 +613,9 @@ def main() -> int:
             "_topdir %s" % work,
             "--define",
             "_smp_mflags -j2",
+            # CMake's RPM macro reads this independently of Make's flags.
+            "--define",
+            "_smp_build_ncpus 2",
             "--define",
             "_source_payload w9.gzdio",
             "--define",

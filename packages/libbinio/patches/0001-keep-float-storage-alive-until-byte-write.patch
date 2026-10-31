@@ -1,0 +1,41 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] binio: keep float conversion storage alive through byte output
+
+The fixed 1.5 source stores pointers to outf/outd or buf declared inside
+the conversion branch, then reads them in the byte-output loop after that
+scope has ended. This is a generic C++ lifetime defect, not RISC-V assembly
+or a QEMU limitation. Target CI 38646644683, head 6a384f55, fails the
+unchanged downstream ieee-single-bytes check with normal -O2 flags.
+
+Move the storage declarations to the enclosing IEEE block. Keep the
+conversion, endian handling, default features and test assertions intact.
+Preserve total source line count so the literal borrowed notice extraction
+remains at its original lines. Remove after an official release contains
+an equivalent lifetime fix. This is an original downstream patch; no
+upstream submission or acceptance is claimed.
+
+--- a/src/binio.cpp
++++ b/src/binio.cpp
+@@ -396,11 +396,12 @@
+     unsigned int	i, size;
+     Byte		*out;
+     bool		swap;
++    float	outf = f;
++    double	outd = f;
++    Byte	buf[8];
+ 
+     if(system_flags & FloatIEEE) {
+       // compatible system, let the hardware do the conversion
+-      float	outf = f;
+-      double	outd = f;
+ 
+       // Hardware could be big or little endian, convert appropriately
+       swap = getFlag(BigEndian) ^ (system_flags & BigEndian);
+@@ -413,7 +414,6 @@
+     } else {
+ #if BINIO_WITH_MATH
+       // incompatible system, do the conversion manually
+-      Byte	buf[8];
+ 
+       // Our own value is always big endian, just check whether we have to
+       // convert for a different stream format.

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "libhat-trie",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://api.github.com/repos/dcjones/hat-trie/tarball/6dfc9ed82b188e9ba9b6d8a8bef21fef46416e11",
+      "filename": "hat-trie-0.1.2.tar.gz",
+      "version": "0.1.2",
+      "digests": {"sha256": "f45b235540eecbd46e7d22e59ca250311ef20e54ce66ca0e26e1818c117dd977"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "All27 original member notices retained: Daniel C. Jones affirmative project grant (original truncated disclaimer preserved), Paul Hsieh pstdint BSD-3-Clause, explicit public-domain notices, and the SuperFastHash-derived test function under the author's current code-only LGPL-2.1 election with modification notice and complete legal text. Exact commit archive/all Git blobs bound; unsigned versioned tag, not a claimed publisher signature."}
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt",
+      "filename": "LGPL-2.1.txt",
+      "version": "2.1",
+      "digests": {"sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete unmodified GNU LGPL2.1 legal text required for the elected LGPL-2.1-only SuperFastHash derivative used by both original default check programs; legal support for that test dependency, not a fabricated second library release. The document permits verbatim copying/distribution."}
+    },
+    {
+      "id": "source2",
+      "kind": "test-dependency",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "version": "2.0",
+      "digests": {"sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete unmodified Apache2 legal text for original package test-shell/SPEC packaging under repository policy, including those materials in the source RPM. Legal support for packaging/test material, not an unrelated upstream software release or an assertion that upstream grants were Apache2."}
+    }
+  ]
+}

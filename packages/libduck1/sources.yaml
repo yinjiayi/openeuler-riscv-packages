@@ -1,0 +1,7 @@
+{
+ "schema_version":1,"package_id":"libduck1","sources":[
+ {"id":"source0","kind":"upstream-release","version":"1.1.2","filename":"libduck1-1.1.2.tar.gz","url":"https://codeload.github.com/Skywalker13/libduck/tar.gz/d0ddd6bf9075199f546c5494f85512022a916a82","digests":{"sha256":"bdef4f936003d967723c7e0400f2eef490a586a775f1f645f1b2dd76028b403a"},"signature":null,"redistribution":{"allowed":true,"reason":"Original library LGPL2.1-or-later notices and complete COPYING retained. Original Debian packaging GPL-3 remains in source archive; complete GNU companion license texts supplied."}},
+ {"id":"source1","kind":"upstream-release","version":"2.0","filename":"COPYING.GPL2","url":"https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt","digests":{"sha256":"edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"},"signature":null,"redistribution":{"allowed":true,"reason":"Official complete GNU GPL2 text permits verbatim copying and accompanies LGPL2.1 references."}},
+ {"id":"source2","kind":"upstream-release","version":"3.0","filename":"COPYING.GPL3","url":"https://www.gnu.org/licenses/gpl-3.0.txt","digests":{"sha256":"3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"},"signature":null,"redistribution":{"allowed":true,"reason":"Official complete GNU GPL3 text permits verbatim copying; accompanies original Debian packaging copyright reference in the SRPM archive."}}
+ ]
+}

@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: MIT
+# Origin: downstream openEuler package, not yet submitted upstream.
+# Source: official rel-0.3.7 src/Rules.mk line 57, commit 07d292bb73e035997d3a0768234966778ba8a899.
+# Reason: shared libtool link omits declared LDFLAGS, dropping RPM link hardening.
+# Scope: generic link-flag propagation only; no allocator, test or default-target changes.
+# Remove when: the selected upstream release propagates LDFLAGS to this shared link.
+--- a/src/Rules.mk
++++ b/src/Rules.mk
+@@ -57 +57 @@
+-	$(LIBTOOL) --mode=link --tag=CC $(CC) -rpath $(libdir) -version-info $$(echo $(VERSION_$(@D)) | tr '.' ':') -o $@ $^ $>
++	$(LIBTOOL) --mode=link --tag=CC $(CC) $(LDFLAGS) -rpath $(libdir) -version-info $$(echo $(VERSION_$(@D)) | tr '.' ':') -o $@ $^ $>

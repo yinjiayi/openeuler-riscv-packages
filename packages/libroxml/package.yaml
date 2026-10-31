@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "package_id": "libroxml",
+  "rpm": {
+    "name": "libroxml",
+    "summary": "Small C XML parser with XPath and editing support",
+    "license": "LicenseRef-libroxml-LGPL-2.1-or-later-static-linking-exception AND GPL-2.0-or-later AND ISC"
+  },
+  "version": {
+    "current": "3.0.2",
+    "release": "3",
+    "latest_detected": "3.0.2"
+  },
+  "upstream": {
+    "component": "libroxml.net",
+    "homepage": "https://libroxml.net/",
+    "source_repository": "https://github.com/blunderer/libroxml",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/blunderer/libroxml/tags",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://api.github.com/repos/blunderer/libroxml/tarball/refs/tags/{version}"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libroxml",
+        "package_base": "libroxml",
+        "source_version": "3.0.2-1",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "evidence_url": "https://libroxml.net/"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "native_reason": null,
+    "network_during_build": false,
+    "timeout_minutes": 90,
+    "user": "unprivileged"
+  },
+  "files": {
+    "spec": "libroxml.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-declare-shared-state-extern.patch",
+        "sha256": "5b30fbd5dddff3721e1257360bda35c0e73269a5310a3bdb5a9d110c3ab6d1c2",
+        "purpose": "Declare the existing memory-manager head and three debug counters extern in headers, preserving their single initialized definitions and all original tests.",
+        "source": "Package-local minimal correction against official 3.0.2 commit ec1f9155471abb28724a21d14223a0467204aa04; no upstream write.",
+        "license": "LicenseRef-libroxml-LGPL-2.1-or-later-static-linking-exception",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream headers declare all four shared-state variables extern while the .c files retain their initialized definitions."
+      }
+    ]
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Publisher homepage explicitly identifies 3.0.2 as latest; exact unsigned tag/commit and all 82 original blobs pinned. Preserve autotools defaults and original plain make check (zero runtime cases), then build all four optional original test programs and invoke normal/tiny complete 34-registration runners. Tiny conditional test bodies remain unchanged; no benchmark/native/security claim. All target gates remain required."
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "official-github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  }
+}
