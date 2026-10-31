@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-ncopy-perl",
+  "rpm": {"name": "perl-File-NCopy", "summary": "Perl extension for copying files", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "libfile-ncopy-perl",
+    "homepage": "https://metacpan.org/dist/File-NCopy",
+    "source_repository": "https://metacpan.org/dist/File-NCopy",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CH/CHORNY/",
+    "release_regex": "File-NCopy-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CH/CHORNY/File-NCopy-{version}.tar.gz"
+  },
+  "version": {"current": "0.36", "release": "1", "latest_detected": "0.36"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "ubuntu", "package_name": "libfile-ncopy-perl", "package_base": "libfile-ncopy-perl", "source_version": "0.36-3", "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-ncopy-perl", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libfile-ncopy-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Frozen Ubuntu lineage maps to official CPAN 0.36. Publisher CHECKSUMS pins the archive; module POD grants Perl terms. Upstream marks this compatibility module deprecated. Original tests run in a private seeded temporary directory, with Test::Pod installed. Exact-head target CI remains required."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
