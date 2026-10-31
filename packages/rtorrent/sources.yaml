@@ -1,0 +1,21 @@
+{
+  "package_id": "rtorrent",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "281697da2b827b7c7ba6343a3fd9261f3df16022c0d03e4c1d4e001c8ca48236"
+      },
+      "filename": "rtorrent-0.16.19.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rakshasa/rtorrent/archive/refs/tags/v0.16.19.tar.gz",
+      "version": "0.16.19"
+    }
+  ]
+}
