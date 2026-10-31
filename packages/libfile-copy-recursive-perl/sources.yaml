@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-copy-recursive-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "File-Copy-Recursive-0.45.tar.gz",
+      "version": "0.45",
+      "url": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/File-Copy-Recursive-0.45.tar.gz",
+      "digests": {
+        "sha256": "d3971cf78a8345e38042b208bb7b39cb695080386af629f4a04ffd6549df1157"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official CPAN source is licensed under the same terms as Perl itself and is fetched over HTTPS with its official SHA-256 checksum."
+      }
+    }
+  ]
+}
