@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "makeenv",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://codeberg.org/maandree/makeenv/archive/1.0.3.tar.gz",
+      "filename": "1.0.3.tar.gz",
+      "version": "1.0.3",
+      "digests": {
+        "sha256": "4076b9b6b76dd63b4b9d2ab7070a6576c43149b390985e0b5ba0394c27933f23"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official fixed ISC release; complete copyright and permission notice retained in both explicit binary subpackages and unchanged QA/SRPM archive."
+      }
+    }
+  ]
+}

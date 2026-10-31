@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "cargs",
+  "rpm": {"name": "cargs", "summary": "Small portable C argument parsing library", "license": "MIT"},
+  "upstream": {"component": "likle.github.io-cargs", "homepage": "https://likle.github.io/cargs/", "source_repository": "https://github.com/likle/cargs", "release_channel": "stable", "release_api": "https://api.github.com/repos/likle/cargs/tags", "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$"},
+  "version": {"current": "1.2.0", "release": "1", "latest_detected": null},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "aur", "package_name": "cargs", "package_base": "cargs", "source_version": "1.2.0-1", "evidence_url": "https://aur.archlinux.org/packages/cargs", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 30, "native_reason": null},
+  "files": {"spec": "cargs.spec", "sources": "sources.yaml", "patches": [{"file": "patches/0001-use-configured-pkgconfig-libdir.patch", "sha256": "c5191b19102aa6ef4c38362c7df89f75b7d016c0149c9ed5002c1c9b5f94cd58", "purpose": "Make installed pkg-config library directory match the existing configured GNUInstallDirs static library location; no implementation or test change.", "source": "Local downstream packaging of fixed official v1.2.0 source; no upstream mutation.", "license": "MIT", "upstream_status": "downstream-only", "remove_when": "Official stable source uses the configured library directory in pkg-config metadata."}], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Historical discovery only; no AUR code executes. Official v1.2.0 contains project VERSION 1.1.0, retained in CMake/pkg-config. Preserve the original static-library install and all 23 default tests, strict C11 warnings and demo build; no native performance claim."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-tags"}
+}

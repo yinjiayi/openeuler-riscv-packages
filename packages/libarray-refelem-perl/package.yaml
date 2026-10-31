@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://deb.debian.org/debian/dists/stable/Release",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libarray-refelem-perl",
+        "package_name": "libarray-refelem-perl",
+        "source": "debian",
+        "source_version": "1.00+ds-3"
+      },
+      {
+        "evidence_url": "https://download.fedoraproject.org/pub/fedora/linux/releases/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Array-RefElem",
+        "package_name": "perl-Array-RefElem",
+        "source": "fedora",
+        "source_version": "1.00-55.fc44"
+      },
+      {
+        "evidence_url": "https://changelogs.ubuntu.com/meta-release",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libarray-refelem-perl",
+        "package_name": "libarray-refelem-perl",
+        "source": "ubuntu",
+        "source_version": "1.00+ds-3build4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libarray-refelem-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release bytes and PAUSE-signed CHECKSUMS reviewed; upstream tests are retained. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libarray-refelem-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Array-RefElem",
+    "summary": "Store references to values in Perl arrays and hashes"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-array-refelem",
+    "homepage": "https://metacpan.org/dist/Array-RefElem",
+    "release_api": "https://cpan.metacpan.org/authors/id/G/GA/GAAS/",
+    "release_channel": "stable",
+    "release_regex": "Array-RefElem-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Array-RefElem",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/G/GA/GAAS/Array-RefElem-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.00",
+    "latest_detected": "1.00",
+    "release": "1"
+  }
+}

@@ -1,0 +1,132 @@
+From: openEuler RISC-V Packages contributors
+Subject: Define IP arithmetic and bounded allocation; retain final text lines
+SPDX-License-Identifier: GPL-2.0-or-later
+Source: https://pc-tools.net/files/unix/grepcidr-2.0.tar.gz
+Source-SHA256: 61886a377dabf98797145c31f6ba95e6837b6786e70c932324b7d6176d50f7fb
+Applies-to: grepcidr 2.0, grepcidr.c and Makefile
+Upstream-status: package-local; no upstream issue, comment or PR created
+
+Root cause (static review, not an observed crash/CVE): unsigned-char IPv4
+octets promoted to signed int before left shift; signed 1<<31 masks; ctype
+arguments may be negative char; array/line growth lacks checked size and a
+temporary realloc pointer. A final 511/1023/... byte line without newline
+can be discarded after expansion when the following read reaches EOF.
+
+Use unsigned arithmetic/ctype bytes, checked growth and int-sized fgets
+chunks, and accept accumulated data only on EOF (not a partial read error).
+Recognize the legal all-zero IPv6 token through the existing inet_pton
+validation. Honor caller LDFLAGS. Retain all options/features/default algorithm
+with narrow edge fixes, original -O3/-Wall/-Werror, supplied manual and doc target.
+Original notices are snapshotted before applying this patch. No source
+execution, fault injection or general security/performance claim follows.
+
+Removal: re-review a fixed official release addressing these exact cases
+and pass the same target CLI vectors before dropping this owned patch.
+
+--- a/grepcidr.c
++++ b/grepcidr.c
+@@ -78 +78 @@
+-#define BUILD_IP(IP) ((IP[0]<<24) | (IP[1]<<16) | (IP[2]<<8) | IP[3])
++#define BUILD_IP(IP) (((unsigned int)(IP)[0]<<24) | ((unsigned int)(IP)[1]<<16) | ((unsigned int)(IP)[2]<<8) | (unsigned int)(IP)[3])
+@@ -85 +85 @@
+-#define IPV4_HINT(P)	(isdigit((int)P[0]) && ((P[1]=='.') || (P[2]=='.') || (P[3]=='.')))
++#define IPV4_HINT(P)	(isdigit((unsigned char)P[0]) && ((P[1]=='.') || (P[2]=='.') || (P[3]=='.')))
+@@ -89,5 +89,5 @@
+-#define IPV6_HINT1(P)	((P[0]==':') && (P[1]==':') && isxdigit((int)P[2]))
+-#define IPV6_HINT2(P)	(isxdigit((int)P[0]) && (P[1]==':'))
+-#define IPV6_HINT3(P)	(isxdigit((int)P[0]) && isxdigit((int)P[1]) && (P[2]==':'))
+-#define IPV6_HINT4(P)	(isxdigit((int)P[0]) && isxdigit((int)P[1]) && isxdigit((int)P[2]) && (P[3]==':'))
+-#define IPV6_HINT5(P)	(isxdigit((int)P[0]) && isxdigit((int)P[1]) && isxdigit((int)P[2]) && isxdigit((int)P[3]) && (P[4]==':'))
++#define IPV6_HINT1(P)	((P[0]==':') && (P[1]==':'))
++#define IPV6_HINT2(P)	(isxdigit((unsigned char)P[0]) && (P[1]==':'))
++#define IPV6_HINT3(P)	(isxdigit((unsigned char)P[0]) && isxdigit((unsigned char)P[1]) && (P[2]==':'))
++#define IPV6_HINT4(P)	(isxdigit((unsigned char)P[0]) && isxdigit((unsigned char)P[1]) && isxdigit((unsigned char)P[2]) && (P[3]==':'))
++#define IPV6_HINT5(P)	(isxdigit((unsigned char)P[0]) && isxdigit((unsigned char)P[1]) && isxdigit((unsigned char)P[2]) && isxdigit((unsigned char)P[3]) && (P[4]==':'))
+@@ -124,2 +124,21 @@
+-		capacity *= 2;
+-		array = realloc(array, capacity*sizeof(struct netspec));
++		unsigned int next_capacity;
++		struct netspec *grown;
++		if (!capacity || capacity > UINT_MAX / 2U)
++		{
++			fprintf(stderr, TXT_MEMORY);
++			exit(EXIT_ERROR);
++		}
++		next_capacity = capacity * 2U;
++		if ((size_t)next_capacity > (size_t)-1 / sizeof(*array))
++		{
++			fprintf(stderr, TXT_MEMORY);
++			exit(EXIT_ERROR);
++		}
++		grown = realloc(array, (size_t)next_capacity * sizeof(*array));
++		if (!grown)
++		{
++			fprintf(stderr, TXT_MEMORY);
++			exit(EXIT_ERROR);
++		}
++		array = grown;
++		capacity = next_capacity;
+@@ -134,2 +153,21 @@
+-		capacity6 *= 2;
+-		array6 = realloc(array6, capacity6*sizeof(struct netspec6));
++		unsigned int next_capacity;
++		struct netspec6 *grown;
++		if (!capacity6 || capacity6 > UINT_MAX / 2U)
++		{
++			fprintf(stderr, TXT_MEMORY);
++			exit(EXIT_ERROR);
++		}
++		next_capacity = capacity6 * 2U;
++		if ((size_t)next_capacity > (size_t)-1 / sizeof(*array6))
++		{
++			fprintf(stderr, TXT_MEMORY);
++			exit(EXIT_ERROR);
++		}
++		grown = realloc(array6, (size_t)next_capacity * sizeof(*array6));
++		if (!grown)
++		{
++			fprintf(stderr, TXT_MEMORY);
++			exit(EXIT_ERROR);
++		}
++		array6 = grown;
++		capacity6 = next_capacity;
+@@ -223 +261 @@
+-		if (strict_align && (ipaddress & (((1 << (32-maskbits))-1) & 0xFFFFFFFF)))
++		if (strict_align && (ipaddress & (((1U << (32-maskbits))-1) & 0xFFFFFFFF)))
+@@ -225,2 +263,2 @@
+-		spec->min = ipaddress & (~((1 << (32-maskbits))-1) & 0xFFFFFFFF);
+-		spec->max = spec->min | (((1 << (32-maskbits))-1) & 0xFFFFFFFF);
++		spec->min = ipaddress & (~((1U << (32-maskbits))-1) & 0xFFFFFFFF);
++		spec->max = spec->min | (((1U << (32-maskbits))-1) & 0xFFFFFFFF);
+@@ -517 +555 @@
+-	while (fgets((*bufptr)+bufcur, (*bufsize)-bufcur, stream))
++	while (fgets((*bufptr)+bufcur, (*bufsize)-bufcur > INT_MAX ? INT_MAX : (int)((*bufsize)-bufcur), stream))
+@@ -523,7 +561,13 @@
+-		*bufsize *= 2;
+-		*bufptr = realloc(*bufptr, *bufsize);
+-		if (*bufptr == NULL)
+-		{
+-			fprintf(stderr, TXT_MEMORY);
+-			exit(EXIT_ERROR);
+-		}
++		if (*bufsize > (size_t)-1 / 2U)
++		{
++			fprintf(stderr, TXT_MEMORY);
++			exit(EXIT_ERROR);
++		}
++		char *grown = realloc(*bufptr, *bufsize * 2U);
++		if (grown == NULL)
++		{
++			fprintf(stderr, TXT_MEMORY);
++			exit(EXIT_ERROR);
++		}
++		*bufptr = grown;
++		*bufsize *= 2U;
+@@ -532 +576 @@
+-	return 0;
++	return !ferror(stream) && feof(stream) && bufcur != 0;
+--- a/Makefile
++++ b/Makefile
+@@ -18 +18 @@
+-	$(CC) $(CFLAGS) grepcidr.o -o grepcidr
++	$(CC) $(CFLAGS) $(LDFLAGS) grepcidr.o -o grepcidr

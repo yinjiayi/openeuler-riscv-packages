@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "package_id": "libe131",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/hhromic/libe131/releases/download/v1.4.0/libe131-1.4.0.tar.gz",
+      "filename": "libe131-1.4.0.tar.gz",
+      "version": "1.4.0",
+      "digests": {
+        "sha256": "3937ca6253b348788d8eaa41b562002e523358b34755bc4eb6353853b3e161d6"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official nonprerelease release and generated configure agree1.4.0. All23dist bytes, six exactGit core files and17generated helper extras are retained. Project fullApache2, fullShelby custom permission/attribution, X11/FSFUL/FSFAP and all GNU helper notices/exceptions are preserved; extra GPL2/3 texts below. Root N226 scoped rights disposition does not claim historic wiki recovery. Actual tag/commit/assets offer no observed signature; no blind guessed sidecar or publisher digest claim."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
+      "filename": "GPL-2.0.txt",
+      "version": "2.0",
+      "digests": {
+        "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unmodified official fixedGPL2 legal text supporting source-verification QA and complete distribution of original default build-helper GPL2-or-later notices/exceptions. Legal-purpose source input, not an added runnable test or invented libe131 release."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "test-dependency",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "filename": "GPL-3.0.txt",
+      "version": "3.0",
+      "digests": {
+        "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unmodified official fixedGPL3 legal text for original config helpers/embedded option-parser and allowed GPL3 branch of GPL2-or-later build helpers, preserving every original exception. Legal-purpose source-verification QA dependency, no feature or original test disabled."
+      }
+    }
+  ]
+}

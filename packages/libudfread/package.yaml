@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://code.videolan.org/videolan/libudfread",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libudfread",
+        "package_name": "libudfread",
+        "source": "ubuntu",
+        "source_version": "1.2.0-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libudfread.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official VideoLAN fixed archive and published SHA512 verified; all 26 original files and LGPL/MIT notices preserved, full legal texts pinned. Meson defaults both shared/static, examples disabled and original zero-case test entry point retained. Six additional regular-image API cases await actual target CI; no local upstream/target execution or hardware claim.",
+    "status": "active"
+  },
+  "package_id": "libudfread",
+  "rpm": {
+    "license": "LGPL-2.1-or-later AND MIT",
+    "name": "libudfread",
+    "summary": "Userspace UDF filesystem image reader"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libudfread",
+    "homepage": "https://code.videolan.org/videolan/libudfread",
+    "release_api": "https://download.videolan.org/pub/videolan/libudfread/",
+    "release_channel": "stable",
+    "release_regex": "^libudfread-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz$",
+    "source_repository": "https://code.videolan.org/videolan/libudfread",
+    "source_url_template": "https://download.videolan.org/pub/videolan/libudfread/libudfread-{version}.tar.xz"
+  },
+  "version": {
+    "current": "1.2.0",
+    "latest_detected": "1.2.0",
+    "release": "1"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/perl-data-types",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-data-types",
+        "package_name": "perl-data-types",
+        "source": "aur",
+        "source_version": "0.17-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-data-types.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-data-types",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Data-Types",
+    "summary": "Validate and convert Perl data types"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "metacpan.org-dist-data-types",
+    "homepage": "https://metacpan.org/dist/Data-Types",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MA/MANWAR/",
+    "release_channel": "stable",
+    "release_regex": "Data-Types-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://github.com/manwar/Data-Types",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MA/MANWAR/Data-Types-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.17",
+    "latest_detected": "0.17",
+    "release": "1"
+  }
+}

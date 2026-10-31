@@ -47,6 +47,32 @@ def golden_package(root: pathlib.Path, package_id: str, digest: str, profile: st
 
 
 class BuildAndClassifyTests(unittest.TestCase):
+    def test_build_plan_limits_make_and_cmake_parallelism_consistently(self) -> None:
+        # Plan-only: do not invoke RPM, a compiler, a simulator, or upstream code.
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            fixture = root / "tests" / "golden" / "fixtures" / "golden-demo-1.0"
+            fixture.mkdir(parents=True)
+            (fixture / "hello.c").write_text("int main(void){return 0;}\n", encoding="utf-8")
+            digest = canonical_tar_gz(fixture, root / "source.tar.gz", "golden-demo-1.0")["sha256"]
+            package_dir = golden_package(root, "golden-demo", digest)
+            result = root / "plan.json"
+            run_tool(
+                "build-rpm",
+                ["--package-dir", str(package_dir), "--repo-root", str(root),
+                 "--work-dir", str(root / "work"), "--result", str(result), "--plan"],
+                root,
+            )
+            document = json.loads(result.read_text())
+            self.assertEqual(document["status"], "planned")
+            self.assertEqual(len(document["commands"]), 1)
+            command = document["commands"][0]
+            self.assertEqual(command[:2], ["rpmbuild", "-ba"])
+            defines = [command[i + 1] for i, value in enumerate(command) if value == "--define"]
+            self.assertEqual(defines.count("_smp_mflags -j2"), 1)
+            self.assertEqual(defines.count("_smp_build_ncpus 2"), 1)
+            self.assertFalse(any(value.startswith("_smp_build_ncpus ") and value != "_smp_build_ncpus 2" for value in defines))
+
     def test_first_error_ignores_zero_automake_counter(self) -> None:
         namespace = runpy.run_path(str(SCRIPTS / "build-rpm"))
         first_error = namespace["first_error"]

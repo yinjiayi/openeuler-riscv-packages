@@ -1,0 +1,36 @@
+{
+  "package_id": "plutovg",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f9bb31ff305381b79bb920730017bd356e5043a215960dd83656c70036075a4e"
+      },
+      "filename": "plutovg-1.3.3-Git.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Proposed published-component MIT plus exact seven derived-file FTL grants and explicit MIT alternative A in all three STB headers. Preserve exact LICENSE/FTL and full35 source-file notices plus binary FreeType acknowledgement. All35 original files remain unchanged; root formal rights and source admission is separately required before factory. Official formal v1.3.3 unsigned lightweight tag/commit has no selected-release assets; no independent signature claim."
+      },
+      "signature": null,
+      "url": "https://api.github.com/repos/sammycage/plutovg/tarball/bbd91f0d06a71491691b36330f29dffa4af87ccf",
+      "version": "1.3.3"
+    },
+    {
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "filename": "Apache-2.0.txt",
+      "id": "source1",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete verified official Apache2 text for packaging-owned QA only; not upstream relicensing. Reuse exact retained text, no new legal GET."
+      },
+      "signature": null,
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "version": "2.0"
+    }
+  ]
+}

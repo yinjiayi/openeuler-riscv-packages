@@ -1,0 +1,20 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Defer DESTDIR MIME cache refresh to real RPM scriptlets
+
+SPDX-License-Identifier: MIT
+Keep the default MIME feature enabled. Only skip generated shared caches during
+DESTDIR packaging; ordinary non-staged upstream installation remains unchanged.
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -492,6 +492,8 @@
+ 	if(LIBLCF_UPDATE_MIMEDB AND UPDATE_MIME_DATABASE)
+ 		install(CODE
+-			"execute_process(COMMAND ${UPDATE_MIME_DATABASE}
+-				\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATADIR}/mime)"
++			"if(\"\$ENV{DESTDIR}\" STREQUAL \"\")
++				execute_process(COMMAND ${UPDATE_MIME_DATABASE}
++					\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATADIR}/mime)
++			endif()"
+ 		)
+ 	endif()

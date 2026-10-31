@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libio-callback-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libio-callback-perl",
+        "package_name": "libio-callback-perl",
+        "source": "ubuntu",
+        "source_version": "2.00-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libio-callback-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release pinned by SHA-256; original IO::String test provenance and notices retained. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libio-callback-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-IO-Callback",
+    "summary": "Filehandles backed by Perl callbacks"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libio-callback-perl",
+    "homepage": "https://metacpan.org/release/IO-Callback",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/",
+    "release_channel": "stable",
+    "release_regex": "IO-Callback-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/IO-Callback-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.00",
+    "latest_detected": "2.00",
+    "release": "1"
+  }
+}

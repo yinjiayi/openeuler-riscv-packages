@@ -1,0 +1,21 @@
+{
+  "package_id": "libecoli",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9c2fc12f056a6304d68291e9e8976f6e0d10f5049b4f87cecee5900d0aad5b4f"
+      },
+      "filename": "libecoli-0.11.8.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/rjarry/libecoli/tar.gz/642e5a5c7224894a72ede66608a72e6fea2de39a",
+      "version": "0.11.8"
+    }
+  ]
+}
