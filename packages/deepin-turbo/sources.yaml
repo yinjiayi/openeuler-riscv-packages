@@ -1,0 +1,21 @@
+{
+  "package_id": "deepin-turbo",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "da00f3e1e2b124653f848f8a4c15dbe679ae9d80b085b38dd3896e11b848c890"
+      },
+      "filename": "deepin-turbo-0.0.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/linuxdeepin/deepin-turbo/archive/refs/tags/0.0.9.tar.gz",
+      "version": "0.0.9"
+    }
+  ]
+}
