@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "grepcidr",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://pc-tools.net/files/unix/grepcidr-2.0.tar.gz",
+      "filename": "grepcidr-2.0.tar.gz",
+      "version": "2.0",
+      "digests": {
+        "sha256": "61886a377dabf98797145c31f6ba95e6837b6786e70c932324b7d6176d50f7fb"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original author explicitly offers stable/current2.0; exactofficial16557B archive matches the offeredSHA512 (an unkeyed digest, not a digital signature). ActualC and SGML/man grantGPL2-or-later; originalCOPYING GPL2 terms and all7 source notices/contributor credits retained before patch. No observedPGP/SSH offer in the retained page; no global signature-absence claim."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "version": "2.0",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unmodified full officialApache2 legal text for original downstream packaging and independent strict-CLI shell QA; legal-purpose source-verification dependency, not runnable upstream code or a relabel of GPL source."
+      }
+    }
+  ]
+}

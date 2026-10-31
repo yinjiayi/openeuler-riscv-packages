@@ -1,0 +1,17 @@
+From: openEuler RISC-V packaging <packaging@openeuler.invalid>
+Subject: [PATCH] cmake: retain the public kdtree++ include directory
+
+The public usage contract includes <kdtree++/kdtree.hpp>; upstream's
+autotools nobase_include_HEADERS preserves that directory. CMake's FILES
+installation instead flattened the six headers into include. Preserve the
+same directory without changing the header list, examples, or optional
+Python binding default. No upstream write. Applies to v0.7.5 commit
+9b0cbb264393cbd40641256668393ef5bdbfe242. Remove when a stable upstream
+CMake installation provides the equivalent public include layout.
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -35,3 +35,2 @@
+ file (GLOB KDTREE_HEADERS kdtree++/*.hpp)
+-install (FILES ${KDTREE_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+-
++install (FILES ${KDTREE_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/kdtree++)

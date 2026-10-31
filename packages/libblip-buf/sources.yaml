@@ -1,0 +1,21 @@
+{
+  "package_id": "libblip-buf",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6f07ea138d0e23c1d376c3cae69d3180384e9cc0eb5ef9fe641834c0e70f2162"
+      },
+      "filename": "libblip_buf-1.1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "LGPL-2.1-or-later: blip_buf.c explicitly grants2.1-or-later; full license.txt and all8 original source/doc/build files are retained verbatim as source-notices. Fixed Git archive and original official release upload contain identical8 files. Complete corresponding source remains in SRPM; no third-party binary fixture or omitted external grant."
+      },
+      "signature": null,
+      "url": "https://gitlab.com/TASVideos/libblip_buf/-/archive/8f5101b1d3229657ce71c2d395e78c8ad69f2cb1/libblip_buf-8f5101b1d3229657ce71c2d395e78c8ad69f2cb1.tar.gz",
+      "version": "1.1.1"
+    }
+  ]
+}

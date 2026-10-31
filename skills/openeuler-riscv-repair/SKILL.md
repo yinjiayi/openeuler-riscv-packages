@@ -61,6 +61,30 @@ For continuous monitoring, omit `--once`, set bounded `--poll-seconds`, and use 
 ```
 
 Renew during long work. If the claim fails, do not compete with the current owner.
+A **pending claim** is a durably reserved lease and consumed local claim attempt
+whose remote synchronization has not completed. `claim-pending` and
+`reconciliation-required` are recovery-observation states, not ownership approval
+for checkout, edits, renew, verify-head, push, release or fail. Even after expiry,
+a new claim must not replace either state. A failed `gh pr edit` can have partial
+label effects; a later failed comment/read also does not undo earlier effects.
+Preserve the claim's last recorded phase and every attempt. Do not decrement a
+counter, replay a write, manually edit lease state or infer rollback from an EOF.
+Collect read-only exact-head labels/timeline/comments and local state, then stop
+for a separately reviewed reconciliation operation. This change supplies no
+automatic recovery transition or retry authorization. Errors before reservation
+(such as a failed initial head read) do not consume a claim attempt. A confirmed
+claim still requires all original head, credential, source, budget and push gates.
+
+A **lease origin** distinguishes live synchronization (`postconditions-verified`)
+from isolated fixture confirmation (`offline-fixture-confirmed`). Every owned
+operation and idempotent claim must match that origin to its invocation mode.
+Never convert fixture/unknown legacy origin into live push authority by omitting
+`--fixture-pr`, by waiting for expiry, by changing owner, or by a fresh head read.
+Fixture mode likewise cannot archive or mutate a known live lease. Closed or
+unknown-origin records in the current lease slot stop for separate reviewed
+reconciliation; historical records/counters are not rewritten. No automatic
+origin migration or recovery write is supplied by this correction.
+
 5. Fetch and check out the exact same-repository PR head without force operations. Download the structured artifact/check evidence for that SHA. Verify its schema and provenance before reading full logs.
 6. Re-materialize the verified sources in an isolated work directory, then reproduce with the immutable target image:
 

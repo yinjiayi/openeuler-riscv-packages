@@ -1,0 +1,17 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] pkgconfig: honor the configured GNUInstallDirs library directory
+
+CMake installs the original static library in CMAKE_INSTALL_LIBDIR, which is
+lib64 on this target. Bind the generated pkg-config search path to that same
+configured directory instead of the hard-coded lib. No source or test changes.
+
+--- a/cargs.pc.in
++++ b/cargs.pc.in
+@@ -1,6 +1,6 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=${prefix}
+-libdir=${exec_prefix}/lib
++libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+ includedir=${prefix}/include
+ 
+ Name: @PROJECT_NAME@

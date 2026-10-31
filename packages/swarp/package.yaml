@@ -1,0 +1,77 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "user": "unprivileged",
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/swarp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "swarp",
+        "package_name": "swarp",
+        "source": "aur",
+        "source_version": "0.1-4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-defer-stripping-to-rpm.patch",
+      "sha256": "04c73006a31271a052d0b022401701fa93f0eab497d0a7a96e29edca59d91148",
+      "purpose": "Defer final binary stripping to RPM so standard debug and debugsource products remain available; no C source or runtime behavior change.",
+      "source": "Locally authored packaging-only adjustment to original Makefile line 27; no upstream write.",
+      "license": "MIT",
+      "upstream_status": "downstream-only",
+      "remove_when": "A stable upstream Makefile supports deferring strip to the packaging system without removing default compilation or functionality."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "swarp.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official 0.1 release, all five members and MIT notices reviewed. Not astronomical SWarp. Original C/default all/install/-Os/VERSION/Xlib behavior retained, only upstream stripping deferred to standard RPM processing. No upstream test/check target exists. Offline private-Xvfb command, coordinate and PointerRoot-focus checks run staged and installed; not native input, timing, security, performance or exhaustive X11 conformance proof.",
+    "status": "active"
+  },
+  "package_id": "swarp",
+  "rpm": {
+    "license": "MIT",
+    "name": "swarp",
+    "summary": "Simple X11 pointer warping utility"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "tools.suckless.org-x-swarp",
+    "homepage": "https://tools.suckless.org/x/swarp/",
+    "release_api": "https://dl.suckless.org/tools/",
+    "release_channel": "stable",
+    "release_regex": "swarp-(?P<version>[0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://git.suckless.org/swarp/",
+    "source_url_template": "https://dl.suckless.org/tools/swarp-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.1",
+    "latest_detected": "0.1",
+    "release": "1"
+  }
+}

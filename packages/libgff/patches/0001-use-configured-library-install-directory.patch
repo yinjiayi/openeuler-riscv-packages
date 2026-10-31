@@ -1,0 +1,24 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Honor the configured library installation directory
+
+SPDX-License-Identifier: BSL-1.0
+Upstream: https://github.com/COMBINE-lab/libgff/tree/112721772d5c118f8ddf059395e88057b00067e6
+Upstream-Status: Not submitted; downstream packaging layout only.
+
+Use GNUInstallDirs for the original static archive and its CMake metadata.
+Keep the original include layout, default targets, flags, parser source and
+upstream CMake version values unchanged. Remove when upstream honors libdir.
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -6,2 +6,3 @@
+-set(INCLUDE_INSTALL_DIR include/)
+-set(LIB_INSTALL_DIR lib/)
++include(GNUInstallDirs)
++set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}/")
++set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/")
+@@ -64,2 +65,2 @@
+-install(FILES ${CMAKE_BINARY_DIR}/lib${PROJECT_NAME}.a DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+-install(DIRECTORY ${PROJECT_INCLUDE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX})
++install(TARGETS ${PROJECT_NAME} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
++install(DIRECTORY ${PROJECT_INCLUDE_DIR}/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

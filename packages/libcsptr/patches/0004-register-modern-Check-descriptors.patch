@@ -1,0 +1,134 @@
+From: downstream package maintenance
+Subject: [PATCH] Register original test descriptors with Check 0.15
+
+SPDX-License-Identifier: MIT
+
+Check START_TEST yields const TTest descriptors, not legacy TFun values.
+Build each descriptor array at runtime and register the exact original cases.
+No original test body, assertion, ordering, feature or compiler flag changes.
+
+--- a/check/test/misc.c
++++ b/check/test/misc.c
+@@ -20,10 +20,13 @@
+ } END_TEST
+ #endif
+ 
+-TFun misc_tests[] = {
++TCase *misc_tests(void) {
++    const TTest *tests[] = {
+ #ifndef SMALLOC_FIXED_ALLOCATOR
+     test_alloc_failure,
+ #endif
+     test_zero_size,
+     NULL
+ };
++    return make_test_case("misc", tests);
++}
+--- a/check/test/scalar.c
++++ b/check/test/scalar.c
+@@ -36,11 +36,14 @@
+     ck_assert_msg(dtor_run, "Expected destructor to run");
+ } END_TEST
+ 
+-TFun scalar_tests[] = {
++TCase *scalar_tests(void) {
++    const TTest *tests[] = {
+     test_pointer_valid,
+     test_meta,
+     test_dtor_run,
+     test_dtor_run_with_meta,
+     NULL
+ };
++    return make_test_case("scalar", tests);
++}
+ 
+--- a/check/test/array.c
++++ b/check/test/array.c
+@@ -51,10 +51,13 @@
+     ck_assert_msg(dtor_run, "Expected destructor to run");
+ } END_TEST
+ 
+-TFun array_tests[] = {
++TCase *array_tests(void) {
++    const TTest *tests[] = {
+     test_array,
+     test_array_meta,
+     test_array_dtor_run,
+     test_array_dtor_run_with_meta,
+     NULL
+ };
++    return make_test_case("array", tests);
++}
+--- a/check/test/shared.c
++++ b/check/test/shared.c
+@@ -21,8 +21,11 @@
+     ck_assert_msg(dtor_run == 0, "Expected destructor NOT to have run.");
+ } END_TEST
+ 
+-TFun shared_tests[] = {
++TCase *shared_tests(void) {
++    const TTest *tests[] = {
+     test_shared_init,
+     test_shared_sref,
+     NULL
+ };
++    return make_test_case("shared", tests);
++}
+--- a/check/test/test.h
++++ b/check/test/test.h
+@@ -5,9 +5,9 @@
+ 
+ Suite *unique_ptr_suite(void);
+ 
+-extern TFun scalar_tests[];
+-extern TFun array_tests[];
+-extern TFun misc_tests[];
+-extern TFun shared_tests[];
++TCase *scalar_tests(void);
++TCase *array_tests(void);
++TCase *misc_tests(void);
++TCase *shared_tests(void);
+ 
+ #endif /* !TEST_H_ */
+--- a/check/test/utils.h
++++ b/check/test/utils.h
+@@ -20,9 +20,9 @@
+ }
+ 
+ __attribute__((always_inline))
+-inline TCase *make_test_case(const char *name, TFun func[]) {
++inline TCase *make_test_case(const char *name, const TTest *tests[]) {
+     TCase *tc = tcase_create(name);
+-    for (TFun *f = func; *f != NULL; ++f)
++    for (const TTest **f = tests; *f != NULL; ++f)
+         tcase_add_test(tc, *f);
+     return tc;
+ }
+--- a/check/test/test.c
++++ b/check/test/test.c
+@@ -9,10 +9,10 @@
+ 
+ Suite *master_suite(void) {
+     Suite *s = suite_create("master");
+-    suite_add_tcase(s, make_test_case("misc", misc_tests));
+-    suite_add_tcase(s, make_test_case("scalar", scalar_tests));
+-    suite_add_tcase(s, make_test_case("array", array_tests));
+-    suite_add_tcase(s, make_test_case("shared", shared_tests));
++    suite_add_tcase(s, misc_tests());
++    suite_add_tcase(s, scalar_tests());
++    suite_add_tcase(s, array_tests());
++    suite_add_tcase(s, shared_tests());
+     return s;
+ }
+ 
+--- a/downstream/run-tests.sh
++++ b/downstream/run-tests.sh
+@@ -23,7 +23,7 @@
+ (cd "$base/original"; sha256sum -c "$base/SHA256SUMS")
+ work=$(mktemp -d)
+ trap 'rm -rf -- "$work"' EXIT
+-# Compile the complete unchanged original suite against installed public API.
++# Compile all original test bodies with modern Check registration against installed public API.
+ # Preserve all original GNU C compiler diagnostics and keep assertions enabled.
+ gcc -std=gnu99 -Wall -Wextra -Werror -g -Wno-unused-result \
+     -Wno-missing-field-initializers -UNDEBUG \

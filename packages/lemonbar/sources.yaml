@@ -1,0 +1,21 @@
+{
+  "package_id": "lemonbar",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8e364cfaf3de7430cd5f1e2d51fab7f0ec74abee1df73ffc901985152f9b74d3"
+      },
+      "filename": "lemonbar-1.5.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/LemonBoy/bar/tar.gz/5420c86be097819028a9504c1cb6a8f7f23ab5c8",
+      "version": "1.5"
+    }
+  ]
+}

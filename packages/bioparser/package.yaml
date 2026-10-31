@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "package_id": "bioparser",
+  "rpm": {
+    "name": "bioparser",
+    "summary": "Header-only parsers for bioinformatics text and gzip formats",
+    "license": "MIT"
+  },
+  "version": {
+    "current": "3.1.0",
+    "latest_detected": "3.1.0",
+    "release": "1"
+  },
+  "upstream": {
+    "component": "github.com-rvaser-bioparser",
+    "homepage": "https://github.com/rvaser/bioparser",
+    "source_repository": "https://github.com/rvaser/bioparser",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/rvaser/bioparser/tags",
+    "source_url_template": "https://codeload.github.com/rvaser/bioparser/tar.gz/{version}",
+    "release_regex": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "libbioparser-dev",
+        "package_base": "libbioparser-dev",
+        "source_version": "3.1.0-2",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/7ddc80ea3ef9d0ec3132b3401a1e40a552720a0f/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "bioparser.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-add-installed-QA.patch",
+        "sha256": "b12a0ce6bf19cd4d4b01e9ed9581dd8a469934bba0c06cd6f9043943f927f888",
+        "purpose": "Add separate installed-CMake-target replay of all unchanged original tests and full legal notices.",
+        "source": "Locally authored distribution integration; no upstream mutation.",
+        "license": "MIT",
+        "upstream_status": "downstream-only",
+        "remove_when": "Upstream supplies equivalent installed-target replay retaining all original defaults and tests."
+      }
+    ]
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "official-github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "status": "active",
+    "notes": "Official unsigned 3.1.0 and test-only Biosoup0.11.0 fixed archives, all37+22 Git files/modes verified. Fresh complete MIT review supersedes historical automatic unknown-license rejection. Preserve all35 original tests,10 fixtures and normal embedded dependency defaults. Header-only public payload, source-only installed QA; no installed ELF/debug payload. All target/DNF/physical acceptance pending."
+  }
+}

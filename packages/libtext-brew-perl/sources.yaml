@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-brew-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Brew-0.02.tar.gz",
+      "version": "0.02",
+      "url": "https://cpan.metacpan.org/authors/id/K/KC/KCIVEY/Text-Brew-0.02.tar.gz",
+      "digests": {
+        "sha256": "aa1b85841cf9fc6fe338366bbc870a4e9304a27641e63f92a1fd96bee8ebf64c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Included README and module POD expressly grant the same terms as Perl itself; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

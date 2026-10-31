@@ -10,7 +10,7 @@ import json
 import pathlib
 import shutil
 import subprocess
-from typing import Any, Dict, Mapping, Optional, Sequence, Tuple
+from typing import Any, Callable, Dict, Mapping, Optional, Sequence, Tuple
 
 from _lib import SCHEMA_VERSION, ToolError, emit_json, isoformat, load_json, locked_state, parse_now, parse_time, run_main
 
@@ -130,7 +130,7 @@ def check_head(args: argparse.Namespace) -> Tuple[Mapping[str, Any], str]:
     return pr, observed
 
 
-def remote_labels(args: argparse.Namespace, add: Sequence[str], remove: Sequence[str], comment: Optional[str] = None) -> None:
+def remote_labels(args: argparse.Namespace, add: Sequence[str], remove: Sequence[str], comment: Optional[str] = None, *, progress: Optional[Callable[[str], None]] = None) -> None:
     if args.fixture_pr:
         return
     command = ["pr", "edit", str(args.pr), "--repo", args.repo]
@@ -138,9 +138,17 @@ def remote_labels(args: argparse.Namespace, add: Sequence[str], remove: Sequence
         command.extend(["--add-label", label])
     for label in remove:
         command.extend(["--remove-label", label])
+    if progress:
+        progress("before-label-command")
     gh(command)
+    if progress:
+        progress("label-command-returned")
     if comment:
+        if progress:
+            progress("before-comment-command")
         gh(["pr", "comment", str(args.pr), "--repo", args.repo, "--body", comment])
+        if progress:
+            progress("comment-command-returned")
 
 
 def lease_result(action: str, args: argparse.Namespace, lease: Mapping[str, Any], **extra: Any) -> Dict[str, Any]:
@@ -158,6 +166,13 @@ def lease_result(action: str, args: argparse.Namespace, lease: Mapping[str, Any]
     }
 
 
+def require_confirmed_origin(args: argparse.Namespace, lease: Mapping[str, Any]) -> None:
+    """A fixture or unknown legacy origin is never independent live authority."""
+    expected = "offline-fixture-confirmed" if args.fixture_pr else "postconditions-verified"
+    if lease.get("status") != "codex-repairing" or lease.get("remote_sync_phase") != expected:
+        raise ToolError("lease origin is not confirmed for this invocation; reconciliation required", 1)
+
+
 def command_claim(args: argparse.Namespace) -> int:
     if args.lease_seconds < 60 or not 1 <= args.max_attempts <= 3:
         raise ToolError("lease-seconds must be at least 60 and max-attempts must be between 1 and 3")
@@ -171,6 +186,9 @@ def command_claim(args: argparse.Namespace) -> int:
         leases = state.setdefault("leases", {})
         prior = leases.get(lease_key)
         if isinstance(prior, Mapping):
+            if prior.get("status") in {"claim-pending", "reconciliation-required"}:
+                raise ToolError("prior claim requires reconciliation; no automatic replay or expiry takeover", 1)
+            require_confirmed_origin(args, prior)
             expiry = parse_time(prior.get("expires_at"))
             if expiry and expiry > now and prior.get("owner") != args.owner:
                 raise ToolError("repair is actively leased by %s until %s" % (prior.get("owner"), prior.get("expires_at")), 1)
@@ -197,11 +215,21 @@ def command_claim(args: argparse.Namespace) -> int:
             "acquired_at": acquired,
             "renewed_at": acquired,
             "expires_at": expires,
-            "status": "codex-repairing",
+            "status": "claim-pending",
+            "remote_sync_phase": "reserved",
         }
         leases[lease_key] = lease
         attempts[attempt_key] = attempt
         state["schema_version"] = SCHEMA_VERSION
+    # Reserve ownership and the consumed attempt durably BEFORE any remote edit.
+    # A CLI error is not evidence that its remote label/comment effects vanished.
+    def progress(phase: str) -> None:
+        with locked_state(state_path) as state:
+            current = state.get("leases", {}).get(lease_key)
+            if not isinstance(current, dict) or current.get("lease_id") != lease["lease_id"] or current.get("status") != "claim-pending" or state.get("attempts", {}).get(attempt_key) != attempt:
+                raise ToolError("pending claim changed; stop for reconciliation", 1)
+            current["remote_sync_phase"] = phase
+
     try:
         remote_labels(
             args,
@@ -209,17 +237,29 @@ def command_claim(args: argparse.Namespace) -> int:
             ["repair-queued"],
             "Repair lease `%s` claimed by `%s` for head `%s`; attempt %d/%d; expires %s."
             % (lease["lease_id"], args.owner, head, attempt, args.max_attempts, expires),
+            progress=progress,
         )
-    except ToolError:
+        if not args.fixture_pr:
+            progress("before-postcondition-read")
+            confirmed, _ = check_head(args)
+            remote_names = {row.get("name") if isinstance(row, Mapping) else row for row in confirmed.get("labels", [])}
+            if "codex-repairing" not in remote_names or "repair-queued" in remote_names:
+                raise ToolError("remote claim labels are not confirmed; reconciliation required", 1)
         with locked_state(state_path) as state:
-            if state.get("leases", {}).get(lease_key, {}).get("lease_id") == lease["lease_id"]:
-                del state["leases"][lease_key]
-            attempts = state.get("attempts", {})
-            if isinstance(attempts, dict) and attempts.get(attempt_key) == attempt:
-                if attempt <= 1:
-                    del attempts[attempt_key]
-                else:
-                    attempts[attempt_key] = attempt - 1
+            current = state.get("leases", {}).get(lease_key)
+            if not isinstance(current, dict) or current.get("lease_id") != lease["lease_id"] or current.get("status") != "claim-pending" or state.get("attempts", {}).get(attempt_key) != attempt:
+                raise ToolError("pending claim changed before confirmation", 1)
+            current["status"] = "codex-repairing"
+            current["remote_sync_phase"] = "offline-fixture-confirmed" if args.fixture_pr else "postconditions-verified"
+            lease = dict(current)
+    except BaseException:
+        # Also fail closed on interruption. A killed process leaves claim-pending,
+        # which is likewise never push-eligible or automatically taken over.
+        with locked_state(state_path) as state:
+            current = state.get("leases", {}).get(lease_key)
+            if isinstance(current, dict) and current.get("lease_id") == lease["lease_id"] and current.get("status") == "claim-pending":
+                current["status"] = "reconciliation-required"
+                current["reason"] = "Remote claim synchronization was not confirmed; preserve attempt and inspect remote effects before any further action."
         raise
     emit_json(lease_result("claim", args, lease, idempotent=False), args.output)
     return 0
@@ -233,6 +273,9 @@ def owned_lease(args: argparse.Namespace, state: Mapping[str, Any], now: Any, re
         raise ToolError("repair lease is owned by %s" % lease.get("owner"), 1)
     if lease.get("head_sha") != validate_sha(args.expected_head_sha):
         raise ToolError("lease belongs to a different head SHA", 1)
+    if lease.get("status") != "codex-repairing":
+        raise ToolError("repair lease is not confirmed; reconciliation required", 1)
+    require_confirmed_origin(args, lease)
     expiry = parse_time(lease.get("expires_at"))
     if require_live and (not expiry or expiry <= now):
         raise ToolError("repair lease expired at %s" % lease.get("expires_at"), 1)

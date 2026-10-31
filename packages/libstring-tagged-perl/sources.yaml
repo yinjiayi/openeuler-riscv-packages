@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-tagged-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "String-Tagged-0.24.tar.gz",
+      "version": "0.24",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PEVANS/String-Tagged-0.24.tar.gz",
+      "digests": {
+        "sha256": "a3d9ba61af5a419fa4ca40cd084a62642b4ef6533cc42a209f8f7f63e21d74a9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN CHECKSUMS SHA-256 matches the HTTPS archive. Archived LICENSE gives the Perl 5 GPL-1.0-or-later or Artistic-1.0-Perl dual terms, reiterated by the module header."
+      }
+    }
+  ]
+}

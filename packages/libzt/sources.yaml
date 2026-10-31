@@ -1,0 +1,21 @@
+{
+  "schema_version":1,
+  "package_id":"libzt",
+  "sources":[
+    {
+      "id":"source0","kind":"upstream-release","version":"0.3.1",
+      "url":"https://github.com/zyga/libzt/releases/download/v0.3.1/libzt_0.3.1.tar.gz",
+      "filename":"libzt_0.3.1.tar.gz",
+      "digests":{"sha256":"0522a9941df33ba8c17216bc107709b995e5f594e7761151134fcff079205437"},
+      "signature":{"url":"https://github.com/zyga/libzt/releases/download/v0.3.1/libzt_0.3.1.tar.gz.asc","key_fingerprint":"B76CED9B45CAF1557D271A6A2894E93A28C67B47","policy":"checksum-required-signature-advisory"},
+      "redistribution":{"allowed":true,"reason":"Complete original LGPLv3-only LICENSE and per-file notices reviewed, including bundled ZMK 0.3.6. SHA-256 is mandatory; detached release signature independently verified locally using the refreshed self-signed key matching the official maintainer-account fingerprint."}
+    },
+    {
+      "id":"source1","kind":"upstream-release","version":"3",
+      "url":"https://www.gnu.org/licenses/gpl-3.0.txt","filename":"GPL-3.0.txt",
+      "digests":{"sha256":"3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"},
+      "signature":null,
+      "redistribution":{"allowed":true,"reason":"Verbatim official GNU GPL version 3 terms, accompanying the original LGPLv3 terms as required by LGPLv3 section 4; no source license is replaced."}
+    }
+  ]
+}
