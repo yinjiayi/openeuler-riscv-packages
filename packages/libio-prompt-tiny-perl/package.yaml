@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libio-prompt-tiny-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libio-prompt-tiny-perl",
+        "package_name": "libio-prompt-tiny-perl",
+        "source": "ubuntu",
+        "source_version": "0.003-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libio-prompt-tiny-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release archive pinned by SHA-256; Ubuntu package lineage independently checked. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libio-prompt-tiny-perl",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "perl-IO-Prompt-Tiny",
+    "summary": "Prompt for user input with a default option"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libio-prompt-tiny-perl",
+    "homepage": "https://metacpan.org/release/IO-Prompt-Tiny",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_channel": "stable",
+    "release_regex": "IO-Prompt-Tiny-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/IO-Prompt-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.003",
+    "latest_detected": "0.003",
+    "release": "1"
+  }
+}
