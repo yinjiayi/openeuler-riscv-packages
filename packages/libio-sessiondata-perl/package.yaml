@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libio-sessiondata-perl",
+  "rpm": {"name": "perl-IO-SessionData", "summary": "Perl session data and session set classes", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "libio-sessiondata-perl",
+    "homepage": "https://metacpan.org/dist/IO-SessionData",
+    "source_repository": "https://metacpan.org/dist/IO-SessionData",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PH/PHRED/",
+    "release_regex": "IO-SessionData-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PH/PHRED/IO-SessionData-{version}.tar.gz"
+  },
+  "version": {"current": "1.03", "release": "1", "latest_detected": "1.03"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "ubuntu", "package_name": "libio-sessiondata-perl", "package_base": "libio-sessiondata-perl", "source_version": "1.03-3", "evidence_url": "https://packages.ubuntu.com/source/resolute/libio-sessiondata-perl", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libio-sessiondata-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official CPAN archive checksum matches publisher CHECKSUMS. The distribution README grants Perl terms and preserves the original authors' credits for code extracted from SOAP::Lite. Both upstream tests remain enabled; exact-head target CI is required."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
