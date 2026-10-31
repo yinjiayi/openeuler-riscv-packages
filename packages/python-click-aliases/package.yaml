@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "python-click-aliases",
+  "rpm": {
+    "name": "python-click-aliases",
+    "summary": "Aliases for Click groups and commands",
+    "license": "MIT"
+  },
+  "upstream": {
+    "component": "github.com-click-contrib-click-aliases",
+    "homepage": "https://github.com/click-contrib/click-aliases",
+    "source_repository": "https://github.com/click-contrib/click-aliases",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/click-contrib/click-aliases/tags?per_page=100",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.0.7",
+    "release": "1",
+    "latest_detected": "1.0.7"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "python-click-aliases",
+        "package_base": "python-click-aliases",
+        "source_version": "1.0.7-1",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/f4e04cee669ccb34bd3d378cc242f08f8b425412/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "python-click-aliases",
+        "package_base": "python-click-aliases",
+        "source_version": "1.0.6-1.2",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/f4e04cee669ccb34bd3d378cc242f08f8b425412/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "python-click-aliases.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "All21 originals/2runtime/fullMIT retained. Exact original GHA CPython3.11 python -m pytest on distroClick8.1.7/pytest7.4.4; legacy tox/Travis and developer Poetry lock/lint/coverage/publishing unclaimed. No local defaults/build or target success claim."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  }
+}
