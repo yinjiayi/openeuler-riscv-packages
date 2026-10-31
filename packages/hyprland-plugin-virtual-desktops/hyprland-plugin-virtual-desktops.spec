@@ -1,0 +1,38 @@
+# SPDX-License-Identifier: Apache-2.0
+Name:           hyprland-plugin-virtual-desktops
+Version:        2.2.8
+Release:        1%{?dist}
+Summary:        A plugin for the Hyprland compositor, implementing virtual-desktop functionality.
+License:        BSD-3-Clause
+URL:            https://github.com/levnikmyskin/hyprland-virtual-desktops
+Source0:        hyprland-plugin-virtual-desktops-2.2.8.tar.gz
+BuildRequires:  cmake
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
+BuildRequires:  make
+
+%description
+A plugin for the Hyprland compositor, implementing virtual-desktop functionality.
+
+%prep
+%autosetup -p1
+
+%build
+%cmake -DBUILD_TESTING=ON
+%cmake_build
+
+%install
+%cmake_install
+find %{buildroot} \( -type f -o -type l \) -printf '/%%P\n' | LC_ALL=C sort > %{name}.files
+test -s %{name}.files
+
+%check
+ctest --test-dir %{_vpath_builddir} --output-on-failure
+
+%files -f %{name}.files
+%license LICENSE
+%doc README.md
+
+%changelog
+* Wed Aug 26 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 2.2.8-1
+- Initial openEuler RISC-V package from the full package inventory.
