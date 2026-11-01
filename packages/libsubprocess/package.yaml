@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "package_id": "libsubprocess",
+  "rpm": {
+    "name": "libsubprocess",
+    "summary": "Header-only C++ subprocess and pipe library",
+    "license": "MIT AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-arun11299-cpp-subprocess",
+    "homepage": "https://github.com/arun11299/cpp-subprocess",
+    "source_repository": "https://github.com/arun11299/cpp-subprocess",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/arun11299/cpp-subprocess/releases",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+){1,2})$",
+    "source_url_template": "https://api.github.com/repos/arun11299/cpp-subprocess/tarball/v{version}"
+  },
+  "version": {
+    "current": "2.5",
+    "latest_detected": "2.5",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libsubprocess",
+        "package_base": "libsubprocess",
+        "source_version": "2.5-1",
+        "evidence_url": "https://github.com/arun11299/cpp-subprocess",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libsubprocess.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-repair-export-and-bound-process-I-O.patch",
+        "sha256": "7396116f87b85f44635cda5fd4aeb9070774f086a6af2ae3891f3430b7a9bd69",
+        "purpose": "Repair original CMake header/export/version/Threads dependency and test-data location; bound joins, empty commands, process I/O errors/draining/redirection and moved-stream communication. Twenty-two zero-context hunks in four source files.",
+        "source": "Derived from official fixed commit60d4ad8d528173a2e4c98fd64aa9191728832355/archivef2c947e0dcfd800652275d6f7deb76d155a953a1a5df969383530445f01c29eb; full original27 notices copied before patch, no upstream write or unrelated shared infrastructure change.",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "A fixed official release supplies equivalent export and bounded behavior; all ten original CTests with assertions plus ten exact build/installed consumer groups pass without the patch."
+      },
+      {
+        "file": "patches/0002-use-canonical-cmake-version-file-name.patch",
+        "sha256": "6ce755a537367fbb1174bbd2d7236415bf974b0db65965d3dbd9cbc4e8fe2f30",
+        "purpose": "Generate and install subprocess-config-version.cmake, the canonical version companion to subprocess-config.cmake. Two zero-context CMakeLists.txt hunks after patch0001; retain strict 2.5 EXACT consumers and every original/additive test.",
+        "source": "Derived from exact failed H6ffcbdb88fa3ff7356ae6985daa6a82d9a4cb2bb and its pinned v2.5 archive; actual run40486701223/1 passed ten original CTests then reported installed config version unknown. CMake3.27 canonical filename rule was independently checked by the root operator. No upstream write.",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "An official release generates and installs the canonical CMake config-version filename and passes the unchanged ten original CTests plus ten strict build/installed consumer groups."
+      }
+    ]
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Actual N232 source capture a91f1c4d... selects official formal246362665 v2.5/highest numeric tag/official latest, exact fixed commit/tree and all27 Git file blobs/modes. The offered signed commit was independently reconstructed and verified with the current REST-linked GitHub web-flow certificate (309c1317..., fingerprint968479A1AFF927E37D1A566BB5690EEEBB952194); this is not personal-author or detached archive attestation. Full original MIT, all27 pre-patch notices/raw hashes including two never-executed/never-installed Mach-O artifacts, and full downstream Apache2 text retained. Original CMake tests/install default OFF; this recipe explicitly enables both and preserves all ten original CTest registration bodies with assertions active, then adds ten exact CMake-installed-header consumer groups. Original project2.2/header-doc1.0.0 versus formal2.5 mismatch is recorded; CMake package version is repaired to2.5. No fabricated DSO/static archive/pc/CLI, Catch dependency, target result, full Daily coverage, Windows/native/performance/general-security claim. Complete fresh source-identity/provider, metadata/tool and target-CI/physical/namespace gates remain separate. N233 exact first target failure is scoped to the downstream CMake version-companion filename, not a RISC-V, process-I/O or original-CTest failure. Patch0002 changes only generation/install output names to subprocess-config-version.cmake. Same fixed two sources, patch0001 bytes, dependencies, version/release2.5-1 and strict test consumers remain; no RPM was produced/published by the failed original attempt. New target and physical acceptance remain required. N234 exact second target run40492433647/1 passed all ten original CTests and all ten strict buildroot installed-prefix consumer groups, then rpmbuild rejected an empty libsubprocess-debuginfo debugfiles.list. The package installs headers, CMake exports and QA text only, not the temporary consumer ELF. Set only the package-local debug_package macro to nil; retain architecture, version/release, both source patches, dependencies, original/additive tests and strict installed consumers unchanged. This addresses packaging of an absent ELF debug payload, not a test failure or evidence of replacement target success. Prior two failed target attempts remain counted; one remains, without head-change reset."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}
