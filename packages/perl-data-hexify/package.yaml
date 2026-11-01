@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-data-hexify",
+  "rpm": {"name": "perl-Data-Hexify", "summary": "Perl hexadecimal dump of arbitrary data", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "search.cpan.org-dist-data-hexify",
+    "homepage": "https://metacpan.org/dist/Data-Hexify",
+    "source_repository": "https://metacpan.org/dist/Data-Hexify",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JV/JV/",
+    "release_regex": "Data-Hexify-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JV/JV/Data-Hexify-{version}.tar.gz"
+  },
+  "version": {"current": "1.00", "release": "1", "latest_detected": "1.00"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "fedora", "package_name": "perl-Data-Hexify", "package_base": "perl-Data-Hexify", "source_version": "1.00-41.fc44", "evidence_url": "https://metacpan.org/dist/Data-Hexify", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "perl-data-hexify.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Frozen Fedora lineage maps to official CPAN 1.00. Publisher CHECKSUMS pins the archive; README and module POD grant Perl terms. All original default tests remain enabled; exact-head target CI is required."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}
