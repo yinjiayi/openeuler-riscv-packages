@@ -1,0 +1,36 @@
+{
+  "package_id": "concurrentqueue",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a92a695bc51ab237b1a86acfca66c7424edcd0d96c33a8d2d33864c7a0e142ad"
+      },
+      "filename": "concurrentqueue-1.0.5-Git.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Proposed component-specific original BSD2/BSL/Zlib, Preshing hash BSD3, bundled Boost/dlib BSL, TBB GPL2 with exact additional permission, Relacy BSD3 and exact2010 demangle CC2.5 scopes; all1830 original files/notices plus full additional grants retained. The fixed official source and full component grant/notices are retained; fresh stable identity, all1830 Git file identities and actual current offered-committer-key Git signature verification are recorded in external evidence; exact root admission and factory guards remain separate; not blanket CC/GPL SDK relicensing or independent archive signature."
+      },
+      "signature": null,
+      "url": "https://api.github.com/repos/cameron314/concurrentqueue/tarball/9afb99746f0f5fc94ac8aef737053ae0481ba8d1",
+      "version": "1.0.5"
+    },
+    {
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "filename": "Apache-2.0.txt",
+      "id": "source1",
+      "kind": "test-dependency",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete verified official Apache2 text for packaging-owned QA only, not upstream implementation."
+      },
+      "signature": null,
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "version": "2.0"
+    }
+  ]
+}
