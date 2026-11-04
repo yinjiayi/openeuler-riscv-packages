@@ -1,0 +1,79 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 180,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://codeberg.org/maandree/libsimple",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libsimple",
+        "package_name": "libsimple",
+        "source": "aur",
+        "source_version": "1.8-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-capture-glibc-checked-stderr-in-tests.patch",
+        "sha256": "afc60416e8c3d40f8a9665c1d48b9c64b3a7c6deac69533796734e02a3a757f1",
+        "purpose": "Extend only the upstream test interposer for optimized glibc checked fprintf/vfprintf entry points while retaining checked-format flags and exact stderr assertions.",
+        "source": "Package-local repair derived from exact libsimple1.8 test.c plus installed openEuler glibc-devel2.38-84 headers; no upstream write.",
+        "license": "ISC",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream test interposition supports the checked glibc entries and unchanged hardened target original/default checks plus paired causal control pass without this patch."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libsimple.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official Version 1.8 annotated tag and commit independently verified with the owner-linked current GPG key; all archive member bytes match their Git blobs. Archive SHA-256 is fixed; no separate archive signature is published. ISC notices and all original default tests/features are retained; target build/install is not locally executed.",
+    "status": "active"
+  },
+  "package_id": "libsimple",
+  "rpm": {
+    "license": "ISC",
+    "name": "libsimple",
+    "summary": "General-purpose C utility functions"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "codeberg.org-maandree-libsimple",
+    "homepage": "https://codeberg.org/maandree/libsimple",
+    "release_api": "https://codeberg.org/maandree/libsimple/tags",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://codeberg.org/maandree/libsimple",
+    "source_url_template": "https://codeberg.org/maandree/libsimple/archive/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.8",
+    "latest_detected": "1.8",
+    "release": "1"
+  }
+}
