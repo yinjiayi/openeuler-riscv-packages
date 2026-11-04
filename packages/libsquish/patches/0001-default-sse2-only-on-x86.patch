@@ -1,0 +1,24 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Keep SSE2 enabled by default only on x86 targets
+SPDX-License-Identifier: MIT
+Upstream-Version: 1.15
+Upstream-Status: Not submitted; package-local architecture default fix
+Source: Fixed official libsquish 1.15 CMakeLists.txt
+Remove-When: An official release selects compatible architecture defaults
+
+SSE2 instructions and -msse2 are x86-specific. Keep the existing x86
+default, while selecting the already supplied scalar backend by default
+on other targets. Explicit option overrides and other features remain
+unchanged. This adds no new codec implementation.
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -18,1 +18,7 @@
+-OPTION(BUILD_SQUISH_WITH_SSE2 "Build with SSE2." ON)
++SET(SQUISH_SSE2_DEFAULT OFF)
++STRING(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" SQUISH_TARGET_PROCESSOR)
++IF (SQUISH_TARGET_PROCESSOR MATCHES "^(i[3-6]86|x86|x86_64|amd64|x64)$")
++    SET(SQUISH_SSE2_DEFAULT ON)
++ENDIF ()
++OPTION(BUILD_SQUISH_WITH_SSE2 "Build with SSE2." ${SQUISH_SSE2_DEFAULT})
++UNSET(SQUISH_SSE2_DEFAULT)
