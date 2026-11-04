@@ -641,6 +641,7 @@ rows=json.load(open(sys.argv[1]));expected=['C','en_US.utf8','ja_JP.utf8','it_IT
 assert len(rows)==9
 assert [r['env']['LC_ALL'] for r in rows]==expected
 assert all('tomlplusplus_tests' in r['cmd'][0] for r in rows)
+assert all(r['timeout']==30 for r in rows)
 print('TOMLPLUSPLUS_ORIGINAL_TEST_REGISTRATION '+json.dumps(rows,sort_keys=True))
 TOMLPLUSPLUS_ORIGINAL_TESTS_PY
     if ninja -C "meson-$profile" > "meson-$profile-build.log" 2>&1; then
@@ -649,7 +650,7 @@ TOMLPLUSPLUS_ORIGINAL_TESTS_PY
         cat "meson-$profile-build.log"
         exit 1
     fi
-    if ninja -C "meson-$profile" test > "meson-$profile-test.log" 2>&1; then
+    if meson test -C "meson-$profile" --no-rebuild --num-processes 1 --print-errorlogs > "meson-$profile-test.log" 2>&1; then
         cat "meson-$profile-test.log"
         cat "meson-$profile/meson-logs/testlog.txt"
     else

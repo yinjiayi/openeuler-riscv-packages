@@ -46,6 +46,34 @@ single-header regeneration are not claimed executed. Upstream devel warnings
 remain errors. Target localedef/glibc-locale-source construct all8 UTF-8 locales
 in a private LOCPATH; the original C locale is retained, no locale is skipped.
 
+## Bounded scheduling of original tests
+
+Serial test scheduling means one registered locale subprocess at a time; it
+does not increase a test deadline, filter cases or change the source. The
+[main run 40525457282, attempt 1](https://github.com/yinjiayi/openeuler-riscv-packages/actions/runs/40525457282/attempts/1)
+failed in the original debug-profile tests: all9 locale calls started within
+one second and were terminated by Meson after30.71–31.51 seconds. Their
+partial Catch2 reports show SIGTERM, not an established parser assertion bug.
+The release profile, owned consumers and installed smoke were not reached.
+
+The earlier successful PR run used a host reporting4 CPUs and started these
+calls in waves of4; its debug calls completed in11.14–29.14 seconds. The failed
+main host reported28 CPUs. Both retained RPM_BUILD_NCPUS=2; the unchanged
+shared build-container policy applies a2-CPU quota. Host CPU visibility is
+not the container CPU quota, and these observations do not establish CPU
+utilization saturation, a native-RISC-V failure or an upstream source defect.
+
+This package-only maintenance proposal explicitly invokes Meson with
+`--no-rebuild --num-processes 1 --print-errorlogs` for each original profile.
+All9 original locale registrations in both debug and release, their original
+30-second per-call deadlines, all53 Catch2 cases per successful call, the
+build-only programs, full failure logs, source-byte guards and owned checks
+remain mandatory. Introspection additionally asserts each deadline is30.
+There is no timeout multiplier, skip, test filter or devel-feature relaxation.
+The changed scheduling input is a repair hypothesis, not a verified fix; new
+exact-head target build/install and independent main/publication acceptance
+remain required. Shared Dashboard collection failures are a separate scope.
+
 ## Installed SDK checks
 
 The additive consumer has6 deterministic groups: scalar/absent lookup,
