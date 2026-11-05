@@ -27,15 +27,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [{
-      "file": "patches/0001-fixed-release-version-and-consumer-link-flags.patch",
-      "sha256": "9a6dd8424d98f51e662e9e110a638aee7042411fabc89e37e63f70c0620f309b",
-      "purpose": "Stamp five Git-based version queries with verified official release 90 and exact commit for immutable source archives; omit Libtool-only -no-undefined from Linux pkg-config consumer flags, retaining -lpthread and original library build flags. Preserve complete default features, tests and assertions.",
-      "source": "Original downstream archive and pkg-config compatibility against tihmstar/libgeneral official stable release 90, commit 81e4636784f1bc3fda6a90911fc15bf529975577.",
-      "license": "LGPL-2.1-only",
-      "upstream_status": "not-submitted",
-      "remove_when": "An official release supports fixed archive versioning and compiler-usable Linux pkg-config flags without these compatibility changes."
-    }],
+    "patches": [
+      {
+        "file": "patches/0001-fixed-release-version-and-consumer-link-flags.patch",
+        "license": "LGPL-2.1-only",
+        "purpose": "Stamp five Git-based version queries with verified official release 90 and exact commit for immutable source archives; omit Libtool-only -no-undefined from Linux pkg-config consumer flags, retaining -lpthread and original library build flags. Preserve complete default features, tests and assertions.",
+        "remove_when": "An official release supports fixed archive versioning and compiler-usable Linux pkg-config flags without these compatibility changes.",
+        "sha256": "9a6dd8424d98f51e662e9e110a638aee7042411fabc89e37e63f70c0620f309b",
+        "source": "Original downstream archive and pkg-config compatibility against tihmstar/libgeneral official stable release 90, commit 81e4636784f1bc3fda6a90911fc15bf529975577.",
+        "upstream_status": "not-submitted"
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "libgeneral.spec"
@@ -63,7 +65,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-11-05T23:36:52Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
   },
@@ -77,8 +79,8 @@
     "source_url_template": null
   },
   "version": {
-    "current": "90",
-    "latest_detected": "90",
+    "current": "92",
+    "latest_detected": "92",
     "release": "1"
   }
 }
