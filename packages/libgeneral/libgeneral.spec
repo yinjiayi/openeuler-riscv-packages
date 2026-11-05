@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libgeneral
-Version:        90
+Version:        92
 Release:        1%{?dist}
 Summary:        Common C++ utilities for tihmstar tools
 License:        LGPL-2.1-only
 URL:            https://github.com/tihmstar/libgeneral
-Source0:        https://codeload.github.com/tihmstar/libgeneral/tar.gz/81e4636784f1bc3fda6a90911fc15bf529975577#/libgeneral-90.tar.gz
+Source0:        92
 Patch0:         0001-fixed-release-version-and-consumer-link-flags.patch
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
