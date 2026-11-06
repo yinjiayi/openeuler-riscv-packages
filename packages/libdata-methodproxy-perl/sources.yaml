@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-methodproxy-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-MethodProxy-0.05.tar.gz",
+      "version": "0.05",
+      "url": "https://cpan.metacpan.org/authors/id/B/BL/BLUEFEET/Data-MethodProxy-0.05.tar.gz",
+      "digests": {
+        "sha256": "9cb6f97432b148e1d105eb3469e1f54acd38a672b129b68064a61e25fa6af9b2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official release LICENSE and Data::MethodProxy POD explicitly grant redistribution under Perl's GPL/Artistic terms; Config::MethodProxy POD points to that grant. Publisher CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}
