@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libfile-dirlist-perl",
+  "rpm": {
+    "name": "perl-File-DirList",
+    "summary": "Sorted directory listings for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libfile-dirlist-perl",
+    "homepage": "https://metacpan.org/dist/File-DirList",
+    "source_repository": "https://metacpan.org/dist/File-DirList",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TP/TPABA/File-DirList/",
+    "release_regex": "File-DirList-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TP/TPABA/File-DirList/File-DirList-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.05",
+    "release": "1",
+    "latest_detected": "0.05"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libfile-dirlist-perl",
+        "package_base": "libfile-dirlist-perl",
+        "source_version": "0.05-3",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libfile-dirlist-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libfile-dirlist-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory key libfile-dirlist-perl maps to official CPAN File::DirList 0.05. Official HTTPS archive SHA-256 993b7d7662e55798448a1edaccb9abd281d2bd23be7eab99f569b8e2962d3bc3 matches publisher CHECKSUMS. Module POD and README expressly grant Perl 5.8.4-or-later dual redistribution terms despite legacy META.yml license unknown and a stale README boilerplate line. The official SP3 RVA23 primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks the same RPM/module provider and supplies the core Cwd, DirHandle and test modules. The unmodified default test passed one file/two assertions on local Perl 5.34.1 with HOME isolated; target CI and publication are unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
