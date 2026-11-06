@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-rewriterules-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-RewriteRules-0.25.tar.gz",
+      "version": "0.25",
+      "url": "https://cpan.metacpan.org/authors/id/A/AM/AMBS/Text/Text-RewriteRules-0.25.tar.gz",
+      "digests": {
+        "sha256": "ab7ea0dbb7deee56a7f927bbb8ca15b18f76088f45c5543d12d8ba2cf4d3dd6f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and module POD grant the same terms as Perl itself; official CPAN HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}

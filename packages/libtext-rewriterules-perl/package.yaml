@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-rewriterules-perl",
+  "rpm": {
+    "name": "perl-Text-RewriteRules",
+    "summary": "Rewrite text with regular-expression rules",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-rewriterules-perl",
+    "homepage": "https://metacpan.org/dist/Text-RewriteRules",
+    "source_repository": "https://metacpan.org/dist/Text-RewriteRules",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AM/AMBS/Text/",
+    "release_regex": "Text-RewriteRules-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AM/AMBS/Text/Text-RewriteRules-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.25",
+    "release": "1",
+    "latest_detected": "0.25"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-rewriterules-perl",
+        "package_base": "libtext-rewriterules-perl",
+        "source_version": "0.25-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-rewriterules-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libtext-rewriterules-perl",
+        "package_base": "libtext-rewriterules-perl",
+        "source_version": "0.25-1.1",
+        "evidence_url": "https://packages.debian.org/source/trixie/libtext-rewriterules-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-rewriterules-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu/Debian key maps to CPAN 0.25. Publisher CHECKSUMS SHA-256, safe archive, and README/module POD Perl dual terms verified, resolving historical unknown-license marker. Official SP3 primary lacks same-name RPM/provider and supplies Filter::Simple 0.94. All 13 default functional files and 207 assertions passed locally; two author-only POD checks skip by upstream design. Target RPM/installed smoke remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
