@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-csv-unicode-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-CSV-Unicode-0.400.tar.gz",
+      "version": "0.400",
+      "url": "https://cpan.metacpan.org/authors/id/R/RM/RMBARKER/Text-CSV-Unicode-0.400.tar.gz",
+      "digests": {
+        "sha256": "0187f439203c46bda5d916555b4381eaf86c35ce532691fa557a37182179f6d9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN archive matches publisher CHECKSUMS; current README/POD and credited original Text-CSV-0.01 README/CSV.pm grant the same Perl terms for inherited docs and test material."
+      }
+    }
+  ]
+}
