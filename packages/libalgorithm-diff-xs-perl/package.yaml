@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-diff-xs-perl",
+  "rpm": {
+    "name": "perl-Algorithm-Diff-XS",
+    "summary": "XS implementation of Algorithm::Diff core loops",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libalgorithm-diff-xs-perl",
+    "homepage": "https://metacpan.org/dist/Algorithm-Diff-XS",
+    "source_repository": "https://metacpan.org/dist/Algorithm-Diff-XS",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AU/AUDREYT/",
+    "release_regex": "Algorithm-Diff-XS-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AU/AUDREYT/Algorithm-Diff-XS-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04",
+    "release": "1",
+    "latest_detected": "0.04"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libalgorithm-diff-xs-perl",
+        "package_base": "libalgorithm-diff-xs-perl",
+        "source_version": "0.04-9",
+        "evidence_url": "https://packages.ubuntu.com/resolute/libalgorithm-diff-xs-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libalgorithm-diff-xs-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.04-9 row is lineage only. Official README/POD grant Perl dual terms for this library including named derived code, and CPAN CHECKSUMS confirms pinned archive SHA-256. Legacy META.yml reports 0.01 despite the 0.04 archive and XS module; loading Algorithm::Diff 1.201 can overwrite the in-memory Perl package VERSION, so functional smoke does not assert that variable. Official SP3 RVA23 primary lacks same-name RPM/perl(Algorithm::Diff::XS) provider and supplies Algorithm::Diff 1.201, compiler, Perl headers and test dependencies. The two unmodified default upstream test files/1004 assertions pass locally with official SHA-verified Algorithm::Diff 1.201, no skips. Target build, tests, install and smoke await hosted PR CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
