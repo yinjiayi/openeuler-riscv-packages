@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmime-base32-perl",
+  "rpm": {
+    "name": "perl-MIME-Base32",
+    "summary": "Base32 and base32hex encoding and decoding for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmime-base32-perl",
+    "homepage": "https://metacpan.org/dist/MIME-Base32",
+    "source_repository": "https://github.com/perl5-utils/MIME-Base32",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RE/REHSACK/",
+    "release_regex": "MIME-Base32-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RE/REHSACK/MIME-Base32-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.303",
+    "release": "1",
+    "latest_detected": "1.303"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmime-base32-perl",
+        "package_base": "libmime-base32-perl",
+        "source_version": "1.303-3",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/riscv64/libmime-base32-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmime-base32-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official CPAN 1.303 archive matches publisher CHECKSUMS. Its LICENSE explicitly grants GPL-1-or-later or Artistic-1.0; META declares perl_5. The openEuler SP3 RVA23 primary metadata lacks the RPM name and perl(MIME::Base32) provider, while it supplies the Perl, ExtUtils::MakeMaker and Test::More dependencies. All two upstream default t/*.t files remain in check; the Makefile.PL also names xt/*.t, but the archive contains no xt tests. Build and installed behavior require exact-head target CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
