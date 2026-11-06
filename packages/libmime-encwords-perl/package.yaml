@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmime-encwords-perl",
+  "rpm": {
+    "name": "perl-MIME-EncWords",
+    "summary": "Encode and decode RFC 2047 MIME header words for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmime-encwords-perl",
+    "homepage": "https://metacpan.org/dist/MIME-EncWords",
+    "source_repository": "https://metacpan.org/dist/MIME-EncWords",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEZUMI/",
+    "release_regex": "MIME-EncWords-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEZUMI/MIME-EncWords-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.015.0",
+    "release": "1",
+    "latest_detected": "1.015.0"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmime-encwords-perl",
+        "package_base": "libmime-encwords-perl",
+        "source_version": "1.015.0-1",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/riscv64/libmime-encwords-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmime-encwords-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official CPAN 1.015.0 SHA-256 matches publisher CHECKSUMS. Archived README and both modules explicitly grant Perl terms; GPL and ARTISTIC texts ship in the source. The openEuler SP3 RVA23 primary metadata lacks this RPM/provider but supplies perl(MIME::Charset) 1.013.1, perl(MIME::Base64) 3.16, perl(Encode) 3.21 and perl(Test::Pod) 1.52. All six default t files remain in %check, with Test::Pod installed to exercise POD checks. Exact-head CI must verify target assertions, RPM file list and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
