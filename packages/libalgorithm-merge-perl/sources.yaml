@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libalgorithm-merge-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Algorithm-Merge-0.08.tar.gz",
+      "version": "0.08",
+      "url": "https://cpan.metacpan.org/authors/id/J/JS/JSMITH/Algorithm-Merge-0.08.tar.gz",
+      "digests": {
+        "sha256": "9c0688258a1dc4b83988053b9f9a98e7728cdb9b69a5008dcbd251d0f80816cf"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official source README and module POD expressly grant redistribution under the same terms as Perl itself; the archive SHA-256 matches publisher CPAN CHECKSUMS."
+      }
+    }
+  ]
+}
