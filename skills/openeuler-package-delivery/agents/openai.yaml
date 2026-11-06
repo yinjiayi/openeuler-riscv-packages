@@ -1,0 +1,4 @@
+interface:
+  display_name: "openEuler Package Delivery"
+  short_description: "Coordinate parallel package intake, repairs and acceptance"
+  default_prompt: "Use $openeuler-package-delivery to advance independent package queues in parallel, submitting each ready PR without waiting for prior merges."

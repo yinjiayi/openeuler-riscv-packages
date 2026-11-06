@@ -11,13 +11,15 @@ description: >-
 
 Generate a read-only view over authoritative facts. Define a **package lifecycle state** as the latest observable PR/check/workflow state for the relevant commit; define **RISC-V status** separately as architecture validation evidence. Neither may be inferred from narrative text.
 
+Follow the actual checkout's `AGENTS.md`. Dashboard health is independent of package CI and publication: a failed collection never becomes package success, and it does not by itself veto an otherwise qualified package merge.
+
 ## Inputs
 
 Require:
 
 - repository root with `packages/*/package.yaml` and `schemas/dashboard.schema.json`;
 - optional read-only GitHub state snapshot for PRs, checks, workflow runs, URLs, timestamps, and head SHAs;
-- directory of structured build results and the latest daily update summary;
+- directory of structured build results, optional validated build history and verified published-state inventory, plus the latest daily update summary;
 - output directory, generation timestamp, and repository identity `yinjiayi/openeuler-riscv-packages`.
 
 Authoritative sources are: GitHub PR API for PR state; Checks/Actions for CI state; package metadata/SPEC for packaged version; latest update result for upstream version; and required checks for the latest target commit for RISC-V build state.
@@ -35,16 +37,20 @@ Authoritative sources are: GitHub PR API for PR state; Checks/Actions for CI sta
   --output-dir "$dashboard_output_dir" \
   --github-state "$github_state_file" \
   --build-results "$build_results_dir" \
+  --build-history "$build_history_file" \
+  --published-state "$published_state_file" \
+  --package-inventory "$package_inventory_file" \
   --update-summary "$update_summary_file" \
   --now "$generated_at"
 ```
 
 Omit an optional flag only when that data source is intentionally unavailable; require the generated site to show a partial/stale-data warning and source timestamp in that case.
+Use one timestamped collection per dashboard batch rather than one full scan per finished package. The committed catalog is a dated baseline, not a live PR count; show its `generated_at` separately from live overlay freshness. Missing historical evidence stays a lower bound. `published` and direct RPM/SRPM links require independently verified immutable repository state and physical products, not merely a merged PR, green check or upload intent.
 5. Display lifecycle states `discovered`, `pr-open`, `ci-queued`, `building`, `repair-queued`, `codex-repairing`, `failed`, `needs-native-riscv`, `needs-human`, `passed`, and `merged`.
 6. Display RISC-V status independently as `unknown`, `qemu-buildable`, `native-verified`, `patched-for-riscv`, `qemu-limitation`, or `unsupported`. Do not translate `needs-native-riscv` into `unsupported` or `passed`.
 7. For every package, include name, packaged/latest upstream version, last successful upstream-check time, discovery sources, PR/check links, last build, RISC-V status, patch count, latest error, and update time. Support filters for lifecycle state, source, version lag, patch presence, failure category, and freshness.
 8. Show daily-update health: scheduled/actual start/end, expected/checked counts, coverage, failed/missing shards, backfill count, last successful daily run, and consecutive missed days. Never claim full coverage when the summary is partial.
-9. Validate generated JSON against `schemas/dashboard.schema.json`, parse every JSON asset, check internal files/links, and smoke-test the static index. A dashboard generation failure must not modify a package's build state.
+9. Validate generated JSON against `schemas/dashboard.schema.json` and `schemas/dashboard-inventory.schema.json`, parse every JSON asset, check internal files/links, and smoke-test the static index. A dashboard generation failure must not modify a package's build state.
 10. Publish only through the repository's reviewed Pages workflow after validation. Treat publication as successful only when the Pages deployment and resulting public URL are observed. Without remote access, deliver local static output and report Pages as blocked.
 
 ## Outputs

@@ -1,0 +1,388 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+"""Fail-closed package merge admission; read-only unless --apply is explicit.
+
+The bundle refers to retained Actions ZIPs, never invented artifact URLs. This
+entrypoint supports ordinary pull_request Package CI runs; other event types
+remain manual-review-only until their provenance has an equivalent verifier.
+Semantic source/license/test/provider review is still required: hashing a log
+does not perform that review. No infrastructure PR is admitted by this tool.
+"""
+from __future__ import annotations
+
+import argparse
+import fcntl
+import hashlib
+import json
+import pathlib
+import re
+import runpy
+import subprocess
+import sys
+import zipfile
+
+from _lib import ToolError, emit_json, isoformat, parse_now
+
+REPO = "yinjiayi/openeuler-riscv-packages"
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+REQUIRED = {"configure", "metadata-validate", "source-verify", "patch-policy",
+            "merge-policy", "rpmbuild-riscv64", "rpm-install-smoke"}
+REVIEW_TOPICS = {"source_license", "original_tests", "installed_smoke", "namespace_compatibility"}
+# Keep late label changes aligned with the canonical CI merge policy. A passed
+# merge-policy check predates such changes and is not a substitute for this read.
+BLOCKING_LABELS = frozenset(runpy.run_path(str(ROOT / "ci/evaluate-auto-merge.py"))["BLOCKING_LABELS"]) | {"do-not-merge"}
+ADMISSION_ERRORS = (ValueError, KeyError, OSError, TypeError, ToolError, zipfile.BadZipFile, subprocess.SubprocessError)
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def command(argv):
+    result = subprocess.run(argv, text=True, capture_output=True, timeout=180)
+    require(result.returncode == 0, f"{argv[0]} {argv[1]} failed ({result.returncode})")
+    return result.stdout
+
+
+def api(path, *args):
+    return json.loads(command(["gh", "api", path, *args]))
+
+
+def pages(path, key=None):
+    found = []
+    page = 1
+    while True:
+        doc = api(path + ("&" if "?" in path else "?") + f"per_page=100&page={page}")
+        items = doc[key] if key else doc
+        require(isinstance(items, list), "incomplete API page")
+        found.extend(items)
+        if len(items) < 100:
+            if key and "total_count" in doc:
+                require(len(found) == doc["total_count"], "API total count changed")
+            return found
+        page += 1
+
+
+def digest(handle):
+    sha = hashlib.sha256()
+    size = 0
+    for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+        sha.update(chunk)
+        size += len(chunk)
+    return sha.hexdigest(), size
+
+
+def local_file(bundle_dir, value):
+    require(isinstance(value, str) and value, "missing evidence path")
+    path = (bundle_dir / value).resolve()
+    require(bundle_dir.resolve() in path.parents and path.is_file(), "evidence outside durable bundle")
+    require(not pathlib.Path(value).is_absolute(), "bundle paths must be relative")
+    return path
+
+
+def validate_output(bundle_path, bundle, output):
+    """A receipt must never replace the manifest or any evidence it attests to."""
+    destination = pathlib.Path(output)
+    require(not destination.is_symlink(), "output must not be a symlink")
+    destination = destination.resolve()
+    inputs = [bundle_path]
+    inputs.extend(local_file(bundle_path.parent, x["path"]) for x in bundle["archives"])
+    inputs.extend(local_file(bundle_path.parent, bundle["review"][topic]["path"]) for topic in REVIEW_TOPICS)
+    for source in inputs:
+        require(destination != source and not (destination.exists() and destination.samefile(source)),
+                "output would overwrite input evidence")
+
+
+def required_contexts(rules):
+    """Read only the effective main rules and verify their non-bypassable source."""
+    listing = pages(f"repos/{REPO}/rulesets?includes_parents=true")
+    listed = {x["id"]: x for x in listing}
+    require(len(listed) == len(listing), "duplicate ruleset IDs")
+    ids = {x.get("ruleset_id") for x in rules}
+    require(ids and all(type(x) is int and x > 0 for x in ids), "effective ruleset provenance missing")
+    pull_request_rules = []
+    for ruleset_id in sorted(ids):
+        require(ruleset_id in listed and listed[ruleset_id].get("enforcement") == "active", "effective ruleset listing changed")
+        detail = api(f"repos/{REPO}/rulesets/{ruleset_id}?includes_parents=true")
+        require(detail.get("id") == ruleset_id and detail.get("target") == "branch"
+                and detail.get("enforcement") == "active", "effective ruleset is not an active branch policy")
+        require(type(detail.get("bypass_actors")) is list and not detail["bypass_actors"], "ruleset bypass actors not explicitly empty")
+        for rule in (x for x in rules if x["ruleset_id"] == ruleset_id):
+            require(rule.get("ruleset_source_type") == detail.get("source_type")
+                    and rule.get("ruleset_source") == detail.get("source"), "effective ruleset source changed")
+            require(any(x.get("type") == rule["type"] and x.get("parameters") == rule.get("parameters")
+                        for x in detail["rules"]), "effective rule differs from ruleset detail")
+            if rule["type"] == "pull_request":
+                pull_request_rules.append(rule["parameters"])
+    require(pull_request_rules and all(x.get("allowed_merge_methods") == ["squash"] for x in pull_request_rules),
+            "squash-only pull-request protection missing")
+    required_rules = [x["parameters"] for x in rules if x["type"] == "required_status_checks"]
+    require(required_rules and all(x.get("strict_required_status_checks_policy") is True for x in required_rules), "strict checks missing")
+    contexts = {}
+    for rule in required_rules:
+        for check in rule["required_status_checks"]:
+            require(check.get("integration_id") == 15368, "unexpected required-check app")
+            contexts[check["context"]] = 15368
+    require(REQUIRED <= contexts.keys(), "required checks were weakened")
+    return contexts
+
+
+def live(bundle):
+    number, head, base = bundle["pr_number"], bundle["head_sha"], bundle["base_sha"]
+    require(type(number) is int and number > 0, "invalid PR number")
+    require(all(type(bundle[x]) is int and bundle[x] > 0 for x in ("run_id", "run_attempt")), "invalid run/attempt identity")
+    require(all(isinstance(x, str) and re.fullmatch(r"[a-f0-9]{40}", x) for x in (head, base)), "exact SHAs required")
+    repo = api(f"repos/{REPO}")
+    require(repo.get("default_branch") == "main" and repo.get("allow_auto_merge") is False, "repository merge policy differs")
+    require(repo.get("allow_squash_merge") is True and repo.get("permissions", {}).get("push") is True, "squash/write permission missing")
+    branch = api(f"repos/{REPO}/branches/main")
+    require(branch.get("protected") is True and branch["commit"]["sha"] == base, "protected main changed")
+    pr = api(f"repos/{REPO}/pulls/{number}")
+    require(pr.get("state") == "open" and pr.get("merged") is False and pr.get("draft") is False, "PR is not open and ready")
+    require(pr.get("auto_merge") is None and pr.get("mergeable") is True and pr.get("mergeable_state") == "clean", "PR not clean or auto-merge armed")
+    require(pr["head"]["sha"] == head and pr["base"]["sha"] == base and pr["base"]["ref"] == "main", "PR lease changed")
+    require(all(pr[x]["repo"]["full_name"] == REPO for x in ("head", "base")), "foreign repository")
+    require(isinstance(pr.get("labels"), list)
+            and all(isinstance(x, dict) and isinstance(x.get("name"), str) for x in pr["labels"]), "PR labels unavailable")
+    labels = {x["name"] for x in pr["labels"]}
+    require(not labels.intersection(BLOCKING_LABELS), "blocking label")
+    files = pages(f"repos/{REPO}/pulls/{number}/files")
+    package = bundle["package_id"]
+    require(isinstance(package, str) and re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", package), "invalid package id")
+    require(files and len(files) == pr["changed_files"], "incomplete changed files")
+    require(all(x["filename"].startswith(f"packages/{package}/") and not x.get("previous_filename") for x in files), "not a single-package change")
+    compare = api(f"repos/{REPO}/compare/{base}...{head}")
+    require(compare["merge_base_commit"]["sha"] == base, "head does not contain current main")
+    contexts = required_contexts(pages(f"repos/{REPO}/rules/branches/main"))
+    runs = pages(f"repos/{REPO}/commits/{head}/check-runs?filter=latest", "check_runs")
+    for name in contexts:
+        matched = [x for x in runs if x["name"] == name and x["app"]["id"] == 15368]
+        require(matched and all(x["head_sha"] == head and x["status"] == "completed" and x["conclusion"] == "success" for x in matched), f"required check not successful: {name}")
+    require(all(x["status"] == "completed" and x["conclusion"] in {"success", "neutral", "skipped"} for x in runs), "optional check failed or pending")
+    statuses = pages(f"repos/{REPO}/commits/{head}/statuses")
+    latest = {}
+    for status in statuses:
+        latest.setdefault(status["context"], status)
+    require(all(x["state"] == "success" for x in latest.values()), "legacy status failed or pending")
+    run = api(f"repos/{REPO}/actions/runs/{bundle['run_id']}")
+    require(run["run_attempt"] == bundle["run_attempt"] and run["head_sha"] == head, "build run lease changed")
+    require(run["path"] == ".github/workflows/package-ci.yml" and run["event"] == "pull_request", "unsupported build provenance")
+    require(run["status"] == "completed" and run["conclusion"] == "success", "build run not successful")
+    require(run["repository"]["full_name"] == REPO and run["head_repository"]["full_name"] == REPO, "foreign build run")
+    require(any(x["number"] == number and x["head"]["sha"] == head and x["base"]["sha"] == base for x in run["pull_requests"]), "run does not bind current head/base")
+    jobs = pages(f"repos/{REPO}/actions/runs/{bundle['run_id']}/attempts/{bundle['run_attempt']}/jobs", "jobs")
+    for name in REQUIRED - {"configure"}:
+        require(any(x["name"] == name and x["status"] == "completed" and x["conclusion"] == "success" for x in jobs), f"actual run job missing: {name}")
+    return {"head_sha": head, "base_sha": base, "run_id": run["id"], "run_attempt": run["run_attempt"]}
+
+
+def evidence(bundle, directory):
+    require(bundle.get("repository") == REPO, "wrong bundle repository")
+    archives = []
+    members = []
+    artifact_names = set()
+    try:
+        for entry in bundle["archives"]:
+            require(type(entry["artifact_id"]) is int and entry["artifact_id"] > 0, "invalid artifact identity")
+            meta = api(f"repos/{REPO}/actions/artifacts/{entry['artifact_id']}")
+            require(meta.get("expired") is False and meta["workflow_run"]["id"] == bundle["run_id"], "expired or unrelated artifact")
+            require(meta["name"].endswith(f"-{bundle['package_id']}-{bundle['run_id']}"), "artifact package identity differs")
+            require(meta["name"] not in artifact_names, "duplicate artifact")
+            artifact_names.add(meta["name"])
+            path = local_file(directory, entry["path"])
+            with path.open("rb") as handle:
+                sha, size = digest(handle)
+            require(meta.get("digest") == f"sha256:{sha}" and meta["size_in_bytes"] == size, "artifact ZIP digest/size mismatch")
+            archive = zipfile.ZipFile(path)
+            archives.append(archive)
+            names = archive.namelist()
+            require(len(names) == len(set(names)), "duplicate ZIP member")
+            for info in archive.infolist():
+                require(not info.filename.startswith("/") and ".." not in pathlib.PurePosixPath(info.filename).parts, "unsafe ZIP path")
+                if not info.is_dir():
+                    members.append((meta["name"], archive, info))
+        require({f"package-ci-{phase}-{bundle['package_id']}-{bundle['run_id']}" for phase in
+                 ("source", "build", "smoke", "repository")} <= artifact_names,
+                "source/build/smoke/repository archives all required")
+
+        def unique(name, phase):
+            artifact_name = f"package-ci-{phase}-{bundle['package_id']}-{bundle['run_id']}"
+            found = [(z, i) for a, z, i in members if a == artifact_name and pathlib.PurePosixPath(i.filename).name == name]
+            require(len(found) == 1, f"missing or ambiguous evidence member: {name}")
+            return found[0]
+
+        def read_json(name, phase):
+            archive, info = unique(name, phase)
+            require(info.file_size < 16 * 1024 * 1024, "JSON evidence too large")
+            return json.loads(archive.read(info))
+
+        schema = json.loads((ROOT / "schemas/build-result.schema.json").read_text())
+        validator = runpy.run_path(str(ROOT / "scripts/validate-metadata"))["schema_errors"]
+        final = read_json("build-result.json", "smoke")
+        raw = read_json("rpmbuild-phase-result.json", "build")
+        smoke = read_json("smoke-phase-result.json", "smoke")
+        source = read_json("source-phase-result.json", "source")
+        for item in (final, raw, smoke, source):
+            require(not validator(item, schema, schema), "schema-invalid build evidence")
+        for item in (final, raw, smoke):
+            require(item.get("status") == "passed", "phase did not pass")
+        require(source.get("kind") == "build-result" and source.get("package_id") == bundle["package_id"]
+                and source.get("commit_sha") == bundle["head_sha"] and source.get("status") == "source-verified"
+                and source.get("phase") == "source-verify" and source.get("exit_code") == 0
+                and source.get("failure") is None, "source phase identity/status differs")
+        require(final["package_id"] == bundle["package_id"] and final["commit_sha"] == bundle["head_sha"], "final build identity mismatch")
+        require(final["job_id"] == f"{bundle['run_id']}:{bundle['run_attempt']}:package-ci", "final run attempt mismatch")
+        require(final.get("classification") == "none" and final.get("pr_number") == bundle["pr_number"], "final PR/classification differs")
+        require(all(x["status"] == "passed" for x in final["checks"].values()), "not all final checks passed")
+        lock = command(["git", "-C", str(ROOT), "show", f"{bundle['base_sha']}:ci/image.lock"])
+        match = re.search(r"sha256:[a-f0-9]{64}", lock)
+        require(match and final["environment"]["image_digest"] == match.group(), "locked image differs")
+        require(raw.get("kind") == "build-result" and raw.get("package_id") == bundle["package_id"]
+                and raw["commit_sha"] == bundle["head_sha"] and raw.get("exit_code") == 0
+                and raw.get("timed_out") is False and raw.get("phase") == "complete"
+                and raw.get("failure") is None, "raw build identity/status differs")
+        environment = raw.get("environment", {})
+        require(environment.get("arch_ok") is True and environment.get("os_ok") is True
+                and environment.get("observed_arch") == "riscv64"
+                and environment.get("isa_probe") == "passed", "real target environment evidence missing")
+        require(any(x and pathlib.PurePosixPath(x[0]).name == "rpmbuild" and "-ba" in x for x in raw["commands"]),
+                "actual rpmbuild command missing")
+        require(smoke["package_id"] == bundle["package_id"] and smoke.get("phase") == "rpm-install-smoke"
+                and "kind" not in smoke and "job_id" not in smoke, "installed smoke role/package differs")
+        tree = command(["git", "-C", str(ROOT), "rev-parse", f"{bundle['head_sha']}:packages/{bundle['package_id']}"]).strip()
+        require(re.fullmatch(r"[a-f0-9]{40}", tree), "exact package tree missing")
+        for phase in ("source", "build", "smoke"):
+            overlay = read_json("tooling-overlay.json", phase)
+            require(overlay == {"schema_version": 1, "kind": "protected-main-package-overlay", "status": "passed",
+                                "package_id": bundle["package_id"], "package_commit_sha": bundle["head_sha"],
+                                "package_tree_sha": tree, "tooling_commit_sha": bundle["base_sha"]},
+                    f"protected tooling/package overlay differs: {phase}")
+        retained_logs = []
+        for phase, name in (("build", "rpmbuild-internal.log"), ("smoke", "smoke.log")):
+            archive, info = unique(name, phase)
+            with archive.open(info) as handle:
+                sha, size = digest(handle)
+            require(size > 0, f"actual phase log empty: {name}")
+            retained_logs.append({"phase": phase, "name": name, "sha256": sha, "size": size})
+        products = raw["artifacts"]
+        require({x["kind"] for x in products} >= {"rpm", "srpm"}, "both physical RPM and SRPM required")
+        verified = []
+        for item in products:
+            archive, info = unique(pathlib.PurePosixPath(item["path"]).name, "build")
+            with archive.open(info) as handle:
+                sha, size = digest(handle)
+            require(sha == item["sha256"] and size == item["size"] and size > 0, "physical product differs")
+            verified.append({"name": pathlib.PurePosixPath(info.filename).name, "sha256": sha, "size": size, "kind": item["kind"]})
+        source_manifest = json.loads(command(["git", "-C", str(ROOT), "show", f"{bundle['head_sha']}:packages/{bundle['package_id']}/sources.yaml"]))
+        source_schema = json.loads((ROOT / "schemas/sources.schema.json").read_text())
+        require(not validator(source_manifest, source_schema, source_schema)
+                and source_manifest["package_id"] == bundle["package_id"], "schema-invalid exact-head source manifest")
+        expected = source_manifest["sources"]
+        require(len({x["id"] for x in expected}) == len(expected)
+                and len({x["filename"] for x in expected}) == len(expected), "ambiguous committed source identity")
+        require(all(x["url"].startswith("https://") and x["redistribution"]["allowed"] is True for x in expected),
+                "committed source is not redistributable HTTPS input")
+        for receipt in (source, raw):
+            observed = receipt["source_verification"]
+            require(len(observed) == len(expected) and len({x["id"] for x in observed}) == len(expected), "source set differs from exact-head manifest")
+            by_id = {x["id"]: x for x in observed}
+            for entry in expected:
+                item = by_id.get(entry["id"], {})
+                require(item.get("verified") is True and all(item.get(k) == entry[k] for k in ("id", "filename", "url"))
+                        and item.get("sha256") == entry["digests"]["sha256"], "source receipt differs from exact-head pin")
+                signature = entry.get("signature") or {}
+                observed_signature = item.get("signature", {})
+                policy = signature.get("policy", "not-provided")
+                require(observed_signature.get("policy") == policy, "source signature policy differs")
+                if policy == "required":
+                    require(observed_signature.get("status") == "verified"
+                            and observed_signature.get("fingerprint") == signature["key_fingerprint"], "required source signature not verified")
+        for item in raw["source_verification"]:
+            archive, info = unique(item["filename"], "source")
+            with archive.open(info) as handle:
+                sha, size = digest(handle)
+            require((sha, size) == (item["sha256"], item["size"]), "source bytes differ")
+        review = bundle["review"]
+        require(review.get("head_sha") == bundle["head_sha"] and review.get("base_sha") == bundle["base_sha"], "semantic review is stale")
+        require(isinstance(review.get("reviewed_by"), str) and review["reviewed_by"], "reviewer missing")
+        for topic in REVIEW_TOPICS:
+            record = review[topic]
+            require(isinstance(record.get("finding"), str) and len(record["finding"].strip()) >= 20, f"substantive review required: {topic}")
+            path = local_file(directory, record["path"])
+            with path.open("rb") as handle:
+                sha, size = digest(handle)
+            require(size > 0 and sha == record["sha256"], f"review evidence missing/changed: {topic}")
+        return {"physical_products": verified, "retained_phase_logs": retained_logs,
+                "semantic_review": review, "source_count": len(raw["source_verification"])}
+    finally:
+        for archive in archives:
+            archive.close()
+
+
+def admit(args, bundle_path, bundle, result):
+    # No success receipt is reused: every invocation rereads bytes and live state.
+    before = live(bundle)
+    proof = evidence(bundle, bundle_path.parent)
+    require(live(bundle) == before, "remote lease changed during evidence verification")
+    result.update({"status": "verified-not-merged", "verified_at": isoformat(parse_now(None)), **before, **proof})
+    emit_json(result, args.output)
+    if args.apply:
+        command([str(ROOT / "scripts/github-credential-guard"), "--repo-root", str(ROOT), "--require-auth", "--local-only"])
+        require(api("user")["login"] == bundle["review"]["reviewed_by"], "authenticated operator differs from reviewer")
+        require(live(bundle) == before, "final remote lease changed")
+        # Persist uncertainty BEFORE the write. A timeout can occur after GitHub
+        # accepted the request and must never become a "not merged" receipt.
+        result.update(status="merge-request-in-flight")
+        emit_json(result, args.output)
+        merged = api(f"repos/{REPO}/pulls/{bundle['pr_number']}/merge", "--method", "PUT",
+                     "-f", "merge_method=squash", "-f", f"sha={bundle['head_sha']}")
+        require(merged.get("merged") is True, "GitHub did not merge")
+        result.update(status="merged-readback-pending", merge_sha=merged["sha"])
+        emit_json(result, args.output)
+        pr = api(f"repos/{REPO}/pulls/{bundle['pr_number']}")
+        commit = api(f"repos/{REPO}/git/commits/{merged['sha']}")
+        current = api(f"repos/{REPO}/git/ref/heads/main")["object"]["sha"]
+        require(pr.get("merged") is True and pr.get("merge_commit_sha") == merged["sha"], "merge readback mismatch; do not retry PUT")
+        require([x["sha"] for x in commit["parents"]] == [bundle["base_sha"]] and current == merged["sha"], "main advanced or squash parent differs; reconcile before next merge")
+        result.update(status="merged", main_sha=current, publication="not-verified")
+        emit_json(result, args.output)
+
+
+def execute(args):
+    bundle_path = pathlib.Path(args.bundle).resolve()
+    bundle = json.loads(bundle_path.read_text())
+    validate_output(bundle_path, bundle, args.output)
+    # Do not invalidate any path until it has passed the input-alias guard.
+    # Once safe, an older success is never left standing during a failed recheck.
+    result = {"kind": "package-merge-admission", "status": "verifying-not-accepted",
+              "repository": REPO, "pr_number": bundle.get("pr_number"),
+              "checked_at": isoformat(parse_now(None))}
+    emit_json(result, args.output)
+    try:
+        admit(args, bundle_path, bundle, result)
+    except ADMISSION_ERRORS as error:
+        if result["status"] == "merge-request-in-flight":
+            result["status"] = "needs-reconcile"
+        elif result["status"] not in {"merged-readback-pending", "merged"}:
+            result["status"] = "refused"
+        result.update(reason=str(error))
+        emit_json(result, args.output)
+        raise
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--bundle", required=True, help="durable JSON manifest with relative evidence paths")
+    parser.add_argument("--output", required=True)
+    parser.add_argument("--apply", action="store_true", help="explicit squash after full revalidation; never Auto-merge")
+    try:
+        args = parser.parse_args()
+        common = command(["git", "-C", str(ROOT), "rev-parse", "--git-common-dir"]).strip()
+        lock_path = (ROOT / common).resolve() / "verified-merge.lock"
+        with lock_path.open("a") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            execute(args)
+    except ADMISSION_ERRORS as error:
+        print(f"merge admission refused: {error}", file=sys.stderr)
+        sys.exit(1)
