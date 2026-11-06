@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-munge-perl",
+  "rpm": {
+    "name": "perl-Data-Munge",
+    "summary": "Utility functions for transforming Perl data",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-munge-perl",
+    "homepage": "https://metacpan.org/dist/Data-Munge",
+    "source_repository": "https://github.com/mauke/Data-Munge",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MA/MAUKE/",
+    "release_regex": "Data-Munge-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MA/MAUKE/Data-Munge-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.111",
+    "release": "1",
+    "latest_detected": "0.111"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-munge-perl",
+        "package_base": "libdata-munge-perl",
+        "source_version": "0.111-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-munge-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-munge-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "The frozen Ubuntu key maps to official CPAN Data-Munge 0.111. Official CHECKSUMS and independent HTTPS SHA-256 agree; copyright-holder README and sole installed PM grant GPL/Artistic redistribution. Official SP3 RVA23 primary has no same-name RPM or module provider and supplies MakeMaker, Test2::V0, Test::Pod, Test::Harness, Exporter and Scalar::Util. All four default upstream test files remain unchanged (89 local assertions); the separate xt/pod.t author test also passed locally and is retained in target %check."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
