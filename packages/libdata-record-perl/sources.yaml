@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-record-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Record-0.02.tar.gz",
+      "version": "0.02",
+      "url": "https://cpan.metacpan.org/authors/id/O/OV/OVID/Data-Record-0.02.tar.gz",
+      "digests": {
+        "sha256": "1d6ae66da2767520c21fbf12c538f1007ab27445d92c8eac763653f2b8849ebf"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the official CPAN source SHA-256. The README and sole PM explicitly grant redistribution/modification under Perl terms by copyright holder Curtis Poe; Build.PL declares perl licensing."
+      }
+    }
+  ]
+}
