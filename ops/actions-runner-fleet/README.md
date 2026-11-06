@@ -356,6 +356,10 @@ root-owned non-writable ancestor such as `/root/runner-upgrade/`, not `/tmp` or
 official SHA-256 and size; neither an unverified cache nor a mutable release
 URL is accepted. The old release is independently downloaded and compared
 file-by-file, including modes and contained symlink targets, before replacement.
+Extraction consumes the gzip archive once in physical member order, with
+audited directories created first and safe symlinks created last. It rechecks
+the exact member inventory and retains final byte/owner/mode verification;
+it does not seek backwards through gzip to follow sorted filenames.
 The supplied `--source-commit` is the coordinator's reviewed archive identity;
 the host also fingerprints the entire fleet source directory between phases.
 
