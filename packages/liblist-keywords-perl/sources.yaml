@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "liblist-keywords-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "List-Keywords-0.11.tar.gz",
+      "version": "0.11",
+      "url": "https://cpan.metacpan.org/authors/id/P/PE/PEVANS/List-Keywords-0.11.tar.gz",
+      "digests": {
+        "sha256": "cab7922eae44b96fc2430aa10b2e726036605928d4e4fdf7e9c7b6ca32d4c64c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official SHA-256-verified CPAN archive contains Paul Evans' LICENSE explicitly granting redistribution under Perl GPL-1.0-or-later or Artistic terms, with matching PM and XS headers; publisher CHECKSUMS records the same full source hash."
+      }
+    }
+  ]
+}
