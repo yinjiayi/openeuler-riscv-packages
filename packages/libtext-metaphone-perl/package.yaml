@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-metaphone-perl",
+  "rpm": {
+    "name": "perl-Text-Metaphone",
+    "summary": "Encode English words with the Metaphone phonetic algorithm",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-metaphone-perl",
+    "homepage": "https://metacpan.org/dist/Text-Metaphone",
+    "source_repository": "https://github.com/schwern/Text-Metaphone",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/",
+    "release_regex": "Text-Metaphone-(?P<version>[0-9]+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/Text-Metaphone-{version}.tar.gz"
+  },
+  "version": {
+    "current": "20160805",
+    "release": "1",
+    "latest_detected": "20160805"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-metaphone-perl",
+        "package_base": "libtext-metaphone-perl",
+        "source_version": "20160805-2build5",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-metaphone-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-metaphone-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to official CPAN 20160805. Publisher CHECKSUMS SHA-256 matches safe archive. Distribution META and module POD grant Perl terms; C/XS files have no separate conflicting notices. Official SP3 RVA23 primary lacks same-name RPM/module provider and has gcc, perl-devel, ExtUtils::MakeMaker and Test::More. All 22 assertions in the original default test passed in an Apple-clang scratch build, which is not target evidence. Target riscv64 RPM/ABI and installation require hosted CI proof."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
