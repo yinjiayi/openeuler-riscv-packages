@@ -1,0 +1,68 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# Downstream-only: retain valid offsets before realloc; no upstream write.
+--- a/src/smf_save.c
++++ b/src/smf_save.c
+@@ -37,0 +38,2 @@
++#include <stddef.h>
++#include <limits.h>
+@@ -61,6 +63,28 @@
+-	char *previous_file_buffer = smf->file_buffer;
+-
+-	/* XXX: Not terribly efficient. */
+-	smf->file_buffer_length += length;
+-	smf->file_buffer = realloc(smf->file_buffer, smf->file_buffer_length);
+-	if (smf->file_buffer == NULL) {
++	ptrdiff_t *track_offsets;
++	void *new_file_buffer;
++
++	if (length <= 0 || previous_file_buffer_length < 0 ||
++	    length > INT_MAX - previous_file_buffer_length || smf->number_of_tracks <= 0) {
++		g_critical("Invalid SMF buffer extension length or track count.");
++		return (NULL);
++	}
++
++	/* Save same-allocation offsets before realloc invalidates any pointers. */
++	track_offsets = malloc((size_t)smf->number_of_tracks * sizeof(*track_offsets));
++	if (track_offsets == NULL) {
++		g_critical("malloc(3) failed: %s", strerror(errno));
++		return (NULL);
++	}
++	for (i = 1; i <= smf->number_of_tracks; i++) {
++		smf_track_t *track = smf_get_track_by_number(smf, i);
++		track_offsets[i - 1] = -1;
++		if (track->file_buffer != NULL) {
++			track_offsets[i - 1] = (char *)track->file_buffer - (char *)smf->file_buffer;
++			assert(track_offsets[i - 1] >= 0);
++			assert(track_offsets[i - 1] <= previous_file_buffer_length);
++		}
++	}
++
++	/* Keep the old allocation and its length owned if realloc fails. */
++	new_file_buffer = realloc(smf->file_buffer, previous_file_buffer_length + length);
++	if (new_file_buffer == NULL) {
+@@ -68 +92 @@
+-		smf->file_buffer_length = 0;
++		free(track_offsets);
+@@ -71,2 +95,4 @@
+-
+-	/* Fix up pointers.  XXX: omgwtf. */
++	smf->file_buffer = new_file_buffer;
++	smf->file_buffer_length = previous_file_buffer_length + length;
++
++	/* Do not evaluate any pointer into the former allocation after success. */
+@@ -74,7 +100,8 @@
+-		smf_track_t *track;
+-		track = smf_get_track_by_number(smf, i);
+-		if (track->file_buffer != NULL)
+-			track->file_buffer = (char *)track->file_buffer + ((char *)smf->file_buffer - previous_file_buffer);
+-	}
+-
+-	return ((char *)smf->file_buffer + previous_file_buffer_length);
++		if (track_offsets[i - 1] >= 0) {
++			smf_track_t *track = smf_get_track_by_number(smf, i);
++			track->file_buffer = (char *)new_file_buffer + track_offsets[i - 1];
++		}
++	}
++	free(track_offsets);
++
++	return ((char *)new_file_buffer + previous_file_buffer_length);
