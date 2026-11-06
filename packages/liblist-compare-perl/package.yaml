@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "liblist-compare-perl",
+  "rpm": {
+    "name": "perl-List-Compare",
+    "summary": "Compare elements of two or more Perl lists",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "liblist-compare-perl",
+    "homepage": "https://metacpan.org/dist/List-Compare",
+    "source_repository": "https://github.com/jkeenan/list-compare",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/",
+    "release_regex": "List-Compare-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/List-Compare-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.55",
+    "release": "1",
+    "latest_detected": "0.55"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "liblist-compare-perl",
+        "package_base": "liblist-compare-perl",
+        "source_version": "0.55-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/liblist-compare-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "liblist-compare-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.55-2 inventory key maps to official stable CPAN List-Compare 0.55. Official HTTPS archive SHA-256 matches publisher CHECKSUMS; 73 archive entries are safe and single-root. README, META.json and Makefile.PL consistently grant/declare Perl terms. Official SP3 RVA23 primary SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a has no same-name RPM or any of four module providers and includes make, perl, ExtUtils::MakeMaker, Test::Simple, Capture::Tiny and perl-generators. All 52 default upstream test files/4190 assertions passed on local Perl 5.34.1; exact-head CI must prove target RPM build, full tests and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
