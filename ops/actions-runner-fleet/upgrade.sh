@@ -179,20 +179,45 @@ def archive_records(archive, expected_sha, expected_size, expected_tops=TOPS):
 
 def extract_payload(archive, destination, records):
     destination.mkdir(mode=0o700)
-    with tarfile.open(archive, "r:gz") as stream:
-        members = {m.name.lstrip("./"): m for m in stream.getmembers() if m.name.lstrip("./")}
-        for name, item in sorted(records.items(), key=lambda pair: (pair[0].count("/"), pair[0])):
+    # records already passed archive_records(). Create their audited directory
+    # tree first so tar member order need not place parents before children.
+    for name, item in sorted(records.items(), key=lambda pair: (pair[0].count("/"), pair[0])):
+        if item["type"] == "dir":
             target = destination / name
-            if item["type"] == "dir":
-                target.mkdir(mode=item["mode"])
-                target.chmod(item["mode"])
-            elif item["type"] == "file":
-                with stream.extractfile(members[name]) as source, target.open("xb") as output:
+            target.mkdir(mode=item["mode"])
+            target.chmod(item["mode"])
+    seen = set()
+    # Streaming mode must consume each file in physical archive order. Sorting
+    # TarInfo objects and seeking back through gzip repeatedly is quadratic.
+    with tarfile.open(archive, "r|gz") as stream:
+        for member in stream:
+            raw = member.name
+            while raw.startswith("./"):
+                raw = raw[2:]
+            if raw in ("", ".") and member.isdir():
+                continue
+            path = PurePosixPath(raw)
+            name = str(path)
+            require(path.parts and not path.is_absolute() and ".." not in path.parts
+                    and name == raw.rstrip("/") and path.parts[0] in TOPS
+                    and name in records and name not in seen,
+                    "extraction contains unsafe, unexpected or duplicate member")
+            item = records[name]
+            kind = "dir" if member.isdir() else "link" if member.issym() else "file" if member.isfile() else "special"
+            require(kind == item["type"] and not member.mode & 0o7000
+                    and member.mode & 0o777 == item["mode"] and member.size == item["size"]
+                    and (member.linkname if member.issym() else None) == item["link"],
+                    "extraction member differs from the audited archive")
+            seen.add(name)
+            if kind == "file":
+                target = destination / name
+                with stream.extractfile(member) as source, target.open("xb") as output:
                     shutil.copyfileobj(source, output, length=1024 * 1024)
                 target.chmod(item["mode"])
-        for name, item in records.items():
-            if item["type"] == "link":
-                (destination / name).symlink_to(item["link"])
+    require(seen == set(records), "extraction is missing audited archive members")
+    for name, item in records.items():
+        if item["type"] == "link":
+            (destination / name).symlink_to(item["link"])
     verify_payload(destination, records)
 
 

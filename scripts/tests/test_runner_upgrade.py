@@ -34,7 +34,7 @@ class UpgradePayloadTests(unittest.TestCase):
         patch.start()
         self.addCleanup(patch.stop)
 
-    def archive(self, version="old", extra=None):
+    def archive(self, version="old", extra=None, reverse=False):
         path = self.root / (version + ".tar.gz")
         entries = []
         for name in sorted(MODULE.TOPS):
@@ -45,6 +45,8 @@ class UpgradePayloadTests(unittest.TestCase):
                     ("externals/lib/tool.js", "file", version.encode()),
                     ("externals/node/tool", "link", "../lib/tool.js")]
         entries += extra or []
+        if reverse:
+            entries.reverse()
         with tarfile.open(path, "w:gz") as stream:
             for name, kind, value in entries:
                 item = tarfile.TarInfo(name)
@@ -76,6 +78,72 @@ class UpgradePayloadTests(unittest.TestCase):
         self.verify(self.root / "payload", records)
         self.assertEqual((self.root / "payload/externals/node/tool").read_bytes(), b"old")
         self.assertEqual(stat.S_IMODE((self.root / "payload/bin").stat().st_mode), 0o755)
+
+    def test_reversed_physical_order_streams_once_without_backward_seek(self):
+        args = self.archive("reverse", reverse=True)
+        records = MODULE.archive_records(*args)
+        with tarfile.open(args[0], "r:gz") as stream:
+            physical_order = [member.name for member in stream]
+        self.assertNotEqual(physical_order, sorted(records, key=lambda name: (name.count("/"), name)))
+        self.assertLess(physical_order.index("externals/lib/tool.js"), physical_order.index("externals"))
+        real_open = tarfile.open
+        modes, offsets = [], []
+
+        def forward_only_open(path, mode):
+            modes.append(mode)
+            self.assertEqual(mode, "r|gz")
+            stream = real_open(path, mode)
+            real_seek = stream.fileobj.seek
+
+            def forward_only_seek(offset):
+                self.assertGreaterEqual(offset, stream.fileobj.pos, "gzip extraction sought backwards")
+                offsets.append(offset)
+                return real_seek(offset)
+
+            stream.fileobj.seek = forward_only_seek
+            return stream
+
+        with mock.patch.object(MODULE.tarfile, "open", side_effect=forward_only_open), \
+             mock.patch.object(tarfile.TarFile, "getmembers", side_effect=AssertionError("random-access member index forbidden")):
+            MODULE.extract_payload(args[0], self.root / "streamed", records)
+        self.assertEqual(modes, ["r|gz"])
+        self.assertTrue(offsets, "the stream's forward-only seek guard was not exercised")
+        self.verify(self.root / "streamed", records)
+
+    def test_streaming_extraction_rejects_archive_drift_after_audit(self):
+        original, sha, size = self.archive()
+        records = MODULE.archive_records(original, sha, size)
+        for change in ("extra", "missing", "duplicate", "unsafe", "type", "mode", "size", "link", "bytes"):
+            with self.subTest(change=change):
+                changed = self.root / (change + ".tar.gz")
+                with tarfile.open(original, "r:gz") as source, tarfile.open(changed, "w:gz") as output:
+                    for member in source:
+                        data = source.extractfile(member).read() if member.isfile() else None
+                        if member.name == "bin/Runner.Listener":
+                            if change == "missing":
+                                continue
+                            if change == "type":
+                                member.type, member.size, data = tarfile.DIRTYPE, 0, None
+                            elif change == "unsafe":
+                                member.name = "../escape"
+                            elif change == "mode":
+                                member.mode ^= 0o020
+                            elif change == "size":
+                                member.size += 1
+                                data += b"!"
+                            elif change == "bytes":
+                                data = b"bad"
+                        if change == "link" and member.issym():
+                            member.linkname = "../lib/unreviewed.js"
+                        output.addfile(member, io.BytesIO(data) if data is not None else None)
+                        if change == "duplicate" and member.name == "bin/Runner.Listener":
+                            output.addfile(member, io.BytesIO(data))
+                    if change == "extra":
+                        member = tarfile.TarInfo("bin/unreviewed")
+                        member.mode, member.size = 0o755, 1
+                        output.addfile(member, io.BytesIO(b"x"))
+                with self.assertRaises(ValueError):
+                    MODULE.extract_payload(changed, self.root / change, records)
 
     def test_bad_hash_and_size_fail_before_extract(self):
         path, sha, size = self.archive()
