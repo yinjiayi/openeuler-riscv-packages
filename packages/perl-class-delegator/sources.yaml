@@ -1,0 +1,21 @@
+{
+  "package_id": "perl-class-delegator",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6dfd85cc78e844f14b20602233501cdd052f4d794b733db0d6bc0ae434b671ed"
+      },
+      "filename": "Class-Delegator-0.09.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {"policy":"checksum-required-signature-advisory","url":"https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/CHECKSUMS","key_fingerprint":"2E66557AB97C19C791AF8E20328DA867450F89EC"},
+      "url": "https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/Class-Delegator-0.09.tar.gz",
+      "version": "0.09"
+    }
+  ]
+}

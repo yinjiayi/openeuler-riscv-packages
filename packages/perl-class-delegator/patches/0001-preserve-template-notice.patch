@@ -1,0 +1,29 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Retain the exact generated Makefile template notice
+
+No source, build configuration or upstream tests are changed.
+
+--- /dev/null
++++ b/GENERATED-NOTICE
+@@ -0,0 +1,21 @@
++Generated Makefile.PL provenance
++===============================
++
++The original Makefile.PL contains the passthrough template from
++Module::Build::Compat 0.2808_01, lib/Module/Build/Compat.pm.
++The generated output matches that exact template with the class name
++Module::Build and an empty subclass-loader field. This notice preserves
++the original template author's attribution and license; it does not
++assert a copyright exemption for generated output.
++
++Copyright (c) 2001-2006 Ken Williams.  All rights reserved.
++
++This library is free software; you can redistribute it and/or
++modify it under the same terms as Perl itself.
++
++Official source:
++https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Module-Build-0.2808_01.tar.gz
++SHA-256: e3253fcb86c56344b5b6547502f9fda6072d9c63efc33b0915eb9b48717984d2
++
++Only this original template attribution and grant are carried here. The
++unrelated generator distribution is not added to this package's sources.

@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/trixie/libclass-delegator-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-delegator-perl",
+        "package_name": "libclass-delegator-perl",
+        "source": "debian",
+        "source_version": "0.09-6"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{"file":"patches/0001-preserve-template-notice.patch","sha256":"128804b28ea52c1926f36b1555847bde5e8a1f6bc658680bd21bf7167a674988","purpose":"Retain attribution and the same-Perl grant of the exact generated Makefile.PL template; no code or tests changed.","source":"Official Module-Build0.2808_01 lib/Module/Build/Compat.pm passthrough template and copyright section; exact binding documented in README.","license":"GPL-1.0-or-later OR Artistic-1.0-Perl","upstream_status":"downstream-only","remove_when":"An authenticated upstream distribution preserves the equivalent template attribution and grant."}],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-delegator.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official source SHA and available index signature policy are pinned in sources.yaml; README documents exact generated-template provenance and retained original default tests. Build.PL is invoked directly with the supplied Module::Build dependency; no physical network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-class-delegator",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-delegator",
+    "summary": "Simple and fast object-oriented delegation for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-class-delegator",
+    "homepage": "https://metacpan.org/dist/Class-Delegator",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/",
+    "release_channel": "stable",
+    "release_regex": "Class-Delegator-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Class-Delegator",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/Class-Delegator-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.09",
+    "latest_detected": "0.09",
+    "release": "1"
+  }
+}
