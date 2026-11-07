@@ -38,6 +38,16 @@ test checks the installed version, built-in configuration/syntax extraction,
 syntax validation and installed data files without requiring an interactive TTY.
 Neither this smoke test nor QEMU establishes native hardware/performance behavior.
 
+The first target run, `42152231559` at head
+`2d9a5d349e218cfc9eec67b3c54e7dd7b28f4dbe`, passed RPM build and the original
+default tests, then installed the RPM successfully but failed this package's
+syntax smoke check with exit 65. The exported file was incorrectly named
+`syntax`: upstream `load_syntax_file()` resolves the default syntax using the
+file's basename, while the exported configuration declares `syntax dte`.
+The smoke test now preserves basename `dte`, matching upstream's
+`test/check-opts.sh`, and requires a positive loaded-syntax result. No default
+test or syntax capability is disabled; the repaired head requires fresh CI.
+
 ## Patch and validation boundary
 
 `0001-preserve-dangling-symlink-targets.patch` is a GPL-2.0-only downstream
@@ -59,4 +69,5 @@ These nine host cases are **not** the full original suite or target build proof.
 The local host has GNU make 3.81, below upstream's required make version; the
 complete default tests remain enabled for approved target CI. Source-only
 verification and repository validation also do not prove RPM build/install
-success. No local RPM/QEMU build was run; target status remains unknown until CI.
+success. No local RPM/QEMU build was run; target status for each new head remains
+unknown until its own CI completes.
