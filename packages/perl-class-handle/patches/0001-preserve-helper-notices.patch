@@ -1,0 +1,64 @@
+From: openEuler RISC-V package maintainers
+Subject: [PATCH] Preserve bundled Module::Install helper notices
+
+Packaging-only attribution restoration from official Module-Install 0.68.
+No executable code or original tests change.
+
+--- /dev/null
++++ b/BUNDLED-HELPER-NOTICES
+@@ -0,0 +1,55 @@
++Bundled Module::Install 0.68 notices
++
++Eight inc/ helper bodies match the fixed official release after removing only
++POD, #line directives and blank lines. This notice-only packaging patch changes
++no executable code or upstream tests. Full LICENSE already matches that release.
++Source: https://cpan.metacpan.org/authors/id/A/AD/ADAMK/Module-Install-0.68.tar.gz
++SHA256: f6aa0c315cbc9456f642db3de8d2315d658f0a59d46aa0946737fee09d2e293c
++
++lib/Module/Install.pod
++----------------------
++=head1 COPYRIGHT
++
++Copyright 2002, 2003, 2004, 2005, 2006 by
++Brian Ingerson, Audrey Tang, Adam Kennedy.
++
++This program is free software; you can redistribute it and/or modify it
++under the same terms as Perl itself.
++
++See L<http://www.perl.com/perl/misc/Artistic.html>
++
++lib/Module/Install/Base.pm
++--------------------------
++=head1 COPYRIGHT
++
++Copyright 2003, 2004 by Audrey Tang E<lt>autrijus@autrijus.orgE<gt>.
++
++This program is free software; you can redistribute it and/or modify it
++under the same terms as Perl itself.
++
++See L<http://www.perl.com/perl/misc/Artistic.html>
++
++lib/Module/Install/Can.pm
++-------------------------
++=head1 COPYRIGHT
++
++Copyright 2006 Audrey Tang, Adam Kennedy.
++
++This program is free software; you can redistribute it and/or modify it
++under the same terms as Perl itself.
++
++See L<http://www.perl.com/perl/misc/Artistic.html>
++
++lib/Module/Install/Makefile.pm
++------------------------------
++=head1 COPYRIGHT
++
++Copyright 2002, 2003, 2004 by
++Audrey Tang E<lt>autrijus@autrijus.orgE<gt>,
++Brian Ingerson E<lt>ingy@cpan.orgE<gt>
++
++This program is free software; you can redistribute it and/or modify it
++under the same terms as Perl itself.
++
++See L<http://www.perl.com/perl/misc/Artistic.html>
++
