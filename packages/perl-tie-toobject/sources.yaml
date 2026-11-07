@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-tie-toobject",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a31a0d4430fe14f59622f31db7f25b2275dad2ec52f1040beb030d3e83ad3af4"
+      },
+      "filename": "Tie-ToObject-0.03.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/Tie-ToObject-0.03.tar.gz",
+      "version": "0.03"
+    }
+  ]
+}

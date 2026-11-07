@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libtie-toobject-perl",
+        "observed_at": "2026-11-07T04:07:13Z",
+        "package_base": "libtie-toobject-perl",
+        "package_name": "libtie-toobject-perl",
+        "source": "debian",
+        "source_version": "0.03-6"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n341.T9HhMm"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-tie-toobject.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable CPAN release with Debian stable lineage; archive SHA-256 and available signatures reviewed. External packaging was not executed; no catalog registry modification is claimed.",
+    "status": "active"
+  },
+  "package_id": "perl-tie-toobject",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Tie-ToObject",
+    "summary": "Perl tie constructor for reusing an existing object"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Tie-ToObject",
+    "homepage": "https://metacpan.org/dist/Tie-ToObject",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/",
+    "release_channel": "stable",
+    "release_regex": "Tie-ToObject-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/Tie-ToObject-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.03",
+    "latest_detected": "0.03",
+    "release": "1"
+  }
+}
