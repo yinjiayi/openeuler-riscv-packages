@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-file-pathlist",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e3e2799f3bceeae4992fe31ea892c34e9141f9237598cfadbc89824ede7a662c"
+      },
+      "filename": "File-PathList-1.04.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/File-PathList-1.04.tar.gz",
+      "version": "1.04"
+    }
+  ]
+}
