@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-scalar-string",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f54a17c9b78713b02cc43adfadf60b49467e7634d31317e8b9e9e97c26d68b52"
+      },
+      "filename": "Scalar-String-0.003.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/Scalar-String-0.003.tar.gz",
+      "version": "0.003"
+    }
+  ]
+}
