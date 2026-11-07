@@ -26,10 +26,12 @@ tests, installation and smoke checks still require target CI verification.
 
 ## Build and tests
 
-Ordinary ExtUtils::MakeMaker is used without network access or automatic CPAN
-dependency installation. The target provides make, perl, ExtUtils::MakeMaker
-and perl-generators; Benchmark and the other core Perl modules used by the
-default driver are in the target perl package. Current managed packages, all
+The ExtUtils::MakeMaker build does not require network access and does not
+install CPAN dependencies automatically. This is a recipe requirement, not
+an assertion that the CI container is network-isolated. The target provides
+make, perl, ExtUtils::MakeMaker and perl-generators; Benchmark and the other
+core Perl modules used by the default driver are in the target perl package.
+Current managed packages, all
 open PR names/files and official/supplemental provider names/files were checked
 for the canonical ID, RPM name and `Tie/Cache.pm` namespace before submission.
 
