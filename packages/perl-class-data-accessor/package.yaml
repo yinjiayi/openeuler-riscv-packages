@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libclass-data-accessor-perl",
+        "observed_at": "2026-11-07T06:23:00Z",
+        "package_base": "libclass-data-accessor-perl",
+        "package_name": "libclass-data-accessor-perl",
+        "source": "debian",
+        "source_version": "0.04004-4"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n343.UVwhaa"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-helper-notices.patch",
+        "sha256": "17c5b47bbda63f96541bbb98962327cb5b1713151c419965d2ac9e741c5941b9",
+        "purpose": "Preserve original bundled helper attribution and complete license text without changing code or tests.",
+        "source": "Official Module-Install-0.77 archive; all11 helper code bodies verified exactly after POD/line/blank removal.",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream includes complete original helper notices and license."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-data-accessor.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Legacy compatibility package: upstream POD marks this API deprecated and recommends Class::Accessor::Grouped or Moose for new applications. Active status means downstream recipe maintenance, not active upstream development. Fixed official CPAN source and Debian stable lineage; original tests retained and helper notices preserved. No physical network isolation/native validation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-class-data-accessor",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-data-accessor",
+    "summary": "Perl inheritable overridable class and instance data accessors"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Class-Data-Accessor",
+    "homepage": "https://metacpan.org/dist/Class-Data-Accessor",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CL/CLACO/",
+    "release_channel": "stable",
+    "release_regex": "Class-Data-Accessor-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Class-Data-Accessor",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CL/CLACO/Class-Data-Accessor-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04004",
+    "latest_detected": "0.04004",
+    "release": "1"
+  }
+}
