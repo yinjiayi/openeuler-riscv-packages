@@ -1,0 +1,27 @@
+From: openEuler RISC-V package contributors
+Subject: [PATCH] configure: preserve incoming CFLAGS during compiler checks
+
+Source: https://github.com/enferex/pdfresurrect/tree/7a57bffaa8e0ad47f9b0a4fa44fe5ae621680c62
+Applies-to: Pdfresurrect 0.23, source archive SHA256 e47a75a328020e4ebac5768921daa50b77c30610e787f0e78139fd4766a970ed
+License: configure.ac is covered by the project BSD-3-Clause grant. The checked-in configure retains its original FSF unlimited permission to copy, distribute and modify it; all original grants remain unchanged.
+Upstream-Status: Not submitted; no upstream write performed.
+Root-Cause: The hand-written CFLAGS clear around AC_PROG_CC drops the incoming compiler hardening flags while preserving hardened LDFLAGS. Exact target run 40613665527/a1 config.log shows an empty CFLAGS link at configure:2652 failing with R_RISCV_HI20 and fopen R_RISCV_CALL_PLT relocations; the missing conftest is a consequence, not a native execution diagnosis.
+Scope: Remove only that clear in configure.ac and its checked-in generated counterpart; retain X save/restore, Autoconf's internal flag tests, the empty-input -O3 -Wall policy and all probes. Do not regenerate configure, skip a probe, change --host or weaken linker hardening.
+Removal: Drop after a reviewed official stable source preserves incoming CFLAGS through these checks and passes the unchanged target build/install QA under the same hardening policy.
+
+--- a/configure.ac
++++ b/configure.ac
+@@ -12,4 +12,3 @@
+-# Checks for programs, and clears CFLAGS during the check.
++# Checks for programs, preserving incoming CFLAGS during compiler checks.
+ X="$CFLAGS"
+-CFLAGS=""
+ AC_PROG_CC
+--- a/configure
++++ b/configure
+@@ -2157,4 +2157,3 @@
+-# Checks for programs, and clears CFLAGS during the check.
++# Checks for programs, preserving incoming CFLAGS during compiler checks.
+ X="$CFLAGS"
+-CFLAGS=""
+ ac_ext=c
