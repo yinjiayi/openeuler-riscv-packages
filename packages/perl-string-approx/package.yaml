@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/trixie/libstring-approx-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libstring-approx-perl",
+        "package_name": "libstring-approx-perl",
+        "source": "debian",
+        "source_version": "3.28-2"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-String-Approx/perl-String-Approx/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-String-Approx",
+        "package_name": "perl-String-Approx",
+        "source": "fedora",
+        "source_version": "3.28-32.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-string-approx.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official archive pinned in sources.yaml. Select the LGPL2-only option common to actual source grants, retain all notices and the complete original default test target; distribution lineage was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-string-approx",
+  "rpm": {
+    "license": "LGPL-2.0-only",
+    "name": "perl-string-approx",
+    "summary": "Approximate string matching for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-string-approx",
+    "homepage": "https://metacpan.org/dist/String-Approx",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JH/JHI/",
+    "release_channel": "stable",
+    "release_regex": "String-Approx-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/source/JHI/String-Approx-3.28",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JH/JHI/String-Approx-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.28",
+    "latest_detected": "3.28",
+    "release": "1"
+  }
+}

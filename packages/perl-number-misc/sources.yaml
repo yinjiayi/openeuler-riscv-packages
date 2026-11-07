@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-number-misc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "77b9b68c600a069cf16f4d8126ecb32151e6bcd34b0edb17b78adee689dc91d8"
+      },
+      "filename": "Number-Misc-1.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "url": "https://cpan.metacpan.org/authors/id/M/MI/MIKO/CHECKSUMS",
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/M/MI/MIKO/Number-Misc-1.2.tar.gz",
+      "version": "1.2"
+    }
+  ]
+}

@@ -25,7 +25,9 @@ Although older release metadata lacks a license field, the source README and
 main module explicitly grant GPL version 2 or later, copyright Simon Cozens
 and Tony Bowden. This source grant establishes `GPL-2.0-or-later`; permission
 is not inferred from the metadata. The README is retained as installed license
-evidence. There is no bundled third-party build helper. Upstream documentation
+evidence. The complete GNU GPL v2 text is a separately SHA-256-pinned
+Source1, copied verbatim and installed with the original notice. There is no
+bundled third-party build helper. Upstream documentation
 describes the component as effectively unmaintained; this recipe does not
 claim renewed upstream maintenance.
 
@@ -35,7 +37,9 @@ upstream-optional documentation test providers are explicitly available and
 declared as BuildRequires, so neither test is intentionally skipped. The
 56 assertions passed on the host with isolated official, SHA-verified pure-Perl
 test-support libraries; that is not target RPM evidence. Makefile.PL does not
-auto-install CPAN dependencies and build-time networking is disabled.
+auto-install CPAN dependencies. The recipe requires no build-time network;
+`network_during_build: false` records that requirement, not physical network
+isolation by target CI.
 
 The smoke test covers the installed version, eager/lazy numeric ordering,
 duplicates and mutations. No source patch is required. Pure-Perl functionality

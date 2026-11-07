@@ -6,6 +6,7 @@ Summary:        Perl tied arrays kept in sorted order
 License:        GPL-2.0-or-later
 URL:            https://metacpan.org/dist/Tie-Array-Sorted
 Source0:        Tie-Array-Sorted-1.41.tar.gz
+Source1:        https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
 BuildArch:      noarch
 BuildRequires:  make
 BuildRequires:  perl
@@ -22,6 +23,7 @@ custom comparator option. Tie::Array::Sorted::Lazy delays sorting until retrieva
 
 %prep
 %autosetup -n Tie-Array-Sorted-%{version}
+cp -p %{SOURCE1} gpl-2.0.txt
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
@@ -36,7 +38,7 @@ find %{buildroot} -type f -name perllocal.pod -delete
 %make_build test
 
 %files
-%license README
+%license README gpl-2.0.txt
 %doc Changes
 %{perl_vendorlib}/Tie/Array/Sorted.pm
 %{perl_vendorlib}/Tie/Array/Sorted/
