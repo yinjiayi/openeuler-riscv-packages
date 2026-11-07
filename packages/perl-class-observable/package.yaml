@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/perl-Class-Observable",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Class-Observable",
+        "package_name": "perl-Class-Observable",
+        "source": "fedora",
+        "source_version": "2.004-8.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-observable.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official CPAN source pinned in sources.yaml; actual Fedora discovery lineage. Original default tests retained, release tooling byte-bound to exact official Git tag with original root LICENSE; no patches or physical network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-class-observable",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-observable",
+    "summary": "Perl observer registration and notification for classes and objects"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-class-observable",
+    "homepage": "https://metacpan.org/dist/Class-Observable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/",
+    "release_channel": "stable",
+    "release_regex": "Class-Observable-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/ap/Class-Observable",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/Class-Observable-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.004",
+    "latest_detected": "2.004",
+    "release": "1"
+  }
+}
