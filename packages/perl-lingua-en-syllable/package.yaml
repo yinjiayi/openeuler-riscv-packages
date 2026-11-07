@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/liblingua-en-syllable-perl",
+        "observed_at": "2026-11-07T07:30:00Z",
+        "package_base": "liblingua-en-syllable-perl",
+        "package_name": "liblingua-en-syllable-perl",
+        "source": "debian",
+        "source_version": "0.310-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n344.dw4IXG"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-lingua-en-syllable.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN0.31 and Debian stable0.310-2 lineage reviewed. Original default tests preserved; English syllable estimates are heuristic, not a pronunciation dictionary. Recipe requires no network, not a claim of physical CI network isolation.",
+    "status": "active"
+  },
+  "package_id": "perl-lingua-en-syllable",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-lingua-en-syllable",
+    "summary": "Heuristic English syllable counting for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Lingua-EN-Syllable",
+    "homepage": "https://metacpan.org/dist/Lingua-EN-Syllable",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_channel": "stable",
+    "release_regex": "Lingua-EN-Syllable-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/neilb/Lingua-EN-Syllable",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Lingua-EN-Syllable-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.31",
+    "latest_detected": "0.31",
+    "release": "1"
+  }
+}
