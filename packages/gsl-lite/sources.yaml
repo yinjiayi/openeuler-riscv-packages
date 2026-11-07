@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "gsl-lite",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "version": "1.1.1",
+      "url": "https://api.github.com/repos/gsl-lite/gsl-lite/tarball/b19adc1ffe61b05d8c8858dc824edb7c15da68fc",
+      "filename": "gsl-lite-1.1.1-Git.tar.gz",
+      "digests": {
+        "sha256": "72b48ada0190229dbd65cdd637f092340e397004d69ba751f04cd8d19574a316"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed official stablev1.1.1 source; all55 original bytes and non-executable Git modes correlate. Hosted-committer signature independently verified; lightweight tag has no detached archive signature. RootMIT and actual bundledBSL/BSD/CPM notices remain, complemented by fullstandardSource2/3 terms; no relicense or sourcepatch."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "version": "2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Exact verified official Apache2 grant for owned packaging/additiveQA only, not relicensing upstream. Reuse previously verified immutable text with a fresh hash."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "test-dependency",
+      "version": "3.29.0",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/31ba1a50e5397e00a304dbadc76531740e89ee48/text/BSL-1.0.txt",
+      "filename": "BSL-1.0.txt",
+      "digests": {
+        "sha256": "84c6ef3ea9e3254a54d0acf5d3e0c61ae011b8fef7dd6940591cf060e6380a8f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full fixed official SPDXBSL1 standard clauses, actualdownload_url HTTP200 body matches Gitblob and JSON licenseText. Applies with the unchanged original test/lest_cpp03.hpp Copyright2013-2018MartinMoene notice. No invented grant author."
+      }
+    },
+    {
+      "id": "source3",
+      "kind": "test-dependency",
+      "version": "3.29.0",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/31ba1a50e5397e00a304dbadc76531740e89ee48/text/BSD-3-Clause.txt",
+      "filename": "BSD-3-Clause.txt",
+      "digests": {
+        "sha256": "5a93d5831e1297ab10fe643e1a631e83be392896da14ee2951285a79012df69d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full fixed official SPDXBSD3 standard clauses, actualdownload_url HTTP200 body matches Gitblob and JSON licenseText. Pair unchanged original cmake/InstallBasicPackageFiles.cmake SPDXCopyright2012-2021IIT notice; standard placeholders remain examples, not project holders/years. No MIT relicensing."
+      }
+    }
+  ]
+}
