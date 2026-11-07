@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libperl-version-perl",
+        "observed_at": "2026-11-07T16:35:00Z",
+        "package_base": "libperl-version-perl",
+        "package_name": "libperl-version-perl",
+        "source": "debian",
+        "source_version": "1.018-1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n353.vC1ptU"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libperl-version-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned official CPAN source; Debian stable supplies package discovery lineage. Keep the original default test suite and ship the original Artistic-2.0 LICENSE.",
+    "status": "active"
+  },
+  "package_id": "libperl-version-perl",
+  "rpm": {
+    "license": "Artistic-2.0",
+    "name": "libperl-version-perl",
+    "summary": "Parse and manipulate Perl version numbers"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Perl-Version",
+    "homepage": "https://metacpan.org/dist/Perl-Version",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/",
+    "release_channel": "stable",
+    "release_regex": "Perl-Version-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/briandfoy/perl-version",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/Perl-Version-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.019",
+    "latest_detected": "1.019",
+    "release": "1"
+  }
+}
