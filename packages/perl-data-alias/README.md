@@ -31,7 +31,8 @@ riscv64/RVA23. This is an architecture-specific XS extension, not a noarch RPM.
 ## Build and validation
 
 Use ordinary MakeMaker, target GCC and target perl-devel, with distro optimization
-flags and networking disabled. The required compiler, Perl build/test modules,
+flags. The recipe does not require network access; this does not assert that the
+CI container is network-isolated. The required compiler, Perl build/test modules,
 runtime Carp/Exporter and packaging generators are supplied by the target
 repositories. Normalized managed/open-PR identities, actual Perl Provides and
 `Data/Alias.pm`/`auto/Data/Alias/` paths were screened. Unrelated Python/Go
