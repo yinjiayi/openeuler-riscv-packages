@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-tie-hash-regex",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9e32ce51de05c6c8f801612d3bb2976f517b14cfbbe6905d5b7f6d00e9a0701d"
+      },
+      "filename": "Tie-Hash-Regex-2.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "url": "https://cpan.metacpan.org/authors/id/D/DA/DAVECROSS/CHECKSUMS",
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAVECROSS/Tie-Hash-Regex-2.0.0.tar.gz",
+      "version": "2.0.0"
+    }
+  ]
+}
