@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/trixie/libclass-accessor-grouped-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-accessor-grouped-perl",
+        "package_name": "libclass-accessor-grouped-perl",
+        "source": "debian",
+        "source_version": "0.10014-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-eumm-attribution.patch",
+        "sha256": "701be1b3e5eb29c8e6d663009409f10a945de56c1dc38a8592d33afac5ab9220",
+        "purpose": "Preserve original EUMM author/license terms for declared borrowed call pattern; no original source changes.",
+        "source": "https://cpan.metacpan.org/authors/id/B/BI/BINGOS/ExtUtils-MakeMaker-7.34.tar.gz",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "An official release includes equivalent original EUMM attribution and license text."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "class-accessor-grouped.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official source; original complete default tests and embedded HasCompiler grant preserved. Explicit target optional-test/default-compiler dependencies; no PUREPERL_ONLY or source feature removal. Notice-only original EUMM attribution, no earliest-copy claim. No physical network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-class-accessor-grouped",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-accessor-grouped",
+    "summary": "Grouped class and object accessors for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-class-accessor-grouped",
+    "homepage": "https://metacpan.org/dist/Class-Accessor-Grouped",
+    "release_api": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/",
+    "release_channel": "stable",
+    "release_regex": "Class-Accessor-Grouped-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/p5sagit/Class-Accessor-Grouped",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Class-Accessor-Grouped-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.10014",
+    "latest_detected": "0.10014",
+    "release": "1"
+  }
+}
