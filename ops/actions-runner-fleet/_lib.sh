@@ -291,13 +291,13 @@ oe_load_release_lock() {
       *) oe_die "unexpected release lock key: $key" ;;
     esac
   done <"$lock"
-  [[ $RUNNER_VERSION == 2.336.0 ]] || oe_die 'release lock version is not approved'
-  [[ $RUNNER_ARCHIVE == actions-runner-linux-x64-2.336.0.tar.gz ]] || oe_die 'release lock archive is not approved'
-  [[ $RUNNER_URL == https://github.com/actions/runner/releases/download/v2.336.0/actions-runner-linux-x64-2.336.0.tar.gz ]] \
+  [[ $RUNNER_VERSION == 2.338.2 ]] || oe_die 'release lock version is not approved'
+  [[ $RUNNER_ARCHIVE == "actions-runner-linux-x64-$RUNNER_VERSION.tar.gz" ]] || oe_die 'release lock archive is not approved'
+  [[ $RUNNER_URL == "https://github.com/actions/runner/releases/download/v$RUNNER_VERSION/$RUNNER_ARCHIVE" ]] \
     || oe_die 'release lock URL is not approved'
-  [[ $RUNNER_SHA256 == 04cf0be1aff4c3ec3554466c39124ca250e3effd8873bb7e8d68535aa9505d5d ]] \
+  [[ $RUNNER_SHA256 == baebf204307bac6193480852732f0aba2ae97b6c5597c244f4d5558390147c40 ]] \
     || oe_die 'release lock SHA-256 is not approved'
-  [[ $RUNNER_SIZE == 226035903 ]] || oe_die 'release lock size is not approved'
+  [[ $RUNNER_SIZE == 228071396 ]] || oe_die 'release lock size is not approved'
 }
 
 oe_load_cleanup_image_lock() {

@@ -102,17 +102,26 @@ read-only and isolated from repository secrets.
 
 ## Fixed software
 
-`runner-release.lock` pins official `actions/runner` v2.336.0 Linux x64:
+`runner-release.lock` pins official `actions/runner` v2.338.2 Linux x64:
 
-- URL: `https://github.com/actions/runner/releases/download/v2.336.0/actions-runner-linux-x64-2.336.0.tar.gz`
-- SHA-256: `04cf0be1aff4c3ec3554466c39124ca250e3effd8873bb7e8d68535aa9505d5d`
-- Official release asset size: `226035903` bytes
+- URL: `https://github.com/actions/runner/releases/download/v2.338.2/actions-runner-linux-x64-2.338.2.tar.gz`
+- SHA-256: `baebf204307bac6193480852732f0aba2ae97b6c5597c244f4d5558390147c40`
+- Official release asset size: `228071396` bytes
+- Official release ID: `424372770`; Linux x64 asset ID: `678460500`
 
 The version, digest, and size were freshly checked through GitHub's official
-Releases API and the digest was independently reproduced from the downloaded
-asset. Installation verifies the lock before extraction. Automatic Runner
+Releases API on 2026-11-06. The downloaded Linux x64 asset's size and SHA-256
+were independently reproduced during canary source staging; staging is not a
+successful deployment. Installation verifies the actual archive's size and
+SHA-256 against the lock before extraction. Automatic Runner
 updates are disabled; GitHub requires a manually pinned Runner to be updated
 within 30 days of any new release.
+
+The lock loader still approves one exact version/digest/size tuple; deriving
+the archive name and official URL from that approved version does not permit
+arbitrary releases. Registration, service preflight and audit all load the
+same installed lock before comparing the observed Runner version. Keep the
+lock, shared approval tuple, tests and this section in the same reviewed change.
 
 Ubuntu 26.04 supplies static QEMU user binaries through `qemu-user` and binfmt
 registration through `qemu-user-binfmt`; `qemu-user-static` is only a virtual
@@ -264,6 +273,13 @@ Stop the rollout on any identity, package, cleanup, audit, or state mismatch.
 Do not update a live/busy Runner and do not deploy individual files outside the
 installer.
 
+A version change is not the same-version redeployment described above:
+`install.sh` deliberately rejects an existing different Runner payload. It
+requires the separately reviewed identity-preserving `upgrade.sh` sequence
+below, not uninstall/re-registration or repeated installation over the old
+payload. New code must pass complete CI and reach protected `main` before the
+deployment archive is selected; then validate the canary before expansion.
+
 ## Per-job cleanup
 
 GitHub-supported synchronous pre/post hooks run `job-guard.sh` and
@@ -323,3 +339,118 @@ python3 ops/actions-runner-fleet/fleet-audit.py \
 ```
 
 The script never enrolls, installs, removes, or changes a host.
+
+## Identity-preserving pinned Runner upgrade
+
+This entrypoint supports only the reviewed **2.336.0 to 2.338.2** transition.
+An upgrade replaces the official static payload, not the registered Runner
+identity or a package workload. It preserves `.runner`, `.credentials`,
+`.credentials_rsaparams`, `.env`, `.path`, `.service`, generated `svc.sh`, and
+the `_work`, `_diag`, `_state` trees; it never reads credential values. Unknown
+root entries or changed/missing/extra official payload files require review.
+
+Use one exact, independently verified protected-main source archive. Place its
+complete source tree and any pre-downloaded official Runner archives below a
+root-owned non-writable ancestor such as `/root/runner-upgrade/`, not `/tmp` or
+`/var/tmp`. Pre-downloaded archives are still checked against the hard-coded
+official SHA-256 and size; neither an unverified cache nor a mutable release
+URL is accepted. The old release is independently downloaded and compared
+file-by-file, including modes and contained symlink targets, before replacement.
+Extraction consumes the gzip archive once in physical member order, with
+audited directories created first and safe symlinks created last. It rechecks
+the exact member inventory and retains final byte/owner/mode verification;
+it does not seek backwards through gzip to follow sorted filenames.
+The supplied `--source-commit` is the coordinator's reviewed archive identity;
+the host also fingerprints the entire fleet source directory between phases.
+
+For this deprecated/offline fleet recovery, first require a fresh exact GitHub
+Runner ID/name observation with `status=offline` and `busy=false`,
+record resources and integrity, and run:
+
+```bash
+ops/actions-runner-fleet/upgrade.sh prepare \
+  --host 10.230.50.201 --name oe-rva23-qemu-201 \
+  --source-commit "$protected_main_sha" \
+  --new-archive /root/runner-upgrade/actions-runner-linux-x64-2.338.2.tar.gz
+```
+
+Pass `--allow-degraded` only if the unchanged installed identity already
+permits it. `prepare` refuses running Workers or containers before stopping,
+disabling and runtime-masking the exact unit. It then requires no Listener,
+Worker or running container, verifies the complete old payload, and stages
+the new archive in root-only
+`/var/lib/openeuler-actions-runner-upgrade/<name>/`. Already stopped units are
+valid. Existing preparation state is not overwritten or silently replayed.
+
+After `prepare` completes, the coordinator must re-read that exact Runner
+through locally authenticated GitHub API and require `status=offline` and
+`busy=false`. Write a root-owned mode-0600 JSON receipt with precisely these
+fields (values below are examples; never fabricate an observation):
+
+```json
+{
+  "schema_version": 1,
+  "kind": "runner-upgrade-offline-observation",
+  "repository": "yinjiayi/openeuler-riscv-packages",
+  "host": "10.230.50.201",
+  "name": "oe-rva23-qemu-201",
+  "runner_id": 24,
+  "prepared_nonce": "COPY_THE_NEW_PREPARE_NONCE",
+  "source_commit": "COPY_THE_REVIEWED_PROTECTED_MAIN_SHA",
+  "old_version": "2.336.0",
+  "new_version": "2.338.2",
+  "new_sha256": "baebf204307bac6193480852732f0aba2ae97b6c5597c244f4d5558390147c40",
+  "status": "offline",
+  "busy": false,
+  "observed_at": "COPY_THE_FRESH_UTC_API_OBSERVATION_TIME"
+}
+```
+
+This receipt is a trusted coordinator assertion, not a signature or an
+independent GitHub authentication proof. Keep the underlying API response in
+the operator evidence directory. It must postdate preparation, be no older
+than five minutes immediately before mutation, and match the registered
+Runner ID/name, host, repository, nonce, old/new release and source commit.
+
+```bash
+ops/actions-runner-fleet/upgrade.sh apply \
+  --host 10.230.50.201 --name oe-rva23-qemu-201 \
+  --source-commit "$protected_main_sha" \
+  --github-receipt /root/runner-upgrade/offline-observation.json
+```
+
+`apply` rechecks quiescence and both payloads, creates a unique root-only backup
+under `/var/backups/openeuler-actions-runner/`, consumes preparation once, and
+replaces only the official payload roots. The backup contains the complete old
+payload, release record, configuration/libexec contract and systemd template;
+registration credentials remain in place and are never copied into evidence.
+The complete same-source `install.sh` then refreshes all managed files. Final
+checks require the new complete payload and unchanged registration identity,
+runtime inodes/permissions, policy and degraded-host permission.
+The runner, staged payload, backup and managed installation paths must be on
+the same filesystem; cross-device layouts fail before the first payload rename
+and require a separately reviewed deployment plan.
+Before any service change or rollback guard is armed, read-only admission
+requires an unconsumed prepared transaction, unchanged identity/source/policy
+and the fresh receipt. A previous partial/completed transaction is rejected
+unchanged; invoking `apply` again is not authorization to stop a recovered
+Runner or roll back another attempt. A prepared host that restarted is likewise
+rejected rather than silently stopped again.
+
+Successful apply leaves the unit **disabled and stopped**, with its runtime
+mask removed, awaiting the existing `activate.sh`/`audit.sh` sequence and a
+fresh GitHub online, idle readback. Activation's ordinary documented cleanup
+can remove CI workspace/cache state; the payload upgrade itself does not.
+Do not count an upgrade or recovered capacity until those separate gates pass.
+
+On an ordinary caught replacement/installer failure the complete old payload
+and managed files are restored from the private backup; the service remains
+disabled, stopped and runtime-masked. Restoration is **not success**, and the
+deprecated old version must not be restarted. If restoration fails or power
+loss/SIGKILL interrupts the transaction, keep the host stopped, retain the
+state journal plus both old/failed payload trees, and perform a separately
+reviewed restore of the exact backup and managed contract. Do not delete
+preparation state, replay a consumed receipt, mix individual old/new files,
+re-register, or automatically retry. Re-audit integrity and obtain a fresh
+explicit recovery decision before another attempt. No backup/data cleanup is
+performed automatically by this upgrade entrypoint.
