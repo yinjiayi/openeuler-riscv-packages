@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libdata-alias-perl",
+        "observed_at": "2026-11-07T05:13:30Z",
+        "package_base": "libdata-alias-perl",
+        "package_name": "libdata-alias-perl",
+        "source": "debian",
+        "source_version": "1.28-1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n342.YqOTM2"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-data-alias.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable CPAN source with Debian stable lineage; archive SHA-256 and available signature reviewed. No catalog registry change is claimed; external packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-data-alias",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Data-Alias",
+    "summary": "Perl aliasing operations for scalars and data structures"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Data-Alias",
+    "homepage": "https://metacpan.org/dist/Data-Alias",
+    "release_api": "https://cpan.metacpan.org/authors/id/X/XM/XMATH/",
+    "release_channel": "stable",
+    "release_regex": "Data-Alias-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/mvduin/perl-Data-Alias",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/X/XM/XMATH/Data-Alias-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.30",
+    "latest_detected": "1.30",
+    "release": "1"
+  }
+}
