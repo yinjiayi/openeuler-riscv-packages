@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libobject-destroyer-perl",
+        "observed_at": "2026-11-07T05:29:30Z",
+        "package_base": "libobject-destroyer-perl",
+        "package_name": "libobject-destroyer-perl",
+        "source": "debian",
+        "source_version": "2.02-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n342.YqOTM2"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-retain-generated-helper-notices.patch",
+      "sha256": "93738c5ac75cba2482f2e38e0a46e12fa6ef90788c5a98cc0667b32ff4e5e2e8",
+      "purpose": "Retain distinct generated helper copyright and license notices without changing executable code or test selection.",
+      "source": "Official fixed CPAN releases of Dist-Zilla and the exact generator versions recorded in upstream META.json; provenance and full hashes in README.",
+      "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND Apache-2.0 AND Artistic-2.0",
+      "upstream_status": "downstream-only",
+      "remove_when": "A stable upstream archive includes equivalent complete generator copyright and license notices."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-object-destroyer.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed CPAN archive and exact generator licenses verified. Notice-only patch retains distinct helper grants. Original default tests are unchanged; target build/install awaits CI. No catalog registry was modified.",
+    "status": "active"
+  },
+  "package_id": "perl-object-destroyer",
+  "rpm": {
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND Apache-2.0 AND Artistic-2.0",
+    "name": "perl-Object-Destroyer",
+    "summary": "Perl scoped cleanup handles for circular object references"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Object-Destroyer",
+    "homepage": "https://metacpan.org/dist/Object-Destroyer",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SI/SIMBABQUE/",
+    "release_channel": "stable",
+    "release_regex": "Object-Destroyer-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/simbabque/Object-Destroyer",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SI/SIMBABQUE/Object-Destroyer-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.02",
+    "latest_detected": "2.02",
+    "release": "1"
+  }
+}
