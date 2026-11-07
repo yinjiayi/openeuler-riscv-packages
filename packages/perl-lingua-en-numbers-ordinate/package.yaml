@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/liblingua-en-numbers-ordinate-perl",
+        "observed_at": "2026-11-07T08:18:00Z",
+        "package_base": "liblingua-en-numbers-ordinate-perl",
+        "package_name": "liblingua-en-numbers-ordinate-perl",
+        "source": "debian",
+        "source_version": "1.05-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n345.TguaWU"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-lingua-en-numbers-ordinate.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN1.05 and Debian stable1.05-2 lineage reviewed. All original default tests retained. English numeric suffixes only, not number-to-words or multilingual grammar. Recipe needs no network; this is not a physical CI network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-lingua-en-numbers-ordinate",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-lingua-en-numbers-ordinate",
+    "summary": "English numeric ordinal suffix conversion for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Lingua-EN-Numbers-Ordinate",
+    "homepage": "https://metacpan.org/dist/Lingua-EN-Numbers-Ordinate",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_channel": "stable",
+    "release_regex": "Lingua-EN-Numbers-Ordinate-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/neilb/Lingua-EN-Numbers-Ordinate",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Lingua-EN-Numbers-Ordinate-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.05",
+    "latest_detected": "1.05",
+    "release": "1"
+  }
+}
