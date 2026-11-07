@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libset-object-perl",
+        "observed_at": "2026-11-07T12:20:00Z",
+        "package_base": "libset-object-perl",
+        "package_name": "libset-object-perl",
+        "source": "debian",
+        "source_version": "1.42-1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n349.4fJrXL"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-component-license-scope.patch",
+        "sha256": "4417390f5432fbf8bce517d0832585fff5c7c9723a4eabeed9ba149c6f89fde1",
+        "purpose": "Preserve original component-specific Artistic grant scope and full Perl Artistic text without changing code/tests; generic not RISC-V-specific.",
+        "source": "Original Set-Object-1.43 component notices and official dev.perl.org ten-section Artistic text, as documented in NOTICE.Scope.",
+        "license": "Artistic-2.0 AND Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream ships equivalent complete component notices and applicable license texts."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-set-object.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "XS unordered sets; preserves all default upstream tests/optional conditions. Not thread-safe per upstream. Separate Artistic grants retained. No build downloads; manifest network=false is not physical network isolation.",
+    "status": "active"
+  },
+  "package_id": "perl-set-object",
+  "rpm": {
+    "license": "Artistic-2.0 AND Artistic-1.0-Perl",
+    "name": "perl-set-object",
+    "summary": "Unordered collections of Perl objects and scalars"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Set-Object",
+    "homepage": "https://metacpan.org/dist/Set-Object",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RU/RURBAN/",
+    "release_channel": "stable",
+    "release_regex": "Set-Object-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/rurban/Set-Object",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RU/RURBAN/Set-Object-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.43",
+    "latest_detected": "1.43",
+    "release": "1"
+  }
+}
