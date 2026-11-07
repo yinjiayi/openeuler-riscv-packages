@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/trixie/libipc-run-safehandles-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libipc-run-safehandles-perl",
+        "package_name": "libipc-run-safehandles-perl",
+        "source": "debian",
+        "source_version": "0.04-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-preserve-helper-notices.patch",
+      "sha256": "e51436cc851e330b814f6483e5f87a388450e1e2738cdee69cf4a096c9358a66",
+      "purpose": "Preserve original attribution and license text for all eleven bundled POD-stripped build helpers; documentation only.",
+      "source": "Exact official Module-Install 0.68 archive, SHA256 f6aa0c315cbc9456f642db3de8d2315d658f0a59d46aa0946737fee09d2e293c; original notices and full LICENSE with only five trailing-horizontal-whitespace normalizations.",
+      "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+      "upstream_status": "downstream-only",
+      "remove_when": "An authenticated upstream release retains equivalent complete bundled-helper attribution and license text in redistributed sources and installed license documentation."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-ipc-run-safehandles.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official release SHA pinned in sources.yaml. All eleven bundled helpers bound to exact original Module-Install0.68 source, with original notices retained by documentation-only patch. Original default tests unchanged; no build dependency auto-download.",
+    "status": "active"
+  },
+  "package_id": "perl-ipc-run-safehandles",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-ipc-run-safehandles",
+    "summary": "Safe standard handles for Perl IPC::Run and IPC::Run3"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-ipc-run-safehandles",
+    "homepage": "https://metacpan.org/dist/IPC-Run-SafeHandles",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CL/CLKAO/",
+    "release_channel": "stable",
+    "release_regex": "IPC-Run-SafeHandles-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/IPC-Run-SafeHandles",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CL/CLKAO/IPC-Run-SafeHandles-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04",
+    "latest_detected": "0.04",
+    "release": "1"
+  }
+}
