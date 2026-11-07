@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import Future, ThreadPoolExecutor
 import contextlib
 import hashlib
 import json
@@ -13,6 +13,7 @@ import re
 import sqlite3
 import subprocess
 import sys
+import threading
 import uuid
 
 from _lib import ToolError, emit_json, isoformat, load_json, parse_now, parse_time, stable_json
@@ -23,6 +24,8 @@ REPO = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 REQUIRED = ("metadata-validate", "source-verify", "rpmbuild-riscv64", "rpm-install-smoke", "patch-policy", "merge-policy")
 HOLDS = {"needs-human", "needs-native-riscv", "qemu-limitation", "source-blocked", "license-blocked", "checksum-blocked", "security-blocked", "tests-disabled", "codex-repairing"}
 QUEUES = ("repair", "intake", "merge-review")
+POLICY_WORKFLOW = ".github/workflows/auto-merge.yml"
+ACTIONS_APP = 15368
 
 
 def require(condition, message):
@@ -193,6 +196,149 @@ def membership(prs):
     return result
 
 
+def duplicate_checks(checks):
+    groups = {}
+    for check in checks:
+        if check.get("kind") == "check":
+            groups.setdefault(check["name"], []).append(check)
+    return [group for group in groups.values() if len(group) > 1]
+
+
+def policy_provenance_reader(repo, get):
+    """Snapshot-local, GET-only corroboration for the one allowlisted context.
+
+    A details URL is only a locator. Authenticated workflow/run/suite and
+    attempt-jobs responses must join back to every observed check. Neither
+    increasing IDs nor a later successful event supersedes another result.
+    """
+    cache, lock = {}, threading.Lock()
+
+    def cached(path, paginated=False):
+        with lock:
+            owner = path not in cache
+            if owner:
+                cache[path] = Future()
+            future = cache[path]
+        if owner:
+            try:
+                value = pages(get, path, "jobs") if paginated else get(path)
+            except ToolError:
+                # A failed corroborating read holds only this ambiguity;
+                # never invent provenance or fail unrelated package work.
+                value = None
+            except BaseException as exc:
+                future.set_exception(exc)
+                raise
+            future.set_result(value)
+        # Different endpoints proceed in the existing collector worker pool;
+        # only readers of this same endpoint share/wait for one GET result.
+        return future.result()
+
+    def state(value):
+        return value.get("conclusion") if value.get("status") == "completed" else "pending"
+
+    def positive(value):
+        return type(value) is int and value > 0
+
+    def augment(pr):
+        # codex-repairing is an ownership routing label, not a semantic hold:
+        # retain the same inputs for owned_repair_routing's exact comparison.
+        # classify still holds it, so this never admits another worker.
+        if not pr["trusted"] or pr["draft"] or not pr["package_only"] or set(pr["labels"]) & (HOLDS - {"codex-repairing"}):
+            return
+        groups = duplicate_checks(pr["checks"])
+        if any(c["name"] != "configure" or c.get("app_id") != ACTIONS_APP or
+               not positive(c.get("suite_id")) or not positive(c.get("id")) for group in groups for c in group):
+            return  # Another ambiguity already holds this PR; do not fetch.
+        for group in groups:
+            workflow = cached(f"repos/{repo}/actions/workflows/auto-merge.yml")
+            if not isinstance(workflow, dict) or workflow.get("path") != POLICY_WORKFLOW or workflow.get("state") != "active" or not positive(workflow.get("id")):
+                continue
+            for check in group:
+                check.pop("workflow_provenance", None)
+                # REST fallback has no workflowRun/runAttempt fields. Resolve
+                # its URL, then bind the actual attempt through the jobs API.
+                locator = re.fullmatch(r"https://github\.com/" + re.escape(repo) + r"/actions/runs/([1-9][0-9]*)/job/([1-9][0-9]*)", check.get("url") or "")
+                run_id = check.get("workflow_run_id")
+                if run_id is None and locator:
+                    run_id = int(locator[1])
+                if not positive(run_id) or (locator and int(locator[1]) != run_id):
+                    continue
+                run = cached(f"repos/{repo}/actions/runs/{run_id}")
+                suite = cached(f"repos/{repo}/check-suites/{check['suite_id']}")
+                if not isinstance(run, dict) or not isinstance(suite, dict):
+                    continue
+                attempt, repository = run.get("run_attempt"), run.get("repository") or {}
+                repo_id = repository.get("id")
+                associated = [p for p in run.get("pull_requests", []) if p.get("number") == pr["number"]]
+                if (run.get("id") != run_id or run.get("workflow_id") != workflow["id"] or
+                    run.get("path") != POLICY_WORKFLOW or run.get("event") != "pull_request" or
+                    run.get("head_sha") != pr["head_sha"] or run.get("head_branch") != pr["head_ref"] or
+                    run.get("check_suite_id") != check["suite_id"] or not positive(attempt) or
+                    (check.get("run_attempt") is not None and check["run_attempt"] != attempt) or
+                    repository.get("full_name", "").lower() != repo or not positive(repo_id) or
+                    (run.get("head_repository") or {}).get("id") != repo_id or
+                    (run.get("head_repository") or {}).get("full_name", "").lower() != repo or
+                    suite.get("id") != check["suite_id"] or suite.get("head_sha") != pr["head_sha"] or
+                    (suite.get("app") or {}).get("id") != ACTIONS_APP or
+                    (suite.get("repository") or {}).get("id") != repo_id or
+                    (suite.get("repository") or {}).get("full_name", "").lower() != repo or len(associated) != 1):
+                    continue
+                association = associated[0]
+                if (association.get("url") != f"https://api.github.com/repos/{repo}/pulls/{pr['number']}" or
+                    any((association.get(side) or {}).get("sha") != sha or
+                        ((association.get(side) or {}).get("repo") or {}).get("id") != repo_id
+                        for side, sha in (("head", pr["head_sha"]), ("base", pr["base_sha"])))):
+                    continue
+                jobs = cached(f"repos/{repo}/actions/runs/{run_id}/attempts/{attempt}/jobs", True)
+                if not isinstance(jobs, list):
+                    continue
+                matching = [j for j in jobs if j.get("check_run_url") == f"https://api.github.com/repos/{repo}/check-runs/{check['id']}"]
+                if len(matching) != 1:
+                    continue
+                job = matching[0]
+                if (job.get("name") != "configure" or job.get("run_id") != run_id or job.get("run_attempt") != attempt or
+                    job.get("head_sha") != pr["head_sha"] or state(job) != check["state"] or
+                    (locator and job.get("id") != int(locator[2]))):
+                    continue
+                check["workflow_provenance"] = {
+                    "repo": repo, "repository_id": repo_id, "pr_number": pr["number"],
+                    "head_sha": pr["head_sha"], "base_sha": pr["base_sha"], "head_ref": pr["head_ref"],
+                    "check_id": check["id"], "suite_id": check["suite_id"], "app_id": ACTIONS_APP,
+                    "workflow_id": workflow["id"], "workflow_path": POLICY_WORKFLOW, "workflow_state": "active",
+                    "run_id": run_id, "run_attempt": attempt, "event": "pull_request",
+                    "check_state": check["state"], "run_state": state(run), "suite_state": state(suite)}
+    return augment
+
+
+def proven_policy_duplicates(pr, group):
+    """Validate retained cross-links again; old/missing evidence stays held."""
+    workflow_ids, check_ids = set(), set()
+    for check in group:
+        proof = check.get("workflow_provenance")
+        if not isinstance(proof, dict):
+            return False
+        repo = proof.get("repo")
+        if (check["name"] != "configure" or check.get("app_id") != ACTIONS_APP or
+            not isinstance(repo, str) or not REPO.fullmatch(repo) or
+            pr["url"] != f"https://github.com/{repo}/pull/{pr['number']}" or
+            any(proof.get(key) != value for key, value in {
+                "pr_number": pr["number"], "head_sha": pr["head_sha"], "base_sha": pr["base_sha"],
+                "head_ref": pr["head_ref"], "check_id": check.get("id"), "suite_id": check.get("suite_id"),
+                "app_id": ACTIONS_APP, "workflow_path": POLICY_WORKFLOW, "workflow_state": "active",
+                "event": "pull_request", "check_state": check["state"]}.items()) or
+            any(type(proof.get(key)) is not int or proof[key] <= 0 for key in
+                ("repository_id", "check_id", "suite_id", "workflow_id", "run_id", "run_attempt")) or
+            any(check.get(key) is not None and check[key] != proof[target]
+                for key, target in (("workflow_run_id", "run_id"), ("run_attempt", "run_attempt"))) or
+            any(proof.get(key) not in {"success", "pending", "failure", "error", "cancelled", "timed_out", "action_required", "startup_failure"}
+                for key in ("check_state", "run_state", "suite_state"))):
+            return False
+        workflow_ids.add(proof["workflow_id"])
+        check_ids.add(check["id"])
+    return len(workflow_ids) == 1 and len(check_ids) == len(group)
+
+
 def collect_snapshot(repo, workers=4, get=api, now=None, read_graphql=None):
     require(bool(REPO.fullmatch(repo)), "repo must be OWNER/REPO")
     require(1 <= workers <= 16, "workers must be between 1 and 16")
@@ -208,6 +354,7 @@ def collect_snapshot(repo, workers=4, get=api, now=None, read_graphql=None):
     managed = sorted({entry["path"].split("/")[1] for entry in tree["tree"]
                       if re.fullmatch(r"packages/([a-z0-9]+(?:-[a-z0-9]+)*)/package.yaml", entry["path"])})
     batched = batch_details(repo, prs, read_graphql, workers) if read_graphql else {}
+    augment_policy = policy_provenance_reader(repo, get)
 
     def collect(pr):
         number, head = pr["number"], pr["head"]["sha"]
@@ -250,11 +397,13 @@ def collect_snapshot(repo, workers=4, get=api, now=None, read_graphql=None):
         trusted = pr.get("author_association") in {"OWNER", "MEMBER", "COLLABORATOR"} or author in {repo.split("/")[0], "github-actions[bot]"}
         same_repo = ((pr["head"].get("repo") or {}).get("full_name", "").lower() == repo
                      and ((pr["base"].get("repo") or {}).get("full_name", "").lower() == repo))
-        return {"number": number, "head_sha": head, "base_sha": pr["base"]["sha"], "head_ref": pr["head"]["ref"],
+        record = {"number": number, "head_sha": head, "base_sha": pr["base"]["sha"], "head_ref": pr["head"]["ref"],
                 "url": pr["html_url"], "created_at": pr["created_at"], "updated_at": pr["updated_at"],
                 "draft": pr.get("draft", True), "trusted": bool(trusted and same_repo), "package_ids": package_ids,
                 "package_only": scoped, "labels": sorted(label["name"] for label in pr.get("labels", [])),
                 "checks": checks, "files": files, "checks_collected_at": isoformat(parse_now(now))}
+        augment_policy(record)
+        return record
 
     with ThreadPoolExecutor(max_workers=workers) as executor:
         records = list(executor.map(collect, prs))
@@ -280,6 +429,9 @@ def collect_snapshot(repo, workers=4, get=api, now=None, read_graphql=None):
         # and main again. Head/base/population drift never takes this shortcut.
         if read_graphql:
             batched.update(batch_details(repo, refresh_prs, read_graphql, workers))
+        # Mutable run/job state must be read again for a refreshed record;
+        # snapshot-local caching never substitutes stale success on a retry.
+        augment_policy = policy_provenance_reader(repo, get)
         with ThreadPoolExecutor(max_workers=workers) as executor:
             for record in executor.map(collect, refresh_prs):
                 by_number[record["number"]] = record
@@ -303,16 +455,19 @@ def classify(pr, main):
     if holds:
         return "held", ",".join(holds)
     checks = pr["checks"]
-    check_names = [check["name"] for check in checks if check.get("kind") == "check"]
-    if len(check_names) != len(set(check_names)):
+    duplicates = duplicate_checks(checks)
+    if any(not proven_policy_duplicates(pr, group) for group in duplicates):
         # An increasing check ID does not prove one workflow/suite supersedes
         # another. Preserve pending/failure evidence until admission resolves it.
         return "held", "ci-evidence-ambiguous"
-    if any(check["state"] in {"pending", "queued", "in_progress", "waiting", None} for check in checks):
+    states = [check["state"] for check in checks]
+    states += [check["workflow_provenance"][key] for group in duplicates for check in group
+               for key in ("run_state", "suite_state")]
+    if any(state in {"pending", "queued", "in_progress", "waiting", None} for state in states):
         return "waiting", "ci-pending"
     if pr["base_sha"] != main:
         return "repair", "base-changed"
-    if any(check["state"] in {"failure", "error", "cancelled", "timed_out", "action_required", "startup_failure"} for check in checks):
+    if any(state in {"failure", "error", "cancelled", "timed_out", "action_required", "startup_failure"} for state in states):
         return "repair", "ci-failed"
     if not all(any(check["name"] == name and check["state"] == "success" for check in checks) for name in REQUIRED):
         return "repair", "missing-or-incomplete-checks"

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import copy
 import hashlib
 import json
@@ -9,6 +10,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import threading
 import unittest
 from urllib.parse import parse_qs, urlsplit
 
@@ -174,6 +176,245 @@ class DeliveryQueueTests(unittest.TestCase):
         for variant in ({"change_main": True}, {"change_head": True}, {"mismatched_check": True}, {"change_base": True}):
             with self.subTest(variant=variant), self.assertRaises(ToolError):
                 queue.collect_snapshot(REPO, 2, self.api_fixture(**variant), NOW)
+
+    def policy_fixture(self, state="success", rest=False):
+        record, responses, calls = pr(), {}, []
+        repository = {"id": 44, "full_name": REPO}
+        responses[f"repos/{REPO}/actions/workflows/auto-merge.yml"] = {
+            "id": 55, "path": queue.POLICY_WORKFLOW, "state": "active"}
+        for index in (1, 2):
+            run_id, suite_id, check_id, job_id = 100 + index, 200 + index, 300 + index, 400 + index
+            current = state if index == 1 else "success"
+            result = {"status": "in_progress" if current == "pending" else "completed",
+                      "conclusion": None if current == "pending" else current}
+            check = {"name": "configure", "kind": "check", "id": check_id, "suite_id": suite_id,
+                     "app_id": queue.ACTIONS_APP, "state": current,
+                     "url": f"https://github.com/{REPO}/actions/runs/{run_id}/job/{job_id}"}
+            if not rest:
+                check.update(workflow_run_id=run_id, run_attempt=1)
+            record["checks"].append(check)
+            responses[f"repos/{REPO}/actions/runs/{run_id}"] = {
+                "id": run_id, "workflow_id": 55, "path": queue.POLICY_WORKFLOW,
+                "event": "pull_request", "head_sha": HEAD, "head_branch": record["head_ref"],
+                "check_suite_id": suite_id, "run_attempt": 1, "repository": copy.deepcopy(repository),
+                "head_repository": copy.deepcopy(repository), "pull_requests": [{"number": 1,
+                    "url": f"https://api.github.com/repos/{REPO}/pulls/1",
+                    "head": {"sha": HEAD, "repo": {"id": 44}}, "base": {"sha": MAIN, "repo": {"id": 44}}}], **result}
+            responses[f"repos/{REPO}/check-suites/{suite_id}"] = {
+                "id": suite_id, "head_sha": HEAD, "app": {"id": queue.ACTIONS_APP},
+                "repository": copy.deepcopy(repository), **result}
+            responses[f"repos/{REPO}/actions/runs/{run_id}/attempts/1/jobs?per_page=100&page=1"] = {
+                "total_count": 1, "jobs": [{"id": job_id, "run_id": run_id, "run_attempt": 1,
+                    "head_sha": HEAD, "name": "configure",
+                    "check_run_url": f"https://api.github.com/repos/{REPO}/check-runs/{check_id}", **result}]}
+        def get(path):
+            calls.append(path)
+            return copy.deepcopy(responses[path])
+        return record, responses, calls, get
+
+    def test_proven_policy_duplicates_keep_every_result_and_route_without_superseding(self):
+        for rest in (False, True):
+            for state, lane in (("success", "merge-review"), ("pending", "waiting"), ("failure", "repair"), ("cancelled", "repair")):
+                with self.subTest(rest=rest, state=state):
+                    record, _, calls, get = self.policy_fixture(state, rest)
+                    original = copy.deepcopy(record["checks"])
+                    augment = queue.policy_provenance_reader(REPO, get)
+                    augment(record)
+                    self.assertEqual(queue.classify(record, MAIN)[0], lane)
+                    self.assertEqual([{k: v for k, v in c.items() if k != "workflow_provenance"} for c in record["checks"]], original)
+                    self.assertEqual(len(calls), 7)  # one workflow + two run/suite/attempt-jobs joins
+                    augment(record)
+                    self.assertEqual(len(calls), 7)  # only this snapshot's cache
+                    if state == "success":
+                        self.assertEqual(queue.classify(record, "c" * 40), ("repair", "base-changed"))
+
+    def test_provenance_unknown_missing_spoofed_or_cross_workflow_remains_held(self):
+        cases = [
+            ("workflow", "path", ".github/workflows/evil.yml"), ("workflow", "state", "disabled_manually"),
+            ("run", "workflow_id", 999), ("run", "path", ".github/workflows/package-ci.yml"),
+            ("run", "event", "push"), ("run", "head_sha", "c" * 40), ("run", "head_branch", "evil"),
+            ("run", "check_suite_id", 999), ("run", "run_attempt", 2), ("run", "id", 999),
+            ("run", "pull_requests", []), ("run", "repository", {"id": 44, "full_name": "attacker/fork"}),
+            ("run", "head_repository", {"id": 999, "full_name": REPO}),
+            ("suite", "id", 999), ("suite", "head_sha", "c" * 40), ("suite", "app", {"id": 999}),
+            ("suite", "repository", {"id": 999, "full_name": REPO}),
+            ("job", "run_attempt", 2), ("job", "run_id", 999), ("job", "head_sha", "c" * 40),
+            ("job", "name", "evil"), ("job", "id", 999), ("job", "conclusion", "failure"),
+            ("job", "check_run_url", f"https://api.github.com/repos/attacker/fork/check-runs/301"),
+        ]
+        for target, key, value in cases:
+            with self.subTest(target=target, key=key):
+                record, responses, _, get = self.policy_fixture()
+                paths = {"workflow": f"repos/{REPO}/actions/workflows/auto-merge.yml",
+                         "run": f"repos/{REPO}/actions/runs/101", "suite": f"repos/{REPO}/check-suites/201",
+                         "job": f"repos/{REPO}/actions/runs/101/attempts/1/jobs?per_page=100&page=1"}
+                entry = responses[paths[target]]
+                if target == "job":
+                    entry = entry["jobs"][0]
+                entry[key] = value
+                queue.policy_provenance_reader(REPO, get)(record)
+                self.assertEqual(queue.classify(record, MAIN), ("held", "ci-evidence-ambiguous"))
+
+    def test_provenance_pr_association_checks_head_base_repo_and_exact_number(self):
+        for side, key, value in (("head", "sha", "c" * 40), ("base", "sha", "c" * 40),
+                                 ("head", "repo", {"id": 999}), ("base", "repo", {"id": 999})):
+            record, responses, _, get = self.policy_fixture()
+            responses[f"repos/{REPO}/actions/runs/101"]["pull_requests"][0][side][key] = value
+            queue.policy_provenance_reader(REPO, get)(record)
+            self.assertEqual(queue.classify(record, MAIN)[0], "held")
+        record, responses, _, get = self.policy_fixture()
+        responses[f"repos/{REPO}/actions/runs/101"]["pull_requests"][0]["number"] = 999
+        queue.policy_provenance_reader(REPO, get)(record)
+        self.assertEqual(queue.classify(record, MAIN)[0], "held")
+
+    def test_provenance_failure_is_scoped_and_unproven_urls_never_authorize(self):
+        record, _, calls, get = self.policy_fixture(rest=True)
+        record["checks"][-2]["url"] = "https://attacker.invalid/actions/runs/101/job/401"
+        queue.policy_provenance_reader(REPO, get)(record)
+        self.assertEqual(queue.classify(record, MAIN)[0], "held")
+        self.assertFalse(any(path.endswith("/runs/101") for path in calls))
+        for broken in ("workflow", "run", "suite", "jobs"):
+            record, _, _, get = self.policy_fixture()
+            def unavailable(path):
+                if {"workflow": "/workflows/", "run": "/runs/101", "suite": "/check-suites/", "jobs": "/jobs?"}[broken] in path:
+                    raise ToolError("read failed", 1)
+                return get(path)
+            queue.policy_provenance_reader(REPO, unavailable)(record)
+            self.assertEqual(queue.classify(record, MAIN)[0], "held")
+
+    def test_no_extra_provenance_calls_for_semantic_holds_unknown_names_or_apps(self):
+        for change in ("needs-human", "needs-native-riscv", "security-blocked", "draft", "untrusted", "unknown", "app"):
+            record, _, calls, get = self.policy_fixture()
+            if change in queue.HOLDS:
+                record["labels"] = [change]
+            elif change == "draft":
+                record["draft"] = True
+            elif change == "untrusted":
+                record["trusted"] = False
+            elif change == "unknown":
+                for c in record["checks"][-2:]: c["name"] = "metadata-validate"
+            else:
+                record["checks"][-1]["app_id"] = 999
+            queue.policy_provenance_reader(REPO, get)(record)
+            self.assertEqual(calls, [])
+            self.assertEqual(queue.classify(record, MAIN)[0], "held")
+
+    def test_retained_provenance_crosslinks_and_noncheck_failures_still_fail_closed(self):
+        record, _, _, get = self.policy_fixture()
+        queue.policy_provenance_reader(REPO, get)(record)
+        for key, value in (("head_sha", "c" * 40), ("app_id", 999), ("run_attempt", 2),
+                           ("workflow_id", 999), ("suite_id", 999), ("check_id", 999),
+                           ("repo", "attacker/fork"), ("pr_number", 999), ("event", "push"),
+                           ("workflow_path", "evil"), ("run_state", None)):
+            bad = copy.deepcopy(record)
+            bad["checks"][-1]["workflow_provenance"][key] = value
+            self.assertEqual(queue.classify(bad, MAIN)[0], "held", key)
+        for key in ("run_state", "suite_state"):
+            bad = copy.deepcopy(record)
+            bad["checks"][-1]["workflow_provenance"][key] = "failure"
+            self.assertEqual(queue.classify(bad, MAIN)[0], "repair")
+            bad["checks"][-1]["workflow_provenance"][key] = "pending"
+            self.assertEqual(queue.classify(bad, MAIN)[0], "waiting")
+
+    def test_provenance_does_not_clear_explicit_blocked_park(self):
+        record, _, _, get = self.policy_fixture("failure")
+        queue.policy_provenance_reader(REPO, get)(record)
+        queue.sync(self.db, snapshot([record]), now=NOW)
+        lease = queue.lease_action(options(self.db, queue="repair"))
+        queue.lease_action(options(self.db, command="release", queue="repair", lease_id=lease["lease_id"], outcome="blocked", reason="native validation required"))
+        green, _, _, get = self.policy_fixture()
+        queue.policy_provenance_reader(REPO, get)(green)
+        queue.sync(self.db, snapshot([green], now="2026-11-06T00:01:00Z"), now="2026-11-06T00:01:00Z")
+        self.assertEqual(queue.lease_action(options(self.db, queue="merge-review", now="2026-11-06T00:01:00Z"))["status"], "empty")
+
+    def test_snapshot_integrates_provenance_and_refresh_does_not_cache_old_success(self):
+        fixture, responses, extra_calls, extra_get = self.policy_fixture()
+        common = self.graphql_fixture()
+        def graphql(query, variables):
+            result = common(query, variables)
+            contexts = result["repository"]["p0"]["commits"]["nodes"][0]["commit"]["statusCheckRollup"]["contexts"]
+            for check in fixture["checks"][-2:]:
+                contexts["nodes"].append({"databaseId": check["id"], "name": "configure",
+                    "status": "COMPLETED", "conclusion": "SUCCESS", "detailsUrl": check["url"],
+                    "checkSuite": {"databaseId": check["suite_id"], "app": {"databaseId": queue.ACTIONS_APP},
+                        "commit": {"oid": HEAD}, "workflowRun": {"databaseId": check["workflow_run_id"], "runAttempt": 1}}})
+            contexts["totalCount"] += 2
+            return result
+        base = self.api_fixture(metadata_changes=1)
+        def get(path):
+            if path in responses:
+                value = extra_get(path)
+                # Workflow-level state changed after the first collection;
+                # same-head metadata refresh must not reuse cached success.
+                if path.endswith("/runs/101") and extra_calls.count(path) == 2:
+                    value["status"], value["conclusion"] = "in_progress", None
+                return value
+            return base(path)
+        document = queue.collect_snapshot(REPO, 2, get, NOW, graphql)
+        self.assertEqual(document["refresh_rounds"], 1)
+        self.assertEqual(len(extra_calls), 14)
+        self.assertEqual(queue.classify(document["pull_requests"][0], MAIN), ("waiting", "ci-pending"))
+
+    def test_provenance_is_retained_for_existing_repair_owner_routing_only(self):
+        record, _, _, get = self.policy_fixture("failure")
+        record["labels"] = ["repair-queued"]
+        queue.policy_provenance_reader(REPO, get)(record)
+        queue.sync(self.db, snapshot([record]), now=NOW)
+        lease = queue.lease_action(options(self.db, queue="repair"))
+        routed, _, calls, get = self.policy_fixture("failure")
+        routed["labels"] = ["codex-repairing"]
+        queue.policy_provenance_reader(REPO, get)(routed)
+        self.assertEqual(len(calls), 7)
+        self.assertEqual(queue.classify(routed, MAIN), ("held", "codex-repairing"))
+        queue.sync(self.db, snapshot([routed]), now=NOW)
+        renewed = queue.lease_action(options(self.db, command="renew", queue="repair", lease_id=lease["lease_id"]))
+        self.assertEqual(renewed["status"], "renewed")
+        self.assertEqual(queue.lease_action(options(self.db, owner="other", queue="repair"))["status"], "empty")
+
+    def test_provenance_cache_fetches_each_endpoint_once_without_serializing_other_keys(self):
+        first, _, calls, get = self.policy_fixture()
+        second = copy.deepcopy(first)
+        second["checks"].reverse()
+        barrier = threading.Barrier(2)
+        def concurrent_get(path):
+            if path.endswith(("/runs/101", "/runs/102")):
+                barrier.wait(timeout=3)  # a global GET lock would break this
+            return get(path)
+        augment = queue.policy_provenance_reader(REPO, concurrent_get)
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            tasks = [executor.submit(augment, record) for record in (first, second)]
+            for task in tasks:
+                task.result(timeout=5)
+        self.assertEqual(len(calls), 7)
+        self.assertEqual(len(set(calls)), 7)
+        self.assertTrue(all(queue.classify(record, MAIN)[0] == "merge-review" for record in (first, second)))
+
+    def test_unresolvable_other_duplicate_group_short_circuits_all_extra_reads(self):
+        record, _, calls, get = self.policy_fixture()
+        record["checks"] += [{"kind": "check", "name": "other", "id": index, "state": "success"} for index in (901, 902)]
+        queue.policy_provenance_reader(REPO, get)(record)
+        self.assertEqual(calls, [])
+        self.assertEqual(queue.classify(record, MAIN), ("held", "ci-evidence-ambiguous"))
+
+    def test_rest_attempt_jobs_are_paginated_and_missing_or_duplicate_check_join_is_held(self):
+        for mutation in ("missing", "duplicate", "incomplete"):
+            record, responses, _, get = self.policy_fixture(rest=True)
+            entry = responses[f"repos/{REPO}/actions/runs/101/attempts/1/jobs?per_page=100&page=1"]
+            if mutation == "missing":
+                entry.update(total_count=0, jobs=[])
+            elif mutation == "duplicate":
+                entry.update(total_count=2, jobs=entry["jobs"] * 2)
+            else:
+                entry["total_count"] = 2
+            queue.policy_provenance_reader(REPO, get)(record)
+            self.assertEqual(queue.classify(record, MAIN)[0], "held", mutation)
+        record, responses, _, get = self.policy_fixture(rest=True)
+        prefix = f"repos/{REPO}/actions/runs/101/attempts/1/jobs"
+        matching = responses[prefix + "?per_page=100&page=1"]["jobs"][0]
+        responses[prefix + "?per_page=100&page=1"] = {"total_count": 101, "jobs": [{"check_run_url": "unrelated"}] * 100}
+        responses[prefix + "?per_page=100&page=2"] = {"total_count": 101, "jobs": [matching]}
+        queue.policy_provenance_reader(REPO, get)(record)
+        self.assertEqual(queue.classify(record, MAIN)[0], "merge-review")
 
     def test_comment_only_drift_refreshes_changed_record_and_keeps_full_bracket(self):
         document = queue.collect_snapshot(REPO, 2, self.api_fixture(metadata_changes=1), NOW, self.graphql_fixture())
