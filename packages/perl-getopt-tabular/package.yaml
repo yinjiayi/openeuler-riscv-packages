@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libgetopt-tabular-perl",
+        "observed_at": "2026-11-07T11:16:40Z",
+        "package_base": "libgetopt-tabular-perl",
+        "package_name": "libgetopt-tabular-perl",
+        "source": "debian",
+        "source_version": "0.3-4"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n348.UPaV0j"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-getopt-tabular.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Traditional table-driven argument parser; entire original make test retained plus full original test.pl TAP harness enforcement. Pinned official source and Debian stable lineage; no network needed during build, not a claim of CI network isolation.",
+    "status": "active"
+  },
+  "package_id": "perl-getopt-tabular",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-getopt-tabular",
+    "summary": "Table-driven command-line argument parsing for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Getopt-Tabular",
+    "homepage": "https://metacpan.org/dist/Getopt-Tabular",
+    "release_api": "https://cpan.metacpan.org/authors/id/G/GW/GWARD/",
+    "release_channel": "stable",
+    "release_regex": "Getopt-Tabular-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/release/GWARD/Getopt-Tabular-0.3/source",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/G/GW/GWARD/Getopt-Tabular-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.3",
+    "latest_detected": "0.3",
+    "release": "1"
+  }
+}
