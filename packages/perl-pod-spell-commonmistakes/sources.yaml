@@ -1,0 +1,21 @@
+{
+  "package_id": "perl-pod-spell-commonmistakes",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2ba9ea76c049daf892ba2bdd85a07099a33be315876f55ed33a644d575324432"
+      },
+      "filename": "Pod-Spell-CommonMistakes-1.002.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The included LICENSE and module notices grant GPL-1.0-or-later OR Artistic-1.0-Perl; WordList retains Debian Lintian attribution. Official CPAN HTTPS archive SHA-256 matches CHECKSUMS and MetaCPAN. The bundled signed manifest was verified separately; no detached archive signature is published."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/A/AP/APOCAL/Pod-Spell-CommonMistakes-1.002.tar.gz",
+      "version": "1.002"
+    }
+  ]
+}

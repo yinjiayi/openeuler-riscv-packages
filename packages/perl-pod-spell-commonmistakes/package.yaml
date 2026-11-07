@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Pod-Spell-CommonMistakes/perl-Pod-Spell-CommonMistakes/fedora-45.html",
+        "observed_at": "2026-11-07T01:09:00Z",
+        "package_base": "perl-Pod-Spell-CommonMistakes",
+        "package_name": "perl-Pod-Spell-CommonMistakes",
+        "source": "fedora",
+        "source_version": "1.002-34.fc45"
+      }
+    ],
+    "snapshot_id": "delivery-once-20261107.0fsw3Y"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-pod-spell-commonmistakes.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN 1.002 archive SHA-256 matches MetaCPAN and CPAN CHECKSUMS. Bundled SIGNATURE and all 22 signed file digests verified; historical DSA/SHA1 key trust remains undefined. Fedora 45 lineage is retained; stale AUR record is not admission evidence. All upstream default tests remain unchanged, including the upstream optional Test::Apocalypse policy. Target build/install evidence is pending CI; no local RPM or QEMU build was run.",
+    "status": "active"
+  },
+  "package_id": "perl-pod-spell-commonmistakes",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Pod-Spell-CommonMistakes",
+    "summary": "Find common spelling and capitalization mistakes in POD"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:Pod-Spell-CommonMistakes",
+    "homepage": "https://metacpan.org/dist/Pod-Spell-CommonMistakes",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AP/APOCAL/",
+    "release_channel": "stable",
+    "release_regex": "Pod-Spell-CommonMistakes-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/apocalypse/perl-pod-spell-commonmistakes",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AP/APOCAL/Pod-Spell-CommonMistakes-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.002",
+    "latest_detected": "1.002",
+    "release": "1"
+  }
+}
