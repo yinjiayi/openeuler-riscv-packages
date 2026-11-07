@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-dir-self",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e251a51abc7d9ba3e708f73c2aa208e09d47a0c528d6254710fa78cc8d6885b5"
+      },
+      "filename": "Dir-Self-0.11.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/M/MA/MAUKE/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/M/MA/MAUKE/Dir-Self-0.11.tar.gz",
+      "version": "0.11"
+    }
+  ]
+}
