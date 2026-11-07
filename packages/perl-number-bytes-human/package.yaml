@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libnumber-bytes-human-perl",
+        "observed_at": "2026-11-07T01:11:20Z",
+        "package_base": "libnumber-bytes-human-perl",
+        "package_name": "libnumber-bytes-human-perl",
+        "source": "debian",
+        "source_version": "0.11-4"
+      }
+    ],
+    "snapshot_id": "delivery-once-20261107.0fsw3Y"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-number-bytes-human.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN archive SHA-256 matches MetaCPAN and publisher CHECKSUMS. Debian trixie lineage was inspected, not executed. Full upstream make test is retained; target RPM and installed-smoke results remain pending CI.",
+    "status": "active"
+  },
+  "package_id": "perl-number-bytes-human",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Number-Bytes-Human",
+    "summary": "Format and parse byte quantities in human-readable units"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Number-Bytes-Human",
+    "homepage": "https://metacpan.org/dist/Number-Bytes-Human",
+    "release_api": "https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/",
+    "release_channel": "stable",
+    "release_regex": "Number-Bytes-Human-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/aferreira/cpan-Number-Bytes-Human",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Number-Bytes-Human-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.11",
+    "latest_detected": "0.11",
+    "release": "1"
+  }
+}
