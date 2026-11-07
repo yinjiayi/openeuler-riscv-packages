@@ -1,0 +1,21 @@
+{
+  "package_id": "libaliased-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c350524507cd827fab864e5d4c2cc350b1babaa12fa95aec0ca00843fcc7deeb"
+      },
+      "filename": "aliased-0.34.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official archive matches publisher CHECKSUMS SHA-256 and size; LICENSE grants GPL-1.0-or-later OR Artistic-1.0-Perl. No detached release signature is supplied."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/aliased-0.34.tar.gz",
+      "version": "0.34"
+    }
+  ]
+}
