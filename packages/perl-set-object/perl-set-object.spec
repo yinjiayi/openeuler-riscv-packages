@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-set-object
 Version:        1.43
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Unordered collections of Perl objects and scalars
 License:        Artistic-2.0 AND Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Set-Object
 Source0:        Set-Object-%{version}.tar.gz
 Patch0:         0001-preserve-component-license-scope.patch
+Patch1:         0002-use-vtable-scoped-extension-magic.patch
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  perl
@@ -28,6 +29,7 @@ thread-safe; this package does not claim otherwise.
 %setup -q -n Set-Object-%{version}
 %global _default_patch_fuzz 0
 %patch -P 0 -p1
+%patch -P 1 -p1
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
@@ -49,5 +51,8 @@ make test
 %{_mandir}/man3/Set::Object*.3pm*
 
 %changelog
+* Sat Nov 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.43-2
+- Avoid signed-char ABI dependence with vtable-scoped extension magic.
+
 * Sat Nov 07 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 1.43-1
 - Retain component license scope and all upstream default tests.

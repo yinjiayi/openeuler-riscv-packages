@@ -28,6 +28,15 @@
         "license": "Artistic-2.0 AND Artistic-1.0-Perl",
         "upstream_status": "not-submitted",
         "remove_when": "Upstream ships equivalent complete component notices and applicable license texts."
+      },
+      {
+        "file": "patches/0002-use-vtable-scoped-extension-magic.patch",
+        "sha256": "221df3bbc6863024ee49f093664778742b5aca32dbc6813f7725471aa0d59b0c",
+        "purpose": "Use a standard Perl extension magic type and scope lookup and removal to Set::Object's vtable; avoid high-bit char signedness mismatch.",
+        "source": "Downstream original change to Set-Object 1.43 Object.xs; exact target Perl ABI and controlled signed/unsigned-char reproduction from PR 2976.",
+        "license": "Artistic-2.0",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream replaces the private high-bit magic tag with a portable, vtable-scoped implementation and its original weakref tests pass on the target."
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -73,6 +82,6 @@
   "version": {
     "current": "1.43",
     "latest_detected": "1.43",
-    "release": "1"
+    "release": "2"
   }
 }

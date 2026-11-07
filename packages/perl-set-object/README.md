@@ -34,6 +34,17 @@ adds the full ten-section Perl Artistic text and scope/copyright notices.
 It changes no original file, runtime or test. This generic notice patch is not
 RISC-V-specific; remove it once upstream ships equivalent full component notices.
 
+## Weak-reference magic portability
+
+The original target tests failed when the private tag byte 0x9f was read as
+a signed byte by the shipped libperl while the XS caller used an unsigned
+plain char. A controlled host build reproduced the same three original
+weak-reference assertions and a segmentation fault with unsigned char.
+Patch1 uses Perl's low-bit extension type and matches the module's specific
+callback table on lookup and removal, leaving unrelated extension magic
+alone. The complete original test suite passes in both host char modes
+after the change. Target validation is a separate exact-head CI gate.
+
 ## Tests and boundaries
 
 The original MakeMaker test glob t/*/*.t and complete make test are retained.
