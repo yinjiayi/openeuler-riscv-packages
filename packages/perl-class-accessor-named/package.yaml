@@ -1,0 +1,86 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Class-Accessor-Named",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-accessor-named-perl",
+        "package_name": "libclass-accessor-named-perl",
+        "source": "debian",
+        "source_version": "0.009-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Class-Accessor-Named",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-accessor-named-perl",
+        "package_name": "libclass-accessor-named-perl",
+        "source": "ubuntu",
+        "source_version": "0.009-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-module-install-license.patch",
+        "sha256": "1a779c59e2fb05326c814066e02c8bcecc955de83f26a49b2803d08aa1f7411a",
+        "purpose": "Retain complete bundled installer license plus original author/grant notices; no original member changes.",
+        "source": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/Module-Install-0.91.tar.gz",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "An official release contains equivalent complete bundled installer attribution and terms."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-accessor-named.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official CPAN archive, retained original default tests and complete bundled installer grants; target dependencies preinstalled, no physical network isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-class-accessor-named",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-accessor-named",
+    "summary": "Give Class::Accessor generated accessors names for profiling"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-class-accessor-named",
+    "homepage": "https://metacpan.org/dist/Class-Accessor-Named",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JE/JESSE/",
+    "release_channel": "stable",
+    "release_regex": "Class-Accessor-Named-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Class-Accessor-Named",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JE/JESSE/Class-Accessor-Named-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.009",
+    "latest_detected": "0.009",
+    "release": "1"
+  }
+}
