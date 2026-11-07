@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-convert-base32",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4ba82c167c41f455aa8284738727e4c94a2ebcb1c4ce797f6fda07245a642115"
+      },
+      "filename": "Convert-Base32-0.06.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/I/IK/IKEGAMI/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/I/IK/IKEGAMI/Convert-Base32-0.06.tar.gz",
+      "version": "0.06"
+    }
+  ]
+}
