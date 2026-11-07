@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-set-object",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e3b3c7c7ecb91ef6d20eb06bf6bff74e41c40b75bd234e107d2ecf78d3dea9d1"
+      },
+      "filename": "Set-Object-1.43.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/R/RU/RURBAN/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/R/RU/RURBAN/Set-Object-1.43.tar.gz",
+      "version": "1.43"
+    }
+  ]
+}
