@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libclass-accessor-class-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-accessor-class-perl",
+        "package_name": "libclass-accessor-class-perl",
+        "source": "debian",
+        "source_version": "0.504-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-helper-notices.patch",
+        "sha256": "e3b5ae67bc051f07b031d57e1845611b86207f0a45f951a94dc9bf983934bb4d",
+        "purpose": "Preserve original licenses and attribution for exact generated helper templates and borrowed version regex without code/test edits.",
+        "source": "Official CPAN Dist-Zilla6.020 SHA2563a17054f58f873c2dd60e1d2f88e97043e30dfd215cab10e1c0fbfb0fb0a93a6; Test-ReportPrereqs0.028 SHA2562aa38c5e8498fa6d930c16d6d32d5b57edf776e33fac6a94ea2be4c242cf1be3; CheckChangesHasContent0.011 SHA256ab970b50349f87975ac7e3d5f0297f8d67e4f6fe09564778f27f42eca27ea154; version0.9909 SHA2566998f2eea7985e11cbb8e6fd2a404980c3b187c0bd484c88e2af91e80bedf3fe",
+        "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND Apache-2.0",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream includes complete notices and licenses for these original generated helpers."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-accessor-class.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official CPAN source and actual Debian discovery lineage; original default tests preserved. Exact generator notices and licenses restored in a notice-only patch. No claim of physical network isolation.",
+    "status": "active"
+  },
+  "package_id": "perl-class-accessor-class",
+  "rpm": {
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND Apache-2.0",
+    "name": "perl-class-accessor-class",
+    "summary": "Simple shared class variable accessors in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-class-accessor-class",
+    "homepage": "https://metacpan.org/dist/Class-Accessor-Class",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/",
+    "release_channel": "stable",
+    "release_regex": "Class-Accessor-Class-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/rjbs/Class-Accessor-Class",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Class-Accessor-Class-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.504",
+    "latest_detected": "0.504",
+    "release": "1"
+  }
+}
