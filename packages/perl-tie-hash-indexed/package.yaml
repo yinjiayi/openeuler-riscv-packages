@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/trixie/libtie-hash-indexed-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtie-hash-indexed-perl",
+        "package_name": "libtie-hash-indexed-perl",
+        "source": "debian",
+        "source_version": "0.08+ds1-1"
+      },
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/perl-tie-hash-indexed/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-tie-hash-indexed",
+        "package_name": "perl-tie-hash-indexed",
+        "source": "arch-extra",
+        "source_version": "0.08-5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-tie-hash-indexed.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official archive pinned in sources.yaml; original ppport notices and all seven default test files retained. Distribution lineage was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-tie-hash-indexed",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-tie-hash-indexed",
+    "summary": "Ordered hashes for Perl implemented in XS"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-tie-hash-indexed",
+    "homepage": "https://metacpan.org/dist/Tie-Hash-Indexed",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MH/MHX/",
+    "release_channel": "stable",
+    "release_regex": "Tie-Hash-Indexed-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/mhx/Tie-Hash-Indexed",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MH/MHX/Tie-Hash-Indexed-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.08",
+    "latest_detected": "0.08",
+    "release": "1"
+  }
+}
