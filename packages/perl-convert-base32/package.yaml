@@ -21,7 +21,7 @@
   "files": {
     "patches": [{
       "file": "patches/0001-encode-large-input-tail-bits.patch",
-      "sha256": "a713afd4ec00d1e2adcb791e4b78664e1f652ddd39b3b159f6d2c8937557b94b",
+      "sha256": "beb91ab13b5bfa67d203d1e84ae6b3e361acbbeca5369758627a3cd9bb1b7132",
       "purpose": "Encode final partial bit groups in both large-input paths and add 32 boundary assertions while retaining all 1072 upstream assertions.",
       "source": "Local generic correctness fix from before/after source reproduction and independent Python Base32 oracle; no upstream mutation.",
       "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",

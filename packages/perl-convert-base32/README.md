@@ -46,6 +46,11 @@ the full 1104-assertion suite passes on the host. Remove the patch once an
 official stable release incorporates equivalent correct tail-bit handling
 and passes these regressions.
 
+The patch uses balanced three-line unified-diff context and is verified with
+GNU patch `--fuzz=0`, matching RPM `%autosetup`. The initial PR's asymmetric
+context was accepted by the host's Apple patch but rejected in target `%prep`;
+regenerating context leaves both the patched module and added test unchanged.
+
 Installed smoke checks known vectors, uppercase decoding, malformed input,
 and the large-input boundaries. Host/source-only checks do not establish
 target RPM success. Exact-head target build and installed smoke remain CI

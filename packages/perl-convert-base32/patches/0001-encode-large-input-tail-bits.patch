@@ -10,8 +10,7 @@ License: GPL-1.0-or-later OR Artistic-1.0-Perl
 
 --- a/lib/Convert/Base32.pm
 +++ b/lib/Convert/Base32.pm
-@@ -41,7 +41,7 @@
-     if (length($str) < 8*1024) {
+@@ -42,7 +42,7 @@
  	return join '', @bits2char{ $str =~ /.{1,5}/g };
      } else {
  	# Slower, but uses less memory
@@ -19,8 +18,8 @@ License: GPL-1.0-or-later OR Artistic-1.0-Perl
 +	$str =~ s/(.{1,5})/$bits2char{$1}/sg;
  	return $str;
      }
-@@ -57,7 +57,7 @@
-     if (length($str) < 8*1024) {
+ }
+@@ -58,7 +58,7 @@
  	return join '', @bits2char{ unpack '(a5)*', $str };
      } else {
  	# Slower, but uses less memory
@@ -28,6 +27,7 @@ License: GPL-1.0-or-later OR Artistic-1.0-Perl
 +	$str =~ s/(.{1,5})/$bits2char{$1}/sg;
  	return $str;
      }
+ }
 --- /dev/null
 +++ b/t/02_long_input.t
 @@ -0,0 +1,29 @@
