@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libdata-validate-perl",
+        "observed_at": "2026-11-07T10:23:14Z",
+        "package_base": "libdata-validate-perl",
+        "package_name": "libdata-validate-perl",
+        "source": "debian",
+        "source_version": "0.09-4"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n347.VbRMqb"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-retain-bundled-tbone-notices.patch",
+        "sha256": "7c87bd4ef2c4a53ff43dd72300ff3b3094217c8235791b5b0000c1e8eafa4294",
+        "purpose": "Restore the bundled exact ExtUtils::TBone1.124 COPYRIGHT/grant/disclaimer and complete Perl license texts; no executable or original test changes.",
+        "source": "Official fixed ExtUtils-TBone1.124 archive; GNU GPL1 and Perl Artistic1 official license text pages.",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream includes equivalent complete bundled-helper notices and license texts."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-data-validate.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Traditional numeric/string validation helpers; callers must test definedness because zero can be a valid result. This is not contextual shell/SQL/HTML sanitization. Entire original default suite preserved. The recipe needs no build networking; no CI network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-data-validate",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-data-validate",
+    "summary": "Common numeric and string validation helpers for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Data-Validate",
+    "homepage": "https://metacpan.org/dist/Data-Validate",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SO/SONNEN/",
+    "release_channel": "stable",
+    "release_regex": "Data-Validate-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/release/SONNEN/Data-Validate-0.09/source",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SO/SONNEN/Data-Validate-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.09",
+    "latest_detected": "0.09",
+    "release": "1"
+  }
+}
