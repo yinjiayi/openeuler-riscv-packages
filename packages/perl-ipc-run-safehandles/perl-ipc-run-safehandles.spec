@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+%global _default_patch_fuzz 0
 Name:           perl-ipc-run-safehandles
 Version:        0.04
 Release:        1%{?dist}
@@ -35,7 +36,7 @@ the original subprocess functions when its wrappers are no longer needed.
 
 %prep
 %setup -q -n IPC-Run-SafeHandles-%{version}
-patch --fuzz=0 -p1 < %{PATCH0}
+%patch -P 0 -p1
 
 %build
 # All dependencies are supplied by RPM; do not let the bundled helper fetch them.
