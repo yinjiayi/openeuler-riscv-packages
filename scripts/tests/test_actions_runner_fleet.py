@@ -46,17 +46,58 @@ class RunnerFleetStaticTests(unittest.TestCase):
 
     def test_runner_release_is_exactly_locked(self) -> None:
         lock = parse_assignment_file(OPS / "runner-release.lock")
-        self.assertEqual(lock["RUNNER_VERSION"], "2.336.0")
-        self.assertEqual(lock["RUNNER_SIZE"], "226035903")
+        self.assertEqual(lock["RUNNER_VERSION"], "2.338.2")
+        self.assertEqual(lock["RUNNER_SIZE"], "228071396")
         self.assertEqual(
             lock["RUNNER_SHA256"],
-            "04cf0be1aff4c3ec3554466c39124ca250e3effd8873bb7e8d68535aa9505d5d",
+            "baebf204307bac6193480852732f0aba2ae97b6c5597c244f4d5558390147c40",
         )
         self.assertEqual(
             lock["RUNNER_URL"],
-            "https://github.com/actions/runner/releases/download/v2.336.0/"
-            "actions-runner-linux-x64-2.336.0.tar.gz",
+            "https://github.com/actions/runner/releases/download/v2.338.2/"
+            "actions-runner-linux-x64-2.338.2.tar.gz",
         )
+
+    def test_release_loader_rejects_each_unapproved_field_and_old_version(self) -> None:
+        approved = parse_assignment_file(OPS / "runner-release.lock")
+        mutations = {
+            "RUNNER_VERSION": "2.336.0",
+            "RUNNER_ARCHIVE": "actions-runner-linux-arm64-2.338.2.tar.gz",
+            "RUNNER_URL": "https://example.invalid/actions-runner-linux-x64-2.338.2.tar.gz",
+            "RUNNER_SHA256": "0" * 64,
+            "RUNNER_SIZE": "228071395",
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            lock_path = Path(temporary) / "runner-release.lock"
+            for field in (None, *mutations):
+                with self.subTest(field=field or "approved"):
+                    values = dict(approved)
+                    if field is not None:
+                        values[field] = mutations[field]
+                    lock_path.write_text(
+                        "".join(f"{key}={value}\n" for key, value in values.items()),
+                        encoding="utf-8",
+                    )
+                    completed = subprocess.run(
+                        ["bash", "-c", 'source "$1"; oe_load_release_lock "$2"',
+                         "lock-check", str(OPS / "_lib.sh"), str(lock_path)],
+                        capture_output=True, text=True, check=False,
+                    )
+                    if field is None:
+                        self.assertEqual(completed.returncode, 0, completed.stderr)
+                    else:
+                        self.assertNotEqual(completed.returncode, 0)
+                        self.assertIn("not approved", completed.stderr)
+
+    def test_installed_version_checks_load_the_same_approved_lock(self) -> None:
+        load = 'oe_load_release_lock "$oe_runner_config/runner-release.lock"'
+        for filename in ("register.sh", "preflight.sh", "audit.sh"):
+            with self.subTest(filename=filename):
+                source = (OPS / filename).read_text(encoding="utf-8")
+                self.assertIn(load, source)
+                self.assertLess(source.index(load), source.index("oe_runner_version"))
+                self.assertRegex(source, r'oe_runner_version[^\n]+== "\$RUNNER_VERSION"')
+                self.assertNotRegex(source, r'oe_runner_version[^\n]+== [0-9]+\.')
 
     def test_cleanup_image_matches_repository_digest_lock(self) -> None:
         cleanup = parse_assignment_file(OPS / "cleanup-image.lock")["CLEANUP_IMAGE_REF"]

@@ -27,11 +27,12 @@ oe_load_identity
 [[ $OE_IDENTITY_HOST == "$host" && $OE_IDENTITY_NAME == "$name" ]] || oe_die 'installed identity does not match service instance'
 oe_assert_platform "$OE_IDENTITY_ALLOW_DEGRADED"
 oe_load_policy
+oe_load_release_lock "$oe_runner_config/runner-release.lock"
 [[ $OE_POLICY_ENROLLMENT_ENABLED == true ]] || oe_die 'fleet enrollment is disabled by the root-owned policy'
 
 runner_dir=$(oe_runner_dir "$name")
 [[ -x $runner_dir/bin/Runner.Listener && -r $runner_dir/.runner ]] || oe_die 'runner is not configured'
-[[ $(oe_runner_version "$runner_dir/bin/Runner.Listener" "$runner_dir") == 2.336.0 ]] \
+[[ $(oe_runner_version "$runner_dir/bin/Runner.Listener" "$runner_dir") == "$RUNNER_VERSION" ]] \
   || oe_die 'runner version is not the pinned release'
 [[ -S /run/docker.sock ]] || oe_die 'Docker socket is unavailable'
 oe_run docker info >/dev/null 2>&1 || oe_die 'runner service account cannot reach Docker'
