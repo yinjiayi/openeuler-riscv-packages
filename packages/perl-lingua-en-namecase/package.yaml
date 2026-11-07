@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/liblingua-en-namecase-perl",
+        "observed_at": "2026-11-07T09:16:00Z",
+        "package_base": "liblingua-en-namecase-perl",
+        "package_name": "liblingua-en-namecase-perl",
+        "source": "debian",
+        "source_version": "1.21-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n346.6akNBD"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-retain-nameparse-license-notices.patch",
+        "sha256": "604804134c0a820aa95942c2eca2080f229d5afbaccf7cde8c86b527284336f1",
+        "purpose": "Restore the historical borrowed NameParse copyright/grant, exact Perl Artistic1 and Artistic2 texts, and dated comment-only module notice. No executable or test changes.",
+        "source": "Downstream notice restoration from official NameParse0.04 and official Perl/Perl Foundation license texts.",
+        "license": "Artistic-2.0 AND Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream includes equivalent complete historical attribution, terms and changed-file notice."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-lingua-en-namecase.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Heuristic name capitalization, not identity validation or universal preferred spelling. Full upstream default tests retained, including original author-only and optional POD-spelling conditions. Build recipe requires no network; this is not an assertion of CI network isolation.",
+    "status": "active"
+  },
+  "package_id": "perl-lingua-en-namecase",
+  "rpm": {
+    "license": "Artistic-2.0 AND Artistic-1.0-Perl",
+    "name": "perl-lingua-en-namecase",
+    "summary": "Heuristic capitalization of personal names for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Lingua-EN-NameCase",
+    "homepage": "https://metacpan.org/dist/Lingua-EN-NameCase",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NH/NHORNE/",
+    "release_channel": "stable",
+    "release_regex": "Lingua-EN-NameCase-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/nigelhorne/Lingua-EN-NameCase",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NH/NHORNE/Lingua-EN-NameCase-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.21",
+    "latest_detected": "1.21",
+    "release": "1"
+  }
+}
