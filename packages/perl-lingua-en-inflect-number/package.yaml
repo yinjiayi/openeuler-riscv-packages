@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/liblingua-en-inflect-number-perl",
+        "observed_at": "2026-11-07T08:26:00Z",
+        "package_base": "liblingua-en-inflect-number-perl",
+        "package_name": "liblingua-en-inflect-number-perl",
+        "source": "debian",
+        "source_version": "1.12-3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n345.TguaWU"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-lingua-en-inflect-number.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release pinned after source/license and Debian stable lineage review. Upstream warns this wrapper relies on undocumented Lingua::EN::Inflect behavior and is reliable only for nouns; dependency changes may require rework. No build-time network is required by this recipe; this is not a claim of physical CI network isolation. Original default tests are retained; target evidence is pending.",
+    "status": "active"
+  },
+  "package_id": "perl-lingua-en-inflect-number",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-lingua-en-inflect-number",
+    "summary": "Singular and plural noun conversion for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Lingua-EN-Inflect-Number",
+    "homepage": "https://metacpan.org/dist/Lingua-EN-Inflect-Number",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_channel": "stable",
+    "release_regex": "Lingua-EN-Inflect-Number-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/neilbowers/Lingua-EN-Inflect-Number",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Lingua-EN-Inflect-Number-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.12",
+    "latest_detected": "1.12",
+    "release": "1"
+  }
+}
