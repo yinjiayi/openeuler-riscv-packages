@@ -1,0 +1,21 @@
+{
+  "package_id": "perl-number-range",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "433e821ac44ab6164c7e92b60ff7afa60a279bc550134c82ceb70b3ef4ee2925"
+      },
+      "filename": "Number-Range-0.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {"policy":"checksum-required-signature-advisory","url":"https://cpan.metacpan.org/authors/id/L/LA/LARRYSH/CHECKSUMS","key_fingerprint":"2E66557AB97C19C791AF8E20328DA867450F89EC"},
+      "url": "https://cpan.metacpan.org/authors/id/L/LA/LARRYSH/Number-Range-0.12.tar.gz",
+      "version": "0.12"
+    }
+  ]
+}
