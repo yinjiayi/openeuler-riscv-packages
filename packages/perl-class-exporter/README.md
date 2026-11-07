@@ -25,7 +25,8 @@ alternatives match the official Perl perl-5.6.1 Heavy source (Git blob
 the candidate's object-bound function closure. No whole-function exact-copy
 claim is made. Added DONOR-LICENSE preserves original Schwern attribution/grant,
 Perl README Larry Wall1989-2001 copyright and complete Artistic/Copying terms.
-Only trailing horizontal whitespace is normalized in the added copies; all nine
+Trailing horizontal whitespace and four form-feed pagination separators are
+normalized in the added copies, without changing license words or clauses. All nine
 original archive members, including mixed line endings, remain byte-identical.
 No donor source archive is included in SRPM.
 
