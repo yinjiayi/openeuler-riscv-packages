@@ -1,0 +1,35 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] cmake: keep bit packing with its crypto consumer
+
+The crypto library calls dsd_unpack_bytes_to_bits, but its implementation
+is only compiled into core, which already depends on crypto. Shared-library
+consumers such as the AES/OFB and ECDSA tests consequently fail to link.
+Compile this dependency-free utility into crypto instead. Core already
+links crypto publicly, so all existing consumers retain the implementation
+without introducing a circular shared-library dependency or dropping tests.
+
+SPDX-License-Identifier: GPL-3.0-or-later
+Upstream-Status: Pending
+
+diff --git a/src/core/CMakeLists.txt b/src/core/CMakeLists.txt
+--- a/src/core/CMakeLists.txt
++++ b/src/core/CMakeLists.txt
+@@ -24,7 +24,6 @@ target_sources(
+         time/dsd_time.c
+         time/dsd_time_state.c
+         util/dsd_misc.c
+-        util/bit_packing.c
+         util/dsd_init.c
+         util/dsd_events.c
+         util/call_state.c
+diff --git a/src/crypto/CMakeLists.txt b/src/crypto/CMakeLists.txt
+--- a/src/crypto/CMakeLists.txt
++++ b/src/crypto/CMakeLists.txt
+@@ -4,6 +4,7 @@ add_library(dsd-neo_crypto)
+ target_sources(
+     dsd-neo_crypto
+     PRIVATE
++        ../core/util/bit_packing.c
+         crypt-aes.c
+         crypt-csi72.c
+         crypt-des.c
