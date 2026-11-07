@@ -42,6 +42,19 @@ def file_entries(paths: list[str]) -> list[dict[str, str]]:
 
 
 class AutoMergePolicyTests(unittest.TestCase):
+    def test_policy_keeps_label_events_in_one_serial_non_cancelling_queue(self):
+        workflow = (REPO / ".github/workflows/auto-merge.yml").read_text(encoding="utf-8")
+        self.assertIn("converted_to_draft, edited, labeled, unlabeled]", workflow)
+        concurrency = workflow.split("\nconcurrency:\n", 1)[1].split("\npermissions:\n", 1)[0]
+        directives = [line.strip() for line in concurrency.splitlines()
+                      if line.strip() and not line.lstrip().startswith("#")]
+        self.assertEqual(directives, [
+            "group: auto-merge-${{ github.event.pull_request.number }}",
+            "cancel-in-progress: false",
+            "queue: max",
+        ])
+        self.assertEqual(workflow.count("    runs-on: ubuntu-24.04"), 1)
+
     def evaluate(
         self,
         pr: dict,
