@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libclass-accessor-lite-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-accessor-lite-perl",
+        "package_name": "libclass-accessor-lite-perl",
+        "source": "ubuntu",
+        "source_version": "0.08-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-accessor-lite.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable CPAN archive pinned in sources.yaml; original default tests retained. Frozen catalog lineage is evidence only; no distribution recipe was executed. Bundled build-tool source/license identity independently checked against original releases.",
+    "status": "active"
+  },
+  "package_id": "libclass-accessor-lite-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-accessor-lite",
+    "summary": "Minimalistic Perl accessor and constructor generation"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libclass-accessor-lite-perl",
+    "homepage": "https://metacpan.org/dist/Class-Accessor-Lite",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/",
+    "release_channel": "stable",
+    "release_regex": "Class-Accessor-Lite-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/kazuho/p5-Class-Accessor-Lite",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/Class-Accessor-Lite-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.08",
+    "latest_detected": "0.08",
+    "release": "1"
+  }
+}
