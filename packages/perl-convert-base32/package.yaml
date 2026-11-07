@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libconvert-base32-perl",
+        "observed_at": "2026-11-07T02:20:50Z",
+        "package_base": "libconvert-base32-perl",
+        "package_name": "libconvert-base32-perl",
+        "source": "ubuntu",
+        "source_version": "0.06-3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n339.h4lCP5"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-encode-large-input-tail-bits.patch",
+      "sha256": "a713afd4ec00d1e2adcb791e4b78664e1f652ddd39b3b159f6d2c8937557b94b",
+      "purpose": "Encode final partial bit groups in both large-input paths and add 32 boundary assertions while retaining all 1072 upstream assertions.",
+      "source": "Local generic correctness fix from before/after source reproduction and independent Python Base32 oracle; no upstream mutation.",
+      "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+      "upstream_status": "downstream-only",
+      "remove_when": "An official stable release correctly encodes partial final groups in both large-input paths and passes these boundary regressions."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-convert-base32.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN source SHA-256 matches MetaCPAN and publisher CHECKSUMS. A package-local generic correctness patch fixes large-input tail bits and adds boundary tests without removing the original 1072 assertions. Target build/install remains pending CI.",
+    "status": "active"
+  },
+  "package_id": "perl-convert-base32",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Convert-Base32",
+    "summary": "Encode and decode Base32 strings in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Convert-Base32",
+    "homepage": "https://metacpan.org/dist/Convert-Base32",
+    "release_api": "https://cpan.metacpan.org/authors/id/I/IK/IKEGAMI/",
+    "release_channel": "stable",
+    "release_regex": "Convert-Base32-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/I/IK/IKEGAMI/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/I/IK/IKEGAMI/Convert-Base32-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.06",
+    "latest_detected": "0.06",
+    "release": "1"
+  }
+}

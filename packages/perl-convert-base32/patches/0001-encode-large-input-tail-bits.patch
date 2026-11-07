@@ -1,0 +1,62 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Encode final partial bit groups in both large-input paths
+
+The small-input paths already map one to five bits with zero padding. The
+large-input paths mapped only complete five-bit groups, leaving literal 0/1
+characters for non-multiple-of-five byte lengths. Apply the same partial
+group mapping and add boundary tests without changing existing tests.
+Generic correctness fix for upstream 0.06; not architecture-specific.
+License: GPL-1.0-or-later OR Artistic-1.0-Perl
+
+--- a/lib/Convert/Base32.pm
++++ b/lib/Convert/Base32.pm
+@@ -41,7 +41,7 @@
+     if (length($str) < 8*1024) {
+ 	return join '', @bits2char{ $str =~ /.{1,5}/g };
+     } else {
+ 	# Slower, but uses less memory
+-	$str =~ s/(.{5})/$bits2char{$1}/sg;
++	$str =~ s/(.{1,5})/$bits2char{$1}/sg;
+ 	return $str;
+     }
+@@ -57,7 +57,7 @@
+     if (length($str) < 8*1024) {
+ 	return join '', @bits2char{ unpack '(a5)*', $str };
+     } else {
+ 	# Slower, but uses less memory
+-	$str =~ s/(.{5})/$bits2char{$1}/sg;
++	$str =~ s/(.{1,5})/$bits2char{$1}/sg;
+ 	return $str;
+     }
+--- /dev/null
++++ b/t/02_long_input.t
+@@ -0,0 +1,29 @@
++use strict;
++use warnings;
++use bytes ();
++use Test::More tests => 32;
++use Convert::Base32 ();
++
++my @encoders = (
++    [pre58 => \&Convert::Base32::encode_base32_pre58],
++    [perl58 => \&Convert::Base32::encode_base32_perl58],
++);
++my @decoders = (
++    [pre58 => \&Convert::Base32::decode_base32_pre58],
++    [perl58 => \&Convert::Base32::decode_base32_perl58],
++);
++
++for my $encoder (@encoders) {
++    for my $length (1023, 1024, 1025, 1026) {
++        my $input = join '', map { chr($_ % 256) } 0 .. $length - 1;
++        my $encoded = $encoder->[1]->($input);
++        like($encoded, qr/\A[a-z2-7]*\z/, "$encoder->[0] $length alphabet");
++        is(length($encoded), int(($length * 8 + 4) / 5),
++            "$encoder->[0] $length encoded length");
++        for my $decoder (@decoders) {
++            my $decoded = eval { $decoder->[1]->($encoded) };
++            is($decoded, $input,
++                "$encoder->[0] / $decoder->[0] $length round trip");
++        }
++    }
++}
