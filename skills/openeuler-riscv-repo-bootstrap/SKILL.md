@@ -3,7 +3,7 @@ name: openeuler-riscv-repo-bootstrap
 description: >-
   Bootstrap or audit the openEuler 24.03 LTS SP3 riscv64/RVA23 package repository, including schemas,
   shared scripts, pinned GitHub Actions, reproducible QEMU/OCI configuration, golden fixtures, Skills,
-  Auto-merge policy, and Pages scaffolding. Use for initial repository creation, M0 readiness checks,
+  explicit-merge policy, and Pages scaffolding. Use for initial repository creation, M0 readiness checks,
   or infrastructure-only repairs. Do not use to bulk-onboard real packages or claim remote resources
   were created when their creation was not observed.
 ---
@@ -11,6 +11,8 @@ description: >-
 # openEuler RISC-V Repository Bootstrap
 
 Build and verify the infrastructure milestone before enabling M1 package onboarding. Define **M0 readiness** as locally valid repository contracts plus observed target-environment evidence; it does not mean GHCR, Pages, rulesets, or a GitHub repository exist unless those remote operations succeeded.
+
+Follow the actual checkout's `AGENTS.md`; do not rerun initial bootstrap as a prerequisite for every package batch. On an existing repository, repair only the affected shared contracts and preserve unrelated delivery queues.
 
 ## Inputs
 
@@ -26,7 +28,7 @@ Require:
 
 1. Before generation or an evidence-producing run, record host name/IP, disk and memory availability, CPU, OS/kernel, package manager, QEMU/container/RPM/Python/Git versions, current branch/commit, and dirty worktree. Inspect local `AGENTS.md`, rules, README, tests, and dependency conventions.
 2. Isolate stale work/build/result directories. Preserve caches only when a test explicitly measures warm or incremental behavior.
-3. Materialize or repair the required repository areas: the package, image, discovery, update, missed-schedule monitor, golden, Auto-merge, and dashboard workflows under `.github/workflows/`; PR template and CODEOWNERS; `packages/_template/`; `catalog/`; `ci/`; shared `scripts/`; versioned `schemas/`; all three `tests/golden/` fixtures; six `skills/`; and static `dashboard/`. Preserve unrelated user changes and use Apache-2.0 only for original repository code/documentation, not third-party sources or incompatible patches.
+3. Materialize or repair the required repository areas: the package, image, discovery, update, missed-schedule monitor, golden, merge-policy, and dashboard workflows under `.github/workflows/`; PR template and CODEOWNERS; `packages/_template/`; `catalog/`; `ci/`; shared `scripts/`; versioned `schemas/`; all three `tests/golden/` fixtures; repository `skills/`; and static `dashboard/`. Preserve unrelated user changes and use Apache-2.0 only for original repository code/documentation, not third-party sources or incompatible patches.
 4. Keep target-defining values reviewable in `ci/build-config.yaml`, `ci/openeuler-rva23.repo`, and `ci/image.lock`. Reject RVA20, cross-compiled x86 containers, another distribution, a mutable tag without digest, or a repo URL substitution.
 5. Verify each shared executable exposes the committed interface and never relies on hidden conversation state:
 
@@ -39,9 +41,9 @@ done
 ```
 
 6. Validate JSON schemas, package fixtures, workflow syntax, script tests, and repository policy. Run `scripts/validate-metadata --repo-root . --output "$validation_dir/metadata.json"` and require a valid result. Require full-SHA pinning for third-party Actions, job-scoped least privilege, explicit timeouts/concurrency, and `retention-days: 7` on every applicable artifact upload. Do not introduce artifact size/total-budget policy yet.
-7. Inspect every workflow for `OPENAI_API_KEY`, Codex secrets, Codex execution, write credentials in untrusted build jobs, `pull_request_target` misuse, and self-hosted runner scheduling. Fail the audit if any is present. Keep native-only packages in `needs-native-riscv`.
-8. Build the CI rootfs only from the fixed RVA23 repository. Record `repomd.xml` digest, installed RPM manifest, Containerfile/build-config revisions, QEMU version, build time, image digest, and the results of `uname -m`, RPM arch, OS release, and representative RVA23 execution checks. Do not lower the ISA target when QEMU fails.
-9. Exercise the locked environment through `scripts/build-rpm` and evaluate the fixed manifests after result files exist:
+7. Reject Codex/OpenAI secrets or execution in Actions, write credentials in untrusted build jobs, and unsafe `pull_request_target` use. Reject PR/merge-group jobs on persistent self-hosted runners. The scoped protected-main push/trusted-dispatch QEMU route permitted by `AGENTS.md` is not a violation and is never native RISC-V validation.
+8. Obtain CI-image/rootfs builds through the reviewed remote workflow only, using the fixed RVA23 repository. Do not run local RPM/QEMU/container builds. Record `repomd.xml` digest, installed RPM manifest, Containerfile/build-config revisions, QEMU version, image digest and target execution checks from actual CI. Do not lower the ISA target when QEMU fails.
+9. Exercise the locked environment through approved target CI and evaluate downloaded fixed manifests/results locally after schema/provenance checks:
 
 ```bash
 ./scripts/evaluate-golden \
@@ -53,7 +55,7 @@ done
 ```
 
 Require `golden-success-hello` to build/install/smoke without a patch, `golden-riscv-inline-asm` to fail first and pass only after the expected minimal local repair, and `golden-needs-native-kmod` to remain blocked for native validation without a fake patch.
-10. Treat remote setup as a separate, externally visible phase. Proceed only when authorized and authenticated. An explicitly authorized `GH_TOKEN` may be used by local `gh`/GitHub commands through the current process; token use itself is permitted. Before mutation and again before commit/push, run `scripts/github-credential-guard --repo-root . --require-auth --local-only`. Never place the value in arguments, files, commits, PR text, logs, artifacts, Actions secrets/variables, Pages, or any other public output. Create/configure the public repo, branch ruleset with zero required approvals, squash Auto-merge, Pages, and public GHCR package, then verify each through independent reads. Do not report success from command intent alone.
+10. Treat remote setup as a separately authorized phase, not implicit permission to replace existing settings. Use locally authenticated `gh`, verify repository permissions, and run `scripts/github-credential-guard --repo-root . --require-auth --local-only` before mutation and commit/push. Preserve current protections; keep Auto-merge disabled and require explicit squash through full acceptance. Create/configure only requested repository, ruleset, Pages or public GHCR resources, and independently read back each result. Never infer success from command intent or expose credentials.
 11. Stop at the M0 gate until the exact OCI digest and target checks are observed. Begin M1 only after the golden cases, scheduled-update contracts, repair lease/head guard, and no-Codex-in-Actions checks pass.
 
 ## Outputs
