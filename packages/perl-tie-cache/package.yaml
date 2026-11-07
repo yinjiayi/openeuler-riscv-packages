@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libtie-cache-perl",
+        "observed_at": "2026-11-07T04:07:13Z",
+        "package_base": "libtie-cache-perl",
+        "package_name": "libtie-cache-perl",
+        "source": "debian",
+        "source_version": "0.21-3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n341.T9HhMm"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-tie-cache.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable CPAN source with Debian stable lineage; archive SHA-256 and available index signature reviewed. No catalog registry change is claimed; external packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-tie-cache",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Tie-Cache",
+    "summary": "Perl least recently used cache with a tied hash interface"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Tie-Cache",
+    "homepage": "https://metacpan.org/dist/Tie-Cache",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CH/CHAMAS/",
+    "release_channel": "stable",
+    "release_regex": "Tie-Cache-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/C/CH/CHAMAS/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CH/CHAMAS/Tie-Cache-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.21",
+    "latest_detected": "0.21",
+    "release": "1"
+  }
+}
