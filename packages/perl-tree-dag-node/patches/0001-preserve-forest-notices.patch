@@ -1,0 +1,31 @@
+From: openEuler RISC-V package maintainers
+Subject: [PATCH] Retain original adapted Forest renderer notices
+
+Notice-only packaging repair for the acknowledged Forest-derived renderer.
+No code or original default test is changed.
+
+--- /dev/null
++++ b/FOREST-NOTICE
+@@ -0,0 +1,22 @@
++Adapted Forest renderer notices
++
++Tree::DAG_Node acknowledges adapting its tree renderer from the module below.
++The original implementation was available before Tree-DAG_Node 1.07 (2012).
++This adds the original author/copyright/grant, without modifying any code/tests.
++Source: https://cpan.metacpan.org/authors/id/S/ST/STEVAN/Forest-0.09.tar.gz
++SHA256: 85fa217adfbf858f162b301f64c173b9d377728cec626ab9146b313ee1353728
++Member: lib/Forest/Tree/Writer/ASCIIWithBranches.pm
++Full Perl license texts are retained in the existing LICENSE.
++
++=head1 AUTHOR
++
++Stevan Little E<lt>stevan.little@iinteractive.comE<gt>
++
++=head1 COPYRIGHT AND LICENSE
++
++Copyright 2008-2010 Infinity Interactive, Inc.
++
++L<http://www.iinteractive.com>
++
++This library is free software; you can redistribute it and/or modify
++it under the same terms as Perl itself.
