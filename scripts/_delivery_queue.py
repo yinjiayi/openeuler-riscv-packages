@@ -518,34 +518,73 @@ def event(db, repo, lease_id, action, reason, now):
     db.execute("INSERT INTO events(at,repo,lease_id,action,reason) VALUES(?,?,?,?,?)", (isoformat(now), repo, lease_id, action, reason))
 
 
+def repair_routing_policy_additions(before, after):
+    """Return newly observed successful configure IDs, or None on any other change."""
+    def configure(checks):
+        return [c for c in checks if c.get("kind") == "check" and c.get("name") == "configure"]
+
+    old_group, new_group = configure(before["checks"]), configure(after["checks"])
+    if not old_group or len(new_group) <= len(old_group) or not proven_policy_duplicates(after, new_group):
+        return None
+    attempts = {(c["workflow_provenance"]["run_id"], c["workflow_provenance"]["run_attempt"]) for c in new_group}
+    if len(attempts) != len(new_group):
+        return None
+    old = {c.get("id"): c for c in old_group}
+    new = {c.get("id"): c for c in new_group}
+    if len(old) != len(old_group) or not old.keys() <= new.keys():
+        return None
+    for ident, previous in old.items():
+        observed = new[ident]
+        # A former singleton gains provenance only as part of a now fully
+        # authenticated group; its original core evidence must not change.
+        if "workflow_provenance" not in previous and len(old_group) == 1:
+            observed = {k: v for k, v in observed.items() if k != "workflow_provenance"}
+        if observed != previous:
+            return None
+    added = sorted(new.keys() - old.keys())
+    if any(new[ident]["workflow_provenance"][key] != "success" for ident in added
+           for key in ("check_state", "run_state", "suite_state")):
+        return None
+    non_policy = [c for c in after["checks"] if c not in new_group]
+    normalized = dict(after, checks=non_policy + old_group)
+    if task_fingerprint(normalized) != task_fingerprint(before):
+        return None
+    return added
+
+
 def owned_repair_routing(db, previous, current, lease, now):
-    """Keep only this owner through claim-repair's expected routing transition.
+    """Return added check IDs (possibly empty) only for this exact repair owner.
 
     The item stays held, including after lease expiry: no other dispatch worker
-    can claim codex-repairing. All non-routing task inputs must remain identical.
-    This does not verify or replace claim-repair's separate remote lease.
+    can claim codex-repairing. Only routing labels and positively attested
+    completed policy successes may be appended; this is not merge admission
+    and does not verify or replace claim-repair's separate remote lease.
     """
     if not previous or not current or lease["expires"] <= now.timestamp():
-        return False
+        return None
     if current["queue"] != "held" or current["reason"] != "codex-repairing":
-        return False
+        return None
     if any(row["head_sha"] != lease["head_sha"] or row["main_sha"] != lease["main_sha"]
            or row["package_id"] != lease["package_id"] for row in (previous, current)):
-        return False
+        return None
     if not db.execute("SELECT 1 FROM events WHERE repo=? AND lease_id=? AND action='claimed' AND reason='repair'",
                       (lease["repo"], lease["lease_id"])).fetchone():
-        return False
+        return None
     before, after = json.loads(previous["payload"]), json.loads(current["payload"])
     old_labels, new_labels = set(before["labels"]), set(after["labels"])
     if previous["queue"] == "repair":
         if "repair-queued" not in old_labels or "codex-repairing" in old_labels:
-            return False
+            return None
         if new_labels != (old_labels - {"repair-queued"}) | {"codex-repairing"}:
-            return False
+            return None
     elif not (previous["queue"] == "held" and previous["reason"] == "codex-repairing" and old_labels == new_labels):
-        return False
+        return None
     after["labels"] = before["labels"]
-    return lease["fingerprint"] == task_fingerprint(before) == task_fingerprint(after)
+    if lease["fingerprint"] != task_fingerprint(before):
+        return None
+    if task_fingerprint(after) == lease["fingerprint"]:
+        return []
+    return repair_routing_policy_additions(before, after)
 
 
 def sync(db_path, document, candidates=None, now=None):
@@ -603,12 +642,14 @@ def sync(db_path, document, candidates=None, now=None):
         db.execute("INSERT OR REPLACE INTO snapshots VALUES(?,?,?,?,?)", (repo, snapshot_id, main, document["collected_at"], 2))
         for lease in db.execute("SELECT * FROM leases WHERE repo=?", (repo,)).fetchall():
             item = db.execute("SELECT * FROM items WHERE repo=? AND item_key=?", (repo, lease["item_key"])).fetchone()
-            if owned_repair_routing(db, leased_items.get(lease["item_key"]), item, lease, timestamp):
+            added = owned_repair_routing(db, leased_items.get(lease["item_key"]), item, lease, timestamp)
+            if added is not None:
                 fingerprint = task_fingerprint(json.loads(item["payload"]))
                 if fingerprint != lease["fingerprint"]:
                     db.execute("UPDATE leases SET fingerprint=? WHERE lease_id=?", (fingerprint, lease["lease_id"]))
                     event(db, repo, lease["lease_id"], "repair-routing-preserved",
-                          "same owner; repair-queued to codex-repairing only; item remains held", timestamp)
+                          "same owner; item remains held; appended proven configure check IDs: "
+                          + (",".join(map(str, added)) or "none"), timestamp)
                 continue
             if lease["main_sha"] != main or not item or item["head_sha"] != lease["head_sha"] or item["queue"] not in QUEUES or lease["fingerprint"] != task_fingerprint(json.loads(item["payload"])):
                 event(db, repo, lease["lease_id"], "invalidated", "main/head/task-input/eligibility changed", timestamp)
@@ -675,10 +716,21 @@ def lease_action(args):
         current = db.execute("SELECT payload FROM items WHERE repo=? AND item_key=?", (args.repo, lease["item_key"])).fetchone()
         require(current and lease["fingerprint"] == task_fingerprint(json.loads(current["payload"])), "lease task input changed; stale work cannot modify the new task")
         if args.command == "renew":
-            freshness(db, args, now)
+            snapshot = freshness(db, args, now)
             require(lease["main_sha"] == args.expected_main, "lease main is stale")
-            db.execute("UPDATE leases SET expires=? WHERE lease_id=?", (now.timestamp() + args.lease_seconds, args.lease_id))
+            expires = now.timestamp() + args.lease_seconds
+            db.execute("UPDATE leases SET expires=? WHERE lease_id=?", (expires, args.lease_id))
             event(db, args.repo, args.lease_id, "renewed", "", now)
+            routing = db.execute("SELECT at,reason FROM events WHERE repo=? AND lease_id=? AND action='repair-routing-preserved' ORDER BY rowid",
+                                 (args.repo, args.lease_id)).fetchall()
+            # An existing owner can bind a fresh local receipt after a
+            # permitted append. The separate exact remote repair lease and
+            # all live push fences remain mandatory.
+            return {"status": "renewed", "lease_id": args.lease_id, "owner": args.owner, "repo": args.repo,
+                    "package_id": lease["package_id"], "item_key": lease["item_key"], "head_sha": lease["head_sha"],
+                    "main_sha": lease["main_sha"], "snapshot_id": snapshot["snapshot_id"],
+                    "task_fingerprint": lease["fingerprint"], "expires_at": isoformat(parse_time(expires)),
+                    "repair_routing_events": [dict(row) for row in routing], "authorizes_remote_mutation": False}
         else:
             state = {"complete": "completed", "waiting": "waiting", "blocked": "held"}.get(args.outcome)
             if state:
@@ -688,7 +740,7 @@ def lease_action(args):
                 db.execute("UPDATE items SET queue=?,reason=? WHERE repo=? AND item_key=?", (state, args.reason or args.outcome, args.repo, lease["item_key"]))
             event(db, args.repo, args.lease_id, "released", args.outcome + ": " + args.reason, now)
             db.execute("DELETE FROM leases WHERE lease_id=?", (args.lease_id,))
-    return {"status": "renewed" if args.command == "renew" else "released", "lease_id": args.lease_id, "authorizes_remote_mutation": False}
+    return {"status": "released", "lease_id": args.lease_id, "authorizes_remote_mutation": False}
 
 
 def parser():

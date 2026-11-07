@@ -565,6 +565,83 @@ class DeliveryQueueTests(unittest.TestCase):
                     queue.lease_action(options(db_path, "renew", lease_id=lease["lease_id"], expected_main=main, now=observed))
                 self.assertEqual(queue.lease_action(options(db_path, queue="repair", expected_main=main, now=observed))["status"], "empty")
 
+    def test_owned_repair_retains_attested_configure_append_and_original_failure(self):
+        after, _, _, get = self.policy_fixture("failure")
+        before = copy.deepcopy(after)
+        before["checks"].pop()
+        before["labels"] = ["repair-queued"]
+        queue.sync(self.db, snapshot([before]), now=NOW)
+        lease = queue.lease_action(options(self.db, queue="repair"))
+        after["labels"] = ["codex-repairing"]
+        queue.policy_provenance_reader(REPO, get)(after)
+        for second in (1, 2):
+            observed = f"2026-11-06T00:00:0{second}Z"
+            current = snapshot([after], now=observed)
+            queue.sync(self.db, current, now=observed)
+            with self.assertRaisesRegex(ToolError, "requested item"):
+                queue.lease_action(options(self.db, queue="repair", item_key="pr:1", owner="other", now=observed))
+            with self.assertRaisesRegex(ToolError, "owned by another worker"):
+                queue.lease_action(options(self.db, "renew", lease_id=lease["lease_id"], owner="other", now=observed))
+            renewal = queue.lease_action(options(self.db, "renew", lease_id=lease["lease_id"], now=observed))
+            self.assertEqual(renewal["lease_id"], lease["lease_id"])
+            self.assertEqual((renewal["owner"], renewal["head_sha"], renewal["main_sha"]), ("worker-a", HEAD, MAIN))
+            self.assertEqual(renewal["snapshot_id"], current["snapshot_id"])
+            self.assertEqual(renewal["task_fingerprint"], queue.task_fingerprint(after))
+            self.assertNotEqual(renewal["task_fingerprint"], lease["task_fingerprint"])
+            self.assertTrue(renewal["repair_routing_events"][0]["reason"].endswith("IDs: 302"))
+            self.assertFalse(renewal["authorizes_remote_mutation"])
+        with queue.database(self.db) as db:
+            row = db.execute("SELECT * FROM leases").fetchone()
+            self.assertEqual(row["lease_id"], lease["lease_id"])
+            self.assertEqual(row["fingerprint"], queue.task_fingerprint(after))
+            item = db.execute("SELECT * FROM items").fetchone()
+            self.assertEqual((item["queue"], item["reason"]), ("held", "codex-repairing"))
+            self.assertEqual(json.loads(item["payload"])["checks"], after["checks"])
+            self.assertEqual(json.loads(item["payload"])["checks"][-2]["state"], "failure")
+            events = db.execute("SELECT reason FROM events WHERE action='repair-routing-preserved'").fetchall()
+            self.assertEqual(len(events), 1)
+            self.assertTrue(events[0]["reason"].endswith("IDs: 302"))
+
+    def test_owned_repair_rejects_any_nonappend_or_nonpositive_configure_change(self):
+        for case in ("pending", "cancelled", "run-failed", "suite-failed", "missing-proof",
+                     "cross-head", "repeated-run-attempt", "changed-old", "missing-old",
+                     "changed-package", "added-status"):
+            with self.subTest(case=case):
+                db_path = self.root / (case + ".sqlite")
+                after, _, _, get = self.policy_fixture("failure")
+                before = copy.deepcopy(after)
+                before["checks"].pop()
+                before["labels"] = ["repair-queued"]
+                queue.sync(db_path, snapshot([before]), now=NOW)
+                queue.lease_action(options(db_path, queue="repair"))
+                after["labels"] = ["codex-repairing"]
+                queue.policy_provenance_reader(REPO, get)(after)
+                original, added = after["checks"][-2:]
+                proof = added["workflow_provenance"]
+                if case in ("pending", "cancelled"):
+                    added["state"] = proof["check_state"] = proof["run_state"] = proof["suite_state"] = case
+                elif case in ("run-failed", "suite-failed"):
+                    proof[case.split("-")[0] + "_state"] = "failure"
+                elif case == "missing-proof":
+                    del added["workflow_provenance"]
+                elif case == "cross-head":
+                    proof["head_sha"] = "c" * 40
+                elif case == "repeated-run-attempt":
+                    added["workflow_run_id"] = proof["run_id"] = original["workflow_provenance"]["run_id"]
+                elif case == "changed-old":
+                    original["state"] = original["workflow_provenance"]["check_state"] = "success"
+                elif case == "missing-old":
+                    after["checks"].remove(original)
+                elif case == "changed-package":
+                    after["checks"][0]["state"] = "failure"
+                elif case == "added-status":
+                    after["checks"].append({"kind": "status", "name": "configure", "state": "success"})
+                observed = "2026-11-06T00:00:01Z"
+                queue.sync(db_path, snapshot([after], now=observed), now=observed)
+                with queue.database(db_path) as db:
+                    self.assertEqual(db.execute("SELECT COUNT(*) FROM leases").fetchone()[0], 0)
+                    self.assertEqual(db.execute("SELECT COUNT(*) FROM events WHERE action='repair-routing-preserved'").fetchone()[0], 0)
+
     def test_waiting_release_frees_worker_and_same_snapshot_does_not_resurrect(self):
         document = snapshot()
         queue.sync(self.db, document, now=NOW)
