@@ -1,0 +1,21 @@
+{
+  "package_id": "cgicc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0f91c5ce8adf406ad35a46152ffb2b9c8d6079604b796d81f48b66d1f068ad4e"
+      },
+      "filename": "cgicc-3.2.20.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://ftp.gnu.org/gnu/cgicc/cgicc-3.2.20.tar.gz",
+      "version": "3.2.20"
+    }
+  ]
+}
