@@ -8,7 +8,7 @@
     "source_repository": "https://git.code.sf.net/p/xmlstar/code",
     "release_channel": "stable",
     "release_api": "https://sourceforge.net/projects/xmlstar/files/xmlstarlet/",
-    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "release_regex": "<a\\s+(?:[^<>]*?\\s)?href=\"/projects/xmlstar/files/xmlstarlet/(?P<version>[0-9]+(?:\\.[0-9]+)+)/\"",
     "source_url_template": "https://downloads.sourceforge.net/project/xmlstar/xmlstarlet/{version}/xmlstarlet-{version}.tar.gz"
   },
   "version": {"current": "1.6.1", "release": "15", "latest_detected": "1.6.1"},
