@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtest-manifest-perl",
+        "observed_at": "2026-11-08T12:40:00Z",
+        "package_base": "libtest-manifest-perl",
+        "package_name": "libtest-manifest-perl",
+        "source": "debian",
+        "source_version": "2.026-1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n374.LjDWvK"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtest-manifest-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Authorized official CPAN release and PAUSE checksum signature verified. The original default tests run without a preinstalled Test::Manifest.",
+    "status": "active"
+  },
+  "package_id": "libtest-manifest-perl",
+  "rpm": {
+    "license": "Artistic-2.0",
+    "name": "libtest-manifest-perl",
+    "summary": "Select and order Perl tests using a test manifest"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Test-Manifest",
+    "homepage": "https://metacpan.org/dist/Test-Manifest",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/",
+    "release_channel": "stable",
+    "release_regex": "Test-Manifest-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Test-Manifest",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/Test-Manifest-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.026",
+    "latest_detected": "2.026",
+    "release": "1"
+  }
+}
