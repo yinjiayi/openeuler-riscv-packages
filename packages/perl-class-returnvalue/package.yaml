@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libclass-returnvalue-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-returnvalue-perl",
+        "package_name": "libclass-returnvalue-perl",
+        "source": "debian",
+        "source_version": "0.55-4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-helper-notices.patch",
+        "sha256": "9c3ab91a4dba0b9f67436bf46805d0c904bd47c4c083903af3cdf44ff3801671",
+        "purpose": "Retain exact bundled ModuleInstall0.67 copyright and license, with no code or test edits.",
+        "source": "https://backpan.perl.org/authors/id/A/AD/ADAMK/Module-Install-0.67.tar.gz; SHA256 6c6f2d159871d4025b2cfb9828658711af1f8bd71414596f451e3f7da8861304; original individual grants and LICENSE",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "Class-ReturnValue upstream retains complete bundled helper notices and license."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-returnvalue.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official CPAN source pinned in sources.yaml, actual Debian stable lineage retained. Original default tests and bundled ModuleInstall0.67 code preserved; missing original notices restored. No physical network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-class-returnvalue",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-returnvalue",
+    "summary": "Context-sensitive return value and error objects for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-class-returnvalue",
+    "homepage": "https://metacpan.org/dist/Class-ReturnValue",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JE/JESSE/",
+    "release_channel": "stable",
+    "release_regex": "Class-ReturnValue-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Class-ReturnValue",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JE/JESSE/Class-ReturnValue-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.55",
+    "latest_detected": "0.55",
+    "release": "1"
+  }
+}
