@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmime-encwords-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "MIME-EncWords-1.015.0.tar.gz",
+      "version": "1.015.0",
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEZUMI/MIME-EncWords-1.015.0.tar.gz",
+      "digests": {
+        "sha256": "23ef065897821337bdd16487e65e2a3798383348225c72cd762bb3741ad009b5"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Archived README and both module notices grant the same terms as Perl itself; GPL and ARTISTIC texts ship in the official CPAN archive, whose SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
