@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/trixie/libnumber-range-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnumber-range-perl",
+        "package_name": "libnumber-range-perl",
+        "source": "debian",
+        "source_version": "0.12-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{"file":"patches/0001-check-all-scalar-values.patch","sha256":"a9d4d133ef1874ba4194f9eb0f7346923eceff887004d77d0fdece59b39e34a2","purpose":"Check all values in scalar multi-value membership, preserving original tests and empty/list behavior.","source":"Downstream minimal correction derived from the exact Number-Range 0.12 source and its documented scalar all-of contract.","license":"GPL-1.0-or-later OR Artistic-1.0-Perl","upstream_status":"downstream-only","remove_when":"An authenticated upstream release fixes scalar multiple-value membership and passes the retained regression."}],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-number-range.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official source SHA and signature policy are pinned in sources.yaml; README records license, original tests and package-local scalar membership fix. No dependency download in the build recipe; no physical network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-number-range",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-number-range",
+    "summary": "Perl numeric range membership and manipulation"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-number-range",
+    "homepage": "https://metacpan.org/dist/Number-Range",
+    "release_api": "https://cpan.metacpan.org/authors/id/L/LA/LARRYSH/",
+    "release_channel": "stable",
+    "release_regex": "Number-Range-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/larrys/Number-Range",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/L/LA/LARRYSH/Number-Range-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.12",
+    "latest_detected": "0.12",
+    "release": "1"
+  }
+}
