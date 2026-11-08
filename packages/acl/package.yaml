@@ -70,7 +70,7 @@
     "maintainers": [
       "yinjiayi"
     ],
-    "notes": "Official 2.4.0 archive independently pinned from the immutable discovery snapshot. Fedora and AUR packaging content was not executed; the only matching AUR clue was stale acl-git metadata and was excluded. CI repair pre-creates and fail-closed verifies the libtool wrappers for the unprivileged bin identity, then preserves the upstream ACL gate while accepting only the hardened container's post-ACL device-cgroup EPERM as an alternative to ENXIO.",
+    "notes": "Official 2.4.0 archive independently pinned from the immutable discovery snapshot. Fedora and AUR packaging content was not executed; the only matching AUR clue was stale acl-git metadata and was excluded. CI repair copies the exact built tree from the protected host bind mount to container-local temporary storage while preserving configured-tree timestamps, grants traversal on the mktemp parent without directory listing access, and fail-closed verifies the libtool wrappers for the unprivileged bin identity, then preserves the upstream ACL gate while accepting only the hardened container's post-ACL device-cgroup EPERM as an alternative to ENXIO.",
     "status": "active"
   },
   "package_id": "acl",
@@ -105,6 +105,6 @@
   "version": {
     "current": "2.4.0",
     "latest_detected": "2.4.0",
-    "release": "1"
+    "release": "3"
   }
 }
