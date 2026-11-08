@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libregexp-grammars-perl",
+        "observed_at": "2026-11-08T15:42:00Z",
+        "package_base": "libregexp-grammars-perl",
+        "package_name": "libregexp-grammars-perl",
+        "source": "debian",
+        "source_version": "1.058-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n376.DHBIO3"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libregexp-grammars-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Authorized fixed CPAN release and historical PAUSE signature verified. Preserve original Perl notices and the GNU notices for the exact source-only demo dictionary.",
+    "status": "active"
+  },
+  "package_id": "libregexp-grammars-perl",
+  "rpm": {
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND GPL-2.0-or-later",
+    "name": "libregexp-grammars-perl",
+    "summary": "Parse recursive grammars with Perl regular expressions"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Regexp-Grammars",
+    "homepage": "https://metacpan.org/dist/Regexp-Grammars",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DC/DCONWAY/",
+    "release_channel": "stable",
+    "release_regex": "Regexp-Grammars-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Regexp-Grammars",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DC/DCONWAY/Regexp-Grammars-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.058",
+    "latest_detected": "1.058",
+    "release": "1"
+  }
+}
