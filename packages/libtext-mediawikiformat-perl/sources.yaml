@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-mediawikiformat-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-MediawikiFormat-1.04.tar.gz",
+      "version": "1.04",
+      "url": "https://cpan.metacpan.org/authors/id/S/SZ/SZABGAB/Text-MediawikiFormat-1.04.tar.gz",
+      "digests": {
+        "sha256": "435c3da5618259d4dc79b7b21ef095bcf2771628306824af0831387c342f26d7"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "README, main and companion module POD grant Perl terms; ARTISTIC and GPL version 2 texts are included; HTTPS archive SHA-256 matches publisher CHECKSUMS."
+      }
+    }
+  ]
+}
