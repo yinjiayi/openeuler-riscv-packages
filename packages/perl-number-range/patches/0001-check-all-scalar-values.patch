@@ -1,0 +1,60 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Test every requested value in scalar inrange
+
+Upstream's documented scalar multiple-value contract requires all values to
+match. Returning within the loop silently ignored every value after the first.
+Keep the observed empty-input false empty string, and return success only after
+all input values have passed. This is a generic correctness fix, not RISC-V.
+
+--- a/lib/Number/Range.pm
++++ b/lib/Number/Range.pm
+@@ -170,11 +170,12 @@
+       return @returncodes;
+     } else {
++      return '' unless @_;
+       foreach my $test (@_) {
+         if (!$self->inrange($test)) {
+           return 0;
+         }
+-        return 1;
+       }
++      return 1;
+     }
+   }
+ }
+
+--- /dev/null
++++ b/t/scalar-multiple-values.t
+@@ -0,0 +1,32 @@
++use strict;
++use warnings;
++use Test::More;
++use Number::Range;
++
++my $small = Number::Range->new('10..20');
++for my $case (
++    [10, 11], [10, 9999], [9999, 10],
++    [10, 11, 9999], [10, 9999, 11], [9999, 10, 11],
++    [10, 11, 12], [10], [9999],
++) {
++    my $expected = (grep { $_ < 10 || $_ > 20 } @$case) ? 0 : 1;
++    is(scalar $small->inrange(@$case), $expected, 'scalar all-of: '.join(',', @$case));
++    my @expected = map { $_ >= 10 && $_ <= 20 ? 1 : 0 } @$case;
++    is_deeply([$small->inrange(@$case)], \@expected, 'list mapping: '.join(',', @$case));
++}
++my $empty = scalar $small->inrange();
++ok(defined($empty), 'empty scalar input retains defined false value');
++is($empty, '', 'empty scalar input retains exact empty string');
++is_deeply([$small->inrange()], [], 'empty list input stays empty');
++
++my $large = Number::Range->new('0..99999999');
++for my $case (
++    [0, 99999999], [1, 100000000], [100000000, 1],
++    [1, 99999999, -1], [-1, 1, 99999999], [1, -1, 99999999],
++) {
++    my $expected = (grep { $_ < 0 || $_ > 99999999 } @$case) ? 0 : 1;
++    is(scalar $large->inrange(@$case), $expected, 'large scalar all-of: '.join(',', @$case));
++    my @expected = map { $_ >= 0 && $_ <= 99999999 ? 1 : 0 } @$case;
++    is_deeply([$large->inrange(@$case)], \@expected, 'large list mapping: '.join(',', @$case));
++}
++done_testing();
