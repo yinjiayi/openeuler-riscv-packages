@@ -1,0 +1,26 @@
+From: openEuler RISC-V package maintenance
+Subject: [PATCH] tests: discover the native RV64 compiler before cross compilers
+
+QBE 1.3 check-rv64 probes only cross-prefixed compilers, even when the
+test environment itself is riscv64. Reuse its existing native execution
+path, keeping the explicit rv64 target and complete original test loop.
+The native Linux branch already uses -lpthread for test drivers.
+
+Applies-to: official QBE 1.3, archive SHA256
+ d587905d620dc5e1d2bfa7c2cc642b9b837aa89a3188c6e37b53d756cf66e320
+Upstream-Status: Not submitted (package-local compatibility fix)
+Removal-condition: upstream check-rv64 discovers the native compiler.
+
+--- a/tools/test.sh
++++ b/tools/test.sh
+@@ -73,6 +73,10 @@ init() {
+ 		bin="$bin -t arm64"
+ 		;;
+ 	rv64)
++		if [ "$(uname -m)" = riscv64 ]; then
++			find_cc_and_qemu riscv64 "${CC:-cc}" "qemu-riscv64"
++			ccpost="-lpthread"
++		fi
+ 		for p in riscv64-linux-musl riscv64-linux-gnu
+ 		do
+ 			find_cc_and_qemu riscv64 "$p-gcc -no-pie -static" "qemu-riscv64"
