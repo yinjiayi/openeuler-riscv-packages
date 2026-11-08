@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libtie-array-sorted-perl",
+        "observed_at": "2026-11-07T03:17:00Z",
+        "package_base": "libtie-array-sorted-perl",
+        "package_name": "libtie-array-sorted-perl",
+        "source": "debian",
+        "source_version": "1.41-5"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n340.7k6YPc"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-tie-array-sorted.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN archive SHA256 verified; explicit GPL2-or-later source grant. Retain all original tests, including POD and coverage. Upstream describes this stable component as effectively unmaintained; target validation remains pending CI.",
+    "status": "active"
+  },
+  "package_id": "perl-tie-array-sorted",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "perl-Tie-Array-Sorted",
+    "summary": "Perl tied arrays kept in sorted order"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Tie-Array-Sorted",
+    "homepage": "https://metacpan.org/dist/Tie-Array-Sorted",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TM/TMTM/",
+    "release_channel": "stable",
+    "release_regex": "Tie-Array-Sorted-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/T/TM/TMTM/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TM/TMTM/Tie-Array-Sorted-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.41",
+    "latest_detected": "1.41",
+    "release": "1"
+  }
+}
