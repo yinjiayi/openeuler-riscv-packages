@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtime-fake-perl",
+        "observed_at": "2026-11-08T19:46:00Z",
+        "package_base": "libtime-fake-perl",
+        "package_name": "libtime-fake-perl",
+        "source": "debian",
+        "source_version": "0.11-4"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n380.kJzZRR"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtime-fake-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Exact upstream CPAN source checked against the signed PAUSE manifest and Debian stable source. The unchanged default tests and separate installed offset/reset smoke are retained.",
+    "status": "active"
+  },
+  "package_id": "libtime-fake-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libtime-fake-perl",
+    "summary": "Simulate time in Perl without changing the system clock"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Time-Fake",
+    "homepage": "https://metacpan.org/dist/Time-Fake",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RO/ROSULEK/",
+    "release_channel": "stable",
+    "release_regex": "Time-Fake-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Time-Fake",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RO/ROSULEK/Time-Fake-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.11",
+    "latest_detected": "0.11",
+    "release": "1"
+  }
+}
