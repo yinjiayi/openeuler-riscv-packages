@@ -1,0 +1,85 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://tools.suckless.org/farbfeld/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "farbfeld",
+        "package_name": "farbfeld",
+        "source": "debian",
+        "source_version": "4-3"
+      },
+      {
+        "evidence_url": "https://tools.suckless.org/farbfeld/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "farbfeld",
+        "package_name": "farbfeld",
+        "source": "opensuse-tumbleweed",
+        "source_version": "4-2.14"
+      },
+      {
+        "evidence_url": "https://tools.suckless.org/farbfeld/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "farbfeld",
+        "package_name": "farbfeld",
+        "source": "ubuntu",
+        "source_version": "4-3build3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "farbfeld.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "All 23 official release files reviewed and pinned. Preserve all six default converters and 2ff including ImageMagick fallback; no upstream test target exists. Added offline format/roundtrip/error checks run at build, staging and normal installation. ISC and embedded 0BSD example retained. No upstream code executed locally.",
+    "status": "active"
+  },
+  "package_id": "farbfeld",
+  "rpm": {
+    "license": "ISC AND 0BSD",
+    "name": "farbfeld",
+    "summary": "Simple lossless image format and conversion tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "tools.suckless.org-farbfeld",
+    "homepage": "https://tools.suckless.org/farbfeld/",
+    "release_api": "https://tools.suckless.org/farbfeld/",
+    "release_channel": "stable",
+    "release_regex": "farbfeld-(?P<version>[0-9]+(?:\\.[0-9]+)*)\\.tar\\.gz",
+    "source_repository": "https://tools.suckless.org/farbfeld/",
+    "source_url_template": "https://dl.suckless.org/farbfeld/farbfeld-{version}.tar.gz"
+  },
+  "version": {
+    "current": "4",
+    "latest_detected": "4",
+    "release": "1"
+  }
+}
