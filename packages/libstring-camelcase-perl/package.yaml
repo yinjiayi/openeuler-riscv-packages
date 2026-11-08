@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libstring-camelcase-perl",
+  "rpm": {
+    "name": "perl-String-CamelCase",
+    "summary": "Convert between camel case and underscore-separated names",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libstring-camelcase-perl",
+    "homepage": "https://metacpan.org/dist/String-CamelCase",
+    "source_repository": "https://metacpan.org/dist/String-CamelCase",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/H/HI/HIO/",
+    "release_regex": "String-CamelCase-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/H/HI/HIO/String-CamelCase-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04",
+    "release": "1",
+    "latest_detected": "0.04"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libstring-camelcase-perl",
+        "package_base": "libstring-camelcase-perl",
+        "source_version": "0.04-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libstring-camelcase-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libstring-camelcase-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu 0.04-2 and official CPAN stable 0.04. Publisher CHECKSUMS SHA-256, safe archive, and README/module/bundled helper Perl dual terms verified. Official target primary lacks same-name RPM/provider and has Test::Pod and Test::Pod::Coverage. Upstream default local run: 6 files/31 TAP items, one optional pod-coverage SKIP because the local module is absent; target SPEC requires it. Missing SIGNATURE listed in MANIFEST causes upstream configuration warning, not a verified signature. Target build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
