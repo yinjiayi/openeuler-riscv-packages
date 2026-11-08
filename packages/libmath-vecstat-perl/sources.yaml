@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-vecstat-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-VecStat-0.08.tar.gz",
+      "version": "0.08",
+      "url": "https://cpan.metacpan.org/authors/id/A/AS/ASPINELLI/Math-VecStat-0.08.tar.gz",
+      "digests": {
+        "sha256": "409a8e0e4b1025c8e80f628f65a9778aa77ab285161406ca4a6c097b13656d0d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The upstream README names both copyright holders and grants the program redistribution under the same terms as Perl, without conflicting notices in source, build script or test; official CPAN CHECKSUMS and an independent HTTPS archive have the same SHA-256."
+      }
+    }
+  ]
+}

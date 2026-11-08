@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-vecstat-perl",
+  "rpm": {
+    "name": "perl-Math-VecStat",
+    "summary": "Basic vector statistics functions for Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmath-vecstat-perl",
+    "homepage": "https://metacpan.org/dist/Math-VecStat",
+    "source_repository": "https://metacpan.org/dist/Math-VecStat",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AS/ASPINELLI/",
+    "release_regex": "Math-VecStat-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AS/ASPINELLI/Math-VecStat-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.08",
+    "release": "1",
+    "latest_detected": "0.08"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmath-vecstat-perl",
+        "package_base": "libmath-vecstat-perl",
+        "source_version": "0.08-3",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/libmath-vecstat-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmath-vecstat-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.08-3 lineage resolves to official CPAN stable 0.08. Publisher CHECKSUMS pins source SHA-256. The upstream README gives the distribution-level Perl-terms grant, and no source, build or test file conflicts; README is installed as the RPM license evidence. The sole default t file and all 40 assertions remain intact. Official target primary metadata has no same-name RPM or module provider and contains the core Perl/Exporter/MakeMaker dependencies. Target results require exact-head hosted CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
