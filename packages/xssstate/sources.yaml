@@ -1,0 +1,21 @@
+{
+  "package_id": "xssstate",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c4b6f504a6a8eb247bc60960bd65cbf9631c008449a1d71ac4c55e34be1c6011"
+      },
+      "filename": "xssstate-1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://dl.suckless.org/tools/xssstate-1.1.tar.gz",
+      "version": "1.1"
+    }
+  ]
+}
