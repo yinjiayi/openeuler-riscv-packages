@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-validate-ip-perl",
+  "rpm": {
+    "name": "perl-Data-Validate-IP",
+    "summary": "Validate IPv4 and IPv6 addresses and network membership",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-validate-ip-perl",
+    "homepage": "https://metacpan.org/dist/Data-Validate-IP",
+    "source_repository": "https://github.com/houseabsolute/Data-Validate-IP",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/",
+    "release_regex": "Data-Validate-IP-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Data-Validate-IP-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.31",
+    "release": "1",
+    "latest_detected": "0.31"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-validate-ip-perl",
+        "package_base": "libdata-validate-ip-perl",
+        "source_version": "0.31-1",
+        "evidence_url": "https://packages.ubuntu.com/en/source/resolute/perl/libdata-validate-ip-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-validate-ip-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official CPAN Data-Validate-IP 0.31 and publisher CHECKSUMS agree on SHA-256. Archive LICENSE, installed PM POD, and README grant same-Perl terms. SP3 RVA23 primary lacks the RPM/module and uniquely supplies all hard dependencies, including Test::Taint. All four upstream default test files remain unchanged. Locally three files and 4171 assertions pass, while Untaint.t skips because Test::Taint is absent; target CI must prove four files with no skip and installed functional smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
