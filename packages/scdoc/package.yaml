@@ -1,0 +1,93 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://git.sr.ht/~sircmpwn/scdoc/refs",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "scdoc",
+        "package_name": "scdoc",
+        "source": "arch-extra",
+        "source_version": "1.11.5-1"
+      },
+      {
+        "evidence_url": "https://git.sr.ht/~sircmpwn/scdoc/refs",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "scdoc",
+        "package_name": "scdoc",
+        "source": "debian",
+        "source_version": "1.11.3-1"
+      },
+      {
+        "evidence_url": "https://git.sr.ht/~sircmpwn/scdoc/refs",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "scdoc",
+        "package_name": "scdoc",
+        "source": "fedora",
+        "source_version": "1.11.3-5.fc44"
+      },
+      {
+        "evidence_url": "https://git.sr.ht/~sircmpwn/scdoc/refs",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "scdoc",
+        "package_name": "scdoc",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.11.5-1.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "scdoc.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed 1.11.5 archive and refs verified; all 32 release files and MIT grant reviewed. Preserve default build, assertions and all nine original test drivers/56 cases. Require FAIL and count checks because the original helper does not propagate printed failures. Staged/installed replay uses the packaged executable, not a rebuilt substitute. Hosted exact-head target evidence pending; no local source/compiler/RPM/QEMU execution.",
+    "status": "active"
+  },
+  "package_id": "scdoc",
+  "rpm": {
+    "license": "MIT",
+    "name": "scdoc",
+    "summary": "Generate roff manual pages from a simple markup format"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "git.sr.ht-sircmpwn-scdoc",
+    "homepage": "https://git.sr.ht/~sircmpwn/scdoc",
+    "release_api": "https://git.sr.ht/~sircmpwn/scdoc/refs",
+    "release_channel": "stable",
+    "release_regex": "/archive/(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://git.sr.ht/~sircmpwn/scdoc",
+    "source_url_template": "https://git.sr.ht/~sircmpwn/scdoc/archive/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.11.5",
+    "latest_detected": "1.11.5",
+    "release": "1"
+  }
+}
