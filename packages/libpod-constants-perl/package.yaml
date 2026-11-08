@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libpod-constants-perl",
+        "observed_at": "2026-11-08T18:42:00Z",
+        "package_base": "libpod-constants-perl",
+        "package_name": "libpod-constants-perl",
+        "source": "debian",
+        "source_version": "0.19-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n379.NgBGKn"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libpod-constants-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Authorized CPAN release and publisher signatures verified. Ship the original full Artistic-2.0 license and preserve the default tests.",
+    "status": "active"
+  },
+  "package_id": "libpod-constants-perl",
+  "rpm": {
+    "license": "Artistic-2.0",
+    "name": "libpod-constants-perl",
+    "summary": "Extract constants from Perl POD sections"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Pod-Constants",
+    "homepage": "https://metacpan.org/dist/Pod-Constants",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MG/MGV/",
+    "release_channel": "stable",
+    "release_regex": "Pod-Constants-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Pod-Constants",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MG/MGV/Pod-Constants-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.19",
+    "latest_detected": "0.19",
+    "release": "1"
+  }
+}
