@@ -26,7 +26,7 @@ Text::Diff::HTML adds a style to Text::Diff that renders differences as
 HTML markup and escapes input text for display.
 
 %prep
-%autosetup -p1
+%autosetup -n Text-Diff-HTML-%{version} -p1
 
 %build
 perl Build.PL --installdirs vendor
