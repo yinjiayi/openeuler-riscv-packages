@@ -1,0 +1,51 @@
+{
+  "package_id": "libregexp-grammars-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ea88d58e251674fae39b49f4d3b5342eaccb8fcb55856cd304aa1a5ff3d41c92"
+      },
+      "filename": "Regexp-Grammars-1.058.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DC/DCONWAY/Regexp-Grammars-1.058.tar.gz",
+      "version": "1.058"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "filename": "Artistic-1.0-Perl.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "redistribution": {"allowed": true, "reason": "Official Perl text for one arm of the upstream Perl dual-license grant."},
+      "signature": null
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "filename": "GPL-1.0.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "redistribution": {"allowed": true, "reason": "Official Perl text for the other arm of the upstream Perl dual-license grant."},
+      "signature": null
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "url": "https://ftp.gnu.org/gnu/miscfiles/miscfiles-1.4.2.tar.gz",
+      "filename": "miscfiles-1.4.2.tar.gz",
+      "version": "1.4.2",
+      "digests": {"sha256": "b699ca60d61475578f1f9adb28e6d6e6b649fcf1bdd25aaec7d96b358c0701e6"},
+      "redistribution": {"allowed": true, "reason": "GNU miscfiles README grants redistribution. Retain GNU README, Berkeley dictionary notice and GPL-2.0 text for the exact web2 demo-data prefix; execute no donor code."},
+      "signature": null
+    }
+  ]
+}
