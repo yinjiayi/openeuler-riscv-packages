@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-object-destroyer",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "dc19d516d56e89873d1f74d2a029be8b143ccd3d408a7c1c2feeda9e09157d8a"
+      },
+      "filename": "Object-Destroyer-2.02.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/S/SI/SIMBABQUE/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/S/SI/SIMBABQUE/Object-Destroyer-2.02.tar.gz",
+      "version": "2.02"
+    }
+  ]
+}
