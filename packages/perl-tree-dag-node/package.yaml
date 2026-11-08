@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/any/perl-tree-dag-node/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-tree-dag-node",
+        "package_name": "perl-tree-dag-node",
+        "source": "arch-extra",
+        "source_version": "1.39-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-forest-notices.patch",
+        "sha256": "634ecd4eb84a32ee8c63e2ef8d3b8118e11355f53619c30e2b8f647176a4af81",
+        "purpose": "Preserve original author/copyright/grant for acknowledged adapted Forest renderer; notice only.",
+        "source": "https://cpan.metacpan.org/authors/id/S/ST/STEVAN/Forest-0.09.tar.gz; SHA256 85fa217adfbf858f162b301f64c173b9d377728cec626ab9146b313ee1353728; original ASCIIWithBranches.pm AUTHOR and COPYRIGHT AND LICENSE",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "Tree-DAG_Node upstream retains the complete original adapted Forest renderer notices."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-tree-dag_node.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed CPAN source SHA256 in sources.yaml; retained Arch discovery lineage. Original default tests and all code preserved; acknowledged Forest renderer original notices restored. No physical network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-tree-dag-node",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-tree-dag_node",
+    "summary": "Directed acyclic graph nodes for tree structures in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-tree-dag-node",
+    "homepage": "https://metacpan.org/dist/Tree-DAG_Node",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/",
+    "release_channel": "stable",
+    "release_regex": "Tree-DAG_Node-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz",
+    "source_repository": "https://metacpan.org/dist/Tree-DAG_Node",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/Tree-DAG_Node-{version}.tgz"
+  },
+  "version": {
+    "current": "1.39",
+    "latest_detected": "1.39",
+    "release": "1"
+  }
+}
