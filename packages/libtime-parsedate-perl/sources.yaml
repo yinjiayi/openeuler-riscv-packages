@@ -1,0 +1,61 @@
+{
+  "package_id": "libtime-parsedate-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8465c8146bd129d3be4a402b45e1b9f9c306f42b0f58a1e507bbdbd653f253b7"
+      },
+      "filename": "Time-ParseDate-2026.033.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/B/BP/BPS/Time-ParseDate-2026.033.tar.gz",
+      "version": "2026.033"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "filename": "Artistic-1.0-Perl.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "redistribution": {"allowed": true, "reason": "Official Perl text for one arm of the upstream Perl dual-license grant."},
+      "signature": null
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "filename": "GPL-1.0.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "redistribution": {"allowed": true, "reason": "Official Perl text for the other arm of the upstream Perl dual-license grant."},
+      "signature": null
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "url": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Module-Install-1.21.tar.gz",
+      "filename": "Module-Install-1.21.tar.gz",
+      "version": "1.21",
+      "digests": {"sha256": "fbf91007f30565f3920e106055fd0d4287981d5e7dad8b35323ce4b733f15a7b"},
+      "redistribution": {"allowed": true, "reason": "Exact Module::Install donor under Perl terms. Preserve the original attribution and grant; execute no donor archive code."},
+      "signature": null
+    },
+    {
+      "id": "source4",
+      "kind": "upstream-release",
+      "url": "https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Module-Install-ReadmeFromPod-0.30.tar.gz",
+      "filename": "Module-Install-ReadmeFromPod-0.30.tar.gz",
+      "version": "0.30",
+      "digests": {"sha256": "79f6df5536619faffbda696bdd25ccad17c469bf32e51cd3e613366d49400169"},
+      "redistribution": {"allowed": true, "reason": "Exact ReadmeFromPod donor with its original Perl terms and full license. Execute no donor archive code."},
+      "signature": null
+    }
+  ]
+}
