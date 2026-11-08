@@ -1,0 +1,79 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libenv",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libenv",
+        "package_name": "libenv",
+        "source": "aur",
+        "source_version": "1.0.3.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-pair-variadic-start-and-end.patch",
+        "license": "ISC",
+        "purpose": "Pair va_start with reachable va_end in all nine variadic public wrappers before returning.",
+        "remove_when": "An official release makes all nine va_end calls reachable and passes the same unchanged and downstream API tests.",
+        "sha256": "c00ad3775314bf452caf462c7c46dd7505e340caad4f904c9d7b158bdd99a816",
+        "source": "Original downstream static review of the official Libenv 1.0.3.1 release; no upstream write.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libenv.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Preserve default static/shared build and both unfiltered upstream drivers. ISC variadic-lifetime patch; additional complete production-table, all public variadic/va_list filtering and ownership checks with static/shared consumers. Original test.c const-list CHECK branch is unreachable upstream; downstream checks cover it separately without editing original tests. No security-policy/native/build-success claim before physical CI acceptance.",
+    "status": "active"
+  },
+  "package_id": "libenv",
+  "rpm": {
+    "license": "ISC",
+    "name": "libenv",
+    "summary": "Environment variable classification and filtering library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "codeberg.org-maandree-libenv",
+    "homepage": "https://codeberg.org/maandree/libenv",
+    "release_api": "https://codeberg.org/maandree/libenv/tags",
+    "release_channel": "stable",
+    "release_regex": "/archive/(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://codeberg.org/maandree/libenv.git",
+    "source_url_template": "https://codeberg.org/maandree/libenv/archive/{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.3.1",
+    "latest_detected": "1.0.3.1",
+    "release": "1"
+  }
+}
