@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Tie-Function",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Tie-Function",
+        "package_name": "perl-Tie-Function",
+        "source": "fedora",
+        "source_version": "0.02-36.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-tie-function.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed fixed CPAN source, verbatim author grant and unchanged original test.pl.",
+    "status": "active"
+  },
+  "package_id": "libtie-function-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-tie-function",
+    "summary": "Call a Perl function through a tied hash lookup"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-tie-function",
+    "homepage": "https://metacpan.org/dist/Tie-Function",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAVIDNICO/handy_tied_functions/",
+    "release_channel": "stable",
+    "release_regex": "Tie-Function-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Tie-Function",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAVIDNICO/handy_tied_functions/Tie-Function-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.02",
+    "latest_detected": "0.02",
+    "release": "1"
+  }
+}
