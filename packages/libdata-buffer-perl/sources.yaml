@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-buffer-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Buffer-0.06.tar.gz",
+      "version": "0.06",
+      "url": "https://cpan.metacpan.org/authors/id/T/TI/TIMLEGGE/Data-Buffer-0.06.tar.gz",
+      "digests": {
+        "sha256": "815956260f846095f12e1682da6f6d6857a2512dcf394dbc569293102b8fe4ad"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Publisher CHECKSUMS matches the official CPAN source SHA-256. Bundled LICENSE and sole module explicitly grant redistribution/modification under Perl's GPL-1.0-or-later or Artistic terms by copyright holder Benjamin Trott; no conflicting per-file grant was found."
+      }
+    }
+  ]
+}
