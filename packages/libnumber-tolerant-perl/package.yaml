@@ -1,0 +1,86 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Number-Tolerant",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnumber-tolerant-perl",
+        "package_name": "libnumber-tolerant-perl",
+        "source": "debian",
+        "source_version": "1.710-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Number-Tolerant",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Number-Tolerant",
+        "package_name": "perl-Number-Tolerant",
+        "source": "fedora",
+        "source_version": "1.710-9.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-helper-notices.patch",
+        "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND Apache-2.0",
+        "purpose": "Retain the exact generated-helper and borrowed regex notices plus full Apache-2.0 terms; adds two license files and changes no original source or test.",
+        "remove_when": "Upstream supplies the same complete original helper and borrowed-code notices.",
+        "sha256": "f146d1fde5a0aba0d33488ba1435a596aab13ee6f28fd8a00407e0b1ac4eef42",
+        "source": "Official CPAN Dist-Zilla 6.029, Dist-Zilla-Plugin-Test-ReportPrereqs 0.028, Dist-Zilla-Plugin-CheckChangesHasContent 0.011 and version 0.9909; verified exact source and template output.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-number-tolerant.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed fixed CPAN source; package-local notice-only patch retains generated helper rights without modifying upstream code or tests.",
+    "status": "active"
+  },
+  "package_id": "libnumber-tolerant-perl",
+  "rpm": {
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND Apache-2.0",
+    "name": "perl-number-tolerant",
+    "summary": "Tolerance ranges for inexact Perl numbers"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-number-tolerant",
+    "homepage": "https://metacpan.org/dist/Number-Tolerant",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/",
+    "release_channel": "stable",
+    "release_regex": "Number-Tolerant-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/rjbs/Number-Tolerant",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Number-Tolerant-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.710",
+    "latest_detected": "1.710",
+    "release": "1"
+  }
+}
