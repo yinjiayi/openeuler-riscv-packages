@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-metaphone-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Text-Metaphone-20160805.tar.gz",
+      "version": "20160805",
+      "url": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/Text-Metaphone-20160805.tar.gz",
+      "digests": {
+        "sha256": "2d07e7cdafdf8f8f2b2698c0163f40018ca2d20e064a465c18161d581a405a41"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official CPAN HTTPS archive matches publisher CHECKSUMS SHA-256; distribution metadata and module POD grant redistribution under Perl terms without conflicting C/XS notices."
+      }
+    }
+  ]
+}
