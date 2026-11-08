@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-bezier-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Bezier-0.01.tar.gz",
+      "version": "0.01",
+      "url": "https://cpan.metacpan.org/authors/id/A/AB/ABW/Math-Bezier-0.01.tar.gz",
+      "digests": {
+        "sha256": "11a815fc45fdf0efabb1822ab77faad8b9eea162572c5f0940c8ed7d56e6b8b8"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Bezier.pm explicitly grants Perl terms and Debian source copyright applies Artistic or GPL-1-or-later to all original files; no conflicting upstream notices. Official CPAN CHECKSUMS pins this archive SHA-256."
+      }
+    }
+  ]
+}
