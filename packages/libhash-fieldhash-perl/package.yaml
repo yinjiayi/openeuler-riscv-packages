@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-fieldhash-perl",
+  "rpm": {
+    "name": "perl-Hash-FieldHash",
+    "summary": "Lightweight field hashes for Perl objects",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libhash-fieldhash-perl",
+    "homepage": "https://metacpan.org/dist/Hash-FieldHash",
+    "source_repository": "https://metacpan.org/dist/Hash-FieldHash",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/G/GF/GFUJI/",
+    "release_regex": "Hash-FieldHash-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/G/GF/GFUJI/Hash-FieldHash-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.15",
+    "release": "1",
+    "latest_detected": "0.15"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "perl-hash-fieldhash",
+        "package_base": "perl-hash-fieldhash",
+        "source_version": "0.15-3",
+        "evidence_url": "https://aur.archlinux.org/packages/perl-hash-fieldhash",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libhash-fieldhash-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen AUR 0.15-3 is lineage only. Official LICENSE grants Perl dual terms, and CPAN CHECKSUMS confirms the source SHA-256. Official SP3 RVA23 primary has no same-name RPM/module provider and supplies Module::Build, Devel::PPPort, ParseXS, compiler/headers, Test::LeakTrace, Test::More, threads and Scalar::Util. Build.PL imports its own bundled builder/MyBuilder.pm; -I. makes that verified source path explicit without changing upstream files or test assertions. All 21 unmodified default files/237 assertions passed locally using isolated official Test::LeakTrace 0.17; upstream t/05_threads.t emitted six nonfatal numeric preincrement warnings. Target Perl 5.38/riscv64 build, tests and installed smoke await hosted CI."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

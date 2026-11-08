@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libhash-fieldhash-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Hash-FieldHash-0.15.tar.gz",
+      "version": "0.15",
+      "url": "https://cpan.metacpan.org/authors/id/G/GF/GFUJI/Hash-FieldHash-0.15.tar.gz",
+      "digests": {
+        "sha256": "5c515707a5433796a5697b118ddbf1f216d13c5cd52f2b64292e76f7d9b7e8f1"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The official source LICENSE expressly grants Perl's GPL-1.0-or-later or Artistic dual terms; SHA-256 matches publisher CPAN CHECKSUMS."
+      }
+    }
+  ]
+}
