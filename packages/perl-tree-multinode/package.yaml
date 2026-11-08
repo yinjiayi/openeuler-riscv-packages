@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/libtree-multinode-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtree-multinode-perl",
+        "package_name": "libtree-multinode-perl",
+        "source": "debian",
+        "source_version": "1.0.14-0.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-tree-multinode.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official CPAN source in sources.yaml; actual Debian discovery lineage retained. Original default tests and all upstream source unchanged; no patch. Recipe requirement only, not a claim of physical network isolation.",
+    "status": "active"
+  },
+  "package_id": "perl-tree-multinode",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-tree-multinode",
+    "summary": "Multi-node trees and independent navigation handles in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-tree-multinode",
+    "homepage": "https://metacpan.org/dist/Tree-MultiNode",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TO/TODDR/",
+    "release_channel": "stable",
+    "release_regex": "Tree-MultiNode-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/cpan-authors/Tree-MultiNode",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TO/TODDR/Tree-MultiNode-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.02",
+    "latest_detected": "2.02",
+    "release": "1"
+  }
+}
