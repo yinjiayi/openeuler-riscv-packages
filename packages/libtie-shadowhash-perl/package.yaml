@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtie-shadowhash-perl",
+        "observed_at": "2026-11-08T22:44:30Z",
+        "package_base": "libtie-shadowhash-perl",
+        "package_name": "libtie-shadowhash-perl",
+        "source": "debian",
+        "source_version": "2.01-1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n383.wLoms8"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtie-shadowhash-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Exact CPAN archive verified by signed PAUSE and identical Debian stable original bytes. Keep the original per-file MIT/FSFAP and Perl notices, original recursive default tests, and separate installed precedence/override smoke.",
+    "status": "active"
+  },
+  "package_id": "libtie-shadowhash-perl",
+  "rpm": {
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND MIT AND FSFAP",
+    "name": "libtie-shadowhash-perl",
+    "summary": "Combine multiple Perl hash sources with isolated overrides"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Tie-ShadowHash",
+    "homepage": "https://metacpan.org/dist/Tie-ShadowHash",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RR/RRA/",
+    "release_channel": "stable",
+    "release_regex": "Tie-ShadowHash-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Tie-ShadowHash",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RR/RRA/Tie-ShadowHash-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.01",
+    "latest_detected": "2.01",
+    "release": "1"
+  }
+}
