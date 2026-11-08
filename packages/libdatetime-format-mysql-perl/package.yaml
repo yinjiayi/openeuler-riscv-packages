@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libdatetime-format-mysql-perl",
+        "observed_at": "2026-11-08T04:31:00Z",
+        "package_base": "libdatetime-format-mysql-perl",
+        "package_name": "libdatetime-format-mysql-perl",
+        "source": "debian",
+        "source_version": "0.08-1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n365.Noqgwc"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdatetime-format-mysql-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Debian stable establishes package lineage only. The official authorized CPAN archive and publisher SHA-256, full original same-Perl LICENSE, unchanged Module::Build default tests, and official target DateTime and Builder providers were independently checked.",
+    "status": "active"
+  },
+  "package_id": "libdatetime-format-mysql-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libdatetime-format-mysql-perl",
+    "summary": "Parse and format MySQL dates and times in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:DateTime-Format-MySQL",
+    "homepage": "https://metacpan.org/dist/DateTime-Format-MySQL",
+    "release_api": "https://cpan.metacpan.org/authors/id/X/XM/XMIKEW/",
+    "release_channel": "stable",
+    "release_regex": "DateTime-Format-MySQL-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/DateTime-Format-MySQL",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/X/XM/XMIKEW/DateTime-Format-MySQL-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.08",
+    "latest_detected": "0.08",
+    "release": "1"
+  }
+}
