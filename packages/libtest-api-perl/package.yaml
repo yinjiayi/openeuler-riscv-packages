@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-API",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-API",
+        "package_name": "perl-Test-API",
+        "source": "fedora",
+        "source_version": "0.010-24.fc44"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-API",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-API",
+        "package_name": "perl-Test-API",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.010-1.24"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-test-api.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed CPAN archive and Fedora 44 GA discovery reviewed; original Apache grant, complete generated-source notices, and original tests are preserved.",
+    "status": "active"
+  },
+  "package_id": "libtest-api-perl",
+  "rpm": {
+    "license": "Apache-2.0 AND (GPL-1.0-or-later OR Artistic-1.0-Perl)",
+    "name": "perl-test-api",
+    "summary": "Check the public Perl API provided by a module"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-test-api",
+    "homepage": "https://metacpan.org/dist/Test-API",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_channel": "stable",
+    "release_regex": "Test-API-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Test-API",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Test-API-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.010",
+    "latest_detected": "0.010",
+    "release": "1"
+  }
+}
