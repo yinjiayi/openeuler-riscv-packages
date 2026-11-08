@@ -1,0 +1,52 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Retain EUMM original attribution for the build-call wrapper
+
+Preserve the exact original EUMM author/license text from fixed official7.34.
+The observed boundary is an analogous API calling pattern, not a claim that
+the parser implementation or earliest source version was copied. Add only
+notice text; all original files and tests remain unchanged.
+Upstream-Status: Not submitted (local packaging license preservation)
+
+--- /dev/null
++++ b/BUILD-HELPER-LICENSE
+@@ -0,0 +1,40 @@
++Build-helper attribution and original license terms
++
++Makefile.PL labels its parse_args wrapper "copied from EUMM". The actual
++wrapper calls the EUMM API and passes shell-split PERL_MM_OPT plus ARGV; it
++does not embed EUMM's parser implementation. The analogous calling pattern
++is present in this fixed official ExtUtils-MakeMaker 7.34 source:
++https://cpan.metacpan.org/authors/id/B/BI/BINGOS/ExtUtils-MakeMaker-7.34.tar.gz
++SHA-256: 95f1eb44de480d00b28d031b574ec868f7aeeee199eb5abe5666f6bcbbf68480
++
++This records a concrete reference matching the distribution's declared EUMM
++generation version, not a claim about the first copied version or byte-identical
++parser code. The original EUMM AUTHORS and LICENSE text is preserved below;
++POD notation is retained. This is attribution, not a newly invented grant.
++
++Andy Dougherty C<doughera@lafayette.edu>, Andreas KE<ouml>nig
++C<andreas.koenig@mind.de>, Tim Bunce C<timb@cpan.org>.  VMS
++support by Charles Bailey C<bailey@newman.upenn.edu>.  OS/2 support
++by Ilya Zakharevich C<ilya@math.ohio-state.edu>.
++
++Currently maintained by Michael G Schwern C<schwern@pobox.com>
++
++Send patches and ideas to C<makemaker@perl.org>.
++
++Send bug reports via http://rt.cpan.org/.  Please send your
++generated Makefile along with your report.
++
++For more up-to-date information, see L<https://metacpan.org/release/ExtUtils-MakeMaker>.
++
++Repository available at L<https://github.com/Perl-Toolchain-Gang/ExtUtils-MakeMaker>.
++
++=head1 LICENSE
++
++This program is free software; you can redistribute it and/or
++modify it under the same terms as Perl itself.
++
++See L<http://www.perl.com/perl/misc/Artistic.html>
++
++The original bundled inc/ExtUtils/HasCompiler.pm retains its own Leon Timmermans
++2014 author/copyright and same-Perl license text, and is installed as license
++documentation. No original source member, code or default test is changed.
