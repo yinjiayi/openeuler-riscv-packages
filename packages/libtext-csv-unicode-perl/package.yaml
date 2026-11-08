@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-csv-unicode-perl",
+  "rpm": {
+    "name": "perl-Text-CSV-Unicode",
+    "summary": "Unicode-aware wrapper around Perl Text::CSV",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-csv-unicode-perl",
+    "homepage": "https://metacpan.org/dist/Text-CSV-Unicode",
+    "source_repository": "https://metacpan.org/dist/Text-CSV-Unicode",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RM/RMBARKER/",
+    "release_regex": "Text-CSV-Unicode-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RM/RMBARKER/Text-CSV-Unicode-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.400",
+    "release": "1",
+    "latest_detected": "0.400"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-csv-unicode-perl",
+        "package_base": "libtext-csv-unicode-perl",
+        "source_version": "0.400-2",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-csv-unicode-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-csv-unicode-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 0.400-2 maps to official CPAN 0.400. Current README/POD and original Text-CSV-0.01 README/CSV.pm establish Perl terms for author work and inherited Alan Citterman test/docs. Publisher checksum and safe archive verified. Official target primary has Text::CSV 2.04 plus all default test dependencies, no same provider. Local missing Text::CSV and POD coverage prevent full upstream tests; target CI must prove all five unmodified files and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
