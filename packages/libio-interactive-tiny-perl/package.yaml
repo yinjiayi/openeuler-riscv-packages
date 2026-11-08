@@ -1,0 +1,86 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/IO-Interactive-Tiny",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libio-interactive-tiny-perl",
+        "package_name": "libio-interactive-tiny-perl",
+        "source": "debian",
+        "source_version": "0.2-4"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/IO-Interactive-Tiny",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libio-interactive-tiny-perl",
+        "package_name": "libio-interactive-tiny-perl",
+        "source": "ubuntu",
+        "source_version": "0.2-4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-retain-io-interactive-notice.patch",
+        "sha256": "91e60f846f00ddaa03b4663211c0004f77ec36bf38efcb27c8999b499c3db434",
+        "purpose": "Preserve the exact original copyright, license grant, and disclaimer for the derived function and test.",
+        "source": "https://cpan.metacpan.org/authors/id/B/BD/BDFOY/IO-Interactive-0.0.6.tar.gz",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "downstream-only",
+        "remove_when": "A fixed upstream release includes the notice or removes the derived material."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-io-interactive-tiny.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libio-interactive-tiny-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-io-interactive-tiny",
+    "summary": "Check whether a Perl process is connected to an interactive terminal"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-io-interactive-tiny",
+    "homepage": "https://metacpan.org/dist/IO-Interactive-Tiny",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/",
+    "release_channel": "stable",
+    "release_regex": "IO-Interactive-Tiny-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/IO-Interactive-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.2",
+    "latest_detected": "0.2",
+    "release": "1"
+  }
+}
