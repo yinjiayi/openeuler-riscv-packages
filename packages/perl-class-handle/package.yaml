@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libclass-handle-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-handle-perl",
+        "package_name": "libclass-handle-perl",
+        "source": "ubuntu",
+        "source_version": "1.07-5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-helper-notices.patch",
+        "sha256": "53827abc8c5fdf71f8c879cf967f95099dce63378aac342908d8e42a397f05c7",
+        "purpose": "Retain original bundled ModuleInstall0.68 copyright and license notices; no code or test changes.",
+        "upstream_status": "not-submitted",
+        "source": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/Module-Install-0.68.tar.gz; SHA256 f6aa0c315cbc9456f642db3de8d2315d658f0a59d46aa0946737fee09d2e293c; original individual copyright/grants",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "remove_when": "Upstream Class-Handle preserves these complete bundled helper notices."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-handle.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable CPAN archive pinned in sources.yaml; actual Ubuntu lineage retained. Original default tests and bundled ModuleInstall0.68 code preserved; precise notices restored. No external recipe executed or physical network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-class-handle",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-handle",
+    "summary": "Objects representing Perl classes and their introspection operations"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-class-handle",
+    "homepage": "https://metacpan.org/dist/Class-Handle",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/",
+    "release_channel": "stable",
+    "release_regex": "Class-Handle-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Class-Handle",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/Class-Handle-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.07",
+    "latest_detected": "1.07",
+    "release": "1"
+  }
+}
