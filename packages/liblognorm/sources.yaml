@@ -1,0 +1,19 @@
+{
+  "package_id": "liblognorm",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {"sha256": "6f8071e763d77d9bf67d56a4f9630316b911d9b627aca20c5d25258ef9c9e8c6"},
+      "filename": "liblognorm-2.1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "LGPL- and Apache-licensed source is fetched from the official immutable versioned release asset in CI."
+      },
+      "signature": null,
+      "url": "https://github.com/rsyslog/liblognorm/releases/download/v2.1.0/liblognorm-2.1.0.tar.gz",
+      "version": "2.1.0"
+    }
+  ]
+}
