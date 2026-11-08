@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtie-refhash-weak-perl",
+        "observed_at": "2026-11-08T20:45:00Z",
+        "package_base": "libtie-refhash-weak-perl",
+        "package_name": "libtie-refhash-weak-perl",
+        "source": "debian",
+        "source_version": "0.09-2.1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n381.hKbjEX"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtie-refhash-weak-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed CPAN archive verified against PAUSE and the embedded author signature, corroborated by Debian stable. The original tests, including their upstream TODO, are retained; the separate installed smoke verifies weak-key collection.",
+    "status": "active"
+  },
+  "package_id": "libtie-refhash-weak-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libtie-refhash-weak-perl",
+    "summary": "Perl hashes with weak references as keys"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Tie-RefHash-Weak",
+    "homepage": "https://metacpan.org/dist/Tie-RefHash-Weak",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/",
+    "release_channel": "stable",
+    "release_regex": "Tie-RefHash-Weak-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Tie-RefHash-Weak",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/Tie-RefHash-Weak-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.09",
+    "latest_detected": "0.09",
+    "release": "1"
+  }
+}
