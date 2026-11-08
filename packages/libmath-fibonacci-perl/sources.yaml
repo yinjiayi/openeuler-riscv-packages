@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libmath-fibonacci-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Math-Fibonacci-1.5.tar.gz",
+      "version": "1.5",
+      "url": "https://cpan.metacpan.org/authors/id/V/VI/VIPUL/Math-Fibonacci-1.5.tar.gz",
+      "digests": {
+        "sha256": "70a8286e94558df99dc92f52d83e1e20a7b8f7852bcc3a1de7d9e338260b99ba"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The module expressly grants the included Artistic license; Makefile.PL and both original tests permit the same terms as Perl. Official publisher CHECKSUMS and an independent HTTPS download have the same SHA-256."
+      }
+    }
+  ]
+}
