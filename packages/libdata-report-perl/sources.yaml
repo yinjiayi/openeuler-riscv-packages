@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-report-perl",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Data-Report-1.001.tar.gz",
+      "version": "1.001",
+      "url": "https://cpan.metacpan.org/authors/id/J/JV/JV/Data-Report-1.001.tar.gz",
+      "digests": {
+        "sha256": "d50c89dbd0eaebbaba31c0ede60356607ed56d5f7060d303550bfc2a72cc944d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The distribution README and principal module POD explicitly grant redistribution under Perl's GPL/Artistic terms. All bundled modules share the same upstream copyright holder and no file has a conflicting grant. Publisher CHECKSUMS matches the independently downloaded HTTPS archive SHA-256."
+      }
+    }
+  ]
+}

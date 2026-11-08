@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-report-perl",
+  "rpm": {
+    "name": "perl-Data-Report",
+    "summary": "Flexible text, HTML and CSV report generation in Perl",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libdata-report-perl",
+    "homepage": "https://metacpan.org/dist/Data-Report",
+    "source_repository": "https://github.com/sciurius/perl-Data-Report",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JV/JV/",
+    "release_regex": "Data-Report-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JV/JV/Data-Report-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.001",
+    "release": "1",
+    "latest_detected": "1.001"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libdata-report-perl",
+        "package_base": "libdata-report-perl",
+        "source_version": "1.001",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-report-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libdata-report-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official CPAN Data-Report 1.001 and publisher CHECKSUMS agree on SHA-256. Distribution README and principal module POD grant Perl GPL/Artistic terms; bundled modules share the same copyright holder and no conflicting grant. SP3 RVA23 primary lacks the RPM and all five module providers and uniquely supplies all hard dependencies. All 23 default upstream test files are retained unchanged; macOS local Perl lacks Text::CSV, so exact-head target CI must establish the full test outcome."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
