@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pstack
-Version:        2.17
+Version:        2.18.9
 Release:        1%{?dist}
 Summary:        Print stack traces from running processes, or core files.
 License:        BSD-2-Clause
 URL:            https://github.com/peadar/pstack
-Source0:        pstack-2.17.tar.gz
+Source0:        v2.18.9.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
