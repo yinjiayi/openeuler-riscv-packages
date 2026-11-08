@@ -1,0 +1,30 @@
+{
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 300},
+  "discovery": {
+    "lineage": [
+      {"evidence_url": "https://archlinux.org/packages/extra/x86_64/re2c/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "re2c", "package_name": "re2c", "source": "arch-extra", "source_version": "4.5.1-1"},
+      {"evidence_url": "https://packages.debian.org/trixie/source/re2c", "observed_at": "2026-08-08T16:50:00Z", "package_base": "re2c", "package_name": "re2c", "source": "debian", "source_version": "4.1-1"},
+      {"evidence_url": "https://packages.fedoraproject.org/pkgs/re2c/re2c/", "observed_at": "2026-08-08T16:50:00Z", "package_base": "re2c", "package_name": "re2c", "source": "fedora", "source_version": "3.1-6.fc44"},
+      {"evidence_url": "https://build.opensuse.org/package/show/openSUSE%3AFactory/re2c", "observed_at": "2026-08-08T16:50:00Z", "package_base": "re2c", "package_name": "re2c", "source": "opensuse-tumbleweed", "source_version": "4.5.1-1.3"},
+      {"evidence_url": "https://packages.ubuntu.com/resolute/source/re2c", "observed_at": "2026-08-08T16:50:00Z", "package_base": "re2c", "package_name": "re2c", "source": "ubuntu", "source_version": "4.4-1"}
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "re2c.spec"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "Frozen Arch, Debian, Fedora, openSUSE, and Ubuntu aliases were deduplicated by the official re2c component. AUR's VCS-only re2c-git record is excluded by policy and was never executed. The exact official release asset is checksum pinned; the complete upstream Automake test route and a generated-C compile/execute check remain enabled.", "status": "active"},
+  "package_id": "re2c",
+  "rpm": {"license": "LicenseRef-re2c-Public-Domain", "name": "re2c", "summary": "Lexer generator for multiple programming languages"},
+  "schema_version": 1,
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-github-releases"},
+  "upstream": {
+    "component": "re2c.org",
+    "homepage": "https://re2c.org/",
+    "release_api": "https://api.github.com/repos/skvadrik/re2c/releases/latest",
+    "release_channel": "stable",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://github.com/skvadrik/re2c",
+    "source_url_template": "https://github.com/skvadrik/re2c/releases/download/{version}/re2c-{version}.tar.xz"
+  },
+  "version": {"current": "4.5.1", "latest_detected": "4.5.1", "release": "1"}
+}
