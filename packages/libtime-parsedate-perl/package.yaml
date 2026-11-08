@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtime-parsedate-perl",
+        "observed_at": "2026-11-08T17:40:00Z",
+        "package_base": "libtime-parsedate-perl",
+        "package_name": "libtime-parsedate-perl",
+        "source": "debian",
+        "source_version": "2015.103-5"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n378.CGPOsn"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtime-parsedate-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed signed official CPAN release with all original defaults including simulated DST. Exact vendored helper donors and license notices are preserved.",
+    "status": "active"
+  },
+  "package_id": "libtime-parsedate-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libtime-parsedate-perl",
+    "summary": "Parse date and time expressions in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Time-ParseDate",
+    "homepage": "https://metacpan.org/dist/Time-ParseDate",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BP/BPS/",
+    "release_channel": "stable",
+    "release_regex": "Time-ParseDate-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Time-ParseDate",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BP/BPS/Time-ParseDate-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2026.033",
+    "latest_detected": "2026.033",
+    "release": "1"
+  }
+}
