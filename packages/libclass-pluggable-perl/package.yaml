@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libclass-pluggable-perl",
+        "observed_at": "2026-11-08T21:47:00Z",
+        "package_base": "libclass-pluggable-perl",
+        "package_name": "libclass-pluggable-perl",
+        "source": "debian",
+        "source_version": "0.022-2.3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n382.Q7F3Np"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libclass-pluggable-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Exact CPAN source verified against the signed PAUSE manifest and Debian stable. The original default tests are unchanged; installed smoke checks explicit registered plugin dispatch.",
+    "status": "active"
+  },
+  "package_id": "libclass-pluggable-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libclass-pluggable-perl",
+    "summary": "Add registered plugin methods and hooks to Perl objects"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Class-Pluggable",
+    "homepage": "https://metacpan.org/dist/Class-Pluggable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TA/TAKESHIGE/",
+    "release_channel": "stable",
+    "release_regex": "Class-Pluggable-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Class-Pluggable",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TA/TAKESHIGE/Class-Pluggable-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.022",
+    "latest_detected": "0.022",
+    "release": "1"
+  }
+}
