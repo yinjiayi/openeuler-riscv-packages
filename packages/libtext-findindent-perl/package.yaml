@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-findindent-perl",
+  "rpm": {
+    "name": "perl-Text-FindIndent",
+    "summary": "Detect the indentation style used in text",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-findindent-perl",
+    "homepage": "https://metacpan.org/dist/Text-FindIndent",
+    "source_repository": "https://github.com/tsee/p5-Text-FindIndent",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/",
+    "release_regex": "Text-FindIndent-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Text-FindIndent-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.12",
+    "release": "1",
+    "latest_detected": "0.12"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-findindent-perl",
+        "package_base": "libtext-findindent-perl",
+        "source_version": "0.12-1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-findindent-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-findindent-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen exact key maps to Ubuntu 0.12-1 and official CPAN stable 0.12. Publisher CHECKSUMS SHA-256, safe archive, and included LICENSE/module POD Perl dual terms verified despite unknown metadata license. Official target primary lacks same-name RPM/provider. Both upstream default suites and all 65 assertions, including 20 indentation fixtures, passed locally; target build/install remain CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
