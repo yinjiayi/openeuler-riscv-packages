@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Text-Diff-HTML",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Text-Diff-HTML",
+        "package_name": "perl-Text-Diff-HTML",
+        "source": "fedora",
+        "source_version": "0.08-22.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-retain-module-build-compat-notice.patch",
+        "sha256": "1b71411d2fb74064db52d24ac408531c168fe3f8375e97089ac01b38ebb3057c",
+        "purpose": "Retain the exact copyright and Perl-terms grant for the unmodified generated Makefile.PL.",
+        "source": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-0.4224.tar.gz",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "downstream-only",
+        "remove_when": "A fixed upstream release removes the generated wrapper or includes its generator's applicable notice."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-text-diff-html.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned CPAN source; original behavior and POD tests retained with a notice-only patch.",
+    "status": "active"
+  },
+  "package_id": "perl-text-diff-html",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-text-diff-html",
+    "summary": "Generate HTML markup from Perl Text::Diff comparisons"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-text-diff-html",
+    "homepage": "https://metacpan.org/dist/Text-Diff-HTML",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TI/TIMK/",
+    "release_channel": "stable",
+    "release_regex": "Text-Diff-HTML-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/ThePerlShop/text-diff-html",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TI/TIMK/Text-Diff-HTML-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.08",
+    "latest_detected": "0.08",
+    "release": "1"
+  }
+}
