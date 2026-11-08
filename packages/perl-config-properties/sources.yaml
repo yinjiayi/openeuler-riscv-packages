@@ -1,0 +1,21 @@
+{
+  "package_id": "perl-config-properties",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5d04395be7e14e970a03ea952fb7629ae304d97c031f90cc1c29bd0a6a62fc40"
+      },
+      "filename": "Config-Properties-1.80.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The original README and module preserve the authors' attributions and grant the same terms as Perl itself; the archive is unchanged."
+      },
+      "signature": {"policy":"checksum-required-signature-advisory","url":"https://cpan.metacpan.org/authors/id/S/SA/SALVA/CHECKSUMS","key_fingerprint":"2E66557AB97C19C791AF8E20328DA867450F89EC"},
+      "url": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/Config-Properties-1.80.tar.gz",
+      "version": "1.80"
+    }
+  ]
+}
