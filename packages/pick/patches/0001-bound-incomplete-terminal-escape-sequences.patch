@@ -1,0 +1,13 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Stop incomplete CSI/OSC sequence length at the NUL terminator
+
+An unfinished sequence reaches str[i] == NUL. Returning i+1 then advances
+callers past the string terminator. Complete sequences still include their
+final byte; truncated sequences now stop immediately before the terminator.
+Original downstream static review of official 4.0.0. No upstream writes.
+SPDX-License-Identifier: MIT
+--- a/pick.c
++++ b/pick.c
+@@ -629 +629 @@ skipescseq(const char *str)
+-	return i + 1;
++	return i + (str[i] != '\0');

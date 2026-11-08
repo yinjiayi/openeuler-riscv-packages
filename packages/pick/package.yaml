@@ -1,0 +1,104 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/pick",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pick",
+        "package_name": "pick",
+        "source": "debian",
+        "source_version": "2.0.2-1.1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/pick",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pick",
+        "package_name": "pick",
+        "source": "fedora",
+        "source_version": "4.0.0-14.fc44"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/pick",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "pick",
+        "package_name": "pick",
+        "source": "ubuntu",
+        "source_version": "2.0.2-1.1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-bound-incomplete-terminal-escape-sequences.patch",
+        "license": "MIT",
+        "purpose": "Bound truncated CSI/OSC lengths at NUL while preserving complete sequences; add eight separate functional length regressions.",
+        "remove_when": "An official fixed release passes the same truncated and complete sequence regression cases unchanged.",
+        "sha256": "cc9ee50bc087adef6ddc6b1f4996eac3eb5cada60db2ccb7a0ea3d423341a4aa",
+        "source": "Original downstream static review of official Pick 4.0.0 pick.c; no upstream writes.",
+        "upstream_status": "not-submitted"
+      },
+      {
+        "file": "patches/0002-add-offline-installed-default-suite-replay.patch",
+        "license": "MIT",
+        "purpose": "Stage extra length checks and installed replay through SRPM patches; preserve every original default PTY test byte and timeout.",
+        "remove_when": "Upstream ships equivalent installed-default-suite replay and the same additional boundary regressions.",
+        "sha256": "059bcbbfc71f9b6312cee67e1f9d1f1d75ec5b8ecabb4e215030b2727e7bbd06",
+        "source": "Original downstream MIT checks, byte-identical to the declared package-local tests; no borrowed distribution recipe.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "pick.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v4.0.0 and archive SHA-256 freshly verified. Retain MIT and bundled ISC notices, default configure/build, all original 31 PTY test files and two-second timeout. Stage and installed replay compile only original driver. Eight added length cases are functional only, not native terminal/signal/timing or memory-safety proof. No local upstream/compiler/RPM/QEMU execution; hosted exact-head acceptance pending.",
+    "status": "active"
+  },
+  "package_id": "pick",
+  "rpm": {
+    "license": "MIT AND ISC",
+    "name": "pick",
+    "summary": "Fuzzy search selection tool for the command line"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-mptre-pick",
+    "homepage": "https://github.com/mptre/pick",
+    "release_api": "https://api.github.com/repos/mptre/pick/tags",
+    "release_channel": "stable",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/mptre/pick",
+    "source_url_template": "https://codeload.github.com/mptre/pick/tar.gz/refs/tags/v{version}"
+  },
+  "version": {
+    "current": "4.0.0",
+    "latest_detected": "4.0.0",
+    "release": "1"
+  }
+}
