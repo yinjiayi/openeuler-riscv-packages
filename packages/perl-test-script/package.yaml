@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libtest-script-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-script-perl",
+        "package_name": "libtest-script-perl",
+        "source": "ubuntu",
+        "source_version": "1.31-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtest-script-perl",
+        "observed_at": "2026-11-07T16:55:00Z",
+        "package_base": "libtest-script-perl",
+        "package_name": "libtest-script-perl",
+        "source": "debian",
+        "source_version": "1.29-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{"file":"patches/0001-preserve-generated-template-notices.patch","sha256":"ea7de60b0371b2e156cafeac57fc785641a7d10d76f075209a52a6fcaf3f348c","purpose":"Add the original attributions and Perl terms of the generated Makefile and test templates without changing executable code or test selection.","source":"Official Dist-Zilla 6.033 and Dist-Zilla-PluginBundle-Author-Plicease 2.79 source LICENSE/POD and template code, documented in README.","license":"GPL-1.0-or-later OR Artistic-1.0-Perl","upstream_status":"downstream-only","remove_when":"A verified upstream release preserves the equivalent generator template attribution and grants."}],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-test-script.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release and exact generated template grants verified. Original default tests preserved; the notice patch adds no executable code. No distribution recipe was executed.",
+    "status": "active"
+  },
+  "package_id": "perl-test-script",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-test-script",
+    "summary": "Basic cross-platform tests for Perl scripts"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-test-script",
+    "homepage": "https://metacpan.org/dist/Test-Script",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/",
+    "release_channel": "stable",
+    "release_regex": "Test-Script-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/uperl/Test-Script",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Test-Script-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.31",
+    "latest_detected": "1.31",
+    "release": "1"
+  }
+}
