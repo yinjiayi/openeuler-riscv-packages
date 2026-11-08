@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://www.gnu.org/software/barcode/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "barcode",
+        "package_name": "barcode",
+        "source": "arch-extra",
+        "source_version": "0.99-6"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/barcode/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "barcode",
+        "package_name": "barcode",
+        "source": "debian",
+        "source_version": "0.99-9"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/barcode/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "barcode",
+        "package_name": "barcode",
+        "source": "fedora",
+        "source_version": "0.98-54.fc44"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/barcode/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "barcode",
+        "package_name": "barcode",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.99-12.6"
+      },
+      {
+        "evidence_url": "https://www.gnu.org/software/barcode/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "barcode",
+        "package_name": "barcode",
+        "source": "ubuntu",
+        "source_version": "0.99-9build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "barcode.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Selected from the full discovery inventory; the official stable release archive was independently downloaded from a public GNU mirror, inspected, and pinned by SHA-256. External distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "barcode",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "barcode",
+    "summary": "A tool to convert text strings to printed bars"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "gnu.org-software-barcode",
+    "homepage": "https://www.gnu.org/software/barcode/",
+    "release_api": "https://ftp.gnu.org/gnu/barcode/",
+    "release_channel": "stable",
+    "release_regex": "barcode-([0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://savannah.gnu.org/projects/barcode/",
+    "source_url_template": "https://ftp.gnu.org/gnu/barcode/barcode-{version}.tar.xz"
+  },
+  "version": {
+    "current": "0.99",
+    "latest_detected": "0.99",
+    "release": "1"
+  }
+}
