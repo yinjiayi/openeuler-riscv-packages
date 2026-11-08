@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-iconv-perl",
+  "rpm": {
+    "name": "perl-Text-Iconv",
+    "summary": "Perl interface to iconv character set conversion",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-iconv-perl",
+    "homepage": "https://metacpan.org/dist/Text-Iconv",
+    "source_repository": "https://metacpan.org/dist/Text-Iconv",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MP/MPIOTR/",
+    "release_regex": "Text-Iconv-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MP/MPIOTR/Text-Iconv-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.7",
+    "release": "1",
+    "latest_detected": "1.7"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-iconv-perl",
+        "package_base": "libtext-iconv-perl",
+        "source_version": "1.7-8.1",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-iconv-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-iconv-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu 1.7-8.1 maps to official CPAN 1.7; publisher CHECKSUMS SHA-256 and safe archive verified. README grants Perl terms, with no conflicting file notices. Official SP3 RVA23 primary lacks same RPM/module provider and has build dependencies. Both default upstream test files and 14 assertions passed on local macOS; target XS build, tests and smoke require CI evidence."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
