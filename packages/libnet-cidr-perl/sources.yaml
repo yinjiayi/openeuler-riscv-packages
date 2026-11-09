@@ -1,0 +1,35 @@
+{
+  "package_id": "libnet-cidr-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9e950fef4422264dc8efab30dbbd3ce2be125e61b3f5c50111d15506d3b570e3"
+      },
+      "filename": "Net-CIDR-0.27.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/M/MR/MRSAM/Net-CIDR-0.27.tar.gz",
+      "version": "0.27"
+    },
+    {
+      "id":"source1","kind":"upstream-release",
+      "url":"https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "filename":"Artistic-1.0-Perl.txt","version":"76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests":{"sha256":"dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "redistribution":{"allowed":true,"reason":"Official full Artistic text from the upstream Perl dual grant."},"signature":null
+    },
+    {
+      "id":"source2","kind":"upstream-release",
+      "url":"https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "filename":"GPL-1.0.txt","version":"76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests":{"sha256":"d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "redistribution":{"allowed":true,"reason":"Official full GPLv1 text from the upstream Perl dual grant."},"signature":null
+    }
+  ]
+}
