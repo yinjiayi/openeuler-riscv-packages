@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libio-interactive-perl",
+        "observed_at": "2026-11-09T08:55:10Z",
+        "package_base": "libio-interactive-perl",
+        "package_name": "libio-interactive-perl",
+        "source": "debian",
+        "source_version": "1.027-1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261109-n394.9dcWTE"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libio-interactive-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed CPAN source matches the Debian stable original. Preserve the default suite and verify both original terminal tests in a real PTY.",
+    "status": "active"
+  },
+  "package_id": "libio-interactive-perl",
+  "rpm": {
+    "license": "Artistic-2.0",
+    "name": "libio-interactive-perl",
+    "summary": "Handle terminal and non-terminal streams in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:IO-Interactive",
+    "homepage": "https://metacpan.org/dist/IO-Interactive",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/",
+    "release_channel": "stable",
+    "release_regex": "IO-Interactive-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/IO-Interactive",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/IO-Interactive-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.027",
+    "latest_detected": "1.027",
+    "release": "1"
+  }
+}
