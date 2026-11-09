@@ -1,0 +1,21 @@
+{
+  "package_id": "perl-time-clock",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "35e8a8bbfcdb35d86dd4852a9cd32cfb455a9b42e22669186e920c8aca017aef"
+      },
+      "filename": "Time-Clock-1.03.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The original Time::Clock module POD names John C. Siracusa and grants the same terms as Perl itself; the archive is unchanged."
+      },
+      "signature": {"policy":"checksum-required-signature-advisory","url":"https://cpan.metacpan.org/authors/id/J/JS/JSIRACUSA/CHECKSUMS","key_fingerprint":"2E66557AB97C19C791AF8E20328DA867450F89EC"},
+      "url": "https://cpan.metacpan.org/authors/id/J/JS/JSIRACUSA/Time-Clock-1.03.tar.gz",
+      "version": "1.03"
+    }
+  ]
+}
