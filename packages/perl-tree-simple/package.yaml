@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libtree-simple-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtree-simple-perl",
+        "package_name": "libtree-simple-perl",
+        "source": "ubuntu",
+        "source_version": "1.34-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtree-simple-perl",
+        "observed_at": "2026-11-07T19:23:30Z",
+        "package_base": "libtree-simple-perl",
+        "package_name": "libtree-simple-perl",
+        "source": "debian",
+        "source_version": "1.34-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-tree-simple.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release and explicit module POD grants verified. Original default suite and memory-cycle tests run with the supplied Test::Memory::Cycle stack. No distro recipe executed.",
+    "status": "active"
+  },
+  "package_id": "perl-tree-simple",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-tree-simple",
+    "summary": "Perl tree nodes and visitor traversal"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-tree-simple",
+    "homepage": "https://metacpan.org/release/Tree-Simple",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/",
+    "release_channel": "stable",
+    "release_regex": "Tree-Simple-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz",
+    "source_repository": "https://github.com/ronsavage/Tree-Simple",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/Tree-Simple-{version}.tgz"
+  },
+  "version": {
+    "current": "1.34",
+    "latest_detected": "1.34",
+    "release": "1"
+  }
+}
