@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libxml-namespacefactory-perl",
+        "observed_at": "2026-11-09T14:09:20Z",
+        "package_base": "libxml-namespacefactory-perl",
+        "package_name": "libxml-namespacefactory-perl",
+        "source": "debian",
+        "source_version": "1.02-3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261109-n399.UC3F2s"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libxml-namespacefactory-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "PAUSE-signed release matches Debian stable original. Keep the original default tests, full Perl dual grant, and Dist::Zilla MakeMaker template notice.",
+    "status": "active"
+  },
+  "package_id": "libxml-namespacefactory-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libxml-namespacefactory-perl",
+    "summary": "Construct Clark names from XML namespaces"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:XML-NamespaceFactory",
+    "homepage": "https://metacpan.org/dist/XML-NamespaceFactory",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PE/PERIGRIN/",
+    "release_channel": "stable",
+    "release_regex": "XML-NamespaceFactory-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/XML-NamespaceFactory",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PE/PERIGRIN/XML-NamespaceFactory-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.02",
+    "latest_detected": "1.02",
+    "release": "1"
+  }
+}
