@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-UseAllModules",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-useallmodules-perl",
+        "package_name": "libtest-useallmodules-perl",
+        "source": "ubuntu",
+        "source_version": "0.17-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-UseAllModules",
+        "observed_at": "2026-11-07T16:27:00Z",
+        "package_base": "libtest-useallmodules-perl",
+        "package_name": "libtest-useallmodules-perl",
+        "source": "debian",
+        "source_version": "0.17-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-test-useallmodules.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-test-useallmodules",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-test-useallmodules",
+    "summary": "Check that all Perl modules listed in a distribution can load"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-test-useallmodules",
+    "homepage": "https://metacpan.org/dist/Test-UseAllModules",
+    "release_api": "https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/",
+    "release_channel": "stable",
+    "release_regex": "Test-UseAllModules-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/charsbar/test-useallmodules",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/Test-UseAllModules-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.17",
+    "latest_detected": "0.17",
+    "release": "1"
+  }
+}
