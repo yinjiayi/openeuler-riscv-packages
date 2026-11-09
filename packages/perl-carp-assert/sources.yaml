@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-carp-assert",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "807ea97c6bed76ac2e4969efba7dae48fefeb9f28797f112671b3ac8a49355f7"
+      },
+      "filename": "Carp-Assert-0.22.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "url": "https://cpan.metacpan.org/authors/id/Y/YV/YVES/CHECKSUMS",
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/Y/YV/YVES/Carp-Assert-0.22.tar.gz",
+      "version": "0.22"
+    }
+  ]
+}
