@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libdigest-crc-perl",
+        "observed_at": "2026-11-07T13:19:00Z",
+        "package_base": "libdigest-crc-perl",
+        "package_name": "libdigest-crc-perl",
+        "source": "debian",
+        "source_version": "0.24-1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n350.oqr09W"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-source-license-notices.patch",
+        "sha256": "6438023e74b43dd4a675d42e419d440e6e88ef2fd5a7b6369c9f1ff7314a95e8",
+        "purpose": "Preserve the separate original public-domain and historical Perl template Artistic grants without changing source or tests; generic not RISC-V-specific.",
+        "source": "Original Digest-CRC 0.24 README and module notices, original Ross Williams reference and exact Perl 5.005_03 Artistic kit text identified in NOTICE.Scope.",
+        "license": "LicenseRef-Public-Domain AND Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream ships equivalent complete component notices and applicable license texts."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-digest-crc.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Build and assert the real XS path; run the unchanged default 32 tests plus the original CRC64 option on riscv64. CRC is not cryptographic.",
+    "status": "active"
+  },
+  "package_id": "perl-digest-crc",
+  "rpm": {
+    "license": "LicenseRef-Public-Domain AND Artistic-1.0-Perl",
+    "name": "perl-digest-crc",
+    "summary": "Compute cyclic redundancy checks in Perl with XS acceleration"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Digest-CRC",
+    "homepage": "https://metacpan.org/dist/Digest-CRC",
+    "release_api": "https://cpan.metacpan.org/authors/id/O/OL/OLIMAUL/",
+    "release_channel": "stable",
+    "release_regex": "Digest-CRC-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Digest-CRC",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/O/OL/OLIMAUL/Digest-CRC-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.24",
+    "latest_detected": "0.24",
+    "release": "1"
+  }
+}

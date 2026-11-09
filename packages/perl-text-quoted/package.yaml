@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtext-quoted-perl",
+        "observed_at": "2026-11-07T15:21:00Z",
+        "package_base": "libtext-quoted-perl",
+        "package_name": "libtext-quoted-perl",
+        "source": "debian",
+        "source_version": "2.10-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n352.6O06bu"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-retain-vendored-installer-notices.patch",
+        "sha256": "dc664acd7c365546e928cd9aa0219f363f84d840509b19829e3e7b9be6749fb0",
+        "purpose": "Preserve the distinct exact matching vendored Module-Install and ReadmeFromPod attributions without changing original files.",
+        "source": "Byte-reproduced Module-Install 1.19 and Module-Install-ReadmeFromPod 0.30 donor fragments; archived grants documented in the notice and Source1.",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream replaces or removes the vendored installer or retains equivalent separate attributions and licenses."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-text-quoted.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN archive pinned; preserve original tests and exact vendored-tool grants. No recipe downloads.",
+    "status": "active"
+  },
+  "package_id": "perl-text-quoted",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-text-quoted",
+    "summary": "Extract the structure of quoted mail messages"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Text-Quoted",
+    "homepage": "https://metacpan.org/dist/Text-Quoted",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BP/BPS/",
+    "release_channel": "stable",
+    "release_regex": "Text-Quoted-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Text-Quoted",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BP/BPS/Text-Quoted-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.10",
+    "latest_detected": "2.10",
+    "release": "1"
+  }
+}

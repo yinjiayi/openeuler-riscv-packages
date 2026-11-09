@@ -1,0 +1,21 @@
+{
+  "package_id": "perl-test-script",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "44053b183a5b0188199cbddbb5ac0b1ba9e506afb3d4c5698ef2514c28ccd347"
+      },
+      "filename": "Test-Script-1.31.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original project LICENSE grants Perl terms. Fixed Dist::Zilla and Author::Plicease generator template grants share those terms; their exact separate attributions are retained by the notice-only patch. Official archive is fetched and verified in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Test-Script-1.31.tar.gz",
+      "version": "1.31"
+    }
+  ]
+}
