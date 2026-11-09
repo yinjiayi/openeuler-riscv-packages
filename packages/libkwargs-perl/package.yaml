@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libkwargs-perl",
+        "observed_at": "2026-11-09T01:00:00Z",
+        "package_base": "libkwargs-perl",
+        "package_name": "libkwargs-perl",
+        "source": "debian",
+        "source_version": "0.01-1.1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261109-n387.xyxc76"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libkwargs-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Verified signed CPAN release and identical Debian stable archive. Preserve the original seven tests, full dual-license text and installed argument handling.",
+    "status": "active"
+  },
+  "package_id": "libkwargs-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libkwargs-perl",
+    "summary": "Handle named and positional keyword arguments in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Kwargs",
+    "homepage": "https://metacpan.org/dist/Kwargs",
+    "release_api": "https://cpan.metacpan.org/authors/id/F/FR/FRODWITH/",
+    "release_channel": "stable",
+    "release_regex": "Kwargs-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Kwargs",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/F/FR/FRODWITH/Kwargs-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.01",
+    "latest_detected": "0.01",
+    "release": "1"
+  }
+}
