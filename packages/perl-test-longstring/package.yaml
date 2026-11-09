@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libtest-longstring-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-longstring-perl",
+        "package_name": "libtest-longstring-perl",
+        "source": "ubuntu",
+        "source_version": "0.17-3"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtest-longstring-perl",
+        "observed_at": "2026-11-07T21:27:15Z",
+        "package_base": "libtest-longstring-perl",
+        "package_name": "libtest-longstring-perl",
+        "source": "debian",
+        "source_version": "0.17-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-test-longstring.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed CPAN source and original Perl grant verified; default functional and both POD tests are preserved. No distro recipe executed.",
+    "status": "active"
+  },
+  "package_id": "perl-test-longstring",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-test-longstring",
+    "summary": "Perl assertions for comparing long strings"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-test-longstring",
+    "homepage": "https://metacpan.org/release/Test-LongString",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RG/RGARCIA/",
+    "release_channel": "stable",
+    "release_regex": "Test-LongString-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/rgs/Test-LongString",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RG/RGARCIA/Test-LongString-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.17",
+    "latest_detected": "0.17",
+    "release": "1"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-digest-crc",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ba022a05b1adbec73712c46f233d8489fe13a1b9fc40a1fcceed9b52f90defc1"
+      },
+      "filename": "Digest-CRC-0.24.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/O/OL/OLIMAUL/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/O/OL/OLIMAUL/Digest-CRC-0.24.tar.gz",
+      "version": "0.24"
+    }
+  ]
+}
