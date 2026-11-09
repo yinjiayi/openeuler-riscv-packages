@@ -1,0 +1,51 @@
+{
+  "package_id": "libfailures-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fd2ca702402f22f5185b12942b5079bf95ad21cde3b97a7cf2e1919147463270"
+      },
+      "filename": "failures-0.004.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official Apache-licensed release; pinned generated template donors provide their original terms."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/failures-0.004.tar.gz",
+      "version": "0.004"
+    },
+    {
+      "digests": {
+        "sha256": "9a68f42a38ced2596c4f464c87c09a724f1cc453e9e9fe64af101380cfdd4a4f"
+      },
+      "filename": "Dist-Zilla-5.019.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Same-Perl original license for generated MakeMaker wrapper; donor code is not executed."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Dist-Zilla-5.019.tar.gz",
+      "version": "5.019"
+    },
+    {
+      "digests": {
+        "sha256": "62d9ca9f46bf1dbd5fdbe704254eab9a3b864fea2c891928f00ee5a0b8882480"
+      },
+      "filename": "Dist-Zilla-Plugin-Test-ReportPrereqs-0.013.tar.gz",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Apache-2.0 original license for generated Test::ReportPrereqs script; donor code is not executed."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.013.tar.gz",
+      "version": "0.013"
+    }
+  ]
+}
