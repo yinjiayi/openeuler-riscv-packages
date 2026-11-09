@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Net-IPv6Addr",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnet-ipv6addr-perl",
+        "package_name": "libnet-ipv6addr-perl",
+        "source": "debian",
+        "source_version": "1.02-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Net-IPv6Addr",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Net-IPv6Addr",
+        "package_name": "perl-Net-IPv6Addr",
+        "source": "fedora",
+        "source_version": "1.02-14.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-net-ipv6addr.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official sources and both PAUSE signatures verified; original tests and copied Regexp::IPv6 notice retained.",
+    "status": "active"
+  },
+  "package_id": "libnet-ipv6addr-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-net-ipv6addr",
+    "summary": "Parse and format IPv6 addresses in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-net-ipv6addr",
+    "homepage": "https://metacpan.org/dist/Net-IPv6Addr",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BK/BKB/",
+    "release_channel": "stable",
+    "release_regex": "Net-IPv6Addr-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Net-IPv6Addr",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BK/BKB/Net-IPv6Addr-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.02",
+    "latest_detected": "1.02",
+    "release": "1"
+  }
+}
