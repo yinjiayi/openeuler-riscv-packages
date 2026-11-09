@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libhtml-entities-numbered-perl",
+        "observed_at": "2026-11-09T15:08:15Z",
+        "package_base": "libhtml-entities-numbered-perl",
+        "package_name": "libhtml-entities-numbered-perl",
+        "source": "debian",
+        "source_version": "0.04-4"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261109-n400.3JzvjO"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libhtml-entities-numbered-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "PAUSE-signed release matches Debian stable original. Keep all upstream tests, full dual Perl grant and the HTML::Entities table donor notice.",
+    "status": "active"
+  },
+  "package_id": "libhtml-entities-numbered-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libhtml-entities-numbered-perl",
+    "summary": "Convert between named and numeric HTML character references"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:HTML-Entities-Numbered",
+    "homepage": "https://metacpan.org/dist/HTML-Entities-Numbered",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TA/TANIGUCHI/",
+    "release_channel": "stable",
+    "release_regex": "HTML-Entities-Numbered-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/HTML-Entities-Numbered",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TA/TANIGUCHI/HTML-Entities-Numbered-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04",
+    "latest_detected": "0.04",
+    "release": "1"
+  }
+}
