@@ -1,0 +1,36 @@
+{
+  "package_id": "libdata-properties-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "809884b151b9f867c35d277f7cc77a040eb28faf0b368cd91a39f555c44e082d"
+      },
+      "filename": "Data-Properties-1.07.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The signed exact upstream release includes the original Apache grant, corroborated by Fedora and exact FreeBSD records."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/J/JV/JV/Data-Properties-1.07.tar.gz",
+      "version": "1.07"
+    },
+    {
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "filename": "LICENSE-2.0.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official complete Apache License 2.0 text, reproduced verbatim alongside the original grant."
+      },
+      "signature": null,
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "version": "2.0"
+    }
+  ]
+}
