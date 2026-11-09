@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libconfig-file-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconfig-file-perl",
+        "package_name": "libconfig-file-perl",
+        "source": "ubuntu",
+        "source_version": "1.54-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/stable/libconfig-file-perl",
+        "observed_at": "2026-11-07T20:24:40Z",
+        "package_base": "libconfig-file-perl",
+        "package_name": "libconfig-file-perl",
+        "source": "debian",
+        "source_version": "1.54-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-config-file.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed CPAN release and original GPLv2-or-later grant verified. All functional, POD and POD coverage tests preserved. No distro recipe executed.",
+    "status": "active"
+  },
+  "package_id": "perl-config-file",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "perl-config-file",
+    "summary": "Parser for simple Perl configuration files"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-config-file",
+    "homepage": "https://metacpan.org/release/Config-File",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TH/THESEAL/",
+    "release_channel": "stable",
+    "release_regex": "Config-File-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/stockholmuniversity/Config-File",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TH/THESEAL/Config-File-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.54",
+    "latest_detected": "1.54",
+    "release": "1"
+  }
+}

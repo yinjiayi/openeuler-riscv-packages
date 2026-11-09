@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libstatistics-distributions-perl",
+        "observed_at": "2026-11-07T19:23:12Z",
+        "package_base": "libstatistics-distributions-perl",
+        "package_name": "libstatistics-distributions-perl",
+        "source": "debian",
+        "source_version": "1.02-1.1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n356.nZrw5S"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libstatistics-distributions-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned CPAN archive with Debian discovery lineage. Retain the original module notice, run all nine original assertions under strict TAP, and include the generated autosplit index.",
+    "status": "active"
+  },
+  "package_id": "libstatistics-distributions-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libstatistics-distributions-perl",
+    "summary": "Calculate probabilities and quantiles for common statistical distributions in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Statistics-Distributions",
+    "homepage": "https://metacpan.org/dist/Statistics-Distributions",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MI/MIKEK/",
+    "release_channel": "stable",
+    "release_regex": "Statistics-Distributions-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Statistics-Distributions",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MI/MIKEK/Statistics-Distributions-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.02",
+    "latest_detected": "1.02",
+    "release": "1"
+  }
+}
