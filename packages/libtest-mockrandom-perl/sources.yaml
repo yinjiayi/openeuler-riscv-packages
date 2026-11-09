@@ -1,0 +1,51 @@
+{
+  "package_id": "libtest-mockrandom-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2614930d84fc5deac39afbc1ee86ccd39b221507f27d4ee493ca26e5c921cce0"
+      },
+      "filename": "Test-MockRandom-1.01.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original Apache-2.0 grant; retain original and both generated donor notices."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Test-MockRandom-1.01.tar.gz",
+      "version": "1.01"
+    },
+    {
+      "digests": {
+        "sha256": "67333f5c118098ca9adc3ac91c9198c049d9559961d5a8d1479c0064605538f3"
+      },
+      "filename": "Dist-Zilla-5.012.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed official donor with verbatim original grant; extracted only for attribution of generated source."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Dist-Zilla-5.012.tar.gz",
+      "version": "5.012"
+    },
+    {
+      "digests": {
+        "sha256": "62d9ca9f46bf1dbd5fdbe704254eab9a3b864fea2c891928f00ee5a0b8882480"
+      },
+      "filename": "Dist-Zilla-Plugin-Test-ReportPrereqs-0.013.tar.gz",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed official donor with verbatim original grant; extracted only for attribution of generated source."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.013.tar.gz",
+      "version": "0.013"
+    }
+  ]
+}
