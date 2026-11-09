@@ -1,0 +1,8 @@
+Description: Read caller paths literally instead of using two-argument open
+Upstream-Status: Not submitted
+
+--- a/File.pm
++++ b/File.pm
+@@ -53 +53 @@
+-        open my $fh, $file or return;
++        open my $fh, '<', $file or return;

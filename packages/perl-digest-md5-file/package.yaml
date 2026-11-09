@@ -1,0 +1,86 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libdigest-md5-file-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdigest-md5-file-perl",
+        "package_name": "libdigest-md5-file-perl",
+        "source": "ubuntu",
+        "source_version": "0.08-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libdigest-md5-file-perl",
+        "observed_at": "2026-11-08T01:30:00Z",
+        "package_base": "libdigest-md5-file-perl",
+        "package_name": "libdigest-md5-file-perl",
+        "source": "debian",
+        "source_version": "0.08-1.1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-open-literal-filenames.patch",
+        "sha256": "77a20cd2ce0d721e03fa802bb4bb82dde28b582ccda76a60ee5667838facf53f",
+        "purpose": "Read caller-supplied local paths literally rather than permitting pipe interpretation through two-argument open.",
+        "upstream_status": "not-submitted",
+        "source": "Local one-line adaptation of File.pm from the fixed upstream 0.08 archive.",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "remove_when": "A verified upstream release reads caller paths literally and passes the same installed pipe-suffix filename regression."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-digest-md5-file.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release pinned by SHA-256 in sources.yaml. Preserve original default tests and original README license. Open caller-supplied local filenames literally in read-only mode.",
+    "status": "active"
+  },
+  "package_id": "perl-digest-md5-file",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-digest-md5-file",
+    "summary": "Compute MD5 digests of local files, directories and URLs in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-digest-md5-file",
+    "homepage": "https://metacpan.org/dist/Digest-MD5-File",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/",
+    "release_channel": "stable",
+    "release_regex": "Digest-MD5-File-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DM/DMUEY/Digest-MD5-File-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.08",
+    "latest_detected": "0.08",
+    "release": "1"
+  }
+}
