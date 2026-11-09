@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libnet-subnet-perl",
+        "observed_at": "2026-11-09T18:09:00Z",
+        "package_base": "libnet-subnet-perl",
+        "package_name": "libnet-subnet-perl",
+        "source": "debian",
+        "source_version": "1.03-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261109-n403.EpdXkm"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libnet-subnet-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official CPAN archive matches the historically valid PAUSE checksum and Debian stable original. Preserve both original tests and the upstream Perl dual grant.",
+    "status": "active"
+  },
+  "package_id": "libnet-subnet-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libnet-subnet-perl",
+    "summary": "Match and classify IPv4 and IPv6 addresses by subnet in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Net-Subnet",
+    "homepage": "https://metacpan.org/dist/Net-Subnet",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JU/JUERD/",
+    "release_channel": "stable",
+    "release_regex": "Net-Subnet-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Net-Subnet",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JU/JUERD/Net-Subnet-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.03",
+    "latest_detected": "1.03",
+    "release": "1"
+  }
+}
