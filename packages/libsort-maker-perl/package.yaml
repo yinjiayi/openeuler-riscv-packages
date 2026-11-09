@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libsort-maker-perl",
+        "observed_at": "2026-11-09T11:02:39Z",
+        "package_base": "libsort-maker-perl",
+        "package_name": "libsort-maker-perl",
+        "source": "debian",
+        "source_version": "0.06-3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261109-n396.G3B0r9"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libsort-maker-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "PAUSE-signed official source matches the Debian stable original. Retain both complete license texts and the unchanged default tests.",
+    "status": "active"
+  },
+  "package_id": "libsort-maker-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libsort-maker-perl",
+    "summary": "Generate reusable Perl sorting routines from key definitions"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Sort-Maker",
+    "homepage": "https://metacpan.org/dist/Sort-Maker",
+    "release_api": "https://cpan.metacpan.org/authors/id/U/UR/URI/",
+    "release_channel": "stable",
+    "release_regex": "Sort-Maker-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Sort-Maker",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/U/UR/URI/Sort-Maker-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.06",
+    "latest_detected": "0.06",
+    "release": "1"
+  }
+}
