@@ -1,0 +1,11 @@
+Subject: [PATCH] Count all twelve existing tests in the legacy TAP plan
+
+The upstream script declares eleven tests but runs twelve assertions.
+Adjust only the plan to match the original assertions; leave test logic
+and implementation untouched.
+
+--- a/test.pl
++++ b/test.pl
+@@ -6 +6 @@
+-BEGIN { plan tests => 11 }
++BEGIN { plan tests => 12 }
