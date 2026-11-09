@@ -1,0 +1,86 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libsort-versions-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libsort-versions-perl",
+        "package_name": "libsort-versions-perl",
+        "source": "ubuntu",
+        "source_version": "1.62-3"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libsort-versions-perl",
+        "observed_at": "2026-11-08T02:31:00Z",
+        "package_base": "libsort-versions-perl",
+        "package_name": "libsort-versions-perl",
+        "source": "debian",
+        "source_version": "1.62-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-retain-makemaker-template-license.patch",
+        "sha256": "4a1a2367e56137c36b2460822b8e37090b081c2bd7ec602c98be48d7213311bd",
+        "purpose": "Retain the complete license and copyright of the fixed Dist::Zilla::Plugin::MakeMaker template used by the original Makefile.PL.",
+        "upstream_status": "not-submitted",
+        "source": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Dist-Zilla-5.037.tar.gz; SHA-256 a79991007c12e9d9c715da8c835f6634212c2af8c705c3ab4f9934e2db015f5f; original LICENSE",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "remove_when": "The verified upstream distribution already retains this template's complete notice or no longer uses the template."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-sort-versions.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive pinned by SHA-256 in sources.yaml. Keep the complete original tests and the additional same-Perl MakeMaker template notice.",
+    "status": "active"
+  },
+  "package_id": "libsort-versions-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-sort-versions",
+    "summary": "Perl routines for sorting revision-like version strings"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-sort-versions",
+    "homepage": "https://metacpan.org/dist/Sort-Versions",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_channel": "stable",
+    "release_regex": "Sort-Versions-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Sort-Versions-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.62",
+    "latest_detected": "1.62",
+    "release": "1"
+  }
+}
