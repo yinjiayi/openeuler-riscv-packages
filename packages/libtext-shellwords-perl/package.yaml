@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Text-Shellwords",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Text-Shellwords",
+        "package_name": "perl-Text-Shellwords",
+        "source": "fedora",
+        "source_version": "1.08-52.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-text-shellwords.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed fixed Text::Shellwords 1.08 and original same-Perl grant; compatibility namespace for existing callers of Text::Shellwords, not a replacement for Text::ParseWords.",
+    "status": "active"
+  },
+  "package_id": "libtext-shellwords-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-text-shellwords",
+    "summary": "Compatibility wrapper for parsing shell-style tokens in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-text-shellwords",
+    "homepage": "https://metacpan.org/dist/Text-Shellwords",
+    "release_api": "https://cpan.metacpan.org/authors/id/L/LD/LDS/",
+    "release_channel": "stable",
+    "release_regex": "Text-Shellwords-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Text-Shellwords",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/L/LD/LDS/Text-Shellwords-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.08",
+    "latest_detected": "1.08",
+    "release": "1"
+  }
+}
