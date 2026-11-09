@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Parse-Gitignore",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Parse-Gitignore",
+        "package_name": "perl-Parse-Gitignore",
+        "source": "fedora",
+        "source_version": "1.0-4.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-parse-gitignore.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed CPAN and Fedora 44 GA verified; retains original tests, fixtures, installed POD and verbatim license grant.",
+    "status": "active"
+  },
+  "package_id": "libparse-gitignore-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-parse-gitignore",
+    "summary": "Read Git ignore rules from Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-parse-gitignore",
+    "homepage": "https://metacpan.org/dist/Parse-Gitignore",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BK/BKB/",
+    "release_channel": "stable",
+    "release_regex": "Parse-Gitignore-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Parse-Gitignore",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BK/BKB/Parse-Gitignore-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0",
+    "latest_detected": "1.0",
+    "release": "1"
+  }
+}
