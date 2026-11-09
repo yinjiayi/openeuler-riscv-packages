@@ -1,0 +1,27 @@
+{
+  "package_id": "dte",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3d7d0d375fd31906ed436de20161dddc42d97f969a93d22b02aecfc3451e6c39"
+      },
+      "filename": "dte-1.11.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "A3FB922E15870DA250D9DCE1FBCC7A6B0330BEB4",
+        "keyring": "packages/dte/keys/release-key.gpg",
+        "path": "packages/dte/signatures/dte-1.11.1.tar.gz.sig",
+        "policy": "required",
+        "url": "https://craigbarnes.gitlab.io/dist/dte/dte-1.11.1.tar.gz.sig"
+      },
+      "url": "https://craigbarnes.gitlab.io/dist/dte/dte-1.11.1.tar.gz",
+      "version": "1.11.1"
+    }
+  ]
+}
