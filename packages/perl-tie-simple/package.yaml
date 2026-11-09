@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtie-simple-perl",
+        "observed_at": "2026-11-07T13:32:54Z",
+        "package_base": "libtie-simple-perl",
+        "package_name": "libtie-simple-perl",
+        "source": "debian",
+        "source_version": "1.04-4"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n350.oqr09W"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-retain-dist-zilla-template-notice.patch",
+        "sha256": "9581106b569f0cd2cd9c355296d4b368ff733edd1001c3510dc9d3ae988e4170",
+        "purpose": "Keep the exact matching Dist-Zilla template donor attribution and identical same-Perl license scope without changing original files.",
+        "source": "Dist-Zilla 5.042 original LICENSE and four byte-reproduced generated template files, recorded in NOTICE.Dist-Zilla.",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "The pinned upstream release is superseded by one that supplies equivalent donor attribution and license terms."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-tie-simple.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable fixed CPAN archive. Preserve every original test and separately scoped generated-template attribution; no downloads in the build recipe.",
+    "status": "active"
+  },
+  "package_id": "perl-tie-simple",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-tie-simple",
+    "summary": "Tie Perl variables to callback-based implementations"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Tie-Simple",
+    "homepage": "https://metacpan.org/dist/Tie-Simple",
+    "release_api": "https://cpan.metacpan.org/authors/id/H/HA/HANENKAMP/",
+    "release_channel": "stable",
+    "release_regex": "Tie-Simple-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/zostay/Tie-Simple",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/H/HA/HANENKAMP/Tie-Simple-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.04",
+    "latest_detected": "1.04",
+    "release": "1"
+  }
+}
