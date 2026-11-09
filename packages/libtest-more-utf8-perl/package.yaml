@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtest-more-utf8-perl",
+        "observed_at": "2026-11-07T22:30:11Z",
+        "package_base": "libtest-more-utf8-perl",
+        "package_name": "libtest-more-utf8-perl",
+        "source": "debian",
+        "source_version": "0.05-1.1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n359.2rkgZF"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtest-more-utf8-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned CPAN source and Debian discovery lineage. Preserve the original license notice and test suite including both optional POD checks supplied by target packages.",
+    "status": "active"
+  },
+  "package_id": "libtest-more-utf8-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libtest-more-utf8-perl",
+    "summary": "Enable UTF-8 input and output for Perl Test::More"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Test-More-UTF8",
+    "homepage": "https://metacpan.org/dist/Test-More-UTF8",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MO/MONS/",
+    "release_channel": "stable",
+    "release_regex": "Test-More-UTF8-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Test-More-UTF8",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MO/MONS/Test-More-UTF8-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.05",
+    "latest_detected": "0.05",
+    "release": "1"
+  }
+}

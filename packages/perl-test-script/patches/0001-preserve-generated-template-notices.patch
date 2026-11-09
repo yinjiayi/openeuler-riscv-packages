@@ -1,0 +1,35 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Preserve the licensed generator template attributions
+
+Add one notice file. Preserve all original archive files and test selection.
+
+--- /dev/null
++++ b/GENERATED-TEMPLATE-NOTICES
+@@ -0,0 +1,27 @@
++Test::Script generated template notices
++======================================
++
++Makefile.PL is based on the Dist::Zilla::Plugin::MakeMaker template from
++Dist-Zilla 6.033:
++https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Dist-Zilla-6.033.tar.gz
++SHA-256: 3e8d930cf58c6d4b174f410570d503d9c5ac343d17fc4fd08d5cc37303a994aa
++
++This software is copyright (c) 2025 by Ricardo SIGNES.
++
++This is free software; you can redistribute it and/or modify it under
++the same terms as the Perl 5 programming language system itself.
++
++Makefile.PL's additional transformations, t/00_diag.t's diagnostic
++template and the eight shipped xt/ test templates are from
++Dist-Zilla-PluginBundle-Author-Plicease 2.79:
++https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Dist-Zilla-PluginBundle-Author-Plicease-2.79.tar.gz
++SHA-256: 72a7e4167a35c76e1e73f49f3d390d92ce9b6fcf779556bb02d24ea07d92e44c
++
++This software is copyright (c) 2012-2022 by Graham Ollis.
++
++This is free software; you can redistribute it and/or modify it under
++the same terms as the Perl 5 programming language system itself.
++
++The adjacent upstream LICENSE contains the full corresponding GPL and
++Artistic license texts. The original generated files are unmodified.
++Only the original template attribution and grants are added here.
