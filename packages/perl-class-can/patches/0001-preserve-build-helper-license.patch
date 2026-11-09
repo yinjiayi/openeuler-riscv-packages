@@ -1,0 +1,41 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Preserve exact traditional build-helper author and grant
+
+Provenance: fixed official Module-Build 0.25 / Compat 0.03 and Class-Can 0.01.
+Only add the original author/license declarations for the matched template;
+no source code, default test or existing notice changes. Not RISC-V specific.
+Upstream-Status: Not submitted (local packaging license preservation)
+
+--- /dev/null
++++ b/BUILD-HELPER-LICENSE
+@@ -0,0 +1,30 @@
++Build-helper provenance and original licensing declarations
++
++Makefile.PL is traditional output of Module::Build::Compat 0.03, shipped in
++Module-Build 0.25. Exact official source:
++https://cpan.metacpan.org/authors/id/K/KW/KWILLIAMS/Module-Build-0.25.tar.gz
++SHA-256: cfda8575e400bf42fab7ad05eb7bffeeff1f51b161a18962c2adfd9a1395b6c8
++
++Original author declaration (lib/Module/Build/Compat.pm):
++Ken Williams, ken@mathforum.org
++
++Original license declaration (Build.PL):
++   license => 'perl',
++
++Original distribution metadata (META.yml):
++name: Module-Build
++version: 0.25
++author:
++  - Ken Williams, kwilliams@cpan.org
++license: perl
++
++Original meaning of that license option (lib/Module/Build.pm, item perl):
++The distribution may be copied and redistributed under the same terms
++as perl itself (this is by far the most common licensing option for
++modules on CPAN).  This is a dual license, in which the user may
++choose between either the GPL or the Artistic license.
++
++This packaging addition preserves the exact author/license declarations; it
++does not create a new grant, claim an independent upstream LICENSE file, or
++infer that generated or copied code is free of copyright. The original
++Class::Can source, code, default tests and existing notices are unchanged.
