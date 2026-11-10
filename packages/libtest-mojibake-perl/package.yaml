@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-Mojibake",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-test-mojibake",
+        "package_name": "perl-test-mojibake",
+        "source": "aur",
+        "source_version": "1.3-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-Mojibake",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-mojibake-perl",
+        "package_name": "libtest-mojibake-perl",
+        "source": "debian",
+        "source_version": "1.3-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-Mojibake",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-Mojibake",
+        "package_name": "perl-Test-Mojibake",
+        "source": "fedora",
+        "source_version": "1.3-35.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "test-mojibake.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libtest-mojibake-perl",
+  "rpm": {
+    "license": "Artistic-1.0-Perl OR GPL-1.0-or-later",
+    "name": "perl-test-mojibake",
+    "summary": "Check Perl source for character encoding errors"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Test-Mojibake",
+    "homepage": "https://metacpan.org/dist/Test-Mojibake",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SY/SYP/",
+    "release_channel": "stable",
+    "release_regex": "Test-Mojibake-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Test-Mojibake",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SY/SYP/Test-Mojibake-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.3",
+    "latest_detected": "1.3",
+    "release": "1"
+  }
+}
