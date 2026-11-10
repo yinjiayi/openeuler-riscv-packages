@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-Strict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-test-strict",
+        "package_name": "perl-test-strict",
+        "source": "aur",
+        "source_version": "0.54-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-Strict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-strict-perl",
+        "package_name": "libtest-strict-perl",
+        "source": "debian",
+        "source_version": "0.54-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-Strict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-Strict",
+        "package_name": "perl-Test-Strict",
+        "source": "fedora",
+        "source_version": "0.54-4.fc44"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-Strict",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-Strict",
+        "package_name": "perl-Test-Strict",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.540.0-1.5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "test-strict.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libtest-strict-perl",
+  "rpm": {
+    "license": "Artistic-1.0-Perl OR GPL-1.0-or-later",
+    "name": "perl-test-strict",
+    "summary": "Test Perl syntax and strict-mode declarations"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Test-Strict",
+    "homepage": "https://metacpan.org/dist/Test-Strict",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MA/MANWAR/",
+    "release_channel": "stable",
+    "release_regex": "Test-Strict-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Test-Strict",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MA/MANWAR/Test-Strict-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.54",
+    "latest_detected": "0.54",
+    "release": "1"
+  }
+}
