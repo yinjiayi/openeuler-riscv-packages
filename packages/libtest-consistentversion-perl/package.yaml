@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-ConsistentVersion",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-consistentversion-perl",
+        "package_name": "libtest-consistentversion-perl",
+        "source": "debian",
+        "source_version": "0.3.1-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-ConsistentVersion",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-ConsistentVersion",
+        "package_name": "perl-Test-ConsistentVersion",
+        "source": "fedora",
+        "source_version": "0.3.1-13.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "test-consistentversion.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libtest-consistentversion-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-test-consistentversion",
+    "summary": "Test that Perl distribution versions are consistent"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Test-ConsistentVersion",
+    "homepage": "https://metacpan.org/dist/Test-ConsistentVersion",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CE/CEBJYRE/",
+    "release_channel": "stable",
+    "release_regex": "Test-ConsistentVersion-v(?P<version>[0-9]+(?:[.][0-9]+)*)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Test-ConsistentVersion",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CE/CEBJYRE/Test-ConsistentVersion-v{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.3.1",
+    "latest_detected": "0.3.1",
+    "release": "1"
+  }
+}
