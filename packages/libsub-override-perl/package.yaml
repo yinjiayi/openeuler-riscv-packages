@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Sub-Override",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libsub-override-perl",
+        "package_name": "libsub-override-perl",
+        "source": "ubuntu",
+        "source_version": "0.12-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Sub-Override",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-sub-override",
+        "package_name": "perl-sub-override",
+        "source": "arch-extra",
+        "source_version": "0.12-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Sub-Override",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libsub-override-perl",
+        "package_name": "libsub-override-perl",
+        "source": "debian",
+        "source_version": "0.12-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Sub-Override",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Sub-Override",
+        "package_name": "perl-Sub-Override",
+        "source": "fedora",
+        "source_version": "0.12-5.fc44"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Sub-Override",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Sub-Override",
+        "package_name": "perl-Sub-Override",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.120.0-1.8"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-sub-override.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned official CPAN source and original default tests; direct author grant is in the module POD.",
+    "status": "active"
+  },
+  "package_id": "libsub-override-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-sub-override",
+    "summary": "Temporarily replace a Perl subroutine and restore its original behavior"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-sub-override",
+    "homepage": "https://metacpan.org/dist/Sub-Override",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MV/MVSJES/",
+    "release_channel": "stable",
+    "release_regex": "Sub-Override-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/Ovid/sub-override",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MV/MVSJES/Sub-Override-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.12",
+    "latest_detected": "0.12",
+    "release": "1"
+  }
+}

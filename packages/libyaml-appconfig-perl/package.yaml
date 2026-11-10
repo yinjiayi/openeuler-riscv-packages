@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libyaml-appconfig-perl",
+        "observed_at": "2026-11-08T01:32:00Z",
+        "package_base": "libyaml-appconfig-perl",
+        "package_name": "libyaml-appconfig-perl",
+        "source": "debian",
+        "source_version": "0.19-3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n362.VbpJQc"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libyaml-appconfig-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libyaml-appconfig-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libyaml-appconfig-perl",
+    "summary": "Manage YAML configuration with variable interpolation"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:YAML-AppConfig",
+    "homepage": "https://metacpan.org/dist/YAML-AppConfig",
+    "release_api": "https://cpan.metacpan.org/authors/id/X/XA/XAERXESS/",
+    "release_channel": "stable",
+    "release_regex": "YAML-AppConfig-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/YAML-AppConfig",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/X/XA/XAERXESS/YAML-AppConfig-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.19",
+    "latest_detected": "0.19",
+    "release": "1"
+  }
+}
