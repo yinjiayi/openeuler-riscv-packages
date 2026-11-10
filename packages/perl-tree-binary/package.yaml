@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/perl-tree-binary",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-tree-binary",
+        "package_name": "perl-tree-binary",
+        "source": "aur",
+        "source_version": "1.09-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-tree-binary.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official source pinned in sources.yaml, actual AUR discovery lineage only; no external recipe execution. All original tests/source preserved. Target optional memory-test provider explicitly required. No physical network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-tree-binary",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-tree-binary",
+    "summary": "Object-oriented binary trees and traversals in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-tree-binary",
+    "homepage": "https://metacpan.org/dist/Tree-Binary",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/",
+    "release_channel": "stable",
+    "release_regex": "Tree-Binary-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz",
+    "source_repository": "https://github.com/ronsavage/Tree-Binary",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/Tree-Binary-{version}.tgz"
+  },
+  "version": {
+    "current": "1.09",
+    "latest_detected": "1.09",
+    "release": "1"
+  }
+}

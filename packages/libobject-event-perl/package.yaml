@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Object-Event",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-object-event",
+        "package_name": "perl-object-event",
+        "source": "arch-extra",
+        "source_version": "1.23-14"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Object-Event",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libobject-event-perl",
+        "package_name": "libobject-event-perl",
+        "source": "debian",
+        "source_version": "1.230-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Object-Event",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Object-Event",
+        "package_name": "perl-Object-Event",
+        "source": "fedora",
+        "source_version": "1.23-40.fc44"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Object-Event",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libobject-event-perl",
+        "package_name": "libobject-event-perl",
+        "source": "ubuntu",
+        "source_version": "1.230-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-object-event.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libobject-event-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-object-event",
+    "summary": "Register callbacks and dispatch events on Perl objects"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-object-event",
+    "homepage": "https://metacpan.org/dist/Object-Event",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/EL/ELMEX/",
+    "release_channel": "stable",
+    "release_regex": "Object-Event-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/E/EL/ELMEX/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/EL/ELMEX/Object-Event-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.23",
+    "latest_detected": "1.23",
+    "release": "1"
+  }
+}
