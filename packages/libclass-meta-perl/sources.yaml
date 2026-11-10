@@ -1,0 +1,51 @@
+{
+  "package_id": "libclass-meta-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d945edeb653a184f28caa22702e49ceea92ae839b722e49cab4ab1150df4598b"
+      },
+      "filename": "Class-Meta-0.66.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original David E. Wheeler same-Perl grant and authenticated Module::Build::Compat 0.40 traditional generator donor notice; both applicable Perl license texts are shipped."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/Class-Meta-0.66.tar.gz",
+      "version": "0.66"
+    },
+    {
+      "digests": {
+        "sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"
+      },
+      "filename": "Artistic-1.0-Perl.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full verbatim Perl Artistic text from the official fixed Perl 5.38.0 commit, included under the upstream same-Perl grant."
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "version": "5.38.0"
+    },
+    {
+      "digests": {
+        "sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"
+      },
+      "filename": "GPL-1.0.txt",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full verbatim GNU GPL v1 text from the official fixed Perl 5.38.0 commit. The text explicitly permits verbatim copying and distribution."
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "version": "5.38.0"
+    }
+  ]
+}
