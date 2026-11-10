@@ -1,0 +1,21 @@
+{
+  "package_id": "libmodule-manifest-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a395f80ff15ea0e66fd6c453844b6787ed4a875a3cd8df9f7e29280250bd539b"
+      },
+      "filename": "Module-Manifest-1.09.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Module-Manifest-1.09.tar.gz",
+      "version": "1.09"
+    }
+  ]
+}
