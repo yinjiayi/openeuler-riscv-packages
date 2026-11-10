@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "package_id": "libsafe-isa-perl",
+  "upstream": {
+    "component": "cpan:Safe-Isa",
+    "homepage": "https://metacpan.org/dist/Safe-Isa",
+    "source_repository": "https://github.com/p5sagit/Safe-Isa",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/",
+    "release_regex": "Safe-Isa-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Safe-Isa-{version}.tar.gz"
+  },
+  "version": {"current": "1.000010", "latest_detected": "1.000010", "release": "1"},
+  "rpm": {"name": "perl-safe-isa", "summary": "Call Perl object introspection methods safely", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "target": {"arch": "riscv64", "isa": "RVA23", "os": "openEuler", "release": "24.03-LTS-SP3", "riscv_status": "unknown"},
+  "build": {"native_reason": null, "network_during_build": false, "profile": "qemu-user", "timeout_minutes": 60},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "libsafe-isa-perl", "package_base": "libsafe-isa-perl", "source_version": "1.000010-1", "evidence_url": "https://packages.debian.org/stable/libsafe-isa-perl", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "fedora", "package_name": "perl-Safe-Isa", "package_base": "perl-Safe-Isa", "source_version": "1.000010-23.fc44", "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Safe-Isa/perl-Safe-Isa/fedora-44.html", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "files": {"patches": [], "smoke_test": "tests/smoke.sh", "sources": "sources.yaml", "spec": "perl-safe-isa.spec"},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"},
+  "maintenance": {"maintainers": ["yinjiayi"], "notes": "Fixed PAUSE-signed upstream source; preserve the exact MakeMaker default suite and original notices.", "status": "active"}
+}
