@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libexporter-lite-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libexporter-lite-perl",
+        "package_name": "libexporter-lite-perl",
+        "source": "ubuntu",
+        "source_version": "0.09-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libexporter-lite-perl",
+        "observed_at": "2026-11-08T03:32:00Z",
+        "package_base": "libexporter-lite-perl",
+        "package_name": "libexporter-lite-perl",
+        "source": "debian",
+        "source_version": "0.09-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-exporter-lite.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive pinned by SHA-256 in sources.yaml. Retain the original source grant, author and maintainer notices, and default tests.",
+    "status": "active"
+  },
+  "package_id": "libexporter-lite-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-exporter-lite",
+    "summary": "Lightweight exporting of Perl package variables and functions"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-exporter-lite",
+    "homepage": "https://metacpan.org/dist/Exporter-Lite",
+    "release_api": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "release_channel": "stable",
+    "release_regex": "Exporter-Lite-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Exporter-Lite-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.09",
+    "latest_detected": "0.09",
+    "release": "1"
+  }
+}
