@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Tie-Sub",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Tie-Sub",
+        "package_name": "perl-Tie-Sub",
+        "source": "fedora",
+        "source_version": "1.001-28.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "tie-sub.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libtie-sub-perl",
+  "rpm": {
+    "license": "Artistic-1.0-Perl OR GPL-1.0-or-later",
+    "name": "perl-tie-sub",
+    "summary": "Tie Perl hash fetches to a subroutine"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Tie-Sub",
+    "homepage": "https://metacpan.org/dist/Tie-Sub",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/ST/STEFFENW/",
+    "release_channel": "stable",
+    "release_regex": "Tie-Sub-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Tie-Sub",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/ST/STEFFENW/Tie-Sub-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.001",
+    "latest_detected": "1.001",
+    "release": "1"
+  }
+}
