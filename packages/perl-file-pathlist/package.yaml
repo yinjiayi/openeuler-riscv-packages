@@ -1,0 +1,86 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/File-PathList",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-File-PathList",
+        "package_name": "perl-File-PathList",
+        "source": "fedora",
+        "source_version": "1.04-43.fc44"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/File-PathList",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-file-pathlist",
+        "package_name": "perl-file-pathlist",
+        "source": "aur",
+        "source_version": "1.04-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-retain-module-install-notices.patch",
+        "sha256": "7a7fa3380896ccc44cef525d76af95d292d6f77f0aecb805e1c458fe368ac298",
+        "purpose": "Restore original bundled Module::Install0.76 copyright and Perl grant blocks lost during generated POD stripping; no executable or test changes.",
+        "source": "Official ADAMK Module-Install-0.76 archive SHA2564ee768fc46aa1bc9bc82a24800bc36c7d69a5378e481b3ad9a42201cb82e4bdb.",
+        "license": "GPL-1.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream ships equivalent complete bundled-helper copyright/grant notices."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-file-pathlist.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed File::PathList1.04 official source; Fedora44 Everything-source and AUR frozen lineage. Select explicit GPL1-or-later license branch and preserve complete original alternate terms. Entire default tests and original author-test conditions retained; bundled helper selected with -I. No network needed during build, not a CI isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-file-pathlist",
+  "rpm": {
+    "license": "GPL-1.0-or-later",
+    "name": "perl-file-pathlist",
+    "summary": "Find a file within an ordered list of paths in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:File-PathList",
+    "homepage": "https://metacpan.org/dist/File-PathList",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/",
+    "release_channel": "stable",
+    "release_regex": "File-PathList-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/release/ADAMK/File-PathList-1.04/source",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/File-PathList-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.04",
+    "latest_detected": "1.04",
+    "release": "1"
+  }
+}

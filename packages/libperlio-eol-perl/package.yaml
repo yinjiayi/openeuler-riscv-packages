@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libperlio-eol-perl",
+        "observed_at": "2026-11-08T06:29:00Z",
+        "package_base": "libperlio-eol-perl",
+        "package_name": "libperlio-eol-perl",
+        "source": "debian",
+        "source_version": "0.19-1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n367.1hJmte"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libperlio-eol-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Debian stable establishes lineage only. Authorized CPAN source and signed checksum, original LICENSE and README notices, target Perl/XS dependencies, and unchanged default tests were independently reviewed.",
+    "status": "active"
+  },
+  "package_id": "libperlio-eol-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libperlio-eol-perl",
+    "summary": "Normalize line endings through a PerlIO layer"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:PerlIO-eol",
+    "homepage": "https://metacpan.org/dist/PerlIO-eol",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/",
+    "release_channel": "stable",
+    "release_regex": "PerlIO-eol-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/PerlIO-eol",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/PerlIO-eol-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.19",
+    "latest_detected": "0.19",
+    "release": "1"
+  }
+}

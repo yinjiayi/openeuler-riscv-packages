@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libconstant-defer-perl",
+        "observed_at": "2026-11-08T09:32:00Z",
+        "package_base": "libconstant-defer-perl",
+        "package_name": "libconstant-defer-perl",
+        "source": "debian",
+        "source_version": "6-3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n370.dHpicb"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libconstant-defer-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN source, signed publisher checksum, and original author-signed manifest verified; original GPL notices, default tests, and current target dependencies preserved. Debian stable is naming lineage only.",
+    "status": "active"
+  },
+  "package_id": "libconstant-defer-perl",
+  "rpm": {
+    "license": "GPL-3.0-or-later",
+    "name": "libconstant-defer-perl",
+    "summary": "Define Perl constants whose values are computed once on demand"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:constant-defer",
+    "homepage": "https://metacpan.org/dist/constant-defer",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KR/KRYDE/",
+    "release_channel": "stable",
+    "release_regex": "constant-defer-(?P<version>[0-9]+(?:[.][0-9]+)*)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/constant-defer",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-{version}.tar.gz"
+  },
+  "version": {
+    "current": "6",
+    "latest_detected": "6",
+    "release": "1"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "libsafe-isa-perl",
+  "sources": [
+    {
+      "id": "source0", "kind": "upstream-release", "version": "1.000010",
+      "filename": "Safe-Isa-1.000010.tar.gz",
+      "url": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Safe-Isa-1.000010.tar.gz",
+      "digests": {"sha256": "87f4148aa0ff1d5e652723322eab7dafa3801c967d6f91ac9147a3c467b8a66a"},
+      "redistribution": {"allowed": true, "reason": "Original upstream Perl dual license; unchanged source fetched by CI."},
+      "signature": null
+    },
+    {
+      "id": "source1", "kind": "upstream-release", "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "filename": "Artistic-1.0-Perl.txt",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "redistribution": {"allowed": true, "reason": "Complete Artistic License text from the upstream Perl dual grant."},
+      "signature": null
+    },
+    {
+      "id": "source2", "kind": "upstream-release", "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "filename": "GPL-1.0.txt",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "redistribution": {"allowed": true, "reason": "Complete GPLv1 text from the upstream Perl dual grant."},
+      "signature": null
+    }
+  ]
+}
