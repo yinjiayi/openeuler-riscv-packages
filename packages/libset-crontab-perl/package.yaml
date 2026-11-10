@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libset-crontab-perl",
+        "observed_at": "2026-11-07T17:26:00Z",
+        "package_base": "libset-crontab-perl",
+        "package_name": "libset-crontab-perl",
+        "source": "debian",
+        "source_version": "1.03-1.1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n354.X909JZ"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-correct-original-tap-plan.patch",
+        "sha256": "c2eaa421f1692492252eb8f00448ea8574c3626b9ac14a7d71c417ff0be50abf",
+        "purpose": "Correct the original TAP declaration from eleven to twelve without changing any assertion or shipped implementation.",
+        "source": "Original local packaging patch for Set-Crontab 1.03; upstream test.pl has twelve assertions and a declaration of eleven.",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "An upstream release has a valid TAP plan for its unchanged test coverage."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libset-crontab-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned CPAN archive with Debian discovery lineage. Keep all twelve original assertions and verify the TAP plan with the strict Perl harness.",
+    "status": "active"
+  },
+  "package_id": "libset-crontab-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libset-crontab-perl",
+    "summary": "Expand crontab-style integer lists in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Set-Crontab",
+    "homepage": "https://metacpan.org/dist/Set-Crontab",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AM/AMS/",
+    "release_channel": "stable",
+    "release_regex": "Set-Crontab-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Set-Crontab",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AM/AMS/Set-Crontab-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.03",
+    "latest_detected": "1.03",
+    "release": "1"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libdate-simple-perl",
+        "observed_at": "2026-11-08T07:35:00Z",
+        "package_base": "libdate-simple-perl",
+        "package_name": "libdate-simple-perl",
+        "source": "debian",
+        "source_version": "3.0300-3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n368.LlALYI"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdate-simple-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Authorized official CPAN archive matches the pinned SHA-256 and publisher index. Original grant and notices, native XS, unchanged default tests and target suppliers were independently checked. Debian stable 3.0300-3 is version 3.03 lineage only.",
+    "status": "active"
+  },
+  "package_id": "libdate-simple-perl",
+  "rpm": {
+    "license": "GPL-2.0-or-later OR Artistic-1.0-Perl",
+    "name": "libdate-simple-perl",
+    "summary": "Work with Gregorian calendar dates in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:Date-Simple",
+    "homepage": "https://metacpan.org/dist/Date-Simple",
+    "release_api": "https://cpan.metacpan.org/authors/id/I/IZ/IZUT/",
+    "release_channel": "stable",
+    "release_regex": "Date-Simple-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Date-Simple",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/I/IZ/IZUT/Date-Simple-{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.03",
+    "latest_detected": "3.03",
+    "release": "1"
+  }
+}
