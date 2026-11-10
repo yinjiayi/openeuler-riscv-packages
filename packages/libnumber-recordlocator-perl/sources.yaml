@@ -1,0 +1,51 @@
+{
+  "package_id": "libnumber-recordlocator-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "ffdcececf86f6cf2d17d5602764ef1aedd1cd7447c39f47d12fb5eb8687e81e7"
+      },
+      "filename": "Number-RecordLocator-0.005.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The original module copyright and license section explicitly grants the same redistribution terms as Perl itself."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/J/JE/JESSE/Number-RecordLocator-0.005.tar.gz",
+      "version": "0.005"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "filename": "Artistic-1.0-Perl.txt",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "digests": {
+        "sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full Perl Artistic license text accompanying the author's grant."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "filename": "GPL-1.0.txt",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "digests": {
+        "sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full GPLv1 license text accompanying the author's grant."
+      }
+    }
+  ]
+}

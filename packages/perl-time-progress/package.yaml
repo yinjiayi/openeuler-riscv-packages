@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libtime-progress-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtime-progress-perl",
+        "package_name": "libtime-progress-perl",
+        "source": "ubuntu",
+        "source_version": "2.15-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtime-progress-perl",
+        "observed_at": "2026-11-07T23:31:00Z",
+        "package_base": "libtime-progress-perl",
+        "package_name": "libtime-progress-perl",
+        "source": "debian",
+        "source_version": "2.15-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-time-progress.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed CPAN source and original README and module license grants verified. Upstream default tests are preserved.",
+    "status": "active"
+  },
+  "package_id": "perl-time-progress",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-time-progress",
+    "summary": "Perl progress meter and elapsed time reporter"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-time-progress",
+    "homepage": "https://metacpan.org/release/Time-Progress",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CA/CADE/",
+    "release_channel": "stable",
+    "release_regex": "Time-Progress-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/cade-vs/perl-time-progress",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CA/CADE/Time-Progress-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.15",
+    "latest_detected": "2.15",
+    "release": "1"
+  }
+}
