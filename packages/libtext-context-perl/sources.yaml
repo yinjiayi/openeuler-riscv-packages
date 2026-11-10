@@ -1,0 +1,36 @@
+{
+  "package_id": "libtext-context-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6f42b7c9ab3776a0cff9d98ba10872fe1fdae55c544ef28280c6865def490528"
+      },
+      "filename": "Text-Context-3.7.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/T/TM/TMTM/Text-Context-3.7.tar.gz",
+      "version": "3.7"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/GPL-2.0-only.txt",
+      "filename": "GPL-2.0.txt",
+      "version": "GPL-2.0",
+      "digests": {
+        "sha256": "aaf135472f81c5b4a0dca9367e5bb5e9750032b5bebe5442b36e4c0a47430df3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete GPL v2 license text from the fixed official SPDX license-list-data commit; the original author's grant remains in README and the module."
+      }
+    }
+  ]
+}
