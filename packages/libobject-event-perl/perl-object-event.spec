@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-object-event
-Version:        1.23
+Version:        1.101
 Release:        1%{?dist}
 Summary:        Register callbacks and dispatch events on Perl objects
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Object-Event
-Source0:        Object-Event-1.23.tar.gz
+Source0:        Object-Event-1.101.tar.gz
 BuildArch:      noarch
 BuildRequires:  make
 BuildRequires:  perl
