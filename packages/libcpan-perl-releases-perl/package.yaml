@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/CPAN-Perl-Releases",
+        "observed_at": "2026-11-09T21:19:00Z",
+        "package_base": "libcpan-perl-releases-perl",
+        "package_name": "libcpan-perl-releases-perl",
+        "source": "debian",
+        "source_version": "5.20261022-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/CPAN-Perl-Releases",
+        "observed_at": "2026-11-09T21:19:00Z",
+        "package_base": "perl-CPAN-Perl-Releases",
+        "package_name": "perl-CPAN-Perl-Releases",
+        "source": "fedora",
+        "source_version": "5.20261022-1.fc46"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-cpan-perl-releases.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libcpan-perl-releases-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-cpan-perl-releases",
+    "summary": "Map Perl releases to CPAN tarball locations"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:CPAN-Perl-Releases",
+    "homepage": "https://metacpan.org/dist/CPAN-Perl-Releases",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BI/BINGOS/",
+    "release_channel": "stable",
+    "release_regex": "CPAN-Perl-Releases-(?P<version>[0-9]+[.][0-9]+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/CPAN-Perl-Releases",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BI/BINGOS/CPAN-Perl-Releases-{version}.tar.gz"
+  },
+  "version": {
+    "current": "5.20261022",
+    "latest_detected": "5.20261022",
+    "release": "1"
+  }
+}

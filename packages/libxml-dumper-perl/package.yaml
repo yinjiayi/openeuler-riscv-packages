@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libxml-dumper-perl",
+        "observed_at": "2026-11-08T00:31:20Z",
+        "package_base": "libxml-dumper-perl",
+        "package_name": "libxml-dumper-perl",
+        "source": "debian",
+        "source_version": "0.81-1.5"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n361.6QldyB"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libxml-dumper-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned CPAN archive and Debian naming lineage. Keep original UTF-8 and gzip tests and the installed gzip feature.",
+    "status": "active"
+  },
+  "package_id": "libxml-dumper-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libxml-dumper-perl",
+    "summary": "Serialize Perl data structures as XML and read them back"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:XML-Dumper",
+    "homepage": "https://metacpan.org/dist/XML-Dumper",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MI/MIKEWONG/",
+    "release_channel": "stable",
+    "release_regex": "XML-Dumper-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/XML-Dumper",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MI/MIKEWONG/XML-Dumper-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.81",
+    "latest_detected": "0.81",
+    "release": "1"
+  }
+}
