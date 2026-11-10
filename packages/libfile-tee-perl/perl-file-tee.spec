@@ -34,7 +34,7 @@ Requires:       perl(warnings)
 Replicate output written to a Perl stream
 
 %prep
-%autosetup
+%autosetup -n File-Tee-%{version}
 cp -p %{SOURCE1} %{SOURCE2} .
 
 %build
