@@ -7,7 +7,11 @@ on:
 
 concurrency:
   group: auto-merge-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  # A repair lease can add one routing label and remove another. Keep
+  # both policy checks in the same serial queue instead of cancelling
+  # a sibling before it can prove its exact-head disarm result.
+  cancel-in-progress: false
+  queue: max
 
 permissions:
   contents: read
