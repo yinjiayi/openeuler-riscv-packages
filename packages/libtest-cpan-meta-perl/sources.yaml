@@ -1,0 +1,36 @@
+{
+  "package_id": "libtest-cpan-meta-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f55b4f9cf6bc396d0fe8027267685cb2ac4affce897d0967a317fac6db5a8db5"
+      },
+      "filename": "Test-CPAN-Meta-0.25.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/B/BA/BARBIE/Test-CPAN-Meta-0.25.tar.gz",
+      "version": "0.25"
+    },
+    {
+      "digests": {
+        "sha256": "bae466ac8d7100c304fe76632ccc627203a3897d3f7166f3cce00fb9df8c2074"
+      },
+      "filename": "Artistic-2.0.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete verbatim Artistic License 2.0 text from the official immutable SPDX license list, included alongside the original upstream copyright notice."
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/Artistic-2.0.txt",
+      "version": "3.27.0"
+    }
+  ]
+}
