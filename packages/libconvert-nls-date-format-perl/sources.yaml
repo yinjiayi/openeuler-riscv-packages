@@ -1,0 +1,31 @@
+{
+  "package_id": "libconvert-nls-date-format-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "20ab8070c56377bd302c9ec5a16873714026d03e56a31cf70ab65632c1ed5bc7"
+      },
+      "filename": "Convert-NLS_DATE_FORMAT-0.06.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/K/KO/KOLIBRIE/Convert-NLS_DATE_FORMAT-0.06.tar.gz",
+      "version": "0.06"
+    },
+    {
+      "digests": {"sha256": "6f4cac178ede95aa002ef1b3a7f497063d27457335e28d3b819b6e3d7c4dae80"},
+      "filename": "Minilla-v3.0.1-LICENSE.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {"allowed": true, "reason": "Complete Perl dual-license terms and copyright from the exact Build.PL template donor."},
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/tokuhirom/Minilla/f85f27fadaee5f7af9a3007c8894a10bef6a232b/LICENSE",
+      "version": "f85f27fadaee5f7af9a3007c8894a10bef6a232b"
+    }
+  ]
+}
