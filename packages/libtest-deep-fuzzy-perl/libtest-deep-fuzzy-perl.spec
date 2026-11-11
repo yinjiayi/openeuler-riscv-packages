@@ -53,7 +53,6 @@ find "%{buildroot}" -type f -path '*/auto/Test/Deep/Fuzzy/.packlist' -delete
 %{perl_vendorlib}/Test/Deep/Fuzzy.pm
 %{perl_vendorlib}/Test/Deep/Fuzzy/Number.pm
 %{_mandir}/man3/Test::Deep::Fuzzy.3pm*
-%{_mandir}/man3/Test::Deep::Fuzzy::Number.3pm*
 
 %changelog
 * Wed Nov 11 2026 openEuler RISC-V Maintainers <noreply@example.invalid> - 0.01-1
