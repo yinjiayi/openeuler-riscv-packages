@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Sub-Recursive",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libsub-recursive-perl",
+        "package_name": "libsub-recursive-perl",
+        "source": "ubuntu",
+        "source_version": "0.05-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Sub-Recursive",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libsub-recursive-perl",
+        "package_name": "libsub-recursive-perl",
+        "source": "debian",
+        "source_version": "0.05-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-sub-recursive.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned official CPAN source with original Perl-terms LICENSE and default tests.",
+    "status": "active"
+  },
+  "package_id": "libsub-recursive-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-sub-recursive",
+    "summary": "Declare recursive and mutually recursive Perl subroutines"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-sub-recursive",
+    "homepage": "https://metacpan.org/dist/Sub-Recursive",
+    "release_api": "https://cpan.metacpan.org/authors/id/L/LO/LODIN/",
+    "release_channel": "stable",
+    "release_regex": "Sub-Recursive-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/L/LO/LODIN/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/L/LO/LODIN/Sub-Recursive-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.05",
+    "latest_detected": "0.05",
+    "release": "1"
+  }
+}

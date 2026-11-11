@@ -1,0 +1,41 @@
+{
+  "package_id": "libjson-pointer-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0e22278717aceb40d16028899a12225e8c10bd3341de143a7685d4e86d2ace23"
+      },
+      "filename": "JSON-Pointer-0.07.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/Z/ZI/ZIGOROU/JSON-Pointer-0.07.tar.gz",
+      "version": "0.07"
+    },
+    {
+      "digests": {"sha256": "6f4cac178ede95aa002ef1b3a7f497063d27457335e28d3b819b6e3d7c4dae80"},
+      "filename": "Minilla-v1.0.0-LICENSE.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {"allowed": true, "reason": "Complete Perl dual-license terms and notice from the exact generated Build.PL template donor."},
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/tokuhirom/Minilla/dabf5aaae1e7896ad078b6170024fa5476c22f8a/LICENSE",
+      "version": "dabf5aaae1e7896ad078b6170024fa5476c22f8a"
+    },
+    {
+      "digests": {"sha256": "19e2e0f2079ea1ce1576eb4ecc0575b33fe45b2b8e71f4aa589d6bedd1da4e0a"},
+      "filename": "Mojolicious-v4.0-Artistic-2.0.txt",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {"allowed": true, "reason": "Verbatim full Artistic-2.0 license text from the verified original test donor."},
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/mojolicious/mojo/ad31e23ba56b4082aa9d2e291f11f3ec1e56c7ab/LICENSE",
+      "version": "ad31e23ba56b4082aa9d2e291f11f3ec1e56c7ab"
+    }
+  ]
+}

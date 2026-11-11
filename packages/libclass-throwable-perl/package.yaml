@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Class-Throwable",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-throwable-perl",
+        "package_name": "libclass-throwable-perl",
+        "source": "ubuntu",
+        "source_version": "0.13-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Class-Throwable",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-throwable-perl",
+        "package_name": "libclass-throwable-perl",
+        "source": "debian",
+        "source_version": "0.13-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Class-Throwable",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Class-Throwable",
+        "package_name": "perl-Class-Throwable",
+        "source": "fedora",
+        "source_version": "0.13-30.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-throwable.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned official CPAN source and complete original tests; upstream README contains the original same-Perl license grant.",
+    "status": "active"
+  },
+  "package_id": "libclass-throwable-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-throwable",
+    "summary": "Lightweight structured exceptions for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-class-throwable",
+    "homepage": "https://metacpan.org/dist/Class-Throwable",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KM/KMX/",
+    "release_channel": "stable",
+    "release_regex": "Class-Throwable-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/kmx/perl-Class-Throwable",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KM/KMX/Class-Throwable-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.13",
+    "latest_detected": "0.13",
+    "release": "1"
+  }
+}

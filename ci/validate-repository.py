@@ -27,6 +27,28 @@ def contains_github_token_literal(content: bytes) -> bool:
     return any(pattern.search(content) for pattern in GITHUB_TOKEN_LITERALS)
 
 
+def auto_merge_event_errors(text: str) -> list[str]:
+    """Require source/lifecycle evaluation without same-head label reruns."""
+    events = re.findall(r"(?m)^  pull_request:[ \t]*\n((?:    [^\n]*\n)+)", text)
+    if len(events) != 1:
+        return ["auto-merge workflow must declare one pull_request event block"]
+    types = re.findall(r"(?m)^    types: \[([^\]\n]+)\]$", events[0])
+    if len(types) != 1:
+        return ["auto-merge workflow must declare one explicit pull_request action list"]
+    actions = [action.strip() for action in types[0].split(",")]
+    required = {"opened", "reopened", "synchronize", "ready_for_review", "converted_to_draft", "edited"}
+    errors = []
+    if len(actions) != len(set(actions)):
+        errors.append("auto-merge workflow repeats a pull_request action")
+    missing = sorted(required - set(actions))
+    if missing:
+        errors.append("auto-merge workflow is missing source/lifecycle actions: " + ", ".join(missing))
+    unexpected = sorted(set(actions) - required)
+    if unexpected:
+        errors.append("auto-merge workflow has unapproved or same-head routing actions: " + ", ".join(unexpected))
+    return errors
+
+
 def tracked_paths(root: Path) -> list[Path]:
     completed = subprocess.run(
         ["git", "-C", str(root), "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
@@ -399,12 +421,7 @@ def main() -> int:
     auto_merge_state_proof_path = root / "ci" / "prove-auto-merge-state.py"
     default_branch_head_proof_path = root / "ci" / "prove-default-branch-head.py"
     required_context_activation_path = root / "ci" / "prove-required-context-active.py"
-    auto_merge_events = (
-        "types: [opened, reopened, synchronize, ready_for_review, "
-        "converted_to_draft, edited, labeled, unlabeled]"
-    )
-    if auto_merge_events not in auto_merge:
-        errors.append("auto-merge workflow does not re-evaluate converted_to_draft and edited events")
+    errors.extend(auto_merge_event_errors(auto_merge))
     if "branches: [main]" in auto_merge:
         errors.append("auto-merge workflow must receive retarget events so it can disarm non-default-branch PRs")
     if not re.search(r"(?m)^  configure:\s*\n    if:", auto_merge):

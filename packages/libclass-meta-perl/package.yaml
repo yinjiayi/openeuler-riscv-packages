@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libclass-meta-perl",
+        "observed_at": "2026-11-08T08:31:00Z",
+        "package_base": "libclass-meta-perl",
+        "package_name": "libclass-meta-perl",
+        "source": "debian",
+        "source_version": "0.66-3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n369.2BjORt"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libclass-meta-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN source and its signed publisher checksum verified; original grant, precise generated donor, preserved test suite and current target dependencies audited. Debian stable is naming lineage only.",
+    "status": "active"
+  },
+  "package_id": "libclass-meta-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libclass-meta-perl",
+    "summary": "Create typed Perl classes with metadata and introspection"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:Class-Meta",
+    "homepage": "https://metacpan.org/dist/Class-Meta",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/",
+    "release_channel": "stable",
+    "release_regex": "Class-Meta-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Class-Meta",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/Class-Meta-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.66",
+    "latest_detected": "0.66",
+    "release": "1"
+  }
+}

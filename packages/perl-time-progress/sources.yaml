@@ -1,0 +1,21 @@
+{
+  "package_id": "perl-time-progress",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "dc95826340813965cf4b44fa4760cd602baa2396c976db4965007ee2ee90f02b"
+      },
+      "filename": "Time-Progress-2.15.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The original README and module name Vladi Belperchinov-Shabanski and grant the same terms as Perl itself; the archive is unchanged."
+      },
+      "signature": {"policy":"checksum-required-signature-advisory","url":"https://cpan.metacpan.org/authors/id/C/CA/CADE/CHECKSUMS","key_fingerprint":"2E66557AB97C19C791AF8E20328DA867450F89EC"},
+      "url": "https://cpan.metacpan.org/authors/id/C/CA/CADE/Time-Progress-2.15.tar.gz",
+      "version": "2.15"
+    }
+  ]
+}
