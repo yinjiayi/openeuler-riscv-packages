@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/release/ILMARI/Class-Unload-0.12",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-unload-perl",
+        "package_name": "libclass-unload-perl",
+        "source": "ubuntu",
+        "source_version": "0.12-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/ILMARI/Class-Unload-0.12",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-class-unload",
+        "package_name": "perl-class-unload",
+        "source": "aur",
+        "source_version": "0.12-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/ILMARI/Class-Unload-0.12",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-unload-perl",
+        "package_name": "libclass-unload-perl",
+        "source": "debian",
+        "source_version": "0.11-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/ILMARI/Class-Unload-0.12",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Class-Unload",
+        "package_name": "perl-Class-Unload",
+        "source": "fedora",
+        "source_version": "0.12-2.fc44"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/ILMARI/Class-Unload-0.12",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Class-Unload",
+        "package_name": "perl-Class-Unload",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.120.0-1.4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libclass-unload-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed PAUSE-signed release with complete author and generated-template terms; unchanged MakeMaker default taint tests.",
+    "status": "active"
+  },
+  "package_id": "libclass-unload-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-unload",
+    "summary": "Unload Perl classes"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:Class-Unload",
+    "homepage": "https://metacpan.org/release/ILMARI/Class-Unload-0.12",
+    "release_api": "https://cpan.metacpan.org/authors/id/I/IL/ILMARI/",
+    "release_channel": "stable",
+    "release_regex": "Class-Unload-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://codeberg.org/ilmari/Class-Unload",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/I/IL/ILMARI/Class-Unload-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.12",
+    "latest_detected": "0.12",
+    "release": "1"
+  }
+}
