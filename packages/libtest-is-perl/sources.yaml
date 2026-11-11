@@ -1,0 +1,66 @@
+{
+  "package_id": "libtest-is-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fb9a959b7004d629f20d45c9965de59e80f46ab50453906bd1a97ff656419dbe"
+      },
+      "filename": "Test-Is-20140823.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official signed distribution retains full author license; generated-template licenses are pinned separately."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DO/DOLMEN/Test-Is-20140823.1.tar.gz",
+      "version": "20140823.1"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "version": "20140823.1",
+      "url": "https://fastapi.metacpan.org/v1/source/RJBS/Dist-Zilla-5.020/LICENSE",
+      "filename": "Dist-Zilla-5.020.LICENSE",
+      "digests": {
+        "sha256": "0bf381878fce0a3e1304ce794d8718b506805b86469e32876e8fe3100a081d77"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete byte-identical original license for the exact retained generator template."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "version": "20140823.1",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-Compile-2.043/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-Compile-2.043.LICENSE",
+      "digests": {
+        "sha256": "67523c952f52f6910dd844be488e93db8478fb55f595e782df629e370ecb598a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete byte-identical original license for the exact retained generator template."
+      }
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "version": "20140823.1",
+      "url": "https://fastapi.metacpan.org/v1/source/DOLMEN/Dist-Zilla-Plugin-ReportVersions-Tiny-1.10/LICENSE",
+      "filename": "Dist-Zilla-Plugin-ReportVersions-Tiny-1.10.LICENSE",
+      "digests": {
+        "sha256": "f2d8b3e3a9e412df9f2ca5f3f9722857fb99cf4130a467be020e66f8ce8fa579"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete byte-identical original license for the exact retained generator template."
+      }
+    }
+  ]
+}
