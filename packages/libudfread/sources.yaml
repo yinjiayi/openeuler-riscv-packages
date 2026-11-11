@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "libudfread",
+  "sources": [
+    {
+      "id": "source0", "kind": "upstream-release",
+      "url": "https://download.videolan.org/pub/videolan/libudfread/libudfread-1.2.0.tar.xz",
+      "filename": "libudfread-1.2.0.tar.xz", "version": "1.2.0",
+      "digests": {"sha256": "bb477cbd4cfbfc7787d9d05b71ee5e70430f5cfebf1297497f7e83547958050f"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Official fixed VideoLAN release and published SHA512 verified. All 26 original members and complete LGPL2.1 COPYING retained; per-file LGPL2.1-or-later C grants and five explicit MIT Meson grants unchanged, full GPL2/MIT texts additionally supplied. No detached signature claimed."}
+    },
+    {
+      "id": "source1", "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/GPL-2.0-only.txt",
+      "filename": "GPL-2.0.txt", "version": "GPL-2.0",
+      "digests": {"sha256": "aaf135472f81c5b4a0dca9367e5bb5e9750032b5bebe5442b36e4c0a47430df3"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete GPL2 legal text from fixed official SPDX license-list-data commit, matched Git blob and SHA256. Only the license text is reused."}
+    },
+    {
+      "id": "source2", "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+      "filename": "MIT.txt", "version": "MIT",
+      "digests": {"sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete generic MIT legal text from fixed official SPDX commit. Original Rob Hall copyright remains in all five original Meson files; the generic text never substitutes for actual per-file notices."}
+    }
+  ]
+}

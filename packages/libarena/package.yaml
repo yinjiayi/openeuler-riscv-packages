@@ -1,0 +1,79 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://25thandclement.com/~william/projects/libarena.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libarena",
+        "package_name": "libarena",
+        "source": "aur",
+        "source_version": "0.3.7-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-pass-ldflags-to-shared-link.patch",
+        "sha256": "9dbcaad0080ccff73322af841d56b2a6fcc864dbe6f108489f73f48be89cc720",
+        "purpose": "Propagate original LDFLAGS through the shared libtool link without changing default targets, allocators or tests.",
+        "source": "Downstream minimal change against official rel-0.3.7 commit 07d292bb73e035997d3a0768234966778ba8a899 src/Rules.mk line 57.",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "The selected upstream release passes LDFLAGS through the shared libtool link."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libarena.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Publisher explicitly identifies 0.3.7 as latest; all 33 ordinary archive/Git bytes and complete original notices retained. Original all static and randomized check remain unchanged; optional pic adds installed shared-library QA. No local upstream/target execution.",
+    "status": "active"
+  },
+  "package_id": "libarena",
+  "rpm": {
+    "license": "MIT AND BSD-3-Clause AND LicenseRef-dh-make-output",
+    "name": "libarena",
+    "summary": "Custom memory allocator interface for C"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "25thandclement.com-william-projects-libarena.html",
+    "homepage": "https://25thandclement.com/~william/projects/libarena.html",
+    "release_api": "https://25thandclement.com/~william/projects/libarena.html",
+    "release_channel": "stable",
+    "release_regex": "^libarena-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tgz$",
+    "source_repository": "https://25thandclement.com/~william/projects/libarena.git",
+    "source_url_template": "https://25thandclement.com/~william/projects/releases/libarena-{version}.tgz"
+  },
+  "version": {
+    "current": "0.3.7",
+    "latest_detected": "0.3.7",
+    "release": "1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "libspatialindex",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "35756700f88fa12368b38ed2580acf24ad6fe95111744ac7f21c83f6955cb6ee"
+      },
+      "filename": "libspatialindex-2.1.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Main code MIT since1.8.0; bundled GoogleTest files retain BSD3 grant; INSTALL retains FSFULLR and fallback rand48.cc retains Martin-Birgmeier notice. Preserve all325 original members verbatim as installed notices plus checksums. No detached release signature is claimed; archive SHA256 and every official Git blob verified."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/libspatialindex/libspatialindex/tar.gz/175b56a9541e76982d13dbbf0c9b8f0b8d752619",
+      "version": "2.1.0"
+    }
+  ]
+}

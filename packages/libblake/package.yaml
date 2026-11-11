@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "libblake",
+  "rpm": {"name": "libblake", "summary": "Portable BLAKE, BLAKE2 and BLAKE2X hashing library", "license": "ISC"},
+  "upstream": {"component": "codeberg.org-maandree-libblake", "homepage": "https://codeberg.org/maandree/libblake", "source_repository": "https://codeberg.org/maandree/libblake.git", "release_channel": "stable", "release_api": "https://codeberg.org/maandree/libblake/tags", "release_regex": "/archive/(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz", "source_url_template": "https://codeberg.org/maandree/libblake/archive/{version}.tar.gz"},
+  "version": {"current": "3.0.2.1", "release": "1", "latest_detected": "3.0.2.1"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "aur", "package_name": "libblake", "package_base": "libblake", "source_version": "3.0.2.1-1", "evidence_url": "https://aur.archlinux.org/packages/libblake", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libblake.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official fixed archive, full ISC license and all91 original files retained. Upstream default config enables all eight algorithms and uses portable C compress objects; optional x86 SIMD translation units are not default OBJ members. Preserve original make all and complete make check with empty CHECK_PREFIX. Replay the unchanged original test.c with all eight original SUPPORT macros and all four KAT files against staged and ordinarily installed static/shared libraries. No source patch, local source/RPM/QEMU execution, timing, native or security claim. Target build/install/products remain required."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}

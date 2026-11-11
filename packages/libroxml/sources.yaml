@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "libroxml",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://api.github.com/repos/blunderer/libroxml/tarball/refs/tags/3.0.2",
+      "filename": "libroxml-3.0.2.tar.gz",
+      "version": "3.0.2",
+      "digests": {
+        "sha256": "8ee1af119c6054ef635e9d977b93e56b34ba7db62100012c9a3ece602c8691f7"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream explicit debian/copyright Files:* LGPL2.1-or-later with original static-linking exception, and specific debian/* GPL2-or-later. Preserve all82 original ordinary archive/Git bytes including both PNGs, SVG, templates, fixtures and all per-file notices before the four-declaration patch and autoreconf. Unsigned exact tag/commit; SHA256/Git-byte identity is not a signature."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/COPYING",
+      "filename": "gpl-2.0.txt",
+      "version": "GPL-2.0",
+      "digests": {
+        "sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Verbatim GPL2 license document for the upstream debian/* GPL2-or-later files retained in the original source archive/notices. Fixed official GCC mirror commit; no GCC implementation reused."
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "package_id": "libac",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "26806adfddd294d7d5cba67bf452cd880c4209bf2bfce03bee30b36d07d560d6"
+      },
+      "filename": "libac-2.0.0.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Primary LGPL2.1-only grant retained; common LGPL2.1later/BSD3 and source-only FreeBSD Apache2 notices remain separately scoped. Complete original LGPL and official GPL2/Apache2 texts supplied without a blanket relicense."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/ac000/libac/tar.gz/061bdbb82ffa76fdf91e78920ca142d2b8a40211",
+      "version": "2.0.0"
+    },
+    {
+      "id": "source1", "kind": "upstream-release",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "COPYING.APACHE2", "version": "2.0",
+      "digests": {"sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete official Apache2 license text accompanies the source-only FreeBSD implementation; copied verbatim."}
+    },
+    {
+      "id": "source2", "kind": "upstream-release",
+      "url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
+      "filename": "COPYING.GPL2", "version": "2.0",
+      "digests": {"sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Official GNU GPL2 text permits verbatim copying and accompanies the original LGPL2.1 text."}
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-algorithm-lcss",
+  "rpm": {
+    "name": "perl-Algorithm-LCSS",
+    "summary": "Find common contiguous subsequences in strings and arrays",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "perl-algorithm-lcss",
+    "homepage": "https://metacpan.org/dist/Algorithm-LCSS",
+    "source_repository": "https://metacpan.org/dist/Algorithm-LCSS",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JF/JFREEMAN/",
+    "release_regex": "Algorithm-LCSS-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JF/JFREEMAN/Algorithm-LCSS-{version}.tar.gz"
+  },
+  "version": {"current": "0.01", "release": "1", "latest_detected": "0.01"},
+  "discovery": {
+    "snapshot_id": "intake-20261106-algorithm-lcss-717cefcc",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "perl-algorithm-lcss",
+        "package_base": "perl-algorithm-lcss",
+        "source_version": "0.01-1",
+        "evidence_url": "https://aur.archlinux.org/packages/perl-algorithm-lcss",
+        "observed_at": "2026-11-06T01:49:00Z"
+      }
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "perl-algorithm-lcss.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official authorized CPAN stable release, SHA-256 matched against MetaCPAN and publisher CHECKSUMS; AUR metadata is discovery lineage only and its packaging was not executed. README grants the same terms as Perl. Fresh official and supplemental primary/filelists contain no module, RPM name or installed-file collision. Algorithm::Diff 1.201 and all build/test dependencies are provided by the official target repository. The unchanged default test.pl has 8 assertions and passed without skips on the macOS Perl host; target RPM build/install remain CI gates. Historical CHECKSUMS signature is advisory: cryptographically valid for the official PAUSE key at signing time, with current key expiry explicitly recorded."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}

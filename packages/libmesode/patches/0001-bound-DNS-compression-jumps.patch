@@ -1,0 +1,43 @@
+From: openEuler RISC-V package contributors <noreply@example.invalid>
+Subject: [PATCH] resolver: bound all DNS compression jumps without recursion
+
+A compression self-pointer or cycle repeats the recursive decoder arguments.
+Iterate over pointer jumps with one per-name budget derived from message size.
+Keep the first pointer's outer compressed length while appending labels to
+the original bounded output buffer. Valid acyclic compression is preserved;
+cycles fail with the existing zero/error convention without recursive stack growth.
+
+Downstream-only source-risk repair; no upstream write or CVE claim.
+Deterministic parser regression and original-source instrumentation control
+run only in target CI, never during local tooling validation.
+
+--- a/src/resolver.c
++++ b/src/resolver.c
+@@ -86 +86,2 @@
+-    unsigned rc;
++    unsigned consumed = 0;
++    size_t hops_left = buf_len;
+@@ -110,12 +111,8 @@
+-            if (name != NULL && name_len >= name_max && name_max > 0) {
+-                /* We have filled the name buffer. Don't pass it recursively. */
+-                name[name_max - 1] = '\0';
+-                name = NULL;
+-                name_max = 0;
+-            }
+-            rc = message_name_get(buf, buf_len, pointer,
+-                                  name != NULL ? &name[name_len] : NULL,
+-                                  name_max > name_len ? name_max - name_len : 0);
+-            if (rc == 0) return 0;
+-            /* Pointer is always the last. */
+-            break;
++            /* All jumps share one finite budget, including jumps after labels.
++             * Iterate rather than grow the stack on an attacker-controlled chain.
++             * A valid acyclic chain cannot visit more offsets than buf_len.
++             */
++            if (hops_left == 0) return 0;
++            --hops_left;
++            if (consumed == 0) consumed = i - buf_offset;
++            i = pointer;
+@@ -144 +141 @@
+-    return i - buf_offset;
++    return consumed != 0 ? consumed : i - buf_offset;

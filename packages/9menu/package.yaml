@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/trixie/x11/9menu",
+        "observed_at": null,
+        "package_base": "9menu",
+        "package_name": "9menu",
+        "source": "debian",
+        "source_version": "1.11-1"
+      }
+    ],
+    "snapshot_id": "discovery-official-9menu-N143-2799dfe4a0ad5c4a"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "9menu.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "New official discovery via Debian stable packaging clue, not frozen catalog membership. Official tag1.11 fixed commit/archive and all8 members reviewed. LicenseRef-9menu denotes exact custom upstream README terms, not MIT or an OSI/legal approval. No functionality changes or patches. Regenerate original Imakefile on target to avoid ancient shipped i386 Makefile; byte-identical 9menu.1 to 9menu.man input alias; preserve default all/install/install.man and default manual preprocessing. No original test/check targets exist; none removed. Mandatory private-Xvfb built/staged/installed semantic QA. Exact-head target CI, ordinary installation and physical artifacts remain acceptance gates.",
+    "status": "active"
+  },
+  "package_id": "9menu",
+  "rpm": {
+    "license": "LicenseRef-9menu",
+    "name": "9menu",
+    "summary": "Small X menu for executing shell commands"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-arnoldrobbins-9menu",
+    "homepage": "https://github.com/arnoldrobbins/9menu",
+    "release_api": "https://api.github.com/repos/arnoldrobbins/9menu/tags",
+    "release_channel": "stable",
+    "release_regex": "9menu-release-(?P<version>[0-9]+\\.[0-9]+)",
+    "source_repository": "https://github.com/arnoldrobbins/9menu",
+    "source_url_template": "https://codeload.github.com/arnoldrobbins/9menu/tar.gz/refs/tags/9menu-release-{version}"
+  },
+  "version": {
+    "current": "1.11",
+    "latest_detected": "1.11",
+    "release": "2"
+  }
+}

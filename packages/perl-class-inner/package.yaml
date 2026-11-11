@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/perl-class-inner",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-class-inner",
+        "package_name": "perl-class-inner",
+        "source": "aur",
+        "source_version": "0.200001-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-inner.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release archive pinned by SHA-256; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-class-inner",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Class-Inner",
+    "summary": "Perl implementation of inner classes"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "metacpan.org-dist-class-inner",
+    "homepage": "https://metacpan.org/dist/Class-Inner",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AR/ARUNBEAR/",
+    "release_channel": "stable",
+    "release_regex": "Class-Inner-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/A/AR/ARUNBEAR/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AR/ARUNBEAR/Class-Inner-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.200001",
+    "latest_detected": "0.200001",
+    "release": "1"
+  }
+}

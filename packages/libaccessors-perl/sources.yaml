@@ -1,0 +1,25 @@
+{
+  "package_id": "libaccessors-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "3a8db00f38148f3afadbe5330dc5490d9933f9cae137e842ec225a4d3adb2d9f"
+      },
+      "filename": "accessors-1.01.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Author Build.PL and original META.yml explicitly declare the Perl license. The physical official HTTPS archive SHA-256 and size match CHECKSUMS; old signed-index metadata is advisory, not current strong-signature verification."
+      },
+      "signature": {
+        "url": "https://cpan.metacpan.org/authors/id/S/SP/SPURKIS/CHECKSUMS",
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/S/SP/SPURKIS/accessors-1.01.tar.gz",
+      "version": "1.01"
+    }
+  ]
+}

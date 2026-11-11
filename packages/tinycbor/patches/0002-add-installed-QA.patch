@@ -1,0 +1,969 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Add installed QA and verbatim upstream notice collection
+Upstream-Status: Inappropriate [distribution QA]
+SPDX-License-Identifier: MIT
+
+Only new downstream files; no original source, fixture or test is modified.
+--- /dev/null
++++ b/downstream/consumer.c
+@@ -0,0 +1,45 @@
++/* SPDX-License-Identifier: MIT
++ * Copyright (c) 2026 yinjiayi
++ * Downstream installed API acceptance, not an upstream test case. */
++#ifdef USE_CMAKE_EXPORT
++# include <tinycbor/cbor.h>
++#else
++# include <cbor.h>
++#endif
++#include <assert.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <string.h>
++
++int main(void)
++{
++    uint8_t buf[128];
++    CborEncoder encoder, map;
++    CborParser parser;
++    CborValue root, item, value;
++    int64_t number = 0;
++    bool flag = false;
++    cbor_encoder_init(&encoder, buf, sizeof(buf), 0);
++    assert(cbor_encoder_create_map(&encoder, &map, 2) == CborNoError);
++    assert(cbor_encode_text_stringz(&map, "n") == CborNoError);
++    assert(cbor_encode_int(&map, 42) == CborNoError);
++    assert(cbor_encode_text_stringz(&map, "ok") == CborNoError);
++    assert(cbor_encode_boolean(&map, true) == CborNoError);
++    assert(cbor_encoder_close_container_checked(&encoder, &map) == CborNoError);
++    size_t len = cbor_encoder_get_buffer_size(&encoder, buf);
++    assert(len == 9);
++    assert(memcmp(buf, "\xa2\x61n\x18\x2a\x62ok\xf5", 9) == 0);
++    assert(cbor_parser_init(buf, len, 0, &parser, &root) == CborNoError);
++    assert(cbor_value_is_map(&root));
++    assert(cbor_value_map_find_value(&root, "n", &value) == CborNoError);
++    assert(cbor_value_get_int64(&value, &number) == CborNoError && number == 42);
++    assert(cbor_value_map_find_value(&root, "ok", &value) == CborNoError);
++    assert(cbor_value_get_boolean(&value, &flag) == CborNoError && flag);
++    assert(cbor_value_enter_container(&root, &item) == CborNoError);
++    while (!cbor_value_at_end(&item))
++        assert(cbor_value_advance(&item) == CborNoError);
++    assert(cbor_value_leave_container(&root, &item) == CborNoError);
++    assert(cbor_value_get_next_byte(&root) == buf + len);
++    puts("downstream installed API passed");
++    return 0;
++}
+--- /dev/null
++++ b/downstream/CMakeLists.txt
+@@ -0,0 +1,12 @@
++# SPDX-License-Identifier: MIT
++# Copyright (c) 2026 yinjiayi
++cmake_minimum_required(VERSION 3.10)
++project(tinycbor_installed_consumer C)
++find_package(tinycbor 7.0 CONFIG REQUIRED)
++if(NOT TARGET tinycbor)
++  message(FATAL_ERROR "Original non-namespaced tinycbor imported target missing")
++endif()
++add_executable(consumer consumer.c)
++target_compile_definitions(consumer PRIVATE USE_CMAKE_EXPORT)
++target_compile_options(consumer PRIVATE -UNDEBUG)
++target_link_libraries(consumer PRIVATE tinycbor)
+--- /dev/null
++++ b/downstream/run-tests.sh
+@@ -0,0 +1,46 @@
++#!/bin/bash
++# SPDX-License-Identifier: MIT
++# Copyright (c) 2026 yinjiayi
++set -euo pipefail
++export LC_ALL=C
++unset CPATH C_INCLUDE_PATH CPLUS_INCLUDE_PATH LIBRARY_PATH LD_PRELOAD
++root=
++if [[ ${1:-} == --staged ]]; then
++    [[ $# == 2 && $2 == /* && -d $2/usr ]] || exit 2
++    root=${2%/}
++else
++    [[ $# == 0 ]] || exit 2
++    rpm -V tinycbor tinycbor-devel tinycbor-tests
++fi
++qa="$root/usr/share/tinycbor"
++exe="$root/usr/libexec/tinycbor"
++work=$(mktemp -d)
++trap 'rm -r -- "$work"' EXIT
++(cd "$exe" && sha256sum -c "$qa/SHA256SUMS")
++count=0
++for suite in c90 cpp encoder parser tojson; do
++    "$exe/tst_$suite" > "$work/$suite.log" 2>&1 || { cat "$work/$suite.log"; exit 1; }
++    cat "$work/$suite.log"
++    count=$((count+1))
++done
++[[ $count == 5 ]]
++printf 'original suite executables passed: %s\n' "$count"
++# Preserve original data-row SKIP semantics; no zero-skip claim is made.
++export PKG_CONFIG_LIBDIR="$root/usr/lib64/pkgconfig"
++export PKG_CONFIG_SYSROOT_DIR="${root:-/}"
++[[ $(pkg-config --modversion tinycbor) == 7.0 ]]
++gcc -std=c99 -Wall -Wextra -Werror -UNDEBUG "$qa/consumer.c" \
++    $(pkg-config --cflags --libs --static tinycbor) -o "$work/pkg-consumer"
++"$work/pkg-consumer"
++cmake -S "$qa" -B "$work/cmake" \
++    -DCMAKE_PREFIX_PATH="$root/usr" \
++    -DCMAKE_FIND_ROOT_PATH="$root" \
++    -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=ONLY
++cmake --build "$work/cmake" --parallel 2
++"$work/cmake/consumer"
++printf '{"n":42,"ok":true}' > "$work/input.json"
++"$exe/json2cbor" "$work/input.json" > "$work/data.cbor"
++"$root/usr/bin/cbordump" -j "$work/data.cbor" > "$work/output.json"
++printf '{"n":42,"ok":true}\n' > "$work/expected.json"
++cmp "$work/expected.json" "$work/output.json"
++printf 'downstream consumers passed: 2; CLI roundtrips passed: 1\n'
+--- /dev/null
++++ b/downstream/UPSTREAM-NOTICES
+@@ -0,0 +1,848 @@
++All original notices below retain their original authors and MIT grants.
++
++FILE: CMakeLists.txt
++# /****************************************************************************
++# **
++# ** Copyright (C) 2015 Intel Corporation
++# **
++# ** Permission is hereby granted, free of charge, to any person obtaining a copy
++# ** of this software and associated documentation files (the "Software"), to deal
++# ** in the Software without restriction, including without limitation the rights
++# ** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++# ** copies of the Software, and to permit persons to whom the Software is
++# ** furnished to do so, subject to the following conditions:
++# **
++# ** The above copyright notice and this permission notice shall be included in
++# ** all copies or substantial portions of the Software.
++# **
++# ** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++# ** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++# ** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++# ** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++# ** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++# ** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++# ** THE SOFTWARE.
++# **
++# ****************************************************************************/
++
++FILE: LICENSE
++MIT License
++
++Copyright (c) 2017 Intel Corporation
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
++
++FILE: cmake/TinyCBORHelpers.cmake
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++FILE: examples/CMakeLists.txt
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++FILE: src/cbor.dox
++/****************************************************************************
++**
++** Copyright (C) 2016 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cbor.h
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborencoder.c
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborencoder_close_container_checked.c
++/****************************************************************************
++**
++** Copyright (C) 2015 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborencoder_float.c
++/****************************************************************************
++**
++** Copyright (C) 2019 S.Phirsov
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborerrorstrings.c
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborinternal_p.h
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborinternalmacros_p.h
++/****************************************************************************
++**
++** Copyright (C) 2025 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborjson.h
++/****************************************************************************
++**
++** Copyright (C) 2015 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborparser.c
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborparser_dup_string.c
++/****************************************************************************
++**
++** Copyright (C) 2016 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborparser_float.c
++/****************************************************************************
++**
++** Copyright (C) 2019 S.Phirsov
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborpretty.c
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborpretty_stdio.c
++/****************************************************************************
++**
++** Copyright (C) 2017 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cbortojson.c
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/cborvalidation.c
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/compilersupport_p.h
++/****************************************************************************
++**
++** Copyright (C) 2017 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/memory.h
++/****************************************************************************
++**
++** Copyright (C) 2016 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/open_memstream.c
++/****************************************************************************
++**
++** Copyright (C) 2015 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: src/parsetags.pl
++#!/usr/bin/perl -l
++## Copyright (C) 2017 Intel Corporation
++##
++## Permission is hereby granted, free of charge, to any person obtaining a copy
++## of this software and associated documentation files (the "Software"), to deal
++## in the Software without restriction, including without limitation the rights
++## to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++## copies of the Software, and to permit persons to whom the Software is
++## furnished to do so, subject to the following conditions:
++##
++## The above copyright notice and this permission notice shall be included in
++## all copies or substantial portions of the Software.
++##
++## THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++## IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++## FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++## AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++## LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++## OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++## THE SOFTWARE.
++##
++
++FILE: src/tinycbor-version.h.in
++/* Copyright (C) 2025 Intel Corporation
++ * SPDX-License-Identifier: MIT
++ */
++
++FILE: src/utf8_p.h
++/****************************************************************************
++**
++** Copyright (C) 2017 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: tests/CMakeLists.txt
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++FILE: tests/c90/CMakeLists.txt
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++FILE: tests/c90/tst_c90.c
++/****************************************************************************
++**
++** Copyright (C) 2018 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: tests/cpp/CMakeLists.txt
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++
++FILE: tests/cpp/tst_cpp.cpp
++/****************************************************************************
++**
++** Copyright (C) 2017 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: tests/encoder/CMakeLists.txt
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++FILE: tests/encoder/data.cpp
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: tests/encoder/tst_encoder.cpp
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: tests/parser/CMakeLists.txt
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++FILE: tests/parser/data.cpp
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: tests/parser/tst_parser.cpp
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: tests/tojson/CMakeLists.txt
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++FILE: tests/tojson/tst_tojson.cpp
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: tools/CMakeLists.txt
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++FILE: tools/cbordump/CMakeLists.txt
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++FILE: tools/cbordump/cbordump.c
++/****************************************************************************
++**
++** Copyright (C) 2021 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++
++FILE: tools/json2cbor/CMakeLists.txt
++# Copyright (C) 2025 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++FILE: tools/json2cbor/json2cbor.c
++/****************************************************************************
++**
++** Copyright (C) 2015 Intel Corporation
++**
++** Permission is hereby granted, free of charge, to any person obtaining a copy
++** of this software and associated documentation files (the "Software"), to deal
++** in the Software without restriction, including without limitation the rights
++** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++** copies of the Software, and to permit persons to whom the Software is
++** furnished to do so, subject to the following conditions:
++**
++** The above copyright notice and this permission notice shall be included in
++** all copies or substantial portions of the Software.
++**
++** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++** THE SOFTWARE.
++**
++****************************************************************************/
++

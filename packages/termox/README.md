@@ -1,0 +1,93 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+# termox
+
+Packages TermOx 2.0.0, preserving its static library, full default CMake graph,
+and original two explicitly selected unit registrations. Both original test
+bodies are empty or comment-only: their successful runner exit is not functional
+test coverage. Five original examples and dependency tests remain available as
+upstream EXCLUDE_FROM_ALL targets; this recipe does not disable them or claim
+they ran. Escape and zzz require C++20 despite the former C++17 package summary.
+
+All four official immutable archives are SHA256 pinned and source/Git-tree
+matched. Available TermOx commit signature was independently verified as a
+GitHub web-flow attestation, not an author-owned release signature; the three
+dependency commits have no available signature. Sources and dependencies remain
+MIT under their original complete project grants. All 55+19+43+9 ordinary source
+files are preserved verbatim as .notice files plus SHA256SUMS before configuration,
+including every grant, copyright, README and original test. They are not treated
+as new packaging code or relicensed by this repository.
+
+Configuration is unprivileged and offline using explicit FetchContent source
+overrides; upstream configuration defaults are unchanged. A package-contained
+MIT patch changes only bundled zzz iterator exception propagation after resume. Global ox headers and
+libTermOx.a retain their original installed names. Exact dependency headers live
+only below /usr/include/termox/third-party, and libescape.a below /usr/lib64/termox.
+The upstream signals-light global install rule is not invoked. termox.pc exposes
+the private headers/static archive and ICU dependency link flags to consumers.
+
+Six additional noninteractive API cases cover ScreenBuffer allocation/fill,
+mutable/const indexing, Canvas translation, resize-then-fill, Unicode conversion
+and invalid UTF8, and signal disconnection/lifetime. The test never constructs a
+Terminal or Timer and makes no terminal I/O, authentication, latency, security or
+arbitrary-Unicode safety claim. Installed QA compiles the preserved API source
+against installed package-owned static archives, verifies both archives in the
+actual linker map, reads RISC-V ELF headers, executes all six cases, and checks
+that deliberately omitting TermOx fails to link with unresolved ox symbols.
+Static archive evidence is not a dynamic LD_DEBUG symbol-binding claim.
+
+No target build or functional QA has been run on the local Codex host. New-head
+target CI, actual RPM/SRPM/notices and complete repository namespace acceptance
+remain required after the guarded package-only repair push.
+
+Installed termox.pc also declares -std=c++20, so consumer compilation tests the
+actual pkgconfig language contract. Prep explicitly uses declared tar/gzip;
+%setup precedes verbatim notice preservation, then %autopatch applies the one
+bundled zzz header patch. All 126 original notice bytes remain prepatch inputs.
+Additional API stdout must byte-match seven expected lines (six cases plus
+summary), with exit0 and empty stderr at both build and installed stages.
+Installed positive-link failures preserve and print real status/raw diagnostics.
+Target ar/nm/readelf/link-map assertions require the original terminal.cpp.o and
+transcode.cpp.o members and their selected defined symbols, not just arbitrary
+archive presence. These are future CI assertions, not local target results.
+
+The exact stdout comparator cmp is supplied by explicitly declared diffutils at build and installed-test roles, not presumed to belong to coreutils.
+
+
+The previous exact-head target run 40231282085 failed case 5: invalid-first-byte
+UTF-8 was not rejected. Preserved source shows zzz stores the decoder exception
+but treats the completed coroutine as end before rethrowing. The patch checks
+the stored exception immediately after initial resume and increment, before
+done/null handling. It neither transfers nor destroys iterator ownership: the
+Generator still owns/destroys its frame. This is a source-control-flow diagnosis
+consistent with the target assertion, not an instrumented target exception trace.
+
+Case 5 retains its original valid Unicode and invalid-first-byte assertions and
+adds valid-prefix/invalid-byte rejection, valid empty input, typed initial and
+increment exceptions, normal and empty generator completion, and frame-local
+RAII cleanup during exception unwinding and suspended-owner destruction. These
+new target assertions have not run locally; cleanup counters do not claim a
+general heap-leak audit. Cases 1-4/6 and the exact seven stdout lines remain
+unchanged, as do installed archive/link-map/negative-link assertions. The original
+two no-op registrations are retained, not promoted to functional coverage.
+
+Remove the downstream patch only when the pinned official dependency provides
+equivalent checks at both resume sites and the complete target regressions pass
+without it. This episode has two observed failed targets; exactly one target
+attempt remains under the three-failure cap. A new commit does not reset that
+budget; another target failure requires needs-human without a fourth attempt. New-head target build/install, physical RPM/SRPM and namespace acceptance
+remain mandatory; a completed repair push is not target or merge acceptance.
+
+
+The second actual target run 40240684055 passed the build and all six installed
+driver cases, then stopped at the first static map assertion: GNU ld recorded
+/lib64/../lib64/libTermOx.a(terminal.cpp.o), not the literal /usr/lib64 spelling.
+The installed-QA parser now reads only the archive-extraction section, requires
+one exact terminal.cpp.o/transcode.cpp.o extraction from the correct archive
+basename, and proves each absolute target path is the expected package-owned
+archive with shell -ef. A basename, suffix, later cross-reference, or member name
+alone is insufficient; a conflicting physical archive fails. The captured map
+does not itself prove alias identity: the next target must establish -ef and all
+unchanged symbol, RISC-V, six-case consumer, negative-link and digest assertions.
+No source patch, default graph, original test, source archive, or notice changes
+are part of this QA-path repair. Synthetic empty-file map fixtures are packaging
+parser checks only, not target functionality or physical acceptance.

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "package_id": "libnghttp3",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://github.com/ngtcp2/nghttp3/releases/download/v1.18.0/nghttp3-1.18.0.tar.gz",
+      "filename": "nghttp3-1.18.0.tar.gz",
+      "version": "1.18.0",
+      "digests": {
+        "sha256": "2812e9c06583fa24c8dc46bdb5291310a69196352ceaca8fbe98106ff36ae7d8"
+      },
+      "signature": {
+        "url": "https://github.com/ngtcp2/nghttp3/releases/download/v1.18.0/nghttp3-1.18.0.tar.gz.asc",
+        "key_fingerprint": "516B622918D15C478AB1EA3A5339A2BE82E07DEC",
+        "policy": "required",
+        "path": "packages/libnghttp3/signatures/nghttp3-1.18.0.tar.gz.asc",
+        "keyring": "packages/libnghttp3/signatures/publisher.gpg"
+      },
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official complete release with independently verified tag, commit and detached archive signature, plus exact fixed bundled submodule files. All 151 original raw notices preserve the full MIT grants and GNU helper exceptions. This is not a claim that every archive byte matches the main Git tree."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "filename": "GPL-3.0.txt",
+      "version": "3.0",
+      "digests": {
+        "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full GPL version 3 text for an explicit later-version election on bundled GNU helpers. Every original exception is preserved; the compiled library is not claimed to be GPL licensed."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "test-dependency",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "version": "2.0",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full official Apache License 2.0 text for downstream packaging and owned QA; this legal text is not a compiled dependency."
+      }
+    }
+  ]
+}

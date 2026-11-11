@@ -1,0 +1,21 @@
+{
+  "package_id": "libatomic-queue",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "439f19deb70262726b6948118d209e3e8028eca7e60fc18c70b7c5749a1236f4"
+      },
+      "filename": "atomic_queue-1.9.4.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete original MIT LICENSE and copyright/permission/warranty notices reviewed and retained in source/SRPM, installed with headers and tests. All 51 official Git blobs match the fixed archive; no submodules, vendored third-party implementation, binary payloads or separately licensed test fonts. No signed release/tag or detached archive signature observed; exact official Git identity and full SHA-256 verified."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/max0x7ba/atomic_queue/tar.gz/40624b83b1074f34eb4dff6836740f9e2b49ad10",
+      "version": "1.9.4"
+    }
+  ]
+}

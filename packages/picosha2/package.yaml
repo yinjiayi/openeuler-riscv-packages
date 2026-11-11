@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "picosha2",
+  "rpm": {"name": "picosha2", "summary": "Header-only C++ SHA-256 implementation", "license": "MIT"},
+  "upstream": {"component": "github.com-okdshin-picosha2", "homepage": "https://github.com/okdshin/PicoSHA2", "source_repository": "https://github.com/okdshin/PicoSHA2", "release_channel": "stable", "release_api": "https://api.github.com/repos/okdshin/PicoSHA2/tags", "release_regex": "^v(?P<version>[0-9]+[.][0-9]+[.][0-9]+)$"},
+  "version": {"current": "1.0.1", "release": "1", "latest_detected": null},
+  "discovery": {"snapshot_id": "component-review-20261018-picosha2-v1.0.1", "lineage": [{"source": "debian", "package_name": "wabt", "package_base": "wabt", "source_version": "1.0.36+dfsg+~cs1.0.36-2", "evidence_url": "https://sources.debian.org/src/wabt/1.0.36%2Bdfsg%2B~cs1.0.36-2/src/picosha2.h", "observed_at": "2026-10-18T08:05:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 30, "native_reason": null},
+  "files": {"spec": "picosha2.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Discovery identifies the PicoSHA2 component bundled in Debian wabt, not a standalone Debian picosha2 package or version equivalence. Use the separately fixed official v1.0.1 release with all nine files and full MIT grant. Enable upstream test and both example build targets. Preserve original registered CTest and all 202 original checks; its macros only print failures, so additionally require 202 success lines and reject every failure line. Supply the original nonempty test.cpp at the test working directory to preserve both original file-stream checks. Compile unchanged tests against staged and installed public header. No source patch, assertion removal, local target build or performance/security assurance claim."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-tags"}
+}

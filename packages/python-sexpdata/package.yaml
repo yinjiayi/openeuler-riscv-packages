@@ -1,0 +1,92 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/python-sexpdata",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-sexpdata",
+        "package_name": "python-sexpdata",
+        "source": "aur",
+        "source_version": "1.0.2-3"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/stable/python-sexpdata",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-sexpdata",
+        "package_name": "python-sexpdata",
+        "source": "debian",
+        "source_version": "1.0.2-1"
+      },
+      {
+        "evidence_url": "https://src.fedoraproject.org/rpms/python-sexpdata",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-sexpdata",
+        "package_name": "python-sexpdata",
+        "source": "fedora",
+        "source_version": "1.0.2-9.fc44"
+      },
+      {
+        "evidence_url": "https://launchpad.net/ubuntu/+source/python-sexpdata",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-sexpdata",
+        "package_name": "python-sexpdata",
+        "source": "ubuntu",
+        "source_version": "1.0.2-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-sexpdata.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Latest official stable1.0.2 fixed tag commit retains all22Gitblobs. Complete current Python3.11 workflow pytest --doctest-modules sexpdata.py test_sexpdata.py retained, including installed RPM-owned module and unmodified test outside source. Original2019LICENSE and complete2012moduleBSD2notice shipped. Alternate tox/make development configurations retained unchanged but not current workflow gates or claimed executed. Complete supplier metadata verifies Python3.11.6/setuptools68.0.0/pytest7.4.4 and no provider/namespace conflict. Target build/install pending; no local upstream/backend/default/RPM/QEMU execution.",
+    "status": "active"
+  },
+  "package_id": "python-sexpdata",
+  "rpm": {
+    "license": "BSD-2-Clause",
+    "name": "python-sexpdata",
+    "summary": "S-expression parser and serializer for Python"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-jd-boyd-sexpdata",
+    "homepage": "https://github.com/jd-boyd/sexpdata",
+    "release_api": "https://api.github.com/repos/jd-boyd/sexpdata/tags",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/jd-boyd/sexpdata",
+    "source_url_template": "https://github.com/jd-boyd/sexpdata/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.0.2",
+    "latest_detected": "1.0.2",
+    "release": "1"
+  }
+}

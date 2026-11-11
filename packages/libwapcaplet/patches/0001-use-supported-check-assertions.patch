@@ -1,0 +1,201 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] test: use supported Check assertions without extra format args
+Origin: downstream, based on upstream issue 2887 and Check 0.15.2 public API
+Bug: https://bugs.netsurf-browser.org/mantis/view.php?id=2887
+Upstream-Status: Not submitted; existing upstream report remains open
+License: MIT
+
+Check 0.15.2 appends NULL to deprecated fail_unless, provoking GCC's
+format-extra-args diagnostic. Use ck_assert for no-message assertions and
+ck_assert_msg otherwise. Conditions, messages, registration and expected
+signals are unchanged; do not suppress warnings or skip any original test.
+Remove when a released upstream version ports these assertions.
+
+--- a/test/basictests.c
++++ b/test/basictests.c
+@@ -46 +46 @@
+-        fail_unless(lwc_intern_string("Jam", 3, &str) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("Jam", 3, &str) == lwc_error_ok,
+@@ -62 +62 @@
+-        fail_unless(lwc_intern_string("Badger", 6, &str) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("Badger", 6, &str) == lwc_error_ok,
+@@ -118 +118 @@
+-        fail_unless(lwc_intern_string("A", 1, &str) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("A", 1, &str) == lwc_error_ok,
+@@ -120 +120 @@
+-        fail_unless(str != NULL,
++        ck_assert_msg(str != NULL,
+@@ -128 +128 @@
+-        fail_unless(lwc_intern_string("A", 1, &str1) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("A", 1, &str1) == lwc_error_ok,
+@@ -130 +130 @@
+-        fail_unless(str1 != NULL,
++        ck_assert_msg(str1 != NULL,
+@@ -132 +132 @@
+-        fail_unless(lwc_intern_string("B", 1, &str2) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("B", 1, &str2) == lwc_error_ok,
+@@ -134 +134 @@
+-        fail_unless(str2 != NULL,
++        ck_assert_msg(str2 != NULL,
+@@ -142 +142 @@
+-        fail_unless(lwc_intern_string("A", 1, &str1) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("A", 1, &str1) == lwc_error_ok,
+@@ -144 +144 @@
+-        fail_unless(str1 != NULL,
++        ck_assert_msg(str1 != NULL,
+@@ -146 +146 @@
+-        fail_unless(lwc_intern_string("A", 1, &str2) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("A", 1, &str2) == lwc_error_ok,
+@@ -148 +148 @@
+-        fail_unless(str2 != NULL,
++        ck_assert_msg(str2 != NULL,
+@@ -160 +160 @@
+-        fail_unless(lwc_intern_string("one", 3, &intern_one) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("one", 3, &intern_one) == lwc_error_ok,
+@@ -162 +162 @@
+-        fail_unless(lwc_intern_string("two", 3, &intern_two) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("two", 3, &intern_two) == lwc_error_ok,
+@@ -164 +164 @@
+-        fail_unless(lwc_intern_string("three", 5, &intern_three) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("three", 5, &intern_three) == lwc_error_ok,
+@@ -166 +166 @@
+-        fail_unless(lwc_intern_string("YAY", 3, &intern_YAY) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("YAY", 3, &intern_YAY) == lwc_error_ok,
+@@ -169 +169 @@
+-        fail_unless(intern_one != intern_two, "'one' == 'two'");
++        ck_assert_msg(intern_one != intern_two, "'one' == 'two'");
+@@ -170 +170 @@
+-        fail_unless(intern_one != intern_three, "'one' == 'three'");
++        ck_assert_msg(intern_one != intern_three, "'one' == 'three'");
+@@ -171 +171 @@
+-        fail_unless(intern_two != intern_three, "'two' == 'three'");
++        ck_assert_msg(intern_two != intern_three, "'two' == 'three'");
+@@ -188 +188 @@
+-        fail_unless(lwc_intern_string("one", 3, &new_one) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("one", 3, &new_one) == lwc_error_ok,
+@@ -191 +191 @@
+-        fail_unless(new_one == intern_one,
++        ck_assert_msg(new_one == intern_one,
+@@ -200 +200 @@
+-        fail_unless(lwc_intern_string("hre", 3, &new_hre) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("hre", 3, &new_hre) == lwc_error_ok,
+@@ -202 +202 @@
+-        fail_unless(lwc_intern_substring(intern_three,
++        ck_assert_msg(lwc_intern_substring(intern_three,
+@@ -205 +205 @@
+-        fail_unless(new_hre == sub_hre,
++        ck_assert_msg(new_hre == sub_hre,
+@@ -214 +214 @@
+-        fail_unless(lwc_intern_substring(intern_three, 100, 1, &str) == lwc_error_range,
++        ck_assert_msg(lwc_intern_substring(intern_three, 100, 1, &str) == lwc_error_range,
+@@ -223 +223 @@
+-        fail_unless(lwc_intern_substring(intern_three, 1, 100, &str) == lwc_error_range,
++        ck_assert_msg(lwc_intern_substring(intern_three, 1, 100, &str) == lwc_error_range,
+@@ -230 +230 @@
+-        fail_unless(lwc_string_ref(intern_one) == intern_one,
++        ck_assert_msg(lwc_string_ref(intern_one) == intern_one,
+@@ -252 +252 @@
+-        fail_unless((lwc_string_isequal(intern_one, intern_two, &result)) == lwc_error_ok,
++        ck_assert_msg((lwc_string_isequal(intern_one, intern_two, &result)) == lwc_error_ok,
+@@ -254 +254 @@
+-        fail_unless(result == false,
++        ck_assert_msg(result == false,
+@@ -264 +264 @@
+-        fail_unless(lwc_intern_string("ONE", 3, &new_ONE) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("ONE", 3, &new_ONE) == lwc_error_ok,
+@@ -267 +267 @@
+-        fail_unless((lwc_string_isequal(intern_one, new_ONE, &result)) == lwc_error_ok);
++        ck_assert((lwc_string_isequal(intern_one, new_ONE, &result)) == lwc_error_ok);
+@@ -268 +268 @@
+-        fail_unless(result == false,
++        ck_assert_msg(result == false,
+@@ -271 +271 @@
+-        fail_unless((lwc_string_caseless_isequal(intern_one, new_ONE, &result)) == lwc_error_ok,
++        ck_assert_msg((lwc_string_caseless_isequal(intern_one, new_ONE, &result)) == lwc_error_ok,
+@@ -273 +273 @@
+-        fail_unless(result == true,
++        ck_assert_msg(result == true,
+@@ -283 +283 @@
+-        fail_unless(lwc_intern_string("yay", 3, &new_yay) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("yay", 3, &new_yay) == lwc_error_ok,
+@@ -286 +286 @@
+-        fail_unless((lwc_string_isequal(intern_YAY, new_yay, &result)) == lwc_error_ok);
++        ck_assert((lwc_string_isequal(intern_YAY, new_yay, &result)) == lwc_error_ok);
+@@ -287 +287 @@
+-        fail_unless(result == false,
++        ck_assert_msg(result == false,
+@@ -290 +290 @@
+-        fail_unless((lwc_string_caseless_isequal(intern_YAY, new_yay, &result)) == lwc_error_ok,
++        ck_assert_msg((lwc_string_caseless_isequal(intern_YAY, new_yay, &result)) == lwc_error_ok,
+@@ -292 +292 @@
+-        fail_unless(result == true,
++        ck_assert_msg(result == true,
+@@ -301 +301 @@
+-        fail_unless(lwc_string_caseless_isequal(intern_YAY, intern_one, &result) == lwc_error_ok,
++        ck_assert_msg(lwc_string_caseless_isequal(intern_YAY, intern_one, &result) == lwc_error_ok,
+@@ -303 +303 @@
+-        fail_unless(result == false,
++        ck_assert_msg(result == false,
+@@ -310 +310 @@
+-        fail_unless(memcmp("one",
++        ck_assert_msg(memcmp("one",
+@@ -327 +327 @@
+-        fail_unless(lwc_intern_string("ONE", 3, &new_ONE) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("ONE", 3, &new_ONE) == lwc_error_ok,
+@@ -330 +330 @@
+-        fail_unless(lwc_string_data(new_ONE)[lwc_string_length(new_ONE)] == '\0',
++        ck_assert_msg(lwc_string_data(new_ONE)[lwc_string_length(new_ONE)] == '\0',
+@@ -340 +340 @@
+-        fail_unless(lwc_intern_string("ONE", 3, &new_ONE) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("ONE", 3, &new_ONE) == lwc_error_ok,
+@@ -343 +343 @@
+-        fail_unless(lwc_intern_substring(new_ONE, 0, 1, &new_O) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_substring(new_ONE, 0, 1, &new_O) == lwc_error_ok,
+@@ -346 +346 @@
+-        fail_unless(lwc_string_data(new_O)[lwc_string_length(new_O)] == '\0',
++        ck_assert_msg(lwc_string_data(new_O)[lwc_string_length(new_O)] == '\0',
+@@ -357 +357 @@
+-        fail_unless(lwc_intern_string("ONE", 3, &new_ONE) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("ONE", 3, &new_ONE) == lwc_error_ok,
+@@ -359 +359 @@
+-        fail_unless(lwc_string_tolower(new_ONE, &new_one) == lwc_error_ok);
++        ck_assert(lwc_string_tolower(new_ONE, &new_one) == lwc_error_ok);
+@@ -360 +360 @@
+-        fail_unless(lwc_string_isequal(intern_one, new_ONE, &result) == lwc_error_ok);
++        ck_assert(lwc_string_isequal(intern_one, new_ONE, &result) == lwc_error_ok);
+@@ -361 +361 @@
+-        fail_unless(result == false, "'one' == 'ONE' ?!");
++        ck_assert_msg(result == false, "'one' == 'ONE' ?!");
+@@ -362 +362 @@
+-        fail_unless(lwc_string_isequal(intern_one, new_one, &result) == lwc_error_ok);
++        ck_assert(lwc_string_isequal(intern_one, new_one, &result) == lwc_error_ok);
+@@ -363 +363 @@
+-        fail_unless(result == true, "'one' != 'one' ?!");
++        ck_assert_msg(result == true, "'one' != 'one' ?!");
+@@ -373 +373 @@
+-        fail_unless(lwc_intern_string("ONE", 3, &new_ONE) == lwc_error_ok,
++        ck_assert_msg(lwc_intern_string("ONE", 3, &new_ONE) == lwc_error_ok,
+@@ -376 +376 @@
+-        fail_unless(lwc_string_caseless_isequal(intern_one, new_ONE, &result) == lwc_error_ok);
++        ck_assert(lwc_string_caseless_isequal(intern_one, new_ONE, &result) == lwc_error_ok);
+@@ -377 +377 @@
+-        fail_unless(result == true, "'one' != 'ONE' (caseless) ?!");
++        ck_assert_msg(result == true, "'one' != 'ONE' (caseless) ?!");
+@@ -378 +378 @@
+-        fail_unless(lwc_string_tolower(new_ONE, &new_one) == lwc_error_ok);
++        ck_assert(lwc_string_tolower(new_ONE, &new_one) == lwc_error_ok);
+@@ -379 +379 @@
+-        fail_unless(lwc_string_isequal(intern_one, new_ONE, &result) == lwc_error_ok);
++        ck_assert(lwc_string_isequal(intern_one, new_ONE, &result) == lwc_error_ok);
+@@ -380 +380 @@
+-        fail_unless(result == false, "'one' == 'ONE' ?!");
++        ck_assert_msg(result == false, "'one' == 'ONE' ?!");
+@@ -381 +381 @@
+-        fail_unless(lwc_string_isequal(intern_one, new_one, &result) == lwc_error_ok);
++        ck_assert(lwc_string_isequal(intern_one, new_one, &result) == lwc_error_ok);
+@@ -382 +382 @@
+-        fail_unless(result == true, "'one' != 'one' ?!");
++        ck_assert_msg(result == true, "'one' != 'one' ?!");
+@@ -398 +398 @@
+-        fail_unless(counter == 4, "Incorrect string count");
++        ck_assert_msg(counter == 4, "Incorrect string count");

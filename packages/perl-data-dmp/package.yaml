@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/perl-data-dmp",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-data-dmp",
+        "package_name": "perl-data-dmp",
+        "source": "aur",
+        "source_version": "0.242-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{"file": "patches/0001-retain-third-party-notices.patch", "sha256": "036b3f9ba30fad731c170d0cf1cf88870680edcf215e2edd0632521f09d2ec53", "purpose": "Retain attribution and Perl terms for upstream-identified copied code.", "source": "Package-local notice based on official Data-Dump 1.23 and String-PerlQuote 0.02 archives; exact borrowed versions are not asserted.", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl", "upstream_status": "not-submitted", "remove_when": "An official release retains equivalent third-party notices."}],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-data-dmp.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release archive pinned by SHA-256; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-data-dmp",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Data-Dmp",
+    "summary": "Dump Perl data structures as Perl code"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-data-dmp",
+    "homepage": "https://metacpan.org/release/Data-Dmp",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/",
+    "release_channel": "stable",
+    "release_regex": "Data-Dmp-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/Data-Dmp-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.242",
+    "latest_detected": "0.242",
+    "release": "1"
+  }
+}

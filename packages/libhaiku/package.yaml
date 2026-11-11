@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "libhaiku",
+  "rpm": {"name": "libhaiku", "summary": "Poetic error messages", "license": "ISC"},
+  "upstream": {"component": "codeberg.org-maandree-libhaiku", "homepage": "https://codeberg.org/maandree/libhaiku", "source_repository": "https://codeberg.org/maandree/libhaiku.git", "release_channel": "stable", "release_api": "https://codeberg.org/maandree/libhaiku/tags", "release_regex": "/archive/(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz", "source_url_template": "https://codeberg.org/maandree/libhaiku/archive/{version}.tar.gz"},
+  "version": {"current": "2.0.2", "release": "1", "latest_detected": "2.0.2"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "aur", "package_name": "libhaiku", "package_base": "libhaiku", "source_version": "2.0.2-1", "evidence_url": "https://aur.archlinux.org/packages/libhaiku", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libhaiku.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official fixed ISC archive; complete notice retained in each explicit subpackage. Original default all builds shared and static libraries unchanged. Upstream has no check target or test driver: added downstream ABI, three-line formatting, errno selection/fallback and stderr-prefix checks are not an upstream suite. Replay all four APIs against staged and normally installed shared/static libraries with -fno-inline and compare unchanged header. No source patch, suppressed tests, randomness quality, thread-safety, native timing or local source/RPM/QEMU execution claim. Exact-head CI, normal target install and physical RPM/SRPM acceptance remain required."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}

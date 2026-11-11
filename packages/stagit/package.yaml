@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "stagit",
+  "rpm": {"name": "stagit", "summary": "Static HTML pages for Git repositories", "license": "MIT AND ISC"},
+  "version": {"current": "1.3", "latest_detected": null, "release": "1"},
+  "upstream": {"component": "codemadness.org/stagit", "homepage": "https://codemadness.org/stagit.html", "source_repository": "https://git.codemadness.org/stagit/", "release_channel": "stable", "release_api": null, "release_regex": null, "source_url_template": "https://codemadness.org/releases/stagit/stagit-{version}.tar.gz"},
+  "discovery": {"snapshot_id": "intake166-stagit-20261022", "lineage": [{"source": "aur", "package_name": "stagit", "package_base": "stagit", "source_version": "1.2-1", "evidence_url": "https://aur.archlinux.org/packages/stagit", "observed_at": null}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "files": {"spec": "stagit.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "build": {"profile": "qemu-user", "native_reason": null, "network_during_build": false, "timeout_minutes": 120},
+  "maintenance": {"status": "update-disabled", "maintainers": ["yinjiayi"], "notes": "Official homepage delegates the release index, whose latest observed stable version1.3 archive and SHA256 checksum agree. Catalog lineage1.2 is not substituted for newer official1.3. Original two C tools, three compatibility objects, manuals, default install assets and example scripts remain; no patches or upstream tests removed. Upstream has no check target. Authored target-only local Git fixture QA runs built, staged and installed tools; no source/QA/compiler/RPM/QEMU execution on packaging host, no native or network-isolation claim."},
+  "updates": {"enabled": false, "release_provider": null, "last_checked_at": null, "last_successful_check_at": null}
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "bioparser",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "bioparser-3.1.0.tar.gz",
+      "version": "3.1.0",
+      "url": "https://codeload.github.com/rvaser/bioparser/tar.gz/4fa7126293d2a0eb90125b58fb704f0eed33ffe0",
+      "digests": {
+        "sha256": "a91ac8a14d03d4c87eef4f1a07cd92ab4af82abf5f39b3986019eacbc9630d29"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official fixed unsigned release; complete MIT grant and original per-file notices retained. No signature claimed."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "biosoup-0.11.0.tar.gz",
+      "version": "0.11.0",
+      "url": "https://codeload.github.com/rvaser/biosoup/tar.gz/3e31aa1d9039a2689241aebd18c45933b2d0f5e3",
+      "digests": {
+        "sha256": "625a0a0636675a46d1ec1cb3b4c822198f77b9b07e94844b0b196418a8075166"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official fixed unsigned release; complete MIT grant and original per-file notices retained. No signature claimed."
+      }
+    }
+  ]
+}

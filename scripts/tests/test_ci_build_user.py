@@ -234,7 +234,8 @@ class BuildContainerCommandTests(unittest.TestCase):
         self.assertEqual(option(command, "--timeout"), "9981")
         self.assertGreater(command.index("--timeout"), command.index("scripts/build-rpm"))
         self.assertIn(f"{self.artifacts}:/evidence:rw", command)
-        self.assertNotIn("--offline", command)
+        self.assertEqual(command.count("--offline"), 1)
+        self.assertGreater(command.index("--offline"), command.index("scripts/build-rpm"))
         self.assertEqual(option(command, "--network"), "bridge")
         self.assertIn("OE_BUILD_NETWORK=enabled", command)
 
@@ -258,7 +259,8 @@ class BuildContainerCommandTests(unittest.TestCase):
         self.assertNotIn(f"{self.artifacts}:/evidence:rw", command)
         self.assertIn(f"{self.work}:/workspace/work/demo:rw", command)
         self.assertIn(f"{self.repo}:/workspace:ro", command)
-        self.assertNotIn("--offline", command)
+        self.assertEqual(command.count("--offline"), 1)
+        self.assertGreater(command.index("--offline"), command.index("scripts/build-rpm"))
         self.assertEqual(option(command, "--network"), "bridge")
         self.assertIn("OE_BUILD_NETWORK=enabled", command)
 
@@ -521,6 +523,52 @@ class BuildContainerCommandTests(unittest.TestCase):
                 RUNNER_MODULE.ContractError, "network-enabled build policy"
             ):
                 RUNNER_MODULE.exec_mode(arguments)
+
+    def test_exec_requires_cache_only_sources_but_keeps_network_and_identity(self) -> None:
+        arguments = Namespace(
+            build_user="root", work_dir="/work", result_dir="/result",
+            identity_output="/result/identity.json",
+            command=["scripts/build-rpm", "--offline"],
+        )
+        with mock.patch.dict(RUNNER_MODULE.os.environ, {"OE_BUILD_NETWORK": "enabled"}), mock.patch.object(
+            RUNNER_MODULE.os, "geteuid", return_value=0
+        ), mock.patch.object(RUNNER_MODULE.os, "getegid", return_value=0), mock.patch.object(
+            RUNNER_MODULE.pwd, "getpwuid", return_value=Namespace(pw_name="root")
+        ), mock.patch.object(RUNNER_MODULE.os, "umask", return_value=0o077), mock.patch.object(
+            RUNNER_MODULE, "directory_evidence", return_value={}
+        ), mock.patch.object(RUNNER_MODULE, "write_json") as record, mock.patch.object(
+            RUNNER_MODULE.os, "execv", side_effect=RuntimeError("mock exec only")
+        ) as execute:
+            with self.assertRaisesRegex(RuntimeError, "mock exec only"):
+                RUNNER_MODULE.exec_mode(arguments)
+            identity = record.call_args.args[1]
+            self.assertEqual(identity["network_access_policy"], "enabled")
+            self.assertEqual(identity["source_access_policy"], "checksum-reverified-cache-only")
+            execute.assert_called_once_with("scripts/build-rpm", arguments.command)
+            for command in (["scripts/build-rpm"], ["scripts/build-rpm", "--offline", "--offline"]):
+                arguments.command = command
+                with self.assertRaisesRegex(RUNNER_MODULE.ContractError, "source cache without downloads"):
+                    RUNNER_MODULE.exec_mode(arguments)
+
+    def test_run_rejects_linked_work_ancestor_before_docker(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = pathlib.Path(temporary).resolve() / "repo"
+            package = repo / "packages" / "demo"
+            package.mkdir(parents=True)
+            (package / "package.yaml").write_text("{}")
+            external = pathlib.Path(temporary).resolve() / "outside"
+            external.mkdir()
+            (repo / "work").symlink_to(external, target_is_directory=True)
+            arguments = Namespace(
+                image="openeuler-builddeps:123-1", package_id="demo",
+                repo_root=str(repo), work_dir=str(repo / "work" / "demo"),
+                artifact_dir=str(repo / "artifacts" / "build"), commit_sha="a" * 40,
+                build_user="root", build_timeout_seconds=30,
+            )
+            with mock.patch.object(RUNNER_MODULE.subprocess, "run") as execute:
+                with self.assertRaisesRegex(RUNNER_MODULE.ContractError, "symlink ancestors"):
+                    RUNNER_MODULE.run_mode(arguments)
+                execute.assert_not_called()
 
     def test_unprivileged_run_copies_only_regular_structured_evidence(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

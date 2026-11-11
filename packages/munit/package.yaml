@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "munit",
+  "rpm": {"name": "munit", "summary": "Small source-distributed C unit testing framework", "license": "MIT"},
+  "upstream": {"component": "github.com-nemequ-munit", "homepage": "https://nemequ.github.io/munit/", "source_repository": "https://github.com/nemequ/munit", "release_channel": "stable", "release_api": "https://api.github.com/repos/nemequ/munit/tags", "release_regex": "^v(?P<version>[0-9]+[.][0-9]+[.][0-9]+)$"},
+  "version": {"current": "0.2.0", "release": "1", "latest_detected": null},
+  "discovery": {"snapshot_id": "manual-debian-chiaki-munit-20261018", "lineage": [{"source": "debian", "package_name": "chiaki", "package_base": "chiaki", "source_version": "2.2.0-1.2", "evidence_url": "https://sources.debian.org/src/chiaki/2.2.0-1.2/.gitmodules/", "observed_at": null}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 30, "native_reason": null},
+  "files": {"spec": "munit.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Discovery evidence is Chiaki's vendored test/munit submodule, not a standalone Debian munit package or a version-equivalence claim. Source-distributed upstream API; all original source bytes and Makefile tests retained. Timings are not native performance evidence."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-tags"}
+}

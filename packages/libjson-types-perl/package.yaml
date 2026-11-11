@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libjson-types-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libjson-types-perl",
+        "package_name": "libjson-types-perl",
+        "source": "ubuntu",
+        "source_version": "0.05-5"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libjson-types-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release archive pinned by SHA-256; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libjson-types-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-JSON-Types",
+    "summary": "Explicit scalar type helpers for JSON encoding"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libjson-types-perl",
+    "homepage": "https://metacpan.org/release/JSON-Types",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TY/TYPESTER/",
+    "release_channel": "stable",
+    "release_regex": "JSON-Types-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/T/TY/TYPESTER/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TY/TYPESTER/JSON-Types-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.05",
+    "latest_detected": "0.05",
+    "release": "1"
+  }
+}

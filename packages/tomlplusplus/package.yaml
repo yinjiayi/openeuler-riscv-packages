@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "package_id": "tomlplusplus",
+  "rpm": {
+    "name": "tomlplusplus",
+    "summary": "Header-only TOML config file parser and serializer for C++17",
+    "license": "MIT AND BSL-1.0 AND Apache-2.0 AND ISC AND LicenseRef-Hedley-Public-Domain"
+  },
+  "upstream": {
+    "component": "github.com-marzer-tomlplusplus",
+    "homepage": "https://marzer.github.io/tomlplusplus/",
+    "source_repository": "https://github.com/marzer/tomlplusplus",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/marzer/tomlplusplus/releases",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+){2})$",
+    "source_url_template": "https://api.github.com/repos/marzer/tomlplusplus/tarball/v{version}"
+  },
+  "version": {
+    "current": "3.4.0",
+    "latest_detected": "3.4.0",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "tomlplusplus",
+        "package_base": "tomlplusplus",
+        "source_version": "3.4.0-2",
+        "evidence_url": "https://marzer.github.io/tomlplusplus/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "tomlplusplus",
+        "package_base": "tomlplusplus",
+        "source_version": "3.4.0+ds-0.2",
+        "evidence_url": "https://marzer.github.io/tomlplusplus/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "tomlplusplus",
+        "package_base": "tomlplusplus",
+        "source_version": "3.4.0-7.fc44",
+        "evidence_url": "https://marzer.github.io/tomlplusplus/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "tomlplusplus",
+        "package_base": "tomlplusplus",
+        "source_version": "3.4.0-1.9",
+        "evidence_url": "https://marzer.github.io/tomlplusplus/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "tomlplusplus",
+        "package_base": "tomlplusplus",
+        "source_version": "3.4.0+ds-0.2build2",
+        "evidence_url": "https://marzer.github.io/tomlplusplus/",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "tomlplusplus.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": []
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Actual fixed source301724/treef566f1 and rawarchive8874014d...1294825B:212 members,168 exact Git blobs and44 reversible declared CRLF forms/5396pairs, unchanged archive SHA and all original notices. Separate after-ref/latest/fullrelease/main fence52ec completed. No offered tag/commit/assets signature; no personal key assertion. Root rights acceptance182c844b... preserves root/Niels/Loitsch MIT, full BSL, actual Hoehrmann MIT, same-ID source-suite MIT/ISC and original generator credits, fixed Abseil2017 notice/fullApache2 and exact Hedley PD dedication. Exact historical fixture generation commit not claimed; generic small pattern/Unicode ignore marker not treated as invented licensehold. Default production CMake INTERFACE SDK includes every52include files including include/meson.build,2shared sourcefiles and3actualgenerated exports; no invented pc/DSO/archive/CLI/debugsubpackage. Both original Meson development profiles and all18 locale invocations retained, including build-onlyODR/examples/tttools; private target localedef no skipped locale/werror relaxation. Six additive build-stage and installed SDK consumer groups, exact-version negative configure control and actual header dependencies/manifests remain target-CI gates, not already executed claims. Retained SniffercommitSource2 is a compilation dependency reference, not silently removed or treated as a standalone canonical package. Explicit rawcatalog opensuse to schema opensuse-tumbleweed mapping only. Source/provider/currentidentity/target/physical/merge/publication/fullDaily/native/performance acceptance remain separate. Owned QA files live only under new packaging-qa/; they never replace root production CMakeLists.txt. Every prep-owned write is disjoint from original212 paths; all live original source bytes are checked after prep, before build and at both check boundaries."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}

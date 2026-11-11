@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "package_id": "corkscrew",
+  "rpm": {
+    "name": "corkscrew",
+    "summary": "Tunnel a byte stream through an HTTP CONNECT proxy",
+    "license": "GPL-2.0-only"
+  },
+  "version": {
+    "current": "2.0",
+    "latest_detected": "2.0",
+    "release": "1"
+  },
+  "upstream": {
+    "component": "github.com/patpadgett/corkscrew",
+    "homepage": "https://github.com/patpadgett/corkscrew",
+    "source_repository": "https://github.com/patpadgett/corkscrew",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/patpadgett/corkscrew/tags?per_page=100",
+    "release_regex": "v(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_url_template": "https://github.com/patpadgett/corkscrew/archive/refs/tags/v{version}.tar.gz"
+  },
+  "discovery": {
+    "snapshot_id": "intake158-corkscrew-20261021",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "corkscrew",
+        "package_base": "corkscrew",
+        "source_version": "2.0-8",
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/corkscrew/",
+        "observed_at": "2026-10-21T15:01:01.610695Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "files": {
+    "spec": "corkscrew.spec",
+    "sources": "sources.yaml",
+    "patches": [
+      {
+        "file": "patches/0001-persistent-bounded-proxy-auth.patch",
+        "sha256": "8277cf7b1b8374f7ca1cd305b74bdaa95a6d9a1a7bac789b26b5ac0eb72e088a",
+        "purpose": "Keep proxy auth storage alive; reject empty/unreadable and overlong tokens with a bounded read before connection",
+        "source": "Downstream source-bound review of corkscrew.c at ae4802b09e1c022e416f9654970794fb9d7ac8a2",
+        "license": "GPL-2.0-only",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream fixed release retains persistent bounded auth storage and equivalent checked-input behavior"
+      },
+      {
+        "file": "patches/0002-configure-c99-probe-declarations.patch",
+        "sha256": "4b71be36f7ee95102d2ab1d8a33b1d3ebaad458c88c9b96104998d58643c3469",
+        "purpose": "Declare both generated compiler sanity main functions and exit in both ctype probes without relaxing flags or changing probe decisions",
+        "source": "Downstream source-bound review of shipped configure at ae4802b09e1c022e416f9654970794fb9d7ac8a2; exact-head hosted run 39642298429 config.log",
+        "license": "GPL-2.0-only",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream shipped configure declares both sanity-probe main functions and exit in both ctype probes, or an equivalent reviewed generated script replaces it"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "native_reason": null,
+    "network_during_build": false,
+    "timeout_minutes": 120
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Preserve original one-object all/check/install and default CONNECT/forwarding. Dated GPL2 package patch corrects block-local authentication lifetime/unbounded input; mandatory target Basic-header and empty/whitespace/overlong-input checks remain. No broad security/native acceptance. Architecture helpers refreshed from target automake only. No local source/authored-QA/RPM execution; actual provider and hosted target gates pending."
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  }
+}

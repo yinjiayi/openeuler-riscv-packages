@@ -1,0 +1,29 @@
+From: openEuler RISC-V Packaging <noreply@example.invalid>
+Subject: Restore exact official 0.1 LICENSE omitted from release archive
+
+Provenance: official scroll tag 0.1, commit
+0a2d1a06a9eb4b8ad10240c28edf612879385ac6, LICENSE blob.
+https://git.suckless.org/scroll
+LICENSE SHA-256: 52f5f340941b3f63fc16882f3e17a9aa28751f7aedaf90f88922d14654b00e62
+All ten release archive members equal this exact upstream commit.
+This patch adds only the omitted original ISC notice; no existing member changes.
+
+--- /dev/null
++++ b/LICENSE
+@@ -0,0 +1,16 @@
++ISC License (ISC)
++
++Copyright (c) 2020 Jan Klemkow <j.klemkow@wemelug.de>
++Copyright (c) 2020 Jochen Sprickerhof <git@jochen.sprickerhof.de>
++
++Permission to use, copy, modify, and distribute this software for any
++purpose with or without fee is hereby granted, provided that the above
++copyright notice and this permission notice appear in all copies.
++
++THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
++WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
++MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
++ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
++WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
++ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
++OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.

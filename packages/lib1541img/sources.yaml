@@ -1,0 +1,30 @@
+{
+  "package_id": "lib1541img",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "6d9217647beaaa49bd894d9d04aa85f6b26da622bdcfccca80d25a442e97b006"
+      },
+      "filename": "lib1541img-1.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/excess-c64/lib1541img/tar.gz/a747810f0c46d49d37711e3bade1c5c85a4b261d",
+      "version": "1.1"
+    },
+    {
+      "digests": {"sha256": "65a6f7724aece89aa935a06ba0e7420563b0158e08cac13839e0f377ef7c6f4e"},
+      "filename": "zimk-31500ca556f258ab2d37d75fb8de5506cbdd5840.tar.gz",
+      "id": "source1", "kind": "upstream-release",
+      "redistribution": {"allowed": true, "reason": "BSD-2-Clause build system; exact required parent gitlink, original notice retained."},
+      "signature": null,
+      "url": "https://codeload.github.com/Zirias/zimk/tar.gz/31500ca556f258ab2d37d75fb8de5506cbdd5840",
+      "version": "31500ca556f258ab2d37d75fb8de5506cbdd5840"
+    }
+  ]
+}

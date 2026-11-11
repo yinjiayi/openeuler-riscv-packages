@@ -1,0 +1,21 @@
+{
+  "package_id": "lr",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c7c4a57169e1396f17a09b05b19456945c8bb5e55001c5a870b083c0b4a23cd8"
+      },
+      "filename": "lr-2.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original MIT notices in LICENSE and lr.c are retained; the downstream derived patch preserves MIT scope."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/leahneukirchen/lr/tar.gz/refs/tags/v2.0.1",
+      "version": "2.0.1"
+    }
+  ]
+}

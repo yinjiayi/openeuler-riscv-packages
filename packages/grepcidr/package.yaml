@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "package_id": "grepcidr",
+  "rpm": {
+    "name": "grepcidr",
+    "summary": "Filter IPv4 and IPv6 addresses against CIDR patterns",
+    "license": "GPL-2.0-or-later AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "pc-tools.net-unix-grepcidr",
+    "homepage": "https://pc-tools.net/unix/grepcidr/",
+    "source_repository": "https://pc-tools.net/unix/grepcidr/",
+    "release_channel": "stable",
+    "release_api": "https://pc-tools.net/unix/grepcidr/",
+    "release_regex": "^grepcidr-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz$",
+    "source_url_template": "https://pc-tools.net/files/unix/grepcidr-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.0",
+    "latest_detected": "2.0",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "grepcidr",
+        "package_base": "grepcidr",
+        "source_version": "2.0-1",
+        "evidence_url": "https://pc-tools.net/unix/grepcidr",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "grepcidr",
+        "package_base": "grepcidr",
+        "source_version": "2.0-2",
+        "evidence_url": "https://pc-tools.net/unix/grepcidr",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "grepcidr",
+        "package_base": "grepcidr",
+        "source_version": "2.0-12.fc44",
+        "evidence_url": "https://pc-tools.net/unix/grepcidr",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "grepcidr",
+        "package_base": "grepcidr",
+        "source_version": "2.0-2.8",
+        "evidence_url": "https://pc-tools.net/unix/grepcidr",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "grepcidr",
+        "package_base": "grepcidr",
+        "source_version": "2.0-2build1",
+        "evidence_url": "https://pc-tools.net/unix/grepcidr",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "grepcidr.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-define-IP-arithmetic-and-bounded-growth.patch",
+        "sha256": "8cae2e5aec0b01081c019e7bd912ccd5c7ae33c083e7a81b27f73c9efe2245f5",
+        "purpose": "Defined unsigned IPv4 arithmetic/ctype input, checked pattern/line growth, EOF partial-line retention and zero-IPv6 hint; honor linker flags.",
+        "source": "Package-local changes to exact original2.0 archive SHA256 61886a377dabf98797145c31f6ba95e6837b6786e70c932324b7d6176d50f7fb; no upstream writes.",
+        "license": "GPL-2.0-or-later",
+        "upstream_status": "not-submitted",
+        "remove_when": "A fixed official original-project release includes all listed edge corrections and the same target regression groups pass."
+      }
+    ]
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "N230 official Jem Berkes original-project page explicitly calls2.0 the most-current release2014-05-26; Levine2.98 is an independent incompatible fork, not this component upgrade. Actual7 files retain GPL2-or-later C/manual grants, complete originalCOPYING and author/contributor credits before the owned edge/hardening patch. All/default install and suppliedman are kept; no upstream check/test target exists. Six added deterministic CLI groups require target CI; no local build, native/network/performance/security claim. Publisher SHA512 is an unkeyed checksum, not PGP. Original page reconciliation preserves local progress-recorder failure after actualHTTP200; no page replay. Raw opensuse/oss lineage is mapped only to schema opensuse-tumbleweed; both immutable catalog rows retained. Fresh current main/all-open semantic/provider gates are separate, and no invented sharedcatalog registry pin or full Daily coverage is claimed."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

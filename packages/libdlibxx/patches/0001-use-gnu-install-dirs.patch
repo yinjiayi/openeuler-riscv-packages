@@ -1,0 +1,31 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Honor GNUInstallDirs for multilib library installation
+
+Upstream-Status: Inappropriate [distribution multilib layout]
+License: BSD-2-Clause
+
+Keep the library, examples, original SONAME and compiler settings unchanged;
+only allow the target distribution's lib64 installation layout.
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,7 @@
+ cmake_minimum_required(VERSION 2.8.8)
+
+ project(libdlibxx)
++include(GNUInstallDirs)
+
+ add_definitions("-std=c++11")
+
+@@ -27,8 +28,8 @@
+ # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ ### Install Rules
+-install(TARGETS dlibxx DESTINATION "lib")
+-install(FILES "${PROJECT_SOURCE_DIR}/include/dlibxx.hxx" DESTINATION "include")
+-install(FILES "${PROJECT_SOURCE_DIR}/LICENSE" DESTINATION "share/licenses/${PROJECT_NAME}")
++install(TARGETS dlibxx DESTINATION "${CMAKE_INSTALL_LIBDIR}")
++install(FILES "${PROJECT_SOURCE_DIR}/include/dlibxx.hxx" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
++install(FILES "${PROJECT_SOURCE_DIR}/LICENSE" DESTINATION "${CMAKE_INSTALL_DATADIR}/licenses/${PROJECT_NAME}")
+
+
+ # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

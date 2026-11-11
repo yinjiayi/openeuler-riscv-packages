@@ -1,0 +1,29 @@
+{
+  "package_id": "libtpl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "36d50402f9bcba5de9441e8133abf126ab1327e4b64e3a11ba7f0479bb9b95f4"
+      },
+      "filename": "tpl-1.6.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Root BSD-1-Clause grant explicitly covers software; bundled AsciiDoc TOC JavaScript carries unversioned GPL notices, elected GPL-2.0-or-later. Preserve all 399 original members verbatim and provide complete GPL2 text. Fixed official tag commit; no detached signature asset is published."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/troydhanson/tpl/tar.gz/5ac54fe7beab67cbfb6f95552c15a68204a014bd",
+      "version": "1.6.1"
+    },
+    {
+      "id": "source1", "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/COPYING",
+      "filename": "gpl-2.0.txt", "version": "GPL-2.0",
+      "digests": {"sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Verbatim complete GPL2 text for embedded documentation JavaScript; official fixed GCC mirror commit, no GCC implementation reused."}
+    }
+  ]
+}

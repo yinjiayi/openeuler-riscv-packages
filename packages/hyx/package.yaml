@@ -1,0 +1,104 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/hyx",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyx",
+        "package_name": "hyx",
+        "source": "aur",
+        "source_version": "2026.01.11-1"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/source/hyx",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyx",
+        "package_name": "hyx",
+        "source": "debian",
+        "source_version": "2021.06.09-1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/source/hyx",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "hyx",
+        "package_name": "hyx",
+        "source": "ubuntu",
+        "source_version": "2021.06.09-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-bound-terminal-input-and-empty-file-info.patch",
+        "license": "MIT",
+        "purpose": "Bound ctype inputs and narrow layout; handle empty-file Ctrl-G without division by zero or null-name formatting.",
+        "remove_when": "An official fixed release passes the same offline CLI and PTY regressions unchanged.",
+        "sha256": "264631455c9a00f6a0ce95b05ffb8fa05a6b378cf1071cfdc3b99af1051acba8",
+        "source": "Original downstream static review of official Hyx 2026.01.11; no upstream writes.",
+        "upstream_status": "not-submitted"
+      },
+      {
+        "file": "patches/0002-ship-unchanged-offline-checks-in-source.patch",
+        "license": "MIT",
+        "purpose": "Deliver the byte-identical downstream CLI and eight PTY checks through supported patch staging into the SRPM; retain staged and installed validation.",
+        "remove_when": "A reviewed source-materialization path includes the exact declared checks in the SRPM without depending on checkout-local files.",
+        "sha256": "bcb3191d067f08dc84b3b142ee2de04cd7bb0161bef891d0ac43c433658aabb2",
+        "source": "Exact-head Package CI 39222029098/1 passed prep and compilation but local Source1/2 were not staged; original downstream MIT check bytes unchanged.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "hyx.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "All 16 source files and MIT license reviewed. Default hyx build and all editor modes retained; upstream has no test target. Added bounded offline CLI and eight PTY checks run staged and installed, not native terminal/signal/timing or memory-safety proof. Homepage-level discovery identity disambiguated from separate Ynetd by the official Hyx release directory. No local upstream/RPM/QEMU execution.",
+    "status": "active"
+  },
+  "package_id": "hyx",
+  "rpm": {
+    "license": "MIT",
+    "name": "hyx",
+    "summary": "Minimalistic terminal hex editor"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "yx7.cc-code-hyx",
+    "homepage": "https://yx7.cc/code",
+    "release_api": "https://yx7.cc/code/hyx/",
+    "release_channel": "stable",
+    "release_regex": "hyx-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz",
+    "source_repository": "https://yx7.cc/code",
+    "source_url_template": "https://yx7.cc/code/hyx/hyx-{version}.tar.xz"
+  },
+  "version": {
+    "current": "2026.01.11",
+    "latest_detected": "2026.01.11",
+    "release": "1"
+  }
+}

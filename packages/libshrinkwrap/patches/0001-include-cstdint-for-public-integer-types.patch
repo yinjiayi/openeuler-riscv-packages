@@ -1,0 +1,44 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Include cstdint for public fixed-width integer types
+
+SPDX-License-Identifier: MIT
+Upstream: https://github.com/jonathonl/shrinkwrap/tree/eaac292b255b5de45d6546a794ffbd103335bc40
+Upstream-Status: Not submitted; standard C++ header dependency portability.
+
+The three compression headers use std::uint8_t and other fixed-width integer
+types but rely on transitive includes to declare them. GCC on openEuler fails
+when compiling the unchanged original test program. Include the defining
+standard header directly in each affected public header. No algorithm, feature,
+test, assertion, compression backend or compiler option changes.
+Remove when the official source directly includes cstdint in these headers.
+
+--- a/include/shrinkwrap/gz.hpp
++++ b/include/shrinkwrap/gz.hpp
+@@ -1,6 +1,7 @@
+ #ifndef SHRINKWRAP_GZ_HPP
+ #define SHRINKWRAP_GZ_HPP
+
++#include <cstdint>
+ #include <streambuf>
+ #include <array>
+ #include <vector>
+--- a/include/shrinkwrap/xz.hpp
++++ b/include/shrinkwrap/xz.hpp
+@@ -1,6 +1,7 @@
+ #ifndef SHRINKWRAP_XZ_HPP
+ #define SHRINKWRAP_XZ_HPP
+
++#include <cstdint>
+ #include <streambuf>
+ #include <array>
+ #include <vector>
+--- a/include/shrinkwrap/zstd.hpp
++++ b/include/shrinkwrap/zstd.hpp
+@@ -7,6 +7,7 @@
+
+ #include <zstd.h>
+
++#include <cstdint>
+ #include <streambuf>
+ #include <stdio.h>
+ #include <vector>

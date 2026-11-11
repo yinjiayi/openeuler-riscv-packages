@@ -1,0 +1,106 @@
+SPDX-License-Identifier: GPL-2.0-or-later
+Subject: Preserve the next-entity handoff after a successful DXF handler
+
+Derived from LibreCAD/libdxfrw 1.0.1, commit
+945f2161a13ee521f66f9c52dcfff998e8ccae99, src/libdxfrw.cpp.
+The handler updates nextentity before returning true. A compound condition
+then falls through, potentially consuming ENDSEC or another entity's data.
+Select the entity before invoking its handler; preserve failure propagation,
+unknown-record handling and the outer ENDSEC/ENDBLK checks. This is a generic
+parser correction, not a RISC-V workaround. The existing DXF contract and
+default static/shared converter checks are unchanged. Downstream-only; no
+upstream write. Remove when the adopted official release contains this fix.
+
+--- a/src/libdxfrw.cpp
++++ b/src/libdxfrw.cpp
+@@ -2196,48 +2196,48 @@
+         if (nextentity == "ENDSEC" || nextentity == "ENDBLK") {
+             return true;  //found ENDSEC or ENDBLK terminate
+         }
+-        else if (nextentity == "POINT" && !processPoint()) {
+-            return false;
+-        } else if (nextentity == "LINE" && !processLine()) {
+-            return false;
+-        } else if (nextentity == "CIRCLE" && !processCircle()) {
+-            return false;
+-        } else if (nextentity == "ARC" && !processArc()) {
+-            return false;
+-        } else if (nextentity == "ELLIPSE" && !processEllipse()) {
+-            return false;
+-        } else if (nextentity == "TRACE" && !processTrace()) {
+-            return false;
+-        } else if (nextentity == "SOLID" && !processSolid()) {
+-            return false;
+-        } else if (nextentity == "INSERT" && !processInsert()) {
+-            return false;
+-        } else if (nextentity == "LWPOLYLINE" && !processLWPolyline()) {
+-            return false;
+-        } else if (nextentity == "POLYLINE" && !processPolyline()) {
+-            return false;
+-        } else if (nextentity == "TEXT" && !processText()) {
+-            return false;
+-        } else if (nextentity == "MTEXT" && !processMText()) {
+-            return false;
+-        } else if (nextentity == "HATCH" && !processHatch()) {
+-            return false;
+-        } else if (nextentity == "SPLINE" && !processSpline()) {
+-            return false;
+-        } else if (nextentity == "3DFACE" && !process3dface()) {
+-            return false;
+-        } else if (nextentity == "VIEWPORT" && !processViewport()) {
+-            return false;
+-        } else if (nextentity == "IMAGE" && !processImage()) {
+-            return false;
+-        } else if (nextentity == "DIMENSION" && !processDimension()) {
+-            return false;
+-        } else if (nextentity == "LEADER" && !processLeader()) {
+-            return false;
+-        } else if (nextentity == "RAY" && !processRay()) {
+-            return false;
+-        } else if (nextentity == "XLINE" && !processXline()) {
+-            return false;
++        else if (nextentity == "POINT") {
++            if (!processPoint()) return false;
++        } else if (nextentity == "LINE") {
++            if (!processLine()) return false;
++        } else if (nextentity == "CIRCLE") {
++            if (!processCircle()) return false;
++        } else if (nextentity == "ARC") {
++            if (!processArc()) return false;
++        } else if (nextentity == "ELLIPSE") {
++            if (!processEllipse()) return false;
++        } else if (nextentity == "TRACE") {
++            if (!processTrace()) return false;
++        } else if (nextentity == "SOLID") {
++            if (!processSolid()) return false;
++        } else if (nextentity == "INSERT") {
++            if (!processInsert()) return false;
++        } else if (nextentity == "LWPOLYLINE") {
++            if (!processLWPolyline()) return false;
++        } else if (nextentity == "POLYLINE") {
++            if (!processPolyline()) return false;
++        } else if (nextentity == "TEXT") {
++            if (!processText()) return false;
++        } else if (nextentity == "MTEXT") {
++            if (!processMText()) return false;
++        } else if (nextentity == "HATCH") {
++            if (!processHatch()) return false;
++        } else if (nextentity == "SPLINE") {
++            if (!processSpline()) return false;
++        } else if (nextentity == "3DFACE") {
++            if (!process3dface()) return false;
++        } else if (nextentity == "VIEWPORT") {
++            if (!processViewport()) return false;
++        } else if (nextentity == "IMAGE") {
++            if (!processImage()) return false;
++        } else if (nextentity == "DIMENSION") {
++            if (!processDimension()) return false;
++        } else if (nextentity == "LEADER") {
++            if (!processLeader()) return false;
++        } else if (nextentity == "RAY") {
++            if (!processRay()) return false;
++        } else if (nextentity == "XLINE") {
++            if (!processXline()) return false;
+         } else {
+             if (reader->readRec(&code)) {
+                 if (code == 0) {

@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "package_id": "nsync",
+  "rpm": {
+    "name": "nsync",
+    "summary": "Portable synchronization primitives for C and C++",
+    "license": "Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-google-nsync",
+    "homepage": "https://github.com/google/nsync",
+    "source_repository": "https://github.com/google/nsync",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/google/nsync/tags",
+    "release_regex": "^(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_url_template": "https://api.github.com/repos/google/nsync/tarball/refs/tags/{version}"
+  },
+  "version": {
+    "current": "1.30.0",
+    "latest_detected": "1.30.0",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-core",
+        "package_name": "nsync",
+        "package_base": "nsync",
+        "source_version": "1.30.0-1",
+        "evidence_url": "https://github.com/google/nsync",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "nsync",
+        "package_base": "nsync",
+        "source_version": "1.29.2-3",
+        "evidence_url": "https://github.com/google/nsync",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libnsync",
+        "package_base": "libnsync",
+        "source_version": "1.29.2-1.4",
+        "evidence_url": "https://github.com/google/nsync",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "nsync.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-export-Cpp-ABI-definitions.patch",
+        "sha256": "53f7c0be43459dcb88fb4fd4064969ea8dccbb0050502d88606a40cf6201ee78",
+        "purpose": "Export the existing C++ producer ABI mode definitions PUBLIC so stock imported-target clients declare the same nsync_once parameter type.",
+        "source": "Derived from exact official nsync1.30.0 commit5b420ef6b16532a4fad4be1fde8e483b6b7bd8f4/CMakeLists.txt and archivebb9b1823f6246afd7e7a78497c43ffca62970c94cfebe39c3d58d3a70850a7bd; all315 original source notices retained before patch.",
+        "license": "Apache-2.0",
+        "upstream_status": "not-submitted",
+        "remove_when": "A fixed upstream release exports the same ABI mode definitions and stock build/installed C/C++ consumers plus all26 original CTest invocations pass."
+      }
+    ]
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed numeric tag1.30.0, annotated object55155ca0281c59b226d43585babaecc627613db3, commit5b420ef6b16532a4fad4be1fde8e483b6b7bd8f4; tag message and VERSION agree. All315 original files/notices are preserved before one general CMake export patch (PRIVATE to PUBLIC plus downstream modification notice). Exactly314 source files remain unchanged; patched CMake whole-file SHA and full315 post-patch manifest are pinned. Producer definitions, static C/C++ defaults and all26 original CTest invocations remain unchanged. Both owned consumers use stock imported targets without manually forcing producer macros; C++ once type static_assert and equal actual export-usage capture preserve meaningful omitted-archive controls. This is a static declaration/usage mismatch correction, not an observed target failure, CVE, native ABI or scheduler/performance success claim. Original timing thresholds, uniprocessor heuristic and two zero-functional-default pingpong invocations retained; no fullDaily claim. Raw arch/opensuse lineage mapped only to schema arch-core/opensuse-tumbleweed. Source/API/provider/target admission require root review."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-tags"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libhtml-calendarmonthsimple-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libhtml-calendarmonthsimple-perl",
+        "package_name": "libhtml-calendarmonthsimple-perl",
+        "source": "ubuntu",
+        "source_version": "1.27-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libhtml-calendarmonthsimple-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release archive pinned by SHA-256; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libhtml-calendarmonthsimple-perl",
+  "rpm": {
+    "license": "BSD-3-Clause",
+    "name": "perl-HTML-CalendarMonthSimple",
+    "summary": "Generate HTML month calendars"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libhtml-calendarmonthsimple-perl",
+    "homepage": "https://metacpan.org/release/HTML-CalendarMonthSimple",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MR/MRDVT/",
+    "release_channel": "stable",
+    "release_regex": "HTML-CalendarMonthSimple-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/M/MR/MRDVT/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MR/MRDVT/HTML-CalendarMonthSimple-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.27",
+    "latest_detected": "1.27",
+    "release": "1"
+  }
+}

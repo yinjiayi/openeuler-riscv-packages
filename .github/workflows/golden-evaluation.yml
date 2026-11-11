@@ -292,6 +292,26 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      - name: Verify and stage physical golden products separately from logs
+        if: always()
+        env:
+          PACKAGE_ID: ${{ matrix.package_id }}
+          BUILD_COMMIT_SHA: ${{ github.sha }}
+          NEEDS_NATIVE: ${{ steps.policy.outputs.needs_native == 'true' && 'true' || 'false' }}
+        run: |
+          python3 ci/stage-golden-products.py --workspace . \
+            --package-id "$PACKAGE_ID" --commit-sha "$BUILD_COMMIT_SHA" \
+            --needs-native "$NEEDS_NATIVE"
+      - name: Upload only physical products and their retention manifest
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: golden-products-${{ matrix.package_id }}-${{ github.run_id }}
+          # This artifact is intentionally not an evaluate-golden log input.
+          path: artifacts/golden-products/${{ matrix.package_id }}/
+          if-no-files-found: error
+          retention-days: 7
+
   evaluate:
     needs: [materialize, exercise]
     if: always() && needs.materialize.result == 'success'

@@ -612,16 +612,25 @@ class BuildRequiresRetryTests(unittest.TestCase):
         source = INSTALL_SMOKE.read_text(encoding="utf-8")
         self.assertIn("--attempt-timeouts-seconds 2100,1100", source)
         self.assertIn("--budget-seconds 3300", source)
-        for path in (PACKAGE_WORKFLOW, GOLDEN_WORKFLOW):
+        for path, minimum in ((PACKAGE_WORKFLOW, 1), (GOLDEN_WORKFLOW, 2)):
             workflow = path.read_text(encoding="utf-8")
+            # Dependency retrieval retains its one-hour bound. Package smoke
+            # separately follows the validated whole-job deadline.
             self.assertGreaterEqual(
                 workflow.count("--max-bytes 52428800 --timeout-seconds 3600 --"),
-                2,
+                minimum,
             )
             self.assertNotIn("--timeout-seconds 1500", workflow)
         package_workflow = PACKAGE_WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("  rpm-install-smoke:\n    name: rpm-install-smoke", package_workflow)
-        self.assertIn("    timeout-minutes: 70", package_workflow)
+        self.assertIn(
+            "timeout-minutes: ${{ fromJSON(needs.prepare.outputs.install_timeout_minutes || '70') }}",
+            package_workflow,
+        )
+        self.assertIn(
+            '--max-bytes 52428800 --timeout-seconds "$install_timeout_seconds" --',
+            package_workflow,
+        )
         self.assertNotIn("    timeout-minutes: 30", package_workflow)
 
 

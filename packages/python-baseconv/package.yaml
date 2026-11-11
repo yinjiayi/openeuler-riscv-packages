@@ -1,0 +1,86 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://raw.githubusercontent.com/yinjiayi/openeuler-riscv-packages/017789df779022feeb0f939494521a2ee3e611df/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-baseconv",
+        "package_name": "python-baseconv",
+        "source": "fedora",
+        "source_version": "1.2.2-8.fc44"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/rpc/v5/info?arg%5B%5D=python-baseconv",
+        "observed_at": "2026-10-12T19:21:32.201466+00:00",
+        "package_base": "python-baseconv",
+        "package_name": "python-baseconv",
+        "source": "aur",
+        "source_version": "1.2.2-4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-python3-complete-defaults.patch",
+        "license": "PSF-2.0",
+        "purpose": "Preserve all original Python3 doctests/assertions and fail on actual doctest errors; report actual completion.",
+        "remove_when": "A verified upstream release fixes the obsolete integer suffix and doctest failure propagation while retaining the full target Python3.11 test contract.",
+        "sha256": "b80d02df4bac4b7034f56d735986d7481c503832656561cc464ff7a2cf80cbad",
+        "source": "Local derivative of complete official commit 505b5fd7b11855182e760704fec5461974033644; root-reviewed source-only compatibility change.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-baseconv.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "All seven immutable original Git files and full PSF v2 notices retained. Selected complete core coverage defaults preserve all20 doctests/1414 assertions with declared Python3 compatibility/fail-closed instrumentation patch. Installed origin verified. Legacy matrix/external Coveralls install/reporting unvalidated/uninstalled; target CI remains unknown.",
+    "status": "active"
+  },
+  "package_id": "python-baseconv",
+  "rpm": {
+    "license": "PSF-2.0",
+    "name": "python-baseconv",
+    "summary": "Convert numbers between integers and arbitrary base strings"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-semente-python-baseconv",
+    "homepage": "https://github.com/semente/python-baseconv",
+    "release_api": "https://api.github.com/repos/semente/python-baseconv/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/semente/python-baseconv",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.2.2",
+    "latest_detected": "1.2.2",
+    "release": "1"
+  }
+}

@@ -1,0 +1,27 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] make shared blackbody object wait for generated colour tables
+
+The original rule declares the generated include prerequisites only for the
+static blackbody.o. Under make -j2 the .c.lo suffix rule can compile the shared
+blackbody.lo before 10deg-rgb.i exists. Package CI 39173536316/1 fails at
+blackbody.c:26 with that missing include after a successful dependency install.
+
+Give both objects the same existing generated-input and header prerequisites.
+Keep the original all target, target-built generator, full table data, compiler
+commands, parallelism, library contents and functional consumers unchanged.
+This is a portable build-graph defect, not a RISC-V code change.
+
+License: ISC (same as upstream Makefile).
+Upstream status: downstream-only; no upstream write.
+Remove when a fixed official source declares these shared-object prerequisites.
+--- a/Makefile
++++ b/Makefile
+@@ -35,7 +35,7 @@
+ 
+ all: libred.a libred.$(LIBEXT)
+ solar.o: libred.h
+-blackbody.o: 10deg-xy.i 10deg-rgb.i libred.h
++blackbody.o blackbody.lo: 10deg-xy.i 10deg-rgb.i libred.h
+ generate-table.o: blackbody.c 10deg-xy.i libred.h
+ 
+ 10deg-xy.i: 10deg

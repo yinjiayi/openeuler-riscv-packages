@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "package_id": "cgreen",
+  "rpm": {
+    "name": "cgreen",
+    "summary": "C and C++ unit testing and mocking framework",
+    "license": "ISC AND BSD-3-Clause AND LicenseRef-Chemeris-2006 AND LicenseRef-Public-Domain"
+  },
+  "upstream": {
+    "component": "github.com-cgreen-devs-cgreen",
+    "homepage": "https://cgreen-devs.github.io/",
+    "source_repository": "https://github.com/cgreen-devs/cgreen",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/cgreen-devs/cgreen/releases/latest",
+    "release_regex": "^([0-9]+\\.[0-9]+\\.[0-9]+)$"
+  },
+  "version": {
+    "current": "1.7.0",
+    "release": "1",
+    "latest_detected": null
+  },
+  "discovery": {
+    "snapshot_id": "component-review-20261018-cgreen-1.7.0",
+    "lineage": [
+      {
+        "source": "debian",
+        "package_name": "cgreen",
+        "package_base": "cgreen",
+        "source_version": "1.7.0-1",
+        "evidence_url": "https://sources.debian.org/src/cgreen/1.7.0-1/",
+        "observed_at": "2026-10-18T13:00:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": false,
+    "timeout_minutes": 30,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "cgreen.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 1.7.0, full417 source bytes/modes verified. Unmodified original all build and full CTest, XML/libxml2 defaults required; no feature disable or test filter. Installed replay reuses unchanged tests/CMakeLists, source tests and expected output files but links actual installed libcgreen and uses actual installed runner; tools-specific runner tests remain full-build-only, API checks are compile-only. Original nested expected failures and per-test timeouts retained, no performance/native claim. Root ISC notice, BSD CMake notices, explicit gopt public-domain notices retained. LicenseRef-Chemeris-2006 identifies exact inttypes.h grant: clause3 says may be used, unlike standard BSD3; preserve verbatim, do not silently rewrite. No source patch or upstream write."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github"
+  }
+}

@@ -1,0 +1,22 @@
+From: openEuler RISC-V packaging <packaging@openeuler.invalid>
+Subject: [PATCH] rfc3195: retain the implicit-int helper return explicitly
+
+Retain the existing package's GCC 14 declaration repair as a reviewable
+source patch. Only make the old implicit int explicit; preserve the helper
+body, all error/status returns and the original CRLF source line endings.
+This is not a RISC-V-specific defect or a change to frame parsing.
+
+License: BSD-2-Clause
+Upstream status: downstream-only; no upstream write.
+Applies to v1.0.6 commit 7060ca060db626ffc7f3033845901abf6544b1bd.
+Remove when an official stable source explicitly declares this return type.
+--- a/rfc3195/src/beepframe.c
++++ b/rfc3195/src/beepframe.c
+@@ -167,6 +167,7 @@
+  *                       The channel object is updated, e.g. with a
+  *                       new seqno.
+  */
++int
+ sbFramActualRecvFramCommonBody(sbFramObj* pThis,sbChanObj *pChan)
+ {
+ 	unsigned iToRcv;

@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: LicenseRef-hat-trie-MIT-truncated
+# Origin: openEuler RISC-V package contributors, 2026
+# Upstream-Status: Not submitted
+# Applies-to: hat-trie 0.1.2
+# Source: https://github.com/dcjones/hat-trie/commit/6dfc9ed82b188e9ba9b6d8a8bef21fef46416e11
+# Files: configure.ac, hat-trie-0.1.pc.in, src/ahtable.c, src/hat-trie.c
+# License: Derived upstream context under the exact affirmative project grant
+# in original COPYING (including its truncated disclaimer), not a substituted
+# canonical MIT grant. Original pre-patch bytes are preserved in notices.
+# Scope: Generic package correctness, not a RISC-V-specific algorithm change.
+# Cause: configure discards caller CFLAGS; pkg-config omits the include-variable
+# dollar/subdirectory and -lhat-trie; both clear functions retain stale counts.
+# Keep upstream default static/debug modes, algorithms and every original test.
+# Remove when an upstream release contains equivalent fixes and regression tests.
+--- a/configure.ac
++++ b/configure.ac
+@@ -17,2 +17,2 @@
+-      [CFLAGS="$dbg_CFLAGS"],
+-      [CFLAGS="$opt_CFLAGS"])
++      [CFLAGS="$dbg_CFLAGS $CFLAGS"],
++      [CFLAGS="$opt_CFLAGS $CFLAGS"])
+--- a/hat-trie-0.1.pc.in
++++ b/hat-trie-0.1.pc.in
+@@ -10,2 +10,2 @@
+-Cflags: -I{includedir}
+-Libs: -L${libdir}
++Cflags: -I${includedir}/hat-trie
++Libs: -L${libdir} -lhat-trie
+--- a/src/ahtable.c
++++ b/src/ahtable.c
+@@ -166,0 +167,2 @@
++    table->m = 0;
++    table->max_m = (size_t) (ahtable_max_load_factor * (double) table->n);
+--- a/src/hat-trie.c
++++ b/src/hat-trie.c
+@@ -217,0 +218 @@
++    T->m = 0;

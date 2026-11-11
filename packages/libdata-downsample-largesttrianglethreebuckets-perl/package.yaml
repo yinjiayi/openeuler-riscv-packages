@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-downsample-largesttrianglethreebuckets-perl",
+  "rpm": {"name": "perl-Data-DownSample-LargestTriangleThreeBuckets", "summary": "Largest-triangle-three-buckets time series downsampling", "license": "Artistic-2.0"},
+  "upstream": {
+    "component": "libdata-downsample-largesttrianglethreebuckets-perl",
+    "homepage": "https://metacpan.org/dist/Data-DownSample-LargestTriangleThreeBuckets",
+    "source_repository": "https://metacpan.org/dist/Data-DownSample-LargestTriangleThreeBuckets",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TR/TROXEL/",
+    "release_regex": "Data-DownSample-LargestTriangleThreeBuckets-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TR/TROXEL/Data-DownSample-LargestTriangleThreeBuckets-{version}.tar.gz"
+  },
+  "version": {"current": "1.00", "release": "1", "latest_detected": "1.00"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "ubuntu", "package_name": "libdata-downsample-largesttrianglethreebuckets-perl", "package_base": "libdata-downsample-largesttrianglethreebuckets-perl", "source_version": "1.00-2.1", "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-downsample-largesttrianglethreebuckets-perl", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libdata-downsample-largesttrianglethreebuckets-perl.spec", "sources": "sources.yaml", "patches": [{"file": "patches/0001-fix-hash-constructor.patch", "sha256": "1066a11e25800d753fdd9e9df31a6033bc788ddaed60c1f8e9a2f7cd9c95418c", "purpose": "Fix documented key-value constructor and add regression tests without suppressing default tests.", "source": "Downstream correction against official CPAN 1.00, not an architecture-specific patch.", "license": "Artistic-2.0", "upstream_status": "not-submitted", "remove_when": "An official stable release fixes the key-value constructor and preserves equivalent tests."}], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Frozen Ubuntu lineage maps to official CPAN 1.00. Publisher CHECKSUMS pins the archive; README grants Artistic 2.0. The downstream constructor fix has regression tests; all original default tests remain enabled. Target build and installed smoke require exact-head CI."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}

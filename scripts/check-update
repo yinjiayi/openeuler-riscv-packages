@@ -6,9 +6,11 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import pathlib
 import re
 import urllib.parse
+from html.parser import HTMLParser
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
 from _lib import (
@@ -20,6 +22,7 @@ from _lib import (
     atomic_write_text,
     emit_json,
     fetch_url,
+    github_metadata_url,
     first_value,
     isoformat,
     is_prerelease,
@@ -162,17 +165,85 @@ def command_plan(args: argparse.Namespace) -> int:
     return 0
 
 
+def github_tag_ref_record(record: Mapping[str, Any]) -> Dict[str, Any]:
+    """Recognize only typed GitHub tag refs; keep ordinary release records intact."""
+    result = dict(record)
+    if any(result.get(key) not in (None, "") for key in ("version", "tag_name", "name")):
+        return result
+    ref = result.get("ref")
+    target = result.get("object")
+    if not isinstance(ref, str) or not ref.startswith("refs/tags/"):
+        return result
+    tag = ref[len("refs/tags/"):]
+    # Git ref restrictions also keep a broad version selector from accepting a
+    # numeric substring in malformed or non-tag namespace data.
+    if (not tag or tag.endswith(("/", ".")) or ".." in tag or "@{" in tag
+            or any(ord(char) <= 32 or ord(char) == 127 or char in "~^:?*[\\" for char in tag)
+            or any(not part or part.startswith(".") or part.endswith(".lock") for part in tag.split("/"))):
+        return result
+    if (not isinstance(target, Mapping) or target.get("type") not in ("commit", "tag")
+            or not isinstance(target.get("sha"), str)
+            or re.fullmatch(r"[0-9a-fA-F]{40}", target["sha"]) is None):
+        return result
+    return {**result, "tag_name": tag}
+
+
+def pypi_release_record(version: str, files: Any) -> Dict[str, Any]:
+    """Keep every release identity; accept one declared, non-yanked source file.
+
+    Count declarations before validating URLs/digests so a malformed second
+    sdist cannot erase an ambiguity. Invalid newest releases must not cause an
+    older release to be selected. No wheel/filename-suffix guessing is used.
+    """
+    result: Dict[str, Any] = {"version": version}
+    def reject(reason: str) -> Dict[str, Any]:
+        return {**result, "pypi_source_error": reason}
+    if not isinstance(files, list) or any(not isinstance(item, Mapping) for item in files):
+        return reject("PyPI release files must be a list of file records")
+    candidates = [item for item in files
+                  if item.get("packagetype") == "sdist" and item.get("yanked") is not True]
+    if len(candidates) != 1:
+        return reject("PyPI release must declare exactly one non-yanked sdist")
+    source = candidates[0]
+    if source.get("yanked") is not False or source.get("python_version") != "source":
+        return reject("PyPI sdist must explicitly be non-yanked and python_version=source")
+    url = source.get("url")
+    if not isinstance(url, str) or not url or any(ord(char) <= 32 or ord(char) == 127 for char in url):
+        return reject("PyPI sdist URL must be a nonempty credential-free HTTPS URL")
+    try:
+        validate_https_url(url)
+        parsed = urllib.parse.urlsplit(url)
+        if (parsed.username is not None or parsed.password is not None
+                or "#" in url or parsed.port not in (None, 443)):
+            return reject("PyPI sdist URL forbids credentials, fragments and non-443 ports")
+    except (ToolError, ValueError):
+        return reject("PyPI sdist URL must be a credential-free HTTPS URL")
+    digests = source.get("digests")
+    digest = digests.get("sha256") if isinstance(digests, Mapping) else None
+    if not isinstance(digest, str) or re.fullmatch(r"[0-9a-fA-F]{64}", digest) is None:
+        return reject("PyPI sdist must declare a full SHA-256")
+    return {**result, "source_url": url, "sha256": digest.lower()}
+
+
 def releases_from_document(document: Any) -> List[Dict[str, Any]]:
     if isinstance(document, Mapping):
+        if (isinstance(document.get("info"), Mapping)
+                and isinstance(document["info"].get("name"), str)
+                and bool(document["info"]["name"])
+                and isinstance(document["info"].get("version"), str)
+                and isinstance(document.get("urls"), list)
+                and isinstance(document.get("releases"), Mapping)):
+            return [pypi_release_record(version, files)
+                    for version, files in document["releases"].items()]
         if isinstance(document.get("versions"), list):
             return [{"version": value} if not isinstance(value, Mapping) else dict(value) for value in document["versions"]]
         if isinstance(document.get("releases"), Mapping):
             return [{"version": key, **(dict(value) if isinstance(value, Mapping) else {})} for key, value in document["releases"].items()]
-        if any(key in document for key in ("tag_name", "version", "name")):
-            return [dict(document)]
+        if any(key in document for key in ("tag_name", "version", "name", "ref")):
+            return [github_tag_ref_record(document)]
     if isinstance(document, list):
-        return [{"version": value} if not isinstance(value, Mapping) else dict(value) for value in document]
-    return [dict(record) for record in iter_records(document)]
+        return [{"version": value} if not isinstance(value, Mapping) else github_tag_ref_record(value) for value in document]
+    return [github_tag_ref_record(record) for record in iter_records(document)]
 
 
 def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optional[Dict[str, Any]]:
@@ -183,37 +254,37 @@ def normalized_release(raw: Mapping[str, Any], template: Optional[str]) -> Optio
     version_text = re.sub(r"^[vV](?=\d)", "", version_text)
     if not version_text or is_prerelease({**raw, "version": version_text}):
         return None
-    # Prefer an explicit upstream asset or reviewed template over generic
-    # forge-generated tag archives.  This keeps update PRs on the same release
-    # artifact channel that was reviewed during onboarding.
-    source_url = first_value(raw, ["source_url", "archive_url", "download_url"])
-    if not source_url:
-        assets = raw.get("assets") if isinstance(raw.get("assets"), list) else []
-        source_assets = [item for item in assets if isinstance(item, Mapping) and str(item.get("name", "")).endswith((".tar.gz", ".tar.xz", ".tgz"))]
-        if source_assets:
-            source_url = first_value(source_assets[0], ["browser_download_url", "url"])
-    if not source_url and template:
+    # The package's reviewed source channel takes precedence. An archive suffix
+    # on a release asset does not prove it contains source (age/fzf also upload
+    # platform binaries as .tar.gz). Never guess a source from arbitrary assets.
+    explicit_source = first_value(raw, ["source_url", "archive_url", "download_url"])
+    source_url = explicit_source
+    if template:
         try:
             source_url = template.format(version=version_text, tag=first_value(raw, ["tag_name"], version_text))
         except (KeyError, ValueError) as exc:
             raise ToolError("invalid source_url_template: %s" % exc)
     if not source_url:
         source_url = raw.get("tarball_url")
-    digest = first_value(raw, ["sha256", "checksum"])
+    # A feed checksum may describe another asset. Preserve it only when the
+    # explicit source URL is the selected URL; otherwise hash selected bytes.
+    digest = first_value(raw, ["sha256", "checksum"]) if explicit_source and source_url == explicit_source else None
     if isinstance(digest, str) and digest.startswith("sha256:"):
         digest = digest.split(":", 1)[1]
-    return {
+    result = {
         "version": version_text,
         "tag": first_value(raw, ["tag_name"], version_text),
         "source_url": source_url,
         "sha256": str(digest).lower() if digest else None,
         "published_at": first_value(raw, ["published_at", "created_at", "date"]),
     }
+    if "pypi_source_error" in raw:
+        result["pypi_source_error"] = raw["pypi_source_error"]
+    return result
 
 
-def releases_from_index(content: bytes, release_regex: str, source_url_template: Optional[str]) -> List[Dict[str, Any]]:
-    """Extract stable versions from a reviewed official HTML/XML index."""
-
+def release_pattern(release_regex: str) -> re.Pattern[str]:
+    """Compile the reviewed version selector with the same bounded policy."""
     if len(release_regex) > 1024:
         raise ToolError("release_regex exceeds the 1024-character safety limit", 1)
     try:
@@ -222,10 +293,63 @@ def releases_from_index(content: bytes, release_regex: str, source_url_template:
         raise ToolError("invalid release_regex: %s" % exc, 1) from exc
     if pattern.groups < 1 and "version" not in pattern.groupindex:
         raise ToolError("release_regex must capture a version", 1)
+    return pattern
+
+
+def releases_from_json(document: Any, release_regex: str) -> List[Dict[str, Any]]:
+    """Apply the reviewed regex to release identity fields, not JSON syntax.
+
+    Keep the original record so draft/prerelease flags, source assets and
+    checksum metadata still pass through the ordinary stable/source gates.
+    A regex mismatch remains visible as no stable releases; no fallback to
+    unfiltered tags or a different upstream endpoint is performed.
+    """
+    pattern = release_pattern(release_regex)
+    selected: List[Dict[str, Any]] = []
+    for record in releases_from_document(document):
+        identity = first_value(record, ["version", "tag_name", "name"])
+        if not isinstance(identity, str):
+            continue
+        # The reviewed selector may capture only the numeric portion. Check
+        # stability on the complete original identity before replacing it.
+        if is_prerelease({**record, "version": identity}):
+            continue
+        match = pattern.search(identity)
+        if match is None:
+            continue
+        version = match.groupdict().get("version") or match.group(1)
+        selected.append({**record, "version": str(version).strip(), "tag_name": record.get("tag_name") or identity})
+    return selected
+
+
+def releases_from_index(content: bytes, release_regex: str, source_url_template: Optional[str]) -> List[Dict[str, Any]]:
+    """Extract stable versions from a reviewed official HTML/XML index."""
+    pattern = release_pattern(release_regex)
     text = content.decode("utf-8", errors="replace")
     releases: List[Dict[str, Any]] = []
     seen = set()
-    for match in pattern.finditer(text):
+    matches = list(pattern.finditer(text))
+    # An anchored filename selector describes a linked release identity, not
+    # the complete HTML document. Only adapt identities when the reviewed
+    # template independently specifies the source; never promote an arbitrary
+    # href (possibly a binary or external URL) into an official source URL.
+    if source_url_template:
+        class LinkedIdentities(HTMLParser):
+            def handle_starttag(self, tag: str, attrs: List[tuple[str, Optional[str]]]) -> None:
+                if tag.lower() != "a":
+                    return
+                for key, value in attrs:
+                    if key.lower() != "href" or not value:
+                        continue
+                    try:
+                        identity = urllib.parse.unquote(urllib.parse.urlsplit(value).path.rsplit("/", 1)[-1])
+                    except ValueError:
+                        continue
+                    if identity and not is_prerelease({"version": identity}):
+                        matches.extend(pattern.finditer(identity))
+
+        LinkedIdentities(convert_charrefs=True).feed(text)
+    for match in matches:
         version = match.groupdict().get("version") or match.group(1)
         version = str(version).strip().lstrip("vV")
         if not version or version in seen or is_prerelease({"version": version}):
@@ -251,6 +375,9 @@ def load_release_feed(
     cache_dir: Optional[pathlib.Path],
     limiter: HostRateLimiter,
 ) -> tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    # Authentication is opt-in for metadata only. source_digest() deliberately
+    # keeps the default unauthenticated transport, including archive downloads.
+    github_api_metadata = github_metadata_url(release_api)
     if release_regex:
         if release_api.startswith(("https://", "file://")):
             content, metadata = fetch_url(
@@ -260,14 +387,25 @@ def load_release_feed(
                 cache_dir=cache_dir,
                 limiter=limiter,
                 max_bytes=64 * 1024 * 1024,
+                github_api_metadata=github_api_metadata,
             )
         else:
             path = pathlib.Path(release_api)
             content = path.read_bytes()
             metadata = {"path": str(path), "sha256": sha256_bytes(content), "cached": False}
+        # Anchored tag selectors such as ^v?(... )$ describe an identity,
+        # not a complete serialized JSON document. Preserve typed release
+        # records before normalization rather than scanning their JSON text.
+        if content.lstrip().startswith((b"[", b"{")):
+            try:
+                document = json.loads(content)
+            except (UnicodeDecodeError, ValueError) as exc:
+                raise ToolError("release endpoint returned invalid JSON: %s" % exc, 1) from exc
+            return releases_from_json(document, release_regex), metadata
         return releases_from_index(content, release_regex, source_url_template), metadata
     document, metadata = load_location(
-        release_api, timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter
+        release_api, timeout=timeout, retries=retries, cache_dir=cache_dir, limiter=limiter,
+        github_api_metadata=github_api_metadata,
     )
     return releases_from_document(document), metadata
 
@@ -328,6 +466,8 @@ def scan_package(
         base["release_fetch"] = fetch_meta
         if tuple(version_key(latest["version"])) <= tuple(version_key(package.get("current_version"))):
             return {**base, "status": "no-update"}
+        if latest.get("pypi_source_error"):
+            return {**base, "status": "failed", "failure": {"category": "source", "message": latest["pypi_source_error"]}}
         if not latest.get("source_url"):
             return {**base, "status": "failed", "failure": {"category": "source", "message": "latest stable release has no official source URL"}}
         validate_https_url(str(latest["source_url"]), allow_file=True)

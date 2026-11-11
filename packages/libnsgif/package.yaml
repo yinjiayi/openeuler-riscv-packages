@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "libnsgif",
+  "rpm": {"name": "libnsgif", "summary": "NetSurf GIF image and animation decoding library", "license": "MIT AND ISC"},
+  "upstream": {"component": "netsurf-browser.org-projects-libnsgif", "homepage": "https://netsurf-browser.org/projects/libnsgif", "source_repository": "https://source.netsurf-browser.org/libnsgif.git", "release_channel": "stable", "release_api": "https://download.netsurf-browser.org/libs/releases/", "release_regex": "libnsgif-(?P<version>[0-9]+(?:\\.[0-9]+)+)-src\\.tar\\.gz", "source_url_template": "https://download.netsurf-browser.org/libs/releases/libnsgif-{version}-src.tar.gz"},
+  "version": {"current": "1.0.0", "release": "1", "latest_detected": "1.0.0"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "arch-extra", "package_name": "libnsgif", "package_base": "libnsgif", "source_version": "1.0.0-2", "evidence_url": "https://archlinux.org/packages/extra/x86_64/libnsgif/", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libnsgif.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official fixed release; all 303 original files and test corpora retained unchanged. Preserve default static make test plus shared suite and stage/installed replays. MIT library and ISC test CLI notices retained; fixed SPDX ISC text is license-only source1. Upstream distinguishes malformed-input rejections from fatal errors; retain its original exit policy. No local source/RPM/QEMU execution or target success claim."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}

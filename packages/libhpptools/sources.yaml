@@ -1,0 +1,7 @@
+{
+ "schema_version":1,"package_id":"libhpptools",
+ "sources":[
+  {"id":"source0","kind":"upstream-release","version":"1.1.3","filename":"libhpptools-1.1.3.tar.gz","url":"https://codeload.github.com/mateidavid/hpptools/tar.gz/93bb758cd02cb58b14be80a0f181819d83145af0","digests":{"sha256":"00474d0875942132dda9e563411a27ae52809966d1cdb8ef5f17ead705b344ae"},"signature":null,"redistribution":{"allowed":true,"reason":"All original MIT, bundled Catch BSL-1.0 and explicit logsum.hpp public-domain permission/modification notices retained; unchanged full original sources."}},
+  {"id":"source1","kind":"upstream-release","version":"1.62.0","filename":"BOOST-LICENSE_1_0.txt","url":"https://raw.githubusercontent.com/boostorg/boost/4f2bdeb93a4be13ba0dc5e9f44920a2bf67191fc/LICENSE_1_0.txt","digests":{"sha256":"c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566"},"signature":null,"redistribution":{"allowed":true,"reason":"Complete official Boost Software License 1.0 text required by unchanged bundled Catch header."}}
+ ]
+}

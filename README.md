@@ -6,6 +6,14 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 
 ## Defined terms
 
+- An **install job budget** is the bounded whole-job allowance derived from a
+  schema-validated package's `build.timeout_minutes`, with the existing
+  70-minute floor and 360-minute schema maximum. The smoke job records a
+  deadline immediately after checkout, subtracts setup/download time before
+  invoking the original install and smoke command, and reserves 600 seconds
+  for final evidence and uploads. Expiry fails with exit 124; it never skips
+  tests, retries a failed suite, changes runner routing, or establishes target
+  success. The dependency transaction retains its separate 3300-second bound.
 - A **managed package** is a non-template directory below `packages/` whose `package.yaml` is schema-valid and is not `retired` or `update-disabled`.
 - An **upstream release component** is a project unit with its own official stable release and version boundary. Discovery deduplicates this unit, not distribution package names.
 - A **verified release source** is an HTTPS official stable release/tag archive whose exact bytes are pinned by a full SHA-256. Distribution package checksums and catalog metadata digests do not satisfy this definition.
@@ -13,10 +21,14 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - A **lineage promotion** is a reviewed selector that maps one exact raw lineage row in an immutable snapshot to a canonical official upstream component. It records the frozen component key, distribution source, original name, package base, version, and relationship; it neither rewrites the snapshot nor turns AUR metadata or a functional provider into source evidence.
 - A **build result** is the schema-valid `build-result.json` tied to an exact Git commit SHA. It is evidence, not a self-reported success claim.
 - A **network-enabled target build** is a target-architecture build container with
-  outbound Docker bridge networking. It may retrieve only the declared sources;
-  each source remains bound to its committed SHA-256 and is verified before
-  `rpmbuild` starts. Network availability does not make unpinned source bytes
-  acceptable.
+  outbound Docker bridge networking, retained for the unchanged upstream checks.
+  A **checksum-reverified source cache** is the same-run downloaded `SOURCES/`
+  artifact rehashed against every entry of the exact package's committed
+  `sources.yaml` before `rpmbuild`, with required signatures rechecked. CI's
+  `--offline` flag applies only to source materialization: missing, corrupt,
+  malformed or symlinked cache inputs fail without a network fallback. It does
+  not disable container networking or skip any package test; an artifact receipt
+  is not a substitute for the committed SHA-256/signature policy.
 - A **per-run dependency network** is a uniquely named, session-labelled Docker
   bridge used by exactly one BuildRequires container. CI first checks the live
   RPM baseline in a separate one-shot container whose network mode stays
@@ -78,9 +90,47 @@ This repository is a reproducible, evidence-backed packaging pipeline for openEu
 - Arch stable `core`/`extra` and AUR are primary discovery indexes. AUR data is untrusted metadata: no workflow executes a `PKGBUILD`.
 - Pure AUR `-bin` entries and entries older than 730 days are excluded by default. VCS/nightly variants are discovery clues only.
 - Supplementary discovery resolves the current stable openSUSE Tumbleweed snapshot, latest Fedora GA, Debian `stable`, and latest Ubuntu GA release in standard support. Rawhide, testing/unstable, staging, multilib, development, and prerelease feeds are excluded.
-- An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. Target build containers may retrieve the pinned source over HTTPS and verify that digest again before `rpmbuild` starts.
+- An importable source requires an HTTPS official stable release/tag URL and its full SHA-256; distribution package checksums do not substitute for upstream source checksums. The hosted source job fetches these bytes once; CI's target container rehashes the same-run source cache against that committed digest before `rpmbuild`, without a second fetch.
 - Required native-kernel or hardware validation becomes `needs-native-riscv`. The self-hosted fleet accelerates protected-main QEMU user-mode builds on x86_64 only; it is never treated as native RISC-V validation, and pull-request/merge-queue jobs remain on disposable GitHub-hosted runners.
 - Repair runs only on a maintainer's local Codex through local `gh` authentication or an explicitly authorized process-scoped `GH_TOKEN`. Using that token for local `gh`/Git operations is permitted; persisting or publishing its value in repository content, commits, PR text/comments, logs, artifacts, Actions configuration, or Pages is forbidden. `scripts/github-credential-guard` checks the active token against repository, staged, and publication content without printing it. CI only uploads structured failure evidence and labels a trusted internal PR `repair-queued`; a claimed lease changes that state to `codex-repairing`. These labels mean the exact head is awaiting or undergoing a maintainer repair, and both make the evaluation-only policy ineligible until a maintainer verifies the replacement head and explicitly releases the repair state.
+
+A **claim synchronization state** records whether the original local lease
+reservation has also completed its remote label/comment protocol. `claim-pending`
+is persisted before the first remote edit; `reconciliation-required` means that
+synchronization failed or its effects are uncertain. Neither is a confirmed
+`codex-repairing` lease: verify-head, renew, release, fail and a second claim must
+reject it, including after expiry or under another owner. Only successful remote
+label/comment commands and exact-head label readback permit confirmation.
+
+A **lease origin** is the recorded proof boundary of a confirmed reservation:
+`postconditions-verified` means live labels/comment and the exact-head readback
+completed; `offline-fixture-confirmed` means only isolated fixture data was used.
+A fixture-origin lease cannot be reused by any live claim, verify, renew, release
+or fail invocation. Conversely, a fixture invocation cannot operate on a known
+live lease. Missing/unknown legacy origin and closed records left in the current
+lease slot require explicit reconciliation; neither expiry nor same-owner
+idempotence upgrades them. Historical rows remain readable and unchanged. These
+markers do not authorize copying fixture state into live state or manually adding
+a live-origin marker. This revision provides no migration/recovery write: current
+readback alone cannot synthesize the missing original live claim protocol.
+
+The local `attempts` value counts **claim reservations**, not target CI failures.
+An ambiguous remote error consumes that reservation; it must not decrement any
+counter or erase prior history. Errors before reservation do not consume one.
+An EOF does not prove a failed mutation had no effects: retain the last command
+phase, original stderr and state, then observe current exact head/ref,
+labels, fully paginated timeline/comments and all counters read-only. An observed
+orphan routing label may be corrected only by separately approved scoped label
+maintenance with fresh guard/actor/permissions/head/state fences and before/after
+readback; that correction does not confirm or discard the blocked lease. No
+readback alone resolves uncertainty into push authority. This patch deliberately
+provides no automatic recovery transition: a blocked reservation remains blocked
+until a separately reviewed reconciliation operation preserves its consumed
+attempt/history and explicitly accounts for every remote effect. Do not manually
+edit live state, replay claim writes, bypass the original guard, or substitute an
+offline fixture. Historical failed protocols such as Args keep their exact old
+records; this change is not retroactive reconstruction of a missing lease.
+
 - The only custom Actions secret is `RPM_REPO_SSH_PRIVATE_KEY`. It is a forced-command, write-only `rrsync` deployment identity for `/opt/openeuler-riscv-rpm-repo/incoming`; it cannot run a shell, delete or overwrite remote files, and is never available to build commands. It is not an OpenAI/Codex credential.
 - Successful package output is published only after the exact package build and installed-RPM smoke pass on a protected `main` push (or an explicit trusted backfill call). Pull-request builds never publish RPMs.
 - The supplemental project repository is served from the operator-provided HTTP endpoint `http://2.27.148.101:38080`. Its unsigned project RPMs use `gpgcheck=0`; CI compensates with a pinned SSH host key for publication, per-file upload SHA-256, immutable generations, no HTTP redirects, and a state-bound `repomd.xml` digest. The official openEuler HTTPS/GPG-checked repository remains enabled and authoritative.
@@ -100,11 +150,25 @@ The full package inventory is committed as `catalog/package-index.json.gz`, with
 
 An **official-target coverage check** compares each proposed RPM name, module `Provides`, and complete Epoch-Version-Release against checksum-verified primary metadata from the configured openEuler 24.03 LTS SP3 RVA23 repository before a package PR is submitted or merged. A matching discovery-inventory name alone does not prove the target lacks that software. An already supplied package is held for explicit lineage review; a green fresh-image `dnf install` does not establish a safe upgrade when the official package has a higher Epoch, or when existing official subpackages require its exact version. This check is a packaging decision gate, not a new Dashboard lifecycle status or evidence that the entire frozen inventory has been screened.
 
-The GitHub Pages Dashboard presents that full inventory as its primary view and emits the browser-ready list as `inventory.json`. It overlays the committed inventory with managed package metadata from the checked-out `main`, current pull-request facts, and retained CI evidence. An **inventory status** is the strongest currently supported lifecycle fact for one inventory key: discovery/review/PR/managed metadata first, then an exact-head build result, and finally verified publication. A package directory on current `main` is at least `managed`; an older inventory snapshot's `discovered` or `reviewed` status cannot demote it. `build-succeeded` means a schema-valid successful CI result matches a recorded package or PR commit; it does not mean the RPM repository contains the products. `published` means an RPM upload batch and public-generation verification match the same package, commit, and immutable generation. Only `published` rows receive direct `.../Packages/*.rpm` SRPM and RPM links. A CI run link is labeled as CI evidence and is never presented as a repository package address. Because Actions evidence is retained for seven days, missing historical evidence remains an explicit weaker status rather than a reconstructed or guessed link.
+The GitHub Pages Dashboard presents that full inventory as its primary view and emits the browser-ready list as `inventory.json`. It overlays the committed inventory with managed metadata from the checked-out `main`, current PR facts, retained current build results, and independent historical build observations. A **canonical package ID** is the actual `packages/<id>` identity; only exact, uniquely matching metadata RPM names, upstream component keys and explicitly declared identity aliases associate inventory rows. Discovery lineage can describe a functional provider rather than identity (for example Debianutils versus GNU Which), so it is not automatically an alias. Ambiguous aliases remain unassociated and are disclosed in `build-history.json`, rather than joined many-to-many.
 
-The full table searches package names, aliases, component IDs, and decision labels; status and evidence filters operate over the complete list. Rendering is paginated so the browser creates at most 250 table rows at once even though the JSON contains every inventory entry. `schemas/dashboard.schema.json` covers the summary/managed payload and `schemas/dashboard-inventory.schema.json` covers the full browser list.
+An **inventory status** describes current lifecycle facts, not cumulative success. A current main directory is at least `managed`; an older catalog's discovery/review status cannot demote it. Current PR failures and repair queues remain visible even when a previous version succeeded. **Cumulative build success** counts unique canonical package IDs with an actual successful RPM-build step and installed-smoke step in `--build-history` observations, including old versions and PR-only packages. Duplicate observations and reruns do not multiply the package count. **Current main recipe success** additionally requires the clean current whole package Git tree to match a successful main-branch push/dispatch recipe tree; version strings and `latest_head_verified` alone do not qualify. **Current PR success** requires the latest open PR's actual path identity and exact head, and does not imply main has merged it. All three metrics are available-history observations, not physical RPM/SRPM acceptance, merge eligibility, native validation or restoration of self-hosted runner trust.
+
+**Published packages** are counted independently from `--published-state`: the fixed immutable generation's state and both repositories' primary metadata are bound by checksums, source and binary EVRs pair exactly, and every linked RPM/SRPM's SHA-256 and byte size are checked. This is package-level availability of **any verified version**, not publication of the current main recipe; published Epoch-Version-Release values are shown separately, while inventory/managed version columns describe current metadata. Publication does not promote the current lifecycle status. Retained upload/verification envelopes alone do not prove all public artifact bytes and are not promoted to verified publication. Only complete publication coverage yields a total; partial coverage yields a disclosed observed lower bound and missing input yields unknown, not a repository-wide zero. Verified public links can coexist with a current failed recipe without hiding that failure. A CI run/job link remains CI evidence and is never fabricated as an RPM address. The page shows generation time, history collection time/cutoff, coverage gaps, publication collection time, and per-package historical observations in `build-history.json`; complete means the available listed history through the cutoff, not recovery of deleted Actions data. Open/repairing and native-needed legacy cards count inventory rows, not unique package IDs or PRs.
+
+The current-main metric means that this exact whole recipe has **historically succeeded on main**, not that its latest CI is successful. The separate latest-known CI status can remain failed; its negative evidence currently comes from retained current build results and is not a durable failure-history claim. That failure does not erase the stable historical success count. Current-PR success additionally requires a complete actual changed-file list, a current exact-head snapshot, complete current checks with both RPM-build and installed-smoke jobs successful, and successful step-level history. Missing, pending or skipped checks remain unverified. The most recently updated open PR is selected ahead of closed PRs for the same canonical package.
+
+The full table combines the committed snapshot with managed/PR canonical identity overlays; the resulting row count can exceed the frozen snapshot count. Unassociated raw discovery rows are preserved; appended PR/history-only rows use `canonical:<package_id>` inventory keys so an ambiguous discovery alias cannot collide with, or be silently relabeled as, a canonical identity. Raw public history seeds reject duplicate observation IDs and inconsistent summary counts, matching the collector's durable seed entry point; view-level deduplication still prevents reruns from multiplying metrics. It searches package names, aliases, component IDs, and decision labels; status and evidence filters operate over the complete list. Rendering is paginated so the browser creates at most 250 inventory rows at once even though the JSON contains every inventory entry. Daily update health uses a separate `source_available` witness: missing update-summary input is unknown, while an observed zero coverage remains zero. `schemas/dashboard.schema.json` covers the summary/managed payload and `schemas/dashboard-inventory.schema.json` covers the full browser list.
 
 A **batched Dashboard refresh** is one complete snapshot that collects the current pull-request, Actions, retained build, and publication evidence once for the whole site. It is not a per-package completion callback. Protected-main pushes that change package, catalog, Dashboard, or collector inputs refresh immediately; an hourly run at minute 17 incorporates later CI and publication results, and maintainers can request a manual refresh. Consequently, a just-finished CI result can take up to one hourly interval to appear, while every published link remains subject to the same immutable-generation proof above. This cadence prevents a large burst of package completions from starting hundreds of redundant full-history API scans and exhausting the GitHub installation rate limit.
+
+A **current-snapshot drift** is an observed change to main, the PR/file population, a paginated PR head, or the freshness frontier during one live collection. Only these explicitly typed changed-input fences permit one whole-snapshot restart (two attempts maximum), with fresh isolated private directories and no mixed pages or reused partial results. Non-advancing cursors, missing/duplicate census entries, authentication, schema and tree/blob identity errors remain fatal. Every attempt retains the original main/head/count/cursor/actual-files/recipe/frontier checks, inside the unchanged 30-minute hosted Dashboard build timeout. `ci/collect-github-state.py` requires fresh `--receipt` and `--output` paths alongside a private `--raw-dir`; the shell wrapper writes `<output-stem>-collection.json`. This **collection receipt** records fixed reason codes and attempt timestamps/statuses, never private queries, raw bodies, paths, tokens or exception text. `collecting` may remain after cancellation, `failed` blocks output, and `collected` means only that a snapshot was returned (possibly with the existing explicit coverage gaps), not validated Pages output, deployment, package-build success or publication. Private attempts retain their own raw evidence; an exhausted/fatal attempt does not publish a current snapshot.
+
+The collector's **required-format gate** checks that a validation handler is installed for every format declared by the build-history schema before accepting a seed or validating collected history. Missing handlers stop collection instead of silently accepting unchecked timestamps. The Dashboard workflow pins `jsonschema==4.25.1` and the schema's required `date-time` handler, `rfc3339-validator==0.1.4`; invalid RFC 3339 timestamps are rejected. This collector gate does not change historical counts, establish CI or publication success, or replace the separate metadata validators.
+
+A **Pages output gate** validates every generated dashboard/inventory JSON against its committed schema, including installed `uri` and `date-time` handlers, verifies the durable history seed and checks that the separate browser history equals the dashboard history. The workflow also pins `rfc3986-validator==0.1.1`; a missing handler or invalid output blocks Pages upload/deployment. Its evidence artifact retains the exact `published-state.json` input and output-validation hashes for independent readback; validation does not imply a new RPM release. Catalog **display URI normalization** uses IDNA for Unicode hostnames and UTF-8 percent-encoding for path/query/fragment without changing the original catalog. Unresolved placeholders, control characters, credentials and malformed URLs are not clickable; their inventory rows remain present with an `invalid-upstream-link` decision, and raw source values remain in the committed catalog.
+
+**Current-check selection** retains every original PR check but chooses only the latest comparable check for each exact-head/name/app identity (or commit-status context/creator identity) for display. Actual individual check start times establish CheckRun order; IDs prove identity, not chronology. Suite creation is only a chronology lower bound, since an older suite may be reused by a later rerun. A suite's current workflow attempt is retained as metadata, not assigned as the historical attempt of each old check. A latest failure/cancellation/pending result cannot be replaced by an older success. Identical repeated records are deduplicated, but different identities tied at the latest start (or latest commit-status creation/update pair) remain unknown. Missing identity/time fields, ambiguous ordering (including any duplicate context with an unstarted check, even across differently dated suites), incomplete connections or a changed PR head withhold current-PR success rather than guessing. The required build/install names must come from the GitHub Actions app and match an observed successful build/install at the open PR's exact head. Raw connection coverage is distinct from current-selection completeness: `current_pr_source_complete` requires complete connection coverage and verified selection for every canonical open PR; `current_pr_selection_gaps` lists unresolved selections without rewriting raw coverage. The page independently marks partial current-PR counts and displays selection gaps even when historical coverage is complete. This read-only dashboard calculation is not the protected-main merge gate, physical RPM acceptance or a new historical build observation.
 
 An **evidence retention selection** keeps only the newest unexpired smoke artifact and the newest unexpired publication artifact for each package when assembling one Dashboard snapshot. It does not delete Actions artifacts or repository RPMs; it bounds which retained JSON envelopes are downloaded for the current view. Publication artifacts are fetched before smoke artifacts, so a late API quota failure cannot starve a newly verified RPM/SRPM generation behind older build evidence. A newer failed result supersedes an older result of the same kind instead of allowing stale success evidence to mask the current state.
 
@@ -148,7 +212,22 @@ scripts/build-rpm \
   --verify-only
 ```
 
-The full build is intentionally run by `package-ci.yml` inside the locked RISC-V OCI after a separate audited BuildRequires stage. The target build container has network access so it can retrieve declared sources, and `scripts/build-rpm` verifies every pinned SHA-256 before invoking `rpmbuild`.
+The full build is intentionally run by `package-ci.yml` inside the locked RISC-V OCI after a separate audited BuildRequires stage. The hosted source job fetches and verifies the declared sources once, then CI invokes `scripts/build-rpm --offline` to rehash the downloaded same-run cache and recheck required signatures before `rpmbuild`. Container bridge networking and the complete upstream checks remain enabled. The manual CLI above still supports online source retrieval when `--offline` is omitted; cache-only mode never falls back to a download.
+
+A `required` source signature declares `url`, `policy`, `path`, `keyring`, and
+`key_fingerprint`. Commit the detached signature and keyring as regular files
+under the package directory and use their safe repository-relative paths (no
+absolute paths, `.`/`..` segments, or symlinks). The URL records provenance;
+verification does not fetch signatures or keys. `key_fingerprint` is exactly
+40 or 64 uppercase hexadecimal characters identifying the **signing key**.
+When a subkey signs, pin that signing subkey, not only its primary key.
+Verification requires a successful `gpgv` exit and exactly one complete
+`VALIDSIG` status record with that exact signing fingerprint. Status output is
+separate from diagnostics, and an empty private GnuPG home isolates ambient
+configuration defensively. The committed source SHA-256 is still mandatory,
+and offline builds recheck both digest and required signature. Existing null
+and `checksum-required-signature-advisory` policies retain their distinct,
+non-cryptographic statuses; advisory metadata is not signature verification.
 
 Resolve and verify the exact supplemental repository generation that would be
 mounted into dependency installation and installed-RPM smoke:
@@ -165,6 +244,30 @@ With `--allow-unavailable`, connection, timeout, and transient HTTP service
 failures produce an explicit `unavailable` resolution and a disabled
 supplemental repository file. Redirects, non-transient HTTP responses, JSON,
 URL, generation, and checksum integrity failures still fail closed.
+
+A **supplemental metadata capture** is the complete, inert metadata evidence
+retained by the package CI `repository-snapshot` job after resolution. It saves
+the exact immutable `state.json`, both `repomd.xml` files, and the compressed
+and opened primary/filelists bytes for both binary and source repositories
+(ten metadata files). The receipt binds these bytes to the resolution, exact
+package/tooling commits, package tree, run ID and attempt. A complete unique
+pkgid/NEVRA join and state-bound package counts cover the full namespace; this
+is metadata-only evidence, not RPM payload, build, installation, publication,
+or merge acceptance. The existing seven-day repository artifact retains it.
+
+Capture does not change repository selection, resolution fallback, DNF, or
+trust policy. An explicitly disabled official-only fallback is recorded as
+`not-applicable` without fetching supplemental metadata. Enabled metadata
+that is missing or invalid fails CI; it is never silently skipped. Gzip,
+bzip2 and xz decoding uses the standard library; zstd requires the already
+installed fixed `/usr/bin/zstd` executable, otherwise capture fails closed
+without installing anything. Actual endpoint compression and runner decoder
+availability are verified at execution, not assumed by this documentation.
+Single-file compressed/open XML limits (16/64 MiB), a 128 MiB xz/zstd decoder
+memory limit and zstd's 30-second deadline are defensive parser limits, not
+an artifact-size or aggregate M1 budget. Gzip/bzip2/xz require a single
+complete stream with no trailing bytes; all formats must match the declared
+compressed and open sizes and SHA-256 checksums.
 
 `RPM Repository Backfill` builds every active non-golden package whose policy
 does not require native RISC-V hardware. It runs up to 20 independent package

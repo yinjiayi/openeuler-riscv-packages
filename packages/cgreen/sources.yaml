@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "cgreen",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "cgreen-1.7.0.tar.gz",
+      "url": "https://codeload.github.com/cgreen-devs/cgreen/tar.gz/feeb85ed48d163f6b7b0011a6d8e6043951541e4",
+      "digests": {
+        "sha256": "a9b9b5b9215a3774f16c98466644e092767d04deb7d250f1d1e7c8851541e70f"
+      },
+      "version": "1.7.0",
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original ISC, CMake BSD-3-Clause, exact Chemeris-2006 permissive grant and gopt public-domain abandonment/warranty notices retained verbatim in both binary packages and full source QA archive. LicenseRef-Chemeris-2006 preserves the original clause 3 may be used wording, not standard BSD3 text."
+      }
+    }
+  ]
+}

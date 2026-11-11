@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/danthedeckie/simpleeval",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-simpleeval",
+        "package_name": "python-simpleeval",
+        "source": "aur",
+        "source_version": "1.0.7-1"
+      },
+      {
+        "evidence_url": "https://github.com/danthedeckie/simpleeval",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "simpleeval",
+        "package_name": "simpleeval",
+        "source": "debian",
+        "source_version": "1.0.3-1+deb13u1"
+      },
+      {
+        "evidence_url": "https://github.com/danthedeckie/simpleeval",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-simpleeval",
+        "package_name": "python-simpleeval",
+        "source": "fedora",
+        "source_version": "1.0.3-7.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/danthedeckie/simpleeval",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-simpleeval",
+        "package_name": "python-simpleeval",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.0.7-1.4"
+      },
+      {
+        "evidence_url": "https://github.com/danthedeckie/simpleeval",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "simpleeval",
+        "package_name": "simpleeval",
+        "source": "ubuntu",
+        "source_version": "1.0.3-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-simpleeval.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 1.0.8 full Git archive, released runtime/tests/license byte consistency and original selected Python 3.11 test route reviewed; catalog rows are historical discovery only. No local target/backend/default execution or target-success claim.",
+    "status": "active"
+  },
+  "package_id": "python-simpleeval",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-simpleeval",
+    "summary": "Single-expression evaluator for Python"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-danthedeckie-simpleeval",
+    "homepage": "https://github.com/danthedeckie/simpleeval",
+    "release_api": "https://api.github.com/repos/danthedeckie/simpleeval/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/danthedeckie/simpleeval",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.0.8",
+    "latest_detected": "1.0.8",
+    "release": "1"
+  }
+}

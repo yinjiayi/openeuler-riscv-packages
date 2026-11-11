@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libtext-reform-perl",
+  "rpm": {
+    "name": "perl-Text-Reform",
+    "summary": "Format text with configurable Perl field layouts",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libtext-reform-perl",
+    "homepage": "https://metacpan.org/dist/Text-Reform",
+    "source_repository": "https://metacpan.org/dist/Text-Reform",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CH/CHORNY/",
+    "release_regex": "Text-Reform-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CH/CHORNY/Text-Reform-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.20",
+    "release": "1",
+    "latest_detected": "1.20"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libtext-reform-perl",
+        "package_base": "libtext-reform-perl",
+        "source_version": "1.20-5",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libtext-reform-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtext-reform-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory exact key libtext-reform-perl; official CPAN latest stable 1.20 HTTPS archive SHA-256 a8792dd8c1aac97001032337b36a356be96e2d74c4f039ef9a363b641db4ae61 matches CHECKSUMS. Release README/module POD say same terms as Perl and Build.PL META license perl; no separate VCS URL is declared, so source_repository points to the canonical CPAN release page. Official RVA23 everything primary.xml.zst SHA-256 fdb1663ee6c803e8efcc83c19b7a1548f047f08abba8a52f5fe623b222064d1a lacks perl-Text-Reform and perl(Text::Reform), and provides Test::Pod. All three default tests retained; local Perl 5.34.1 ran 68 assertions including POD with no skips. Exact-head target CI must prove RPM build/install smoke; public publication unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}

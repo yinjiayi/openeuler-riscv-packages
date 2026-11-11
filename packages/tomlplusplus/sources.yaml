@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "tomlplusplus",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://api.github.com/repos/marzer/tomlplusplus/tarball/30172438cee64926dc41fdd9c11fb3ba5b2ba9de",
+      "filename": "tomlplusplus-3.4.0.tar.gz",
+      "version": "3.4.0",
+      "digests": {
+        "sha256": "8874014da21de8d1414d9914c8f3c6b5f315c23a75951b33df46048c13dda12f"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed official formalv3.4.0 commit301724;212 original raw members and complete original/supplemental grants retained. Explicit reversible Git CRLF attribute proof, not normalization. Lightweight unsigned tag/commit and no release assets offer no detached archive signature; fresh source identity still rechecked before submission."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "version": "2.0",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full unmodified official Apache2 legal text for own downstream packaging/QA and retained upstream Abseil snippet grant; not a compiled dependency."
+      }
+    }
+  ]
+}

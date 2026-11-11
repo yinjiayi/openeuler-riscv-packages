@@ -1,0 +1,12 @@
+{
+  "schema_version":1,"package_id":"librcnb",
+  "rpm":{"name":"librcnb","summary":"C and C++ library and command-line tools for RCNB encoding","license":"MIT"},
+  "upstream":{"component":"github.com-rcnbapp-librcnb","homepage":"https://github.com/rcnbapp/librcnb","source_repository":"https://github.com/rcnbapp/librcnb","release_channel":"stable","release_api":"https://api.github.com/repos/rcnbapp/librcnb/tags?per_page=100","release_regex":"^v([0-9]+[.][0-9]+[.][0-9]+)$","source_url_template":null},
+  "version":{"current":"1.0.0","release":"1","latest_detected":"1.0.0"},
+  "discovery":{"snapshot_id":"discovery-20260808T165000Z-9a89920c269462cd","lineage":[{"source":"aur","package_name":"librcnb","package_base":"librcnb","source_version":"1.0.0-1","evidence_url":"https://github.com/rcnbapp/librcnb","observed_at":"2026-08-08T16:50:00Z"}]},
+  "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+  "build":{"profile":"qemu-user","network_during_build":false,"timeout_minutes":60,"native_reason":null},
+  "files":{"spec":"librcnb.spec","sources":"sources.yaml","patches":[{"file":"patches/0001-consume-complete-decoder-quartet.patch","sha256":"0e07de2c4add444878ce278e97770720dbb06246f1a832861463101373c9461a","purpose":"Consume a complete buffered decoder quartet even at input end; retain incomplete trailing values. Portable source defect, not architecture-specific evidence.","source":"downstream inert state-trace review of official rcnbapp/librcnb v1.0.0 src/cdecode.c","license":"MIT","upstream_status":"not-submitted","remove_when":"A verified official release contains the equivalent decoder boundary fix and all original/default and byte/chunk tests pass."}],"smoke_test":"tests/smoke.sh"},
+  "maintenance":{"status":"active","maintainers":["yinjiayi"],"notes":"Official fixed v1.0.0 source and all21 originals verified; root MIT and literal public-domain notices retained. All default targets/original CLI vector preserved, one portable decoder patch. 706 downstream checks are not invented upstream tests; actual target execution remains CI gate."},
+  "updates":{"enabled":true,"last_checked_at":null,"last_successful_check_at":null,"release_provider":"official-github-tags"}
+}

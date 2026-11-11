@@ -252,5 +252,59 @@ class DashboardEvidenceTests(unittest.TestCase):
             self.assertEqual(json.loads(destination.read_text(encoding="utf-8"))["package_id"], "demo")
 
 
+    def test_failed_listing_preserves_only_validated_prefix_and_fails_closed(self) -> None:
+        module = runpy.run_path(str(COLLECTOR))
+        main = module["main"]
+        calls = []
+
+        def fake_page(endpoint: str) -> bytes:
+            calls.append(endpoint)
+            if endpoint.endswith("&page=1"):
+                return json.dumps({"artifacts": [{"id": index, "name": "package-ci-smoke-demo-100", "secret": "private"} for index in range(1, 26)]}).encode()
+            raise RuntimeError("private-token-and-transport-detail")
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            with mock.patch.dict(os.environ, {"GITHUB_REPOSITORY": "example/repository"}):
+                with mock.patch.dict(main.__globals__, {"github_artifact_page": fake_page, "gh": mock.Mock(side_effect=AssertionError("No partial artifact downloads"))}):
+                    with mock.patch.object(module["time"], "sleep") as sleep:
+                        with mock.patch("sys.argv", ["collector", "--output-dir", str(root / "output"), "--result", str(root / "result.json")]):
+                            self.assertEqual(main(), 1)
+            text = (root / "result.json").read_text()
+            result = json.loads(text)
+            self.assertFalse(result["listing_complete"])
+            self.assertEqual((result["status"], result["coverage_claim"]), ("incomplete", "none"))
+            self.assertEqual(result["failure"], {"stage": "artifact-listing", "reason": "page-retry-exhausted", "page": 2, "attempts": 6})
+            self.assertEqual((result["listing_page_count"], result["listing_retries"]), (1, 5))
+            self.assertEqual((result["listed_artifact_count"], len(calls), sleep.call_count), (25, 7, 5))
+            self.assertEqual([x["artifact_id"] for x in result["listed_prefix"]], list(range(1, 26)))
+            self.assertEqual(result["selected_artifact_count"], 0)
+            self.assertFalse((root / "output").exists())
+            self.assertNotIn("private", text)
+
+    def test_hard_listing_errors_are_not_converted_to_partial_success(self) -> None:
+        module = runpy.run_path(str(COLLECTOR))
+        main = module["main"]
+        for failure in (ValueError("HTTP 401"), ValueError("invalid shape"), ValueError("response bound")):
+            with tempfile.TemporaryDirectory() as temporary:
+                root = pathlib.Path(temporary)
+                with mock.patch.dict(os.environ, {"GITHUB_REPOSITORY": "example/repository"}):
+                    with mock.patch.dict(main.__globals__, {"list_artifacts": mock.Mock(side_effect=failure)}):
+                        with mock.patch("sys.argv", ["collector", "--output-dir", str(root / "output"), "--result", str(root / "result.json")]):
+                            with self.assertRaises(ValueError):
+                                main()
+                self.assertFalse((root / "result.json").exists())
+
+    def test_partial_listing_report_does_not_retain_arbitrary_fields(self) -> None:
+        module = runpy.run_path(str(COLLECTOR))
+        failure = module["ArtifactListingFailure"]([
+            {"id": 1, "name": "private-token", "url": "private-url", "secret": "private"},
+            {"id": 2, "name": "package-ci-smoke-" + "x" * 300 + "-100"},
+        ], 2, 5)
+        report = failure.report("example/repository")
+        self.assertEqual(report["listed_prefix"], [{"artifact_id": 1}, {"artifact_id": 2}])
+        self.assertNotIn("private", json.dumps(report))
+
+
 if __name__ == "__main__":
     unittest.main()

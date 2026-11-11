@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-regexp-ipv6",
+  "rpm": {
+    "name": "perl-Regexp-IPv6",
+    "summary": "Perl regular expression for IPv6 address syntax",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "perl-regexp-ipv6",
+    "homepage": "https://metacpan.org/dist/Regexp-IPv6",
+    "source_repository": "https://metacpan.org/dist/Regexp-IPv6",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/",
+    "release_regex": "Regexp-IPv6-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/Regexp-IPv6-{version}.tar.gz"
+  },
+  "version": {"current": "0.03", "release": "1", "latest_detected": "0.03"},
+  "discovery": {
+    "snapshot_id": "intake-20261106-regexp-ipv6-d542d17d",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "perl-regexp-ipv6",
+        "package_base": "perl-regexp-ipv6",
+        "source_version": "0.03-1",
+        "evidence_url": "https://aur.archlinux.org/packages/perl-regexp-ipv6",
+        "observed_at": "2026-11-06T02:13:00Z"
+      }
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "perl-regexp-ipv6.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Official authorized CPAN stable release, archive SHA-256 matches MetaCPAN and publisher CHECKSUMS; AUR is discovery lineage only, packaging not copied or executed. README and module grant Perl terms. Fresh official/supplemental state and repomd bind provider indexes with no RPM/module/path collision; all build/test dependencies are available. Original make test retains 198 assertions and the upstream-disabled extra maximal-match block unchanged. Host suite passed, target build/install are CI gates. Upstream explicitly excludes the unspecified :: address; not a universal IPv6 validator. Historical CHECKSUMS signature has VALIDSIG with current EXPKEYSIG and is advisory, not a detached archive signature."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}

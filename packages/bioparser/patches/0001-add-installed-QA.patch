@@ -1,0 +1,194 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Add separate installed-target QA and legal notices
+Upstream-Status: Inappropriate [distribution QA]
+SPDX-License-Identifier: MIT
+
+Only new downstream files; no original source, test, fixture or default changed.
+--- /dev/null
++++ b/downstream/CMakeLists.txt
+@@ -0,0 +1,26 @@
++# SPDX-License-Identifier: MIT
++# Copyright (c) 2026 yinjiayi
++cmake_minimum_required(VERSION 3.11)
++project(bioparser_installed_qa LANGUAGES CXX)
++set(CMAKE_CXX_STANDARD 11)
++set(CMAKE_CXX_STANDARD_REQUIRED ON)
++set(CMAKE_CXX_EXTENSIONS OFF)
++find_package(bioparser 3.1.0 REQUIRED CONFIG)
++find_package(GTest 1.10.0 REQUIRED)
++get_target_property(actual_includes bioparser::bioparser INTERFACE_INCLUDE_DIRECTORIES)
++if(NOT actual_includes STREQUAL EXPECTED_INCLUDE)
++  message(FATAL_ERROR "Wrong installed Bioparser include: ${actual_includes}")
++endif()
++if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/include/bioparser")
++  message(FATAL_ERROR "Source headers must not shadow the installed target")
++endif()
++set(BIOPARSER_TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/tests/data/")
++configure_file(tests/bioparser_test_config.h.in bioparser_test_config.h)
++add_executable(original_suite
++  tests/parser_test.cpp tests/fasta_parser_test.cpp tests/fastq_parser_test.cpp
++  tests/mhap_parser_test.cpp tests/paf_parser_test.cpp tests/sam_parser_test.cpp)
++target_include_directories(original_suite PRIVATE
++  "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/biosoup/include")
++target_link_libraries(original_suite PRIVATE bioparser::bioparser GTest::Main)
++add_executable(installed_consumer consumer.cpp)
++target_link_libraries(installed_consumer PRIVATE bioparser::bioparser)
+--- /dev/null
++++ b/downstream/UPSTREAM-NOTICES
+@@ -0,0 +1,80 @@
++UPSTREAM-NOTICES: complete fixed-source MIT grants and per-file copyright lines
++
++bioparser 3.1.0 commit 4fa7126293d2a0eb90125b58fb704f0eed33ffe0
++The MIT License (MIT)
++
++Copyright (c) 2016 Robert Vaser
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
++
++Per-file notices (original paths):
++LICENSE: Copyright (c) 2016 Robert Vaser
++LICENSE: The above copyright notice and this permission notice shall be included in all
++LICENSE: AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++include/bioparser/fasta_parser.hpp: // Copyright (c) 2020 Robert Vaser
++include/bioparser/fastq_parser.hpp: // Copyright (c) 2020 Robert Vaser
++include/bioparser/mhap_parser.hpp: // Copyright (c) 2020 Robert Vaser
++include/bioparser/paf_parser.hpp: // Copyright (c) 2020 Robert Vaser
++include/bioparser/parser.hpp: // Copyright (c) 2020 Robert Vaser
++include/bioparser/sam_parser.hpp: // Copyright (c) 2020 Robert Vaser
++test/bioparser_test_config.h.in: // Copyright (c) 2023 Robert Vaser
++test/fasta_parser_test.cpp: // Copyright (c) 2020 Robert Vaser
++test/fastq_parser_test.cpp: // Copyright (c) 2020 Robert Vaser
++test/mhap_parser_test.cpp: // Copyright (c) 2020 Robert Vaser
++test/paf_parser_test.cpp: // Copyright (c) 2020 Robert Vaser
++test/parser_test.cpp: // Copyright (c) 2020 Robert Vaser
++test/sam_parser_test.cpp: // Copyright (c) 2020 Robert Vaser
++
++biosoup 0.11.0 commit 3e31aa1d9039a2689241aebd18c45933b2d0f5e3
++MIT License
++
++Copyright (c) 2020 Robert Vaser
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
++
++Per-file notices (original paths):
++LICENSE: Copyright (c) 2020 Robert Vaser
++LICENSE: The above copyright notice and this permission notice shall be included in all
++LICENSE: AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++include/biosoup/nucleic_acid.hpp: // Copyright (c) 2020 Robert Vaser
++include/biosoup/overlap.hpp: // Copyright (c) 2020 Robert Vaser
++include/biosoup/progress_bar.hpp: // Copyright (c) 2020 Robert Vaser
++include/biosoup/sequence.hpp: // Copyright (c) 2020 Robert Vaser
++include/biosoup/timer.hpp: // Copyright (c) 2020 Robert Vaser
++test/nucleic_acid_test.cpp: // Copyright (c) 2020 Robert Vaser
++test/overlap_test.cpp: // Copyright (c) 2020 Robert Vaser
++test/progress_bar_test.cpp: // Copyright (c) 2020 Robert Vaser
++test/sequence_test.cpp: // Copyright (c) 2020 Robert Vaser
++test/timer_test.cpp: // Copyright (c) 2020 Robert Vaser
+--- /dev/null
++++ b/downstream/check-results.py
+@@ -0,0 +1,12 @@
++# SPDX-License-Identifier: MIT
++# Copyright (c) 2026 yinjiayi
++import sys
++import xml.etree.ElementTree as ET
++root = ET.parse(sys.argv[1]).getroot()
++cases = root.findall("./testsuite/testcase")
++assert root.tag == "testsuites" and root.attrib["tests"] == "35"
++assert len(cases) == 35 and len({(x.attrib["classname"], x.attrib["name"]) for x in cases}) == 35
++assert all(int(root.attrib.get(k, "0")) == 0 for k in ("failures", "errors", "disabled", "skipped"))
++assert all(x.attrib.get("status") == "run" and x.attrib.get("result") == "completed" for x in cases)
++assert all(x.find("failure") is None and x.find("skipped") is None for x in cases)
++print("All 35 original Bioparser cases completed without failures or skips")
+--- /dev/null
++++ b/downstream/consumer.cpp
+@@ -0,0 +1,25 @@
++// SPDX-License-Identifier: MIT
++// Copyright (c) 2026 yinjiayi
++#include <bioparser/fasta_parser.hpp>
++#include <cstdint>
++#include <string>
++#include <stdexcept>
++struct Sequence {
++  std::string name, data;
++  Sequence(const char* n, std::uint32_t nl, const char* d, std::uint32_t dl)
++      : name(n, nl), data(d, dl) {}
++};
++int main(int argc, char** argv) {
++  if (argc != 3) return 1;
++  for (int i = 1; i < argc; ++i) {
++    auto parser = bioparser::Parser<Sequence>::Create<bioparser::FastaParser>(argv[i]);
++    for (int round = 0; round != 2; ++round) {
++      auto records = parser->Parse(static_cast<std::uint64_t>(-1));
++      std::size_t names = 0, bases = 0;
++      for (const auto& r : records) { names += r->name.size(); bases += r->data.size(); }
++      if (records.size() != 14 || names != 65 || bases != 109117) return 2;
++      parser->Reset();
++    }
++  }
++  return 0;
++}
+--- /dev/null
++++ b/downstream/run-tests.sh
+@@ -0,0 +1,30 @@
++#!/bin/bash
++# SPDX-License-Identifier: MIT
++# Copyright (c) 2026 yinjiayi
++set -euo pipefail
++root=""
++case "${1:-}" in
++  --staged) test "$#" -eq 2; root="$2"; test -d "$root/usr/include/bioparser" ;;
++  "") test "$#" -eq 0; rpm -V bioparser bioparser-tests ;;
++  *) exit 2 ;;
++esac
++qa="$root/usr/share/bioparser/qa"
++test -f "$qa/SHA256SUMS"
++(cd "$qa" && sha256sum --check --strict SHA256SUMS)
++test "$(find "$qa/tests" -maxdepth 1 -name '*_test.cpp' -type f | wc -l)" -eq 6
++test "$(find "$qa/tests/data" -type f | wc -l)" -eq 10
++test "$(find "$qa/biosoup/include/biosoup" -type f | wc -l)" -eq 5
++unset CPATH CPLUS_INCLUDE_PATH C_INCLUDE_PATH LIBRARY_PATH LD_LIBRARY_PATH CMAKE_PREFIX_PATH CMAKE_MODULE_PATH
++while IFS='=' read -r key _; do
++  case "$key" in GTEST_*) unset "$key" ;; esac
++done < <(env)
++tmp=$(mktemp -d)
++trap 'rm -rf -- "$tmp"' EXIT
++cmake -S "$qa" -B "$tmp/build" \
++  -Dbioparser_DIR="$root/usr/lib64/cmake/bioparser" \
++  -DEXPECTED_INCLUDE="$root/usr/include" \
++  -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS="-UNDEBUG"
++cmake --build "$tmp/build" --parallel 2
++"$tmp/build/original_suite" --gtest_filter='*' --gtest_output="xml:$tmp/results.xml"
++python3 "$qa/check-results.py" "$tmp/results.xml"
++"$tmp/build/installed_consumer" "$qa/tests/data/sample.fasta" "$qa/tests/data/sample.fasta.gz"

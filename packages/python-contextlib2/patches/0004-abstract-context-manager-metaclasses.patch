@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: Apache-2.0
+# Downstream declaration-only fix for Contextlib2 21.6.0.
+# Match the existing runtime abc.ABC abstract metaclasses; retain every default.
+--- a/contextlib2/__init__.pyi
++++ b/contextlib2/__init__.pyi
+@@ -1,6 +1,7 @@
+ # Type hints copied from the typeshed project under the Apache License 2.0
+ # https://github.com/python/typeshed/blob/64c85cdd449ccaff90b546676220c9ecfa6e697f/LICENSE
+
++import abc
+ import sys
+ from types import TracebackType
+ if sys.version_info >= (3, 9):
+@@ -33 +34 @@
+-class AbstractContextManager(ContextManager[_T_co]):
++class AbstractContextManager(ContextManager[_T_co], metaclass=abc.ABCMeta):
+@@ -38 +39 @@
+-class AbstractAsyncContextManager(AsyncContextManager[_T_co]):
++class AbstractAsyncContextManager(AsyncContextManager[_T_co], metaclass=abc.ABCMeta):

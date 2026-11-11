@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "libsha1",
+  "rpm": {"name": "libsha1", "summary": "Bit-oriented SHA-1 and SHA-0 hashing library", "license": "ISC"},
+  "upstream": {"component": "codeberg.org-maandree-libsha1", "homepage": "https://codeberg.org/maandree/libsha1", "source_repository": "https://codeberg.org/maandree/libsha1.git", "release_channel": "stable", "release_api": "https://codeberg.org/maandree/libsha1/tags", "release_regex": "/archive/(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz", "source_url_template": "https://codeberg.org/maandree/libsha1/archive/{version}.tar.gz"},
+  "version": {"current": "1.1.6", "release": "1", "latest_detected": "1.1.6"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "aur", "package_name": "libsha1", "package_base": "libsha1", "source_version": "1.1.6-1", "evidence_url": "https://aur.archlinux.org/packages/libsha1", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libsha1.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official fixed 1.1.6 source and ISC notices retained. Use upstream-provided portable C configuration for RISC-V, not x86 intrinsics. Preserve default all and complete make check without skip-huge; stage/installed shared/static replays also retain all four huge cases. Relocate upstream hardcoded /usr/lib install tree to target lib64 without source patches. No timing/security/native claims or local source/RPM/QEMU run."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}

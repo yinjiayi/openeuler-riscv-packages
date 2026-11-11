@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0
-"""Derive an evidence-preserving rpmbuild deadline from package policy."""
+"""Derive an evidence-preserving build or install deadline from package policy."""
 
 from __future__ import annotations
 
@@ -89,12 +89,14 @@ def main() -> int:
     start.add_argument("--output", required=True)
     start.add_argument("--github-output", required=True)
     start.add_argument("--now-epoch")
+    start.add_argument("--phase", choices=("rpmbuild", "rpm-install-smoke"), default="rpmbuild")
 
     remaining = subparsers.add_parser("remaining")
     remaining.add_argument("--deadline-epoch", required=True)
     remaining.add_argument("--output", required=True)
     remaining.add_argument("--failure-output")
     remaining.add_argument("--now-epoch")
+    remaining.add_argument("--phase", choices=("rpmbuild", "rpm-install-smoke"), default="rpmbuild")
 
     args = parser.parse_args()
     try:
@@ -109,6 +111,7 @@ def main() -> int:
                 parse_positive_integer("reserve seconds", args.reserve_seconds),
                 now_epoch,
             )
+            document["phase"] = args.phase + "-timeout-budget"
             write_json(args.output, document)
             with open(args.github_output, "a", encoding="utf-8") as handle:
                 handle.write(f"deadline_epoch={document['deadline_epoch']}\n")
@@ -118,6 +121,9 @@ def main() -> int:
             parse_positive_integer("deadline epoch", args.deadline_epoch),
             now_epoch,
         )
+        document["phase"] = args.phase + "-timeout-budget"
+        if status != 0:
+            document["message"] = f"The validated package job budget expired before {args.phase} began."
         write_json(args.output, document)
         if status != 0:
             if args.failure_output:

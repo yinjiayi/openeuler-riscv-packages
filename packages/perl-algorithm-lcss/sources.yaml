@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-algorithm-lcss",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Algorithm-LCSS-0.01.tar.gz",
+      "version": "0.01",
+      "url": "https://cpan.metacpan.org/authors/id/J/JF/JFREEMAN/Algorithm-LCSS-0.01.tar.gz",
+      "digests": {"sha256": "717cefcc7842a171ab5576f22eb72e566edf061ceaf87dccbe7f2081f5601f78"},
+      "signature": {
+        "url": "https://cpan.metacpan.org/authors/id/J/JF/JFREEMAN/CHECKSUMS",
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream README grants redistribution and modification under the same terms as Perl itself. Official HTTPS archive SHA-256 matches publisher CHECKSUMS and MetaCPAN. The historical signature covers CHECKSUMS, not a detached archive signature; its current expired-key status is advisory, never a replacement for the pinned archive SHA-256."
+      }
+    }
+  ]
+}

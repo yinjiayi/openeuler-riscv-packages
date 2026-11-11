@@ -31,7 +31,7 @@ def main() -> int:
     if build_user not in {"root", "unprivileged"}:
         raise SystemExit("unknown build.user")
     timeout = build.get("timeout_minutes")
-    if not isinstance(timeout, int) or not 5 <= timeout <= 360:
+    if type(timeout) is not int or not 5 <= timeout <= 360:
         raise SystemExit("invalid build.timeout_minutes")
     result = {
         "schema_version": 1,
@@ -41,6 +41,9 @@ def main() -> int:
         "needs_native": profile == "needs-native-riscv",
         "native_reason": build.get("native_reason"),
         "timeout_minutes": timeout,
+        # Keep the existing 70-minute install floor for short packages. Longer
+        # full upstream suites use the same bounded, schema-validated policy.
+        "install_timeout_minutes": max(70, timeout),
     }
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -49,6 +52,7 @@ def main() -> int:
         with open(args.github_output, "a", encoding="utf-8") as handle:
             handle.write(f"needs_native={'true' if result['needs_native'] else 'false'}\n")
             handle.write(f"timeout_minutes={timeout}\n")
+            handle.write(f"install_timeout_minutes={result['install_timeout_minutes']}\n")
             handle.write(f"build_user={build_user}\n")
     return 0
 

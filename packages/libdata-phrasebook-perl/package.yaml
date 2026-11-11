@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libdata-phrasebook-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdata-phrasebook-perl",
+        "package_name": "libdata-phrasebook-perl",
+        "source": "ubuntu",
+        "source_version": "0.35-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdata-phrasebook-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release archive pinned by SHA-256; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libdata-phrasebook-perl",
+  "rpm": {
+    "license": "Artistic-2.0",
+    "name": "perl-Data-Phrasebook",
+    "summary": "Access data using the phrasebook design pattern"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libdata-phrasebook-perl",
+    "homepage": "https://metacpan.org/release/Data-Phrasebook",
+    "release_api": "https://cpan.metacpan.org/authors/id/B/BA/BARBIE/",
+    "release_channel": "stable",
+    "release_regex": "Data-Phrasebook-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/B/BA/BARBIE/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/B/BA/BARBIE/Data-Phrasebook-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.35",
+    "latest_detected": "0.35",
+    "release": "1"
+  }
+}

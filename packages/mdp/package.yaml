@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "package_id": "mdp",
+  "rpm": {"name": "mdp", "summary": "Markdown presentations in a terminal", "license": "GPL-3.0-or-later"},
+  "version": {"current": "1.0.19", "latest_detected": "1.0.19", "release": "1"},
+  "upstream": {
+    "component": "github.com/visit1985/mdp", "homepage": "https://github.com/visit1985/mdp",
+    "source_repository": "https://github.com/visit1985/mdp", "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/visit1985/mdp/tags",
+    "release_regex": "^(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://github.com/visit1985/mdp/archive/refs/tags/{version}.tar.gz"
+  },
+  "discovery": {"snapshot_id": "intake156-mdp-20261021", "lineage": [{"source": "arch-extra", "package_name": "mdp", "package_base": "mdp", "source_version": "1.0.19-1", "evidence_url": "https://archlinux.org/packages/extra/x86_64/mdp/", "observed_at": "2026-10-21T11:51:34.939582Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "files": {"spec": "mdp.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "build": {"profile": "qemu-user", "native_reason": null, "network_during_build": false, "timeout_minutes": 120},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Official Arch extra stable1.0.19-1 delegates visit1985/mdp. Exact lightweight tag1.0.19 binds commit1bd179043ca4f21705ebe89e57c1c5b80101e7d7 and all33 original regular archive members. Core C/header, Makefile and version output explicitly permit GPL3 or later, unlike Arch's GPL3-only metadata. Preserve default all/seven objects/ncursesw, original install binary/manual and both full unmodified Python PTY suites including resize timings. Override only packaging compiler/link flags, not features; RPM link flags avoid upstream default strip. Complete source and notices are retained. No local source/authored QA/target execution."},
+  "updates": {"enabled": true, "release_provider": "github-tags", "last_checked_at": null, "last_successful_check_at": null}
+}

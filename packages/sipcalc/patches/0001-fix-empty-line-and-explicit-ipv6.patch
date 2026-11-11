@@ -1,0 +1,35 @@
+From: openEuler RISC-V package maintainers
+Subject: [PATCH] sipcalc: bound stdin copies, check empty lines and validate explicit IPv6 argument
+SPDX-License-Identifier: BSD-3-Clause
+Source: https://www.routemeister.net/projects/sipcalc/files/sipcalc-1.1.6.tar.gz
+Source-SHA256: cfd476c667f7a119e49eb5fe8adcfb9d2339bc2e0d4d01a1d64b7c229be56357
+Applies-to: sipcalc 1.1.6, src/sub.c
+Upstream-Status: Not submitted
+Root-cause: cleanline evaluated sbuf[-1] before its lower-bound test after
+an empty/comment-only line. The -6 path validated an uninitialized local
+expaddr instead of its actual getopt optarg. These are static source
+findings, not measured target failures or a security/CVE claim.
+Additional root-cause: get_stdin allocated only19 octets and could copy19
+without a terminator, including the retained valid IPv6 stdin fixture. Use
+the existing128-byte input bound and reserve one NUL octet.
+Scope: Four expressions in three correction groups only; original interface/DNS behavior, parsing
+features, output format and default build/check/install targets remain.
+Rights: Derived source follows Simon Ekstrand's complete BSD-3-Clause
+notice retained in original source and COPYING. Packaging modifications
+are plainly identified here; no upstream source or notice is removed.
+Removal: Drop when an upstream release includes all three correction groups.
+
+--- a/src/sub.c
++++ b/src/sub.c
+@@ -156 +156 @@
+-	while (sbuf[x] == ' ' && x > -1) {
++	while (x > -1 && sbuf[x] == ' ') {
+@@ -199 +199 @@
+-	argmax = (IFNAMSIZ + 1 > 19) ? IFNAMSIZ + 1 : 19;
++	argmax = sizeof (sbuf);
+@@ -249 +249 @@
+-	while (y < strlen (dbuf) && y < argmax && dbuf[y] != ' ') {
++	while (y < strlen (dbuf) && y < argmax - 1 && dbuf[y] != ' ') {
+@@ -838 +838 @@
+-			if (validate_v6addr (expaddr) == 1)
++			if (validate_v6addr (optarg) == 1)

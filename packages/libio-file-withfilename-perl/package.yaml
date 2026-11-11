@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libio-file-withfilename-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libio-file-withfilename-perl",
+        "package_name": "libio-file-withfilename-perl",
+        "source": "ubuntu",
+        "source_version": "0.01-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libio-file-withfilename-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release archive pinned by SHA-256; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libio-file-withfilename-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-IO-File-WithFilename",
+    "summary": "IO::File handle retaining its filename"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libio-file-withfilename-perl",
+    "homepage": "https://metacpan.org/release/IO-File-WithFilename",
+    "release_api": "https://cpan.metacpan.org/authors/id/I/IF/IFOMICHEV/",
+    "release_channel": "stable",
+    "release_regex": "IO-File-WithFilename-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/I/IF/IFOMICHEV/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/I/IF/IFOMICHEV/IO-File-WithFilename-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.01",
+    "latest_detected": "0.01",
+    "release": "1"
+  }
+}

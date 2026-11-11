@@ -1,0 +1,12 @@
+{
+ "schema_version":1,"package_id":"libnewuoa",
+ "rpm":{"name":"libnewuoa","summary":"C++ NEWUOA derivative-free minimizer with a C interface","license":"MIT"},
+ "upstream":{"component":"github.com-elsid-newuoa-cpp","homepage":"https://github.com/elsid/newuoa-cpp","source_repository":"https://github.com/elsid/newuoa-cpp","release_channel":"stable","release_api":"https://api.github.com/repos/elsid/newuoa-cpp/tags","release_regex":"^v([0-9]+\\.[0-9]+\\.[0-9]+)$","source_url_template":"https://codeload.github.com/elsid/newuoa-cpp/tar.gz/v{version}"},
+ "version":{"current":"0.1.2","latest_detected":"0.1.2","release":"1"},
+ "discovery":{"snapshot_id":"discovery-20260808T165000Z-9a89920c269462cd","lineage":[{"source":"aur","package_name":"libnewuoa","package_base":"libnewuoa","source_version":"0.1.2","evidence_url":"https://aur.archlinux.org/packages/libnewuoa","observed_at":"2026-08-08T16:50:00Z"}]},
+ "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+ "build":{"profile":"qemu-user","network_during_build":false,"timeout_minutes":60,"native_reason":null},
+ "files":{"spec":"libnewuoa.spec","sources":"sources.yaml","patches":[],"smoke_test":"tests/smoke.sh"},
+ "maintenance":{"status":"active","maintainers":["yinjiayi"],"notes":"Official v0.1.2, all9 Git files verified, default static C++11 library and both original examples retained. No registered upstream tests; downstream three-API numerical fixtures and CMake/pkg-config consumers are explicitly additional checks. MIT LICENSE and complete original source with Powell/AttractiveChaos notices installed. Catalog license-blocked triage is superseded by actual full official legal bytes, not inferred grants. No patch, local upstream/RPM/QEMU execution or target success claim. Hosted build/install and independent physical products remain required."},
+ "updates":{"enabled":true,"last_checked_at":null,"last_successful_check_at":null,"release_provider":"official-github-tags"}
+}

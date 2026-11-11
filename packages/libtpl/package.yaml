@@ -1,0 +1,79 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://troydhanson.github.io/tpl/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtpl",
+        "package_name": "libtpl",
+        "source": "debian",
+        "source_version": "1.6.1-1.1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-free-output-buffer-after-fd-rollback.patch",
+        "license": "BSD-1-Clause",
+        "purpose": "Keep tpl_dump TPL_FD output buffer live until fatal-write fstat/ftruncate rollback completes; preserve retry and return behavior.",
+        "remove_when": "Official stable source retains the output buffer until after rollback.",
+        "sha256": "866b50e2b351b89b6bb279dfcb6259dc409a57da7c6dcfd93b1dc32dce229677",
+        "source": "Locally authored minimal move-free ordering fix against official v1.6.1 src/tpl.c SHA256 0a17be1d7fc9521f4622346f606213d7358672f61c56334c8f8cf1e551ba71bd. No upstream write.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtpl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v1.6.1 tag commit and all 399 source blobs verified; BSD1 core and embedded GPL documentation retained. Original defaults and unchanged 125-compiled/124-answer-compared suite retained; six additional API cases and installed dynamic bindings await target CI. No distribution packaging code reused. Downstream minimal TPL_FD lifetime-order fix preserves original399 notices before autopatch; mandatory target PESTF real partial-write/EIO rollback and exact original-source exit97 negative control. This is not an observed upstream QA failure, exploit or native-hardware claim; new-head CI and physical evidence remain required.",
+    "status": "active"
+  },
+  "package_id": "libtpl",
+  "rpm": {
+    "license": "BSD-1-Clause AND GPL-2.0-or-later AND ISC",
+    "name": "libtpl",
+    "summary": "Lightweight C serialization library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "troydhanson.github.io-tpl",
+    "homepage": "https://troydhanson.github.io/tpl/",
+    "release_api": "https://api.github.com/repos/troydhanson/tpl/releases",
+    "release_channel": "stable",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/troydhanson/tpl",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.6.1",
+    "latest_detected": "1.6.1",
+    "release": "1"
+  }
+}

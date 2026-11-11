@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "package_id": "python-retry",
+  "rpm": {
+    "name": "python-retry",
+    "summary": "Easy to use retry decorator and retry-call helper",
+    "license": "Apache-2.0"
+  },
+  "version": {
+    "current": "0.9.5",
+    "latest_detected": "0.9.5",
+    "release": "1"
+  },
+  "upstream": {
+    "component": "github.com-esamtrade-retry",
+    "homepage": "https://github.com/eSAMTrade/retry",
+    "source_repository": "https://github.com/eSAMTrade/retry",
+    "release_api": "https://api.github.com/repos/eSAMTrade/retry/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "python-retry",
+        "package_base": "python-retry",
+        "source_version": "0.9.5-1",
+        "evidence_url": "https://aur.archlinux.org/rpc/v5/info?arg%5B%5D=python-retry",
+        "observed_at": "2026-10-12T20:41:35.811421+00:00"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "files": {
+    "spec": "python-retry.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "network_during_build": false,
+    "native_reason": null
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Full16 immutable upstream Git originals and Apache notice/AUTHORS/full text retained. Exact original shared py.test command/all11 tests on target3.11; legacy matrix, separate flake8 Python3.4 and external uploads retained/unclaimed. Distribution retry2/module retry; distinct invl fork excluded. Target CI unverified."
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "official-github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  }
+}

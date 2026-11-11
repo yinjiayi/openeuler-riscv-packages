@@ -1,0 +1,12 @@
+{
+ "schema_version":1,"package_id":"libhpptools",
+ "rpm":{"name":"libhpptools","summary":"C++ header-only utilities and compression stream wrappers","license":"MIT AND BSL-1.0 AND LicenseRef-Public-Domain"},
+ "upstream":{"component":"github.com-mateidavid-hpptools","homepage":"https://github.com/mateidavid/hpptools","source_repository":"https://github.com/mateidavid/hpptools","release_channel":"stable","release_api":"https://api.github.com/repos/mateidavid/hpptools/tags","release_regex":"^v([0-9]+\\.[0-9]+\\.[0-9]+)$","source_url_template":"https://codeload.github.com/mateidavid/hpptools/tar.gz/v{version}"},
+ "version":{"current":"1.1.3","latest_detected":"1.1.3","release":"1"},
+ "discovery":{"snapshot_id":"discovery-20260808T165000Z-9a89920c269462cd","lineage":[{"source":"aur","package_name":"libhpptools","package_base":"libhpptools","source_version":"1.1.3","evidence_url":"https://aur.archlinux.org/packages/libhpptools","observed_at":"2026-08-08T16:50:00Z"}]},
+ "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+ "build":{"profile":"qemu-user","network_during_build":false,"timeout_minutes":60,"native_reason":null},
+ "files":{"spec":"libhpptools.spec","sources":"sources.yaml","patches":[],"smoke_test":"tests/smoke.sh"},
+ "maintenance":{"status":"active","maintainers":["yinjiayi"],"notes":"Official v1.1.3 fixed archive, all32 original Git files verified. Ten headers installed only under include/hpptools to avoid generic header collisions. Root MIT, bundled Catch BSL-1.0 and original logsum.hpp public-domain permission/modification notice preserved; full official Boost license companion included. Both original test makefiles and all commands retained. Nine Catch cases and 26 original compression pipelines replayed against staged/installed headers with source hashes and assertions. test-strict_fstream is built as the original all target, not misrepresented as an assertion suite. No installed ELF; target compilation/install and physical noarch RPM/SRPM acceptance required. No local target execution, native, concurrency, performance or security claim."},
+ "updates":{"enabled":true,"last_checked_at":null,"last_successful_check_at":null,"release_provider":"official-github-tags"}
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Full-payload verified public RPM repository dashboard snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "started_at", "generated_at", "repository", "main_sha", "generation", "state_url", "state_sha256", "generation_state_url", "published_at", "repositories", "verified_repomd_sha256", "metadata", "coverage", "trust", "verified_artifacts", "packages"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "dashboard-published-state"},
+    "started_at": {"type": "string", "format": "date-time"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "repository": {"const": "yinjiayi/openeuler-riscv-packages"},
+    "main_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "generation": {"type": "string", "pattern": "^(bootstrap-[0-9]{8}T[0-9]{6}Z|[a-z0-9]+(-[a-z0-9]+)*-[0-9a-f]{40}-[1-9][0-9]{0,19}-[1-9][0-9]{0,9})$"},
+    "state_url": {"const": "http://2.27.148.101:38080/state.json"},
+    "state_sha256": {"$ref": "#/$defs/sha256"},
+    "generation_state_url": {"type": "string", "pattern": "^http://2\\.27\\.148\\.101:38080/generations/[^/]+/state\\.json$"},
+    "published_at": {"type": "string", "format": "date-time"},
+    "repositories": {"type": "object", "additionalProperties": false, "required": ["riscv64", "source"], "properties": {"riscv64": {"$ref": "#/$defs/repository"}, "source": {"$ref": "#/$defs/repository"}}},
+    "verified_repomd_sha256": {"type": "object", "additionalProperties": false, "required": ["riscv64", "source"], "properties": {"riscv64": {"$ref": "#/$defs/sha256"}, "source": {"$ref": "#/$defs/sha256"}}},
+    "metadata": {"type": "object", "additionalProperties": false, "required": ["riscv64", "source"], "properties": {"riscv64": {"$ref": "#/$defs/metadata"}, "source": {"$ref": "#/$defs/metadata"}}},
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "source_packages", "matched_packages", "verified_packages", "rpm_files", "srpm_files", "verified_files", "verified_bytes", "gaps"],
+      "properties": {
+        "status": {"enum": ["complete", "partial"]},
+        "source_packages": {"$ref": "#/$defs/count"}, "matched_packages": {"$ref": "#/$defs/count"}, "verified_packages": {"$ref": "#/$defs/count"},
+        "rpm_files": {"$ref": "#/$defs/count"}, "srpm_files": {"$ref": "#/$defs/count"}, "verified_files": {"$ref": "#/$defs/count"}, "verified_bytes": {"$ref": "#/$defs/count"},
+        "gaps": {"type": "array", "items": {"type": "object", "required": ["reason"], "properties": {"reason": {"type": "string", "minLength": 1}}}}
+      }
+    },
+    "trust": {"type": "object", "additionalProperties": false, "required": ["transport", "unsigned_rpms", "scope"], "properties": {"transport": {"const": "operator-provided HTTP endpoint"}, "unsigned_rpms": {"const": true}, "scope": {"type": "string", "minLength": 1}}},
+    "verified_artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact"}},
+    "packages": {"type": "array", "items": {
+      "type": "object", "additionalProperties": false, "required": ["package_id", "rpm_name", "versions"],
+      "properties": {"package_id": {"type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"}, "rpm_name": {"type": "string", "minLength": 1}, "versions": {"type": "array", "minItems": 1, "items": {
+        "type": "object", "additionalProperties": false, "required": ["epoch", "version", "release", "source", "binaries"],
+        "properties": {"epoch": {"type": "string", "pattern": "^[0-9]+$"}, "version": {"type": "string", "minLength": 1}, "release": {"type": "string", "minLength": 1}, "source": {"$ref": "#/$defs/artifact"}, "binaries": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/artifact"}}}
+      }}}
+    }}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "count": {"type": "integer", "minimum": 0},
+    "repository": {"type": "object", "additionalProperties": false, "required": ["baseurl", "repomd_sha256", "rpm_count"], "properties": {"baseurl": {"type": "string", "pattern": "^http://2\\.27\\.148\\.101:38080/generations/[^/]+/(riscv64|source)/$"}, "repomd_sha256": {"$ref": "#/$defs/sha256"}, "rpm_count": {"$ref": "#/$defs/count"}}},
+    "metadata": {"type": "object", "additionalProperties": false, "required": ["repomd_url", "repomd_sha256", "primary_url", "primary_sha256", "primary_open_sha256", "primary_size", "primary_open_size", "package_count"], "properties": {"repomd_url": {"type": "string", "format": "uri"}, "repomd_sha256": {"$ref": "#/$defs/sha256"}, "primary_url": {"type": "string", "format": "uri"}, "primary_sha256": {"$ref": "#/$defs/sha256"}, "primary_open_sha256": {"$ref": "#/$defs/sha256"}, "primary_size": {"$ref": "#/$defs/count"}, "primary_open_size": {"$ref": "#/$defs/count"}, "package_count": {"$ref": "#/$defs/count"}}},
+    "artifact": {
+      "type": "object", "additionalProperties": false, "required": ["filename", "url", "sha256", "size", "arch", "verified_at"],
+      "properties": {"filename": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9+_.~%-]*\\.rpm$"}, "url": {"type": "string", "pattern": "^http://2\\.27\\.148\\.101:38080/generations/[^/]+/(riscv64|source)/Packages/[A-Za-z0-9][A-Za-z0-9+_.~%-]*\\.rpm$"}, "sha256": {"$ref": "#/$defs/sha256"}, "size": {"type": "integer", "minimum": 1, "maximum": 536870912}, "arch": {"enum": ["riscv64", "noarch", "src", "nosrc"]}, "verified_at": {"type": "string", "format": "date-time"}}
+    }
+  }
+}

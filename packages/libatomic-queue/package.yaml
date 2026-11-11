@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libatomic-queue",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libatomic-queue",
+        "package_name": "libatomic-queue",
+        "source": "debian",
+        "source_version": "1.6.5-2"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libatomic-queue",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libatomic-queue",
+        "package_name": "libatomic-queue",
+        "source": "ubuntu",
+        "source_version": "1.7.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libatomic-queue.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable v1.9.4 exact commit/archive and all 51 Git blobs verified; complete MIT license reviewed. Upstream Meson default tests=true and both original Boost.Test and example retained without source changes. Header-only noarch payload; architecture-specific compilation and complete installed-header replay occur only in locked target CI. Optional performance benchmarks remain upstream-default false; no latency/performance/native validation claim. Catalog missing-license/upstream triage resolved by current official source review.",
+    "status": "active"
+  },
+  "package_id": "libatomic-queue",
+  "rpm": {
+    "license": "MIT",
+    "name": "libatomic-queue",
+    "summary": "Header-only C++14 concurrent queues"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github"
+  },
+  "upstream": {
+    "component": "github.com-max0x7ba-atomic_queue",
+    "homepage": "https://github.com/max0x7ba/atomic_queue",
+    "release_api": "https://api.github.com/repos/max0x7ba/atomic_queue/releases",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/max0x7ba/atomic_queue",
+    "source_url_template": "https://codeload.github.com/max0x7ba/atomic_queue/tar.gz/v{version}"
+  },
+  "version": {
+    "current": "1.9.4",
+    "latest_detected": "1.9.4",
+    "release": "1"
+  }
+}

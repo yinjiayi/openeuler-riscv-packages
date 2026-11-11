@@ -1,0 +1,103 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/keenerd/jshon",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jshon",
+        "package_name": "jshon",
+        "source": "arch-extra",
+        "source_version": "20131105-6"
+      },
+      {
+        "evidence_url": "https://github.com/keenerd/jshon",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jshon",
+        "package_name": "jshon",
+        "source": "debian",
+        "source_version": "20180209.d919aea-1"
+      },
+      {
+        "evidence_url": "https://github.com/keenerd/jshon",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jshon",
+        "package_name": "jshon",
+        "source": "opensuse-tumbleweed",
+        "source_version": "20131105-2.27"
+      },
+      {
+        "evidence_url": "https://github.com/keenerd/jshon",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "jshon",
+        "package_name": "jshon",
+        "source": "ubuntu",
+        "source_version": "20180209.d919aea-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-terminate-and-check-input.patch",
+        "license": "MIT",
+        "purpose": "Initialize empty streams, terminate file buffers and reject failed reads/empty JSONP without changing valid-input parser defaults.",
+        "remove_when": "A stable release supplies equivalent guards and the same retained input regressions pass.",
+        "sha256": "adda36bbd19177b9a61fc05550ca3b851ef7b6a060c24987f06b5e1fafd9276d",
+        "source": "File guards backported from official d919aeaece37962251dbe6c1ee50f0028a5c90e4; empty guards locally authored, no upstream write.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "jshon.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable 20131105, six original members reviewed. MIT notices retained, original -std=c99 -Wall -pedantic -Wextra -Werror defaults preserved. Upstream declares no test target. Separate downstream command/input regression checks run staged and installed; no native, exhaustive parser, memory-safety, security or performance certification.",
+    "status": "active"
+  },
+  "package_id": "jshon",
+  "rpm": {
+    "license": "MIT",
+    "name": "jshon",
+    "summary": "JSON parser and manipulator for shell pipelines"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-keenerd-jshon",
+    "homepage": "https://github.com/keenerd/jshon",
+    "release_api": "https://api.github.com/repos/keenerd/jshon/tags",
+    "release_channel": "stable",
+    "release_regex": "(?P<version>[0-9]{8})",
+    "source_repository": "https://github.com/keenerd/jshon",
+    "source_url_template": "https://codeload.github.com/keenerd/jshon/tar.gz/refs/tags/{version}"
+  },
+  "version": {
+    "current": "20131105",
+    "latest_detected": "20131105",
+    "release": "1"
+  }
+}

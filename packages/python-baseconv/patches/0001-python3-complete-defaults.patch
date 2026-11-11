@@ -1,0 +1,55 @@
+# SPDX-License-Identifier: PSF-2.0
+Subject: [PATCH] Preserve complete defaults on Python 3 and fail on doctest errors
+Author: openEuler RISC-V Maintainers <noreply@example.invalid>
+Upstream-Status: Not submitted; upstream writes are not authorized
+Source: https://github.com/semente/python-baseconv/tree/505b5fd7b11855182e760704fec5461974033644
+Reason: Python 2 L suffix cannot be parsed by target Python 3.11; original
+doctest return was ignored. Preserve all 20 examples and 1414 assertions,
+report their actual completion, and return nonzero for any doctest failure.
+PSF derivative summary: remove obsolete integer suffix without changing its
+value, report original test counts, and propagate original doctest failures.
+Removal: replace only when a verified upstream release fixes both issues and
+retains the complete original test contract under target Python 3.11.
+
+--- a/baseconv.py
++++ b/baseconv.py
+@@ -25,7 +25,7 @@
+   '10011010010'
+   >>> base2.decode('10011010010')
+   '1234'
+-  >>> base64.encode(100000000000000000000000000000000000L)
++  >>> base64.encode(100000000000000000000000000000000000)
+   '4q9XSiTDWYk7Z-W00000'
+   >>> base64.decode('4q9XSiTDWYk7Z-W00000')
+   '100000000000000000000000000000000000'
+@@ -157,10 +157,18 @@
+ if __name__ == '__main__':
+     # doctests
+     import doctest
+-    doctest.testmod()
++    doctest_result = doctest.testmod()
+ 
+     # other tests
+     nums = [-10 ** 10, 10 ** 10] + list(range(-100, 100))
++    roundtrip_assertions = 0
+     for converter in [base2, base16, base36, base56, base58, base62, base64]:
+         for i in nums:
+             assert i == int(converter.decode(converter.encode(i))), '%s failed' % i
++            roundtrip_assertions += 1
++
++    print('BASECONV_DOCTEST_RESULT attempted=%d failed=%d' %
++          (doctest_result.attempted, doctest_result.failed))
++    print('BASECONV_ROUNDTRIP_ASSERTIONS=%d' % roundtrip_assertions)
++    if doctest_result.failed:
++        raise SystemExit(1)
+--- a/README.rst
++++ b/README.rst
+@@ -45,7 +45,7 @@
+   '10011010010'
+   >>> base2.decode('10011010010')
+   '1234'
+-  >>> base64.encode(100000000000000000000000000000000000L)
++  >>> base64.encode(100000000000000000000000000000000000)
+   '4q9XSiTDWYk7Z-W00000'
+   >>> base64.decode('4q9XSiTDWYk7Z-W00000')
+   '100000000000000000000000000000000000'

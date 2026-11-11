@@ -1,0 +1,39 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Respect shared-array flags and use actual array metadata
+
+SPDX-License-Identifier: MIT
+The public shared_arr/shared_ptr(array) APIs combine SHARED with ARRAY. Test
+the flag, not equality. get_smart_ptr_meta already accounts for the shared
+header size; do not read array metadata from the ref_count field. Preserve
+the original array-destructor argument (the array metadata header), with
+the caller's extra metadata immediately after that header.
+The original five test C files and all twelve Check cases stay unchanged.
+--- a/src/mman.c
++++ b/src/mman.c
+@@ -85,7 +85,7 @@
+ void *sref(void *ptr) {
+     s_meta *meta = get_meta(ptr);
+     assert(meta->ptr == ptr);
+-    assert(meta->kind == SHARED);
++    assert(meta->kind & SHARED);
+     atomic_increment(&((s_meta_shared *) meta)->ref_count);
+     return ptr;
+ }
+@@ -104,7 +104,7 @@
+     if (meta->dtor) {
+         void *user_meta = get_smart_ptr_meta(ptr);
+         if (meta->kind & ARRAY) {
+-            s_meta_array *arr_meta = (void *) (meta + 1);
++            s_meta_array *arr_meta = user_meta;
+             for (size_t i = 0; i < arr_meta->nmemb; ++i)
+                 meta->dtor((char *) ptr + arr_meta->size * i, user_meta);
+         } else
+@@ -187,7 +187,7 @@
+     s_meta *meta = get_meta(ptr);
+     assert(meta->ptr == ptr);
+ 
+-    if (meta->kind == SHARED && atomic_decrement(&((s_meta_shared *) meta)->ref_count))
++    if ((meta->kind & SHARED) && atomic_decrement(&((s_meta_shared *) meta)->ref_count))
+         return;
+ 
+     dealloc_entry(meta, ptr);

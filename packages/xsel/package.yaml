@@ -1,0 +1,111 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://vergenet.net/~conrad/software/xsel/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xsel",
+        "package_name": "xsel",
+        "source": "arch-extra",
+        "source_version": "1.2.1-2"
+      },
+      {
+        "evidence_url": "https://vergenet.net/~conrad/software/xsel/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xsel",
+        "package_name": "xsel",
+        "source": "debian",
+        "source_version": "1.2.1-1"
+      },
+      {
+        "evidence_url": "https://vergenet.net/~conrad/software/xsel/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xsel",
+        "package_name": "xsel",
+        "source": "fedora",
+        "source_version": "1.2.1-10.fc44"
+      },
+      {
+        "evidence_url": "https://vergenet.net/~conrad/software/xsel/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xsel",
+        "package_name": "xsel",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.2.1-1.8"
+      },
+      {
+        "evidence_url": "https://vergenet.net/~conrad/software/xsel/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "xsel",
+        "package_name": "xsel",
+        "source": "ubuntu",
+        "source_version": "1.2.1-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-valid-empty-delete-property-format.patch",
+        "sha256": "25ebfe5f122329c4ea8d692166d0d6d9bea871048690ed099a6edda1fa0f9656",
+        "purpose": "Use a valid format 8 for the zero-length NULL-typed DELETE response instead of invalid format 0; retain every strict private-Xvfb regression.",
+        "source": "Downstream review of official Xsel 1.2.1 xsel.c handle_delete and Xlib/ICCCM specifications; see README.",
+        "license": "HPND-sell-variant",
+        "upstream_status": "not-submitted",
+        "remove_when": "The selected official release uses a valid XChangeProperty format for the empty DELETE response and all retained regressions pass."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "xsel.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed 1.2.1 tag: all 22 members reviewed. Core HPND-sell-variant; auxiliary X11/FSFULLR/GPL-2.0-or-later WITH Autoconf-exception-generic notices retained with GPL text. Standard autoreconf regenerates omitted machinery only; original configure.ac/Makefile.am, compiler additions, CLI defaults and generated make check retained. Downstream private-Xvfb byte roundtrips and terminal-direction checks are not complete ICCCM, native-display, security or performance proof.",
+    "status": "active"
+  },
+  "package_id": "xsel",
+  "rpm": {
+    "license": "HPND-sell-variant",
+    "name": "xsel",
+    "summary": "Command-line access to X11 selections"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "vergenet.net-conrad-software-xsel",
+    "homepage": "https://vergenet.net/~conrad/software/xsel/",
+    "release_api": "https://api.github.com/repos/kfish/xsel/tags",
+    "release_channel": "stable",
+    "release_regex": "(?P<version>[0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://vergenet.net/~conrad/software/xsel/",
+    "source_url_template": "https://codeload.github.com/kfish/xsel/tar.gz/refs/tags/{version}"
+  },
+  "version": {
+    "current": "1.2.1",
+    "latest_detected": "1.2.1",
+    "release": "1"
+  }
+}

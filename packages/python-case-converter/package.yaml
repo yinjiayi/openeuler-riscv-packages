@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "package_id": "python-case-converter",
+  "rpm": {"name": "python-case-converter", "summary": "Python string case conversion library", "license": "MIT"},
+  "upstream": {
+    "component": "github.com-chrisdoherty4-python-case-converter",
+    "homepage": "https://github.com/chrisdoherty4/python-case-converter",
+    "source_repository": "https://github.com/chrisdoherty4/python-case-converter",
+    "release_channel": "stable",
+    "release_api": "https://pypi.org/pypi/case-converter/json",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "version": {"current": "1.2.0", "release": "1", "latest_detected": "1.2.0"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{
+      "source": "aur", "package_name": "python-case-converter", "package_base": "python-case-converter",
+      "source_version": "1.2.0-1", "evidence_url": "https://github.com/chrisdoherty4/python-case-converter",
+      "observed_at": "2026-08-08T16:50:00Z"
+    }]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "python-case-converter.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Official stable 1.2.0 full Git archive pinned; original Makefile coverage and isolated python3 -m build gates retained. No source patch, local target build or CI success claimed. Installed checks use RPM-owned original runtime and all original tests."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-pypi"}
+}

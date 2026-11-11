@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "package_id": "libkdtreepp",
+  "rpm": {
+    "name": "libkdtree++",
+    "summary": "Header-only C++ kd-tree container",
+    "license": "Artistic-2.0"
+  },
+  "version": {"current": "0.7.5", "latest_detected": "0.7.5", "release": "1"},
+  "upstream": {
+    "component": "github.com-nvmd-libkdtree",
+    "homepage": "https://github.com/nvmd/libkdtree",
+    "source_repository": "https://github.com/nvmd/libkdtree",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/nvmd/libkdtree/tags",
+    "source_url_template": "https://codeload.github.com/nvmd/libkdtree/tar.gz/v{version}",
+    "release_regex": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "libkdtree++", "package_base": "libkdtree++", "source_version": "0.7.3-1", "observed_at": "2026-08-08T16:50:00Z", "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/0e4555a6e09e4f02fd1870e0d07c0a905e73b65b/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"},
+      {"source": "fedora", "package_name": "libkdtree++", "package_base": "libkdtree++", "source_version": "0.7.5-2.fc44", "observed_at": "2026-08-08T16:50:00Z", "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/0e4555a6e09e4f02fd1870e0d07c0a905e73b65b/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"},
+      {"source": "ubuntu", "package_name": "libkdtree++", "package_base": "libkdtree++", "source_version": "0.7.4-1build1", "observed_at": "2026-08-08T16:50:00Z", "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/0e4555a6e09e4f02fd1870e0d07c0a905e73b65b/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {
+    "spec": "libkdtreepp.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {"file": "patches/0001-guard-empty-example-tree.patch", "sha256": "4f8b0ce8d81805b02da39d05edfc64e5db12ffbf03419a21e7dcfe20885771ce", "purpose": "Avoid undefined empty-tree end iterator dereference in the default Hayne example without changing assertions, loops or the library.", "source": "Locally authored against fixed official v0.7.5 source; no upstream write.", "license": "Artistic-2.0", "upstream_status": "downstream-only", "remove_when": "An official stable release handles the initial empty-tree sentinel in this example."},
+      {"file": "patches/0002-preserve-installed-header-directory.patch", "sha256": "283242e5dd39fadb9ffed99cc83c95f5e5e28a7411825feae8f25573ef64e8b2", "purpose": "Preserve the documented kdtree++ public include directory in CMake installation.", "source": "Locally authored against fixed official v0.7.5 CMakeLists.txt; no upstream write.", "license": "Artistic-2.0", "upstream_status": "downstream-only", "remove_when": "An official stable CMake installation preserves the same public include directory."}
+    ]
+  },
+  "updates": {"enabled": true, "release_provider": "official-github-tags", "last_checked_at": null, "last_successful_check_at": null},
+  "maintenance": {"maintainers": ["yinjiayi"], "status": "active", "notes": "Fixed official unsigned v0.7.5 tag/commit and all 46 source Git blobs verified. Full Artistic-2.0 license retained. Default header-only CMake build and three original example/test programs retained, optional Python bindings remain default OFF. Two minimal downstream patches fix an empty-tree example dereference and documented include layout. Every original assertion/loop preserved; all three programs replay against installed headers plus an explicitly downstream fail-closed consumer. No local upstream/target execution; hosted target CI and physical source/RPM/SRPM acceptance remain required."}
+}

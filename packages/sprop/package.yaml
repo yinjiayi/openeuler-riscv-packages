@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/suckless-tools",
+        "observed_at": "2026-10-20T00:35:08.781352+00:00",
+        "package_base": "suckless-tools",
+        "package_name": "suckless-tools",
+        "source": "debian",
+        "source_version": "48-1"
+      }
+    ],
+    "snapshot_id": "discovery-official-sprop-N140-6a2a33d31af77f4a"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "sprop.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fresh Debian trixie stable suckless-tools 48-1 explicitly bundles sprop (component files and orig-sprop source listed); this is distribution discovery lineage, not an alias or upstream version. No old frozen-catalog membership is claimed. Official fixed sprop 0.1 archive/full six members independently verified; MIT exact notice, original all/install/C99/pedantic/Wall/VERSION/libc/Xlib preserved; no upstream test target exists. No source patch. Mandatory private-Xvfb CLI/property byte/type/format checks run built/staged/installed. No compiler/upstream/target/RPM/QEMU executed locally; target CI acceptance remains required.",
+    "status": "active"
+  },
+  "package_id": "sprop",
+  "rpm": {
+    "license": "MIT",
+    "name": "sprop",
+    "summary": "Simple X string property utility"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-release-index"
+  },
+  "upstream": {
+    "component": "tools.suckless.org-sprop",
+    "homepage": "https://tools.suckless.org/x/sprop/",
+    "release_api": "https://dl.suckless.org/tools/",
+    "release_channel": "stable",
+    "release_regex": "^sprop-(?P<version>[0-9]+\\.[0-9]+)\\.tar\\.gz$",
+    "source_repository": "https://git.suckless.org/sprop/",
+    "source_url_template": "https://dl.suckless.org/tools/sprop-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.1",
+    "latest_detected": "0.1",
+    "release": "1"
+  }
+}

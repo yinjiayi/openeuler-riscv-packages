@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://earthscope.github.io/libdali/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdali",
+        "package_name": "libdali",
+        "source": "aur",
+        "source_version": "1.8-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdali.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Formal v1.8.1 archive and all37 Git blobs pinned; original static/shared defaults retained, zero available upstream cases (missing test directory), six strict added offline API cases. Physical target and supplemental acceptance remain required.",
+    "status": "active"
+  },
+  "package_id": "libdali",
+  "rpm": {
+    "license": "Apache-2.0 AND MIT",
+    "name": "libdali",
+    "summary": "C client library for the DataLink protocol"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-iris-edu-libdali",
+    "homepage": "https://earthscope.github.io/libdali/",
+    "release_api": "https://api.github.com/repos/EarthScope/libdali/releases",
+    "release_channel": "stable",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/EarthScope/libdali",
+    "source_url_template": "https://api.github.com/repos/EarthScope/libdali/tarball/v{version}"
+  },
+  "version": {
+    "current": "1.8.1",
+    "latest_detected": "1.8.1",
+    "release": "1"
+  }
+}

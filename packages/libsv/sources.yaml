@@ -1,0 +1,21 @@
+{
+  "package_id": "libsv",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b5fe36e848286a543348b2a8c756f3d24bf84701729eb319cd99e4f627831e39"
+      },
+      "filename": "libsv-1.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/uael/sv/tar.gz/3dfbda36428a7631025aaa0acef41e681824e9d1",
+      "version": "1.2"
+    }
+  ]
+}

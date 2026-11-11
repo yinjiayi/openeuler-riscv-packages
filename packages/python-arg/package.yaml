@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "package_id": "python-arg",
+  "rpm": {"name": "python3-arg", "summary": "Simple argument parser for Python", "license": "ISC"},
+  "upstream": {
+    "component": "codeberg.org-maandree-python-arg",
+    "homepage": "https://codeberg.org/maandree/python-arg",
+    "source_repository": "https://codeberg.org/maandree/python-arg.git",
+    "release_channel": "stable",
+    "release_api": "https://codeberg.org/maandree/python-arg/tags",
+    "release_regex": "/archive/(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://codeberg.org/maandree/python-arg/archive/{version}.tar.gz"
+  },
+  "version": {"current": "1.0.2", "release": "1", "latest_detected": "1.0.2"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{"source": "aur", "package_name": "python-arg", "package_base": "python-arg", "source_version": "1.0.2-1", "evidence_url": "https://aur.archlinux.org/packages/python-arg", "observed_at": "2026-08-08T16:50:00Z"}]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "python-arg.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Original no-op all and complete 536-line test.py through make check retained unchanged. Staged/installed replays preload and prove the exact installed arg.py before running the unchanged driver with assertions enabled and isolated Python. No source patch, local upstream execution, performance or native claim. Exact-head CI, ordinary target installation and physical products remain gates."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-html-index"}
+}

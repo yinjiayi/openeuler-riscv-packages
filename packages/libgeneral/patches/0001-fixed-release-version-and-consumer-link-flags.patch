@@ -1,0 +1,33 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Stamp the fixed official release and export compiler link flags
+
+SPDX-License-Identifier: LGPL-2.1-only
+Upstream: https://github.com/tihmstar/libgeneral/tree/81e4636784f1bc3fda6a90911fc15bf529975577
+Upstream-Status: Not submitted; immutable archive packaging compatibility.
+
+Official stable release 90 is the upstream release commit count. A fixed
+source archive has no Git metadata: do not query an enclosing checkout or
+stamp an empty/host-dependent version. Replace five Git queries with the
+verified release number and exact commit. Preserve all feature defaults.
+The Linux pkg-config export must omit Libtool-only -no-undefined while
+retaining -lpthread. Keep that Libtool flag in the library's own LDFLAGS.
+Remove when upstream supports versioned source archives and compiler-usable
+pkg-config link flags. No algorithms, tests or assertions changed.
+
+--- a/configure.ac
++++ b/configure.ac
+@@ -2 +2 @@
+-AC_INIT([libgeneral], m4_esyscmd([git rev-list --count HEAD | tr -d '\n']), [tihmstar@gmail.com])
++AC_INIT([libgeneral], [90], [tihmstar@gmail.com])
+@@ -12,4 +12,4 @@
+-AC_DEFINE([VERSION_COMMIT_COUNT], "m4_esyscmd([git rev-list --count HEAD | tr -d '\n'])", [Git commit count])
+-AC_DEFINE([VERSION_COMMIT_SHA], "m4_esyscmd([git rev-parse HEAD | tr -d '\n'])", [Git commit sha])
+-AC_SUBST([VERSION_COMMIT_COUNT], ["m4_esyscmd([git rev-list --count HEAD | tr -d '\n'])"])
+-AC_SUBST([VERSION_COMMIT_SHA], ["m4_esyscmd([git rev-parse HEAD | tr -d '\n'])"])
++AC_DEFINE([VERSION_COMMIT_COUNT], "90", [Git commit count])
++AC_DEFINE([VERSION_COMMIT_SHA], "81e4636784f1bc3fda6a90911fc15bf529975577", [Git commit sha])
++AC_SUBST([VERSION_COMMIT_COUNT], ["90"])
++AC_SUBST([VERSION_COMMIT_SHA], ["81e4636784f1bc3fda6a90911fc15bf529975577"])
+@@ -64 +64 @@
+-        AC_SUBST([extra_lib_flags], ["-no-undefined -lpthread"])
++        AC_SUBST([extra_lib_flags], ["-lpthread"])

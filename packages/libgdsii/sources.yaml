@@ -1,0 +1,21 @@
+{
+  "package_id": "libgdsii",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "0f0d9aacb5d3860dcecb2d04516d4044d9e3f35229c598560893a8d7634070bb"
+      },
+      "filename": "libgdsii-0.21.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete GPL2 LICENSE, COPYRIGHT and all five public/implementation C++ GPL-2.0-or-later notices reviewed and retained in source/SRPM; LICENSE and COPYRIGHT installed. No signed tag or detached signature observed; exact official Git blobs and SHA256 verified."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/HomerReid/libGDSII/tar.gz/a6f6f2de4894075ed1bcf70d0542122781856c4e",
+      "version": "0.21"
+    }
+  ]
+}

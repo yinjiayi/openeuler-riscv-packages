@@ -27,8 +27,8 @@ if (oe_reject_secret_arguments --token hidden) 2>/dev/null; then
 fi
 
 oe_load_release_lock "$source_dir/runner-release.lock"
-[[ $RUNNER_VERSION == 2.336.0 ]]
-[[ $RUNNER_SIZE == 226035903 ]]
+[[ $RUNNER_VERSION == 2.338.2 ]]
+[[ $RUNNER_SIZE == 228071396 ]]
 oe_load_cleanup_image_lock "$source_dir/cleanup-image.lock"
 [[ $CLEANUP_IMAGE_REF =~ @sha256:[0-9a-f]{64}$ ]]
 

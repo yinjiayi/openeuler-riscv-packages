@@ -1,0 +1,102 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Date: Thu, 3 Sep 2026 12:00:00 +0800
+Subject: [PATCH] libwget: prefer explicit proxy settings over libproxy
+
+When libproxy support is enabled, wget_http_open() currently ignores the
+proxy and no-proxy vectors configured through libwget's public setters. In
+particular, this makes wget2 ignore --http-proxy and --https-proxy. The IDN
+integration tests then bypass their local test proxy and try to resolve the
+fixture hostnames through DNS.
+
+Apply the explicit no-proxy and scheme-specific proxy configuration first,
+and consult libproxy only when it did not make a decision. This preserves
+desktop/PAC discovery while restoring command-line and public-API precedence.
+
+---
+ libwget/http.c | 63 +++++++++++++++++++++++++++++-----------------------------
+ 1 file changed, 31 insertions(+), 32 deletions(-)
+
+diff --git a/libwget/http.c b/libwget/http.c
+index 7ae3bcd5..b016b584 100644
+--- a/libwget/http.c
++++ b/libwget/http.c
+@@ -518,37 +518,6 @@ int wget_http_open(wget_http_connection **_conn, const wget_iri *iri)
+ 	port = iri->port;
+ 	conn->tcp = wget_tcp_init();
+ 
+-#ifdef HAVE_LIBPROXY
+-{
+-	pxProxyFactory *pf = px_proxy_factory_new();
+-	if (pf) {
+-		char **proxies = px_proxy_factory_get_proxies(pf, iri->uri);
+-
+-		if (proxies) {
+-			if (proxies[0]) {
+-				if (strcmp (proxies[0], "direct://") != 0) {
+-					wget_iri *proxy_iri = wget_iri_parse(proxies[0], "utf-8");
+-					host = strdup(proxy_iri->host);
+-					port = proxy_iri->port;
+-
+-					if (proxy_iri->scheme == WGET_IRI_SCHEME_HTTP) {
+-						ssl = false;
+-						conn->proxied = 1;
+-					} else {
+-						ssl = true;
+-						need_connect = true;
+-					}
+-					wget_iri_free(&proxy_iri);
+-				}
+-			}
+-
+-			px_proxy_factory_free_proxies(proxies);
+-		}
+-
+-		px_proxy_factory_free (pf);
+-	}
+-}
+-#else
+ 	if (!wget_http_match_no_proxy(no_proxies, iri->host)) {
+ 		if (!ssl && http_proxies) {
+ 			wget_thread_mutex_lock(proxy_mutex);
+@@ -585,8 +554,38 @@ int wget_http_open(wget_http_connection **_conn, const wget_iri *iri)
+ 
+ 			need_connect = true;
+ 		}
+-	}
++#ifdef HAVE_LIBPROXY
++		else {
++			pxProxyFactory *pf = px_proxy_factory_new();
++			if (pf) {
++				char **proxies = px_proxy_factory_get_proxies(pf, iri->uri);
++
++				if (proxies) {
++					if (proxies[0]) {
++						if (strcmp (proxies[0], "direct://") != 0) {
++							wget_iri *proxy_iri = wget_iri_parse(proxies[0], "utf-8");
++							host = strdup(proxy_iri->host);
++							port = proxy_iri->port;
++
++							if (proxy_iri->scheme == WGET_IRI_SCHEME_HTTP) {
++								ssl = false;
++								conn->proxied = 1;
++							} else {
++								ssl = true;
++								need_connect = true;
++							}
++							wget_iri_free(&proxy_iri);
++						}
++					}
++
++					px_proxy_factory_free_proxies(proxies);
++				}
++
++				px_proxy_factory_free (pf);
++			}
++		}
+ #endif
++	}
+ 
+ 	if (ssl) {
+ 		wget_tcp_set_ssl(conn->tcp, 1); // switch SSL on
+-- 
+2.50.1

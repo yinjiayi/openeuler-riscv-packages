@@ -1,0 +1,25 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] tests: use the target repository's Catch2 v3 interface
+
+SPDX-License-Identifier: MIT
+Upstream-Status: Not Submitted [target test dependency compatibility]
+
+The original suite used the v2 single header and CATCH_CONFIG_MAIN. Catch2
+v3 supplies separate headers and an explicit main-providing dependency.
+Keep every original test case, assertion, fixture, and default option.
+The write executable keeps its own main and original catch2 dependency.
+Remove when upstream tests support Catch2 v3 without this change.
+
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -8,0 +9 @@
++catch2_main_dep = dependency('catch2-with-main')
+@@ -96 +97 @@
+-		       dependencies : catch2_dep)
++		       dependencies : catch2_main_dep)
+--- a/tests/test-read.cpp
++++ b/tests/test-read.cpp
+@@ -10,2 +10 @@
+-#define CATCH_CONFIG_MAIN
+-#include "catch2/catch.hpp"
++#include "catch2/catch_all.hpp"

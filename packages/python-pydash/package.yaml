@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/dgilland/pydash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pydash",
+        "package_name": "python-pydash",
+        "source": "ubuntu",
+        "source_version": "8.0.5-1"
+      },
+      {
+        "evidence_url": "https://github.com/dgilland/pydash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pydash",
+        "package_name": "python-pydash",
+        "source": "aur",
+        "source_version": "8.0.6-1"
+      },
+      {
+        "evidence_url": "https://github.com/dgilland/pydash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pydash",
+        "package_name": "python-pydash",
+        "source": "debian",
+        "source_version": "8.0.5-1"
+      },
+      {
+        "evidence_url": "https://github.com/dgilland/pydash",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-pydash",
+        "package_name": "python-pydash",
+        "source": "opensuse-tumbleweed",
+        "source_version": "8.0.6-2.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-license-file-metadata.patch",
+        "sha256": "f3ce106b259322839d4b7b7779e452193c292d6206bf63a359bbcd812c331e3c",
+        "purpose": "Express the unchanged MIT license through a PEP 621 license file table accepted by selected setuptools 68.0.0; preserve all original build-system/runtime/default-test requirements.",
+        "source": "https://github.com/dgilland/pydash/blob/f46de3669742c075e5379c1e193c86c1c2c70dc2/pyproject.toml",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "Verified target selected setuptools >= 77 supports the original Pydash 8.1.0 license expression."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-pydash.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "All76 fixed Git originals/fullMIT retained; original Invoke default test task preserves full core tests/doctests, coverage100 and only the original optional type-test exclusion. One license metadata table compatibility patch for selected setuptools68, no backend/test requirement lowering. Actual riscv64 build/install/CI unverified.",
+    "status": "active"
+  },
+  "package_id": "python-pydash",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-pydash",
+    "summary": "Functional Python utility library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-dgilland-pydash",
+    "homepage": "https://github.com/dgilland/pydash",
+    "release_api": "https://api.github.com/repos/dgilland/pydash/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/dgilland/pydash",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "8.1.0",
+    "latest_detected": "8.1.0",
+    "release": "1"
+  }
+}

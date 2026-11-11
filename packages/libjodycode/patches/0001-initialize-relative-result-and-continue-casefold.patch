@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: MIT
+# Origin: openEuler RISC-V package contributors, 2026
+# Source: https://codeberg.org/jbruchon/libjodycode/src/commit/64bca2874f895df98003f8bf4ca267dd6926b17f
+# Applies-to: official v4.2, header 4.2.0
+# Files: paths.c, numstrcmp.c (original project MIT grant in LICENSE.txt)
+# Upstream-Status: Not submitted
+# Cause: relative-path success returned uninitialized retval; numeric comparison
+# returned equality on the first case-folded equal character instead of checking
+# the remaining suffix. Generic correctness fixes, not RISC-V-only workarounds.
+# Original complete source notices are snapshotted before applying this patch.
+# Remove when an upstream release contains both equivalent fixes/regressions.
+--- a/paths.c
++++ b/paths.c
+@@ -81 +81 @@
+-	int retval;
++	int retval = 0;
+--- a/numstrcmp.c
++++ b/numstrcmp.c
+@@ -84,0 +85,4 @@
++			if (s1 == s2 && s1 != '\0' && s2 != '\0') {
++				c1++; c2++;
++				continue;
++			}

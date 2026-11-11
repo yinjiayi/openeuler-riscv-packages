@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/libnpy",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libnpy",
+        "package_name": "libnpy",
+        "source": "aur",
+        "source_version": "1.0.1-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{"file":"patches/0001-catch2-v3-tests.patch","sha256":"21190919c231b598fc7c0709f897e8be13324209c58c9211f37f6091bb684a8f","purpose":"Use the existing target Catch2 v3 test header and main provider, preserving every original test body/assertion and all default tests.","source":"Original downstream packaging patch based on the official Catch2 v2-to-v3 migration guidance; no upstream patch copied.","license":"MIT","upstream_status":"not-submitted","remove_when":"Upstream tests support Catch2 v3 without the include/main-provider compatibility change."}],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libnpy.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official v1.0.1 fixed archive and every original Git blob verified. MIT LICENSE and header notices retained. Header-only noarch payload is compiled and tested on target riscv64. All 15 original enabled read cases and original write executable/NumPy fixture generator retained; commented unsupported bool case remains unchanged. One minimal Catch2 v3 build-interface patch; no wrap/network, feature disabling or local target execution. Installed consumer acceptance adds six independent NumPy writer-output checks.",
+    "status": "active"
+  },
+  "package_id": "libnpy",
+  "rpm": {
+    "license": "MIT",
+    "name": "libnpy",
+    "summary": "Header-only C++14 library for NumPy array files"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-llohse-libnpy",
+    "homepage": "https://github.com/llohse/libnpy",
+    "release_api": "https://api.github.com/repos/llohse/libnpy/tags",
+    "release_channel": "stable",
+    "release_regex": "^v([0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/llohse/libnpy",
+    "source_url_template": "https://codeload.github.com/llohse/libnpy/tar.gz/v{version}"
+  },
+  "version": {
+    "current": "1.0.1",
+    "latest_detected": "1.0.1",
+    "release": "1"
+  }
+}

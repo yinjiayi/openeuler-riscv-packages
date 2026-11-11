@@ -27,6 +27,28 @@ def contains_github_token_literal(content: bytes) -> bool:
     return any(pattern.search(content) for pattern in GITHUB_TOKEN_LITERALS)
 
 
+def auto_merge_event_errors(text: str) -> list[str]:
+    """Require source/lifecycle evaluation without same-head label reruns."""
+    events = re.findall(r"(?m)^  pull_request:[ \t]*\n((?:    [^\n]*\n)+)", text)
+    if len(events) != 1:
+        return ["auto-merge workflow must declare one pull_request event block"]
+    types = re.findall(r"(?m)^    types: \[([^\]\n]+)\]$", events[0])
+    if len(types) != 1:
+        return ["auto-merge workflow must declare one explicit pull_request action list"]
+    actions = [action.strip() for action in types[0].split(",")]
+    required = {"opened", "reopened", "synchronize", "ready_for_review", "converted_to_draft", "edited"}
+    errors = []
+    if len(actions) != len(set(actions)):
+        errors.append("auto-merge workflow repeats a pull_request action")
+    missing = sorted(required - set(actions))
+    if missing:
+        errors.append("auto-merge workflow is missing source/lifecycle actions: " + ", ".join(missing))
+    unexpected = sorted(set(actions) - required)
+    if unexpected:
+        errors.append("auto-merge workflow has unapproved or same-head routing actions: " + ", ".join(unexpected))
+    return errors
+
+
 def tracked_paths(root: Path) -> list[Path]:
     completed = subprocess.run(
         ["git", "-C", str(root), "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
@@ -399,12 +421,7 @@ def main() -> int:
     auto_merge_state_proof_path = root / "ci" / "prove-auto-merge-state.py"
     default_branch_head_proof_path = root / "ci" / "prove-default-branch-head.py"
     required_context_activation_path = root / "ci" / "prove-required-context-active.py"
-    auto_merge_events = (
-        "types: [opened, reopened, synchronize, ready_for_review, "
-        "converted_to_draft, edited, labeled, unlabeled]"
-    )
-    if auto_merge_events not in auto_merge:
-        errors.append("auto-merge workflow does not re-evaluate converted_to_draft and edited events")
+    errors.extend(auto_merge_event_errors(auto_merge))
     if "branches: [main]" in auto_merge:
         errors.append("auto-merge workflow must receive retarget events so it can disarm non-default-branch PRs")
     if not re.search(r"(?m)^  configure:\s*\n    if:", auto_merge):
@@ -689,15 +706,32 @@ def main() -> int:
         errors.append("package-ci.yml still truncates validated package budgets at 6900 seconds")
     if '--timeout-seconds "$rpmbuild_timeout_seconds"' in package_ci:
         errors.append("package-ci.yml gives the outer cap no timeout-evidence grace period")
-    reserve_matches = re.findall(r"--reserve-seconds ([0-9]+)", package_ci)
+    build_job = package_ci.split("\n  rpmbuild-riscv64:\n", 1)[-1].split("\n  rpm-install-smoke:\n", 1)[0]
+    reserve_matches = re.findall(r"--reserve-seconds ([0-9]+)", build_job)
     grace_matches = re.findall(
         r"rpmbuild_outer_timeout_seconds=\$\(\(rpmbuild_timeout_seconds \+ ([0-9]+)\)\)",
-        package_ci,
+        build_job,
     )
     if len(reserve_matches) != 1 or len(grace_matches) != 1:
         errors.append("package-ci.yml must declare one evidence reserve and one outer-cap grace")
     elif int(reserve_matches[0]) - int(grace_matches[0]) < 240:
         errors.append("package-ci.yml must retain at least 240 seconds for timeout evidence")
+    install_job = package_ci.split("\n  rpm-install-smoke:\n", 1)[-1].split("\n  publish-rpm-repository:\n", 1)[0]
+    for marker in (
+        "timeout-minutes: ${{ fromJSON(needs.prepare.outputs.install_timeout_minutes || '70') }}",
+        "- name: Establish the validated install deadline",
+        "ci/rpmbuild-timeout-budget.py start --phase rpm-install-smoke",
+        '--timeout-minutes "$INSTALL_TIMEOUT_MINUTES" --reserve-seconds 600',
+        "INSTALL_DEADLINE_EPOCH: ${{ steps.install_budget.outputs.deadline_epoch }}",
+        '--phase rpm-install-smoke --deadline-epoch "$INSTALL_DEADLINE_EPOCH"',
+        '[[ "$install_timeout_seconds" =~ ^[1-9][0-9]*$ ]]',
+        '--max-bytes 52428800 --timeout-seconds "$install_timeout_seconds" --',
+        "--failure-output artifacts/smoke/timeout-expired.json",
+    ):
+        if marker not in install_job:
+            errors.append(f"package-ci.yml is missing the evidence-preserving install budget marker: {marker}")
+    if "--timeout-seconds 3600" in install_job:
+        errors.append("package-ci.yml still truncates validated install budgets at 3600 seconds")
     if package_ci.count('--build-user "$BUILD_USER"') < 2:
         errors.append("package-ci.yml does not bind dependency and rpmbuild stages to build.user")
     runner_expression = (
@@ -873,7 +907,8 @@ def main() -> int:
         'docker_limits(network="bridge")',
         'docker_limits(network="none")',
         '"--commit-sha",',
-        'verified network source retrieval',
+        'reverify the source cache without downloads',
+        '"--offline",',
         'OE_BUILD_NETWORK=enabled',
         'EVIDENCE_FILES =',
         'grant_unprivileged_workspace_access(repo_root, args.package_id)',

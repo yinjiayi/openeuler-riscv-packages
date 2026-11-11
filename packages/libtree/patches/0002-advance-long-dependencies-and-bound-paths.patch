@@ -1,0 +1,40 @@
+# SPDX-License-Identifier: MIT
+# Source: https://github.com/haampie/libtree/blob/1521dfe063284551b955958fd7deb3426fd75d84/libtree.c
+# Applies-to: libtree v3.1.1, libtree.c
+# Root cause: too-long absolute/soname branches continue an inner loop without
+# advancing its index; the outer oversized search-component branch can treat
+# the remainder of one invalid directory as a different directory. Pointer
+# additions used for capacity checks can themselves go outside the path array.
+# Change: advance past unhandleable dependency candidates; skip the remainder
+# of an oversized search component; compare in-array remaining capacities.
+# Unresolved dependencies still reach the original diagnostics/exit28. Options,
+# default search paths and RPATH/environment/RUNPATH order are retained.
+# License: derived MIT context; retain the complete original Harmen Stoppels
+# grant and all 24 original source notices before applying this patch.
+# Upstream-status: not submitted; packaging-local generic correctness fix.
+# Validation: static source proof only; new deterministic long-needed/path
+# parser-data regressions and all original tests are required in target CI.
+# No observed crash, CVE, full malformed-ELF safety or native-loader claim.
+# Remove-when: a fixed official version contains equivalent progress/bounds
+# handling and the complete original plus additive target tests pass.
+--- a/libtree.c
++++ b/libtree.c
+@@ -438 +438,2 @@
+-        if (len >= MAX_PATH_LENGTH)
++        if (len >= MAX_PATH_LENGTH) {
++            ++i;
+@@ -439,0 +441 @@
++        }
+@@ -511 +513,3 @@
+-        if (dest + 1 >= path_end)
++        if (dest >= path_end - 1) {
++            while (st->arr[offset] != '\0' && st->arr[offset] != ':')
++                ++offset;
+@@ -512,0 +517 @@
++        }
+@@ -526 +531,2 @@
+-            if (search_path_end + soname_len + 1 >= path_end)
++            if (soname_len >= (size_t)(path_end - search_path_end) - 1) {
++                ++i;
+@@ -527,0 +534 @@
++            }

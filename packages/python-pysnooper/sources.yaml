@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "python-pysnooper",
+  "sources": [
+    {
+      "id": "source0",
+      "filename": "python-pysnooper-1.2.3.tar.gz",
+      "url": "https://codeload.github.com/cool-RR/PySnooper/tar.gz/0561a89c0ec88d11f38c6ef815d12c0423300fe1",
+      "kind": "upstream-release",
+      "version": "1.2.3",
+      "digests": {
+        "sha256": "01380deec408700ce91ebc9880991a31f0d8a171dd12a14012d7fb302df71fbc"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full original MIT and retained pathlib MIT notices, supplemental full PSF2 license for exact historical vendored contextlib2 source, with all original43 Git files unchanged."
+      }
+    },
+    {
+      "id": "source1",
+      "filename": "CONTEXTLIB2-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/jazzband/contextlib2/d533028739d643830af03bf23255b5d4f8535108/LICENSE.txt",
+      "kind": "upstream-release",
+      "version": "d533028739d643830af03bf23255b5d4f8535108",
+      "digests": {
+        "sha256": "c6a7affac6acdad2d2dd87d2d768438624ab692618db1f02bea3b11d3f3978f0"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full samecommit official PSF2 LICENSE.txt retained; vendored tests/mini_toolbox/contextlib.py is byte/AST-identical to contextlib2.py at this fixed historical v0.5.4 commit. No claim of unique copying date or relicense."
+      }
+    }
+  ]
+}

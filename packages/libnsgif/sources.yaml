@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "package_id": "libnsgif",
+  "sources": [
+    {"id": "source0", "kind": "upstream-release", "url": "https://download.netsurf-browser.org/libs/releases/libnsgif-1.0.0-src.tar.gz", "filename": "libnsgif-1.0.0-src.tar.gz", "version": "1.0.0", "digests": {"sha256": "6014c842f61454d2f5a0f8243d7a8d7bde9b7da3ccfdca2d346c7c0b2c4c061b"}, "signature": null, "redistribution": {"allowed": true, "reason": "Official release COPYING grants MIT for software and associated documentation; test CLI explicitly ISC. Preserve complete original archive, copyrights, corpora and both permission notices."}},
+    {"id": "source1", "kind": "test-dependency", "url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/ISC.txt", "filename": "ISC.txt", "version": "d46e94e2c78ceede1cfc63cfa0396472d2798d4c", "digests": {"sha256": "f2ec607f67bb0dd3053b49835b02110d5cd0f8eb6da3aac4dc0b142a6b299be9"}, "signature": null, "redistribution": {"allowed": true, "reason": "Fixed SPDX ISC permission text, license-only companion for original ISC test/cli.c and cli.h; original Michael Drake copyrights remain in the complete QA archive."}}
+  ]
+}

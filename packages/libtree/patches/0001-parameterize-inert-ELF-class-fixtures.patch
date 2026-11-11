@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: MIT
+# Source: https://github.com/haampie/libtree/tree/1521dfe063284551b955958fd7deb3426fd75d84
+# Applies-to: libtree v3.1.1, tests/05_32_bits/Makefile
+# Root cause: original -m32/-m64 are not portable fixture-class selectors for the
+# intended RISC-V toolchain. This test parses, but never executes, both classes.
+# Change: expose the four existing fixture compiler switches as make variables.
+# Original defaults and every fixture/dependency/RPATH/check command stay intact.
+# RISC-V recipe overrides are -march=rv32imac -mabi=ilp32 and
+# -march=rv64imac -mabi=lp64 for these -nostdlib data files only, not RPM code.
+# Scope: no 32-bit runtime/libc/RPM installation and no reduced RVA23 package ISA.
+# License: derived MIT context, original Harmen Stoppels LICENSE retained whole.
+# Upstream-status: not submitted; downstream target-portability adaptation.
+# Validation: exact text proof only here; compiler/linker/readelf and both
+# original libtree executions must pass target CI, not inferred locally.
+# Remove-when: upstream exposes equivalent fixture-class flags and all nine
+# original test directories retain their coverage on the target compiler.
+--- a/tests/05_32_bits/Makefile
++++ b/tests/05_32_bits/Makefile
+@@ -4,0 +5,4 @@
++
++# Only generated ELF parser fixtures use these flags; they are never run.
++ELF32_FLAGS ?= -m32
++ELF64_FLAGS ?= -m64
+@@ -12 +16 @@
+-	echo 'int a(){return 42;}' | $(CC) -shared -Wl,-soname,$(@F) -m64 -o $@ -nostdlib -x c -
++	echo 'int a(){return 42;}' | $(CC) -shared -Wl,-soname,$(@F) $(ELF64_FLAGS) -o $@ -nostdlib -x c -
+@@ -16 +20 @@
+-	echo 'int a(){return 42;}' | $(CC) -shared -Wl,-soname,$(@F) -m32 -o $@ -nostdlib -x c -
++	echo 'int a(){return 42;}' | $(CC) -shared -Wl,-soname,$(@F) $(ELF32_FLAGS) -o $@ -nostdlib -x c -
+@@ -19 +23 @@
+-	echo 'extern int a(); int _start(){return a();}' | $(CC) -m64 "-Wl,-rpath,$(CURDIR)/lib32" "-Wl,-rpath,$(CURDIR)/lib64" -o $@ -nostdlib -x c - -Llib64 -lx
++	echo 'extern int a(); int _start(){return a();}' | $(CC) $(ELF64_FLAGS) "-Wl,-rpath,$(CURDIR)/lib32" "-Wl,-rpath,$(CURDIR)/lib64" -o $@ -nostdlib -x c - -Llib64 -lx
+@@ -22 +26 @@
+-	echo 'extern int a(); int _start(){return a();}' | $(CC) -m32 "-Wl,-rpath,$(CURDIR)/lib64" "-Wl,-rpath,$(CURDIR)/lib32" -o $@ -nostdlib -x c - -Llib32 -lx
++	echo 'extern int a(); int _start(){return a();}' | $(CC) $(ELF32_FLAGS) "-Wl,-rpath,$(CURDIR)/lib64" "-Wl,-rpath,$(CURDIR)/lib32" -o $@ -nostdlib -x c - -Llib32 -lx

@@ -1,0 +1,21 @@
+--- a/lib/Data/DownSample/LargestTriangleThreeBuckets.pm
++++ b/lib/Data/DownSample/LargestTriangleThreeBuckets.pm
+@@ -22 +22 @@
+-  else                        { $arg_ref = { shift @_ } }
++  else                        { $arg_ref = { @_ } }
+--- a/t/00-load.t
++++ b/t/00-load.t
+@@ -7,2 +6,0 @@
+-plan tests => 1;
+-
+@@ -9,0 +8 @@
++    plan tests => 5;
+@@ -13,0 +13,8 @@
++
++my $data = [ [ 0, 0 ], [ 1, 1 ], [ 2, 4 ], [ 3, 9 ] ];
++my $hash = Data::DownSample::LargestTriangleThreeBuckets->new( threshold => 3 );
++my $hashref = Data::DownSample::LargestTriangleThreeBuckets->new( { threshold => 3 } );
++is( scalar @{ $hash->lttb($data) }, 3, 'hash constructor threshold' );
++is_deeply( $hash->lttb($data), $hashref->lttb($data), 'hash and hashref agree' );
++is( scalar @{ $hash->lttb_ref($data) }, 3, 'reference algorithm threshold' );
++is_deeply( $hash->lttb_ref($data), $hashref->lttb_ref($data), 'reference algorithm agrees' );

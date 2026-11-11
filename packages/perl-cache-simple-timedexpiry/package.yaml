@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libcache-simple-timedexpiry-perl",
+        "observed_at": "2026-11-07T02:13:58Z",
+        "package_base": "libcache-simple-timedexpiry-perl",
+        "package_name": "libcache-simple-timedexpiry-perl",
+        "source": "ubuntu",
+        "source_version": "0.27-4"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n339.h4lCP5"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-cache-simple-timedexpiry.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN archive SHA-256 matches MetaCPAN and signed publisher CHECKSUMS. All eight bundled Module-Install helpers match the licensed official 0.64 archive. Original 27-test default suite and sleeps are retained; target build/install evidence remains pending CI.",
+    "status": "active"
+  },
+  "package_id": "perl-cache-simple-timedexpiry",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Cache-Simple-TimedExpiry",
+    "summary": "Lightweight Perl cache with timed expiration"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Cache-Simple-TimedExpiry",
+    "homepage": "https://metacpan.org/dist/Cache-Simple-TimedExpiry",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JE/JESSE/",
+    "release_channel": "stable",
+    "release_regex": "Cache-Simple-TimedExpiry-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/J/JE/JESSE/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JE/JESSE/Cache-Simple-TimedExpiry-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.27",
+    "latest_detected": "0.27",
+    "release": "1"
+  }
+}

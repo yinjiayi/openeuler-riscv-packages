@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-cache-simple-timedexpiry",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "4e78b7e4dd231b5571a48cd0ee1b63953f5e34790c9d020e1595a7c7d0abbe49"
+      },
+      "filename": "Cache-Simple-TimedExpiry-0.27.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/J/JE/JESSE/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/J/JE/JESSE/Cache-Simple-TimedExpiry-0.27.tar.gz",
+      "version": "0.27"
+    }
+  ]
+}

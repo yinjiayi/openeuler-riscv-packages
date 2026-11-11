@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "python-string-utils",
+  "rpm": {"name": "python-string-utils", "summary": "String validation, manipulation and generation utilities for Python", "license": "MIT"},
+  "upstream": {"component": "pypi.org-project-python-string-utils", "homepage": "https://github.com/daveoncode/python-string-utils", "source_repository": "https://github.com/daveoncode/python-string-utils", "release_channel": "stable", "release_api": "https://pypi.org/pypi/python-string-utils/json", "release_regex": null, "source_url_template": null},
+  "version": {"current": "1.0.0", "release": "1", "latest_detected": "1.0.0"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [{"source": "aur", "package_name": "python-string-utils", "package_base": "python-string-utils", "source_version": "1.0.0-1", "evidence_url": "https://pypi.org/project/python-string-utils", "observed_at": "2026-08-08T16:50:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "python-string-utils.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Pin official formal 1.0.0 Git tree including MIT LICENSE, original build.sh and all 42 original tests. Retain unchanged whole unittest default for target Python 3.11, not historical interpreter matrix. Relocate identical README data to a package-owned document path after unchanged upstream installation. No source patch or local target success claimed."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-pypi"}
+}

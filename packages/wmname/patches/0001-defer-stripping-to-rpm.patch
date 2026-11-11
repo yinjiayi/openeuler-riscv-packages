@@ -1,0 +1,12 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Defer executable stripping to RPM post-processing
+
+Retain the original targets and compiler/link rule. RPM needs the unstripped
+binary for normal debug products. Downstream-only, MIT; remove when upstream
+supports packaging-controlled stripping. No upstream write.
+
+--- a/Makefile
++++ b/Makefile
+@@ -27 +27 @@
+-	@strip $@
++	# Final stripping is performed by the RPM packaging scripts.

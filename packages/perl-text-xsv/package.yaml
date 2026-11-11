@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://download.fedoraproject.org/pub/fedora/linux/releases/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Text-xSV",
+        "package_name": "perl-Text-xSV",
+        "source": "fedora",
+        "source_version": "0.21-22.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-text-xsv.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release is pinned in sources.yaml; its historic PAUSE checksum signature is expired and not treated as current authentication.",
+    "status": "active"
+  },
+  "package_id": "perl-text-xsv",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Text-xSV",
+    "summary": "Read and write character-separated text records in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "metacpan.org-release-text-xsv",
+    "homepage": "https://metacpan.org/dist/Text-xSV",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TI/TILLY/",
+    "release_channel": "stable",
+    "release_regex": "Text-xSV-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Text-xSV",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TI/TILLY/Text-xSV-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.21",
+    "latest_detected": "0.21",
+    "release": "1"
+  }
+}

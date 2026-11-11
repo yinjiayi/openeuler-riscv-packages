@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "package_id": "libtree",
+  "rpm": {
+    "name": "libtree",
+    "summary": "Explain ELF shared-library dependency trees",
+    "license": "MIT AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "github.com-haampie-libtree",
+    "homepage": "https://github.com/haampie/libtree",
+    "source_repository": "https://github.com/haampie/libtree",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/haampie/libtree/releases",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+){2})$",
+    "source_url_template": "https://api.github.com/repos/haampie/libtree/tarball/v{version}"
+  },
+  "version": {
+    "current": "3.1.1",
+    "latest_detected": "3.1.1",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "libtree",
+        "package_base": "libtree",
+        "source_version": "3.1.1-1",
+        "evidence_url": "https://github.com/haampie/libtree",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "libtree",
+        "package_base": "libtree",
+        "source_version": "3.1.1-3",
+        "evidence_url": "https://github.com/haampie/libtree",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "libtree-ldd",
+        "package_base": "libtree-ldd",
+        "source_version": "3.1.1-12.fc44",
+        "evidence_url": "https://github.com/haampie/libtree",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "libtree",
+        "package_base": "libtree",
+        "source_version": "3.1.1-2.6",
+        "evidence_url": "https://github.com/haampie/libtree",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libtree.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-parameterize-inert-ELF-class-fixtures.patch",
+        "sha256": "1ea127098ffbb18aaa45ace5085cd00e559ceb09a5b3fdd1a66e30283496557d",
+        "purpose": "Expose original four ELF32/ELF64 compiler switches as overridable test-data flags; defaults unchanged.",
+        "source": "Derived from exact official commit1521dfe063284551b955958fd7deb3426fd75d84/archive07fa7a3f151f4c8264a5402697c2ffb5e9be577eb66dc92cbb2759cfefbc05fd; all24 original notices copied before patch; no upstream write.",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "A fixed official release provides equivalent behavior and all original9 suites plus strict6 target CLI groups pass."
+      },
+      {
+        "file": "patches/0002-advance-long-dependencies-and-bound-paths.patch",
+        "sha256": "9d2f5d266c8395f368c8ee0ac728cc8edffb32b64d24ef6d4fccf0a38f071928",
+        "purpose": "Advance unhandleable long dependency indices, skip complete oversized search components, and use in-array remaining-capacity guards.",
+        "source": "Derived from exact official commit1521dfe063284551b955958fd7deb3426fd75d84/archive07fa7a3f151f4c8264a5402697c2ffb5e9be577eb66dc92cbb2759cfefbc05fd; all24 original notices copied before patch; no upstream write.",
+        "license": "MIT",
+        "upstream_status": "not-submitted",
+        "remove_when": "A fixed official release provides equivalent behavior and all original9 suites plus strict6 target CLI groups pass."
+      }
+    ]
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "N231 actual official formal v3.1.1 + exact annotated tag/commit/tree/archive/Git blob evidence; tag and commit offer no PGP/SSH signature. Full MIT grant covers original24 source/documentation/associated screenshot bytes, copied unchanged before patches. Two Haampie catalog rows are retained; URL-null Ubuntu89098 is not source authority and Piumarta173060 AVL is a distinct same-name project, not merged. Default C99 CLI/install/man and all9 check directories/21 original invocations retained. Only inert -nostdlib parser test inputs use RV32/RV64 fixture flags, never executed/installed; actual RPM remains riscv64/RVA23. Exact compiler/linker/ELF class and functional results require target CI. Added six CLI groups use synthetic data, not native-loader/performance/security validation. Old source-helper CMake next-gate wording is inapplicable inherited text, not actual build evidence. Fresh complete source-identity/provider/write guards remain separate; no full Daily coverage claim."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-releases"
+  }
+}

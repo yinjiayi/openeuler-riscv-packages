@@ -1,0 +1,69 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/search/json/?name=sxhkd",
+        "observed_at": null,
+        "package_base": "sxhkd",
+        "package_name": "sxhkd",
+        "source": "arch-extra",
+        "source_version": "0.6.3-1"
+      }
+    ],
+    "snapshot_id": "discovery-official-sxhkd-N142-9b4f77d159b720fb"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "sxhkd.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fresh Arch extra sxhkd0.6.3-1 metadata is an honest new discovery clue, not frozen catalog membership. Official0.6.3 immutable commit/archive SHA verified, all28 members and BSD-2-Clause notices read. Original default all, compiler flags/CPPFLAGS/LDLIBS and ordinary install retained, original archive VERSION fallback selected explicitly with VERCMD=false to avoid unrelated parent Git tags. Existing manpage/examples unchanged, no source patch or upstream test target. Mandatory target-only built/staged/installed private-Xvfb real-XTEST event/configuration/signal/command semantic QA. No local source/compiler/target/RPM/QEMU execution. Exact-head CI and physical products remain acceptance gates.",
+    "status": "active"
+  },
+  "package_id": "sxhkd",
+  "rpm": {
+    "license": "BSD-2-Clause",
+    "name": "sxhkd",
+    "summary": "Simple X hotkey daemon with keyboard and mouse chord bindings"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-tags"
+  },
+  "upstream": {
+    "component": "github.com-baskerville-sxhkd",
+    "homepage": "https://github.com/baskerville/sxhkd",
+    "release_api": "https://api.github.com/repos/baskerville/sxhkd/tags",
+    "release_channel": "stable",
+    "release_regex": "^(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_repository": "https://github.com/baskerville/sxhkd.git",
+    "source_url_template": "https://github.com/baskerville/sxhkd/archive/refs/tags/{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.6.3",
+    "latest_detected": "0.6.3",
+    "release": "1"
+  }
+}

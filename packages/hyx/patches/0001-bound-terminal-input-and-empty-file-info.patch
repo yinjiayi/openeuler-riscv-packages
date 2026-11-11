@@ -1,0 +1,73 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Bound ctype inputs, empty-file info and narrow layout
+License: MIT
+
+Original downstream static review of official hyx 2026.01.11. No upstream
+writes. Special keys exceed the ctype input domain; Ctrl-G divides by zero
+on an empty blob and formats a null filename; narrow terminals underflow
+the unsigned column calculation. Keep all editor modes and the default
+build. Remove after an official release passes the same PTY regressions.
+
+--- a/input.c
++++ b/input.c
+@@ -6,3 +6,4 @@
+-#include <ctype.h>
+-#include <errno.h>
+-#include <sys/time.h>
++#include <ctype.h>
++#include <errno.h>
++#include <limits.h>
++#include <sys/time.h>
+@@ -204,4 +205,4 @@
+         default:
+-            if (!isprint(k))
++            if (k > UCHAR_MAX || !isprint((unsigned char) k))
+                 break;
+             str[len++] = k;
+@@ -558 +559 @@
+-        if (input->mode_ascii && isprint(k)) {
++        if (input->mode_ascii && k <= UCHAR_MAX && isprint((unsigned char) k)) {
+@@ -700,9 +701,10 @@
+              char buf[256];
++             size_t len = blob_length(input->view->blob);
+              snprintf(buf, sizeof(buf), "\"%s\" %s%s %zd/%zd bytes --%zd%%--",
+-                 input->view->blob->filename,
++                 input->view->blob->filename ? input->view->blob->filename : "[unnamed]",
+                  input->view->blob->alloc == BLOB_MMAP ? "[mmap]" : "",
+                  input->view->blob->saved_dist ? "[modified]" : "[saved]",
+                  input->cur,
+-                 blob_length(input->view->blob),
+-                 ((input->cur+1) * 100) / blob_length(input->view->blob));
++                 len,
++                 len ? (size_t) ((long double) (input->cur + 1) * 100 / len) : 0);
+              view_message(V, buf, NULL);
+@@ -876,4 +878,4 @@
+-static unsigned unhex_digit(char c)
+-{
+-    assert(isxdigit(c));
+-    if (c >= '0' && c <= '9')
++static unsigned unhex_digit(char c)
++{
++    assert(isxdigit((unsigned char) c));
++    if (c >= '0' && c <= '9')
+@@ -892,5 +894,5 @@
+     for (char const *p = hex; *p; ) {
+-        while (isspace(*p)) ++p;
+-        if (!(isxdigit(p[0]) && isxdigit(p[1]))) {
++        while (isspace((unsigned char) *p)) ++p;
++        if (!(isxdigit((unsigned char) p[0]) && isxdigit((unsigned char) p[1]))) {
+             free(*ret);
+             *ret = NULL;
+--- a/view.c
++++ b/view.c
+@@ -30,2 +30,4 @@
+-    assert(view->width);
+-    return (view->width - (view->pos_digits + strlen(": ") + strlen("||"))) / strlen("xx c");
++    size_t prefix = (size_t) view->pos_digits + strlen(": ") + strlen("||");
++    if (view->width <= prefix)
++        return 1;
++    return (view->width - prefix) / strlen("xx c");
+@@ -148 +150,2 @@
+-        char const *space = &" "[I->cur >= ((size_t) 1 << 4 * view->pos_digits)]; /* in case cursor is just 1 past the end */
++        char const *space = &" "[view->pos_digits < 2 * sizeof(size_t) &&
++                               I->cur >= ((size_t) 1 << 4 * view->pos_digits)];

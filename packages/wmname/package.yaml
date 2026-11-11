@@ -1,0 +1,80 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "user": "unprivileged",
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://tools.suckless.org/x/wmname/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "wmname",
+        "package_name": "wmname",
+        "source": "arch-extra",
+        "source_version": "0.1-6"
+      },
+      {
+        "evidence_url": "https://tools.suckless.org/x/wmname/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "wmname",
+        "package_name": "wmname",
+        "source": "fedora",
+        "source_version": "0.1-30.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {"file":"patches/0001-defer-stripping-to-rpm.patch","sha256":"81e56397c2e5239d52d1ffa0174e2388c7796f0bae64e95eb65b872fe26ed203","purpose":"Defer binary stripping to standard RPM processing while retaining default targets.","source":"Locally authored from official Makefile; no upstream write.","license":"MIT","upstream_status":"downstream-only","remove_when":"Stable upstream supports packaging-controlled stripping."},
+      {"file":"patches/0002-read-complete-typed-property.patch","sha256":"4660bad6de2fc3c98d20d33ea9b408a0630175b2ca386e00dcba48baa6ecb59b","purpose":"Read the complete measured UTF8_STRING property; reject wrong type/format or incomplete second read and report output errors.","source":"Locally authored static review of official wmname.c lines 41-44; long-boundary private-Xvfb tests are mandatory in target CI, not a native RISC-V claim.","license":"MIT","upstream_status":"downstream-only","remove_when":"Stable upstream correctly reads full typed names and reports read errors."}
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "wmname.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed 0.1 archive and all five members/MIT notices reviewed. Original default all/install/C99/pedantic/Wall/-Os/VERSION/Xlib retained; no upstream test target exists. RPM stripping and complete typed-property fixes are downstream MIT patches. Strict private-Xvfb tests run staged and installed; no native display, timing, security, performance or exhaustive EWMH claim. No AUR/distro recipe or local target build executed.",
+    "status": "active"
+  },
+  "package_id": "wmname",
+  "rpm": {
+    "license": "MIT",
+    "name": "wmname",
+    "summary": "Print or set the X11 EWMH window manager name"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "tools.suckless.org-x-wmname",
+    "homepage": "https://tools.suckless.org/x/wmname/",
+    "release_api": "https://dl.suckless.org/tools/",
+    "release_channel": "stable",
+    "release_regex": "wmname-(?P<version>[0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://git.suckless.org/wmname/",
+    "source_url_template": "https://dl.suckless.org/tools/wmname-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.1",
+    "latest_detected": "0.1",
+    "release": "1"
+  }
+}

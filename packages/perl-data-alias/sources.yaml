@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-data-alias",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "dfa9e341b086cd957df6675879a9cb120919408b85b48966dd240ab85333ed2e"
+      },
+      "filename": "Data-Alias-1.30.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/X/XM/XMATH/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/X/XM/XMATH/Data-Alias-1.30.tar.gz",
+      "version": "1.30"
+    }
+  ]
+}

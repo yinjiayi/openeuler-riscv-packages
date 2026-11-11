@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/bw2/ConfigArgParse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-configargparse",
+        "package_name": "python-configargparse",
+        "source": "arch-extra",
+        "source_version": "1.7.5-1"
+      },
+      {
+        "evidence_url": "https://github.com/bw2/ConfigArgParse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-configargparse",
+        "package_name": "python-configargparse",
+        "source": "fedora",
+        "source_version": "1.7.5-1.fc44"
+      },
+      {
+        "evidence_url": "https://github.com/bw2/ConfigArgParse",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "python-ConfigArgParse",
+        "package_name": "python-ConfigArgParse",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.7.5-1.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "python-configargparse.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Full formal v1.8.0 source17 blobs/MIT retained. Selected original Python3.11 whole pytest coverage route and all7 test extras supplied; python3-devel owns complete stdlib argparse tests, explicitly required. Separate Python3.13 lint/platform matrix retained and unclaimed. Standard setuptools-scm fixed-release environment supplies version1.8.0 for the Git archive. No local backend/default execution.",
+    "status": "active"
+  },
+  "package_id": "python-configargparse",
+  "rpm": {
+    "license": "MIT",
+    "name": "python-configargparse",
+    "summary": "Argument parser with configuration-file and environment-variable support"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-pypi"
+  },
+  "upstream": {
+    "component": "github.com-bw2-configargparse",
+    "homepage": "https://github.com/bw2/ConfigArgParse",
+    "release_api": "https://pypi.org/pypi/ConfigArgParse/json",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/bw2/ConfigArgParse",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.8.0",
+    "latest_detected": "1.8.0",
+    "release": "1"
+  }
+}

@@ -1,0 +1,24 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] cmake: query the inih pkg-config module
+
+The target inih-devel 62 package installs inih.pc, whose Libs directory is
+/usr/lib64. Query that module so Findinih receives the supplied include and
+library-directory hints. Keep INI support, library-name fallback and the
+installed Findinih module; do not bypass the original tests.
+
+The first target configure failed with INIH_LIBRARY missing after a successful
+dependency transaction. Its earlier compiler ABI probe also failed; this
+compatibility correction does not assert that separate probe's cause or a
+successful target outcome. Remove when upstream queries the inih module.
+
+SPDX-License-Identifier: MIT
+--- a/builds/cmake/Modules/Findinih.cmake
++++ b/builds/cmake/Modules/Findinih.cmake
+@@ -26,6 +26,6 @@
+ find_package(PkgConfig QUIET)
+ 
+-pkg_check_modules(PC_INIH QUIET libinih)
++pkg_check_modules(PC_INIH QUIET inih)
+ 
+ # Look for the header file.
+ find_path(INIH_INCLUDE_DIR

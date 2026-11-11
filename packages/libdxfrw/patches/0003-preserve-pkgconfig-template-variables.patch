@@ -1,0 +1,29 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Preserve pkg-config variables during CMake configuration
+
+configure_file expands both @VAR@ and ${VAR} by default. The latter form
+is also pkg-config syntax: consuming ${libdir} and ${includedir} produces
+empty -L and -I/libdxfrw flags even though the headers were installed.
+Use @ONLY and @CMAKE_*@ substitutions so pkg-config resolves its own
+variables at consumption time, including a staged install sysroot.
+Downstream packaging correction; no build target or test is removed.
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -96 +96 @@
+-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libdxfrw.pc.in libdxfrw.pc)
++configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libdxfrw.pc.in libdxfrw.pc @ONLY)
+--- a/libdxfrw.pc.in
++++ b/libdxfrw.pc.in
+@@ -1,4 +1,4 @@
+-prefix=${CMAKE_INSTALL_PREFIX}
+-exec_prefix=${CMAKE_INSTALL_PREFIX}
+-libdir=${CMAKE_INSTALL_FULL_LIBDIR}
+-includedir=${CMAKE_INSTALL_FULL_INCLUDEDIR}
++prefix=@CMAKE_INSTALL_PREFIX@
++exec_prefix=@CMAKE_INSTALL_PREFIX@
++libdir=@CMAKE_INSTALL_FULL_LIBDIR@
++includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
+@@ -8 +8 @@
+-Version: ${PROJECT_VERSION}
++Version: @PROJECT_VERSION@

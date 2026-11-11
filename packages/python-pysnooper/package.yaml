@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "python-pysnooper",
+  "rpm": {
+    "name": "python-pysnooper",
+    "summary": "Line and variable tracing debugger for Python",
+    "license": "MIT AND PSF-2.0"
+  },
+  "version": {
+    "current": "1.2.3",
+    "latest_detected": "1.2.3",
+    "release": "1"
+  },
+  "upstream": {
+    "component": "github.com-cool-rr-pysnooper",
+    "homepage": "https://github.com/cool-RR/PySnooper",
+    "source_repository": "https://github.com/cool-RR/PySnooper",
+    "release_api": "https://api.github.com/repos/cool-RR/PySnooper/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "fedora",
+        "package_name": "python-pysnooper",
+        "package_base": "python-pysnooper",
+        "source_version": "1.2.3-7.fc44",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/96409a7b6fd06c478e5e216e0b3fd79272f6882a/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "python-PySnooper",
+        "package_base": "python-PySnooper",
+        "source_version": "1.2.3-1.4",
+        "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/96409a7b6fd06c478e5e216e0b3fd79272f6882a/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "files": {
+    "spec": "python-pysnooper.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "network_during_build": false,
+    "native_reason": null
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "All43 fixed Git originals retained. Original MIT with pathlib copyright notices plus samecommit PSF2 license for byte-identical contextlib2 v0.5.4 vendored tests preserved. Full original shared pytest route/strictmarkers/timing unchanged. Target CI unverified; no performance or native timing claim."
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "official-github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  }
+}

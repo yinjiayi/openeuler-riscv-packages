@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "python-retry",
+  "sources": [
+    {
+      "id": "source0",
+      "filename": "python-retry-0.9.5.tar.gz",
+      "url": "https://codeload.github.com/eSAMTrade/retry/tar.gz/ff6e88999818070a3012191c3e949fbdc8131cae",
+      "kind": "upstream-release",
+      "version": "0.9.5",
+      "digests": {
+        "sha256": "e95a469cd75ad2ce3b0d7bb706e8c7f3e74c1681c7087d66af91c83a872ffd0c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream Apache2 notice grants distribution under Apache2; full immutable original notice and AUTHORS retained."
+      }
+    },
+    {
+      "id": "source1",
+      "filename": "LICENSE-2.0.txt",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "kind": "upstream-release",
+      "version": "2.0",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full official Apache License2.0 text accompanying the unmodified upstream notice as required by section4(a)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "package_id": "python-ratelimit",
+  "rpm": {"name": "python-ratelimit", "summary": "API rate limit decorator for Python", "license": "MIT"},
+  "upstream": {"component": "github.com-tomasbasham-ratelimit", "homepage": "https://github.com/tomasbasham/ratelimit", "source_repository": "https://github.com/tomasbasham/ratelimit", "release_channel": "stable", "release_api": "https://pypi.org/pypi/ratelimit/json", "release_regex": null, "source_url_template": null},
+  "version": {"current": "2.2.1", "release": "1", "latest_detected": "2.2.1"},
+  "discovery": {"snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd", "lineage": [
+    {"source": "aur", "package_name": "python-ratelimit", "package_base": "python-ratelimit", "source_version": "2.2.1-1", "evidence_url": "https://github.com/tomasbasham/ratelimit", "observed_at": "2026-08-08T16:50:00Z"},
+    {"source": "ubuntu", "package_name": "python-ratelimit", "package_base": "python-ratelimit", "source_version": "2.2.1-2", "evidence_url": "https://github.com/tomasbasham/ratelimit", "observed_at": "2026-08-08T16:50:00Z"},
+    {"source": "debian", "package_name": "python-ratelimit", "package_base": "python-ratelimit", "source_version": "2.2.1-2", "evidence_url": "https://github.com/tomasbasham/ratelimit", "observed_at": "2026-08-08T16:50:00Z"}
+  ]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "python-ratelimit.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Whole official formal2.2.1 Git tree retains all original tests/config/defaults; released runtime/setup/license match official PyPI sdist. Preserve historical dev pins as source, disclose supplied target tools and require actual complete target CI. Four original tests inject deterministic clock; no native timing or historical interpreter-matrix claim."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-pypi"}
+}

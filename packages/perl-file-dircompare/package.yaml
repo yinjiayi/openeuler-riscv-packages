@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/File-DirCompare",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfile-dircompare-perl",
+        "package_name": "libfile-dircompare-perl",
+        "source": "debian",
+        "source_version": "0.7-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/File-DirCompare",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfile-dircompare-perl",
+        "package_name": "libfile-dircompare-perl",
+        "source": "ubuntu",
+        "source_version": "0.7-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-file-dircompare.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN archive verified against two published checksums. Original default tests and eight in-tree fixture symlinks retained; no build download required.",
+    "status": "active"
+  },
+  "package_id": "perl-file-dircompare",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-file-dircompare",
+    "summary": "Compare directory trees using Perl callbacks"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-file-dircompare",
+    "homepage": "https://metacpan.org/dist/File-DirCompare",
+    "release_api": "https://cpan.metacpan.org/authors/id/G/GA/GAVINC/",
+    "release_channel": "stable",
+    "release_regex": "File-DirCompare-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/File-DirCompare",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/G/GA/GAVINC/File-DirCompare-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.7",
+    "latest_detected": "0.7",
+    "release": "1"
+  }
+}

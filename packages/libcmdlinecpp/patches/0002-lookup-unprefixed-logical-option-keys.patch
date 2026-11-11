@@ -1,0 +1,17 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Resolve unprefixed logical option names used by the public API
+
+is_specified(), dataTypeOfOption() and to_variable() query registered options
+using their logical names without CLI dashes. Rejecting these before searching
+m_options makes the unchanged original main -n 3 fixture abort with NotFound.
+Normalize the bare form too; preserve long/short CLI forms and the existing
+NotFound after an unsuccessful search. No headers, examples or tests change.
+This is a generic source defect, not a RISC-V-specific workaround.
+License: LGPL-3.0-or-later
+Upstream-Status: Not submitted
+
+--- a/src/arguments.cpp
++++ b/src/arguments.cpp
+@@ -264 +264 @@
+-        throw NotFound("Could not find option '"  + parameter + "'.");
++        option_str = parameter;

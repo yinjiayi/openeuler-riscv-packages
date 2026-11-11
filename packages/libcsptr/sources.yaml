@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "package_id": "libcsptr",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "libcsptr-2.0.4.tar.gz",
+      "version": "2.0.4",
+      "url": "https://codeload.github.com/snaipe/libcsptr/tar.gz/82d3b1beafe7ed9f13f75e0d3367c60205e10f27",
+      "digests": {
+        "sha256": "f0842d3f317682c07fe06e41b15ab1a11edd06208070c3798d43df0eaf6508b9"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete official fixed stable archive, all 30 Git blobs and executable modes matched. Tag and commit unsigned and matching releases/source contain no available detached signature; no signature success claimed. Preserve MIT core/Coveralls notices, New BSD Check finder grant and complete companion, GPL3 Autoconf macro exception and complete GNU GPL3 terms."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "COPYING-CMAKE-SCRIPTS",
+      "version": "07430deb9b97b751ec5ea5a7fc307f40bf042e0a",
+      "url": "https://raw.githubusercontent.com/libssh/libssh-mirror/07430deb9b97b751ec5ea5a7fc307f40bf042e0a/cmake/Modules/COPYING-CMAKE-SCRIPTS",
+      "digests": {
+        "sha256": "46cde7dc11e64c78d650b4851b88f6704b4665ff60f22a1caf68ceb15e217e5b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official fixed legal-text Git blob 4b417765f3a834ce6b0a216f6b6c0fe2d3f0bed5, complete AUTHOR-form New BSD three-clause conditions/disclaimer. Original libcsptr FindCheck already explicitly grants New BSD and retains Gollub/Ricks notices; original Check official finder corroborates opensync provenance. This legal-text provenance is not admission or signature verification of separately signed libssh code/release."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "filename": "GPL-3.0.txt",
+      "version": "3.0",
+      "url": "https://ftp.gnu.org/gnu/Licenses/gpl-3.0.txt",
+      "digests": {
+        "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete official GNU GPL3 text permits verbatim copying. Accompanies unchanged source-only ax_prefix_config_h.m4 GPL3-or-later plus original Autoconf macro exception; not attributed to every library binary."
+      }
+    }
+  ]
+}

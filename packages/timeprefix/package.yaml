@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "package_id": "timeprefix",
+  "rpm": {
+    "name": "timeprefix",
+    "summary": "Prefix input lines with boot-time and UTC text",
+    "license": "ISC"
+  },
+  "upstream": {
+    "component": "codeberg.org-maandree-timeprefix",
+    "homepage": "https://codeberg.org/maandree/timeprefix",
+    "source_repository": "https://codeberg.org/maandree/timeprefix.git",
+    "release_channel": "stable",
+    "release_api": "https://codeberg.org/maandree/timeprefix/tags",
+    "release_regex": "/archive/(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://codeberg.org/maandree/timeprefix/archive/{version}.tar.gz"
+  },
+  "version": {
+    "current": "3.1.2",
+    "release": "1",
+    "latest_detected": "3.1.2"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "timeprefix",
+        "package_base": "timeprefix",
+        "source_version": "3.1.2-1",
+        "evidence_url": "https://aur.archlinux.org/packages/timeprefix",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "timeprefix.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": []
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Original all and complete normalized-output make check retained unchanged. Staged/installed exact original pipeline plus payload/empty/long-input/usage checks are functional formatting evidence only. Native clock accuracy, monotonicity, timing/performance, suspend and leap-second properties require native RISC-V validation and are not established by QEMU user mode. No clock branch disabled, source patch or local source/RPM/QEMU build. Exact-head CI, ordinary target installation and physical products remain merge gates."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "package_id": "qrcodegen",
+  "rpm": {"name": "qrcodegen", "summary": "Nayuki QR Code generator C and C++ static libraries", "license": "MIT"},
+  "upstream": {"component": "github.com-nayuki-qr-code-generator", "homepage": "https://www.nayuki.io/page/qr-code-generator-library", "source_repository": "https://github.com/nayuki/QR-Code-generator", "release_channel": "stable", "release_api": "https://api.github.com/repos/nayuki/QR-Code-generator/tags", "release_regex": "^v(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$"},
+  "version": {"current": "1.8.0", "release": "1", "latest_detected": null},
+  "discovery": {"snapshot_id": "component-review-20261018-qrcodegen-v1.8.0", "lineage": [{"source": "debian", "package_name": "qr-code-generator", "package_base": "qr-code-generator", "source_version": "1.8.0-1.2", "evidence_url": "https://sources.debian.org/src/qr-code-generator/1.8.0-1.2/", "observed_at": "2026-10-18T10:52:00Z"}]},
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 30, "native_reason": null},
+  "files": {"spec": "qrcodegen.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {"status": "active", "maintainers": ["yinjiayi"], "notes": "Debian trixie qr-code-generator lineage; not stale AUR metadata admission. Official v1.8.0 fixed commit/archive, all52 Git files and modes verified. Package the independent original C and C++ library ports, not other language ports. Preserve both unmodified default Makefile all targets and all20 C internal test groups with QRCODEGEN_TEST and assertions enabled; never filter or seed-rewrite the original time-seeded tests. Replay both complete original demos against staged and installed static archives and compare their deterministic output with the original build demos. This installed public-API replay is not the internal white-box test suite. No source patch or local source/target execution."},
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-tags"}
+}

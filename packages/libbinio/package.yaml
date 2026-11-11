@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://github.com/adplug/libbinio",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libbinio",
+        "package_name": "libbinio",
+        "source": "aur",
+        "source_version": "1.5-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [{
+      "file": "patches/0001-keep-float-storage-alive-until-byte-write.patch",
+      "sha256": "c481c1416a4b90d0b4939d5190dae94bff886dfac5f896a87ef556a1382989aa",
+      "purpose": "Keep floating-point conversion storage alive until byte output without weakening tests.",
+      "source": "Original downstream repair of fixed adplug/libbinio 1.5 source; exact failed head 6a384f55 and CI 38646644683:1.",
+      "license": "LGPL-2.1-or-later",
+      "upstream_status": "downstream-only",
+      "remove_when": "Verified official release contains equivalent floating storage lifetime fix."
+    }],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libbinio.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official libbinio-1.5 tag pins commit 020a4c2b7612863600428e0e9f2491b923e54ac2 and full SHA-256. Original configure/make/check and documentation defaults preserved. Upstream has no unit TESTS; separate downstream memory, file, stream, endian, float and error checks run at source, staged and installed phases. Original LGPL, literal Ken Turkowski permission/disclaimer and GFDL cover texts retained. Target build/install and actual DNF transaction pending CI; no native RISC-V or publication claim.",
+    "status": "active"
+  },
+  "package_id": "libbinio",
+  "rpm": {
+    "license": "LGPL-2.1-or-later AND LicenseRef-Ken-Turkowski AND GFDL-1.1-or-later",
+    "name": "libbinio",
+    "summary": "Platform-independent C++ binary stream input and output library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-adplug-libbinio",
+    "homepage": "https://github.com/adplug/libbinio",
+    "release_api": "https://api.github.com/repos/adplug/libbinio/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": "^libbinio-([0-9]+[.][0-9]+)$",
+    "source_repository": "https://github.com/adplug/libbinio",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "1.5",
+    "latest_detected": "1.5",
+    "release": "1"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/perl-class-mix",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-class-mix",
+        "package_name": "perl-class-mix",
+        "source": "aur",
+        "source_version": "0.006-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-mix.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN release archive pinned by SHA-256; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "perl-class-mix",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-Class-Mix",
+    "summary": "Dynamically compose Perl classes"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "search.cpan.org-dist-class-mix",
+    "homepage": "https://metacpan.org/dist/Class-Mix",
+    "release_api": "https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/",
+    "release_channel": "stable",
+    "release_regex": "Class-Mix-([0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/Class-Mix-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.006",
+    "latest_detected": "0.006",
+    "release": "1"
+  }
+}

@@ -1,0 +1,32 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Propagate generator exceptions before completed-handle handling
+License: MIT
+Source: a-n-t-h-o-n-y/zzz commit 9d7c047f47c81a95a5ea824075253618356593a2
+Source-file: include/zzz/coro.hpp SHA256 db3df750b5a860e93489db1beefdfc48fc091f8e934edc6ca19f6ccbdfd3fa34
+Root-cause: stored coroutine exceptions are lost when completion becomes end
+Applies-to: TermOx 2.0.0 bundled zzz exact commit 9d7c047f47c81a95a5ea824075253618356593a2
+Upstream: not submitted
+Remove-when: official dependency checks exceptions after both resume sites,
+ and the complete strict target regressions pass without this patch
+
+Keep the owning Generator and non-owning iterators unchanged. Check the
+stored promise exception after both resume sites, before treating done
+as end-of-range. Original archive notices are retained before this patch.
+
+--- a/.packaging-deps/zzz/include/zzz/coro.hpp
++++ b/.packaging-deps/zzz/include/zzz/coro.hpp
+@@ -102,2 +102,5 @@
+                 handle_.resume();
++                if (handle_.promise().exception) {
++                    std::rethrow_exception(handle_.promise().exception);
++                }
+                 if (handle_.done()) { handle_ = nullptr; }
+@@ -110,6 +113,6 @@
+                 handle_.resume();
+-                if (handle_.done()) { handle_ = nullptr; }
+-                else if (handle_.promise().exception) {
++                if (handle_.promise().exception) {
+                     std::rethrow_exception(handle_.promise().exception);
+                 }
++                if (handle_.done()) { handle_ = nullptr; }
+             }

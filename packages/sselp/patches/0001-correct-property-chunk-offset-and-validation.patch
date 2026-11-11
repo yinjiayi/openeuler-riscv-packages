@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: MIT
+# Copyright 2026 yinjiayi. Downstream-only correctness fix for sselp 0.2.
+# XGetWindowProperty offsets are 32-bit units; format-8 lengths are bytes.
+# Reset failed/refused reads, validate type/format, and release Xlib data.
+# No upstream write. Remove when a stable release fixes these cases.
+--- a/sselp.c
++++ b/sselp.c
+@@ -18 +18 @@
+-	unsigned char *data;
++	unsigned char *data = NULL;
+@@ -20,0 +21 @@
++	*len = *remain = 0;
+@@ -33,3 +34,5 @@
+-		XGetWindowProperty(dpy, w, ev.xselection.property, offset, 4096L, False,
+-				AnyPropertyType, &typeret, &format, len, remain, &data);
+-		if(*len) {
++		if(XGetWindowProperty(dpy, w, ev.xselection.property, offset, 4096L, False,
++				AnyPropertyType, &typeret, &format, len, remain, &data) != Success ||
++				typeret != utf8_string || format != 8) {
++			*len = *remain = 0;
++		} else if(*len) {
+@@ -36,0 +40,4 @@
++			if(!result) {
++				fputs("sselp: out of memory\n", stderr);
++				exit(EXIT_FAILURE);
++			}
+@@ -38,0 +46,2 @@
++		if(data)
++			XFree(data);
+@@ -60 +69,2 @@
+-		offset += len;
++		/* XGetWindowProperty offsets use 32-bit units, not bytes. */
++		offset += (len + 3) / 4;

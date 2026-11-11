@@ -1,0 +1,79 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/snooze",
+        "observed_at": null,
+        "package_base": "snooze",
+        "package_name": "snooze",
+        "source": "aur",
+        "source_version": "0.6-1"
+      }
+    ],
+    "snapshot_id": "discovery-official-snooze-N146-36b6b7a92426b5c8"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-check-duration-before-multiplication.patch",
+        "license": "CC0-1.0",
+        "purpose": "Check suffix duration bounds before multiplication, preserving valid inputs, diagnostics, defaults and scheduling.",
+        "remove_when": "An official stable release includes equivalent checked duration arithmetic.",
+        "sha256": "03a8a38b1685c9afa548b952daa6fa1f72db18c16d3da5de3d799ee731f90e32",
+        "source": "Locally authored checked-factor guard against official v0.6 snooze.c SHA 50c51015ace7ae71e2d5d3e4fae5176d901294efcfb99aa8ca8b9720499cc4a1. No upstream write.",
+        "upstream_status": "downstream-only"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "snooze.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "All ten original text members retained and reviewed. Original default all/install/compiler warnings retained; upstream has no test/check target. Optional sv/runit service installation is not part of default install and is not activated. Inline CC0 waiver/URL is retained in README.md, man and C source; unchanged README is distributed as license in base/tests. Narrow multiplication-overflow guard has mandatory target-only original-negative/fixed-positive whole-source parser controls, plus unchanged original/fixed calendar/grammar controls. Ordinary built/staged/installed binary QA is mandatory. Signed-input strtoul semantics remain unchanged. QEMU functional tests do not certify native clock adjustments, scheduling precision/performance or real service operation. Real target CI/ordinary DNF/physical RPM+SRPM/publication remain separate gates.",
+    "status": "active"
+  },
+  "package_id": "snooze",
+  "rpm": {
+    "license": "CC0-1.0",
+    "name": "snooze",
+    "summary": "Run a command at a particular time"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "github-tags"
+  },
+  "upstream": {
+    "component": "github.com-leahneukirchen-snooze",
+    "homepage": "https://github.com/leahneukirchen/snooze",
+    "release_api": "https://api.github.com/repos/leahneukirchen/snooze/tags",
+    "release_channel": "stable",
+    "release_regex": "v(?P<version>[0-9]+\\.[0-9]+)",
+    "source_repository": "https://github.com/leahneukirchen/snooze",
+    "source_url_template": "https://codeload.github.com/leahneukirchen/snooze/tar.gz/refs/tags/v{version}"
+  },
+  "version": {
+    "current": "0.6",
+    "latest_detected": "0.6",
+    "release": "1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "package_id": "libnpy",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "c7b275c6cb8e46df43a20271e65010bdf63945831f2c0931ea6f2eda6a842acd"
+      },
+      "filename": "libnpy-1.0.1.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Full original MIT LICENSE and complete header notices reviewed and retained; all 15 official Git blobs independently verified. No signed tag or detached signature observed. Test fixtures are generated numerically by the original retained NumPy script, not externally licensed media."
+      },
+      "signature": null,
+      "url": "https://codeload.github.com/llohse/libnpy/tar.gz/890ea4fcda302a580e633c624c6a63e2a5d422f6",
+      "version": "1.0.1"
+    }
+  ]
+}

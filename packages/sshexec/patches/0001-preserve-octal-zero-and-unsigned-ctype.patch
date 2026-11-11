@@ -1,0 +1,31 @@
+From: yinjiayi <yinjiayi@users.noreply.github.com>
+Subject: [PATCH] Emit complete octal escapes and advance over following digits
+
+Use exactly three octal digits, so ASCII @ (0100) cannot become \10 and
+following digits cannot be consumed as part of the escape. Advance over
+all safe characters after an escape: otherwise a following decimal digit
+is neither escaped nor consumed. Character classification requires an
+unsigned-char value or EOF.
+Original build retained; downstream target-only argv roundtrip tests cover
+every non-NUL ASCII byte, including @ followed by digits.
+
+License: ISC
+Upstream-Status: Not submitted (downstream package correctness)
+Removal: Drop when a fixed official release passes the same byte regressions.
+--- a/sshexec.c
++++ b/sshexec.c
+@@ -182,2 +182 @@
+-#define IS_ALWAYS_SAFE(C)   (isalnum((C)) || (C) == '_' || (C) == '/')
+-#define IS_INITIAL_SAFE(C)  (isalpha((C)) || (C) == '_' || (C) == '/')
++#define IS_ALWAYS_SAFE(C)   (isalnum((unsigned char)(C)) || (C) == '_' || (C) == '/')
+@@ -228 +227 @@
+-			command_len += (command[command_len] != '0');
++			command_len++;
+@@ -230 +229 @@
+-			command_len += (command[command_len] != '0');
++			command_len++;
+@@ -237 +236 @@
+-		while (IS_INITIAL_SAFE(arg[n]) || arg[n] == '_' || arg[n] == '/')
++		while (IS_ALWAYS_SAFE(arg[n]))
+@@ -258 +256,0 @@
+-#undef IS_INITIAL_SAFE

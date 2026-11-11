@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "package_id": "python-pyuca",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "python-pyuca-1.2.tar.gz",
+      "url": "https://codeload.github.com/jtauber/pyuca/tar.gz/d751d694a90ab9d8789263822e02ae822d251e2c",
+      "version": "1.2",
+      "digests": {
+        "sha256": "e1e0880ffa05260a111e9d0652443f728896eee4a48448c1dff2cab276cf9435"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original MIT and Unicode-DFS-2015 grants and notices are retained; all upstream data remain unchanged."
+      }
+    }
+  ]
+}

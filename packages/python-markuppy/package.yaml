@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "package_id": "python-markuppy",
+  "rpm": {"name": "python-markuppy", "summary": "Lightweight HTML and XML generation for Python", "license": "MIT AND LicenseRef-Public-Domain AND Apache-2.0"},
+  "version": {"current": "1.18", "latest_detected": "1.18", "release": "1"},
+  "upstream": {
+    "component": "github.com-tylerbakke-markuppy",
+    "homepage": "https://github.com/tylerbakke/MarkupPy",
+    "source_repository": "https://github.com/tylerbakke/MarkupPy",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/tylerbakke/MarkupPy/tags",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_url_template": "https://codeload.github.com/tylerbakke/MarkupPy/tar.gz/v{version}"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "debian", "package_name": "python-markuppy", "package_base": "python-markuppy", "source_version": "1.17-1", "observed_at": "2026-08-08T16:50:00Z", "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/511de45f5818fb35c5d6fb28c225c69eb140236c/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"},
+      {"source": "opensuse-tumbleweed", "package_name": "python-MarkupPy", "package_base": "python-MarkupPy", "source_version": "1.18-1.2", "observed_at": "2026-08-08T16:50:00Z", "evidence_url": "https://github.com/yinjiayi/openeuler-riscv-packages/blob/511de45f5818fb35c5d6fb28c225c69eb140236c/catalog/snapshots/discovery-20260808T165000Z-9a89920c269462cd.json.gz"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": false, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "python-markuppy.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {
+    "status": "active", "maintainers": ["yinjiayi"],
+    "notes": "Official v1.18 unsigned tag fixed to abeb20b9a6d0157ea561ab00b21b8e42dc62b086. Preserve all13 original source files and all9 original default unittest tests, replay against staged/installed byte-checked runtime. PEP621 version1.18 is authoritative; legacy setup.py/README versions remain unchanged. Python3.11 target bounds preserve original makeSuite API. MIT text and explicit runtime public-domain grant retained without relabeling as Unlicense. Target CI/build/install/products remain unverified."
+  },
+  "updates": {"enabled": true, "release_provider": "official-github-tags", "last_checked_at": null, "last_successful_check_at": null}
+}

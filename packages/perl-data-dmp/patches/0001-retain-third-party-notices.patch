@@ -1,0 +1,24 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Retain notices for copied third-party code
+
+The upstream source identifies code copied from Data::Dump and
+String::PerlQuote. Retain their attribution and Perl licensing terms.
+
+--- /dev/null
++++ b/THIRD-PARTY-NOTICES
+@@ -0,0 +1,15 @@
++Data::Dmp includes code identified in its source as copied from Data::Dump.
++The corresponding code and notice were checked against the official
++Data-Dump 1.23 release, SHA-256
++af53b05ef1387b4cab4427e6789179283e4f0da8cf036e8db516ddb344512b65.
++That comparison does not establish which Data::Dump release was copied.
++
++Data::Dump was written by Gisle Aas, based on Data::Dumper by Gurusamy Sarathy.
++Copyright 1998-2010 Gisle Aas.
++Copyright 1996-1998 Gurusamy Sarathy.
++The Data::Dump library may be redistributed and modified under the same
++terms as Perl itself. The accompanying LICENSE contains those Perl terms.
++
++Data::Dmp also identifies code copied from String::PerlQuote, copyright 2016
++perlancar@cpan.org, under the same terms as Perl 5. The exact copied release
++has not been established.

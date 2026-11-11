@@ -1,0 +1,6 @@
+{
+ "schema_version":1,"package_id":"libmsnumpress","sources":[
+  {"id":"source0","kind":"upstream-release","version":"0.2.3","url":"https://codeload.github.com/ms-numpress/ms-numpress/tar.gz/2657c2fe48ff9b5e11e87e31a7f5a16aef67bb0d","filename":"libmsnumpress-0.2.3.tar.gz","digests":{"sha256":"ef90d4ea214f6690b0430a148c053fbfb1595c669798f91dfa67fb3e5d24c4f5"},"signature":null,"redistribution":{"allowed":true,"reason":"Original C++ source/header/tests each carry explicit Apache-2.0 grant and copyright; all bytes and notices retained. Choose the Apache alternative documented by upstream, without depending on missing BSD license files."}},
+  {"id":"source1","kind":"upstream-release","version":"2.0","url":"https://www.apache.org/licenses/LICENSE-2.0.txt","filename":"APACHE-2.0.txt","digests":{"sha256":"cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"},"signature":null,"redistribution":{"allowed":true,"reason":"Complete official text of the Apache-2.0 license explicitly granted in unchanged original files, also used for downstream packaging wrapper."}}
+ ]
+}

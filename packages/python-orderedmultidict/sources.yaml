@@ -1,0 +1,29 @@
+{
+  "package_id": "python-orderedmultidict",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "16a7ae8432e02cc987d2d6d5af2df5938258f87c870675c73ee77a0920e6f4a6"
+      },
+      "filename": "orderedmultidict-1.0.2.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete upstream Unlicense dedication/disclaimer and author notices retained; official stable PyPI source checksum verified."
+      },
+      "signature": null,
+      "url": "https://files.pythonhosted.org/packages/5c/62/61ad51f6c19d495970230a7747147ce7ed3c3a63c2af4ebfdb1f6d738703/orderedmultidict-1.0.2.tar.gz",
+      "version": "1.0.2"
+    },
+    {
+      "id":"source1", "kind":"test-dependency",
+      "url":"https://codeload.github.com/gruns/orderedmultidict/tar.gz/901194bed9c2de9e336358f3328132a81a14314e",
+      "filename":"orderedmultidict-tests-901194bed9c2de9e336358f3328132a81a14314e.tar.gz",
+      "version":"1.0.2", "digests":{"sha256":"cfa41406dd9428bb70c8d131206134cff0fe561a3cc94dd733795849e31d4c89"},
+      "signature":null,
+      "redistribution":{"allowed":true,"reason":"Complete upstream Unlicense and author notices apply to both original test modules; all runtime/build/license bytes match stable PyPI1.0.2. Fixed Git source is a test supplement, not a VCS-only or older release replacement."}
+    }
+  ]
+}

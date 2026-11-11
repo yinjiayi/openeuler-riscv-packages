@@ -1,0 +1,34 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] tests: select the Python 3.11 context protocol exception
+
+Python 3.11 changed with-statement missing-context-protocol errors to TypeError
+(bpo-12022). Keep both malformed-manager tests, the old-version AttributeError
+assertion, and the exact CPython 3.11 error/message assertion for new versions.
+No library implementation, discovered test, default command or waiver changes.
+
+References:
+https://docs.python.org/3.11/whatsnew/3.11.html#other-language-changes
+https://github.com/python/cpython/blob/v3.11.6/Lib/test/test_contextlib.py
+https://github.com/python/cpython/blob/v3.10.14/Lib/test/test_contextlib.py
+
+--- a/test/test_contextlib.py
++++ b/test/test_contextlib.py
+@@ -497,3 +497,7 @@ class TestContextDecorator(unittest.TestCase):
+-        with self.assertRaises(AttributeError):
++        if sys.version_info >= (3, 11):
++            assertion = self.assertRaisesRegex(TypeError, 'the context manager')
++        else:
++            assertion = self.assertRaises(AttributeError)
++        with assertion:
+             with mycontext():
+                 pass
+@@ -509,3 +513,8 @@ class TestContextDecorator(unittest.TestCase):
+-        with self.assertRaises(AttributeError):
++        if sys.version_info >= (3, 11):
++            assertion = self.assertRaisesRegex(
++                TypeError, 'the context manager.*__exit__')
++        else:
++            assertion = self.assertRaises(AttributeError)
++        with assertion:
+             with mycontext():
+                 pass

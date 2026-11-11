@@ -1,0 +1,32 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] tests: use the required format argument in original samples
+License: GPL-3.0-only
+
+The v11.0.4 header declares get_int(const char *, ...) and exposes
+get_string through a macro that also requires its format argument. Both
+original sample programs still use one obsolete zero-argument call.
+Supply NULL, which the implementation explicitly treats as no prompt.
+Keep both programs, their prompts, input, output and remaining code intact.
+This is a generic sample/API compatibility fix, not a RISC-V source fix.
+No library implementation change, skipped sample or upstream submission is
+claimed. Remove when a fixed official release supplies the format argument.
+
+--- a/tests/get_int.c
++++ b/tests/get_int.c
+@@ -4,6 +4,6 @@
+ int main(void)
+ {
+-    int i = get_int();
++    int i = get_int(NULL);
+     printf("%i\n", i);
+     int j = get_int("Foo: ");
+     printf("%i\n", j);
+--- a/tests/hackerrank.c
++++ b/tests/hackerrank.c
+@@ -4,5 +4,5 @@
+ int main(void)
+ {
+-    string s = get_string();
++    string s = get_string(NULL);
+     printf("hello, %s\n", s);
+ }

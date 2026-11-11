@@ -1,0 +1,31 @@
+From: openEuler package contributors
+Subject: [PATCH] Export C++ ABI mode definitions through the imported target
+SPDX-License-Identifier: Apache-2.0
+Source: https://github.com/google/nsync/blob/5b420ef6b16532a4fad4be1fde8e483b6b7bd8f4/CMakeLists.txt
+Source-archive-SHA256: bb9b1823f6246afd7e7a78497c43ffca62970c94cfebe39c3d58d3a70850a7bd
+Applies-to: nsync 1.30.0 (annotated tag 55155ca0281c59b226d43585babaecc627613db3)
+Upstream-status: Not submitted; no upstream write was performed.
+
+The C++ library compiles with NSYNC_ATOMIC_CPP11, so nsync_once is
+std::atomic<uint32_t>. The stock public header instead declares uint32_t
+when that definition is not inherited. Namespace-scoped once functions
+therefore have distinct public C++ parameter types for producer and consumer.
+PRIVATE definitions are not exported as target usage requirements.
+
+Use PUBLIC to retain the producer definitions and also export them. This is
+a general CMake SDK interface correction, not a RISC-V-only source defect,
+observed target failure, CVE, or native ABI success claim. The C target and
+all26 original C/C++ CTest invocations are unchanged. Keep the stock consumer;
+do not conceal the issue with manually forced consumer definitions.
+
+Original Apache-2.0 source notices and the complete grant are retained before
+patching. The adjacent comment records the downstream CMake modification.
+Remove when a fixed upstream release exports the same ABI mode requirements
+and stock build/installed C/C++ consumers plus the original26 tests pass.
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -45 +45,2 @@
+-	target_compile_definitions ("${tgtname}" PRIVATE "${NSYNC_CPP_DEFINITIONS}")
++	# Downstream openEuler: export the public C++ ABI mode definitions.
++	target_compile_definitions ("${tgtname}" PUBLIC "${NSYNC_CPP_DEFINITIONS}")

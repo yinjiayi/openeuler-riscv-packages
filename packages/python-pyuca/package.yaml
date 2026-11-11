@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "package_id": "python-pyuca",
+  "rpm": {
+    "name": "python-pyuca",
+    "summary": "Unicode Collation Algorithm implementation for Python",
+    "license": "MIT AND Unicode-DFS-2015"
+  },
+  "version": {
+    "current": "1.2",
+    "latest_detected": "1.2",
+    "release": "1"
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "network_during_build": false,
+    "native_reason": null
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "arch-extra",
+        "package_name": "python-pyuca",
+        "package_base": "python-pyuca",
+        "source_version": "1.2-5",
+        "evidence_url": "https://github.com/jtauber/pyuca",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "pyuca",
+        "package_base": "pyuca",
+        "source_version": "1.2-5",
+        "evidence_url": "https://github.com/jtauber/pyuca",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "python-pyuca",
+        "package_base": "python-pyuca",
+        "source_version": "1.2-9.fc44",
+        "evidence_url": "https://github.com/jtauber/pyuca",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "python-pyuca",
+        "package_base": "python-pyuca",
+        "source_version": "1.2-5.4",
+        "evidence_url": "https://github.com/jtauber/pyuca",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "pyuca",
+        "package_base": "pyuca",
+        "source_version": "1.2-5build1",
+        "evidence_url": "https://github.com/jtauber/pyuca",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "upstream": {
+    "component": "github.com-jtauber-pyuca",
+    "homepage": "https://github.com/jtauber/pyuca",
+    "source_repository": "https://github.com/jtauber/pyuca",
+    "release_api": "https://api.github.com/repos/jtauber/pyuca/tags?per_page=100",
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_url_template": null
+  },
+  "updates": {
+    "enabled": true,
+    "release_provider": "official-github-tags",
+    "last_checked_at": null,
+    "last_successful_check_at": null
+  },
+  "files": {
+    "sources": "sources.yaml",
+    "spec": "python-pyuca.spec",
+    "smoke_test": "tests/smoke.sh",
+    "patches": []
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "status": "active",
+    "notes": "Fixed complete official Pyuca 1.2, original full Travis lint/coverage/unit/doctest/conformance defaults and all Unicode fixtures retained. MIT and Unicode-DFS-2015 notices preserved. Historical matrix and performance success not claimed."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "package_id": "perl-regexp-ipv6",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "filename": "Regexp-IPv6-0.03.tar.gz",
+      "version": "0.03",
+      "url": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/Regexp-IPv6-0.03.tar.gz",
+      "digests": {"sha256": "d542d17d75ce93631de8ba2156da0e0b58a755c409cd4a0d27a3873a26712ce2"},
+      "signature": {
+        "url": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/CHECKSUMS",
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "redistribution": {
+        "allowed": true,
+        "reason": "README and lib/Regexp/IPv6.pm grant redistribution and modification under the same terms as Perl 5.10.0 or any later Perl 5. Pinned official archive SHA-256 matches MetaCPAN and publisher CHECKSUMS. The historical CHECKSUMS signature is advisory with current expired-key status, not an archive detached signature."
+      }
+    }
+  ]
+}

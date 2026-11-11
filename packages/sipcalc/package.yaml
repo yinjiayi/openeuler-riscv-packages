@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "package_id": "sipcalc",
+  "rpm": {
+    "name": "sipcalc",
+    "summary": "Console IPv4 and IPv6 subnet calculator",
+    "license": "BSD-3-Clause AND FSFUL AND FSFULLR AND X11 AND GPL-3.0-or-later WITH Autoconf-exception-generic AND LicenseRef-Public-Domain AND Apache-2.0"
+  },
+  "upstream": {
+    "component": "routemeister.net-projects-sipcalc",
+    "homepage": "https://routemeister.net/projects/sipcalc/",
+    "source_repository": "https://routemeister.net/projects/sipcalc/",
+    "release_channel": "stable",
+    "release_api": "https://www.routemeister.net/projects/sipcalc/download.html",
+    "release_regex": "^sipcalc-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz$",
+    "source_url_template": "https://www.routemeister.net/projects/sipcalc/files/sipcalc-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.1.6",
+    "latest_detected": "1.1.6",
+    "release": "1"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "aur",
+        "package_name": "sipcalc",
+        "package_base": "sipcalc",
+        "source_version": "1.1.6-6",
+        "evidence_url": "https://routemeister.net/projects/sipcalc",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "debian",
+        "package_name": "sipcalc",
+        "package_base": "sipcalc",
+        "source_version": "1.1.6-3",
+        "evidence_url": "https://routemeister.net/projects/sipcalc",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "fedora",
+        "package_name": "sipcalc",
+        "package_base": "sipcalc",
+        "source_version": "1.1.6-30.fc44",
+        "evidence_url": "https://routemeister.net/projects/sipcalc",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "opensuse-tumbleweed",
+        "package_name": "sipcalc",
+        "package_base": "sipcalc",
+        "source_version": "1.1.6-2.33",
+        "evidence_url": "https://routemeister.net/projects/sipcalc",
+        "observed_at": "2026-08-08T16:50:00Z"
+      },
+      {
+        "source": "ubuntu",
+        "package_name": "sipcalc",
+        "package_base": "sipcalc",
+        "source_version": "1.1.6-3build1",
+        "evidence_url": "https://routemeister.net/projects/sipcalc",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "user": "unprivileged",
+    "network_during_build": false,
+    "timeout_minutes": 120,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "sipcalc.spec",
+    "sources": "sources.yaml",
+    "smoke_test": "tests/smoke.sh",
+    "patches": [
+      {
+        "file": "patches/0001-fix-empty-line-and-explicit-ipv6.patch",
+        "sha256": "c712b91e731ded907ccf043ce1e14c09df64dbb5e03a091e9edc77f81dee6c97",
+        "purpose": "Check empty-line lower bound before indexing, validate actual -6 argument, and bound stdin argument copies with a reserved NUL octet.",
+        "source": "Package-local change derived from exact official1.1.6 archive SHA cfd476c667f7a119e49eb5fe8adcfb9d2339bc2e0d4d01a1d64b7c229be56357; no upstream submission.",
+        "license": "BSD-3-Clause",
+        "upstream_status": "not-submitted",
+        "remove_when": "Upstream includes all three correction groups and strict stdin/explicitIPv6 regressions pass."
+      }
+    ]
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "N229 actual author homepage and download page explicitly call1.1.6 the stable/latest release20130114; archive configure.ac confirms. Original32bytes/notices, fullBSD3/FSF/GNUexception/X11/PD are retained before the three-group/four-expression source patch. Bare make check has0registered functional programs; six added strict numericCLI cases await target CI. DNS/interface features remain enabled but no live DNS/interface success is claimed. HTTP author links were explicitly upgraded to same-host/path HTTPS, not misreported as literalHTTPS; SHA is observedbytes, no guessed signature. Original source URL remains mutable and must be re-fenced before publish. No fabricated shared catalog pin, full Daily discovery coverage or target pass. Retained catalog source label opensuse/repositoryoss is mapped only to schema category opensuse-tumbleweed; exact raw row remains in N229 selection-and-supplier-screen.json. This is not a new distribution import or independent upstream release proof."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  }
+}

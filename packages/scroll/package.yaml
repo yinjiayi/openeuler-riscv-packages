@@ -1,0 +1,79 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/rpc/v5/info?arg%5B%5D=scroll&arg%5B%5D=scroll-git",
+        "observed_at": null,
+        "package_base": "scroll-git",
+        "package_name": "scroll-git",
+        "source": "aur",
+        "source_version": "0.1.r2.g51ee387-2"
+      }
+    ],
+    "snapshot_id": "discovery-official-scroll-N142-f1245cdf1d30000c"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-restore-official-release-license.patch",
+        "sha256": "1cfbd4e0718272d965062a3e94a8dbc8aaab694a2fa50342b9e724c9c8480716",
+        "purpose": "Restore only the original ISC LICENSE omitted from stable0.1 dist archive; no existing source or tests changed.",
+        "source": "Exact official scroll tag0.1 commit0a2d1a06a9eb4b8ad10240c28edf612879385ac6 LICENSE; all10 archive members equal same commit; recovered notice SHA25652f5f340941b3f63fc16882f3e17a9aa28751f7aedaf90f88922d14654b00e62.",
+        "license": "ISC",
+        "upstream_status": "downstream-only",
+        "remove_when": "Official stable archive includes its complete original LICENSE notice."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "scroll.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fresh AUR scroll-git VCS metadata is only a new discovery clue, not stable version or frozen catalog membership. Unrelated AUR scroll Markdown/npm component excluded; AUR MIT/dependency declarations not inherited. Build source is official fixed stable0.1 archive SHA2569eb2d59ce6adf60100bd2171b0d231ddb47e274b29ded02256960a11ecceeed6. All10 original members fully reviewed and equal exact official0.1 commit; notice-only patch restores omitted original ISC LICENSE. Upstream explicitly experimental/not recommended productive use. Preserve default all/install/CPPFLAGS/-Os/-lutil/default keys and original full make test/up.log; normal RPM flags defer early -s stripping. Mandatory private-PTY built/staged/installed semantic QA. No local upstream/compiler/target/RPM/QEMU execution; exact-head complete CI/real install/physical namespace remain gates.",
+    "status": "active"
+  },
+  "package_id": "scroll",
+  "rpm": {
+    "license": "ISC",
+    "name": "scroll",
+    "summary": "Experimental terminal scrollback wrapper with private PTY history"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "git.suckless.org-scroll",
+    "homepage": "https://tools.suckless.org/scroll/",
+    "release_api": "https://dl.suckless.org/tools/",
+    "release_channel": "stable",
+    "release_regex": "scroll-(?P<version>[0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://git.suckless.org/scroll",
+    "source_url_template": "https://dl.suckless.org/tools/scroll-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.1",
+    "latest_detected": "0.1",
+    "release": "1"
+  }
+}

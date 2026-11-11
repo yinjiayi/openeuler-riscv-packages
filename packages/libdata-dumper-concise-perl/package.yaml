@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "package_id": "libdata-dumper-concise-perl",
+  "rpm": {"name": "perl-Data-Dumper-Concise", "summary": "Concise Perl data dumps with warning helpers", "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"},
+  "upstream": {
+    "component": "libdata-dumper-concise-perl",
+    "homepage": "https://metacpan.org/dist/Data-Dumper-Concise",
+    "source_repository": "https://github.com/p5sagit/Data-Dumper-Concise",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/",
+    "release_regex": "Data-Dumper-Concise-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Data-Dumper-Concise-{version}.tar.gz"
+  },
+  "version": {"current": "2.023", "release": "1", "latest_detected": "2.023"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [{
+      "source": "ubuntu",
+      "package_name": "libdata-dumper-concise-perl",
+      "package_base": "libdata-dumper-concise-perl",
+      "source_version": "2.023-3",
+      "evidence_url": "https://packages.ubuntu.com/source/resolute/libdata-dumper-concise-perl",
+      "observed_at": "2026-08-08T16:50:00Z"
+    }]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "network_during_build": true, "timeout_minutes": 60, "native_reason": null},
+  "files": {"spec": "libdata-dumper-concise-perl.spec", "sources": "sources.yaml", "patches": [], "smoke_test": "tests/smoke.sh"},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen Ubuntu exact lineage maps to official CPAN 2.023, archive SHA-256 a6c22f113caf31137590def1b7028a7e718eface3228272d0672c25e035d5853 matches publisher CHECKSUMS. Require verified published Devel::ArgNames to exercise upstream conditional DwarnN tests. All original tests retained; target build and installed smoke require exact-head CI."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "official-cpan-directory"}
+}

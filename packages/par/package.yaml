@@ -1,0 +1,13 @@
+{
+  "schema_version":1,
+  "package_id":"par",
+  "rpm":{"name":"par","summary":"Paragraph reformatter","license":"MIT"},
+  "version":{"current":"1.53.0","latest_detected":null,"release":"1"},
+  "upstream":{"component":"bitbucket.org/amc-nicemice/par","homepage":"http://www.nicemice.net/par/","source_repository":"https://bitbucket.org/amc-nicemice/par","release_channel":"stable","release_api":"https://bitbucket.org/!api/2.0/repositories/amc-nicemice/par/refs/tags","release_regex":null,"source_url_template":null},
+  "discovery":{"snapshot_id":"intake162-par-20261021","lineage":[{"source":"debian","package_name":"par","package_base":"par","source_version":"1.53.0-2","evidence_url":"https://sources.debian.org/src/par/1.53.0-2/","observed_at":null}]},
+  "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+  "files":{"spec":"par.spec","sources":"sources.yaml","patches":[],"smoke_test":"tests/smoke.sh"},
+  "build":{"profile":"qemu-user","native_reason":null,"network_during_build":false,"timeout_minutes":120},
+  "maintenance":{"status":"update-disabled","maintainers":["yinjiayi"],"notes":"Fixed official1.53.0 tag/fullcommit, HTTPS archive with all14 original files byte-identical to release. Original protoMakefile keeps emptyCFLAGS/CPPFLAGS and cc/LINK1 defaults, no source patch or added-g. Since default produces no DWARF, only automatic empty debug subpackages are disabled; normal binary strip policy remains enabled. All39 original test-par fixtures and both legacy locale source/charmap requirements remain mandatory. Full original par.doc contains the expressly offered MIT alternative; preserve all notices. Update URL construction is fixedcommit-only, so automated updates disabled rather than invent a version template. Actual target build/QA/native/physical acceptance remains pending; source/provider preflight is not target acceptance."},
+  "updates":{"enabled":false,"release_provider":null,"last_checked_at":null,"last_successful_check_at":null}
+}

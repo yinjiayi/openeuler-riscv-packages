@@ -5,7 +5,9 @@
 ``root`` preserves the historical build identity for packages whose complete
 upstream checks require root capabilities. ``unprivileged`` first hands the
 fresh generated work tree to the fixed ``rpmbuild`` identity and then runs all
-RPM phases, including ``%check``, as that identity. Dependency installation is
+RPM phases, including ``%check``, as that identity. Declared sources are rehashed
+from the verified artifact cache without a second download; bridge networking
+remains available to the unchanged upstream checks. Dependency installation is
 always a separate root-only operation in ``prepare-build-deps.py``.
 """
 
@@ -299,6 +301,7 @@ def build_command(
         f"{result_dir}/build-identity.json",
         "--",
         "scripts/build-rpm",
+        "--offline",
         "--package-dir",
         f"packages/{package_id}",
         "--repo-root",
@@ -440,10 +443,10 @@ def exec_mode(args: argparse.Namespace) -> int:
     result_dir = pathlib.Path(args.result_dir)
     if not args.command or args.command[0] != "scripts/build-rpm":
         raise ContractError("build wrapper may execute only scripts/build-rpm")
-    if "--offline" in args.command:
-        raise ContractError("rpmbuild invocation must allow verified network source retrieval")
     if os.environ.get("OE_BUILD_NETWORK") != "enabled":
         raise ContractError("network-enabled build policy was not reported by the container")
+    if args.command.count("--offline") != 1:
+        raise ContractError("rpmbuild invocation must reverify the source cache without downloads")
     previous_umask = os.umask(0o022)
     identity = {
         "schema_version": 1,
@@ -457,6 +460,7 @@ def exec_mode(args: argparse.Namespace) -> int:
         "umask": "0022",
         "previous_umask": f"{previous_umask:04o}",
         "network_access_policy": "enabled",
+        "source_access_policy": "checksum-reverified-cache-only",
         "work_directory": directory_evidence(work_dir, "work directory", expected_owner),
         "result_directory": directory_evidence(
             result_dir, "result directory", expected_owner
@@ -509,6 +513,9 @@ def run_mode(args: argparse.Namespace) -> int:
     package_dir = repo_root / "packages" / args.package_id
     if package_dir.is_symlink() or not (package_dir / "package.yaml").is_file():
         raise ContractError("package directory is absent from the exact checked-out repository")
+    for path in (repo_root / "work", repo_root / "work" / args.package_id):
+        if path.is_symlink():
+            raise ContractError("work directory must not contain symlink ancestors")
     work_dir = pathlib.Path(args.work_dir).resolve()
     expected_work = (repo_root / "work" / args.package_id).resolve()
     if work_dir != expected_work:

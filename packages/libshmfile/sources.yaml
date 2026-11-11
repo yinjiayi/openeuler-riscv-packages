@@ -1,0 +1,7 @@
+{
+ "schema_version":1,"package_id":"libshmfile",
+ "sources":[
+  {"id":"source0","kind":"upstream-release","version":"1.1.0","url":"https://codeload.github.com/kata198/shmfile/tar.gz/800c3d1bac0dd899c3d8737116db59334a828f31","filename":"libshmfile-1.1.0.tar.gz","digests":{"sha256":"8b53b97b925a2884eda66b266943dc0b2130683b5fb4b5ec6a9a29dd417954a1"},"signature":null,"redistribution":{"allowed":true,"reason":"Original LGPL2.1-only notices and complete upstream LGPL2.1 text retained."}},
+  {"id":"source1","kind":"upstream-release","version":"2.0","url":"https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt","filename":"COPYING.GPL2","digests":{"sha256":"edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"},"signature":null,"redistribution":{"allowed":true,"reason":"Complete official GPL2 companion text referenced by upstream LGPL2.1; no source relicensing."}}
+ ]
+}

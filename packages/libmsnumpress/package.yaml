@@ -1,0 +1,12 @@
+{
+ "schema_version":1,"package_id":"libmsnumpress",
+ "rpm":{"name":"libmsnumpress","summary":"C++ numeric array compression for mass spectrometry","license":"Apache-2.0"},
+ "upstream":{"component":"github.com-ms-numpress-ms-numpress-cpp","homepage":"https://github.com/ms-numpress/ms-numpress","source_repository":"https://github.com/ms-numpress/ms-numpress","release_channel":"stable","release_api":"https://api.github.com/repos/ms-numpress/ms-numpress/tags","release_regex":"^MsNumpress-([0-9]+\\.[0-9]+\\.[0-9]+)$","source_url_template":"https://codeload.github.com/ms-numpress/ms-numpress/tar.gz/MsNumpress-{version}"},
+ "version":{"current":"0.2.3","latest_detected":"0.2.3","release":"1"},
+ "discovery":{"snapshot_id":"discovery-20260808T165000Z-9a89920c269462cd","lineage":[{"source":"aur","package_name":"libmsnumpress","package_base":"libmsnumpress","source_version":"1.0.0","evidence_url":"https://aur.archlinux.org/packages/libmsnumpress","observed_at":"2026-08-08T16:50:00Z"}]},
+ "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+ "build":{"profile":"qemu-user","network_during_build":false,"timeout_minutes":60,"native_reason":null},
+ "files":{"spec":"libmsnumpress.spec","sources":"sources.yaml","patches":[],"smoke_test":"tests/smoke.sh"},
+ "maintenance":{"status":"active","maintainers":["yinjiayi"],"notes":"Official MsNumpress-0.2.3 fixed commit; all 14 archive Git blobs verified. AUR catalog version 1.0.0 is discovery lineage, not release authority. Package the separately documented C++ component, not the independently documented Java, Python or C# bindings. Explicit Apache2 grants/notices preserved unchanged and full official license supplied. No upstream C++ build-system file exists: retain README direct compile/run and all 20 original main-program tests with assertions and overflow checks enabled. Downstream shared/static packaging adds a downstream SONAME and pkg-config; unchanged suite replays against staged/installed libraries. No source patch, local target execution, native/performance/security claim or fabricated target success."},
+ "updates":{"enabled":true,"last_checked_at":null,"last_successful_check_at":null,"release_provider":"official-github-tags"}
+}

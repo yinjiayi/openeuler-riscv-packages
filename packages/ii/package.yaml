@@ -1,0 +1,87 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "user": "unprivileged",
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://tools.suckless.org/ii/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ii",
+        "package_name": "ii",
+        "source": "debian",
+        "source_version": "2.0-1"
+      },
+      {
+        "evidence_url": "https://tools.suckless.org/ii/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ii",
+        "package_name": "ii",
+        "source": "fedora",
+        "source_version": "1.8-14.fc44"
+      },
+      {
+        "evidence_url": "https://tools.suckless.org/ii/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "ii",
+        "package_name": "ii",
+        "source": "ubuntu",
+        "source_version": "2.0-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {"file":"patches/0001-restore-strlcpy-isc-notice.patch","sha256":"e4ebc344d23fc0e055ebe71849c59fc8f89c80be4a848fc92cacbddab6e4d9c8","purpose":"Restore the original verified OpenBSD ISC copyright/permission notice to bundled strlcpy; no executable token changes.","source":"OpenBSD src official revision b9c631e7e9c23759a6745d2a0a470cc5cb8f7cc0 lib/libc/string/strlcpy.c, archive reviewed against its function tokens.","license":"ISC","upstream_status":"downstream-only","remove_when":"Stable upstream restores the bundled ISC notice."}
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "ii.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed ii2.0 archive/all eight members reviewed. Original Makefile all/install/system flags/bundled strlcpy fallback retained; no original test target exists. MIT LICENSE and arg.h notice retained; exact OpenBSD historical function comparison resolves missing strlcpy ISC attribution, restored by notice-only patch. Mandatory staged/installed offline Unix socket and numeric-loopback TCP IRC fixtures cover registration/PASS, PING/PONG, FIFO permissions, channel/private messages/logs, topic/away/nick/raw/part/quit and SIGTERM cleanup. No AUR/distro recipe, compiler, target binary, RPM or QEMU executed locally; no native/timing/external-IRC/TLS claim.",
+    "status": "active"
+  },
+  "package_id": "ii",
+  "rpm": {
+    "license": "MIT AND ISC",
+    "name": "ii",
+    "summary": "Minimal FIFO and filesystem based IRC client"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "tools.suckless.org-ii",
+    "homepage": "https://tools.suckless.org/ii/",
+    "release_api": "https://dl.suckless.org/tools/",
+    "release_channel": "stable",
+    "release_regex": "ii-(?P<version>[0-9]+\\.[0-9]+)\\.tar\\.gz",
+    "source_repository": "https://git.suckless.org/ii/",
+    "source_url_template": "https://dl.suckless.org/tools/ii-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.0",
+    "latest_detected": "2.0",
+    "release": "1"
+  }
+}

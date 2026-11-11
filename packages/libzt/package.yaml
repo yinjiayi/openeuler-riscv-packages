@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "package_id": "libzt",
+  "rpm": {"name":"libzt","summary":"Compact C unit testing library","license":"LGPL-3.0-only"},
+  "upstream": {
+    "component":"github.com-zyga-libzt",
+    "homepage":"https://github.com/zyga/libzt",
+    "source_repository":"https://github.com/zyga/libzt",
+    "release_channel":"stable",
+    "release_api":"https://api.github.com/repos/zyga/libzt/releases",
+    "release_regex":null,
+    "source_url_template":"https://github.com/zyga/libzt/releases/download/v{version}/libzt_{version}.tar.gz"
+  },
+  "version":{"current":"0.3.1","latest_detected":"0.3.1","release":"1"},
+  "discovery": {
+    "snapshot_id":"discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage":[
+      {"source":"debian","package_name":"libzt","package_base":"libzt","source_version":"0.3.1-4","evidence_url":"https://packages.debian.org/source/stable/libzt","observed_at":"2026-08-08T16:50:00Z"},
+      {"source":"ubuntu","package_name":"libzt","package_base":"libzt","source_version":"0.3.1-4build2","evidence_url":"https://packages.ubuntu.com/source/resolute/libzt","observed_at":"2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+  "build":{"profile":"qemu-user","network_during_build":false,"timeout_minutes":60,"native_reason":null},
+  "files":{"spec":"libzt.spec","sources":"sources.yaml","patches":[],"smoke_test":"tests/smoke.sh"},
+  "maintenance":{"status":"active","maintainers":["yinjiayi"],"notes":"Official signed v0.3.1 release asset includes bundled ZMK 0.3.6; complete default build and original make check retained with assertions. Frozen unknown-license hold resolved from complete upstream LGPL-3.0-only payload and per-file notices; accompanying GPLv3 included. Release signature independently verified using the refreshed self-signed key matching the official maintainer-account fingerprint; CI requires pinned SHA-256. No local upstream/RPM/QEMU execution or native claim."},
+  "updates":{"enabled":true,"last_checked_at":null,"last_successful_check_at":null,"release_provider":"official-github-releases"}
+}

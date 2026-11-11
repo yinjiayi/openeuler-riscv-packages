@@ -1,0 +1,12 @@
+{
+ "schema_version":1,"package_id":"libshmfile",
+ "rpm":{"name":"libshmfile","summary":"FILE stream interface for named shared-memory objects","license":"LGPL-2.1-only"},
+ "upstream":{"component":"github.com-kata198-shmfile","homepage":"https://github.com/kata198/shmfile","source_repository":"https://github.com/kata198/shmfile","release_channel":"stable","release_api":"https://api.github.com/repos/kata198/shmfile/tags","release_regex":"^([0-9]+\\.[0-9]+\\.[0-9]+)$","source_url_template":"https://codeload.github.com/kata198/shmfile/tar.gz/{version}"},
+ "version":{"current":"1.1.0","latest_detected":"1.1.0","release":"1"},
+ "discovery":{"snapshot_id":"discovery-20260808T165000Z-9a89920c269462cd","lineage":[{"source":"aur","package_name":"libshmfile","package_base":"libshmfile","source_version":"1.1.0","evidence_url":"https://aur.archlinux.org/packages/libshmfile","observed_at":"2026-08-08T16:50:00Z"}]},
+ "target":{"os":"openEuler","release":"24.03-LTS-SP3","arch":"riscv64","isa":"RVA23","riscv_status":"unknown"},
+ "build":{"profile":"qemu-user","network_during_build":false,"timeout_minutes":60,"native_reason":null},
+ "files":{"spec":"libshmfile.spec","sources":"sources.yaml","patches":[],"smoke_test":"tests/smoke.sh"},
+ "maintenance":{"status":"active","maintainers":["yinjiayi"],"notes":"Official stable 1.1.0 immutable commit and all 12 source blobs verified. Preserve default shared/man build, additional upstream static/examples targets and all original example sources; no upstream registered check/test target exists. Downstream sequential owner/guest and buffered/unbuffered stream I/O checks run with unique names, zero-second original owner argument and explicit cleanup, not a timing test. Preserve LGPL2.1-only grants/full upstream license and complete official GPL2 companion. No source patch; upstream unversioned shared name retained. No native concurrency, privilege/isolation, security, resource-leak or performance acceptance claim. No local source execution/RPM/QEMU build, Auto-merge or fabricated target success."},
+ "updates":{"enabled":true,"last_checked_at":null,"last_successful_check_at":null,"release_provider":"official-github-tags"}
+}
