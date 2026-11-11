@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libcarp-assert-more-perl",
+        "observed_at": "2026-11-08T09:38:00Z",
+        "package_base": "libcarp-assert-more-perl",
+        "package_name": "libcarp-assert-more-perl",
+        "source": "debian",
+        "source_version": "2.9.0-1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n371.zaAe6i"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libcarp-assert-more-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN source and historical signed publisher checksum verified; original grant, complete pinned Artistic-2.0 text and current target dependencies audited. Debian stable is naming lineage only.",
+    "status": "active"
+  },
+  "package_id": "libcarp-assert-more-perl",
+  "rpm": {
+    "license": "Artistic-2.0",
+    "name": "libcarp-assert-more-perl",
+    "summary": "Assert program conditions in Perl with useful error messages"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:Carp-Assert-More",
+    "homepage": "https://metacpan.org/dist/Carp-Assert-More",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/",
+    "release_channel": "stable",
+    "release_regex": "Carp-Assert-More-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Carp-Assert-More",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/Carp-Assert-More-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.9.0",
+    "latest_detected": "2.9.0",
+    "release": "1"
+  }
+}

@@ -6,6 +6,7 @@ Summary:        Validate CPAN META.yml files
 License:        Artistic-2.0
 URL:            https://metacpan.org/dist/Test-CPAN-Meta
 Source0:        Test-CPAN-Meta-0.25.tar.gz
+Source1:        Artistic-2.0.txt
 BuildArch:      noarch
 BuildRequires:  findutils
 BuildRequires:  make
@@ -42,12 +43,13 @@ Validate CPAN META.yml files
 %{__make} pure_install PERL_INSTALL_ROOT=%{buildroot}
 find %{buildroot} -type f -name .packlist -delete
 find %{buildroot} -type f -name perllocal.pod -delete
+install -pm0644 %{SOURCE1} Artistic-2.0.txt
 
 %check
 %{__make} test TEST_VERBOSE=1
 
 %files
-%license LICENSE
+%license LICENSE Artistic-2.0.txt
 %doc Changes README
 %{perl_vendorlib}/Test/CPAN/Meta.pm
 %{perl_vendorlib}/Test/CPAN/Meta/Version.pm

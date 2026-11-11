@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Text-CSV-Separator",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Text-CSV-Separator",
+        "package_name": "perl-Text-CSV-Separator",
+        "source": "fedora",
+        "source_version": "0.20-38.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-text-csv-separator.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned official CPAN source and unchanged original tests and fixtures; the upstream README records the original same-Perl license.",
+    "status": "active"
+  },
+  "package_id": "libtext-csv-separator-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-text-csv-separator",
+    "summary": "Detect the field delimiter in a CSV file"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-text-csv-separator",
+    "homepage": "https://metacpan.org/dist/Text-CSV-Separator",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/EN/ENELL/",
+    "release_channel": "stable",
+    "release_regex": "Text-CSV-Separator-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Text-CSV-Separator",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/EN/ENELL/Text-CSV-Separator-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.20",
+    "latest_detected": "0.20",
+    "release": "1"
+  }
+}
