@@ -1,0 +1,41 @@
+{
+  "package_id": "libtest-tabledriven-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "425878afcf2a14e047caf891b1915e9f5ffb036941609c438e0dfbd1b5b1859a"
+      },
+      "filename": "Test-TableDriven-0.02.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/J/JR/JROCKWAY/Test-TableDriven-0.02.tar.gz",
+      "version": "0.02"
+    },
+    {
+      "digests": {"sha256": "2ec9493917d6fd6e95a8066de1727586da5f1a8ef520031365888543efa68398"},
+      "filename": "Module-Install-0.67-README",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {"allowed": true, "reason": "Exact Module::Install 0.67 donor copyright and bundle redistribution grant; bytes match its fixed official release archive."},
+      "signature": null,
+      "url": "https://fastapi.metacpan.org/v1/source/ADAMK/Module-Install-0.67/README",
+      "version": "0.67"
+    },
+    {
+      "digests": {"sha256": "0b22dd532e4123a511d14989c4169ed56b7316cf844c29c7897a1638a4616868"},
+      "filename": "Module-Install-0.67-LICENSE",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {"allowed": true, "reason": "Original complete dual Perl-license terms from the exact licensed Module::Install 0.67 donor release; not a substitute license or newly authored grant."},
+      "signature": null,
+      "url": "https://fastapi.metacpan.org/v1/source/ADAMK/Module-Install-0.67/LICENSE",
+      "version": "0.67"
+    }
+  ]
+}
