@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/release/KARUPA/Test-Deep-Fuzzy-0.01",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-deep-fuzzy-perl",
+        "package_name": "libtest-deep-fuzzy-perl",
+        "source": "debian",
+        "source_version": "0.01-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/KARUPA/Test-Deep-Fuzzy-0.01",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-Deep-Fuzzy",
+        "package_name": "perl-Test-Deep-Fuzzy",
+        "source": "fedora",
+        "source_version": "0.01-21.fc44"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/KARUPA/Test-Deep-Fuzzy-0.01",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-deep-fuzzy-perl",
+        "package_name": "libtest-deep-fuzzy-perl",
+        "source": "ubuntu",
+        "source_version": "0.01-3"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtest-deep-fuzzy-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official CPAN release, full original default suite and Minilla v3.0.4 template-donor notice independently verified; external distribution recipes were not executed.",
+    "status": "active"
+  },
+  "package_id": "libtest-deep-fuzzy-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libtest-deep-fuzzy-perl",
+    "summary": "Fuzzy number comparison with Test::Deep"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:Test-Deep-Fuzzy",
+    "homepage": "https://metacpan.org/release/KARUPA/Test-Deep-Fuzzy-0.01",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KA/KARUPA/",
+    "release_channel": "stable",
+    "release_regex": "Test-Deep-Fuzzy-(?P<version>[0-9]+(?:[.][0-9]+)*)[.]tar[.]gz",
+    "source_repository": "https://github.com/karupanerura/Test-Deep-Fuzzy",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KA/KARUPA/Test-Deep-Fuzzy-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.01",
+    "latest_detected": "0.01",
+    "release": "1"
+  }
+}
