@@ -1,0 +1,276 @@
+{
+  "package_id": "libtest-deep-unorderedpairs-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9d6911a9c69b22a26cad198032e6445cfd2a9d6cec4fc3d8a7ca9b965525ccc5"
+      },
+      "filename": "Test-Deep-UnorderedPairs-0.006.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The fixed authorized ETHER CPAN archive carries the complete Perl 5 grant; generated files retain separately pinned donor terms."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Test-Deep-UnorderedPairs-0.006.tar.gz",
+      "version": "0.006"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/RJBS/Dist-Zilla-6.008/LICENSE",
+      "filename": "Dist-Zilla-6.008.LICENSE",
+      "digests": {
+        "sha256": "db86a9426f579bf3004ae2fb4bcfc404ad9a34ec936547f2e1dda8482440f576"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.025/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-ReportPrereqs-0.025.LICENSE",
+      "digests": {
+        "sha256": "4c5f87ffa218ebe4027858643dad7133fcb8401f842cfaa4f425393fae1ddea2"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/DOHERTY/Dist-Zilla-Plugin-InstallGuide-1.200007/LICENSE",
+      "filename": "Dist-Zilla-Plugin-InstallGuide-1.200007.LICENSE",
+      "digests": {
+        "sha256": "5d6c3846d528636fda7641448934a5f388ee68182b4f19da9474a0749a568e49"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source4",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/ETHER/Dist-Zilla-PluginBundle-Author-ETHER-0.121/LICENCE",
+      "filename": "Dist-Zilla-PluginBundle-Author-ETHER-0.121.LICENCE",
+      "digests": {
+        "sha256": "ad98742459e575ff569f50a350a1a5ffde95cae88a897a5b12dd438960617434"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source5",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/DOHERTY/Dist-Zilla-Plugin-Test-CPAN-Changes-0.012/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-CPAN-Changes-0.012.LICENSE",
+      "digests": {
+        "sha256": "9de032ce34d72dc33a737b0fb0b558e8e2bbb03c060a0ba21885f7200c4593bd"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source6",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/ETHER/Dist-Zilla-Plugin-Test-CleanNamespaces-0.006/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-CleanNamespaces-0.006.LICENSE",
+      "digests": {
+        "sha256": "c1af8cb6bd278d53548d06ddbda1dc8b6a8c61eda30ed3309447726d75391adb"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source7",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-Compile-2.056/LICENCE",
+      "filename": "Dist-Zilla-Plugin-Test-Compile-2.056.LICENCE",
+      "digests": {
+        "sha256": "67523c952f52f6910dd844be488e93db8478fb55f595e782df629e370ecb598a"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source8",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/ETHER/Dist-Zilla-Plugin-Test-EOL-0.19/LICENCE",
+      "filename": "Dist-Zilla-Plugin-Test-EOL-0.19.LICENCE",
+      "digests": {
+        "sha256": "db249d8a4ff6700413345f7fadb545ec5f01d78d6ab8d784db36691d00da6ad3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source9",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/ETHER/Dist-Zilla-Plugin-Test-Kwalitee-2.12/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-Kwalitee-2.12.LICENSE",
+      "digests": {
+        "sha256": "02003494a75cbc6c3d27b81b93afa43f61d28fc08be28074ecb9fead6a44e059"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source10",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/SYP/Dist-Zilla-Plugin-MojibakeTests-0.8/LICENSE",
+      "filename": "Dist-Zilla-Plugin-MojibakeTests-0.8.LICENSE",
+      "digests": {
+        "sha256": "c0ff2601d1fc87dd367eba9c46eedf04f3c7d1749912fb5198fbdcdb0839aaf3"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source11",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/ETHER/Dist-Zilla-Plugin-Test-NoTabs-0.15/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-NoTabs-0.15.LICENSE",
+      "digests": {
+        "sha256": "15d43e891a9b55bacb4d711fdde088af70ce6a81a1ee24ee34a811ae939bf3a4"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source12",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/RWSTAUNER/Dist-Zilla-Plugin-Test-Pod-No404s-1.003/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-Pod-No404s-1.003.LICENSE",
+      "digests": {
+        "sha256": "6a2734f187c72a3c5b673711e2c30cb035980ba2b8e437ed57e2f7c7d119958d"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source13",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/ETHER/Dist-Zilla-Plugin-Test-PodSpelling-2.007004/LICENCE",
+      "filename": "Dist-Zilla-Plugin-Test-PodSpelling-2.007004.LICENCE",
+      "digests": {
+        "sha256": "4b078e25d744a63d9b63eb09987a6558553d4af3393be7876832e699134ce4af"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source14",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/ETHER/Dist-Zilla-Plugin-Test-Portability-2.001000/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-Portability-2.001000.LICENSE",
+      "digests": {
+        "sha256": "076cb61334de072fd16804aaa9b8913ecb3c4d250caa408dfdddb2c168ab9032"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source15",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/DOHERTY/Dist-Zilla-Plugin-Test-MinimumVersion-2.000007/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-MinimumVersion-2.000007.LICENSE",
+      "digests": {
+        "sha256": "ec36a4b9fdf8de0f5d7cf8dddb217b64bd594235680f275d360e9ef3bbd6f979"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source16",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/DOHERTY/Dist-Zilla-Plugin-Test-Synopsis-2.000007/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-Synopsis-2.000007.LICENSE",
+      "digests": {
+        "sha256": "ec36a4b9fdf8de0f5d7cf8dddb217b64bd594235680f275d360e9ef3bbd6f979"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    },
+    {
+      "id": "source17",
+      "kind": "upstream-release",
+      "version": "0.006",
+      "url": "https://fastapi.metacpan.org/source/DAGOLDEN/Dist-Zilla-Plugin-CheckChangesHasContent-0.010/LICENSE",
+      "filename": "Dist-Zilla-Plugin-CheckChangesHasContent-0.010.LICENSE",
+      "digests": {
+        "sha256": "d22cdb7c4d0fa4a2b005e9370cac490dc0875813ec52c7201bb15807bee9911b"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete exact published license of a release-time generator whose rendered member is retained; raw text matches the official pinned donor archive."
+      }
+    }
+  ]
+}
