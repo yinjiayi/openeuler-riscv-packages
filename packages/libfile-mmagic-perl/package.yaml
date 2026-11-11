@@ -1,0 +1,100 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/release/KNOK/File-MMagic-1.30",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-file-mmagic",
+        "package_name": "perl-file-mmagic",
+        "source": "arch-extra",
+        "source_version": "1.30-7"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/KNOK/File-MMagic-1.30",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "file-mmagic",
+        "package_name": "file-mmagic",
+        "source": "debian",
+        "source_version": "1.30-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/KNOK/File-MMagic-1.30",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-File-MMagic",
+        "package_name": "perl-File-MMagic",
+        "source": "fedora",
+        "source_version": "1.30-37.fc44"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/KNOK/File-MMagic-1.30",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-File-MMagic",
+        "package_name": "perl-File-MMagic",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.30-5.38"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/KNOK/File-MMagic-1.30",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "file-mmagic",
+        "package_name": "file-mmagic",
+        "source": "ubuntu",
+        "source_version": "1.30-2build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libfile-mmagic-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "PAUSE-signed CPAN release, original tests, composite source terms and Apache magic data attribution verified; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libfile-mmagic-perl",
+  "rpm": {
+    "license": "LicenseRef-PPT-file-kulp AND LicenseRef-Ian-Darwin-file AND Apache-1.0",
+    "name": "perl-file-mmagic",
+    "summary": "Identify file types using magic rules"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:File-MMagic",
+    "homepage": "https://metacpan.org/release/KNOK/File-MMagic-1.30",
+    "release_api": "https://cpan.metacpan.org/authors/id/K/KN/KNOK/",
+    "release_channel": "stable",
+    "release_regex": "File-MMagic-(?P<version>[0-9]+(?:[.][0-9]+)*)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/release/KNOK/File-MMagic-1.30",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/K/KN/KNOK/File-MMagic-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.30",
+    "latest_detected": "1.30",
+    "release": "1"
+  }
+}
