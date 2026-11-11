@@ -19,5 +19,16 @@ The recipe runs all three unmodified upstream default test files under
 MakeMaker. The source tests cover disk files, symlinks, file permissions
 when run unprivileged, and explicit in-memory include hooks. The separate
 installed smoke reads the installed module through both public APIs and
-compares the bytes. No downstream patches, removed tests or native-only
-validation are required.
+compares the bytes. The installed smoke also checks real INC, AUTOLOAD,
+an overridden can, a named overload, and preservation of hook errors.
+No upstream test files are removed or modified.
+
+Perl 5.38 changed the missing-method diagnostic for unsupported object
+hooks. The original test compares it to Perl's own require diagnostic;
+it failed for Regexp and a class without INC. Patch 0001 adapts Petr
+Písař's [CPAN RT #148979](https://rt.cpan.org/Ticket/Display.html?id=148979)
+fix carried by [Debian #1042849](https://bugs.debian.org/1042849). It does
+not call a user-overridden can or bypass real INC/AUTOLOAD dispatch. INCDIR
+and string-overloaded search hooks remain unsupported by this release;
+the patch does not add those features. Remove it when upstream ships a
+compatible fix that passes the original suite.

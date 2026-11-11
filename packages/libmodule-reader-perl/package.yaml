@@ -51,7 +51,17 @@
     "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "patches": [],
+    "patches": [
+      {
+        "file": "patches/0001-perl-538-object-hook-diagnostic.patch",
+        "sha256": "12c62736c6046829f516fd87a38bfc13e4f09d4fd3ef4b6457939ed11f7f6e28",
+        "purpose": "Match Perl 5.38 unsupported object-hook diagnostics without changing direct INC dispatch or default tests.",
+        "source": "https://rt.cpan.org/Ticket/Display.html?id=148979 (adaptation of Petr Písař's Debian 0.003003-4 backport)",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "downstream-only",
+        "remove_when": "A stable upstream release preserves successful INC/AUTOLOAD behavior and matches modern Perl unsupported-object diagnostics with intact default tests."
+      }
+    ],
     "smoke_test": "tests/smoke.sh",
     "sources": "sources.yaml",
     "spec": "libmodule-reader-perl.spec"
@@ -95,6 +105,6 @@
   "version": {
     "current": "0.003003",
     "latest_detected": "0.003003",
-    "release": "1"
+    "release": "2"
   }
 }
