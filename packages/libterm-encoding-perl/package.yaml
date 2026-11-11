@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libterm-encoding-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libterm-encoding-perl",
+        "package_name": "libterm-encoding-perl",
+        "source": "debian",
+        "source_version": "0.03-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libterm-encoding-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Authorized CPAN archive matched PAUSE-signed CHECKSUMS. Preserve original terms and exact generated helper attribution; Debian stable is lineage only.",
+    "status": "active"
+  },
+  "package_id": "libterm-encoding-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-term-encoding",
+    "summary": "Detect the character encoding expected by a terminal"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Term-Encoding",
+    "homepage": "https://metacpan.org/dist/Term-Encoding",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/",
+    "release_channel": "stable",
+    "release_regex": "Term-Encoding-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/miyagawa/Term-Encoding",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/Term-Encoding-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.03",
+    "latest_detected": "0.03",
+    "release": "1"
+  }
+}
