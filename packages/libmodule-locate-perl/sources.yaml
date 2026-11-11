@@ -1,0 +1,36 @@
+{
+  "package_id": "libmodule-locate-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a1b6bbf9c25e851effbf9654ecf29469d99e975be376946dfde93773d5ae61dc"
+      },
+      "filename": "Module-Locate-1.80.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/N/NE/NEILB/Module-Locate-1.80.tar.gz",
+      "version": "1.80"
+    },
+    {
+      "digests": {
+        "sha256": "2fdd2e27a911b2ef249a58d73ac741e2480039df8dce354ea813c8c638aab4d5"
+      },
+      "filename": "Dist-Zilla-5.037.LICENSE",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Exact original Dist::Zilla 5.037 Perl-terms grant for the generated Makefile.PL and MANIFEST."
+      },
+      "signature": null,
+      "url": "https://fastapi.metacpan.org/v1/source/RJBS/Dist-Zilla-5.037/LICENSE",
+      "version": "5.037"
+    }
+  ]
+}
