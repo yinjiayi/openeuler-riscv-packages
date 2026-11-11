@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/release/STEFFENW/Test-HexDifferences-1.001",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-hexdifferences-perl",
+        "package_name": "libtest-hexdifferences-perl",
+        "source": "ubuntu",
+        "source_version": "1.001-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/STEFFENW/Test-HexDifferences-1.001",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-hexdifferences-perl",
+        "package_name": "libtest-hexdifferences-perl",
+        "source": "debian",
+        "source_version": "1.001-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/STEFFENW/Test-HexDifferences-1.001",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-HexDifferences",
+        "package_name": "perl-Test-HexDifferences",
+        "source": "fedora",
+        "source_version": "1.001-25.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtest-hexdifferences-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "PAUSE-signed official release, original tests, full Perl terms and traditional Module::Build::Compat attribution reviewed.",
+    "status": "active"
+  },
+  "package_id": "libtest-hexdifferences-perl",
+  "rpm": {
+    "license": "Artistic-1.0-Perl OR GPL-1.0-or-later",
+    "name": "perl-test-hexdifferences",
+    "summary": "Compare binary data as hexadecimal strings"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:Test-HexDifferences",
+    "homepage": "https://metacpan.org/release/STEFFENW/Test-HexDifferences-1.001",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/ST/STEFFENW/",
+    "release_channel": "stable",
+    "release_regex": "Test-HexDifferences-(?P<version>[0-9]+(?:[.][0-9]+)*)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/release/STEFFENW/Test-HexDifferences-1.001",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/ST/STEFFENW/Test-HexDifferences-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.001",
+    "latest_detected": "1.001",
+    "release": "1"
+  }
+}
