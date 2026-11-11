@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/release/KOLIBRIE/Convert-NLS_DATE_FORMAT-0.06",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconvert-nls-date-format-perl",
+        "package_name": "libconvert-nls-date-format-perl",
+        "source": "ubuntu",
+        "source_version": "0.06-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/KOLIBRIE/Convert-NLS_DATE_FORMAT-0.06",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconvert-nls-date-format-perl",
+        "package_name": "libconvert-nls-date-format-perl",
+        "source": "debian",
+        "source_version": "0.06-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/KOLIBRIE/Convert-NLS_DATE_FORMAT-0.06",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Convert-NLS_DATE_FORMAT",
+        "package_name": "perl-Convert-NLS_DATE_FORMAT",
+        "source": "fedora",
+        "source_version": "0.06-38.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libconvert-nls-date-format-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned CPAN source; unmodified Module::Build::Tiny default tests. See README.md for source, licensing and provider provenance.",
+    "status": "active"
+  },
+  "package_id": "libconvert-nls-date-format-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-convert-nls-date-format",
+    "summary": "Convert Oracle and POSIX date format strings"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "Convert-NLS_DATE_FORMAT",
+    "homepage": "https://metacpan.org/dist/Convert-NLS_DATE_FORMAT",
+    "release_api": null,
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://metacpan.org/release/KOLIBRIE/Convert-NLS_DATE_FORMAT-0.06",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.06",
+    "latest_detected": "0.06",
+    "release": "1"
+  }
+}

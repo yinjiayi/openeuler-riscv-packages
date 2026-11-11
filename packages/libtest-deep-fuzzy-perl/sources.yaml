@@ -1,0 +1,36 @@
+{
+  "package_id": "libtest-deep-fuzzy-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "f5c94fdd836b0d07187e297556986b0888d2cd5d136251962eed427580394daf"
+      },
+      "filename": "Test-Deep-Fuzzy-0.01.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Upstream's complete bundled LICENSE grants redistribution under the same terms as Perl 5 (GPL-1.0-or-later or Artistic-1.0-Perl). The generated Build.PL donor license is retained separately."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/K/KA/KARUPA/Test-Deep-Fuzzy-0.01.tar.gz",
+      "version": "0.01"
+    },
+    {
+      "digests": {
+        "sha256": "6f4cac178ede95aa002ef1b3a7f497063d27457335e28d3b819b6e3d7c4dae80"
+      },
+      "filename": "Minilla-v3.0.4-LICENSE.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete Perl 5 dual-license terms from the exact Minilla v3.0.4 Build.PL template donor. The immutable tag commit and CPAN archive LICENSE bytes match."
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/tokuhirom/Minilla/6ef4c2f1ab7eafe5b143b11c0e0fb7e330aa06c9/LICENSE",
+      "version": "6ef4c2f1ab7eafe5b143b11c0e0fb7e330aa06c9"
+    }
+  ]
+}
