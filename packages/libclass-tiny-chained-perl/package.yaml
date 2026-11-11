@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libclass-tiny-chained-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libclass-tiny-chained-perl",
+        "package_name": "libclass-tiny-chained-perl",
+        "source": "debian",
+        "source_version": "0.004-2"
+      }
+    ],
+    "snapshot_id": "n438-debian-frozen-class-tiny-chained"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libclass-tiny-chained-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official CPAN release and complete generated-template donor grants are pinned in sources.yaml. Debian lineage is identity evidence, not an executed packaging recipe.",
+    "status": "active"
+  },
+  "package_id": "libclass-tiny-chained-perl",
+  "rpm": {
+    "license": "Artistic-2.0 AND (GPL-1.0-or-later OR Artistic-1.0-Perl) AND Apache-2.0",
+    "name": "perl-class-tiny-chained",
+    "summary": "Chainable accessors for Class::Tiny"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Class-Tiny-Chained",
+    "homepage": "https://metacpan.org/dist/Class-Tiny-Chained",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DB/DBOOK/",
+    "release_channel": "stable",
+    "release_regex": "Class-Tiny-Chained-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/Grinnz/Class-Tiny-Chained",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DB/DBOOK/Class-Tiny-Chained-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.004",
+    "latest_detected": "0.004",
+    "release": "1"
+  }
+}
