@@ -42,7 +42,7 @@ cp -p %{SOURCE1} MODULE-INSTALL-NOTICE
 cp -p %{SOURCE2} MODULE-INSTALL-LICENSE
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
+%{__perl} -I. Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1
 %make_build
 
 %install
