@@ -3,7 +3,10 @@ name: Auto Merge Policy
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft, edited, labeled, unlabeled]
+    # Repair routing labels do not change source input. Re-running configure
+    # for them creates ambiguous same-head checks and invalidates dispatch leases.
+    # Auto-merge stays disabled; explicit merge admission re-reads live labels.
+    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft, edited]
 
 concurrency:
   group: auto-merge-${{ github.event.pull_request.number }}
