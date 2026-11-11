@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "package_id": "libmodule-optional-perl",
+  "rpm": {
+    "name": "perl-Module-Optional",
+    "summary": "Optional Perl module loading with fallback implementations",
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl"
+  },
+  "upstream": {
+    "component": "libmodule-optional-perl",
+    "homepage": "https://metacpan.org/dist/Module-Optional",
+    "source_repository": "https://metacpan.org/dist/Module-Optional",
+    "release_channel": "stable",
+    "release_api": "https://cpan.metacpan.org/authors/id/I/IV/IVORW/",
+    "release_regex": "Module-Optional-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/I/IV/IVORW/Module-Optional-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.03",
+    "release": "1",
+    "latest_detected": "0.03"
+  },
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {
+        "source": "ubuntu",
+        "package_name": "libmodule-optional-perl",
+        "package_base": "libmodule-optional-perl",
+        "source_version": "0.03",
+        "evidence_url": "https://packages.ubuntu.com/source/resolute/libmodule-optional-perl",
+        "observed_at": "2026-08-08T16:50:00Z"
+      }
+    ]
+  },
+  "target": {
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "riscv_status": "unknown"
+  },
+  "build": {
+    "profile": "qemu-user",
+    "network_during_build": true,
+    "timeout_minutes": 60,
+    "native_reason": null
+  },
+  "files": {
+    "spec": "libmodule-optional-perl.spec",
+    "sources": "sources.yaml",
+    "patches": [],
+    "smoke_test": "tests/smoke.sh"
+  },
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Frozen inventory key 0.03 maps to official CPAN 0.03. Publisher CHECKSUMS matches full SHA-256; top-level LICENSE grants Perl GPL-1-or-later OR Artistic-1.0 and no shipped file contradicts it. Official SP3 RVA23 primary lacks RPM or perl(Module::Optional) provider and supplies Test::Simple 1.302198, Test::Pod 1.52 and Test::Pod::Coverage 1.10. All six default tests remain unchanged; local Perl 5.34 passed 19 assertions but upstream pod_coverage.t skipped because Test::Pod::Coverage is absent locally. Explicit target BuildRequires exercises coverage; exact-head CI must prove target build, complete tests and installed smoke."
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  }
+}
