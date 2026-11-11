@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libmodule-find-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmodule-find-perl",
+        "package_name": "libmodule-find-perl",
+        "source": "ubuntu",
+        "source_version": "0.17-1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libmodule-find-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable CPAN archive and license texts are pinned in sources.yaml. The generated MakeMaker helper's donor notice is retained; frozen Ubuntu lineage is evidence only.",
+    "status": "active"
+  },
+  "package_id": "libmodule-find-perl",
+  "rpm": {
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND GPL-3.0-only",
+    "name": "perl-module-find",
+    "summary": "Find and load installed Perl modules by namespace"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Module-Find",
+    "homepage": "https://metacpan.org/dist/Module-Find",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CR/CRENZ/",
+    "release_channel": "stable",
+    "release_regex": "Module-Find-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Module-Find",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CR/CRENZ/Module-Find-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.17",
+    "latest_detected": "0.17",
+    "release": "1"
+  }
+}
