@@ -1,0 +1,51 @@
+{
+  "package_id": "libclass-unload-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2508039578fb5457fdffb22d8fa6f90be295c30417901d0fd975744e55922696"
+      },
+      "filename": "Class-Unload-0.12.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/I/IL/ILMARI/Class-Unload-0.12.tar.gz",
+      "version": "0.12"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "version": "0.12",
+      "url": "https://fastapi.metacpan.org/v1/source/RJBS/Dist-Zilla-6.033/LICENSE",
+      "filename": "Dist-Zilla-6.033.LICENSE",
+      "digests": {"sha256": "00d0124eb4611b0bb8b0cc81eb8aedb345058386cb395521ad5e226c8ccf1654"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete terms of the exact MakeMaker, Readme, Manifest and POD author-test template donor."}
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "version": "0.12",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-EOL-0.19/LICENCE",
+      "filename": "Dist-Zilla-Plugin-Test-EOL-0.19.LICENSE",
+      "digests": {"sha256": "db249d8a4ff6700413345f7fadb545ec5f01d78d6ab8d784db36691d00da6ad3"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete terms of the exact Test::EOL author-test template donor."}
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "version": "0.12",
+      "url": "https://fastapi.metacpan.org/v1/source/ETHER/Dist-Zilla-Plugin-Test-NoTabs-0.15/LICENSE",
+      "filename": "Dist-Zilla-Plugin-Test-NoTabs-0.15.LICENSE",
+      "digests": {"sha256": "15d43e891a9b55bacb4d711fdde088af70ce6a81a1ee24ee34a811ae939bf3a4"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete terms of the exact Test::NoTabs author-test template donor."}
+    }
+  ]
+}
