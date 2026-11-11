@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/perl-const-fast",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-const-fast",
+        "package_name": "perl-const-fast",
+        "source": "aur",
+        "source_version": "0.014-1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/libconst-fast-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libconst-fast-perl",
+        "package_name": "libconst-fast-perl",
+        "source": "ubuntu",
+        "source_version": "0.014-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libconst-fast-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Frozen AUR and Ubuntu naming lineage, pinned official author release verified against CPAN CHECKSUMS, bundled license, and unmodified upstream default tests. External distribution recipes were not executed.",
+    "status": "active"
+  },
+  "package_id": "libconst-fast-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libconst-fast-perl",
+    "summary": "Facility for creating read-only Perl variables"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-cpan-directory"
+  },
+  "upstream": {
+    "component": "cpan:Const-Fast",
+    "homepage": "https://metacpan.org/release/LEONT/Const-Fast-0.014",
+    "release_api": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/",
+    "release_channel": "stable",
+    "release_regex": "Const-Fast-(?P<version>[0-9]+(?:[.][0-9]+)*)[.]tar[.]gz",
+    "source_repository": "https://github.com/Leont/const-fast",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Const-Fast-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.014",
+    "latest_detected": "0.014",
+    "release": "1"
+  }
+}
