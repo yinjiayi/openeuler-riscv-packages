@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -22,6 +23,9 @@ UPDATE_APPLIER = REPO / "ci" / "apply-update-batch.sh"
 HEAD = "1" * 40
 BASE = "2" * 40
 REPOSITORY = "yinjiayi/openeuler-riscv-packages"
+VALIDATOR_SPEC = importlib.util.spec_from_file_location("validate_repository", REPO / "ci/validate-repository.py")
+VALIDATOR = importlib.util.module_from_spec(VALIDATOR_SPEC)
+VALIDATOR_SPEC.loader.exec_module(VALIDATOR)
 
 
 def pull_request(*, paths: list[str], draft: bool = False, labels: list[str] | None = None) -> dict:
@@ -217,10 +221,6 @@ class AutoMergePolicyTests(unittest.TestCase):
 
     def test_workflow_disarms_and_evaluates_without_arming(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn(
-            "types: [opened, reopened, synchronize, ready_for_review, converted_to_draft, edited, labeled, unlabeled]",
-            workflow,
-        )
         self.assertIn("Disarm GitHub Auto-merge before evaluating the current head", workflow)
         self.assertNotIn("branches: [main]", workflow)
         self.assertIn("Bind the current base to the repository default branch", workflow)
@@ -267,6 +267,52 @@ class AutoMergePolicyTests(unittest.TestCase):
         self.assertLess(inline_freshness, workflow.index("Check out the immutable protected-base policy"))
         self.assertLess(workflow.index("--disable-auto"), workflow.index("ci/evaluate-auto-merge.py"))
         self.assertLess(workflow.index("ci/evaluate-auto-merge.py"), workflow.index("ci/prove-auto-merge-state.py"))
+
+    def test_repair_routing_labels_do_not_repeat_exact_head_configure(self) -> None:
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+        event = re.search(r"(?m)^  pull_request:\n((?:    .*\n)+)", workflow)
+        self.assertIsNotNone(event)
+        types = re.search(r"(?m)^    types: \[([^\]\n]+)\]$", event.group(1))
+        self.assertIsNotNone(types)
+        actions = [action.strip() for action in types.group(1).split(",")]
+        self.assertEqual(len(actions), len(set(actions)))
+        self.assertEqual(
+            set(actions),
+            {"opened", "reopened", "synchronize", "ready_for_review", "converted_to_draft", "edited"},
+        )
+        # Canonical claim/release adds and removes routing labels on the same
+        # head. They must not produce extra configure contexts; new source
+        # input (synchronize) still needs its own exact-head policy check.
+        lifecycle = ["opened", "labeled", "unlabeled", "labeled", "synchronize", "unlabeled"]
+        self.assertEqual([action for action in lifecycle if action in actions], ["opened", "synchronize"])
+        self.assertNotIn("pull_request_target:", workflow)
+
+    def test_event_validator_requires_every_source_and_lifecycle_action(self) -> None:
+        actions = ["opened", "reopened", "synchronize", "ready_for_review", "converted_to_draft", "edited"]
+        workflow = lambda values: "on:\n  pull_request:\n    types: [" + ", ".join(values) + "]\n"
+        self.assertEqual(VALIDATOR.auto_merge_event_errors(workflow(actions)), [])
+        self.assertEqual(VALIDATOR.auto_merge_event_errors(workflow(list(reversed(actions)))), [])
+        for action in actions:
+            with self.subTest(missing=action):
+                errors = VALIDATOR.auto_merge_event_errors(workflow([item for item in actions if item != action]))
+                self.assertTrue(any("missing source/lifecycle actions: " + action in error for error in errors))
+        for action in ["labeled", "unlabeled", "closed", "arbitrary-event"]:
+            with self.subTest(unapproved=action):
+                errors = VALIDATOR.auto_merge_event_errors(workflow(actions + [action]))
+                self.assertTrue(any("routing actions: " + action in error for error in errors))
+        self.assertTrue(VALIDATOR.auto_merge_event_errors(workflow(actions + ["synchronize"])))
+
+    def test_event_validator_rejects_missing_or_ambiguous_trigger_structure(self) -> None:
+        valid = WORKFLOW.read_text(encoding="utf-8")
+        self.assertEqual(VALIDATOR.auto_merge_event_errors(valid), [])
+        for malformed in [
+            "on:\n  workflow_dispatch:\n    types: [synchronize]\n",
+            "on:\n  pull_request:\n    branches: [main]\n",
+            valid + "\n  pull_request:\n    types: [synchronize]\n",
+            "on:\n  pull_request:\n    types: [opened]\n    types: [synchronize]\n",
+        ]:
+            with self.subTest(malformed=malformed):
+                self.assertTrue(VALIDATOR.auto_merge_event_errors(malformed))
 
     def test_first_deployment_bootstrap_can_only_emit_blocked_policy(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
