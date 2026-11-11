@@ -1,0 +1,41 @@
+{
+  "package_id": "libtest-hexdifferences-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "a63945ecdd420afc311094f93a220cfb35df23242de619e53ba67477a13690a2"
+      },
+      "filename": "Test-HexDifferences-1.001.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The original README and both module PODs grant Perl terms. The fixed archive matches MetaCPAN and PAUSE publisher CHECKSUMS; the traditional Makefile.PL generator terms are preserved separately."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/S/ST/STEFFENW/Test-HexDifferences-1.001.tar.gz",
+      "version": "1.001"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "Artistic-1.0-Perl.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete original Artistic terms of Perl, referenced by both the release and generator donor."}
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "filename": "GPL-1.0.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete original GPL version 1 terms of Perl, referenced by both the release and generator donor."}
+    }
+  ]
+}
