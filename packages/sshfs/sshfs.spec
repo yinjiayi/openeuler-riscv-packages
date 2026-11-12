@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           sshfs
-Version:        3.7.6
+Version:        3.7.7
 Release:        1%{?dist}
 Summary:        FUSE client based on the SSH File Transfer Protocol
 License:        GPL-2.0-or-later
 URL:            https://github.com/libfuse/sshfs
-Source0:        sshfs-3.7.6.tar.gz
+Source0:        sshfs-3.7.7.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  meson
