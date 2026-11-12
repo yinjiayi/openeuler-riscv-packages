@@ -1,21 +1,21 @@
 {
-  "schema_version": 1,
   "package_id": "cabextract",
+  "schema_version": 1,
   "sources": [
     {
+      "digests": {
+        "sha256": "8f39ad5f9c076b9c62c67dea4f8649e75dcc16899a2d8122ca32ba68262cb713"
+      },
+      "filename": "cabextract-1.12.tar.gz",
       "id": "source0",
       "kind": "upstream-release",
-      "url": "https://www.cabextract.org.uk/cabextract-1.11.tar.gz",
-      "filename": "cabextract-1.11.tar.gz",
-      "version": "1.11",
-      "digests": {
-        "sha256": "b5546db1155e4c718ff3d4b278573604f30dd64c3c5bfd4657cd089b823a3ac6"
-      },
-      "signature": null,
       "redistribution": {
         "allowed": true,
         "reason": "GPL-2.0-or-later source is fetched from the official cabextract site in CI."
-      }
+      },
+      "signature": null,
+      "url": "https://www.cabextract.org.uk/cabextract-1.12.tar.gz",
+      "version": "1.12"
     }
   ]
 }

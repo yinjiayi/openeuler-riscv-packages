@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           cabextract
-Version:        1.11
+Version:        1.12
 Release:        1%{?dist}
 Summary:        Extract Microsoft cabinet files
 License:        GPL-2.0-or-later AND LGPL-2.1-only AND LGPL-2.0-or-later
 URL:            https://www.cabextract.org.uk/
-Source0:        cabextract-1.11.tar.gz
+Source0:        cabextract-1.12.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
