@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           autoconf-archive
-Version:        2024.10.16
+Version:        2026.11.11
 Release:        1%{?dist}
 Summary:        Collection of reusable Autoconf macros
 License:        GPL-2.0-or-later WITH Autoconf-exception-macro AND GPL-3.0-or-later AND GPL-3.0-or-later WITH Autoconf-exception-generic-3.0 AND GPL-3.0-or-later WITH Autoconf-exception-macro AND GFDL-1.3-or-later AND LGPL-3.0-or-later WITH Autoconf-exception-macro AND LGPL-2.1-or-later AND BSD-2-Clause AND BSD-3-Clause AND FSFAP AND FSFAP-no-warranty-disclaimer AND FSFULLR
 URL:            https://www.gnu.org/software/autoconf-archive/
-Source0:        autoconf-archive-%{version}.tar.xz
+Source0:        autoconf-archive-2026.11.11.tar.xz
 BuildArch:      noarch
 
 BuildRequires:  autoconf
