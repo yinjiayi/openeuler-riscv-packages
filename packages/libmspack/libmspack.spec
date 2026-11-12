@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libmspack
-Version:        0.11alpha
+Version:        0.12alpha
 Release:        1%{?dist}
 Summary:        Library for Microsoft compression formats
 License:        LGPL-2.1-only
 URL:            https://www.cabextract.org.uk/libmspack/
-Source0:        libmspack-0.11alpha.tar.gz
+Source0:        libmspack-0.12alpha.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
