@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libjwt
-Version:        3.6.1
+Version:        3.6.2
 Release:        1%{?dist}
 Summary:        C library for JSON Web Tokens, JWK, and JWKS
 License:        MPL-2.0
 URL:            https://libjwt.io
-Source0:        libjwt-%{version}.tar.xz
+Source0:        libjwt-3.6.2.tar.xz
 
 BuildRequires:  bats
 BuildRequires:  check-devel
