@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           lz4
-Version:        1.10.0
+Version:        1.11.1
 Release:        1%{?dist}
 Summary:        Fast lossless compression algorithm and tools
 License:        BSD-2-Clause AND GPL-2.0-or-later
 URL:            https://lz4.org/
-Source0:        lz4-%{version}.tar.gz
+Source0:        lz4-1.11.1.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
