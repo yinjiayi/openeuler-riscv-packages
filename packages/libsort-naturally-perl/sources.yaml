@@ -1,0 +1,51 @@
+{
+  "package_id": "libsort-naturally-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "eaab1c5c87575a7826089304ab1f8ffa7f18e6cd8b3937623e998e865ec1e746"
+      },
+      "filename": "Sort-Naturally-1.03.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Primary code is licensed under the same terms as Perl. The separate build-only WriteMakefile1 helper is GPL-3.0-only. Retain both notices. Digest verified against the authorized MetaCPAN release and PAUSE-signed CHECKSUMS."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Sort-Naturally-1.03.tar.gz",
+      "version": "1.03"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "Artistic-1.0-Perl.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete unmodified Artistic license text referenced by the primary Perl terms."}
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "filename": "GPL-1.0.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete unmodified GPL version 1 text referenced by the primary Perl terms."}
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "filename": "GPL-3.0.txt",
+      "version": "3.0",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "digests": {"sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete unmodified GNU GPL version 3 terms for the separate build-only helper."}
+    }
+  ]
+}
