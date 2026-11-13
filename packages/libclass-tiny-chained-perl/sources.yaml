@@ -1,0 +1,51 @@
+{
+  "package_id": "libclass-tiny-chained-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2c4215e94ac48eed50c9e9dd265817b8e25190ca9fbe23a65bcc0ebed4a44a31"
+      },
+      "filename": "Class-Tiny-Chained-0.004.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Dan Book's module and original distribution use Artistic-2.0; exact generated templates and the Apache-licensed contribution guide preserve their separate donor notices and full terms. The archive hash matches authorized MetaCPAN metadata and PAUSE-signed CHECKSUMS."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DB/DBOOK/Class-Tiny-Chained-0.004.tar.gz",
+      "version": "0.004"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "Dist-Zilla-6.007.LICENSE",
+      "version": "6.007",
+      "url": "https://fastapi.metacpan.org/source/RJBS/Dist-Zilla-6.007/LICENSE",
+      "digests": {"sha256": "db86a9426f579bf3004ae2fb4bcfc404ad9a34ec936547f2e1dda8482440f576"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete Perl terms and Ricardo Signes notice from the exact MakeMaker and author-test generator."}
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "filename": "ReportPrereqs-0.025.LICENSE",
+      "version": "0.025",
+      "url": "https://fastapi.metacpan.org/source/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.025/LICENSE",
+      "digests": {"sha256": "4c5f87ffa218ebe4027858643dad7133fcb8401f842cfaa4f425393fae1ddea2"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete Apache-2.0 terms and David Golden notice for the original default prerequisite test; the original contribution guide separately attributes its Apache-licensed donor."}
+    },
+    {
+      "id": "source3",
+      "kind": "upstream-release",
+      "filename": "InstallGuide-1.200007.LICENSE",
+      "version": "1.200007",
+      "url": "https://fastapi.metacpan.org/source/DOHERTY/Dist-Zilla-Plugin-InstallGuide-1.200007/LICENSE",
+      "digests": {"sha256": "5d6c3846d528636fda7641448934a5f388ee68182b4f19da9474a0749a568e49"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete Perl terms and Marcel Grünauer notice from the exact installation-guide generator."}
+    }
+  ]
+}
