@@ -1,0 +1,46 @@
+From: openEuler RISC-V package maintainers
+Subject: Match unsupported object-hook diagnostics on Perl 5.38
+
+Adapt Petr Písař's fix for CPAN RT #148979, carried by Debian
+libmodule-reader-perl 0.003003-4, without consulting a caller's overridden
+can method or bypassing the original INC/AUTOLOAD dispatch. Perl added
+new object-hook diagnostics in commit 0d370d41c6e8fe1e36eb93a5561e6716ee3a7e3e.
+This intentionally does not add INCDIR or string-overload support.
+
+Origin: https://rt.cpan.org/Ticket/Display.html?id=148979
+Bug-Debian: https://bugs.debian.org/1042849
+License: GPL-1.0-or-later OR Artistic-1.0-Perl
+
+diff --git a/lib/Module/Reader.pm b/lib/Module/Reader.pm
+--- a/lib/Module/Reader.pm
++++ b/lib/Module/Reader.pm
+@@ -15,6 +15,12 @@
+ use Carp qw(croak);
+ use Config ();
+ use Errno qw(EACCES);
++BEGIN {
++  if ($^V >= v5.37.8) {
++    require overload;
++    require mro;
++  }
++}
+ use constant _OPEN_LAYERS     => "$]" >= 5.008_000 ? ':' : '';
+ use constant _ABORT_ON_EACCES => "$]" >= 5.017_001;
+ use constant _ALLOW_PREFIX    => "$]" >= 5.008009;
+@@ -218,6 +224,16 @@ sub _open_ref {
+       main;
+     no strict 'refs';
+     no warnings 'uninitialized';
++    if ($^V >= v5.37.8 && defined(Scalar::Util::blessed($inc))
++        && Scalar::Util::reftype($inc) ne 'CODE'
++        && ref($inc) =~ /\A[A-Za-z_][A-Za-z_0-9]*(?:::[A-Za-z_][A-Za-z_0-9]*)*\z/
++        && !UNIVERSAL::can($inc, 'INC')
++        && !UNIVERSAL::can($inc, 'INCDIR')
++        && !UNIVERSAL::can($inc, 'AUTOLOAD')) {
++      die qq{Can't locate object method "INC", nor "INCDIR" nor string overload via package "}
++        . ref($inc) . qq{" in object hook in \@INC}
++        unless overload::Overloaded($inc);
++    }
+     @cb = defined Scalar::Util::blessed $inc ? $inc->INC($file)
+         : ref $inc eq 'ARRAY'                ? $inc->[0]->($inc, $file)
+                                              : $inc->($inc, $file);

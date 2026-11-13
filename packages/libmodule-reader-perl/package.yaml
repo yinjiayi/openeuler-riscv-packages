@@ -1,0 +1,110 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/release/HAARG/Module-Reader-0.003003",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-module-reader",
+        "package_name": "perl-module-reader",
+        "source": "aur",
+        "source_version": "0.003003-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/HAARG/Module-Reader-0.003003",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmodule-reader-perl",
+        "package_name": "libmodule-reader-perl",
+        "source": "ubuntu",
+        "source_version": "0.003003-4"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/HAARG/Module-Reader-0.003003",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmodule-reader-perl",
+        "package_name": "libmodule-reader-perl",
+        "source": "debian",
+        "source_version": "0.003003-4"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/HAARG/Module-Reader-0.003003",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Module-Reader",
+        "package_name": "perl-Module-Reader",
+        "source": "fedora",
+        "source_version": "0.003003-26.fc44"
+      },
+      {
+        "evidence_url": "https://metacpan.org/release/HAARG/Module-Reader-0.003003",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Module-Reader",
+        "package_name": "perl-Module-Reader",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.003003-2.10"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-perl-538-object-hook-diagnostic.patch",
+        "sha256": "12c62736c6046829f516fd87a38bfc13e4f09d4fd3ef4b6457939ed11f7f6e28",
+        "purpose": "Match Perl 5.38 unsupported object-hook diagnostics without changing direct INC dispatch or default tests.",
+        "source": "https://rt.cpan.org/Ticket/Display.html?id=148979 (adaptation of Petr Písař's Debian 0.003003-4 backport)",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "downstream-only",
+        "remove_when": "A stable upstream release preserves successful INC/AUTOLOAD behavior and matches modern Perl unsupported-object diagnostics with intact default tests."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libmodule-reader-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed PAUSE source, complete Perl license texts and unchanged MakeMaker default tests; see README.md.",
+    "status": "active"
+  },
+  "package_id": "libmodule-reader-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-module-reader",
+    "summary": "Read Perl module source using Perl include-path semantics"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "Module-Reader",
+    "homepage": "https://metacpan.org/dist/Module-Reader",
+    "release_api": null,
+    "release_channel": "stable",
+    "release_regex": null,
+    "source_repository": "https://github.com/haarg/Module-Reader",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.003003",
+    "latest_detected": "0.003003",
+    "release": "2"
+  }
+}

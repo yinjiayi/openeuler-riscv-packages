@@ -1,0 +1,41 @@
+{
+  "package_id": "libmodule-reader-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "2d5a0adb772517754fbfec0180d6a51039bb0cd3bd3316a59eaa32c05ddde284"
+      },
+      "filename": "Module-Reader-0.003003.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original README and module grant the Perl terms; CPAN release metadata declares perl_5. Fixed archive matches the publisher SHA-256."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Module-Reader-0.003003.tar.gz",
+      "version": "0.003003"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "filename": "Artistic-1.0-Perl.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete original Artistic terms of Perl, as referenced in the upstream grant."}
+    },
+    {
+      "id": "source2",
+      "kind": "upstream-release",
+      "filename": "GPL-1.0.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete original GPL version 1 terms of Perl, as referenced in the upstream grant."}
+    }
+  ]
+}
