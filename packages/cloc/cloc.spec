@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           cloc
-Version:        2.10
+Version:        2.12
 Release:        1%{?dist}
 Summary:        Count lines of code in many programming languages
 License:        GPL-2.0-or-later
 URL:            https://github.com/AlDanial/cloc
-Source0:        cloc-2.10.tar.gz
+Source0:        v2.12.tar.gz
 Source1:        cloc_submodule_test-f647093e8be34e337366457005cfb8056b847ebb.tar.gz
 
 BuildArch:      noarch
