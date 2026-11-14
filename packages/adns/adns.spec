@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 Name:           adns
-Version:        1.6.2
+Version:        1.7.0
 Release:        1%{?dist}
 Summary:        Asynchronous-capable DNS resolver library and utilities
 License:        GPL-3.0-or-later
 URL:            https://www.chiark.greenend.org.uk/~ian/adns/
-Source0:        adns-%{version}.tar.gz
+Source0:        adns-1.7.0.tar.gz
 
 BuildRequires:  bash
 BuildRequires:  coreutils
