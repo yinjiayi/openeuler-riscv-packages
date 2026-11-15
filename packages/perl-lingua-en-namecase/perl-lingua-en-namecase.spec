@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 %global _default_patch_fuzz 0
 Name:           perl-lingua-en-namecase
-Version:        1.21
+Version:        1.22
 Release:        1%{?dist}
 Summary:        Heuristic capitalization of personal names for Perl
 License:        Artistic-2.0 AND Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/Lingua-EN-NameCase
-Source0:        Lingua-EN-NameCase-%{version}.tar.gz
+Source0:        Lingua-EN-NameCase-1.22.tar.gz
 Patch0:         0001-retain-nameparse-license-notices.patch
 BuildArch:      noarch
 BuildRequires:  make
