@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libcbor
-Version:        0.14.0
+Version:        0.15.0
 Release:        1%{?dist}
 Summary:        CBOR parsing and serialization library for C
 License:        MIT
 URL:            https://libcbor.org
-Source0:        libcbor-%{version}.tar.gz
+Source0:        v0.15.0.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
