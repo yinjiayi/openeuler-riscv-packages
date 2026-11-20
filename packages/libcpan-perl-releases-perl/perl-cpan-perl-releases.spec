@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-cpan-perl-releases
-Version:        5.20261022
+Version:        5.20261119
 Release:        1%{?dist}
 Summary:        Map Perl releases to CPAN tarball locations
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/CPAN-Perl-Releases
-Source0:        CPAN-Perl-Releases-5.20261022.tar.gz
+Source0:        CPAN-Perl-Releases-5.20261119.tar.gz
 BuildArch:      noarch
 BuildRequires:  make
 BuildRequires:  perl >= 5.6.0
