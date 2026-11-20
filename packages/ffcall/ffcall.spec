@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 Name:           ffcall
-Version:        2.5
+Version:        2.6
 Release:        1%{?dist}
 Summary:        Libraries for foreign function call interfaces
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later
 URL:            https://www.gnu.org/software/libffcall/
-Source0:        libffcall-%{version}.tar.gz
+Source0:        libffcall-2.6.tar.gz
 
 BuildRequires:  bash
 BuildRequires:  coreutils
