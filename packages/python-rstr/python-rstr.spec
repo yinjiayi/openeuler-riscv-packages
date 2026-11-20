@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           python-rstr
-Version:        3.2.2
+Version:        4.0.0
 Release:        1%{?dist}
 Summary:        Generate random strings and strings matching regular expressions
 License:        BSD-3-Clause
 URL:            https://github.com/leapfrogonline/rstr
-Source0:        rstr-3.2.2.tar.gz
+Source0:        4.0.0
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools >= 61.2
 BuildRequires:  python3-setuptools_scm >= 3.4.3
