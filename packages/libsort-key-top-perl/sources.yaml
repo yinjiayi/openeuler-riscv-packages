@@ -1,0 +1,51 @@
+{
+  "package_id": "libsort-key-top-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "db7c4de42316d7b0d8f14a720a34f266374109a117efc8b67ea7fc498c4113e4"
+      },
+      "filename": "Sort-Key-Top-0.08.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original same-Perl grant and independently verified Devel::PPPort and Perl core sort notices; ship both complete fixed Perl license texts."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/Sort-Key-Top-0.08.tar.gz",
+      "version": "0.08"
+    },
+    {
+      "digests": {
+        "sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"
+      },
+      "filename": "Artistic-1.0-Perl.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete verbatim Perl Artistic license text from the fixed official Perl 5.38.0 commit."
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "version": "5.38.0"
+    },
+    {
+      "digests": {
+        "sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"
+      },
+      "filename": "GPL-1.0.txt",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete verbatim GNU GPL version 1 text from the fixed official Perl 5.38.0 commit."
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "version": "5.38.0"
+    }
+  ]
+}
