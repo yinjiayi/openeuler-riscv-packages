@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pybind11-json
-Version:        0.2.15
-Release:        6%{?dist}
+Version:        0.3.0
+Release:        1%{?dist}
 Summary:        Using nlohmann::json with pybind11
 License:        BSD-3-Clause
 URL:            https://github.com/pybind/pybind11_json
-Source0:        pybind11-json-0.2.15.tar.gz
+Source0:        0.3.0.tar.gz
 BuildArch:      noarch
 BuildRequires:  cmake
 BuildRequires:  gcc
