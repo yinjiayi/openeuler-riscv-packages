@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-class-exporter",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "362bcf3500afd488e2aec137ca07ebdce7b5469d59c5337f9e778ed356af9ef1"
+      },
+      "filename": "Class-Exporter-0.03.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "url": "https://cpan.metacpan.org/authors/id/S/SP/SPLICE/CHECKSUMS",
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/S/SP/SPLICE/Class-Exporter-0.03.tar.gz",
+      "version": "0.03"
+    }
+  ]
+}

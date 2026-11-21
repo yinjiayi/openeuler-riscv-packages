@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Class-Exporter",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Class-Exporter",
+        "package_name": "perl-Class-Exporter",
+        "source": "fedora",
+        "source_version": "0.03-47.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-donor-licenses.patch",
+        "sha256": "bc4158f9c09160e82714d9a3bd90f157035779d809e37191c71f33f3ad41f359",
+        "purpose": "Retain original donor author/grant and Perl core full terms for explicitly borrowed code/docs; original members unchanged.",
+        "source": "https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/Exporter-Lite-0.02.tar.gz",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "not-submitted",
+        "remove_when": "An official release includes equivalent donor attribution and complete license terms."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-exporter.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed original source and all default tests preserved, including original bundled Test modules with explicit t/lib precedence. Notice-only inherited exporter/core license preservation. No source behavior changes or physical network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-class-exporter",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-exporter",
+    "summary": "Export object methods as Perl subroutines"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-class-exporter",
+    "homepage": "https://metacpan.org/dist/Class-Exporter",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SP/SPLICE/",
+    "release_channel": "stable",
+    "release_regex": "Class-Exporter-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Class-Exporter",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SP/SPLICE/Class-Exporter-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.03",
+    "latest_detected": "0.03",
+    "release": "1"
+  }
+}
