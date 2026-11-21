@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-Toolbox",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-Toolbox",
+        "package_name": "perl-Test-Toolbox",
+        "source": "fedora",
+        "source_version": "0.4-28.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-test-toolbox.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official signed CPAN archive and Fedora 44 GA lineage reviewed; the complete upstream same-Perl notice, separate POD, and all original tests are retained.",
+    "status": "active"
+  },
+  "package_id": "libtest-toolbox-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-test-toolbox",
+    "summary": "Test helpers for Perl comparisons and error checks"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-test-toolbox",
+    "homepage": "https://metacpan.org/dist/Test-Toolbox",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MI/MIKO/",
+    "release_channel": "stable",
+    "release_regex": "Test-Toolbox-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Test-Toolbox",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MI/MIKO/Test-Toolbox-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.4",
+    "latest_detected": "0.4",
+    "release": "1"
+  }
+}
