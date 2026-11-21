@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libxml-xpathengine-perl",
+        "observed_at": "2026-11-09T16:13:51Z",
+        "package_base": "libxml-xpathengine-perl",
+        "package_name": "libxml-xpathengine-perl",
+        "source": "debian",
+        "source_version": "0.14-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261109-n401.hwMg62"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libxml-xpathengine-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed CPAN source matches the Debian stable original. Preserve all original tests, both complete Perl license texts, and the XML::XPath donor notice.",
+    "status": "active"
+  },
+  "package_id": "libxml-xpathengine-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libxml-xpathengine-perl",
+    "summary": "Evaluate XPath expressions against application node trees"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:XML-XPathEngine",
+    "homepage": "https://metacpan.org/dist/XML-XPathEngine",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MI/MIROD/",
+    "release_channel": "stable",
+    "release_regex": "XML-XPathEngine-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/XML-XPathEngine",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MI/MIROD/XML-XPathEngine-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.14",
+    "latest_detected": "0.14",
+    "release": "1"
+  }
+}
