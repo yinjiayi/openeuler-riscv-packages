@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/File-Flock-Retry",
+        "observed_at": "2026-11-09T22:22:00Z",
+        "package_base": "libfile-flock-retry-perl",
+        "package_name": "libfile-flock-retry-perl",
+        "source": "debian",
+        "source_version": "0.632-2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-file-flock-retry.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libfile-flock-retry-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-file-flock-retry",
+    "summary": "File locking with bounded retries for Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:File-Flock-Retry",
+    "homepage": "https://metacpan.org/dist/File-Flock-Retry",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/",
+    "release_channel": "stable",
+    "release_regex": "File-Flock-Retry-(?P<version>[0-9]+[.][0-9]+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/File-Flock-Retry",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/File-Flock-Retry-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.632",
+    "latest_detected": "0.632",
+    "release": "1"
+  }
+}
