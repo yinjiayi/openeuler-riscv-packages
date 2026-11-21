@@ -1,0 +1,66 @@
+{
+  "package_id": "libdata-fake-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "930960e04a417fb19e14ce1e739e3e4aefbddd101eae68bfa25ba7674fe7c2a1"
+      },
+      "filename": "Data-Fake-0.006.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original Apache-licensed release with separately tracked generated material."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Data-Fake-0.006.tar.gz",
+      "version": "0.006"
+    },
+    {
+      "digests": {
+        "sha256": "5c8d30ce33ac8b5e937e6f83fcfa779e7225ca149951ee5c9bc2c3af3c2b6fee"
+      },
+      "filename": "Dist-Zilla-6.017.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Same-Perl generated MakeMaker wrapper; only the original license is extracted."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Dist-Zilla-6.017.tar.gz",
+      "version": "6.017"
+    },
+    {
+      "digests": {
+        "sha256": "2aa38c5e8498fa6d930c16d6d32d5b57edf776e33fac6a94ea2be4c242cf1be3"
+      },
+      "filename": "Dist-Zilla-Plugin-Test-ReportPrereqs-0.028.tar.gz",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Apache-2.0 generated prerequisite test; only the original license is extracted."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.028.tar.gz",
+      "version": "0.028"
+    },
+    {
+      "digests": {
+        "sha256": "c45647ed172443608d201461b918348f3cf2bfc7d6f72ef98c014c1d4324085b"
+      },
+      "filename": "version-0.9908.tar.gz",
+      "id": "source3",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Same-Perl version::LAX expression provenance; only the original grant and notice are extracted."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/J/JP/JPEACOCK/version-0.9908.tar.gz",
+      "version": "0.9908"
+    }
+  ]
+}
