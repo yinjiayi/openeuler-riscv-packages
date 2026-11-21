@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           python-easydict
-Version:        1.13
+Version:        1.14
 Release:        1%{?dist}
 Summary:        Access dictionary values as attributes recursively
 License:        LGPL-3.0-only
 URL:            https://github.com/makinacorpus/easydict
-Source0:        easydict-1.13-fixed.tar.gz
+Source0:        1.14.tar.gz
 Source1:        GPL-3.0.txt
 BuildArch:      noarch
 BuildRequires:  python3-devel
