@@ -3,14 +3,19 @@
   "schema_version": 1,
   "sources": [
     {
-      "digests": {"sha256": "696a2d0d518da985d975a65e11d166f3f57cdbd1d42376a0b85307f49601c6e8"},
-      "filename": "udns-0.6.tar.gz",
+      "digests": {
+        "sha256": "69df35dc42b6d11710ce1abdf4a0e1613feba8fca009f9c9a93d1716926ccac3"
+      },
+      "filename": "udns-0.7.tar.gz",
       "id": "source0",
       "kind": "upstream-release",
-      "redistribution": {"allowed": true, "reason": "LGPL-licensed source is fetched from the official immutable versioned release archive."},
+      "redistribution": {
+        "allowed": true,
+        "reason": "LGPL-licensed source is fetched from the official immutable versioned release archive."
+      },
       "signature": null,
-      "url": "https://www.corpit.ru/mjt/udns/udns-0.6.tar.gz",
-      "version": "0.6"
+      "url": "https://www.corpit.ru/mjt/udns/udns-0.7.tar.gz",
+      "version": "0.7"
     }
   ]
 }
