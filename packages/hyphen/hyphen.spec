@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           hyphen
-Version:        2.8.9
+Version:        2.8.10
 Release:        1%{?dist}
 Summary:        Hyphenation library and English hyphenation data
 License:        GPL-2.0-or-later OR LGPL-2.1-or-later OR MPL-1.1
 URL:            https://github.com/hunspell/hyphen
-Source0:        hyphen-%{version}.tar.gz
+Source0:        hyphen-2.8.10.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
