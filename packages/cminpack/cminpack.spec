@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           cminpack
-Version:        1.3.14
+Version:        1.3.15
 Release:        1%{?dist}
 %global upstream_commit 48c2b6ecd180ad134c626365e3092ba5dd5463a7
 Summary:        C and C++ implementation of the MINPACK optimization library
 License:        LicenseRef-Minpack
 URL:            http://devernay.free.fr/hacks/cminpack/
-Source0:        cminpack-%{version}.tar.gz
+Source0:        v1.3.15.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
