@@ -1,0 +1,42 @@
+{
+  "package_id": "libencode-zapcp1252-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "9f67d8d1b60490b5d4b5a4e5978aa671b278329d86f14ee63c2cb0af2b8cb4b4"
+      },
+      "filename": "Encode-ZapCP1252-0.40.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DW/DWHEELER/Encode-ZapCP1252-0.40.tar.gz",
+      "version": "0.40"
+    },
+    {
+      "id":"source1","kind":"upstream-release",
+      "url":"https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "filename":"Artistic-1.0-Perl.txt","version":"76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests":{"sha256":"dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "redistribution":{"allowed":true,"reason":"Official full Artistic text from the upstream Perl dual grant."},"signature":null
+    },
+    {
+      "id":"source2","kind":"upstream-release",
+      "url":"https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "filename":"GPL-1.0.txt","version":"76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests":{"sha256":"d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "redistribution":{"allowed":true,"reason":"Official full GPLv1 text from the upstream Perl dual grant."},"signature":null
+    },
+    {
+      "id":"source3","kind":"upstream-release",
+      "url":"https://raw.githubusercontent.com/Perl-Toolchain-Gang/Module-Build/266a3c1a7a4c80f8429c37b71de35d13682121f7/lib/Module/Build/Compat.pm",
+      "filename":"Module-Build-Compat-0.4229.pm","version":"0.4229",
+      "digests":{"sha256":"b12f265444e1b73fdda96c1a3e427faa7775e89284655625d8b8d3391280ec05"},
+      "redistribution":{"allowed":true,"reason":"Exact donor of upstream's generated fallback Makefile.PL, covered by the Perl dual grant. Used only to extract its plain-text notice."},"signature":null
+    }
+  ]
+}
