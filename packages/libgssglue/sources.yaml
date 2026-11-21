@@ -1,0 +1,55 @@
+{
+  "package_id": "libgssglue",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "67ed16283dc45fe6acdd71adac76acf4a8af41eb75d0bb27cbb10c6110c72601"
+      },
+      "filename": "libgssglue-0.9.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "url": "https://gitlab.com/gsasl/libgssglue/uploads/7d3596d0e6fdecc2fb5b5e74edaedb37/libgssglue-0.9.tar.gz.sig",
+        "key_fingerprint": "B1D2BD1375BECB784CF4F8C4D73CF638C53C06BE",
+        "policy": "checksum-required-signature-advisory"
+      },
+      "url": "https://gitlab.com/gsasl/libgssglue/uploads/7310f7060cdf240a4b8eaaf80a435986/libgssglue-0.9.tar.gz",
+      "version": "0.9"
+    },
+    {
+      "id": "gpl2",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/COPYING",
+      "filename": "gpl-2.0.txt",
+      "version": "2.0",
+      "digests": {
+        "sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unmodified complete GNU license text retained for upstream build helper grants and their original exceptions."
+      }
+    },
+    {
+      "id": "gpl3",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/COPYING3",
+      "filename": "gpl-3.0.txt",
+      "version": "3.0",
+      "digests": {
+        "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unmodified complete GNU license text retained for upstream build helper grants and their original exceptions."
+      }
+    }
+  ]
+}
