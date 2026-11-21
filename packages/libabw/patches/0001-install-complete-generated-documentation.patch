@@ -1,0 +1,23 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Install the complete default generated HTML documentation
+
+The original three extension globs omit JavaScript, SVG, font and nested
+assets produced by current Doxygen, including their embedded notices.
+An unmatched PNG glob can also fail installation. Copy the full generated
+tree to the same destination. Do not change configure, all or check.
+This is a generic packaging fix, not a RISC-V architecture change.
+
+--- a/docs/doxygen/Makefile.am
++++ b/docs/doxygen/Makefile.am
+@@ -9,3 +9,1 @@
+-	$(INSTALL_DATA) html/*.html $(DESTDIR)$(docdir)/html/
+-	$(INSTALL_DATA) html/*.png $(DESTDIR)$(docdir)/html/
+-	$(INSTALL_DATA) html/*.css $(DESTDIR)$(docdir)/html/
++	cp -pR html/. $(DESTDIR)$(docdir)/html/
+--- a/docs/doxygen/Makefile.in
++++ b/docs/doxygen/Makefile.in
+@@ -488,3 +488,1 @@
+-@WITH_LIBABW_DOCS_TRUE@	$(INSTALL_DATA) html/*.html $(DESTDIR)$(docdir)/html/
+-@WITH_LIBABW_DOCS_TRUE@	$(INSTALL_DATA) html/*.png $(DESTDIR)$(docdir)/html/
+-@WITH_LIBABW_DOCS_TRUE@	$(INSTALL_DATA) html/*.css $(DESTDIR)$(docdir)/html/
++@WITH_LIBABW_DOCS_TRUE@	cp -pR html/. $(DESTDIR)$(docdir)/html/

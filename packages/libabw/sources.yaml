@@ -1,0 +1,37 @@
+{
+  "package_id": "libabw",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "fa2685a3440da6e03a66a778480d93cb95f6064e4541e58e37397680760fd6a0"
+      },
+      "filename": "libabw-0.1.4.tar.xz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://dev-www.libreoffice.org/src/libabw/libabw-0.1.4.tar.xz",
+      "version": "0.1.4"
+    },
+    {
+      "id": "source1", "kind": "upstream-release", "filename": "gpl-2.0.txt",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/COPYING",
+      "version": "GPL-2.0",
+      "digests": {"sha256": "231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Full GNU GPL version 2 legal text; fixed upstream GCC Git object."}
+    },
+    {
+      "id": "source2", "kind": "upstream-release", "filename": "gpl-3.0.txt",
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/c9cd41fba9ebd288c4f101e4b99da934bcb96a11/COPYING3",
+      "version": "GPL-3.0",
+      "digests": {"sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Full GNU GPL version 3 legal text; fixed upstream GCC Git object."}
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "user": "unprivileged",
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://wiki.documentfoundation.org/DLP/Libraries/libabw",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libabw",
+        "package_name": "libabw",
+        "source": "arch-extra",
+        "source_version": "0.1.4-1"
+      },
+      {
+        "evidence_url": "https://wiki.documentfoundation.org/DLP/Libraries/libabw",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libabw",
+        "package_name": "libabw",
+        "source": "debian",
+        "source_version": "0.1.3-1"
+      },
+      {
+        "evidence_url": "https://wiki.documentfoundation.org/DLP/Libraries/libabw",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libabw",
+        "package_name": "libabw",
+        "source": "fedora",
+        "source_version": "0.1.3-19.fc44"
+      },
+      {
+        "evidence_url": "https://wiki.documentfoundation.org/DLP/Libraries/libabw",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libabw",
+        "package_name": "libabw",
+        "source": "opensuse-tumbleweed",
+        "source_version": "0.1.4-1.3"
+      },
+      {
+        "evidence_url": "https://wiki.documentfoundation.org/DLP/Libraries/libabw",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libabw",
+        "package_name": "libabw",
+        "source": "ubuntu",
+        "source_version": "0.1.3-1build6"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-install-complete-generated-documentation.patch",
+        "sha256": "3acf3f0209dbe026b99ed320cdd35cc4e9ac9ff51cbcf4b1d6bee6b8cfea0572",
+        "purpose": "Install the complete default Doxygen HTML tree including nested assets and embedded notices instead of three extension globs.",
+        "source": "Package-local paired Makefile.am/Makefile.in modification of the fixed official libabw release; no upstream write.",
+        "license": "MPL-2.0 AND FSFAP",
+        "upstream_status": "not-submitted",
+        "remove_when": "A future fixed upstream release installs the complete generated documentation tree and passes target installation and notice review without this patch."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libabw.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed 0.1.4 archive, 97-member rights/default review and full official provider/namespace projection retained in onboarding evidence; discovery snapshot unchanged and no third-party packaging executed.",
+    "status": "active"
+  },
+  "package_id": "libabw",
+  "rpm": {
+    "license": "MPL-2.0 AND GPL-3.0-or-later AND (GPL-2.0-or-later WITH Libtool-exception) AND FSFAP AND MIT AND X11",
+    "name": "libabw",
+    "summary": "AbiWord document import library and conversion tools"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libabw",
+    "homepage": "https://wiki.documentfoundation.org/DLP/Libraries/libabw",
+    "release_api": "https://dev-www.libreoffice.org/src/libabw/",
+    "release_channel": "stable",
+    "release_regex": "^libabw-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.xz$",
+    "source_repository": "https://wiki.documentfoundation.org/DLP/Libraries/libabw",
+    "source_url_template": null
+  },
+  "version": {
+    "current": "0.1.4",
+    "latest_detected": "0.1.4",
+    "release": "1"
+  }
+}
