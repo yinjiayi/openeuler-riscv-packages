@@ -1,0 +1,66 @@
+{
+  "package_id": "libtest-tempdir-tiny-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d7b7a1fd7fcce0168d44fb8876918fe8a9af49ae0eb8b09625b67b18d71f5e81"
+      },
+      "filename": "Test-TempDir-Tiny-0.018.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original Apache-2.0 release with separately tracked same-Perl generated material; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Test-TempDir-Tiny-0.018.tar.gz",
+      "version": "0.018"
+    },
+    {
+      "digests": {
+        "sha256": "67583075f6d62b78aaa956389f113df789ddd41911394092a5a2b8c6fa863070"
+      },
+      "filename": "Dist-Zilla-6.012.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Same-Perl generated MakeMaker wrapper provenance; only the original license is extracted."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Dist-Zilla-6.012.tar.gz",
+      "version": "6.012"
+    },
+    {
+      "digests": {
+        "sha256": "e25e05f89042385b46b04477b1cf4e5dd3e4a1575f17633c15dd25f80dbc68c2"
+      },
+      "filename": "Dist-Zilla-Plugin-Test-ReportPrereqs-0.027.tar.gz",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Apache-2.0 generated prerequisite test provenance; only the original license is extracted."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.027.tar.gz",
+      "version": "0.027"
+    },
+    {
+      "digests": {
+        "sha256": "c45647ed172443608d201461b918348f3cf2bfc7d6f72ef98c014c1d4324085b"
+      },
+      "filename": "version-0.9908.tar.gz",
+      "id": "source3",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Same-Perl version::LAX expression provenance; only the original grant and notice are extracted."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/J/JP/JPEACOCK/version-0.9908.tar.gz",
+      "version": "0.9908"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-TempDir-Tiny",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-tempdir-tiny-perl",
+        "package_name": "libtest-tempdir-tiny-perl",
+        "source": "debian",
+        "source_version": "0.018-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-TempDir-Tiny",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-TempDir-Tiny",
+        "package_name": "perl-Test-TempDir-Tiny",
+        "source": "fedora",
+        "source_version": "0.018-21.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-test-tempdir-tiny.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official signed CPAN release and Fedora 44 GA verified. Retains original default tests and all generated-source license notices; no external recipe executed.",
+    "status": "active"
+  },
+  "package_id": "libtest-tempdir-tiny-perl",
+  "rpm": {
+    "license": "Apache-2.0 AND (GPL-1.0-or-later OR Artistic-1.0-Perl)",
+    "name": "perl-test-tempdir-tiny",
+    "summary": "Temporary directories for Perl tests with failure retention"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-test-tempdir-tiny",
+    "homepage": "https://metacpan.org/dist/Test-TempDir-Tiny",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_channel": "stable",
+    "release_regex": "Test-TempDir-Tiny-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Test-TempDir-Tiny",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Test-TempDir-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.018",
+    "latest_detected": "0.018",
+    "release": "1"
+  }
+}
