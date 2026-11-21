@@ -1,0 +1,37 @@
+{
+  "package_id": "libfile-tee-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "8651f7dbfbccf3d7c4f8bb2bc0c9ff0439e52014bf480e70afce55dda1461c51"
+      },
+      "filename": "File-Tee-0.07.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/File-Tee-0.07.tar.gz",
+      "version": "0.07"
+    },
+    {
+      "id": "source1", "kind": "upstream-release", "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "filename": "Artistic-1.0-Perl.txt",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "redistribution": {"allowed": true, "reason": "Complete Perl Artistic License text supporting the original dual grant."},
+      "signature": null
+    },
+    {
+      "id": "source2", "kind": "upstream-release", "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "filename": "GPL-1.0.txt",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "redistribution": {"allowed": true, "reason": "Complete GPLv1 text supporting the original dual grant."},
+      "signature": null
+    }
+  ]
+}

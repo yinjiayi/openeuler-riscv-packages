@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/File-Tee",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfile-tee-perl",
+        "package_name": "libfile-tee-perl",
+        "source": "debian",
+        "source_version": "0.07-4"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/File-Tee",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-File-Tee",
+        "package_name": "perl-File-Tee",
+        "source": "fedora",
+        "source_version": "0.07-37.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-file-tee.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libfile-tee-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-file-tee",
+    "summary": "Replicate output written to a Perl stream"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:File-Tee",
+    "homepage": "https://metacpan.org/dist/File-Tee",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/",
+    "release_channel": "stable",
+    "release_regex": "File-Tee-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/File-Tee",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/File-Tee-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.07",
+    "latest_detected": "0.07",
+    "release": "1"
+  }
+}
