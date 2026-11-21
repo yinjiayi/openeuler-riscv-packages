@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/failures",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libfailures-perl",
+        "package_name": "libfailures-perl",
+        "source": "debian",
+        "source_version": "0.004-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/failures",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-failures",
+        "package_name": "perl-failures",
+        "source": "fedora",
+        "source_version": "0.004-28.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-failures.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official signed CPAN release and Fedora 44 GA verified. Retains both modules, original tests, and generated-source license notices.",
+    "status": "active"
+  },
+  "package_id": "libfailures-perl",
+  "rpm": {
+    "license": "Apache-2.0 AND (GPL-1.0-or-later OR Artistic-1.0-Perl)",
+    "name": "perl-failures",
+    "summary": "Create typed exception hierarchies in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-failures",
+    "homepage": "https://metacpan.org/dist/failures",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_channel": "stable",
+    "release_regex": "failures-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/failures",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/failures-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.004",
+    "latest_detected": "0.004",
+    "release": "1"
+  }
+}
