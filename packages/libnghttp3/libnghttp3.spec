@@ -4,12 +4,12 @@
 # https://www.apache.org/licenses/LICENSE-2.0
 # Distributed AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND.
 Name:           libnghttp3
-Version:        1.18.0
+Version:        1.19.0
 Release:        1%{?dist}
 Summary:        HTTP/3 and QPACK library written in C
 License:        MIT AND GPL-3.0-or-later AND X11 AND LicenseRef-Portable-Snippets-CC0-Waiver AND Apache-2.0
 URL:            https://nghttp2.org/nghttp3/
-Source0:        https://github.com/ngtcp2/nghttp3/releases/download/v%{version}/nghttp3-%{version}.tar.gz
+Source0:        nghttp3-1.19.0.tar.gz
 Source1:        https://www.gnu.org/licenses/gpl-3.0.txt#/GPL-3.0.txt
 Source2:        https://www.apache.org/licenses/LICENSE-2.0.txt#/Apache-2.0.txt
 BuildRequires:  bash
