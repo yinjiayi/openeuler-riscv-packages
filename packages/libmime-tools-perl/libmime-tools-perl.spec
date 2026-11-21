@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           perl-MIME-tools
-Version:        5.519
+Version:        5.522
 Release:        1%{?dist}
 Summary:        Perl modules for MIME-compliant messages
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            https://metacpan.org/dist/MIME-tools
-Source0:        MIME-tools-%{version}.tar.gz
+Source0:        MIME-tools-5.522.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  coreutils
