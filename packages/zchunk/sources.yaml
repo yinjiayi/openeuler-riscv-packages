@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "zchunk",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "version": "1.5.5",
+      "url": "https://api.github.com/repos/zchunk/zchunk/tarball/refs/tags/1.5.5",
+      "filename": "zchunk-1.5.5-Git.tar.gz",
+      "digests": {
+        "sha256": "0029e19b024c589f917a9ff8853f91ebe6aba48fbd218def1ed14ff5f2821eaa"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "The exact signed annotated tag/peeled commit and currently published linked-author certificate were independently verified. This is not a separate signature over the archive. All166 original Git bytes/modes, notices and default inputs remain in the SRPM. Project/manual BSD2, buzhash MIT, uthash BSD1, bundled SHA1 public domain/SHA2 BSD3 and Windows musl MIT/TRE BSD2/dirent MIT retain their distinct notices. The unchanged LibreOffice legal compilation is a separate MPL2 fixture, not a BSD reassignment or copies of all libraries/fonts named in the document. The foreign prebuilt ABI reference is SRPM-only, never executed or installed as a target ELF. Installed non-text notice records explicitly preserve reversible base64 plus original hash/mode."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "version": "2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete Apache2 legal text for downstream packaging and owned additive QA only; not upstream licensing. Exact previously verified official Apache text is reused without a legal-text GET."
+      }
+    }
+  ]
+}
