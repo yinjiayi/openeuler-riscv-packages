@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           simplearchiver
-Version:        3.5.0
-Release:        3%{?dist}
+Version:        4.3.2
+Release:        1%{?dist}
 Summary:        An alternative to tar
 License:        ISC
 URL:            https://github.com/Stephen-Seo/SimpleArchiver
-Source0:        simplearchiver-3.5.0.tar.gz
+Source0:        4.3.2.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  make
