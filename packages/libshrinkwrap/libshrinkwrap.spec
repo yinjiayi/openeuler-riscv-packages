@@ -2,12 +2,12 @@
 # No ELF is shipped: upstream is a header-only INTERFACE library.
 %global debug_package %{nil}
 Name:           libshrinkwrap
-Version:        1.2.0
+Version:        1.2.1
 Release:        1%{?dist}
 Summary:        Header-only C++ stream buffers for compression formats
 License:        MIT AND BSD-3-Clause
 URL:            https://github.com/jonathonl/shrinkwrap
-Source0:        https://codeload.github.com/jonathonl/shrinkwrap/tar.gz/eaac292b255b5de45d6546a794ffbd103335bc40#/libshrinkwrap-1.2.0.tar.gz
+Source0:        v1.2.1
 Source1:        https://raw.githubusercontent.com/facebook/zstd/ebf275912aeb046b9379ec48cfd0e336a542f590/LICENSE#/ZSTD-LICENSE
 Source2:        https://raw.githubusercontent.com/facebook/zstd/ebf275912aeb046b9379ec48cfd0e336a542f590/PATENTS#/ZSTD-PATENTS
 Patch0:         0001-include-cstdint-for-public-integer-types.patch
