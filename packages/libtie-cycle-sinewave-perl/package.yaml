@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libtie-cycle-sinewave-perl",
+        "observed_at": "2026-11-09T19:15:00Z",
+        "package_base": "libtie-cycle-sinewave-perl",
+        "package_name": "libtie-cycle-sinewave-perl",
+        "source": "debian",
+        "source_version": "0.05-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261109-n405.spmaIu"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libtie-cycle-sinewave-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed archive corroborated by the PAUSE signed checksum manifest and Debian stable original. Preserve MakeMaker defaults and original Perl dual-license notice.",
+    "status": "active"
+  },
+  "package_id": "libtie-cycle-sinewave-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libtie-cycle-sinewave-perl",
+    "summary": "Cycle a tied Perl scalar over a sine wave"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Tie-Cycle-Sinewave",
+    "homepage": "https://metacpan.org/dist/Tie-Cycle-Sinewave",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DL/DLAND/",
+    "release_channel": "stable",
+    "release_regex": "Tie-Cycle-Sinewave-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Tie-Cycle-Sinewave",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DL/DLAND/Tie-Cycle-Sinewave-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.05",
+    "latest_detected": "0.05",
+    "release": "1"
+  }
+}
