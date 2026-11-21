@@ -1,0 +1,86 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-Abortable",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-abortable-perl",
+        "package_name": "libtest-abortable-perl",
+        "source": "debian",
+        "source_version": "0.003-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-Abortable",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-Abortable",
+        "package_name": "perl-Test-Abortable",
+        "source": "fedora",
+        "source_version": "0.003-9.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-helper-notices.patch",
+        "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND Apache-2.0",
+        "purpose": "Retain exact generated-helper and borrowed regex credits plus full Apache-2.0 terms. Adds two notice files; all upstream tests and code are unchanged.",
+        "remove_when": "Upstream ships the same complete helper notices and borrowed regex attribution.",
+        "sha256": "1fd3575f07b4d60da6ae89b4aaf47a919c8745759f541a7941058e560cf6b279",
+        "source": "Official CPAN Dist-Zilla 6.029, Dist-Zilla-Plugin-Test-ReportPrereqs 0.028, Dist-Zilla-Plugin-CheckChangesHasContent 0.011 and version 0.9909; exact archive and generated-output matches.",
+        "upstream_status": "not-submitted"
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-test-abortable.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed fixed CPAN release. The package-local notice-only patch preserves complete helper rights without altering upstream files or tests.",
+    "status": "active"
+  },
+  "package_id": "libtest-abortable-perl",
+  "rpm": {
+    "license": "(GPL-1.0-or-later OR Artistic-1.0-Perl) AND Apache-2.0",
+    "name": "perl-test-abortable",
+    "summary": "Catch selected exceptions inside Perl test subtests"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-test-abortable",
+    "homepage": "https://metacpan.org/dist/Test-Abortable",
+    "release_api": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/",
+    "release_channel": "stable",
+    "release_regex": "Test-Abortable-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Test-Abortable",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Test-Abortable-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.003",
+    "latest_detected": "0.003",
+    "release": "1"
+  }
+}
