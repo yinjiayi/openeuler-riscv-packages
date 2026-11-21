@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Devel-StrictMode",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libdevel-strictmode-perl",
+        "package_name": "libdevel-strictmode-perl",
+        "source": "debian",
+        "source_version": "0.003-4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "devel-strictmode.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official CPAN archive SHA-256 is pinned in sources.yaml. Preserve the bundled dual-license text and both original default tests.",
+    "status": "active"
+  },
+  "package_id": "libdevel-strictmode-perl",
+  "rpm": {
+    "license": "Artistic-1.0-Perl OR GPL-1.0-or-later",
+    "name": "perl-devel-strictmode",
+    "summary": "Perl constants for enabling strict runtime checks"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Devel-StrictMode",
+    "homepage": "https://metacpan.org/dist/Devel-StrictMode",
+    "release_api": "https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/",
+    "release_channel": "stable",
+    "release_regex": "Devel-StrictMode-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://github.com/tobyink/p5-devel-strictmode",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/Devel-StrictMode-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.003",
+    "latest_detected": "0.003",
+    "release": "1"
+  }
+}
