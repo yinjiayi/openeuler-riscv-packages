@@ -1,0 +1,101 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://software.schmorp.de/pkg/libptytty.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libptytty",
+        "package_name": "libptytty",
+        "source": "arch-extra",
+        "source_version": "2.0-6"
+      },
+      {
+        "evidence_url": "https://software.schmorp.de/pkg/libptytty.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libptytty",
+        "package_name": "libptytty",
+        "source": "debian",
+        "source_version": "2.0-1"
+      },
+      {
+        "evidence_url": "https://software.schmorp.de/pkg/libptytty.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libptytty",
+        "package_name": "libptytty",
+        "source": "fedora",
+        "source_version": "2.0-14.fc44"
+      },
+      {
+        "evidence_url": "https://software.schmorp.de/pkg/libptytty.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libptytty",
+        "package_name": "libptytty",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.0-2.15"
+      },
+      {
+        "evidence_url": "https://software.schmorp.de/pkg/libptytty.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libptytty",
+        "package_name": "libptytty",
+        "source": "ubuntu",
+        "source_version": "2.0-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libptytty.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official fixed source SHA-256 and signify Ed25519 signature verified against the upstream HTTPS signing key. Preserve default C-sample/session options; unprivileged PTY functional checks are not login or kernel/security validation.",
+    "status": "active"
+  },
+  "package_id": "libptytty",
+  "rpm": {
+    "license": "GPL-2.0-or-later AND BSD-2-Clause AND MIT",
+    "name": "libptytty",
+    "summary": "Portable pseudo-terminal and session handling library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "libptytty",
+    "homepage": "https://software.schmorp.de/pkg/libptytty.html",
+    "release_api": "https://dist.schmorp.de/libptytty/",
+    "release_channel": "stable",
+    "release_regex": "^libptytty-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz$",
+    "source_repository": "https://software.schmorp.de/pkg/libptytty.html",
+    "source_url_template": "https://dist.schmorp.de/libptytty/libptytty-{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.0",
+    "latest_detected": "2.0",
+    "release": "1"
+  }
+}
