@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libytnef
-Version:        2.1.2
-Release:        2%{?dist}
+Version:        2.1.5
+Release:        1%{?dist}
 Summary:        Library for reading Microsoft TNEF streams
 License:        GPL-2.0-or-later
 URL:            https://github.com/Yeraze/ytnef
-Source0:        ytnef-v%{version}.tar.gz
+Source0:        v2.1.5.tar.gz
 Patch0:         0001-make-installed-headers-self-contained.patch
 
 BuildRequires:  autoconf

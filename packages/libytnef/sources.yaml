@@ -1,21 +1,21 @@
 {
-  "schema_version": 1,
   "package_id": "libytnef",
+  "schema_version": 1,
   "sources": [
     {
+      "digests": {
+        "sha256": "656388b7472c040fa4b816ab35c33f3236c1a0467a7da0d5b20862023fba46fc"
+      },
+      "filename": "v2.1.5.tar.gz",
       "id": "source0",
       "kind": "upstream-release",
-      "filename": "ytnef-v2.1.2.tar.gz",
-      "version": "2.1.2",
-      "url": "https://github.com/Yeraze/ytnef/archive/refs/tags/v2.1.2.tar.gz",
-      "digests": {
-        "sha256": "340f03f495884611209e9c0bc943fad06ce920e8c79655aa228d5ca7418dc360"
-      },
-      "signature": null,
       "redistribution": {
         "allowed": true,
         "reason": "The GPL-2.0-or-later official release tag is fetched over HTTPS and SHA-256 verified by CI."
-      }
+      },
+      "signature": null,
+      "url": "https://github.com/Yeraze/ytnef/archive/refs/tags/v2.1.5.tar.gz",
+      "version": "2.1.5"
     }
   ]
 }
