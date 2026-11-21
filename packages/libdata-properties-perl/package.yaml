@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Data-Properties",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Data-Properties",
+        "package_name": "perl-Data-Properties",
+        "source": "fedora",
+        "source_version": "1.07-13.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-data-properties.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Exact signed 1.07 includes the original Apache grant; the Fedora and FreeBSD exact-version packaging records corroborate Apache-2.0. Preserve that grant and the complete ASF text.",
+    "status": "active"
+  },
+  "package_id": "libdata-properties-perl",
+  "rpm": {
+    "license": "Apache-2.0",
+    "name": "perl-data-properties",
+    "summary": "Read, write and retain persistent property lists in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-data-properties",
+    "homepage": "https://metacpan.org/dist/Data-Properties",
+    "release_api": "https://cpan.metacpan.org/authors/id/J/JV/JV/",
+    "release_channel": "stable",
+    "release_regex": "Data-Properties-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Data-Properties",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/J/JV/JV/Data-Properties-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.07",
+    "latest_detected": "1.07",
+    "release": "1"
+  }
+}
