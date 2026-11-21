@@ -1,0 +1,51 @@
+{
+  "package_id": "libreturn-multilevel-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "51b1aef30c5c4009f640267a08589212e87dcd101800f0d20f9c635c9ffe88a1"
+      },
+      "filename": "Return-MultiLevel-0.08.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original same-Perl grant; preserve original and both generated donor notices."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Return-MultiLevel-0.08.tar.gz",
+      "version": "0.08"
+    },
+    {
+      "digests": {
+        "sha256": "8eeb6f02aac01c4ac9ebdfcaa7fe3000bf41c632795f3a2d7fb810ed0ad9a000"
+      },
+      "filename": "Dist-Zilla-PluginBundle-Author-Plicease-2.69.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed official donor with verbatim same-Perl notice; read only for generated-source attribution."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Dist-Zilla-PluginBundle-Author-Plicease-2.69.tar.gz",
+      "version": "2.69"
+    },
+    {
+      "digests": {
+        "sha256": "f063a6839c145a3aafcf0d8d9ec5519601d0c0f61d0174aed424297f65b928a8"
+      },
+      "filename": "Dist-Zilla-6.024.tar.gz",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed official donor with verbatim same-Perl notice; read only for generated-source attribution."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Dist-Zilla-6.024.tar.gz",
+      "version": "6.024"
+    }
+  ]
+}

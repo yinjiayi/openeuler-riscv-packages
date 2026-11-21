@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Return-MultiLevel",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libreturn-multilevel-perl",
+        "package_name": "libreturn-multilevel-perl",
+        "source": "debian",
+        "source_version": "0.08-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Return-MultiLevel",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Return-MultiLevel",
+        "package_name": "perl-Return-MultiLevel",
+        "source": "fedora",
+        "source_version": "0.08-12.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-return-multilevel.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed CPAN and current PAUSE signature verified; original default tests and complete notices for both generators retained.",
+    "status": "active"
+  },
+  "package_id": "libreturn-multilevel-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-return-multilevel",
+    "summary": "Return from nested Perl calls"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-return-multilevel",
+    "homepage": "https://metacpan.org/dist/Return-MultiLevel",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/",
+    "release_channel": "stable",
+    "release_regex": "Return-MultiLevel-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Return-MultiLevel",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Return-MultiLevel-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.08",
+    "latest_detected": "0.08",
+    "release": "1"
+  }
+}
