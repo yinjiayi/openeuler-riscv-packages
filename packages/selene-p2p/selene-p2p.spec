@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           selene-p2p
-Version:        1.0.7
+Version:        1.0.9
 Release:        1%{?dist}
 Summary:        Selene is a Tor-based P2P chat and encrypted file sharing
 License:        GPL-3.0-or-later
 URL:            https://github.com/alamahant/Selene
-Source0:        selene-p2p-1.0.7.tar.gz
+Source0:        v1.0.9.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
