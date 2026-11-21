@@ -1,0 +1,84 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Hash-SafeKeys",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-hash-safekeys",
+        "package_name": "perl-hash-safekeys",
+        "source": "aur",
+        "source_version": "0.04-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Hash-SafeKeys",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libhash-safekeys-perl",
+        "package_name": "libhash-safekeys-perl",
+        "source": "debian",
+        "source_version": "0.04-1"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Hash-SafeKeys",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libhash-safekeys-perl",
+        "package_name": "libhash-safekeys-perl",
+        "source": "ubuntu",
+        "source_version": "0.04-1build4"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-hash-safekeys.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed CPAN archive and original license/credits; normal architecture-dependent XS build with full default tests.",
+    "status": "active"
+  },
+  "package_id": "libhash-safekeys-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-hash-safekeys",
+    "summary": "List Perl hash keys and values without resetting the iterator"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-hash-safekeys",
+    "homepage": "https://metacpan.org/dist/Hash-SafeKeys",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MO/MOB/",
+    "release_channel": "stable",
+    "release_regex": "Hash-SafeKeys-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Hash-SafeKeys",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MO/MOB/Hash-SafeKeys-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.04",
+    "latest_detected": "0.04",
+    "release": "1"
+  }
+}
