@@ -2,7 +2,115 @@
 
 This repository is a reproducible, evidence-backed packaging pipeline for openEuler 24.03 LTS SP3 on `riscv64` with the RVA23 profile. It discovers stable upstream source releases, onboards one RPM per pull request, builds under QEMU user emulation, and keeps RISC-V fixes beside the affected package.
 
-中文摘要：本仓库面向 openEuler 24.03 LTS SP3、`riscv64`、RVA23。它提供六个可组合 Codex Skill、确定性脚本、JSON Schema、GitHub Actions、三个黄金验收包和 GitHub Pages 静态看板。GitHub Actions 不运行 Codex，也不保存 OpenAI/Codex 密钥。
+中文摘要：本仓库面向 openEuler 24.03 LTS SP3、`riscv64`、RVA23。它提供七个可组合 Codex Skill、确定性脚本、JSON Schema、GitHub Actions、三个黄金验收包和 GitHub Pages 静态看板。GitHub Actions 不运行 Codex，也不保存 OpenAI/Codex 密钥。
+
+## Current delivery plan (2026-11-06)
+
+The goal is accepted package expansion, with three independently progressing
+queues: **intake** for unrepresented canonical packages, **repair** for actionable
+failures or missing CI/base evidence, and **merge-review** for candidates needing
+full acceptance. A queue
+assignment is not build success or permission to merge. Historical snapshots
+below and old next-action paragraphs in `track.md` are evidence, not live totals
+or a reservation of all workers for one dependency chain.
+
+Start with `AGENTS.md` and `skills/openeuler-package-delivery/SKILL.md`. The seven
+canonical skills remain in `skills/`; `.agents/skills/` links make them available
+to Codex's repository skill discovery without maintaining duplicate copies.
+Load operation-specific skills only when assigning that operation.
+
+### Parallel intake and repair
+
+With four available agent slots, use one coordinator, two intake workers and one
+repair worker; reassign idle slots to other actionable work. Each implementation
+worker owns a different package checkout and fresh output directory. Use one
+absolute, durable queue database path on this host for all workers; separate
+databases or copied databases do not coordinate workers on different hosts.
+
+The coordinator runs one full snapshot per round, shares it, and imports the
+canonical candidate list. The snapshot batches 25 PRs per GraphQL query for
+files and CI, with complete REST pagination for overflowing connections and
+renames. Main, membership, head or base changes reject the collection. Same-head
+metadata drift permits at most two complete rereads of the changed PRs (at most
+100 changed PRs in total), each followed by a full membership/main bracket;
+continued drift fails closed. The receipt records those refreshes. This reduces
+duplicate reads; it does not cache away required CI coverage or grant mutation
+authority from a changing snapshot.
+
+```sh
+scripts/delivery-queue snapshot --repo yinjiayi/openeuler-riscv-packages \
+  --repo-root . --workers 4 --output "$round_dir/snapshot.json"
+scripts/delivery-queue sync --db "$queue_db" \
+  --snapshot "$round_dir/snapshot.json" --candidates "$candidate_file"
+scripts/delivery-queue claim --db "$queue_db" \
+  --repo yinjiayi/openeuler-riscv-packages --queue intake \
+  --owner "$worker_id" --expected-main "$main_sha" \
+  --output "$worker_dir/claim.json"
+```
+
+Set the quoted paths to existing, private durable locations before invoking
+these examples. The candidate file is a JSON array such as
+`[{"package_id":"example"}]`; it schedules review, not source/license approval.
+Claims are atomic, owner-bound and expiring. Repair workers also need the
+existing `claim-repair` exact-head/remote-state lease before any repair push.
+
+After a verified single-package PR or repair push, release the dispatch lease
+with `--outcome waiting` and take the next candidate immediately. Do not occupy
+a worker waiting for CI or merge. Use `blocked` with a precise recovery condition
+for a scoped external hold; use `requeue` for unfinished actionable work. Renew
+long tasks; expiry never authorizes a stale push. New snapshots reconcile CI
+changes without resurrecting unchanged waiting tasks. The CLI does not spawn
+agents, submit packages or run a background service; the coordinator must do so.
+
+At most 100 new single-package PRs may be submitted per round; this is a ceiling,
+not a quota. Check canonical directories, all open PRs and target providers
+before expensive acquisition. Fixed official source SHA-256, license, original
+default tests and target dependency/name compatibility remain mandatory. Run
+local source-only/repository checks, never local RPM/QEMU builds. Do not increase
+the remote runner fleet/concurrency as part of this scheduler change.
+
+### Serial acceptance and independent publication
+
+`scripts/merge-verified-pr --bundle "$bundle" --output "$receipt"` is read-only;
+only explicit `--apply` may issue a squash. It locks the shared Git common
+directory, checks current protected main/head, complete checks and run provenance,
+then validates actual downloaded Actions ZIPs, build/install/source evidence and
+physical RPM/SRPM bytes before rechecking the live fences and credential guard.
+It reads back the merged PR and new main before another merge. Infrastructure PRs
+and unsupported event/provenance shapes fail closed, not as package successes.
+
+The JSON bundle requires `repository`, `pr_number`, `package_id`, `head_sha`,
+`base_sha`, `run_id`, `run_attempt`, and `archives` (each `artifact_id` plus a
+bundle-relative ZIP `path`). `review` binds the same head/base and `reviewed_by`
+GitHub login; its `source_license`, `original_tests`, `installed_smoke` and
+`namespace_compatibility` entries each provide a nonempty `finding`, relative
+evidence `path` and SHA-256. These are substantive reviewer findings, not
+auto-generated approvals: hashing a statement does not prove its truth. Keep
+the bundle, raw evidence and output distinct in a durable directory. See the
+CLI tests for the exact wire format and rejected cases; never reuse fixture
+receipts as live evidence.
+
+Main CI publication is a separate gate. `ci/rpm-repo-client.py verify-generation`
+now binds the exact staged `--upload-manifest` (default
+`artifacts/repository-publish/upload.json`) to the expected package/commit/run/
+attempt, verifies immutable state/repomd/primary metadata, and downloads each
+uploaded binary/source RPM to check its actual size and SHA-256. It supports the
+endpoint's gzip/zstd primary metadata; missing decoder or evidence fails closed.
+The receipt covers that uploaded batch, not all historical packages in the
+cumulative generation. RPM identities come from checksum-bound primary metadata;
+RPM headers/signatures are not independently queried. HTTP same-endpoint hashes
+prove consistency with the local upload manifest, not server authenticity.
+
+### Round completion
+
+Report new package PRs, repair pushes, qualified merges and physically verified
+publications separately. Preserve receipts outside temporary directories before
+crediting delivery; seven-day Actions retention is unchanged. Append one compact
+delta entry to the existing `track.md`: whole-queue coverage, actual links/counts,
+scoped blockers and next milestone. An unchanged scan is not delivery, and a
+successful infrastructure test is not a target package build. Keep exhausted
+repair budgets (including #2859) scoped to the affected package until a new
+applicable operator decision; unrelated intake continues.
 
 ## Defined terms
 
@@ -178,7 +286,7 @@ The collector reads the Actions artifact listing over direct authenticated HTTPS
 
 | Path | Purpose |
 |---|---|
-| `skills/` | Six composable Codex Skills and their contracts |
+| `skills/`, `.agents/skills/` | Seven canonical Codex Skills and repository-discovery links |
 | `scripts/` | Deterministic discovery, onboarding, build, update, repair, and dashboard tools |
 | `schemas/` | Versioned machine contracts for packages, sources, builds, updates, repair leases, and dashboards |
 | `ci/` | Exact openEuler repository config, rootfs-to-OCI build, QEMU/RVA23 checks, and image digest lock |
@@ -190,7 +298,14 @@ The collector reads the Actions artifact listing over direct authenticated HTTPS
 
 ## Local verification
 
-Python 3.9 or newer is sufficient for repository metadata tests. Docker/QEMU is required only for the target-architecture build gate.
+Use Python 3.9 or newer. The full repository test suite also requires
+`jsonschema==4.25.1`, `rfc3339-validator==0.1.4` and
+`rfc3986-validator==0.1.1`, matching the Dashboard CI pins. Install these in an
+isolated virtual environment and put its `bin` directory first on `PATH`; missing
+format validators are errors, not skipped acceptance. Put Node.js on `PATH` too
+so the six JavaScript summary tests actually run; a skipped test is not a pass.
+Target Docker/QEMU builds
+run only in approved CI, never as part of local verification.
 
 ```sh
 make validate

@@ -1,4 +1,4 @@
 interface:
   display_name: "openEuler RPM Update"
   short_description: "Check and update managed RPMs without duplicate PRs"
-  default_prompt: "Use $openeuler-rpm-update to check managed packages for stable releases."
+  default_prompt: "Use $openeuler-rpm-update to check stable releases and submit independent single-package updates without waiting for merges."
