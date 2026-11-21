@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 %global upstream_commit b9ad7ee2d673a45f9a5b68c3b7aa2d077560bb7c
 Name:           python-assertpy
-Version:        1.1
+Version:        2.35.0
 Release:        1%{?dist}
 Summary:        Fluent assertion library for Python unit testing
 License:        BSD-3-Clause
 URL:            https://github.com/assertpy/assertpy
-Source0:        assertpy-1.1.tar.gz
+Source0:        v2.35.0
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
