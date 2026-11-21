@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libucl
-Version:        0.9.4
+Version:        0.10.0
 Release:        1%{?dist}
 Summary:        Universal configuration language parser library
 License:        BSD-2-Clause
 URL:            https://github.com/vstakhov/libucl
-Source0:        libucl-%{version}.tar.gz
+Source0:        0.10.0.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc
