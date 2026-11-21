@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libdns-zoneparse-perl",
+        "observed_at": "2026-11-08T23:47:00Z",
+        "package_base": "libdns-zoneparse-perl",
+        "package_name": "libdns-zoneparse-perl",
+        "source": "debian",
+        "source_version": "1.10-1.1"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n384.G77gHt"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libdns-zoneparse-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Exact CPAN release verified by PAUSE and identical Debian stable original. Retain all original offline tests and check installed DNS A/SOA parse and serialization.",
+    "status": "active"
+  },
+  "package_id": "libdns-zoneparse-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libdns-zoneparse-perl",
+    "summary": "Parse and edit DNS zone files in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:DNS-ZoneParse",
+    "homepage": "https://metacpan.org/dist/DNS-ZoneParse",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MS/MSCHILLI/",
+    "release_channel": "stable",
+    "release_regex": "DNS-ZoneParse-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/DNS-ZoneParse",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MS/MSCHILLI/DNS-ZoneParse-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.10",
+    "latest_detected": "1.10",
+    "release": "1"
+  }
+}
