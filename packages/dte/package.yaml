@@ -1,0 +1,86 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/dte",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dte",
+        "package_name": "dte",
+        "source": "debian",
+        "source_version": "1.10-1"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/dte",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "dte",
+        "package_name": "dte",
+        "source": "ubuntu",
+        "source_version": "1.10-1build1"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-dangling-symlink-targets.patch",
+        "sha256": "bd676de855a1421fffcdb41ee942790229c9180d8506ba874d341410f61b88bb",
+        "purpose": "Preserve dangling symlink targets when normalizing paths, including relative targets and chains; extend the original path tests.",
+        "source": "https://gitlab.com/craigbarnes/dte/-/commit/ad39f88ba7cb10b209be1b935250186c968565b1 (downstream adaptation resolves relative targets against the containing directory)",
+        "license": "GPL-2.0-only",
+        "upstream_status": "downstream-only",
+        "remove_when": "An upstream release includes correct dangling-link resolution and passes the added relative, absolute, chain and loop regression cases."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "dte.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive, published SHA-256 manifest and required detached signature verified. GPL-2.0-only confirmed from the fixed archive; no external packaging executed. Default make check retained; target build/install pending CI.",
+    "status": "active"
+  },
+  "package_id": "dte",
+  "rpm": {
+    "license": "GPL-2.0-only",
+    "name": "dte",
+    "summary": "Small configurable console text editor"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "craigbarnes.gitlab.io-dte",
+    "homepage": "https://craigbarnes.gitlab.io/dte/",
+    "release_api": "https://craigbarnes.gitlab.io/dte/releases.html",
+    "release_channel": "stable",
+    "release_regex": "v([0-9]+(?:\\.[0-9]+)+)",
+    "source_repository": "https://gitlab.com/craigbarnes/dte",
+    "source_url_template": "https://craigbarnes.gitlab.io/dist/dte/dte-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.11.1",
+    "latest_detected": "1.11.1",
+    "release": "1"
+  }
+}

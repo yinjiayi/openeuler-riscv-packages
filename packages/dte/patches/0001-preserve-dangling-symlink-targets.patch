@@ -1,0 +1,86 @@
+From: openEuler RISC-V Maintainers <noreply@example.invalid>
+Subject: [PATCH] Resolve dangling links relative to their containing directory
+
+License: GPL-2.0-only
+Based-on: https://gitlab.com/craigbarnes/dte/-/commit/ad39f88ba7cb10b209be1b935250186c968565b1
+Upstream-status: downstream-only adaptation; no upstream submission
+
+Backport upstream's dangling-link check to 1.11.1. Unlike the direct
+upstream change, resolve a relative target against the link's directory,
+and resolve subsequent links through path_absolute(). Reject truncated
+readlink output. Retain every original default test and add regression
+cases for relative/absolute targets, dangling chains and symlink loops.
+Remove after an upstream release preserves these tested cases.
+
+--- a/src/util/path.c
++++ b/src/util/path.c
+@@ -14,6 +14,29 @@
+     char *abs = realpath(path, NULL);
+     if (abs || errno != ENOENT) {
+         return abs;
++    }
++
++    char target[8192];
++    ssize_t tlen = readlink(path, target, sizeof(target) - 1);
++    if (tlen >= 0) {
++        if ((size_t)tlen == sizeof(target) - 1) {
++            errno = ENAMETOOLONG;
++            return NULL;
++        }
++        target[tlen] = '\0';
++        if (path_is_absolute(target)) {
++            return path_absolute(target);
++        }
++        // A relative link target is relative to the link's directory,
++        // not the working directory. Resolve any further links normally.
++        char *parent = path_dirname(path);
++        char *next = path_join(parent, target);
++        free(parent);
++        abs = path_absolute(next);
++        free(next);
++        return abs;
++    } else if (errno != ENOENT) {
++        return NULL;
+     }
+ 
+     const char *base = path_basename(path);
+--- a/test/util.c
++++ b/test/util.c
+@@ -2197,6 +2197,37 @@
+     ASSERT_NONNULL(path);
+     EXPECT_STREQ(path_basename(path), "README.md");
+     free(path);
++
++    // A dangling link must resolve to its target, including when its
++    // relative target is not relative to the current working directory.
++    char *target = path_absolute("build/test/dte-dangling-target");
++    ASSERT_NONNULL(target);
++    const char *targets[] = {"dte-dangling-target", target};
++    for (size_t i = 0; i < ARRAYLEN(targets); i++) {
++        EXPECT_EQ(symlink(targets[i], linkpath), 0);
++        path = path_absolute(linkpath);
++        EXPECT_STREQ(path, target);
++        free(path);
++        EXPECT_EQ(unlink(linkpath), 0);
++    }
++
++    const char chainpath[] = "build/test/dte-dangling-chain";
++    EXPECT_EQ(symlink("dte-dangling-target", linkpath), 0);
++    EXPECT_EQ(symlink("test-symlink", chainpath), 0);
++    path = path_absolute(chainpath);
++    EXPECT_STREQ(path, target);
++    free(path);
++    EXPECT_EQ(unlink(chainpath), 0);
++    EXPECT_EQ(unlink(linkpath), 0);
++    free(target);
++
++    EXPECT_EQ(symlink("test-symlink", linkpath), 0);
++    errno = 0;
++    path = path_absolute(linkpath);
++    EXPECT_STREQ(path, NULL);
++    EXPECT_EQ(errno, ELOOP);
++    free(path);
++    EXPECT_EQ(unlink(linkpath), 0);
+ }
+ 
+ static void test_path_join(TestContext *ctx)
