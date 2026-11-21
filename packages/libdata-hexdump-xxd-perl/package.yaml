@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Data-HexDump-XXD",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Data-HexDump-XXD",
+        "package_name": "perl-Data-HexDump-XXD",
+        "source": "fedora",
+        "source_version": "0.1.1-34.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-data-hexdump-xxd.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed CPAN archive and original same-Perl grant; preserve all original default tests and do not install the example xxd command.",
+    "status": "active"
+  },
+  "package_id": "libdata-hexdump-xxd-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-data-hexdump-xxd",
+    "summary": "Format and reverse xxd-style hexadecimal dumps in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-data-hexdump-xxd",
+    "homepage": "https://metacpan.org/dist/Data-HexDump-XXD",
+    "release_api": "https://cpan.metacpan.org/authors/id/P/PO/POLETTIX/",
+    "release_channel": "stable",
+    "release_regex": "Data-HexDump-XXD-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Data-HexDump-XXD",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/P/PO/POLETTIX/Data-HexDump-XXD-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.1.1",
+    "latest_detected": "0.1.1",
+    "release": "1"
+  }
+}
