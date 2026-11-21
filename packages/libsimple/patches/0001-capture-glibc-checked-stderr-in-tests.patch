@@ -1,0 +1,60 @@
+--- a/test.c
++++ b/test.c
+@@ -315,0 +316,31 @@
++/* Only the upstream test interposer is extended. Optimized production objects
++ * retain their normal glibc fortification and call the checked stream ABI.
++ * Route those calls through the same exact stderr capture as ordinary calls,
++ * retaining the supplied fortification flag via glibc's checked formatter.
++ */
++static int test_vfprintf_internal(FILE *, const char *, va_list, int, int);
++
++#ifdef __GLIBC__
++extern int __vsnprintf_chk(char *restrict, size_t, int, size_t,
++                          const char *restrict, va_list) __THROW;
++
++int
++__fprintf_chk(FILE *restrict stream, int flag, const char *restrict format, ...)
++{
++	va_list ap;
++	int ret;
++	va_start(ap, format);
++	ret = test_vfprintf_internal(stream, format, ap, 1, flag);
++	va_end(ap);
++	return ret;
++}
++
++
++int
++__vfprintf_chk(FILE *restrict stream, int flag, const char *restrict format, va_list ap)
++{
++	return test_vfprintf_internal(stream, format, ap, 1, flag);
++}
++#endif
++
++
+@@ -338,0 +370,11 @@
++	return test_vfprintf_internal(stream, format, ap, 0, 0);
++}
++
++
++static int
++test_vfprintf_internal(FILE *stream, const char *format, va_list ap, int checked, int flag)
++{
++#ifndef __GLIBC__
++	(void)checked;
++	(void)flag;
++#endif
+@@ -345,0 +388,4 @@
++#ifdef __GLIBC__
++	r = checked ? __vsnprintf_chk(NULL, 0, flag, 0, format, ap2) :
++	              vsnprintf(NULL, 0, format, ap2);
++#else
+@@ -346,0 +393 @@
++#endif
+@@ -352,0 +400,4 @@
++#ifdef __GLIBC__
++		n = (size_t)(checked ? __vsnprintf_chk(buf, n + 1, flag, n + 1, format, ap) :
++		                      vsnprintf(buf, n + 1, format, ap));
++#else
+@@ -353,0 +405 @@
++#endif
