@@ -1,0 +1,102 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Module-Util",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-module-util",
+        "package_name": "perl-module-util",
+        "source": "aur",
+        "source_version": "1.09-2"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Module-Util",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libmodule-util-perl",
+        "package_name": "libmodule-util-perl",
+        "source": "debian",
+        "source_version": "1.09-5"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Module-Util",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Module-Util",
+        "package_name": "perl-Module-Util",
+        "source": "fedora",
+        "source_version": "1.09-38.fc44"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Module-Util",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Module-Util",
+        "package_name": "perl-Module-Util",
+        "source": "opensuse-tumbleweed",
+        "source_version": "1.09-1.30"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-retain-module-build-compat-notice.patch",
+        "sha256": "6e4318ba257798f769c92c366009b0a42f90222873665964d5231d64a19837e2",
+        "purpose": "Retain the complete copyright and same-Perl grant for the original generated Makefile.PL.",
+        "source": "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-0.4003.tar.gz",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "upstream_status": "downstream-only",
+        "remove_when": "Upstream removes the generated wrapper or includes its applicable original notice."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-module-util.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Pinned official CPAN release; the only patch retains the generated wrapper donor notice without changing code or tests.",
+    "status": "active"
+  },
+  "package_id": "libmodule-util-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-module-util",
+    "summary": "Find installed Perl modules and translate module names and paths"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-module-util",
+    "homepage": "https://metacpan.org/dist/Module-Util",
+    "release_api": "https://cpan.metacpan.org/authors/id/M/MA/MATTLAW/",
+    "release_channel": "stable",
+    "release_regex": "Module-Util-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Module-Util",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/M/MA/MATTLAW/Module-Util-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.09",
+    "latest_detected": "1.09",
+    "release": "1"
+  }
+}
