@@ -1,0 +1,36 @@
+{
+  "package_id": "libnet-ipv6addr-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "b23401c1226fee8dfe627f5ae0e90c55ac547010eca398110dc1631f41c9ec7d"
+      },
+      "filename": "Net-IPv6Addr-1.02.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original same-Perl POD grant and copied Regexp::IPv6 material with its preserved grant."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/B/BK/BKB/Net-IPv6Addr-1.02.tar.gz",
+      "version": "1.02"
+    },
+    {
+      "digests": {
+        "sha256": "d542d17d75ce93631de8ba2156da0e0b58a755c409cd4a0d27a3873a26712ce2"
+      },
+      "filename": "Regexp-IPv6-0.03.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Exact signed official donor for the copied regex and tests; complete original same-Perl notice is retained."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/S/SA/SALVA/Regexp-IPv6-0.03.tar.gz",
+      "version": "0.03"
+    }
+  ]
+}
