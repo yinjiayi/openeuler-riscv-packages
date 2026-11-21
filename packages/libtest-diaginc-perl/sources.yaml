@@ -1,0 +1,66 @@
+{
+  "package_id": "libtest-diaginc-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "5bcb8d356c509e359d53d869c07efdaa8fee5d6cf99897018b9a914ceb21222e"
+      },
+      "filename": "Test-DiagINC-0.010.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original Apache-2.0 grant; preserve original and all generated donor notices."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Test-DiagINC-0.010.tar.gz",
+      "version": "0.010"
+    },
+    {
+      "digests": {
+        "sha256": "07798e270e5d904d1071e2b421309b732d0be7d682f4d9487945e815012726cc"
+      },
+      "filename": "Dist-Zilla-6.025.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed official donor with verbatim redistributable notice; extracted only to document retained generated source."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Dist-Zilla-6.025.tar.gz",
+      "version": "6.025"
+    },
+    {
+      "digests": {
+        "sha256": "2aa38c5e8498fa6d930c16d6d32d5b57edf776e33fac6a94ea2be4c242cf1be3"
+      },
+      "filename": "Dist-Zilla-Plugin-Test-ReportPrereqs-0.028.tar.gz",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed official donor with verbatim redistributable notice; extracted only to document retained generated source."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.028.tar.gz",
+      "version": "0.028"
+    },
+    {
+      "digests": {
+        "sha256": "c45647ed172443608d201461b918348f3cf2bfc7d6f72ef98c014c1d4324085b"
+      },
+      "filename": "version-0.9908.tar.gz",
+      "id": "source3",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Fixed official donor with verbatim redistributable notice; extracted only to document retained generated source."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/J/JP/JPEACOCK/version-0.9908.tar.gz",
+      "version": "0.9908"
+    }
+  ]
+}
