@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/source/trixie/libobject-tiny-perl",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libobject-tiny-perl",
+        "package_name": "libobject-tiny-perl",
+        "source": "debian",
+        "source_version": "1.09-1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/perl-Object-Tiny/perl-Object-Tiny/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Object-Tiny",
+        "package_name": "perl-Object-Tiny",
+        "source": "fedora",
+        "source_version": "1.09-22.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-object-tiny.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable Object-Tiny 1.09 is pinned in sources.yaml. Original complete MakeMaker default tests are retained; frozen distribution lineage is evidence only and no external recipe was executed.",
+    "status": "active"
+  },
+  "package_id": "perl-object-tiny",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-object-tiny",
+    "summary": "Minimal Perl class builder with read-only accessors"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-object-tiny",
+    "homepage": "https://metacpan.org/dist/Object-Tiny",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/",
+    "release_channel": "stable",
+    "release_regex": "Object-Tiny-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://github.com/karenetheridge/Object-Tiny",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Object-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.09",
+    "latest_detected": "1.09",
+    "release": "1"
+  }
+}
