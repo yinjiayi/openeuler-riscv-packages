@@ -1,0 +1,76 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-MockRandom",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libtest-mockrandom-perl",
+        "package_name": "libtest-mockrandom-perl",
+        "source": "debian",
+        "source_version": "1.01-3"
+      },
+      {
+        "evidence_url": "https://metacpan.org/dist/Test-MockRandom",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-Test-MockRandom",
+        "package_name": "perl-Test-MockRandom",
+        "source": "fedora",
+        "source_version": "1.01-27.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-test-mockrandom.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed CPAN and historical PAUSE signature verified; original tests, fixture modules and full generator notices retained.",
+    "status": "active"
+  },
+  "package_id": "libtest-mockrandom-perl",
+  "rpm": {
+    "license": "Apache-2.0 AND (GPL-1.0-or-later OR Artistic-1.0-Perl)",
+    "name": "perl-test-mockrandom",
+    "summary": "Provide deterministic random sequences for Perl tests"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-test-mockrandom",
+    "homepage": "https://metacpan.org/dist/Test-MockRandom",
+    "release_api": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/",
+    "release_channel": "stable",
+    "release_regex": "Test-MockRandom-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/Test-MockRandom",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Test-MockRandom-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.01",
+    "latest_detected": "1.01",
+    "release": "1"
+  }
+}
