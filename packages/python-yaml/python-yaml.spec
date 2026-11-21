@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           python-yaml
-Version:        6.0.3
+Version:        6.0.4
 Release:        1%{?dist}
 Summary:        Python YAML parser and emitter with LibYAML bindings
 License:        MIT
 URL:            https://github.com/yaml/pyyaml
-Source0:        pyyaml-%{version}.tar.gz
+Source0:        6.0.4.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  libyaml-devel
