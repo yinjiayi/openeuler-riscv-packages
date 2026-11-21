@@ -1,0 +1,42 @@
+{
+  "package_id": "libobject-accessor-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "76cb824a27b6b4e560409fcf6fd5b3bfbbd38b72f1f3d37ed0b54bd9c0baeade"
+      },
+      "filename": "Object-Accessor-0.48.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Object-Accessor-0.48.tar.gz",
+      "version": "0.48"
+    },
+    {
+      "id":"source1","kind":"upstream-release",
+      "url":"https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "filename":"Artistic-1.0-Perl.txt","version":"76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests":{"sha256":"dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "redistribution":{"allowed":true,"reason":"Official full Artistic text from the upstream Perl dual grant."},"signature":null
+    },
+    {
+      "id":"source2","kind":"upstream-release",
+      "url":"https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "filename":"GPL-1.0.txt","version":"76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests":{"sha256":"d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "redistribution":{"allowed":true,"reason":"Official full GPLv1 text from the upstream Perl dual grant."},"signature":null
+    },
+    {
+      "id":"source3","kind":"upstream-release",
+      "url":"https://www.gnu.org/licenses/gpl-3.0.txt",
+      "filename":"GPL-3.0.txt","version":"3.0",
+      "digests":{"sha256":"3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"},
+      "redistribution":{"allowed":true,"reason":"Official FSF full GPLv3 text for the exact source-only MakeMaker compatibility helper."},"signature":null
+    }
+  ]
+}
