@@ -1,0 +1,21 @@
+{
+  "package_id": "libtest-manifest-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "e0355da0a89afe100168ac1851e2bc53c83738f0db387a53038b1978829aad25"
+      },
+      "filename": "Test-Manifest-2.026.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/Test-Manifest-2.026.tar.gz",
+      "version": "2.026"
+    }
+  ]
+}
