@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "pdfresurrect",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "version": "0.23",
+      "url": "https://api.github.com/repos/enferex/pdfresurrect/tarball/refs/tags/v0.23",
+      "filename": "pdfresurrect-0.23.tar.gz",
+      "digests": {
+        "sha256": "e47a75a328020e4ebac5768921daa50b77c30610e787f0e78139fd4766a970ed"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Root reviewed selected BSD-3-Clause project/header/manual grants and original AUTHORS. Complete generated configure FSF unlimited-copy/distribute/modify notices remain verbatim in the SRPM and installed raw source-notices. All 13 original files match the fixed commit/tree without patch. Highest numeric v0.23 is a stable tag confirmed by main.h and ChangeLog, not a formal release. Actual lightweight tag/unsigned commit and no offered signature are bounded observed facts, not independent archive cryptographic authentication."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "version": "2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Complete Apache-2.0 legal text for downstream packaging and owned QA only; not the upstream project license. Reused exact previously verified official text from the Toml++ legal bundle, SHA cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30."
+      }
+    }
+  ]
+}
