@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libinjection
-Version:        4.0.0
+Version:        4.0.1
 Release:        1%{?dist}
 Summary:        SQL injection and cross-site scripting parser library
 License:        BSD-3-Clause
 URL:            https://github.com/libinjection/libinjection
-Source0:        libinjection-4.0.0.tar.gz
+Source0:        v4.0.1
 Source1:        COPYING.GPL2
 Source2:        COPYING.GPL3
 BuildRequires:  gcc
