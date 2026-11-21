@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libxml-writer-string-perl",
+        "observed_at": "2026-11-09T06:46:00Z",
+        "package_base": "libxml-writer-string-perl",
+        "package_name": "libxml-writer-string-perl",
+        "source": "debian",
+        "source_version": "0.1-3"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261109-n392.vnLJLb"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libxml-writer-string-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed CPAN source matches Debian stable original. Package only the top-level module and generated manual; the historical nested PPM is not built or installed.",
+    "status": "active"
+  },
+  "package_id": "libxml-writer-string-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libxml-writer-string-perl",
+    "summary": "Capture XML::Writer output in a Perl scalar"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:XML-Writer-String",
+    "homepage": "https://metacpan.org/dist/XML-Writer-String",
+    "release_api": "https://cpan.metacpan.org/authors/id/S/SO/SOLIVER/",
+    "release_channel": "stable",
+    "release_regex": "XML-Writer-String-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/XML-Writer-String",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/S/SO/SOLIVER/XML-Writer-String-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.1",
+    "latest_detected": "0.1",
+    "release": "1"
+  }
+}
