@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libhtml-tiny-perl",
+        "observed_at": "2026-11-09T07:59:00Z",
+        "package_base": "libhtml-tiny-perl",
+        "package_name": "libhtml-tiny-perl",
+        "source": "debian",
+        "source_version": "1.08-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261109-n393.odgEXr"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libhtml-tiny-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Verified CPAN release matches the Debian stable original. Run the unchanged default tests; package the Perl module, manual, and complete upstream license.",
+    "status": "active"
+  },
+  "package_id": "libhtml-tiny-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libhtml-tiny-perl",
+    "summary": "Lightweight HTML and XML generation in Perl"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:HTML-Tiny",
+    "homepage": "https://metacpan.org/dist/HTML-Tiny",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/",
+    "release_channel": "stable",
+    "release_regex": "HTML-Tiny-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/HTML-Tiny",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/HTML-Tiny-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.08",
+    "latest_detected": "1.08",
+    "release": "1"
+  }
+}
