@@ -1,0 +1,25 @@
+{
+  "package_id": "perl-class-default",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "adfb4eb7a05fe637b8934601176c15d33e5c4b4ca628f8a19babf6a1c5e3d3ed"
+      },
+      "filename": "Class-Default-1.51.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": {
+        "key_fingerprint": "2E66557AB97C19C791AF8E20328DA867450F89EC",
+        "policy": "checksum-required-signature-advisory",
+        "url": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/CHECKSUMS"
+      },
+      "url": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/Class-Default-1.51.tar.gz",
+      "version": "1.51"
+    }
+  ]
+}

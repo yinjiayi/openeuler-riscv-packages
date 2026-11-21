@@ -1,0 +1,78 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": false,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/trixie/libclass-default-perl",
+        "observed_at": "2026-11-07T06:07:00Z",
+        "package_base": "libclass-default-perl",
+        "package_name": "libclass-default-perl",
+        "source": "debian",
+        "source_version": "1.51-5"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261107-n343.UVwhaa"
+  },
+  "files": {
+    "patches": [
+      {
+        "file": "patches/0001-preserve-helper-notices.patch",
+        "sha256": "68b567aefea69257b6ac7701161a3a88b5bd1a7800c6c697bae2bcbedf225b0b",
+        "purpose": "Preserve original ModuleInstall0.68 helper copyright and license notices without changing executable code or tests.",
+        "upstream_status": "not-submitted",
+        "source": "Original attribution/grants from official Module-Install-0.68.tar.gz; code-body identity verified for eight bundled helpers.",
+        "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+        "remove_when": "Upstream includes complete original bundled-helper copyright and license notices."
+      }
+    ],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-class-default.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Fixed official CPAN source; Debian stable lineage retained in discovery. Eight original bundled helper bodies verified against official ModuleInstall0.68; notice-only patch, original default tests preserved. No native or physical network-isolation claim.",
+    "status": "active"
+  },
+  "package_id": "perl-class-default",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "perl-class-default",
+    "summary": "Perl base class for default object instances"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Class-Default",
+    "homepage": "https://metacpan.org/dist/Class-Default",
+    "release_api": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/",
+    "release_channel": "stable",
+    "release_regex": "Class-Default-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Class-Default",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/A/AD/ADAMK/Class-Default-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.51",
+    "latest_detected": "1.51",
+    "release": "1"
+  }
+}
