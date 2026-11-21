@@ -1,54 +1,24 @@
 {
-  "schema_version": 1,
-  "package_id": "libytnef",
-  "rpm": {
-    "name": "libytnef",
-    "summary": "Library for reading Microsoft TNEF streams",
-    "license": "GPL-2.0-or-later"
-  },
-  "upstream": {
-    "component": "github.com-yeraze-ytnef",
-    "homepage": "https://github.com/Yeraze/ytnef",
-    "source_repository": "https://github.com/Yeraze/ytnef.git",
-    "release_channel": "stable",
-    "release_api": "https://api.github.com/repos/Yeraze/ytnef/tags",
-    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
-    "source_url_template": "https://github.com/Yeraze/ytnef/archive/refs/tags/v{version}.tar.gz"
-  },
-  "version": {
-    "current": "2.1.2",
-    "release": "2",
-    "latest_detected": "2.1.2"
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
   },
   "discovery": {
-    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
     "lineage": [
       {
-        "source": "arch-extra",
-        "package_name": "libytnef",
-        "package_base": "libytnef",
-        "source_version": "1:2.1.2-2",
         "evidence_url": "https://archlinux.org/packages/extra/x86_64/libytnef/",
-        "observed_at": null
+        "observed_at": null,
+        "package_base": "libytnef",
+        "package_name": "libytnef",
+        "source": "arch-extra",
+        "source_version": "1:2.1.2-2"
       }
-    ]
-  },
-  "target": {
-    "os": "openEuler",
-    "release": "24.03-LTS-SP3",
-    "arch": "riscv64",
-    "isa": "RVA23",
-    "riscv_status": "unknown"
-  },
-  "build": {
-    "profile": "qemu-user",
-    "network_during_build": true,
-    "timeout_minutes": 60,
-    "native_reason": null
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
   },
   "files": {
-    "spec": "libytnef.spec",
-    "sources": "sources.yaml",
     "patches": [
       {
         "file": "patches/0001-make-installed-headers-self-contained.patch",
@@ -60,17 +30,49 @@
         "upstream_status": "not-submitted"
       }
     ],
-    "smoke_test": "tests/smoke.sh"
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libytnef.spec"
   },
   "maintenance": {
-    "status": "active",
-    "maintainers": ["yinjiayi"],
-    "notes": "The exact libytnef inventory key maps to the official stable ytnef v2.1.2 tag. The pinned tag archive SHA-256 is independently verified. The full upstream TNEF fixture regression script runs explicitly in %check in addition to make check. Tools, including the optional Perl mail processor, are retained in a separate subpackage. Target CI run 36501471769 installed all RPMs and Perl dependencies but found installed public headers missing FILE and size_t definitions; release 2 fixes the headers without weakening the smoke or upstream tests."
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The exact libytnef inventory key maps to the official stable ytnef v2.1.2 tag. The pinned tag archive SHA-256 is independently verified. The full upstream TNEF fixture regression script runs explicitly in %check in addition to make check. Tools, including the optional Perl mail processor, are retained in a separate subpackage. Target CI run 36501471769 installed all RPMs and Perl dependencies but found installed public headers missing FILE and size_t definitions; release 2 fixes the headers without weakening the smoke or upstream tests.",
+    "status": "active"
+  },
+  "package_id": "libytnef",
+  "rpm": {
+    "license": "GPL-2.0-or-later",
+    "name": "libytnef",
+    "summary": "Library for reading Microsoft TNEF streams"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-11-20T23:59:20Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
+  },
+  "upstream": {
+    "component": "github.com-yeraze-ytnef",
+    "homepage": "https://github.com/Yeraze/ytnef",
+    "release_api": "https://api.github.com/repos/Yeraze/ytnef/tags",
+    "release_channel": "stable",
+    "release_regex": "^v(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/Yeraze/ytnef.git",
+    "source_url_template": "https://github.com/Yeraze/ytnef/archive/refs/tags/v{version}.tar.gz"
+  },
+  "version": {
+    "current": "2.1.4",
+    "latest_detected": "2.1.4",
+    "release": "2"
   }
 }
