@@ -1,0 +1,36 @@
+{
+  "package_id": "libregexp-optimizer-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "d119b7d4e66aa3c5323ea582c3ee30e5aac076cc49aee3440d99f71b01993606"
+      },
+      "filename": "Regexp-Optimizer-0.23.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DANKOGAI/Regexp-Optimizer-0.23.tar.gz",
+      "version": "0.23"
+    },
+    {
+      "digests": {
+        "sha256": "bae466ac8d7100c304fe76632ccc627203a3897d3f7166f3cce00fb9df8c2074"
+      },
+      "filename": "Artistic-2.0.txt",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "The Perl Foundation grants verbatim redistribution of the Artistic License 2.0 text; this is the SPDX v3.27.0 release copy."
+      },
+      "signature": null,
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/Artistic-2.0.txt",
+      "version": "3.27.0"
+    }
+  ]
+}
