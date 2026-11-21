@@ -1,0 +1,36 @@
+{
+  "package_id": "libtest-noplan-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "43d6dae64dd716b50980e8de4d815784ea9736af906cf72435894d63e21b4fe6"
+      },
+      "filename": "Test-NoPlan-v0.0.6.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Original same-Perl stable distribution; v is the upstream filename prefix, not part of the normalized RPM version."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DU/DUNCS/Test-NoPlan-v0.0.6.tar.gz",
+      "version": "0.0.6"
+    },
+    {
+      "digests": {
+        "sha256": "7d31b2d8f3bc4c5e640fb49b4632140eb06284878e234663e6388cbe40f73c92"
+      },
+      "filename": "Module-Build-0.3603.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Same-Perl copyright notice for generated unused compatibility wrapper; no donor code is executed or installed."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Module-Build-0.3603.tar.gz",
+      "version": "0.3603"
+    }
+  ]
+}
