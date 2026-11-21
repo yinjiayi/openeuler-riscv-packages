@@ -1,0 +1,45 @@
+--- a/Object.xs
++++ b/Object.xs
+@@ -32,7 +32,12 @@
+ #define IF_SPELL_DEBUG(e)
+ #endif
+ 
+-#if (PERL_VERSION > 7) || ( (PERL_VERSION == 7)&&( PERL_SUBVERSION > 2))
++/* A private high-bit type depends on libperl and XS agreeing on char
++ * signedness.  Use Perl's extension type and distinguish this vtable. */
++#if defined(PERL_MAGIC_ext) && defined(mg_findext) && defined(sv_unmagicext)
++#define SET_OBJECT_SCOPED_MAGIC 1
++#define SET_OBJECT_MAGIC_backref PERL_MAGIC_ext
++#elif (PERL_VERSION > 7) || ( (PERL_VERSION == 7)&&( PERL_SUBVERSION > 2))
+ #define SET_OBJECT_MAGIC_backref (int)((char)0x9f)
+ #else
+ #define SET_OBJECT_MAGIC_backref '~'
+@@ -360,10 +365,16 @@
+ }
+ 
+ 
++static MGVTBL SET_OBJECT_vtbl_backref;
++
+ MAGIC*
+ _detect_magic(SV* sv) {
+   if (SvMAGICAL(sv))
++#ifdef SET_OBJECT_SCOPED_MAGIC
++    return mg_findext(sv, SET_OBJECT_MAGIC_backref, &SET_OBJECT_vtbl_backref);
++#else
+     return mg_find(sv, SET_OBJECT_MAGIC_backref);
++#endif
+   else
+     return NULL;
+ }
+@@ -401,7 +412,11 @@
+ 	 i--;
+        }
+        if (!c) {
++#ifdef SET_OBJECT_SCOPED_MAGIC
++         sv_unmagicext(sv, SET_OBJECT_MAGIC_backref, &SET_OBJECT_vtbl_backref);
++#else
+          sv_unmagic(sv, SET_OBJECT_MAGIC_backref);
++#endif
+          SvREFCNT_dec(wand);
+        }
+     }
