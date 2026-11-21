@@ -3,8 +3,10 @@
   "schema_version": 1,
   "sources": [
     {
-      "digests": {"sha256": "2cce01de93653829f6ab68a20c2ec275e1c00a946110704a27e928d2e6e88716"},
-      "filename": "patchelf-0.19.1.tar.bz2",
+      "digests": {
+        "sha256": "20dbe23e9dbc4ad769078a867ad002c04297a069ff93c95fb72242dd55d4dd6f"
+      },
+      "filename": "patchelf-0.19.3.tar.bz2",
       "id": "source0",
       "kind": "upstream-release",
       "redistribution": {
@@ -12,8 +14,8 @@
         "reason": "GPL-licensed source is fetched from the official immutable versioned release asset in CI."
       },
       "signature": null,
-      "url": "https://github.com/NixOS/patchelf/releases/download/0.19.1/patchelf-0.19.1.tar.bz2",
-      "version": "0.19.1"
+      "url": "https://github.com/NixOS/patchelf/releases/download/0.19.3/patchelf-0.19.3.tar.bz2",
+      "version": "0.19.3"
     }
   ]
 }
