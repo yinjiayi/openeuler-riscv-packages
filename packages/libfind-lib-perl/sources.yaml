@@ -1,0 +1,35 @@
+{
+  "package_id": "libfind-lib-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "1d73921e3061e1b046fe4268e2d05ffd5a4c5762666e2e4723f83aacc146e851"
+      },
+      "filename": "Find-Lib-1.04.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/Y/YA/YANNK/Find-Lib-1.04.tar.gz",
+      "version": "1.04"
+    },
+    {
+      "id": "source1", "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "filename": "Artistic-1.0-Perl.txt", "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "redistribution": {"allowed": true, "reason": "Official full Perl text for one arm of the upstream Perl dual grant."}, "signature": null
+    },
+    {
+      "id": "source2", "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Copying",
+      "filename": "GPL-1.0.txt", "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests": {"sha256": "d77d235e41d54594865151f4751e835c5a82322b0e87ace266567c3391a4b912"},
+      "redistribution": {"allowed": true, "reason": "Official full Perl text for the other arm of the upstream Perl dual grant."}, "signature": null
+    }
+  ]
+}
