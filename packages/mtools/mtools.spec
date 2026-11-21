@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           mtools
-Version:        4.0.49
+Version:        4.0.50
 Release:        1%{?dist}
 Summary:        A collection of utilities to access MS-DOS disks
 License:        GPL-3.0-or-later
 URL:            https://www.gnu.org/software/mtools/
-Source0:        mtools-4.0.49.tar.lz
+Source0:        mtools-4.0.50.tar.lz
 BuildRequires:  gcc
 BuildRequires:  lzip
 BuildRequires:  make
