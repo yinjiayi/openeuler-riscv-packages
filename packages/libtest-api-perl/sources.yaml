@@ -1,0 +1,60 @@
+{
+  "package_id": "libtest-api-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "7e6034f0eb29314d31d3354828106ace2745f2160cd3c1443a29b68f53ca2313"
+      },
+      "filename": "Test-API-0.010.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Test-API-0.010.tar.gz",
+      "version": "0.010"
+    },
+    {
+      "digests": {"sha256": "bacb0f5d52b21586b0731cf4472018baabce19dc680da9f1acc9edfc1f025131"},
+      "filename": "Dist-Zilla-6.011.tar.gz",
+      "id": "source1",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Same-Perl generated MakeMaker wrapper provenance; only the original license is extracted."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/R/RJ/RJBS/Dist-Zilla-6.011.tar.gz",
+      "version": "6.011"
+    },
+    {
+      "digests": {"sha256": "e25e05f89042385b46b04477b1cf4e5dd3e4a1575f17633c15dd25f80dbc68c2"},
+      "filename": "Dist-Zilla-Plugin-Test-ReportPrereqs-0.027.tar.gz",
+      "id": "source2",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Apache-2.0 generated prerequisite test provenance; only the original license is extracted."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Dist-Zilla-Plugin-Test-ReportPrereqs-0.027.tar.gz",
+      "version": "0.027"
+    },
+    {
+      "digests": {"sha256": "c45647ed172443608d201461b918348f3cf2bfc7d6f72ef98c014c1d4324085b"},
+      "filename": "version-0.9908.tar.gz",
+      "id": "source3",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Same-Perl version::LAX expression provenance; only the original grant and notice are extracted."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/J/JP/JPEACOCK/version-0.9908.tar.gz",
+      "version": "0.9908"
+    }
+  ]
+}
