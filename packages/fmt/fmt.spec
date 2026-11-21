@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           fmt
-Version:        12.2.0
+Version:        12.2.1
 Release:        1%{?dist}
 Summary:        Modern formatting library for C++
 License:        MIT
 URL:            https://fmt.dev
-Source0:        fmt-12.2.0.tar.gz
+Source0:        12.2.1.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  make
