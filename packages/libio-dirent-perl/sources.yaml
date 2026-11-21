@@ -1,0 +1,31 @@
+{
+  "package_id": "libio-dirent-perl",
+  "schema_version": 1,
+  "sources": [
+    {
+      "digests": {
+        "sha256": "10b775f23123e527e67745af52a03da4f216b4c4e7797c4570be9c1be36cd97c"
+      },
+      "filename": "IO-Dirent-0.05.tar.gz",
+      "id": "source0",
+      "kind": "upstream-release",
+      "redistribution": {
+        "allowed": true,
+        "reason": "Governed by the declared upstream license; source is fetched in CI."
+      },
+      "signature": null,
+      "url": "https://cpan.metacpan.org/authors/id/S/SC/SCOTTW/IO-Dirent-0.05.tar.gz",
+      "version": "0.05"
+    },
+    {
+      "id": "source1",
+      "kind": "upstream-release",
+      "url": "https://raw.githubusercontent.com/Perl/perl5/76298ae68aa7796f0ffc05095b127d23f4b2de8f/Artistic",
+      "filename": "Artistic-1.0-Perl.txt",
+      "version": "76298ae68aa7796f0ffc05095b127d23f4b2de8f",
+      "digests": {"sha256": "dd90d4f42e4dcadf5a7c09eea0189d93c7b37ae560c91f0f6d5233ed3b9292a2"},
+      "redistribution": {"allowed": true, "reason": "Official full Perl Artistic text for the original source grant."},
+      "signature": null
+    }
+  ]
+}
