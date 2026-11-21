@@ -1,0 +1,28 @@
+Subject: Use canonical CMake config-version file for exact installed consumers
+Source: https://github.com/arun11299/cpp-subprocess/commit/60d4ad8d528173a2e4c98fd64aa9191728832355
+Source-archive-SHA256: f2c947e0dcfd800652275d6f7deb76d155a953a1a5df969383530445f01c29eb
+Applies-to: cpp-subprocess v2.5 after package patch0001 (SHA256
+ 7396116f87b85f44635cda5fd4aeb9070774f086a6af2ae3891f3430b7a9bd69)
+Input-CMakeLists-SHA256: 3e4cf60ae73fd542c866d5aaa9c8181a3d05a96335949173bdf9142969a6d995
+Output-CMakeLists-SHA256: ac05ff2d078854464d994953007b50215244ffbccf7f2c27be0180e74c4d202b
+SPDX-License-Identifier: MIT
+Upstream-status: not-submitted; downstream package-local correction
+Root-cause: write_basic_package_version_file and install used the unrecognized
+ subprocess-version.cmake name. The target's strict subprocess 2.5 EXACT
+ installed-prefix consumer therefore rejected subprocess-config.cmake with
+ version: unknown after all ten original CTests passed.
+Reference: https://cmake.org/cmake/help/v3.27/command/find_package.html#config-mode-search-procedure
+Tests: Preserve ExactVersion generation, find_package 2.5 EXACT CONFIG REQUIRED
+ NO_DEFAULT_PATH, all ten original CTests/assertions and ten owned consumer
+ groups. Byte-only filename models are not target CMake execution evidence.
+Remove-when: An official release generates and installs the canonical companion
+ version filename and passes the same strict build/installed consumer checks.
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -39 +39 @@
+-        "${CMAKE_CURRENT_BINARY_DIR}/subprocess-version.cmake"
++        "${CMAKE_CURRENT_BINARY_DIR}/subprocess-config-version.cmake"
+@@ -47 +47 @@
+-            "${CMAKE_CURRENT_BINARY_DIR}/subprocess-version.cmake"
++            "${CMAKE_CURRENT_BINARY_DIR}/subprocess-config-version.cmake"

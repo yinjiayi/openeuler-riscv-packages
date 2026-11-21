@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "package_id": "libsubprocess",
+  "sources": [
+    {
+      "id": "source0",
+      "kind": "upstream-release",
+      "url": "https://api.github.com/repos/arun11299/cpp-subprocess/tarball/60d4ad8d528173a2e4c98fd64aa9191728832355",
+      "filename": "libsubprocess-v2.5.tar.gz",
+      "version": "2.5",
+      "digests": {
+        "sha256": "f2c947e0dcfd800652275d6f7deb76d155a953a1a5df969383530445f01c29eb"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Official formal v2.5 fixed-commit source; all27 archive files bound to exact Git blobs/modes. Full original MIT grant, all27 original notices/raw hashes and unchanged source-distributed Mach-O objects remain in source evidence/SRPM; the latter are never executed or installed. Current independently verified web-flow signed-commit evidence is retained separately (309c1317...), not misrepresented as an archive detached signature."
+      }
+    },
+    {
+      "id": "source1",
+      "kind": "test-dependency",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "version": "2.0",
+      "digests": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "signature": null,
+      "redistribution": {
+        "allowed": true,
+        "reason": "Unmodified complete official Apache2 legal text for original downstream packaging and additive C++/shell QA, not an upstream code or binary dependency."
+      }
+    }
+  ]
+}
