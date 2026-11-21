@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "package_id": "args",
+  "sources": [
+    {
+      "id": "source0", "kind": "upstream-release", "version": "6.6.1",
+      "url": "https://api.github.com/repos/Taywee/args/tarball/6.6.1",
+      "filename": "args-6.6.1.tar.gz",
+      "digests": {"sha256": "150a142bc45b898dfc27b8520584aa68083458731fc9cbca9c36b6867e60df10"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Proposed full MIT root/header/build grant plus full Unlicense editor-helper grant. All209 original byte strings/notices are preserved without patch, including optional fuzz/PoC/editor data. Captured formal release422047677/lightweight tag fixes commit35414206ed9b8aa838a4a0b4c9194604c564d5ac/tree63ebc7fb8060983608b0af68f28f7ba0fdf4e9a4, and every archive regular matches Git bytes/executable mode. Captured commit unsigned and selected release assets empty is not global signature absence or independent archive authentication. Root source/rights/current namespace review remains required."}
+    },
+    {
+      "id": "source1", "kind": "test-dependency", "version": "2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "filename": "Apache-2.0.txt",
+      "digests": {"sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"},
+      "signature": null,
+      "redistribution": {"allowed": true, "reason": "Complete Apache-2.0 legal text for original downstream packaging and owned QA. Reuse exact previously verified Toml++ legal-bundle bytes; not executable code or an upstream test framework."}
+    }
+  ]
+}

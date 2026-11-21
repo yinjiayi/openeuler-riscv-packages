@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "package_id": "args",
+  "rpm": {"name": "args", "summary": "Header-only C++11 command-line argument parsing library", "license": "MIT AND Unlicense AND Apache-2.0"},
+  "upstream": {
+    "component": "github.com-taywee-args",
+    "homepage": "https://github.com/Taywee/args",
+    "source_repository": "https://github.com/Taywee/args",
+    "release_channel": "stable",
+    "release_api": "https://api.github.com/repos/Taywee/args/releases",
+    "release_regex": "^(?P<version>[0-9]+\\.[0-9]+\\.[0-9]+)$",
+    "source_url_template": "https://api.github.com/repos/Taywee/args/tarball/{version}"
+  },
+  "version": {"current": "6.6.1", "latest_detected": "6.6.1", "release": "1"},
+  "discovery": {
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
+    "lineage": [
+      {"source": "aur", "package_name": "args", "package_base": "args", "source_version": "6.6.0-1", "evidence_url": "https://github.com/Taywee/args", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "debian", "package_name": "libargs", "package_base": "libargs", "source_version": "6.4.1-1", "evidence_url": "https://github.com/Taywee/args", "observed_at": "2026-08-08T16:50:00Z"},
+      {"source": "ubuntu", "package_name": "libargs", "package_base": "libargs", "source_version": "6.4.1-1build1", "evidence_url": "https://github.com/Taywee/args", "observed_at": "2026-08-08T16:50:00Z"}
+    ]
+  },
+  "target": {"os": "openEuler", "release": "24.03-LTS-SP3", "arch": "riscv64", "isa": "RVA23", "riscv_status": "unknown"},
+  "build": {"profile": "qemu-user", "user": "unprivileged", "network_during_build": false, "timeout_minutes": 120, "native_reason": null},
+  "files": {"spec": "args.spec", "sources": "sources.yaml", "smoke_test": "tests/smoke.sh", "patches": []},
+  "maintenance": {
+    "status": "active",
+    "maintainers": ["yinjiayi"],
+    "notes": "Actual formal release422047677/lightweight tag fixes commit35414206ed9b8aa838a4a0b4c9194604c564d5ac. Documented CMake route keeps examples2 and all96 unfiltered original CTest registrations, test Werror/no-exceptions and default hardening. Source-root Makefile first target is uninstall and is never invoked. All209 original files/notices remain unchanged. Header-only production install is exactly one header, two original CMake exports and one .pc; no DSO/static archive/CLI/man invented. Optional fuzz/PoC/editor/Conan/Buck routes remain unexecuted data. Registry96 includes smoke/demonstration-style cases, not96 strict independent functional assertions. Additive six-group stock SDK consumer, installed-header same-file compiler dependency, pkg-config and four-file SDK hashes plus wrong-exact-version configure rejection remain target gates. No native/performance/Unicode-normalization/comprehensive-safety/fullDaily claim. Root source/rights/provider/namespace admission is separate from this draft."
+  },
+  "updates": {"enabled": true, "last_checked_at": null, "last_successful_check_at": null, "release_provider": "github-releases"}
+}
