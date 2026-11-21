@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           opencie-pkcs11
-Version:        1.0.10
+Version:        1.3.4
 Release:        1%{?dist}
 Summary:        Native PKCS#11 library for the Italian Electronic Identity Card (CIE)
 License:        LGPL-3.0-or-later
 URL:            https://github.com/M0Rf30/opencie-pkcs11
-Source0:        opencie-pkcs11-1.0.10.tar.gz
+Source0:        1.3.4.tar.gz
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  make
