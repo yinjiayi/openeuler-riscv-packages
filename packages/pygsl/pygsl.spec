@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           pygsl
-Version:        2.6.4
+Version:        2.6.7
 Release:        1%{?dist}
 Summary:        GNU Scientific Library Interface for python
 License:        GPL-2.0-or-later
 URL:            https://github.com/pygsl/pygsl
-Source0:        pygsl-2.6.4.tar.gz
+Source0:        v2.6.7.tar.gz
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  meson
