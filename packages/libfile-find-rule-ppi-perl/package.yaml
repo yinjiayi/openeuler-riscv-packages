@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://metacpan.org/dist/File-Find-Rule-PPI",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "perl-File-Find-Rule-PPI",
+        "package_name": "perl-File-Find-Rule-PPI",
+        "source": "fedora",
+        "source_version": "1.07-8.fc44"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "perl-file-find-rule-ppi.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Signed CPAN and Fedora 44 GA verified; retains original parser tests, fixtures and generated-source notices.",
+    "status": "active"
+  },
+  "package_id": "libfile-find-rule-ppi-perl",
+  "rpm": {
+    "license": "Apache-2.0 AND (GPL-1.0-or-later OR Artistic-1.0-Perl)",
+    "name": "perl-file-find-rule-ppi",
+    "summary": "Search Perl source files with File::Find::Rule and PPI"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "perl-file-find-rule-ppi",
+    "homepage": "https://metacpan.org/dist/File-Find-Rule-PPI",
+    "release_api": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/",
+    "release_channel": "stable",
+    "release_regex": "File-Find-Rule-PPI-(?P<version>[0-9]+(?:\\.[0-9]+)+)\\.tar\\.gz",
+    "source_repository": "https://metacpan.org/dist/File-Find-Rule-PPI",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/E/ET/ETHER/File-Find-Rule-PPI-{version}.tar.gz"
+  },
+  "version": {
+    "current": "1.07",
+    "latest_detected": "1.07",
+    "release": "1"
+  }
+}
