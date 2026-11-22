@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           ripgrep
-Version:        15.2.0
+Version:        16.0.0
 Release:        1%{?dist}
 Summary:        A search tool that combines the usability of ag with the raw speed of grep
 License:        MIT OR Unlicense
 URL:            https://github.com/BurntSushi/ripgrep
-Source0:        ripgrep-15.2.0.tar.gz
+Source0:        16.0.0.tar.gz
 BuildRequires:  cargo
 BuildRequires:  gcc
 
