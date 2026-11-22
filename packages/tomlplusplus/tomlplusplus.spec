@@ -2,12 +2,12 @@
 # Header-only production payload: there is no production ELF/debug package.
 %global debug_package %{nil}
 Name:           tomlplusplus
-Version:        3.4.0
+Version:        3.5.1
 Release:        1%{?dist}
 Summary:        Header-only TOML parser and serializer for C++17
 License:        MIT AND BSL-1.0 AND Apache-2.0 AND ISC AND LicenseRef-Hedley-Public-Domain
 URL:            https://marzer.github.io/tomlplusplus/
-Source0:        tomlplusplus-3.4.0.tar.gz
+Source0:        v3.5.1
 Source1:        Apache-2.0.txt
 BuildRequires:  bash
 BuildRequires:  binutils
