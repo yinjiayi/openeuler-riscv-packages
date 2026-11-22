@@ -1,0 +1,68 @@
+{
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 60
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://packages.debian.org/stable/libscalar-util-numeric-perl",
+        "observed_at": "2026-11-08T03:32:00Z",
+        "package_base": "libscalar-util-numeric-perl",
+        "package_name": "libscalar-util-numeric-perl",
+        "source": "debian",
+        "source_version": "0.40-2"
+      }
+    ],
+    "snapshot_id": "heartbeat-20261108-n364.hmt7Pd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libscalar-util-numeric-perl.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "Official stable release archive reviewed and pinned in catalog/upstream-releases.yaml; external distribution packaging was not executed.",
+    "status": "active"
+  },
+  "package_id": "libscalar-util-numeric-perl",
+  "rpm": {
+    "license": "GPL-1.0-or-later OR Artistic-1.0-Perl",
+    "name": "libscalar-util-numeric-perl",
+    "summary": "Classify numeric values in Perl scalars"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": null,
+    "last_successful_check_at": null,
+    "release_provider": "official-html-index"
+  },
+  "upstream": {
+    "component": "cpan:Scalar-Util-Numeric",
+    "homepage": "https://metacpan.org/dist/Scalar-Util-Numeric",
+    "release_api": "https://cpan.metacpan.org/authors/id/C/CH/CHOCOLATE/",
+    "release_channel": "stable",
+    "release_regex": "Scalar-Util-Numeric-(?P<version>[0-9]+(?:[.][0-9]+)+)[.]tar[.]gz",
+    "source_repository": "https://metacpan.org/dist/Scalar-Util-Numeric",
+    "source_url_template": "https://cpan.metacpan.org/authors/id/C/CH/CHOCOLATE/Scalar-Util-Numeric-{version}.tar.gz"
+  },
+  "version": {
+    "current": "0.40",
+    "latest_detected": "0.40",
+    "release": "1"
+  }
+}
