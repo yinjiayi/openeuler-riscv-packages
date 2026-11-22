@@ -46,12 +46,12 @@
     "patches": [
       {
         "file": "patches/0001-port-to-mxml-4.patch",
-        "sha256": "0694ff696abfef20bdfd67022d1301a42c9eae237303b2925f3b6177977159c2",
-        "purpose": "Port the upstream Mini-XML 3 callback API to the parallel-installable Mini-XML 4 provider while preserving both parsing modes and the complete test suite.",
-        "source": "Downstream review of libomemo 0.8.1 and the immutable project Mini-XML 4 provider",
         "license": "MIT",
-        "upstream_status": "not-submitted",
-        "remove_when": "An upstream libomemo release supports Mini-XML 4 or the target repositories provide a maintained Mini-XML 3 compatibility provider."
+        "purpose": "Port the upstream Mini-XML 3 callback API to the parallel-installable Mini-XML 4 provider while preserving both parsing modes and the complete test suite.",
+        "remove_when": "An upstream libomemo release supports Mini-XML 4 or the target repositories provide a maintained Mini-XML 3 compatibility provider.",
+        "sha256": "0694ff696abfef20bdfd67022d1301a42c9eae237303b2925f3b6177977159c2",
+        "source": "Downstream review of libomemo 0.8.1 and the immutable project Mini-XML 4 provider",
+        "upstream_status": "not-submitted"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -81,7 +81,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-11-22T23:34:59Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-tags"
   },
@@ -95,8 +95,8 @@
     "source_url_template": "https://github.com/gkdr/libomemo/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "0.8.1",
-    "latest_detected": "0.8.1",
+    "current": "0.8.2",
+    "latest_detected": "0.8.2",
     "release": "4"
   }
 }
