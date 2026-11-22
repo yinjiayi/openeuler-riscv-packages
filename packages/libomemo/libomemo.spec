@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libomemo
-Version:        0.8.1
-Release:        4%{?dist}
+Version:        0.8.2
+Release:        1%{?dist}
 Summary:        Implementation of OMEMO (XEP-0384) in C
 # The independent C library is MIT; upstream CMakeLists.txt is GPL-2.0-or-later.
 License:        MIT AND GPL-2.0-or-later
 URL:            https://github.com/gkdr/libomemo
-Source0:        libomemo-0.8.1.tar.gz
+Source0:        v0.8.2.tar.gz
 Source1:        GPL-2.0.txt
 Patch0:         patches/0001-port-to-mxml-4.patch
 BuildRequires:  cmake
