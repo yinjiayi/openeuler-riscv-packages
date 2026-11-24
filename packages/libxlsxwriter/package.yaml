@@ -46,12 +46,12 @@
     "patches": [
       {
         "file": "patches/0001-cmake-honor-gnu-installdirs.patch",
-        "sha256": "492f12ac5293368a325eb543ea6294f98e4d31bffe9bd4e12034967828a12557",
-        "purpose": "Generate pkg-config and public-header install paths through GNUInstallDirs so riscv64 consumers use the architecture libdir.",
-        "source": "Downstream review of the official libxlsxwriter 1.2.4 tag",
         "license": "BSD-2-Clause",
-        "upstream_status": "not-submitted",
-        "remove_when": "Upstream pkg-config and header installation honor GNUInstallDirs."
+        "purpose": "Generate pkg-config and public-header install paths through GNUInstallDirs so riscv64 consumers use the architecture libdir.",
+        "remove_when": "Upstream pkg-config and header installation honor GNUInstallDirs.",
+        "sha256": "492f12ac5293368a325eb543ea6294f98e4d31bffe9bd4e12034967828a12557",
+        "source": "Downstream review of the official libxlsxwriter 1.2.4 tag",
+        "upstream_status": "not-submitted"
       }
     ],
     "smoke_test": "tests/smoke.sh",
@@ -81,7 +81,7 @@
   },
   "updates": {
     "enabled": true,
-    "last_checked_at": null,
+    "last_checked_at": "2026-11-24T03:58:01Z",
     "last_successful_check_at": null,
     "release_provider": "official-github-releases"
   },
@@ -95,8 +95,8 @@
     "source_url_template": "https://github.com/jmcnamara/libxlsxwriter/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "1.2.4",
-    "latest_detected": "1.2.4",
+    "current": "1.2.5",
+    "latest_detected": "1.2.5",
     "release": "1"
   }
 }

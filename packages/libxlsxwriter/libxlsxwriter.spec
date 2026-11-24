@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libxlsxwriter
-Version:        1.2.4
+Version:        1.2.5
 Release:        1%{?dist}
 Summary:        C library for creating Excel XLSX files
 License:        BSD-2-Clause AND BSD-3-Clause AND Zlib AND MPL-2.0 AND MIT AND LicenseRef-Public-Domain
 URL:            https://libxlsxwriter.github.io
-Source0:        libxlsxwriter-%{version}.tar.gz
+Source0:        v1.2.5.tar.gz
 Patch0:         0001-cmake-honor-gnu-installdirs.patch
 
 BuildRequires:  cmake
