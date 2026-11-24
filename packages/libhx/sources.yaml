@@ -1,21 +1,21 @@
 {
-  "schema_version": 1,
   "package_id": "libhx",
+  "schema_version": 1,
   "sources": [
     {
+      "digests": {
+        "sha256": "0e86fedea7552f61cfdc8281f51fa696f4978ee35011780521b9cfd8130b40c8"
+      },
+      "filename": "libHX-5.6.tar.zst",
       "id": "source0",
       "kind": "upstream-release",
-      "url": "https://inai.de/files/libhx/libHX-5.4.tar.zst",
-      "filename": "libHX-5.4.tar.zst",
-      "version": "5.4",
-      "digests": {
-        "sha256": "3b169f4b0d3ddd888033b5816f54e7438b991c465197640c37d9f9dd5d926595"
-      },
-      "signature": null,
       "redistribution": {
         "allowed": true,
         "reason": "Redistribution and modification are permitted by the upstream LGPL and bundled build-helper license terms."
-      }
+      },
+      "signature": null,
+      "url": "https://inai.de/files/libhx/libHX-5.6.tar.zst",
+      "version": "5.6"
     }
   ]
 }
