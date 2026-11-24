@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libyaml
-Version:        0.2.5
+Version:        0.2.7
 Release:        1%{?dist}
 Summary:        YAML 1.1 parser and emitter library
 License:        MIT
 URL:            https://github.com/yaml/libyaml
-Source0:        yaml-%{version}.tar.gz
+Source0:        yaml-0.2.7.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
