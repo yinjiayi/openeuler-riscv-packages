@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libffi
-Version:        3.8.0
+Version:        3.8.2
 Release:        1%{?dist}
 Summary:        Portable foreign function interface library
 License:        MIT
 URL:            https://sourceware.org/libffi/
-Source0:        libffi-%{version}.tar.gz
+Source0:        libffi-3.8.2.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
