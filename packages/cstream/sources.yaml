@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "package_id": "cstream",
+  "sources": [
+    {"id": "source0", "kind": "upstream-release", "version": "4.0.0", "filename": "cstream-4.0.0.tar.gz", "url": "https://www.cons.org/cracauer/download/cstream-4.0.0.tar.gz", "digests": {"sha256": "6bc06d7c4386fb98d3a91713434c315d9e6d425c91c886281beaa254c0e096e3"}, "signature": null, "redistribution": {"allowed": true, "reason": "Main program/manual reference complete original COPYRIGHT MIT grant. All30 original source members and notices are retained in SRPM, including FSFUL configure, FSFULLR aclocal, X11 install-sh, public-domain mkinstalldirs and GPL2-or-later missing/compile/depcomp (the latter two retain their distribution exceptions). Source1 supplies complete GPL2 text for the unexcepted missing helper. Fresh official homepage and complete download index advertise4.0.0 with no signing link; this bounded observation does not waive any later advertised signature."}},
+    {"id": "source1", "kind": "upstream-release", "version": "2.0", "filename": "GPL-2.0.txt", "url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt", "digests": {"sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"}, "signature": null, "redistribution": {"allowed": true, "reason": "Unmodified complete official GNU GPL version2 license text; copying/distribution of verbatim license document permitted. Supplements original GPL2-or-later build-helper notice, not a relicensing of upstream main program."}}
+  ]
+}
