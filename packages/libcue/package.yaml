@@ -1,107 +1,109 @@
 {
-  "schema_version": 1,
+  "build": {
+    "native_reason": null,
+    "network_during_build": true,
+    "profile": "qemu-user",
+    "timeout_minutes": 120,
+    "user": "unprivileged"
+  },
+  "discovery": {
+    "lineage": [
+      {
+        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libcue/",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcue",
+        "package_name": "libcue",
+        "source": "arch-extra",
+        "source_version": "2.3.0-2"
+      },
+      {
+        "evidence_url": "https://aur.archlinux.org/packages/lib32-libcue",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "lib32-libcue",
+        "package_name": "lib32-libcue",
+        "source": "aur",
+        "source_version": "2.3.0-2"
+      },
+      {
+        "evidence_url": "https://packages.debian.org/trixie/source/libcue",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcue",
+        "package_name": "libcue",
+        "source": "debian",
+        "source_version": "2.2.1-4.1"
+      },
+      {
+        "evidence_url": "https://packages.fedoraproject.org/pkgs/libcue/libcue/fedora-44.html",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcue",
+        "package_name": "libcue",
+        "source": "fedora",
+        "source_version": "2.3.0-14.fc44"
+      },
+      {
+        "evidence_url": "https://software.opensuse.org/package/libcue",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcue",
+        "package_name": "libcue",
+        "source": "opensuse-tumbleweed",
+        "source_version": "2.3.0-1.9"
+      },
+      {
+        "evidence_url": "https://packages.ubuntu.com/resolute/source/libcue",
+        "observed_at": "2026-08-08T16:50:00Z",
+        "package_base": "libcue",
+        "package_name": "libcue",
+        "source": "ubuntu",
+        "source_version": "2.2.1-4.2"
+      }
+    ],
+    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd"
+  },
+  "files": {
+    "patches": [],
+    "smoke_test": "tests/smoke.sh",
+    "sources": "sources.yaml",
+    "spec": "libcue.spec"
+  },
+  "maintenance": {
+    "maintainers": [
+      "yinjiayi"
+    ],
+    "notes": "The official 2.3.0 release tag was independently downloaded, archive-audited, and SHA-256 pinned. Distribution metadata is discovery lineage only; no external packaging recipe was executed. The complete bundled CTest suite remains enabled.",
+    "status": "active"
+  },
   "package_id": "libcue",
   "rpm": {
+    "license": "GPL-2.0-only AND BSD-2-Clause",
     "name": "libcue",
-    "summary": "CUE sheet parsing library",
-    "license": "GPL-2.0-only AND BSD-2-Clause"
+    "summary": "CUE sheet parsing library"
+  },
+  "schema_version": 1,
+  "target": {
+    "arch": "riscv64",
+    "isa": "RVA23",
+    "os": "openEuler",
+    "release": "24.03-LTS-SP3",
+    "riscv_status": "unknown"
+  },
+  "updates": {
+    "enabled": true,
+    "last_checked_at": "2026-11-27T01:42:07Z",
+    "last_successful_check_at": null,
+    "release_provider": "official-github-releases"
   },
   "upstream": {
     "component": "github.com-lipnitsk-libcue",
     "homepage": "https://github.com/lipnitsk/libcue",
-    "source_repository": "https://github.com/lipnitsk/libcue",
-    "release_channel": "stable",
     "release_api": "https://api.github.com/repos/lipnitsk/libcue/releases/latest",
+    "release_channel": "stable",
     "release_regex": "^v?(?P<version>[0-9]+(?:\\.[0-9]+)+)$",
+    "source_repository": "https://github.com/lipnitsk/libcue",
     "source_url_template": "https://github.com/lipnitsk/libcue/archive/refs/tags/v{version}.tar.gz"
   },
   "version": {
-    "current": "2.3.0",
-    "release": "1",
-    "latest_detected": "2.3.0"
-  },
-  "discovery": {
-    "snapshot_id": "discovery-20260808T165000Z-9a89920c269462cd",
-    "lineage": [
-      {
-        "source": "arch-extra",
-        "package_name": "libcue",
-        "package_base": "libcue",
-        "source_version": "2.3.0-2",
-        "evidence_url": "https://archlinux.org/packages/extra/x86_64/libcue/",
-        "observed_at": "2026-08-08T16:50:00Z"
-      },
-      {
-        "source": "aur",
-        "package_name": "lib32-libcue",
-        "package_base": "lib32-libcue",
-        "source_version": "2.3.0-2",
-        "evidence_url": "https://aur.archlinux.org/packages/lib32-libcue",
-        "observed_at": "2026-08-08T16:50:00Z"
-      },
-      {
-        "source": "debian",
-        "package_name": "libcue",
-        "package_base": "libcue",
-        "source_version": "2.2.1-4.1",
-        "evidence_url": "https://packages.debian.org/trixie/source/libcue",
-        "observed_at": "2026-08-08T16:50:00Z"
-      },
-      {
-        "source": "fedora",
-        "package_name": "libcue",
-        "package_base": "libcue",
-        "source_version": "2.3.0-14.fc44",
-        "evidence_url": "https://packages.fedoraproject.org/pkgs/libcue/libcue/fedora-44.html",
-        "observed_at": "2026-08-08T16:50:00Z"
-      },
-      {
-        "source": "opensuse-tumbleweed",
-        "package_name": "libcue",
-        "package_base": "libcue",
-        "source_version": "2.3.0-1.9",
-        "evidence_url": "https://software.opensuse.org/package/libcue",
-        "observed_at": "2026-08-08T16:50:00Z"
-      },
-      {
-        "source": "ubuntu",
-        "package_name": "libcue",
-        "package_base": "libcue",
-        "source_version": "2.2.1-4.2",
-        "evidence_url": "https://packages.ubuntu.com/resolute/source/libcue",
-        "observed_at": "2026-08-08T16:50:00Z"
-      }
-    ]
-  },
-  "target": {
-    "os": "openEuler",
-    "release": "24.03-LTS-SP3",
-    "arch": "riscv64",
-    "isa": "RVA23",
-    "riscv_status": "unknown"
-  },
-  "build": {
-    "profile": "qemu-user",
-    "user": "unprivileged",
-    "network_during_build": true,
-    "timeout_minutes": 120,
-    "native_reason": null
-  },
-  "files": {
-    "spec": "libcue.spec",
-    "sources": "sources.yaml",
-    "patches": [],
-    "smoke_test": "tests/smoke.sh"
-  },
-  "maintenance": {
-    "status": "active",
-    "maintainers": ["yinjiayi"],
-    "notes": "The official 2.3.0 release tag was independently downloaded, archive-audited, and SHA-256 pinned. Distribution metadata is discovery lineage only; no external packaging recipe was executed. The complete bundled CTest suite remains enabled."
-  },
-  "updates": {
-    "enabled": true,
-    "last_checked_at": null,
-    "last_successful_check_at": null,
-    "release_provider": "official-github-releases"
+    "current": "2.4.4",
+    "latest_detected": "2.4.4",
+    "release": "1"
   }
 }

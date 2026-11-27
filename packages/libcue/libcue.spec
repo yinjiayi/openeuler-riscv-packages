@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           libcue
-Version:        2.3.0
+Version:        2.4.4
 Release:        1%{?dist}
 Summary:        CUE sheet parsing library
 License:        GPL-2.0-only AND BSD-2-Clause
 URL:            https://github.com/lipnitsk/libcue
-Source0:        libcue-%{version}.tar.gz
+Source0:        v2.4.4.tar.gz
 
 BuildRequires:  bison
 BuildRequires:  cmake
