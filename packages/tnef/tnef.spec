@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 Name:           tnef
-Version:        1.4.18
-Release:        3%{?dist}
+Version:        1.5.0
+Release:        1%{?dist}
 Summary:        Program for unpacking ms-tnef MIME attachment
 License:        GPL-2.0-or-later
 URL:            https://github.com/verdammelt/tnef
-Source0:        tnef-1.4.18.tar.gz
+Source0:        1.5.0.tar.gz
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
